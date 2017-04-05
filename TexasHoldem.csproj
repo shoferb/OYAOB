@@ -52,6 +52,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Game Control\GameCenter.cs" />
+    <Compile Include="Logic\Game Control\League.cs" />
+    <Compile Include="Logic\Notifications And Logs\ActionLog.cs" />
+    <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />
+    <Compile Include="Logic\Notifications And Logs\Log.cs" />
+    <Compile Include="Logic\Notifications And Logs\Notification.cs" />
+    <Compile Include="Logic\User\Player.cs" />
+    <Compile Include="Logic\User\Spectetor.cs" />
+    <Compile Include="Logic\User\User.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -78,6 +87,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logic\Action\" />
+    <Folder Include="Logic\Game\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
