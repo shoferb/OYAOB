@@ -10,9 +10,7 @@ namespace TexasHoldem
     {
         public static void Main()
         {
-            //ldfjwd
-            //sdkfjsldkfj
-            Console.WriteLine("dsa,fjhs");
+            
         }
     }
 }
