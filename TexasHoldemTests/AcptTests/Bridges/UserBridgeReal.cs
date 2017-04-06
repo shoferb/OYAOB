@@ -35,7 +35,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             throw new NotImplementedException();
         }
 
-        public List<string> GetUserNotifications(int userId)
+        public List<string> GetUserNotificationMsgs(int userId)
         {
             throw new NotImplementedException();
         }

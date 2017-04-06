@@ -16,7 +16,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         int GetUserChips(int userId);
         int GetUserChips(int userId, int roomId);
         List<int> GetUsersGameRooms(int userId);
-        List<string> GetUserNotifications(int userId);
+        List<string> GetUserNotificationMsgs(int userId);
         int GetNextFreeUserId();
         List<int> GetReplayableGames(int userId);
         int GetUserWins(int userId);
