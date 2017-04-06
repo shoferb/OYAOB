@@ -60,6 +60,8 @@
     <Compile Include="AcptTests\Bridges\IUserBridge.cs" />
     <Compile Include="AcptTests\Bridges\UserBridgeProxy.cs" />
     <Compile Include="AcptTests\Bridges\UserBridgeReal.cs" />
+    <Compile Include="AcptTests\tests\ConstVarDefs.cs" />
+    <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

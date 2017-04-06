@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
     interface IGameBridge
     {
-        bool CreateGameRoom(int userId);
-        bool CreateGameRoom(int userId, int roomId);
+        bool CreateGameRoom(int userId, int roomId); //no preferences because can't get preference class
         bool RemoveGameRoom(int id);
         int GetNextFreeRoomId();
         bool DoesRoomExist(int id);
