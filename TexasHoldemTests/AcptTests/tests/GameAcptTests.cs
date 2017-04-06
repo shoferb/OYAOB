@@ -12,33 +12,17 @@ namespace TexasHoldemTests.AcptTests.tests
         private int _userId2;
 
         //setup: (called from base)
-        protected override void SubMethodInit()
+        protected override void SubClassInit()
         {
-            GameBridge = new GameBridgeProxy();
-            UserBridge = new UserBridgeProxy();
+            //nothing at the moment
         }
 
         //tear down: (called from case)
-        protected override void SubMethodDispose()
+        protected override void SubClassDispose()
         {
             if (_userId2 != -1)
             {
                 UserBridge.DeleteUser(_userId2);
-            }
-
-            //remove user1 from all games
-            if (UserBridge.GetUsersGameRooms(UserId).Count > 0)
-            {
-                UserBridge.GetUsersGameRooms(UserId).ForEach(gId =>
-                {
-                    UserBridge.RemoveUserFromRoom(UserId, gId);
-                });
-            }
-
-            //delete room1
-            if (GameBridge.DoesRoomExist(RoomId))
-            {
-                GameBridge.RemoveGameRoom(RoomId);
             }
 
             _userId2 = -1;
@@ -99,7 +83,7 @@ namespace TexasHoldemTests.AcptTests.tests
             LoginUser1();
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
-            Assert.Contains(RoomId, GameBridge.ListSpecateableRooms());
+            Assert.Contains(RoomId, GameBridge.ListSpectateableRooms());
         }
 
         //TODO: figure out how to test 'list games''s sad case (no games)

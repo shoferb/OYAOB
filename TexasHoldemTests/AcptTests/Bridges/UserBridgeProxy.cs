@@ -155,5 +155,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new NotImplementedException();
         }
+
+        public bool IsThereUser(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

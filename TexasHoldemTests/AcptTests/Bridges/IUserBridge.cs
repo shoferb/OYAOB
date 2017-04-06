@@ -22,6 +22,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         int GetUserWins(int userId);
         int GetUserLosses(int userId);
         int GetUserRank(int userId);
+        bool IsThereUser(int id);
 
         bool LoginUser(string name, string password);
         bool LogoutUser(int userId);

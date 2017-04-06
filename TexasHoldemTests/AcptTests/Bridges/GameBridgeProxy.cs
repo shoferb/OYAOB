@@ -10,9 +10,9 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return true;
         }
 
-        public bool CreateGameRoom(int id)
+        public int CreateGameRoom(int id)
         {
-            return true;
+            return -1;
         }
 
         public int GetNextFreeRoomId()
@@ -70,7 +70,27 @@ namespace TexasHoldemTests.AcptTests.Bridges
             throw new NotImplementedException();
         }
 
-        public List<int> ListSpecateableRooms()
+        public List<int> ListSpectateableRooms()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Fold(int userId, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Check(int userId, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Call(int userId, int roomId, int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Raise(int userId, int roomId, int amount)
         {
             throw new NotImplementedException();
         }

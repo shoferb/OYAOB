@@ -23,8 +23,6 @@ namespace TexasHoldemTests.AcptTests.tests
         //setup: (called from case)
         protected override void SubClassInit()
         {
-            base.Init();
-
             _userNameBad = "שם משתמש";
 
             _userPwGood2 = "goodPw5678";
