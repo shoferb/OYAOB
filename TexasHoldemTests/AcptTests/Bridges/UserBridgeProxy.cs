@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+
+#endregion
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
-    class UserBridgeProxy : IUserBridge
+    internal class UserBridgeProxy : IUserBridge
     {
         private UserBridgeReal _realBridge;
 
@@ -34,12 +38,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public int GetUserMoney(int id)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         public List<int> GetUsersGames(int userId)
         {
-            throw new NotImplementedException();
+            return new List<int>();
         }
 
         public List<string> GetUserNotifications(int userId)
@@ -104,7 +108,32 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool AddUserToGameAsSpectator(int userId, int gameId)
         {
-            throw new NotImplementedException();
+            return true;
+        }
+
+        public int GetNextFreeUserId()
+        {
+            return 1;
+        }
+
+        public bool DeleteUser(int id)
+        {
+            return true;
+        }
+
+        public int GetUserChips(int userId)
+        {
+            return 0;
+        }
+
+        public int GetUserChips(int userId, int gameId)
+        {
+            return 0;
+        }
+
+        public List<int> GetReplayableGames(int userId)
+        {
+            return new List<int>();
         }
     }
 }

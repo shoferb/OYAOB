@@ -99,5 +99,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new NotImplementedException();
         }
+
+        public int GetNextFreeUserId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteUser(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

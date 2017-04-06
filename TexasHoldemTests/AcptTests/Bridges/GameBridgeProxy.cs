@@ -8,29 +8,34 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     class GameBridgeProxy : IGameBridge
     {
-        public bool CreateGame()
+        public bool CreateGame(int userId, int gameId)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool CreateGame(int id)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-        public int GetNextFreeId()
+        public int GetNextFreeGameId()
         {
-            throw new NotImplementedException();
+            return 1;
         }
 
         public bool RemoveGame(int id)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool DoesGameExist(int id)
         {
-            throw new NotImplementedException();
+            return true;
+        }
+
+        public bool IsUserInGame(int userId, int gameId)
+        {
+            return true;
         }
     }
 }
