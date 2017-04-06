@@ -8,13 +8,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     interface IGameBridge
     {
-        bool CreateGame(int userId);
-        bool CreateGame(int userId, int gameId);
-        bool RemoveGame(int id);
-        int GetNextFreeGameId();
-        bool DoesGameExist(int id);
-        bool IsUserInGame(int userId, int gameId);
-        bool StartGame(int gameId);
+        bool CreateGameRoom(int userId);
+        bool CreateGameRoom(int userId, int roomId);
+        bool RemoveGameRoom(int id);
+        int GetNextFreeRoomId();
+        bool DoesRoomExist(int id);
+        bool IsUserInRoom(int userId, int roomId);
+        bool StartGame(int roomId);
 
     }
 }

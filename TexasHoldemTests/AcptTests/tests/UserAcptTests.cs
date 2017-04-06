@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using TexasHoldemTests.AcptTests.Bridges;
 
 namespace TexasHoldemTests.AcptTests.tests
@@ -13,7 +12,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
         private const int UserId1 = 0;
         private int _userId2;
-        private const int GameId = 0; //game that exists
+        private const int RoomId = 0; //Room that exists
         private string _userNameGood;
         private string _userNameBad;
         private string _userPwGood1;
@@ -30,7 +29,6 @@ namespace TexasHoldemTests.AcptTests.tests
         [SetUp]
         public void Init()
         {
-            //setup vars:
             _userBridge = new UserBridgeProxy();
             _gameBridge = new GameBridgeProxy();
 
@@ -54,19 +52,22 @@ namespace TexasHoldemTests.AcptTests.tests
         [TearDown]
         public void Dispose()
         {
+            //logout user1
             if (_userBridge.IsUserLoggedIn(UserId1))
             {
                 _userBridge.LogoutUser(UserId1);
             }
 
-            if (_userBridge.GetUsersGames(UserId1).Count > 0)
+            //remove user1 from all Rooms
+            if (_userBridge.GetUsersGameRooms(UserId1).Count > 0)
             {
-                //remove user1 from all games
-                _userBridge.GetUsersGames(UserId1).ForEach(gId => { _userBridge.RemoveUserFromGame(UserId1, gId); });
+                _userBridge.GetUsersGameRooms(UserId1).ForEach(gId => { _userBridge.RemoveUserFromRoom(UserId1, gId); });
             }
-            if (_gameBridge.DoesGameExist(GameId))
+
+            //delete room1
+            if (_gameBridge.DoesRoomExist(RoomId))
             {
-                _gameBridge.RemoveGame(GameId);
+                _gameBridge.RemoveGameRoom(RoomId);
             }
 
             _userBridge = null;
@@ -315,176 +316,233 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(prevAmount == _userBridge.GetUserMoney(UserId1));
         }
 
-        [TestCase]
-        public void UserAddToGameAsPlayerTestGood()
+        //create a new game with user2 as only player
+        private void CreateGameWithUser2()
         {
             _userId2 = _userBridge.GetNextFreeUserId();
-            Assert.True(_gameBridge.CreateGame(_userId2, GameId));
+            Assert.True(_gameBridge.CreateGameRoom(_userId2, RoomId));
+        }
 
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
+        private void LoginUser1()
+        {
+           Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
+        }
 
+        [TestCase]
+        public void UserAddToRoomAsPlayerAllMoneyTestGood()
+        {
             int money = _userBridge.GetUserMoney(UserId1);
 
-            //all of the money
-            Assert.True(_userBridge.AddUserToGameAsPlayer(UserId1, GameId, money));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
+            LoginUser1();
+
+            Assert.True(_userBridge.AddUserToGameRoomAsPlayer(UserId1, RoomId, money));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
             Assert.AreEqual(money, _userBridge.GetUserMoney(UserId1));
             Assert.AreEqual(money, _userBridge.GetUserChips(UserId1));
-            Assert.True(_userBridge.RemoveUserFromGame(UserId1, GameId));
+            Assert.True(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
 
-            //no money
-            Assert.True(_userBridge.AddUserToGameAsPlayer(UserId1, GameId, 0));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
-            Assert.AreEqual(money, _userBridge.GetUserMoney(UserId1));
-            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
-            Assert.True(_userBridge.RemoveUserFromGame(UserId1, GameId));
-        }
-        
-        [TestCase]
-        public void UserAddToGameAsPlayerTestSad()
-        {
-            int nonExistantGameId = _gameBridge.GetNextFreeGameId();
-
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
-
-            Assert.False(_userBridge.AddUserToGameAsPlayer(UserId1, nonExistantGameId, 0));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, nonExistantGameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(nonExistantGameId));
-            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
-        }
-        
-        [TestCase]
-        public void UserAddToGameAsPlayerTestBad()
-        {
-            Assert.True(_gameBridge.CreateGame(_userId2, GameId));
-
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
-
-            //negative amount of money
-            Assert.False(_userBridge.AddUserToGameAsPlayer(UserId1, GameId, -1));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
-
-            //negtive game id
-            Assert.False(_userBridge.AddUserToGameAsPlayer(UserId1, -1, 0));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
-
-            //negtive user id
-            Assert.False(_userBridge.AddUserToGameAsPlayer(-1, GameId, 0));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
         }
 
         [TestCase]
-        public void UserAddToGameAsSpectatorGood()
+        public void UserAddToRoomAsPlayerNoMoneyTestGood()
         {
-            Assert.True(_gameBridge.CreateGame(_userId2, GameId));
+            CreateGameWithUser2();
 
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
+            LoginUser1();
 
-            Assert.True(_userBridge.AddUserToGameAsSpectator(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
+            Assert.True(_userBridge.AddUserToGameRoomAsPlayer(UserId1, RoomId, 0));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
             Assert.AreEqual(0, _userBridge.GetUserMoney(UserId1));
             Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
-
-            Assert.True(_userBridge.RemoveUserFromGame(UserId1, GameId));
+            Assert.True(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
         }
 
-        [TestCase]
-        public void UserAddToGameAsSpectatorTestSad()
-        {
-            int nonExistantGameId = _gameBridge.GetNextFreeGameId();
-
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
-
-            Assert.False(_userBridge.AddUserToGameAsSpectator(UserId1, nonExistantGameId));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, nonExistantGameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(nonExistantGameId));
-        }
 
         [TestCase]
-        public void UserRemoveFromGameTestGood()
+        public void UserAddToRoomAsPlayerTestSad()
         {
-            //create game
-            _userId2 = _userBridge.GetNextFreeUserId();
-            Assert.True(_gameBridge.CreateGame(_userId2, GameId));
+            int nonExistantRoomId = _gameBridge.GetNextFreeRoomId();
 
-            //login
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
+            LoginUser1();
 
-            //add user to game as player
-            Assert.True(_userBridge.AddUserToGameAsPlayer(UserId1, GameId, 0));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
-
-            //remove user from game
-            Assert.True(_userBridge.RemoveUserFromGame(UserId1, GameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.True(_gameBridge.IsUserInGame(_userId2, GameId)); //user2 should still be in game
-            Assert.Contains(GameId, _userBridge.GetReplayableGames(UserId1));
-
-            //add user to game as spectator
-            Assert.True(_userBridge.AddUserToGameAsSpectator(UserId1, GameId));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
-
-            //remove user from game
-            Assert.True(_userBridge.RemoveUserFromGame(UserId1, GameId));
-            Assert.False(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.True(_gameBridge.IsUserInGame(_userId2, GameId)); //user2 should still be in game
+            Assert.False(_userBridge.AddUserToGameRoomAsPlayer(UserId1, nonExistantRoomId, 0));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, nonExistantRoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(nonExistantRoomId));
+            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
         }
         
         [TestCase]
-        public void UserRemoveFromGameTestBad()
+        public void UserAddToRoomAsPlayerNegMoneyTestBad()
         {
-            //remove player from a non existant game
-            Assert.False(_userBridge.RemoveUserFromGame(UserId1, GameId));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
+            CreateGameWithUser2();
+
+            LoginUser1();   
+
+            //negative amount of money
+            Assert.False(_userBridge.AddUserToGameRoomAsPlayer(UserId1, RoomId, -1));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
+        }
+        
+        [TestCase]
+        public void UserAddToRoomAsPlayerNegRoomTestBad()
+        {
+            CreateGameWithUser2();
+
+            LoginUser1();   
+
+            //negtive room id
+            Assert.False(_userBridge.AddUserToGameRoomAsPlayer(UserId1, -1, 0));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
+        }
+        
+        [TestCase]
+        public void UserAddToRoomAsPlayerNegUserTestBad()
+        {
+            CreateGameWithUser2();
+
+            LoginUser1();   
+
+            //negtive user id
+            Assert.False(_userBridge.AddUserToGameRoomAsPlayer(-1, RoomId, 0));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
+        }
+
+
+
+        [TestCase]
+        public void UserAddToRoomAsSpectatorGood()
+        {
+            CreateGameWithUser2();
+
+            LoginUser1();
+
+            Assert.True(_userBridge.AddUserToGameRoomAsSpectator(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.AreEqual(0, _userBridge.GetUserMoney(UserId1));
+            Assert.AreEqual(0, _userBridge.GetUserChips(UserId1));
+        }
+
+        [TestCase]
+        public void UserAddToRoomAsSpectatorTestSad()
+        {
+            int nonExistantRoomId = _gameBridge.GetNextFreeRoomId();
+
+            LoginUser1();
+
+            Assert.False(_userBridge.AddUserToGameRoomAsSpectator(UserId1, nonExistantRoomId));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, nonExistantRoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(nonExistantRoomId));
+        }
+
+        [TestCase]
+        public void UserRemoveFromRoomPlayerTestGood()
+        {
+            CreateGameWithUser2();
+
+            LoginUser1();
+
+            //add user to Room as player
+            Assert.True(_userBridge.AddUserToGameRoomAsPlayer(UserId1, RoomId, 0));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
+
+            //remove user from Room
+            Assert.True(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(_userId2, RoomId)); //user2 should still be in Room
+            Assert.Contains(RoomId, _userBridge.GetReplayableGames(UserId1));
+
+            //add user to Room as spectator
+            Assert.True(_userBridge.AddUserToGameRoomAsSpectator(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
+
+            //remove user from Room
+            Assert.True(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(_userId2, RoomId)); //user2 should still be in Room
+        }
+        
+        [TestCase]
+        public void UserRemoveFromRoomSpectatorTestGood()
+        {
+            CreateGameWithUser2();
+
+            LoginUser1();
+
+            //add user to Room as spectator
+            Assert.True(_userBridge.AddUserToGameRoomAsSpectator(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
+
+            //remove user from Room
+            Assert.True(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
+            Assert.False(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(_userId2, RoomId)); //user2 should still be in Room
+        }
+        
+        [TestCase]
+        public void UserRemoveFromRoomPlayerNotInRoomTestBad()
+        {
+            //remove player from a non existant Room
+            Assert.False(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
             
-            //create game
-            _userId2 = _userBridge.GetNextFreeUserId();
-            Assert.True(_gameBridge.CreateGame(_userId2, GameId));
+            CreateGameWithUser2();
 
-            //remove user from game he is not in
-            Assert.False(_userBridge.RemoveUserFromGame(UserId1, GameId));
-            Assert.False(_gameBridge.IsUserInGame(UserId1, GameId));
+            //remove user from Room he is not in
+            Assert.False(_userBridge.RemoveUserFromRoom(UserId1, RoomId));
+            Assert.False(_gameBridge.IsUserInRoom(UserId1, RoomId));
+        }
+        
+        [TestCase]
+        public void UserRemoveFromRoomPlayerWrongGameIdTestBad()
+        {
+            CreateGameWithUser2();
 
-            //login
-            Assert.True(_userBridge.LoginUser(_userNameGood, _userPwGood1));
+            LoginUser1();
 
-            //add user to game as player
-            Assert.True(_userBridge.AddUserToGameAsPlayer(UserId1, GameId, 0));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
+            //add user to Room as player
+            Assert.True(_userBridge.AddUserToGameRoomAsPlayer(UserId1, RoomId, 0));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
 
-            //remove user from game he is not in (fails)
-            Assert.False(_userBridge.RemoveUserFromGame(UserId1, GameId + 1));
-            Assert.True(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.True(_gameBridge.IsUserInGame(_userId2, GameId)); //user2 should still be in game
-            
-            //remove user from the game
-            Assert.True(_userBridge.RemoveUserFromGame(UserId1, GameId));
+            //remove user from Room he is not in (fails)
+            Assert.False(_userBridge.RemoveUserFromRoom(UserId1, RoomId + 1));
+            Assert.True(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(_userId2, RoomId)); //user2 should still be in Room            
+        }
+        
+        [TestCase]
+        public void UserRemoveFromRoomSpectatorTestBad()
+        {
+            CreateGameWithUser2();
 
-            //add user to game as spectator
-            Assert.True(_userBridge.AddUserToGameAsSpectator(UserId1, GameId));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.Contains(GameId, _userBridge.GetUsersGames(UserId1));
+            LoginUser1();
 
-            //remove user from game he is not in
-            Assert.False(_userBridge.RemoveUserFromGame(UserId1, GameId + 1));
-            Assert.True(_userBridge.GetUsersGames(UserId1).Contains(GameId));
-            Assert.True(_gameBridge.IsUserInGame(UserId1, GameId));
-            Assert.True(_gameBridge.IsUserInGame(_userId2, GameId)); //user2 should still be in game
+            //add user to Room as spectator
+            Assert.True(_userBridge.AddUserToGameRoomAsSpectator(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.Contains(RoomId, _userBridge.GetUsersGameRooms(UserId1));
+
+            //remove user from Room he is not in
+            Assert.False(_userBridge.RemoveUserFromRoom(UserId1, RoomId + 1));
+            Assert.True(_userBridge.GetUsersGameRooms(UserId1).Contains(RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(UserId1, RoomId));
+            Assert.True(_gameBridge.IsUserInRoom(_userId2, RoomId)); //user2 should still be in Room
         }
 
     }

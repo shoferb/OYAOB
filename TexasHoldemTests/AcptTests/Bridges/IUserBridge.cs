@@ -14,8 +14,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
         string GetUserEmail(int id);
         int GetUserMoney(int id);
         int GetUserChips(int userId);
-        int GetUserChips(int userId, int gameId);
-        List<int> GetUsersGames(int userId);
+        int GetUserChips(int userId, int roomId);
+        List<int> GetUsersGameRooms(int userId);
         List<string> GetUserNotifications(int userId);
         int GetNextFreeUserId();
         List<int> GetReplayableGames(int userId);
@@ -31,10 +31,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
         bool EditPw(int id, string oldPw, string newPw);
         bool EditEmail(int id, string newEmail);
         //TODO: add edit avatar
-        bool AddUserToGameAsPlayer(int userId, int gameId, int chipAmount);
-        bool AddUserToGameAsSpectator(int userId, int gameId);
-        bool RemoveUserFromGame(int userId, int gameId);
+        bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount);
+        bool AddUserToGameRoomAsSpectator(int userId, int roomId);
+        bool RemoveUserFromRoom(int userId, int roomId);
         bool ReduceUserMoney(int userId, int amount);
         bool AddUserMoney(int userId, int amount);
+        bool AddUserChips(int userId, int roomId, int amount);
     }
 }

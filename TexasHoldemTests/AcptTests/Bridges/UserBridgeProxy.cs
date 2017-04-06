@@ -41,7 +41,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return 0;
         }
 
-        public List<int> GetUsersGames(int userId)
+        public List<int> GetUsersGameRooms(int userId)
         {
             return new List<int>();
         }
@@ -76,12 +76,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return true;
         }
 
-        public bool AddUserToGameAsPlayer(int userId, int gameId, int chipAmount)
+        public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
             return true;
         }
 
-        public bool RemoveUserFromGame(int userId, int gameId)
+        public bool RemoveUserFromRoom(int userId, int roomId)
         {
             return true;
         }
@@ -106,7 +106,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return true;
         }
 
-        public bool AddUserToGameAsSpectator(int userId, int gameId)
+        public bool AddUserToGameRoomAsSpectator(int userId, int roomId)
         {
             return true;
         }
@@ -126,7 +126,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return 0;
         }
 
-        public int GetUserChips(int userId, int gameId)
+        public int GetUserChips(int userId, int roomId)
         {
             return 0;
         }
@@ -134,6 +134,21 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public List<int> GetReplayableGames(int userId)
         {
             return new List<int>();
+        }
+
+        public int GetUserWins(int userId)
+        {
+            return 0;
+        }
+
+        public int GetUserLosses(int userId)
+        {
+            return 0;
+        }
+
+        public bool AddUserChips(int userId, int roomId, int amount)
+        {
+            return true;
         }
     }
 }

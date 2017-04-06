@@ -30,7 +30,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             throw new NotImplementedException();
         }
 
-        public List<int> GetUsersGames(int userId)
+        public List<int> GetUsersGameRooms(int userId)
         {
             throw new NotImplementedException();
         }
@@ -65,12 +65,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
             throw new NotImplementedException();
         }
 
-        public bool AddUserToGameAsPlayer(int userId, int gameId, int chipAmount)
+        public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
             throw new NotImplementedException();
         }
 
-        public bool RemoveUserFromGame(int userId, int gameId)
+        public bool RemoveUserFromRoom(int userId, int roomId)
         {
             throw new NotImplementedException();
         }
@@ -95,7 +95,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             throw new NotImplementedException();
         }
 
-        public bool AddUserToGameAsSpectator(int userId, int gameId)
+        public bool AddUserToGameRoomAsSpectator(int userId, int roomId)
         {
             throw new NotImplementedException();
         }
@@ -106,6 +106,36 @@ namespace TexasHoldemTests.AcptTests.Bridges
         }
 
         public bool DeleteUser(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetUserChips(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetUserChips(int userId, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<int> GetReplayableGames(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetUserWins(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetUserLosses(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddUserChips(int userId, int roomId, int amount)
         {
             throw new NotImplementedException();
         }

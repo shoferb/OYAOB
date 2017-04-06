@@ -1,41 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
     class GameBridgeProxy : IGameBridge
     {
-        public bool CreateGame(int userId, int gameId)
+        public bool CreateGameRoom(int userId, int roomId)
         {
             return true;
         }
 
-        public bool CreateGame(int id)
+        public bool CreateGameRoom(int id)
         {
             return true;
         }
 
-        public int GetNextFreeGameId()
+        public int GetNextFreeRoomId()
         {
             return 1;
         }
 
-        public bool RemoveGame(int id)
+        public bool RemoveGameRoom(int id)
         {
             return true;
         }
 
-        public bool DoesGameExist(int id)
+        public bool DoesRoomExist(int id)
         {
             return true;
         }
 
-        public bool IsUserInGame(int userId, int gameId)
+        public bool IsUserInRoom(int userId, int roomId)
         {
             return true;
+        }
+
+        public bool StartGame(int roomId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
