@@ -26,7 +26,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         bool LoginUser(string name, string password);
         bool LogoutUser(int userId);
-        bool RegisterUser(string name, string pw1, string pw2);
+        bool RegisterUser(string name, string pw1, string pw2); //register and login
         bool DeleteUser(string name, string pw); //used only for tests. deletes user from system if exists
         bool DeleteUser(int id); //used only for tests. deletes user from system if exists
         bool EditName(int id, string newName);

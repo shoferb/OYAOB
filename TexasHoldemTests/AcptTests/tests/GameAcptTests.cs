@@ -31,7 +31,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameTestGood()
         {
-            LoginUser1();
+            RegisterUser1();
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(GameBridge.DoesRoomExist(RoomId));
@@ -52,7 +52,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             _userId2 = UserBridge.GetNextFreeUserId();
 
-            LoginUser1();
+            RegisterUser1();
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
@@ -70,7 +70,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             int rank = UserBridge.GetUserRank(UserId);
 
-            LoginUser1();
+            RegisterUser1();
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.Contains(rank, GameBridge.ListAvailableGamesByUserRank(rank));
@@ -80,7 +80,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void ListSpectatableGames()
         {
-            LoginUser1();
+            RegisterUser1();
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.Contains(RoomId, GameBridge.ListSpectateableRooms());
