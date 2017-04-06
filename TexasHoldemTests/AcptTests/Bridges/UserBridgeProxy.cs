@@ -9,11 +9,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     internal class UserBridgeProxy : IUserBridge
     {
-        private UserBridgeReal _realBridge;
+        //private UserBridgeReal _realBridge;
 
         public UserBridgeProxy()
         {
-            _realBridge = new UserBridgeReal();
+            //_realBridge = new UserBridgeReal();
         }
 
         public bool IsUserLoggedIn(int userId)
@@ -149,6 +149,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool AddUserChips(int userId, int roomId, int amount)
         {
             return true;
+        }
+
+        public int GetUserRank(int userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

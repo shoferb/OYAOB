@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
-    internal interface IUserBridge
+    public interface IUserBridge
     {
         bool IsUserLoggedIn(int userId);
         string GetUserName(int id);
@@ -21,6 +21,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         List<int> GetReplayableGames(int userId);
         int GetUserWins(int userId);
         int GetUserLosses(int userId);
+        int GetUserRank(int userId);
 
         bool LoginUser(string name, string password);
         bool LogoutUser(int userId);

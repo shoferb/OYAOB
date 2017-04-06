@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Linq;
 using NUnit.Framework;
 using TexasHoldemTests.AcptTests.Bridges;
@@ -6,70 +7,101 @@ using TexasHoldemTests.AcptTests.Bridges;
 namespace TexasHoldemTests.AcptTests.tests
 {
     [TestFixture]
-    public class GameAcptTests
+    public class GameAcptTests : AcptTest
     {
-        private IGameBridge _gameBridge;
-        private IUserBridge _userBridge;
-
-        private const int UserId1 = ConstVarDefs.UserId1;
         private int _userId2;
-        private const int RoomId = ConstVarDefs.RoomId;
 
-        [SetUp]
-        public void Init()
+        //setup: (called from base)
+        protected override void SubMethodInit()
         {
-            _gameBridge = new GameBridgeProxy();
-            _userBridge = new UserBridgeProxy();
+            GameBridge = new GameBridgeProxy();
+            UserBridge = new UserBridgeProxy();
         }
 
-        [TearDown]
-        public void Dispose()
+        //tear down: (called from case)
+        protected override void SubMethodDispose()
         {
             if (_userId2 != -1)
             {
-                _userBridge.DeleteUser(_userId2);
+                UserBridge.DeleteUser(_userId2);
             }
 
             //remove user1 from all games
-            if (_userBridge.GetUsersGameRooms(UserId1).Count > 0)
+            if (UserBridge.GetUsersGameRooms(UserId).Count > 0)
             {
-                _userBridge.GetUsersGameRooms(UserId1).ForEach(gId =>
+                UserBridge.GetUsersGameRooms(UserId).ForEach(gId =>
                 {
-                    _userBridge.RemoveUserFromRoom(UserId1, gId);
+                    UserBridge.RemoveUserFromRoom(UserId, gId);
                 });
             }
 
             //delete room1
-            if (_gameBridge.DoesRoomExist(RoomId))
+            if (GameBridge.DoesRoomExist(RoomId))
             {
-                _gameBridge.RemoveGameRoom(RoomId);
+                GameBridge.RemoveGameRoom(RoomId);
             }
 
             _userId2 = -1;
         }
 
         [TestCase]
-        public void CreateGameTest()
+        public void CreateGameTestGood()
         {
-            Assert.True(_gameBridge.CreateGameRoom(UserId1, RoomId));
-            Assert.True(_gameBridge.DoesRoomExist(RoomId));
-            Assert.Equals(1, _gameBridge.GetPlayersInRoom(RoomId).Count);
-            Assert.Equals(UserId1, _gameBridge.GetPlayersInRoom(RoomId).First());
+            LoginUser1();
+
+            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
+            Assert.True(GameBridge.DoesRoomExist(RoomId));
+            Assert.Equals(1, GameBridge.GetPlayersInRoom(RoomId).Count);
+            Assert.Equals(UserId, GameBridge.GetPlayersInRoom(RoomId).First());
+        }
+        
+        [TestCase]
+        public void CreateGameTestBad()
+        {
+            //user1 is not logged in
+            Assert.False(GameBridge.CreateGameRoom(UserId, RoomId));
+            Assert.False(GameBridge.DoesRoomExist(RoomId));
         }
 
         [TestCase]
         public void GameBecomesInactiveGood()
         {
-            _userId2 = _userBridge.GetNextFreeUserId();
+            _userId2 = UserBridge.GetNextFreeUserId();
 
-            Assert.True(_gameBridge.CreateGameRoom(UserId1, RoomId));
-            Assert.True(_userBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
-            Assert.True(_gameBridge.StartGame(RoomId));
-            Assert.True(_gameBridge.IsRoomActive(RoomId));
+            LoginUser1();
 
-            Assert.True(_userBridge.RemoveUserFromRoom(_userId2, RoomId));
-            Assert.False(_gameBridge.IsRoomActive(RoomId));
-            Assert.False(_gameBridge.StartGame(RoomId));
+            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
+            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
+            Assert.True(GameBridge.StartGame(RoomId));
+            Assert.True(GameBridge.IsRoomActive(RoomId));
+
+            Assert.True(UserBridge.RemoveUserFromRoom(_userId2, RoomId));
+            Assert.False(GameBridge.IsRoomActive(RoomId));
+            Assert.False(GameBridge.StartGame(RoomId));
         }
+
+        //TODO: maybe find a better test for these:
+        [TestCase]
+        public void ListGamesByRankTestGood()
+        {
+            int rank = UserBridge.GetUserRank(UserId);
+
+            LoginUser1();
+
+            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
+            Assert.Contains(rank, GameBridge.ListAvailableGamesByUserRank(rank));
+        }
+        
+        
+        [TestCase]
+        public void ListSpectatableGames()
+        {
+            LoginUser1();
+
+            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
+            Assert.Contains(RoomId, GameBridge.ListSpecateableRooms());
+        }
+
+        //TODO: figure out how to test 'list games''s sad case (no games)
     }
 }

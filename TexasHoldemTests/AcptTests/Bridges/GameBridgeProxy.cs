@@ -64,5 +64,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new NotImplementedException();
         }
+
+        public List<int> ListAvailableGamesByUserRank(int userRank)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<int> ListSpecateableRooms()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

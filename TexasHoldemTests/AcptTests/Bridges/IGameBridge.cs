@@ -2,7 +2,7 @@
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
-    interface IGameBridge
+    public interface IGameBridge
     {
         bool CreateGameRoom(int userId, int roomId); //no preferences because can't get preference class
         bool RemoveGameRoom(int id);
@@ -12,13 +12,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
         bool IsRoomActive(int roomId);
         bool StartGame(int roomId);
         List<int> GetPlayersInRoom(int roomId);
+        List<int> ListAvailableGamesByUserRank(int userRank);
+        List<int> ListSpecateableRooms();
 
         //if only 1 player in room, return he's id
         int GetDealerId(int roomId);
         int GetBbId(int roomId);
         int GetSbId(int roomId);
-
-        //TODO: test room becomes inactive after less then 2 players
-
     }
 }
