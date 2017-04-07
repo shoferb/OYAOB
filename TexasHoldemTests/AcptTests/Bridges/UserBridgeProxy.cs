@@ -160,5 +160,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new NotImplementedException();
         }
+
+        public void SetUserRank(int userId, int rank)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<int> GetAllUsers()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         List<int> GetPlayersInRoom(int roomId);
         List<int> ListAvailableGamesByUserRank(int userRank);
         List<int> ListSpectateableRooms();
+        List<int> GetAllGames();
 
         //if only 1 player in room, return he's id
         int GetDealerId(int roomId);

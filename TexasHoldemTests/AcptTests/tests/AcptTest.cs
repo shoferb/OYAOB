@@ -75,12 +75,12 @@ namespace TexasHoldemTests.AcptTests.tests
                 }
             });
 
+            SubClassDispose();
+
             UserBridge = null;
             GameBridge = null;
             User1Name = null;
             User1Pw = null;
-
-            SubClassDispose();
         }
 
         //subclass' setup method
@@ -138,6 +138,31 @@ namespace TexasHoldemTests.AcptTests.tests
             {
                 UserBridge.LoginUser(User1Name, User1Pw);
             }
+        }
+
+        //delete all users and all games, then register user1
+        protected void RestartSystem()
+        {
+            //delete all users:
+            List<int> allUsers = UserBridge.GetAllUsers();
+            allUsers.ForEach(user =>
+            {
+                List<int> usersGames = UserBridge.GetUsersGameRooms(user);
+                usersGames.ForEach(usersRoom =>
+                {
+                    UserBridge.RemoveUserFromRoom(user, usersRoom);
+                });
+                UserBridge.DeleteUser(user);
+            });
+
+            //delete all rooms
+            List<int> allGames = GameBridge.GetAllGames();
+            allGames.ForEach(room =>
+            {
+                GameBridge.RemoveGameRoom(room);
+            });
+
+            RegisterUser1();
         }
 
     }

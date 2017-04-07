@@ -41,6 +41,17 @@ namespace TexasHoldemTests.AcptTests.tests
         //tear down: (called from case)
         protected override void SubClassDispose()
         {
+            //delete registered users (except user1)
+            string[] pwArr = {_userPwGood2, _userPwBad, _userPwSad, User1Pw};
+            foreach (var s in pwArr)
+            {
+                UserBridge.DeleteUser(_userNameBad, s);
+                if (!s.Equals(User1Pw))
+                {
+                    UserBridge.DeleteUser(User1Name, s);
+                }
+            }
+
             _userNameBad = null;
             _userPwGood2 = null;
             _userPwBad = null;
@@ -158,30 +169,57 @@ namespace TexasHoldemTests.AcptTests.tests
             UserBridge.DeleteUser(_registerNameGood, _userPwSad);
         }
         
-        //TODO: split this
         [TestCase]
-        public void UserRegisterTestBad()
+        public void UserRegisterTestBadNameBad()
         {
             Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, User1Pw));
             UserBridge.DeleteUser(_registerNameBad, User1Pw);
-            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, _userPwBad));
-            UserBridge.DeleteUser(_registerNameGood, _userPwBad);
-            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, User1Pw));
-            UserBridge.DeleteUser(_registerNameGood, _userPwBad);
-            UserBridge.DeleteUser(_registerNameGood, User1Pw);
+
             Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, User1Pw));
             UserBridge.DeleteUser(_registerNameBad, User1Pw);
+
             Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, User1Pw));
             UserBridge.DeleteUser(_registerNameBad, User1Pw);
             UserBridge.DeleteUser(_registerNameBad, _userPwBad);
+
             Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, _userPwBad));
-            UserBridge.DeleteUser(_registerNameBad, _userPwBad);
+        }
+        
+        [TestCase]
+        public void UserRegisterTestBadPwBad()
+        {
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, _userPwBad));
+            UserBridge.DeleteUser(_registerNameGood, _userPwBad);
+
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, User1Pw));
+            UserBridge.DeleteUser(_registerNameGood, _userPwBad);
+            UserBridge.DeleteUser(_registerNameGood, User1Pw);
+
+            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, User1Pw));
+        }
+        
+        [TestCase]
+        public void UserRegisterTestEmptysBad()
+        {
             Assert.False(UserBridge.RegisterUser("", User1Pw, User1Pw));
             UserBridge.DeleteUser("", User1Pw);
+
             Assert.False(UserBridge.RegisterUser(_registerNameGood, "", _userPwBad));
             UserBridge.DeleteUser(_registerNameGood, _userPwBad);
+
             Assert.False(UserBridge.RegisterUser(_registerNameGood, User1Pw, ""));
-            UserBridge.DeleteUser(_registerNameGood, User1Pw);
+        }
+        
+        [TestCase]
+        public void UserRegisterTestNullsBad()
+        {
+            Assert.False(UserBridge.RegisterUser(null, User1Pw, User1Pw));
+            UserBridge.DeleteUser("", User1Pw);
+
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, null, _userPwBad));
+            UserBridge.DeleteUser(_registerNameGood, _userPwBad);
+
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, User1Pw, null));
         }
 
         //edit
@@ -205,7 +243,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
         }
         
-        //TODO split this
         [TestCase]
         public void UserEditNameTestBad()
         {
@@ -216,8 +253,10 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.False(UserBridge.EditName(-1, User1Name));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
+
             Assert.False(UserBridge.EditName(UserId, ""));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
+
             Assert.False(UserBridge.EditName(UserId, _userNameBad));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
         }

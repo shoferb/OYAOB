@@ -64,28 +64,58 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.False(GameBridge.StartGame(RoomId));
         }
 
-        //TODO: maybe find a better test for these:
         [TestCase]
         public void ListGamesByRankTestGood()
         {
+            //delete all users and games, register user1
+            RestartSystem();
+
             int rank = UserBridge.GetUserRank(UserId);
+            int someUser = GetNextUserId();
+            UserBridge.SetUserRank(someUser, rank);
 
-            RegisterUser1();
-
-            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
-            Assert.Contains(rank, GameBridge.ListAvailableGamesByUserRank(rank));
+            Assert.True(GameBridge.CreateGameRoom(someUser, RoomId));
+            Assert.Contains(RoomId, GameBridge.ListAvailableGamesByUserRank(rank));
         }
-        
         
         [TestCase]
-        public void ListSpectatableGames()
+        public void ListGamesByRankTestSad()
         {
-            RegisterUser1();
+            //delete all users and games, register user1
+            RestartSystem();
 
-            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
+            int rank1 = UserBridge.GetUserRank(UserId);
+            int someUser = GetNextUserId();
+            UserBridge.SetUserRank(someUser, rank1 + 10);
+
+            Assert.True(GameBridge.CreateGameRoom(someUser, RoomId));
+            Assert.IsEmpty(GameBridge.ListAvailableGamesByUserRank(rank1));
+        }
+        
+        [TestCase]
+        public void ListSpectatableGamesTestGood()
+        {
+            //delete all users and games, register user1
+            RestartSystem();
+
+            int someUser1 = GetNextUserId();
+            int someUser2 = GetNextUserId();
+
+            Assert.True(GameBridge.CreateGameRoom(someUser1, RoomId));
+            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(someUser2, RoomId, 0));
+            Assert.True(GameBridge.StartGame(RoomId));
+
             Assert.Contains(RoomId, GameBridge.ListSpectateableRooms());
         }
+        
+        [TestCase]
+        public void ListSpectatableGamesTestSad()
+        {
+            //delete all users and games, register user1
+            RestartSystem();
 
-        //TODO: figure out how to test 'list games''s sad case (no games)
+            Assert.IsEmpty(GameBridge.ListSpectateableRooms());
+        }
+
     }
 }

@@ -94,5 +94,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new NotImplementedException();
         }
+
+        public List<int> GetAllGames()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
