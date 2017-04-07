@@ -69,40 +69,6 @@ namespace TexasHoldemTests.AcptTests.tests
             _userEmailBad2 = null;
         }
 
-        //create a new game with user2 as only player, return user2's id
-        private int CreateGameWithUser()
-        {
-            int userId2 = GetNextUserId();
-            Assert.True(GameBridge.CreateGameRoom(userId2, RoomId));
-
-            return userId2;
-        }
-
-        //private void RegisterUser2()
-        //{
-        //    if (_userId2 == -1)
-        //    {
-        //        _userId2 = UserBridge.GetNextFreeUserId();
-        //        UserBridge.RegisterUser(_registerNameGood, _userPwGood2, _userPwGood2);
-        //    }
-        //}
-
-        //create a room with some user in it
-       
-        //create a new game for RoomId and return the user in the game
-        //private int CreateRoom1()
-        //{
-        //    int randInt = new Random().Next();
-
-        //    int someUser = UserBridge.GetNextFreeUserId();
-        //    UserBridge.RegisterUser(_registerNameGood + randInt, _userPwGood2, _userPwGood2);
-        //    GameBridge.CreateGameRoom(someUser, RoomId);
-
-        //    return someUser;
-        //}
-
-        //login
-
         [TestCase]
         public void UserLoginTestGood()
         {

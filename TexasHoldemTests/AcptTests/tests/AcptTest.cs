@@ -169,5 +169,23 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
         }
 
+        //create a new game with user2 as only player, return user2's id
+        protected int CreateGameWithUser()
+        {
+            //delete room1 if exists
+            if (GameBridge.DoesRoomExist(RoomId))
+            {
+                GameBridge.GetPlayersInRoom(RoomId).ForEach(uid =>
+                {
+                    UserBridge.RemoveUserFromRoom(uid, RoomId);
+                });
+                GameBridge.RemoveGameRoom(RoomId);
+            }
+
+            int userId2 = GetNextUserId();
+            Assert.True(GameBridge.CreateGameRoom(userId2, RoomId));
+
+            return userId2;
+        }
     }
 }

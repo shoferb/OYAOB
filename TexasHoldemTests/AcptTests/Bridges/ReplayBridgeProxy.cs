@@ -34,5 +34,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new System.NotImplementedException();
         }
+
+        public List<string> GetMovesOfFinishedGame(int gameId)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

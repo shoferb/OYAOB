@@ -5,12 +5,14 @@ namespace TexasHoldemTests.AcptTests.tests
     [TestFixture]
     class ReplayAcptTest : AcptTest
     {
+        //setup: (called from base)
         protected override void SubClassInit()
         {
             //delete all games and all users, then register user1
             RestartSystem();
         }
 
+        //tear down: (called from case)
         protected override void SubClassDispose()
         {
             //nothing to do here

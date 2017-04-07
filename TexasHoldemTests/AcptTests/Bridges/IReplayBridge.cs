@@ -11,5 +11,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //can be done while viewing replay
         bool SaveFavoriteTurn(int userId, int gameId, int turnNum);
         bool StopReplay(int userId, int gameId);
+
+        List<string> GetMovesOfFinishedGame(int gameId);
     }
 }
