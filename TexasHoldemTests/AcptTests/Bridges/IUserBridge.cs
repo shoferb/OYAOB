@@ -18,7 +18,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         List<int> GetUsersGameRooms(int userId);
         List<string> GetUserNotificationMsgs(int userId);
         int GetNextFreeUserId();
-        List<int> GetReplayableGames(int userId);
         int GetUserWins(int userId);
         int GetUserLosses(int userId);
         int GetUserRank(int userId);

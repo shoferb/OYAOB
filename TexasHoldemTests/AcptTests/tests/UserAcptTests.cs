@@ -637,7 +637,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.Equals(chips, UserBridge.GetUserChips(UserId));
 
             Assert.True(GameBridge.IsUserInRoom(userId2, RoomId)); //user2 should still be in Room
-            Assert.Contains(RoomId, UserBridge.GetReplayableGames(UserId));
+            Assert.Contains(RoomId, ReplayBridge.GetReplayableGames(UserId));
         }
 
         [TestCase]
@@ -666,7 +666,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.Equals(money, UserBridge.GetUserMoney(UserId));
             Assert.Equals(chips, UserBridge.GetUserChips(UserId));
             Assert.True(GameBridge.IsUserInRoom(userId2, RoomId)); //user2 should still be in Room
-            Assert.Contains(RoomId, UserBridge.GetReplayableGames(UserId));
+            Assert.Contains(RoomId, ReplayBridge.GetReplayableGames(UserId));
 
             //now has more losses
             Assert.Greater(UserBridge.GetUserLosses(UserId), losses);

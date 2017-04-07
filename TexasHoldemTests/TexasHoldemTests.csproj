@@ -59,9 +59,11 @@
     <Compile Include="AcptTests\Bridges\IGameBridge.cs" />
     <Compile Include="AcptTests\Bridges\IReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\IUserBridge.cs" />
+    <Compile Include="AcptTests\Bridges\ReplayBridgeProxy.cs" />
     <Compile Include="AcptTests\Bridges\UserBridgeProxy.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
+    <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

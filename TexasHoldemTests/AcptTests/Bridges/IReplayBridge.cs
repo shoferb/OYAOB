@@ -1,7 +1,15 @@
-﻿namespace TexasHoldemTests.AcptTests.Bridges
+﻿using System.Collections.Generic;
+
+namespace TexasHoldemTests.AcptTests.Bridges
 {
-    interface IReplayBridge
+    public interface IReplayBridge
     {
-        
+        List<int> GetReplayableGames(int userId);
+        bool AddReplayableGame(int userId, int gameId);
+        bool ViewReplay(int userId, int gameId, int moveNum);
+
+        //can be done while viewing replay
+        bool SaveFavoriteMove(int userId, int gameId, int moveNum);
+        bool StopReplay(int userId, int gameId);
     }
 }

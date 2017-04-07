@@ -11,6 +11,7 @@ namespace TexasHoldemTests.AcptTests.tests
     {
         protected IUserBridge UserBridge;
         protected IGameBridge GameBridge;
+        protected IReplayBridge ReplayBridge;
         protected const int UserId = 0; //user1 must all ready be in system when tests start.
         protected string User1Name;
         protected string User1Pw;
@@ -21,6 +22,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             UserBridge = new UserBridgeProxy();
             GameBridge = new GameBridgeProxy();
+            ReplayBridge = new ReplayBridgeProxy();
             OtherUsers = new List<int>();
 
             User1Name = "Oded";
@@ -108,7 +110,7 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
 
             //create a new game and run it 1 move, then leave it
-            if (UserBridge.GetReplayableGames(UserId).Count == 0)
+            if (ReplayBridge.GetReplayableGames(UserId).Count == 0)
             {
                 int newRoomId = GameBridge.CreateGameRoom(UserId);
                 int userId2 = GetNextUserId();
