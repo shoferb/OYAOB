@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GameInfra
+namespace TexasHoldem.Logic.Game
 {
     abstract class GameRoom
     {
@@ -14,7 +10,7 @@ namespace GameInfra
         private int _minEnterMoney { set; get; }
         private int _maxEnterMoney { set; get; }
 
-        public GameRoom(string name, int sb, int bb, int minMoney, int maxMoney)
+        protected GameRoom(string name, int sb, int bb, int minMoney, int maxMoney)
         {
             this._name = name;
             this._smallBlind = sb;
