@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TexasHoldem.Logic.User
+namespace TexasHoldem.Logic.Actions
 {
-    public class Player : Spectetor
+    public enum Role
     {
-    }
+            None, Dealer, SmallBlind, BigBlind
+    };
 }
