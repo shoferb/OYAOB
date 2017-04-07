@@ -54,6 +54,12 @@
   <ItemGroup>
     <Compile Include="Logic\Game Control\GameCenter.cs" />
     <Compile Include="Logic\Game Control\League.cs" />
+    <Compile Include="Logic\Game\Card.cs" />
+    <Compile Include="Logic\Game\ConcreteGamePrefDecorator.cs" />
+    <Compile Include="Logic\Game\ConcreteGameRoom.cs" />
+    <Compile Include="Logic\Game\Deck.cs" />
+    <Compile Include="Logic\Game\GamePrefDecorator.cs" />
+    <Compile Include="Logic\Game\GameRoom.cs" />
     <Compile Include="Logic\Notifications And Logs\ActionLog.cs" />
     <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />
     <Compile Include="Logic\Notifications And Logs\Log.cs" />
