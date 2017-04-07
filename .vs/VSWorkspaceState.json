@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\bin",
+    "\\Logic",
+    "\\Logic\\Action",
+    "\\Logic\\Game",
+    "\\Logic\\Game Control",
+    "\\Logic\\Notifications And Logs",
+    "\\Logic\\User"
+  ],
+  "PreviewInSolutionExplorer": false
+}
