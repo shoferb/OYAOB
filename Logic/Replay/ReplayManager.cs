@@ -8,10 +8,20 @@ namespace TexasHoldem.Logic.Replay
 {
     public class ReplayManager
     {
-        private List<GameReplay> gamesActions;
+        private List<GameReplay> _gamesActions;
 
-        public List<GameReplay> GamesActions { get => gamesActions; set => gamesActions = value; }
+        public List<GameReplay> GamesActions { get => _gamesActions; set => _gamesActions = value; }
 
-        public bool ReplayGame(int gameRoomID, int GameNumber) { return false; }
+        public bool ReplayGame(int gameRoomID, int gameNumber) {
+
+            foreach (GameReplay gr in _gamesActions)
+            {
+                if (gr.RightGame(gameRoomID, gameNumber))
+                {
+                    return gr.ReplayGame();               
+                }
+            }
+            return false;
+        }
     }
 }
