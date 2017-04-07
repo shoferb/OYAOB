@@ -7,7 +7,7 @@ using TexasHoldem.Logic.User;
 
 namespace TexasHoldem.Logic.Game
 {
-    class ConcreteGamePrefDecorator : GamePrefDecorator
+    public class ConcreteGamePrefDecorator : GamePrefDecorator
     {
         public ConcreteGamePrefDecorator(string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
         {

@@ -4,7 +4,7 @@ using TexasHoldem.Logic.User;
 
 namespace TexasHoldem.Logic.Game
 {
-    class ConcreteGameRoom : GameRoom
+    public class ConcreteGameRoom : GameRoom
     {
         private int _id { get; set; }
         private bool _isActive { get; set; }

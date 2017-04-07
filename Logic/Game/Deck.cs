@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem
 {
-    class Deck
+    public class Deck
     {
         private int _numOfCards { set; get; }
         private Card _cards { set; get;}

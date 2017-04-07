@@ -3,7 +3,7 @@ using TexasHoldem.Logic.User;
 
 namespace TexasHoldem.Logic.Game
 {
-    abstract class GameRoom
+    public abstract class GameRoom
     {
  
         private string _name { set; get; }
