@@ -626,8 +626,14 @@ namespace TexasHoldemTests.AcptTests.tests
             });
         }
 
-        //TODO: test log created after player leaves. need to contain some moves to make sense
-        
+        [TestCase]
+        public void UserRemoveFromGamePlayerGameIsSavedTestGood()
+        {
+            SetupUser1();
+            Assert.IsNotEmpty(ReplayBridge.GetMovesOfFinishedGame(RoomId, 1));
+            Assert.AreEqual(2, ReplayBridge.GetMovesOfFinishedGame(RoomId, 1).Count);
+        }
+
         [TestCase]
         public void UserRemoveFromRoomSpectatorTestGood()
         {
