@@ -1,17 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.User;
 
-namespace TexasHoldem
+namespace TexasHoldem.Logic.Game
 {
     class ConcreteGameRoom : GameRoom
     {
-        public ConcreteGameRoom(string name, int sb, int bb, int minMoney, int maxMoney) : base(name, sb, bb, minMoney, maxMoney)
+        private int _id { get; set; }
+        private bool _isActive { get; set; }
+        private int _blind { get; set; }
+        private int _potSize { get; set; }
+        private Player _currentPlayer { get; set; }
+        private Player _currentDealer { get; set; }
+        private int _highBetInTurn { get; set; }
+        private List<Card> _cardsOnTable { get; set; }
+         
+        public ConcreteGameRoom(int id, bool isActive, int blind, int potSize, Player curr, Player dealer, int turn, List<Card> cards,  string name, int sb, int bb, int minMoney, int maxMoney) : base(name, sb, bb, minMoney, maxMoney)
         {
+            this._id = id;
+            this._isActive = isActive;
+            this._potSize = potSize;
+            this._currentPlayer = curr;
+            this._currentDealer = dealer;
+            this._highBetInTurn = turn;
+            this._cardsOnTable = cards;
         }
+
+        private void Fold()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Raise(int sum)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Check()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Call()
+        {
+            throw new NotImplementedException();
+        }
+
+        private Player findWinner(int sum)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
     }
