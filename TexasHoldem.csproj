@@ -66,6 +66,7 @@
     <Compile Include="Logic\Actions\WinAction.cs" />
     <Compile Include="Logic\Game Control\GameCenter.cs" />
     <Compile Include="Logic\Game Control\League.cs" />
+    <Compile Include="Logic\Game\Card.cs" />
     <Compile Include="Logic\Notifications And Logs\ActionLog.cs" />
     <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />
     <Compile Include="Logic\Notifications And Logs\Log.cs" />
@@ -103,9 +104,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Resource Include="Logic\Game\added to open folder.txt" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

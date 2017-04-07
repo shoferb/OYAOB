@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem
 {
-    class Card
+    public class Card
     {
 
         private int _value { set; get; }
-        private enum _cards 
+        private enum _cards
         {
             Clubs,
             Diamonds,
