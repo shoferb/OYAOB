@@ -28,6 +28,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         int GetCurrPlayer(int gameId);
         int GetSbSize(int gameId);
         int GetPotSize(int gameId);
+        int GetWinner(int gameId);
 
         //game player oporations:
         bool Fold(int userId, int roomId);

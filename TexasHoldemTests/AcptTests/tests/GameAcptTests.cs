@@ -121,26 +121,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
         //game related tests:
 
-        //create a game with 3 players and start it
-        private void InitGame()
-        {
-            //create users:
-            RegisterUser1();
-            int user2 = CreateGameWithUser(); //user2 is now in game as player
-            int user3 = GetNextUserId();
-
-            //add users to game:
-            UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 10);
-            UserBridge.AddUserToGameRoomAsPlayer(user3, RoomId, 10);
-
-            GameBridge.StartGame(RoomId);
-
-            Assert.True(GameBridge.IsRoomActive(RoomId));
-            Assert.AreEqual(user2, GameBridge.GetDealerId(RoomId));
-            Assert.AreEqual(UserId, GameBridge.GetSbId(RoomId));
-            Assert.AreEqual(user3, GameBridge.GetBbId(RoomId));
-        }
-
         //tests a whole game including all actions, card deals, pot size changes, etc.
         [TestCase]
         public void GameTestGood()
@@ -212,6 +192,7 @@ namespace TexasHoldemTests.AcptTests.tests
             potSize += currMinBet;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
+            //game start:
             Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user0 is dealr, user1 is sb, user2 is bb => user3 starts
             Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls equal to bb
             Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
@@ -313,7 +294,45 @@ namespace TexasHoldemTests.AcptTests.tests
             chipsList[0] -= bb;
             potSize += bb;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
+
+            //winner:
+            int winner = GameBridge.GetWinner(RoomId);
+            Assert.Contains(winner, userList);
+            Assert.AreNotEqual(winner, userList[2]); //user2 folded
+            Assert.AreNotEqual(winner, userList[3]); //user3 folded
+
+            //game is saved:
+            
+            //each player has this game saved:
+            userList.ForEach(uid =>
+            {
+                Assert.Contains(RoomId, ReplayBridge.GetReplayableGames(uid));
+            });
+
+            //all moves are saved:
+            CheckGameIsSaved();
         }
 
+        private void CheckGameIsSaved()
+        {
+            var moves = ReplayBridge.GetMovesOfFinishedGame(RoomId);
+            Assert.NotNull(moves);
+            Assert.AreEqual(17, moves.Count);
+            Assert.True(moves[0].Contains("call"));
+            Assert.True(moves[1].Contains("raise"));
+            Assert.True(moves[2].Contains("call"));
+            Assert.True(moves[3].Contains("fold"));
+            Assert.True(moves[4].Contains("call"));
+            Assert.True(moves[5].Contains("check"));
+            Assert.True(moves[6].Contains("call"));
+            Assert.True(moves[7].Contains("call"));
+            Assert.True(moves[8].Contains("check"));
+            Assert.True(moves[9].Contains("call"));
+            Assert.True(moves[10].Contains("call"));
+            Assert.True(moves[11].Contains("raise"));
+            Assert.True(moves[12].Contains("fold"));
+            Assert.True(moves[13].Contains("call"));
+            Assert.True(moves[14].Contains("win"));
+        }
     }
 }
