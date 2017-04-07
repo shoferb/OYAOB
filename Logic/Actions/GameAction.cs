@@ -19,7 +19,7 @@ namespace TexasHoldem.Logic.Actions
             _cardsOnTable = cardsOnTable;
         }
 
-        public int Pot { get => _pot; set => _pot = value; }
+        public int Pot { get; set; }
         public List<Card> CardsOnTable { get => _cardsOnTable; set => _cardsOnTable = value; }
     }
 }
