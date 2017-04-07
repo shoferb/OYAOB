@@ -21,9 +21,9 @@ namespace TexasHoldem.Logic.Actions
             _gameNumber = gameNumber;
         }
 
-        public Player Player { get => _player; set => _player = value; }
-        public int RoomID { get => _roomID; set => _roomID = value; }
-        public int GameNumber { get => _gameNumber; set => _gameNumber = value; }
+        public Player Player { get; set; }
+        public int RoomID { get; set; }
+        public int GameNumber { get; set; }
 
         public abstract String DoAction();
 
