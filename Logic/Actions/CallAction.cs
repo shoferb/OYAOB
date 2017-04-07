@@ -23,7 +23,7 @@ namespace TexasHoldem.Logic.Actions
         public override String ToString()
         {
             return String.Format("RoomID: {0}, GameNumber: {1}, PlayerName: {2}",
-                        RoomID , GameNumber, Player.ToString());  //need to add various fields of Player here
+                        _roomID , _gameNumber, _player.ToString());  //need to add various fields of Player here
         }
 
     }

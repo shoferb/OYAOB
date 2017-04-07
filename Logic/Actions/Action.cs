@@ -10,9 +10,9 @@ namespace TexasHoldem.Logic.Actions
     public abstract class Action
     {
 
-        private Player _player;
-        private int _roomID;
-        private int _gameNumber;
+        public Player _player { set; get; }
+        public int _roomID { set; get; }
+        public int _gameNumber { set; get; }
 
         public Action(Player player, int roomID, int gameNumber)
         {
@@ -20,10 +20,6 @@ namespace TexasHoldem.Logic.Actions
             _roomID = roomID;
             _gameNumber = gameNumber;
         }
-
-        public Player Player { get; set; }
-        public int RoomID { get; set; }
-        public int GameNumber { get; set; }
 
         public abstract String DoAction();
 

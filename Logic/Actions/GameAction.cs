@@ -9,8 +9,8 @@ namespace TexasHoldem.Logic.Actions
 {
     public abstract class GameAction: Action
     {
-        private int _pot;
-        private List<Card> _cardsOnTable;
+        public int _pot { set; get; }
+        public List<Card> _cardsOnTable { set; get; }
 
         public GameAction(int pot, List<Card> cardsOnTable, Player player, int roomID, int gameNumber) :
             base(player, roomID, gameNumber)
@@ -18,8 +18,5 @@ namespace TexasHoldem.Logic.Actions
             _pot = pot;
             _cardsOnTable = cardsOnTable;
         }
-
-        public int Pot { get; set; }
-        public List<Card> CardsOnTable { get => _cardsOnTable; set => _cardsOnTable = value; }
     }
 }

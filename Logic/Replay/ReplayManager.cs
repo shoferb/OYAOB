@@ -8,18 +8,17 @@ namespace TexasHoldem.Logic.Replay
 {
     public class ReplayManager
     {
-        private List<GameReplay> _gamesActions;
+        public List<GameReplay> _gamesActions { set; get; }
 
         public ReplayManager()
         {
             _gamesActions = new List<GameReplay>();
         }
 
-        public List<GameReplay> GamesActions { get => _gamesActions; set => _gamesActions = value; }
 
         public bool AddGameReplay(GameReplay gr)
         {
-            if (gr.GameNumber < 0 || gr.GameRoomID < 0 || isExist(gr))
+            if (gr._gameNumber < 0 || gr._gameRoomID < 0 || isExist(gr))
             {
                 return false;
             }
@@ -31,7 +30,7 @@ namespace TexasHoldem.Logic.Replay
         {
             foreach (GameReplay g in _gamesActions)
             {
-                if (g.RightGame(gr.GameRoomID, gr.GameNumber))
+                if (g.RightGame(gr._gameRoomID, gr._gameNumber))
                 {
                     return true;
                 }

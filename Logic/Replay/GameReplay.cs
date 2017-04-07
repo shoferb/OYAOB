@@ -6,9 +6,9 @@ namespace TexasHoldem.Logic.Replay
 {
     public class GameReplay
     {
-        private int _gameRoomID;
-        private int _gameNumber;
-        private List<Action> _actions;
+        public int _gameRoomID { get; set; }
+        public int _gameNumber { get; set; }
+        public List<Action> _actions { get; set; }
 
         public GameReplay()
         {
@@ -26,10 +26,6 @@ namespace TexasHoldem.Logic.Replay
         {
             _actions.Add(action);
         }
-
-        public int GameRoomID { get => _gameRoomID; set => _gameRoomID = value; }
-        public int GameNumber { get => _gameNumber; set => _gameNumber = value; }
-        public List<Action> Actions { get => _actions; set => _actions = value; }
 
         public bool RightGame(int gameRoomID, int gameNumber)
         {
