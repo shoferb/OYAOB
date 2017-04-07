@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using TexasHoldem.Logic.User;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {

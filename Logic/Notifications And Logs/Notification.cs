@@ -6,7 +6,42 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Notifications_And_Logs
 {
-    class Notification
+    public class Notification
     {
+        private int gameId;
+        private String msg;
+
+        public Notification(int gameId, string msg)
+        {
+            this.gameId = gameId;
+            this.msg = msg;
+        }
+        
+       
+        public int GameId
+        {
+            get
+            {
+                return gameId;
+            }
+
+            set
+            {
+                gameId = value;
+            }
+        }
+
+        public string Msg
+        {
+            get
+            {
+                return msg;
+            }
+
+            set
+            {
+                msg = value;
+            }
+        }
     }
 }

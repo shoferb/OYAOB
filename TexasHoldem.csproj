@@ -78,9 +78,9 @@
     <Compile Include="Logic\Notifications And Logs\Notification.cs" />
     <Compile Include="Logic\Replay\GameReplay.cs" />
     <Compile Include="Logic\Replay\ReplayManager.cs" />
-    <Compile Include="Logic\User\Player.cs" />
-    <Compile Include="Logic\User\Spectetor.cs" />
-    <Compile Include="Logic\User\User.cs" />
+    <Compile Include="Logic\Users\Player.cs" />
+    <Compile Include="Logic\Users\Spectetor.cs" />
+    <Compile Include="Logic\Users\User.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -6,7 +6,29 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Notifications_And_Logs
 {
-    class Log
+    public class Log
     {
+
+        private int lodId;
+
+        public Log(int lodId)
+        {
+            this.lodId = lodId;
+        }
+
+
+        //getter Setter
+        public int LodId
+        {
+            get
+            {
+                return lodId;
+            }
+
+            set
+            {
+                lodId = value;
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using TexasHoldem.Logic.User;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
