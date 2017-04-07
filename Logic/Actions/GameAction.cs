@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.User;
 
 namespace TexasHoldem.Logic.Actions
 {
     public abstract class GameAction: Action
     {
-        private int pot;
-        private List<Card> cardsOnTable;
+        private int _pot;
+        private List<Card> _cardsOnTable;
 
-        public int Pot { get => pot; set => pot = value; }
-        public List<Card> CardsOnTable { get => cardsOnTable; set => cardsOnTable = value; }
+        public GameAction(int pot, List<Card> cardsOnTable, Player player, int roomID, int gameNumber) :
+            base(player, roomID, gameNumber)
+        {
+            _pot = pot;
+            _cardsOnTable = cardsOnTable;
+        }
+
+        public int Pot { get => _pot; set => _pot = value; }
+        public List<Card> CardsOnTable { get => _cardsOnTable; set => _cardsOnTable = value; }
     }
 }

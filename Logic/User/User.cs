@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.User
 {
-    class User
+    public class User
     {
     }
 }
