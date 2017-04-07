@@ -1,53 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TexasHoldem.Logic.Replay;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TexasHoldem.Logic.Actions;
-namespace TexasHoldem.Logic.Replay
+
+namespace TexasHoldem.Logic.Replay.Tests
 {
-    public class GameReplay
+    [TestClass()]
+    public class GameReplayTests
     {
-        private int _gameRoomID;
-        private int _gameNumber;
-        private List<Action> _actions;
+        private GameReplay testGR = new GameReplay(1, 1);
+        private Actions.Action testAction = new CallAction(new Card(1), new Card(2), 1, Role.None, 10,
+            new User.Player(), 1, 1);
 
-        public GameReplay()
+        [TestMethod()]
+        public void GameReplayTest()
         {
-            _actions = new List<Action>();
+            Assert.Fail();
         }
 
-        public GameReplay(int gameRoomID, int gameNumber)
+        [TestMethod()]
+        public void GameReplayTest1()
         {
-            _gameRoomID = gameRoomID;
-            _gameNumber = gameNumber;
-            _actions = new List<Action>();
+            Assert.Fail();
         }
 
-        public void AddAction(Action action)
+        [TestMethod()]
+        public void RightGameTest()
         {
-            _actions.Add(action);
+            Assert.IsTrue(testGR.RightGame(1, 1));
+            Assert.IsFalse(testGR.RightGame(2, 1));
+            Assert.IsFalse(testGR.RightGame(1, 2));
+            Assert.IsFalse(testGR.RightGame(3, 3));
         }
 
-        public int GameRoomID { get => _gameRoomID; set => _gameRoomID = value; }
-        public int GameNumber { get => _gameNumber; set => _gameNumber = value; }
-        public List<Action> Actions { get => _actions; set => _actions = value; }
-
-        public bool RightGame(int gameRoomID, int gameNumber)
+        [TestMethod()]
+        public void ReplayGameTest()
         {
-            return (gameRoomID == _gameRoomID && gameNumber == _gameNumber);
-        }
-
-        public bool ReplayGame()
-        {
-            if (_actions == null || _actions.Count == 0)
-            {
-                return false;
-            }
-            foreach (Action a in _actions)
-            {
-                a.DoAction();
-            }
-            return true;
+            Assert.Fail();
         }
     }
 }
-
