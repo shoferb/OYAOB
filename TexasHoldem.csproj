@@ -88,9 +88,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Logic\Action\" />
-    <Folder Include="Logic\Game\" />
+    <Resource Include="Logic\Action\added to open filder.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logic\Game\added to open folder.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
