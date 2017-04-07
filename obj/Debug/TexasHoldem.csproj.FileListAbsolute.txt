@@ -8,3 +8,10 @@ c:\users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldem\obj\
 c:\users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldem\obj\Debug\TexasHoldem.pdb
 C:\Users\orelie\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe.config
 C:\Users\ychen\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe.config
+C:\Users\ychen\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe
+C:\Users\ychen\Source\Repos\OYAOB\bin\Debug\TexasHoldem.pdb
+C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csprojResolveAssemblyReference.cache
+C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.Properties.Resources.resources
+C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csproj.GenerateResource.Cache
+C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.exe
+C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.pdb
