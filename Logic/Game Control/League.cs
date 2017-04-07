@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Game_Control
 {
-    class League
+    public class League
     {
         private String name;
         private int minRank;
