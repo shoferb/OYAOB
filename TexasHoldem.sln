@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26403.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldem", "TexasHoldem.csproj", "{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemTests", "..\TexasHoldemTests\TexasHoldemTests.csproj", "{F4BE061A-6180-4C09-BBCE-E28867B680F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4BE061A-6180-4C09-BBCE-E28867B680F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4BE061A-6180-4C09-BBCE-E28867B680F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4BE061A-6180-4C09-BBCE-E28867B680F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4BE061A-6180-4C09-BBCE-E28867B680F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
