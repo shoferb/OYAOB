@@ -21,7 +21,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
         int GetUserWins(int userId);
         int GetUserLosses(int userId);
         int GetUserRank(int userId);
-        void SetUserRank(int userId, int rank);
+        void SetUserRank(int userId, int rank); //change user's rank BY SYSTEM
+        bool SetUserRank(int userIdToChange, int rank, int changingUserId); //change user's rank BY LEADING USER
+        bool SetLeagueCriteria(int userId, int criteria); //change the rank diff between leagus, BY LEADING USER
+
         bool IsThereUser(int id);
         List<int> GetAllUsers();
 

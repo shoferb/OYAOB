@@ -20,7 +20,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             throw new System.NotImplementedException();
         }
 
-        public bool SaveFavoriteMove(int userId, int gameId, int moveNum)
+        public bool SaveFavoriteTurn(int userId, int gameId, int turnNum)
         {
             throw new System.NotImplementedException();
         }

@@ -55,7 +55,7 @@ namespace TexasHoldemTests.AcptTests.tests
             SetupUser1();
 
             Assert.True(ReplayBridge.ViewReplay(UserId, RoomId));
-            Assert.True(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1));
+            Assert.True(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 1));
         }
 
         [TestCase]
@@ -63,7 +63,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //no games to replay
             Assert.False(ReplayBridge.ViewReplay(UserId, RoomId));
-            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1));
+            Assert.False(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 1));
         }
         
         [TestCase]
@@ -71,7 +71,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //no games to replay
             Assert.False(ReplayBridge.ViewReplay(UserId, RoomId));
-            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 100));
+            Assert.False(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 100));
         }
         
         [TestCase]
@@ -79,7 +79,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //no games to replay
             Assert.False(ReplayBridge.ViewReplay(UserId, RoomId));
-            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, -1));
+            Assert.False(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, -1));
         }
 
         [TestCase]

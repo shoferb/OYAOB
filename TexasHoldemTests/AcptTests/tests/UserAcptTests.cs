@@ -69,7 +69,7 @@ namespace TexasHoldemTests.AcptTests.tests
             _userEmailBad2 = null;
         }
 
-        //create a new game with user2 as only player
+        //create a new game with user2 as only player, return user2's id
         private int CreateGameWithUser()
         {
             int userId2 = GetNextUserId();
@@ -344,6 +344,32 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
         }
 
+        [TestCase]
+        public void UserSetUserRankByTopUserGood()
+        {
+            RegisterUser1();
+
+            //make sure user1 is top user
+            UserBridge.SetUserRank(UserId, 999999999);
+
+            int someUser = GetNextUserId();
+            Assert.True(UserBridge.SetUserRank(someUser, 10, UserId));
+        }
+        
+        [TestCase]
+        public void UserSetUserRankByTopUserBad()
+        {
+            RegisterUser1();
+
+            int someUser = GetNextUserId();
+            
+            //make sure someUser is top user
+            UserBridge.SetUserRank(someUser, 999999999);
+
+            //user1 is NOT top user
+            Assert.False(UserBridge.SetUserRank(someUser, 10, UserId));
+        }
+
         //TODO: test edit avatar
 
         [TestCase]
@@ -366,6 +392,42 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId));
         }
 
+        [TestCase]
+        public void SetLeagueCriteriaTestGood()
+        {
+            RegisterUser1();
+
+            //make sure user1 is top user
+            UserBridge.SetUserRank(UserId, 999999999);
+
+            Assert.True(UserBridge.SetLeagueCriteria(UserId, 10));
+        }
+        
+        [TestCase]
+        public void SetLeagueCriteriaNotTopUserTestBad()
+        {
+            RegisterUser1();
+
+            int someUser = GetNextUserId();
+
+            //make sure someUser is top user
+            UserBridge.SetUserRank(someUser, 999999999);
+
+            Assert.False(UserBridge.SetLeagueCriteria(UserId, 10));
+        }
+        
+        [TestCase]
+        public void SetLeagueCriteriaBadCriteriaTestBad()
+        {
+            RegisterUser1();
+
+            //make sure user1 is top user
+            UserBridge.SetUserRank(UserId, 999999999);
+
+            Assert.False(UserBridge.SetLeagueCriteria(UserId, -1));
+            Assert.False(UserBridge.SetLeagueCriteria(UserId, 0));
+        }
+        
         //add player to room
         [TestCase]
         public void UserAddToRoomAsPlayerAllMoneyTestGood()
@@ -462,9 +524,19 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(UserBridge.AddUserToGameRoomAsSpectator(UserId, RoomId));
             Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 1));
         }
+        
+        [TestCase]
+        public void UserAddToRoomAsPlayerDifferentLeagueTestBad()
+        {
+            int someUser = CreateGameWithUser();
 
+            RegisterUser1();
+            int rank= UserBridge.GetUserRank(someUser);
 
-        //TODO: test add to room in different league
+            //make sure user1 and someUser are not in same league
+            UserBridge.SetUserRank(UserId, rank + 1000);
+            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 1));
+        }
 
         //add spectator to room
         [TestCase]

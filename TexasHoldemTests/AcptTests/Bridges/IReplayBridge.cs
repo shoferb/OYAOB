@@ -9,7 +9,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         bool ViewReplay(int userId, int gameId);
 
         //can be done while viewing replay
-        bool SaveFavoriteMove(int userId, int gameId, int moveNum);
+        bool SaveFavoriteTurn(int userId, int gameId, int turnNum);
         bool StopReplay(int userId, int gameId);
     }
 }
