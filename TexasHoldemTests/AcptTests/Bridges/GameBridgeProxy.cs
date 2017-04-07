@@ -99,5 +99,40 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             throw new NotImplementedException();
         }
+
+        public int GetDeckSize(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetCurrPlayer(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetSbSize(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetPotSize(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DealFirstCards(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DealFlop(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool DealSingleCardToTable(int gameId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -147,22 +147,26 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //create users:
             RegisterUser1();
-            int user2 = CreateGameWithUser(); //user2 is now in game as player
-            int user3 = GetNextUserId();
-            int user4 = GetNextUserId();
-            List<int> userList = new List<int> {user2, UserId, user3, user4};
+            List<int> userList = new List<int>(4)
+            {
+                CreateGameWithUser(),UserId, GetNextUserId(), GetNextUserId()
+            };
 
-            int money1 = UserBridge.GetUserMoney(UserId);
-            int money2 = UserBridge.GetUserMoney(user2);
-            int money3 = UserBridge.GetUserMoney(user3);
-            int money4 = UserBridge.GetUserMoney(user4);
-            List<int> moneyList = new List<int> {money2, money1, money3, money4 };
+            List<int> moneyList = new List<int>(4)
+            {
+                UserBridge.GetUserMoney(userList[0]),
+                UserBridge.GetUserMoney(userList[1]),
+                UserBridge.GetUserMoney(userList[2]),
+                UserBridge.GetUserMoney(userList[3])
+            };
 
-            int chips1 = UserBridge.GetUserChips(UserId, RoomId);
-            int chips2 = UserBridge.GetUserChips(user2, RoomId);
-            int chips3 = UserBridge.GetUserChips(user3, RoomId);
-            int chips4 = UserBridge.GetUserChips(user4, RoomId);
-            List<int> chipsList = new List<int> {chips1, chips2, chips3, chips4};
+            List<int> chipsList = new List<int>
+            {
+                UserBridge.GetUserChips(userList[0]),
+                UserBridge.GetUserChips(userList[1]),
+                UserBridge.GetUserChips(userList[2]),
+                UserBridge.GetUserChips(userList[3]),
+            };
 
             int smallBlind = GameBridge.GetSbSize(RoomId);
             int bb = 2 * smallBlind;
@@ -170,12 +174,13 @@ namespace TexasHoldemTests.AcptTests.tests
             int potSize = 0;
 
             //add users to game:
-            UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 10);
-            UserBridge.AddUserToGameRoomAsPlayer(user3, RoomId, 10);
-            UserBridge.AddUserToGameRoomAsPlayer(user4, RoomId, 10);
-
+            //user0 alleady in game
             for (int i = 0; i < userList.Count; i++)
             {
+                if (i > 0) //user #0 allready in game
+                {
+                    UserBridge.AddUserToGameRoomAsPlayer(userList[i], RoomId, 10);
+                }
                 Assert.AreEqual(moneyList[i] - 10, UserBridge.GetUserMoney(userList[i]));
                 moneyList[i] -= 10;
                 Assert.AreEqual(chipsList[i] + 10, UserBridge.GetUserChips(userList[i], RoomId));
@@ -190,9 +195,9 @@ namespace TexasHoldemTests.AcptTests.tests
             potSize += smallBlind + bb;
 
             Assert.True(GameBridge.IsRoomActive(RoomId));
-            Assert.AreEqual(user2, GameBridge.GetDealerId(RoomId));
+            Assert.AreEqual(userList[0], GameBridge.GetDealerId(RoomId));
             Assert.AreEqual(UserId, GameBridge.GetSbId(RoomId));
-            Assert.AreEqual(user3, GameBridge.GetBbId(RoomId));
+            Assert.AreEqual(userList[2], GameBridge.GetBbId(RoomId));
             Assert.AreEqual(52 - 6, GameBridge.GetDeckSize(RoomId));
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
@@ -207,15 +212,15 @@ namespace TexasHoldemTests.AcptTests.tests
             potSize += currMinBet;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
-            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user1 is sb, user2 is dealr, user3 is bb => user4 starts
-            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user4 calls equal to bb
+            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user0 is dealr, user1 is sb, user2 is bb => user3 starts
+            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls equal to bb
             Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
             chipsList[3] -= currMinBet;
             potSize += currMinBet;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-            Assert.True(GameBridge.Raise(userList[0], RoomId, currMinBet * 2)); //user2 raises
+            Assert.True(GameBridge.Raise(userList[0], RoomId, currMinBet * 2)); //user0 raises
             currMinBet *= 2;
             Assert.AreEqual(chipsList[0] - currMinBet, UserBridge.GetUserChips(userList[1], RoomId));
             chipsList[1] -= currMinBet;
@@ -230,12 +235,12 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             Assert.AreEqual(userList[2], GameBridge.GetCurrPlayer(RoomId));
-            Assert.True(GameBridge.Fold(userList[2], RoomId)); //user3 folds
+            Assert.True(GameBridge.Fold(userList[2], RoomId)); //user2 folds
             Assert.AreEqual(chipsList[2], UserBridge.GetUserChips(userList[2], RoomId));
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId));
-            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user4 calls
+            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls
             Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
             chipsList[3] -= currMinBet;
             potSize += currMinBet;
@@ -250,15 +255,15 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(chipsList[1], UserBridge.GetUserChips(userList[1], RoomId));
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
-            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user3 folded so user4 is next
-            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user4 calls
+            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user2 folded so user3 is next
+            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls
             Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
             chipsList[3] -= currMinBet;
             potSize += currMinBet;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-            Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user2 calls
+            Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user0 calls
             Assert.AreEqual(chipsList[0] - currMinBet, UserBridge.GetUserChips(userList[0], RoomId));
             chipsList[0] -= currMinBet;
             potSize += currMinBet;
@@ -273,15 +278,15 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(chipsList[1], UserBridge.GetUserChips(userList[1], RoomId));
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
-            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user3 folded so user4 is next
-            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user4 calls
+            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user2 folded so user3 is next
+            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls
             Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
             chipsList[3] -= currMinBet;
             potSize += currMinBet;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-            Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user2 calls
+            Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user0 calls
             Assert.AreEqual(chipsList[0] - currMinBet, UserBridge.GetUserChips(userList[0], RoomId));
             chipsList[0] -= currMinBet;
             potSize += currMinBet;
@@ -298,12 +303,12 @@ namespace TexasHoldemTests.AcptTests.tests
             potSize += bb;
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
-            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user3 folded so user4 is next
-            Assert.True(GameBridge.Fold(userList[3], RoomId)); //user4 folds
+            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user2 folded so user3 is next
+            Assert.True(GameBridge.Fold(userList[3], RoomId)); //user3 folds
             Assert.AreEqual(chipsList[3], UserBridge.GetUserChips(userList[3], RoomId));
 
             Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-            Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user2 calls
+            Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user0 calls
             Assert.AreEqual(chipsList[0] - bb, UserBridge.GetUserChips(userList[0], RoomId));
             chipsList[0] -= bb;
             potSize += bb;
