@@ -123,6 +123,8 @@ namespace TexasHoldemTests.AcptTests.tests
                 GameBridge.Check(userId2, newRoomId);
 
                 UserBridge.RemoveUserFromRoom(userId2, newRoomId);
+                //now user1 is only player in room => user1 wins
+                //=> game is done => save replay
                 UserBridge.RemoveUserFromRoom(UserId, newRoomId);
 
                 UserBridge.DeleteUser(userId2);
