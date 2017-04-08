@@ -51,5 +51,10 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
+        private bool Play()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

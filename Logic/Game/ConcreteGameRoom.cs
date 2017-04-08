@@ -10,8 +10,9 @@ namespace TexasHoldem.Logic.Game
         private bool _isActive { get; set; }
         private int _blind { get; set; }
         private int _potSize { get; set; }
-        private List<Player> _roomPlayers = new List<Player>();
+        private PlayersList _roomPlayers = new PlayersList();
         private List<Spectetor> _roomSpectetors = new List<Spectetor>();
+        private GameHand _hand;
         private Player _currentPlayer { get; set; }
         private Player _currentDealer { get; set; }
         private int _highBetInTurn { get; set; }
@@ -20,16 +21,18 @@ namespace TexasHoldem.Logic.Game
         private Player _currentSB { get; set; }
         private Player _currentBB { get; set; }
 
-public ConcreteGameRoom(int id, int blind, int potSize, Player curr, Player dealer, int turn, List<Card> cards, Deck deck,  string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
+public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn, List<Card> cards, string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
         {
             this._id = id;
             this._isActive = true;
-            this._potSize = potSize;
             this._currentPlayer = curr;
             this._currentDealer = dealer;
             this._highBetInTurn = turn;
             this._cardsOnTable = cards;
-            this._deck = deck;
+            this._deck = new Deck();
+            this._hand = new GameHand(_deck);
+          //TODO  this._potSize;
+
 
         }
 
@@ -92,11 +95,23 @@ public ConcreteGameRoom(int id, int blind, int potSize, Player curr, Player deal
         }
 
         private Player findWinner(int sum)
-        {
+        {   //TODO : byAvivG
             throw new NotImplementedException();
         }
 
+        private void Play()
+        {
+            bool flag = false;
+            while (!flag)
+            {
+                flag = setRoles();
+            }
 
+            foreach (Player p in _roomPlayers)
+            {
+                
+            }
+        }
 
     }
 }

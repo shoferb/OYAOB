@@ -66,6 +66,7 @@
     <Compile Include="Logic\Actions\WinAction.cs" />
     <Compile Include="Logic\Game Control\GameCenter.cs" />
     <Compile Include="Logic\Game Control\League.cs" />
+    <Compile Include="Logic\Game\Action.cs" />
     <Compile Include="Logic\Game\Card.cs" />
     <Compile Include="Logic\Game\ConcreteGamePrefDecorator.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoom.cs" />
@@ -73,8 +74,10 @@
     <Compile Include="Logic\Game\GameHand.cs" />
     <Compile Include="Logic\Game\GamePrefDecorator.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />
+    <Compile Include="Logic\Game\PlayersList.cs" />
     <Compile Include="Logic\Game\PokerLogic.cs" />
     <Compile Include="Logic\Game\POKERSCORE.cs" />
+    <Compile Include="Logic\Game\Pot.cs" />
     <Compile Include="Logic\Game\Suits.cs" />
     <Compile Include="Logic\Notifications And Logs\ActionLog.cs" />
     <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />

@@ -9,8 +9,10 @@ namespace TexasHoldem.Logic.Users
     public class Player : Spectetor
     {
         private bool isActive;
+        private int chipStack { get; set; }
 
-        public Player(int id, string name, string memberName, int password, int points, int money,String email, int gameId, bool isActive) : base(id, name, memberName, password, points, money,email,gameId)
+        public Player(int id, string name, string memberName, int password, int points, int money, String email,
+            int gameId, bool isActive) : base(id, name, memberName, password, points, money, email, gameId)
         {
             this.isActive = isActive;
             //sads dsajfh
@@ -19,15 +21,13 @@ namespace TexasHoldem.Logic.Users
         //getter setter
         public bool IsActive
         {
-            get
-            {
-                return isActive;
-            }
+            get { return isActive; }
 
-            set
-            {
-                isActive = value;
-            }
+            set { isActive = value; }
+        }
+
+        public void Reset()
+        {
         }
     }
 }
