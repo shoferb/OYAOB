@@ -13,20 +13,44 @@ namespace TexasHoldem.Logic.Replay.Tests
     [TestClass()]
     public class GameReplayTests
     {
-        private GameReplay testGR = new GameReplay(1, 1);
-        private Actions.Action testAction = new CallAction(new Card(1), new Card(2), 1, Role.None, 10,
-            new Player(1, "test", "mem", 123, 10, 100, "email@gmail.com", 1, true), 1, 1);
+        private GameReplay testGR;
+        private Actions.Action testAction1;
+        private Actions.Action testAction2;
 
-        [TestMethod()]
-        public void GameReplayTest()
+
+        [TestInitialize()]
+        public void Initialize()
         {
-            Assert.Fail();
+            testGR = new GameReplay(1, 1);
+            testAction1 = new CallAction(new Card(1), new Card(2), 1, Role.None, 10,
+            new Player(1, "test", "mem", 123, 10, 100, "email@gmail.com", 1, true), 1, 1);
+            testAction2 = new CallAction(new Card(1), new Card(2), 1, Role.None, 10,
+            new Player(1, "test", "mem", 123, 10, 100, "email@gmail.com", 1, true), 2, 2);
+            testGR.AddAction(testAction1);
+            testGR.AddAction(testAction2);
         }
 
         [TestMethod()]
-        public void GameReplayTest1()
+        public void GetNextActionTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(testGR.GetNextAction() == testAction1);
+            Assert.IsTrue(testGR.GetNextAction() == testAction2);
+            Assert.IsNull(testGR.GetNextAction());
+            testGR.StartOver();
+        }
+
+        [TestMethod()]
+        public void StartOverTest()
+        {
+            while (testGR.GetNextAction() != null)
+            {
+                testGR.GetNextAction();
+            }
+            Assert.IsNull(testGR.GetNextAction());
+            testGR.StartOver();
+            Assert.IsTrue(testGR.GetNextAction() == testAction1);
+            Assert.IsTrue(testGR.GetNextAction() == testAction2);
+            Assert.IsNull(testGR.GetNextAction());
         }
 
         [TestMethod()]
@@ -38,10 +62,5 @@ namespace TexasHoldem.Logic.Replay.Tests
             Assert.IsFalse(testGR.RightGame(3, 3));
         }
 
-        [TestMethod()]
-        public void ReplayGameTest()
-        {
-            Assert.Fail();
-        }
     }
 }
