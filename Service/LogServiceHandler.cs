@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 
-//Service handler interface
 namespace TexasHoldem.Service
 {
-    abstract class ServiceHandler
+    abstract class LogServiceHandler : ServiceHandler
     {
+        protected abstract bool SendNotification(User receiver, Notification toSend);
+        protected abstract bool Log(Log log);
+        //TODO: more notification stuff
     }
 }

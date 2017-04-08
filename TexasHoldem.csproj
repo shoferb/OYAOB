@@ -95,7 +95,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Service\GameServiceHandler.cs" />
+    <Compile Include="Service\LogServiceHandler.cs" />
     <Compile Include="Service\ServiceHandler.cs" />
+    <Compile Include="Service\UserServiceHandler.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
