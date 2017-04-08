@@ -12,6 +12,7 @@ namespace TexasHoldem.Logic.Game
         private int _minEnterMoney { set; get; }
         private int _maxEnterMoney { set; get; }
         private int _gameNumber { set; get; }
+       
 
         protected GameRoom(string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber)
         {

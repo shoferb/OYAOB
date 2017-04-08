@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using TexasHoldemTests.AcptTests.Bridges;
+using TexasHoldemTests.AcptTests.Bridges.Proxy;
 
 namespace TexasHoldemTests.AcptTests.tests
 {
