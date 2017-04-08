@@ -8,6 +8,7 @@ namespace TexasHoldem.Service
         public const int InitialPointsAmount = 0;
 
         public abstract User GetUserFromId(int userId);
+        public abstract Player GetPlayer(int userId, int roomId);
         public abstract int GetNextUserId();
         public abstract int IncUserId();
 

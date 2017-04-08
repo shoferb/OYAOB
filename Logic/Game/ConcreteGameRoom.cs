@@ -6,7 +6,6 @@ namespace TexasHoldem.Logic.Game
 {
     public class ConcreteGameRoom : GameRoom
     {
-        private int _id { get; set; }
         private bool _isActive { get; set; }
         private int _blind { get; set; }
         private int _potSize { get; set; }
@@ -14,6 +13,7 @@ namespace TexasHoldem.Logic.Game
         private Player _currentDealer { get; set; }
         private int _highBetInTurn { get; set; }
         private List<Card> _cardsOnTable { get; set; }
+        private int _id { get; set; }
          
         public ConcreteGameRoom(int id, bool isActive, int blind, int potSize, Player curr, Player dealer, int turn, List<Card> cards,  string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
         {
