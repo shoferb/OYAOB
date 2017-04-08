@@ -77,6 +77,7 @@
     <Compile Include="AcptTests\Bridges\Proxy\UserBridgeProxy.cs" />
     <Compile Include="AcptTests\Bridges\Real\GameBridgeReal.cs" />
     <Compile Include="AcptTests\Bridges\Real\ReplayBridgeReal.cs" />
+    <Compile Include="AcptTests\Bridges\Real\UserBridgeReal.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />

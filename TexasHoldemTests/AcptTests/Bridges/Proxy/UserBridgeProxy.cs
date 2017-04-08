@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 #endregion
 
@@ -96,7 +97,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return true;
         }
 
-        public bool RegisterUser(string name, string pw, string pw2)
+        public bool RegisterUser(string name, string pw, string email)
         {
             return true;
         }
