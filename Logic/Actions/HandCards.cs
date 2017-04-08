@@ -7,10 +7,10 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Actions
 {
-    public class RaiseAction : PlayerAction
+    public class HandCards : PlayerAction
     {
-        public RaiseAction(Player player, Card card1, Card card2, int amount) :
-            base(player, card1, card2, amount)
+        public HandCards(Player player, Card card1, Card card2) :
+            base(player, card1, card2, 0)
         {
         }
 
@@ -21,8 +21,8 @@ namespace TexasHoldem.Logic.Actions
 
         public override String ToString()
         {
-            return String.Format("PlayerName: {0}, Holding cards: {1} and {2}, Performed Raise with {3} jetons\n",
-                        _player.MemberName, _card1.ToString(), _card2.ToString(), _amount);
+            return String.Format("PlayerName: {0}, Got cards: {1} and {2}\n",
+                        _player.MemberName, _card1.ToString(), _card2.ToString());
         }
     }
 }

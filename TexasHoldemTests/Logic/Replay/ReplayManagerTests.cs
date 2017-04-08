@@ -22,8 +22,8 @@ namespace TexasHoldem.Logic.Replay.Tests
         {
             _testRM = new ReplayManager();
             _testGR = new GameReplay(1, 1);
-            _testAction = new CallAction(new Card(1), new Card(2), 1, Role.None, 10,
-            new Player(1, "test", "mem", 123, 10, 100, "email@gmail.com", 1, true), 1, 1);
+            _testAction = new CallAction(new Player(1, "test1", "mem", 123, 10, 100, "email@gmail.com", 1, true),
+                new Card(1), new Card(2), 10);
             _testGR.AddAction(_testAction);
             _testRM.AddGameReplay(_testGR);
         }
