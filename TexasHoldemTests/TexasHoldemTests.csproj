@@ -71,13 +71,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AcptTests\Bridges\Proxy\GameBridgeProxy.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IGameBridge.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Proxy\ReplayBridgeProxy.cs" />
     <Compile Include="AcptTests\Bridges\Proxy\UserBridgeProxy.cs" />
     <Compile Include="AcptTests\Bridges\Real\GameBridgeReal.cs" />
+    <Compile Include="AcptTests\Bridges\Real\ReplayBridgeReal.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />

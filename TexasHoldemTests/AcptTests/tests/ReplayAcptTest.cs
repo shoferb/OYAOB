@@ -39,15 +39,15 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //create a game to be replayd
             SetupUser1();
-
-            Assert.True(ReplayBridge.ViewReplay(UserId, RoomId, 1));
+            var replays = ReplayBridge.ViewReplay(RoomId, 1);
+            Assert.GreaterOrEqual(6, replays.Count); //join, 2 call, leave, lose, win
         }
         
         [TestCase]
         public void ViewReplayTestBad()
         {
             //no games to replay
-            Assert.False(ReplayBridge.ViewReplay(UserId, RoomId, 1));
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
         }
 
         [TestCase]
@@ -56,32 +56,35 @@ namespace TexasHoldemTests.AcptTests.tests
             //create a game to be replayd
             SetupUser1();
 
-            Assert.True(ReplayBridge.ViewReplay(UserId, RoomId, 1));
-            Assert.True(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 1, 1));
+            Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
+            Assert.True(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 1));
         }
 
         [TestCase]
         public void SaveFavoriteMoveNoReplayExistsBad()
         {
             //no games to replay
-            Assert.False(ReplayBridge.ViewReplay(UserId, RoomId, 1));
-            Assert.False(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 1, 1));
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
+            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 1));
         }
         
         [TestCase]
         public void SaveFavoriteMoveWrongMoveIndexBad()
         {
             //no games to replay
-            Assert.False(ReplayBridge.ViewReplay(UserId, RoomId, 1));
-            Assert.False(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 1, 100));
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
+            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 100));
         }
         
         [TestCase]
         public void SaveFavoriteMoveNegMoveIndexBad()
         {
+            //create a game to be replayd
+            SetupUser1();
+
             //no games to replay
-            Assert.False(ReplayBridge.ViewReplay(UserId, RoomId, 1));
-            Assert.False(ReplayBridge.SaveFavoriteTurn(UserId, RoomId, 1, -1));
+            Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
+            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
         }
 
         [TestCase]
@@ -90,7 +93,7 @@ namespace TexasHoldemTests.AcptTests.tests
             //create a game to be replayd
             SetupUser1();
 
-            Assert.True(ReplayBridge.ViewReplay(UserId, RoomId, 1));
+            Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
             Assert.True(ReplayBridge.StopReplay(UserId, RoomId));
         }
         
@@ -98,7 +101,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void StopReplayTestBad()
         {
             //no games to replay
-            Assert.False(ReplayBridge.ViewReplay(UserId, RoomId, 1));
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
             Assert.False(ReplayBridge.StopReplay(UserId, RoomId));
         }
     }

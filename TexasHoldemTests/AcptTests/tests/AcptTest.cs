@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using TexasHoldemTests.AcptTests.Bridges;
-using TexasHoldemTests.AcptTests.Bridges.Proxy;
+using TexasHoldemTests.AcptTests.Bridges.Interface;
+using TexasHoldemTests.AcptTests.Bridges.Real;
 
 namespace TexasHoldemTests.AcptTests.tests
 {
@@ -22,8 +23,8 @@ namespace TexasHoldemTests.AcptTests.tests
         protected AcptTest()
         {
             UserBridge = new UserBridgeProxy();
-            GameBridge = new GameBridgeProxy();
-            ReplayBridge = new ReplayBridgeProxy();
+            GameBridge = new GameBridgeReal();
+            ReplayBridge = new ReplayBridgeReal();
             OtherUsers = new List<int>();
 
             User1Name = "Oded";
@@ -120,8 +121,8 @@ namespace TexasHoldemTests.AcptTests.tests
                 GameBridge.StartGame(newRoomId);
 
                 //maybe not good?
-                GameBridge.Check(UserId, newRoomId);
-                GameBridge.Check(userId2, newRoomId);
+                GameBridge.Call(UserId, newRoomId, 2);
+                GameBridge.Call(userId2, newRoomId, 2);
 
                 UserBridge.RemoveUserFromRoom(userId2, newRoomId);
                 //now user1 is only player in room => user1 wins
