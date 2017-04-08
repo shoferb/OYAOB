@@ -8,31 +8,28 @@ namespace TexasHoldem.Logic.Game
     {
         private int _id { get; set; }
         private bool _isActive { get; set; }
-        private int _blind { get; set; }
-        private int _potSize { get; set; }
+        private Pot p = new Pot();
         private PlayersList _roomPlayers = new PlayersList();
         private List<Spectetor> _roomSpectetors = new List<Spectetor>();
         private GameHand _hand;
         private Player _currentPlayer { get; set; }
         private Player _currentDealer { get; set; }
-        private int _highBetInTurn { get; set; }
         private List<Card> _cardsOnTable { get; set; }
         private Deck _deck;
         private Player _currentSB { get; set; }
         private Player _currentBB { get; set; }
+        private int _roundCounter { get; set; }
 
-public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn, List<Card> cards, string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
+public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn, List<Card> cards, string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
         {
             this._id = id;
             this._isActive = true;
             this._currentPlayer = curr;
             this._currentDealer = dealer;
-            this._highBetInTurn = turn;
             this._cardsOnTable = cards;
             this._deck = new Deck();
             this._hand = new GameHand(_deck);
-          //TODO  this._potSize;
-
+            this._roundCounter = 0;
 
         }
 
@@ -46,11 +43,22 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
             }
         }
 
+        private bool removePlayerFromGame(Player p)
+        {
+            //TODO
+            return true;
+        }
+
         private bool addSpectetorToGame(Spectetor s)
         { 
            this._roomSpectetors.Add(s);
+            return true;      
+        }
+        private bool removeSpectetorFromGame(Spectetor s)
+        {
+            if (_roomSpectetors.Count == 0) return false;
+            else _roomSpectetors.Remove(s);
             return true;
-            
         }
 
         private bool setRoles()

@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Game
 {
     public class ConcreteGamePrefDecorator : GamePrefDecorator
     {
-        public ConcreteGamePrefDecorator(string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
+        public ConcreteGamePrefDecorator(string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
         {
         }
 

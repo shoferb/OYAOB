@@ -63,9 +63,9 @@ namespace TexasHoldem.Logic.Game
             return list.IndexOf(p);
         }
 
-        public void Insert(int index, Player p)
+        public void Insert(int index, Player item)
         {
-            list.Insert(index, p);
+            throw new NotImplementedException();
         }
 
         public void RemoveAt(int index)
