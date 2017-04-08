@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using TexasHoldem.Logic.Users;
 
@@ -14,8 +14,9 @@ namespace TexasHoldem.Logic.Game
         private Player _currentDealer { get; set; }
         private int _highBetInTurn { get; set; }
         private List<Card> _cardsOnTable { get; set; }
+        private Deck _deck;
          
-        public ConcreteGameRoom(int id, bool isActive, int blind, int potSize, Player curr, Player dealer, int turn, List<Card> cards,  string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
+        public ConcreteGameRoom(int id, bool isActive, int blind, int potSize, Player curr, Player dealer, int turn, List<Card> cards, Deck deck,  string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
         {
             this._id = id;
             this._isActive = isActive;
@@ -24,6 +25,7 @@ namespace TexasHoldem.Logic.Game
             this._currentDealer = dealer;
             this._highBetInTurn = turn;
             this._cardsOnTable = cards;
+            this._deck = deck;
         }
 
         private void Fold()
