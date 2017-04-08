@@ -7,23 +7,22 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Actions
 {
-    public class CallAction : UserAction
+    public class CallAction : PlayerAction
     {
-        public CallAction(Card card1, Card card2, int playerPosition, Role playerRole, int amount,
-            Player player, int roomID, int gameNumber) :
-            base(card1, card2, playerPosition, playerRole, amount, player, roomID, gameNumber)
+        public CallAction(Player player, Card card1, Card card2, int amount) :
+            base(player, card1, card2, amount)
         {
         }
 
-        public override String DoAction()
+        public override String ReplayAction()
         {
             return ToString();
         }
 
         public override String ToString()
         {
-            return String.Format("RoomID: {0}, GameNumber: {1}, PlayerName: {2}",
-                        _roomID , _gameNumber, _player.ToString());  //need to add various fields of Player here
+            return String.Format("PlayerName: {0}, Holding cards: {1} and {2}, Performed Call with {3} jetons\n",
+                        _player.MemberName, _card1.ToString(), _card2.ToString(), _amount);  
         }
 
     }

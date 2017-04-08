@@ -7,16 +7,26 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Actions
 {
-    public class JoinAction : GameAction
+    public class JoinAction : Action
     {
-        public JoinAction(int pot, List<Card> cardsOnTable, Player player, int roomID, int gameNumber) :
-            base(pot, cardsOnTable, player, roomID, gameNumber)
+        public Player _player { get; set; }
+        public int _position { get; set; }
+
+        public JoinAction(Player player, int position)
         {
+            _player = player;
+            _position = position;
         }
 
-        public override String DoAction()
+        public override String ReplayAction()
         {
-            throw new NotImplementedException();
+            return ToString();
+        }
+
+        public override String ToString()
+        {
+            return String.Format("PlayerName: {0}, joined position number {1} in the game\n",
+                        _player.MemberName, _position);
         }
     }
 }
