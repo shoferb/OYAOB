@@ -9,10 +9,10 @@ namespace TexasHoldem
 {
     public class Card
     {
-        private string _value { set; get; }
+        private int _value { set; get; }
         private Suits _suit; 
       
-        public Card(Suits s, string val)
+        public Card(Suits s, int val)
         {
             this._suit = s;
             this._value = val;

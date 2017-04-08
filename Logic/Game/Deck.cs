@@ -13,7 +13,7 @@ namespace TexasHoldem
     {
         private int _numOfCards { get; set; }
         private ArrayList _cards = new ArrayList();
-    private string[] _numbers = new string[] { "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K" };
+    private int[] _numbers = new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
 
         static Random r = new Random();
 
@@ -25,19 +25,19 @@ namespace TexasHoldem
         private void giveValuesToCards()
         {
             int i = 0;
-            foreach (string s in _numbers)
+            foreach (int s in _numbers)
             {
                 _cards.Add(new Card(Suits.Clubs, s));
             }
-            foreach (string s in _numbers)
+            foreach (int s in _numbers)
             {
                 _cards.Add(new Card(Suits.Spades, s));
             }
-            foreach (string s in _numbers)
+            foreach (int s in _numbers)
             {
                 _cards.Add(new Card(Suits.Hearts, s));
             }
-            foreach (string s in _numbers)
+            foreach (int s in _numbers)
             {
                 _cards.Add(new Card(Suits.Diamonds, s));
             }
