@@ -9,8 +9,8 @@ namespace TexasHoldem
 {
     public class Card
     {
-        private int _value { set; get; }
-        private Suits _suit; 
+        public int _value { get; set; }
+        public Suits _suit { get; set; }
       
         public Card(Suits s, int val)
         {

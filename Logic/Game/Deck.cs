@@ -13,7 +13,7 @@ namespace TexasHoldem
     {
         private int _numOfCards { get; set; }
         private ArrayList _cards = new ArrayList();
-    private int[] _numbers = new int[] { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+        private int[] _numbers = new int[] {0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
         static Random r = new Random();
 
@@ -56,7 +56,7 @@ namespace TexasHoldem
             }
         }
 
-        private Card Draw()
+        public Card Draw()
         {    
             Shuffle();
             Card c = _cards[r.Next(0)] as Card; 
