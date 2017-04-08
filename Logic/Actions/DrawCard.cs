@@ -7,16 +7,19 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Actions
 {
-    public class WinAction : PlayerAction
+    public class DrawCard : Action
     {
-        public List<Card> _cardsOnTable { get; set; }
-        public List<Card> _winningHand { get; set; }
+        private Card _card { set; get; }
+        private List<Card> _cardsOnTable { set; get; }
+        public int _pot { set; get; }
 
-        public WinAction(Player player, Card card1, Card card2, int pot, List<Card> table, List<Card> winningHand ) :
-            base(player, card1, card2, pot)
+        public DrawCard(Card card, List<Card> cardsOnTable, int pot)
         {
-
+            _card = card;
+            _cardsOnTable = cardsOnTable;
+            _pot = pot;
         }
+
 
         public override String ReplayAction()
         {
@@ -25,9 +28,9 @@ namespace TexasHoldem.Logic.Actions
 
         public override String ToString()
         {
-            return String.Format("PlayerName: {0}, Holding cards: {1} and {2}, Won the game and got {3} jetons\n" +
-                "Cards on table: {4},   Winning hand: {5}\n",
-                _player.MemberName, _card1.ToString(), _card2.ToString(), _amount, _cardsOnTable, _winningHand);
+            return String.Format("Dealer Draw new card: {0}, Cards on Table: {1}\n" +
+                "Pot: {2}\n",
+                        _card.ToString(), PrintCards(), _pot);
         }
 
         public String PrintCards()

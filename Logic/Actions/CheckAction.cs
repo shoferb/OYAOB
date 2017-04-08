@@ -7,17 +7,23 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Actions
 {
-    class CheckAction : UserAction
+    class CheckAction : PlayerAction
     {
-        public CheckAction(Card card1, Card card2, int playerPosition, Role playerRole, int amount,
-            Player player, int roomID, int gameNumber) :
-            base(card1, card2, playerPosition, playerRole, amount, player, roomID, gameNumber)
+        public CheckAction(Player player, Card card1, Card card2) :
+            base(player, card1, card2, 0)
         {
         }
 
-        public override String DoAction()
+        public override String ReplayAction()
         {
-            throw new NotImplementedException();
+            return ToString();
         }
+
+        public override String ToString()
+        {
+            return String.Format("PlayerName: {0}, Holding cards: {1} and {2}, Performed Check \n",
+                        _player.MemberName, _card1.ToString(), _card2.ToString());
+        }
+
     }
 }

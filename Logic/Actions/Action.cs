@@ -9,19 +9,6 @@ namespace TexasHoldem.Logic.Actions
 {
     public abstract class Action
     {
-
-        public Player _player { set; get; }
-        public int _roomID { set; get; }
-        public int _gameNumber { set; get; }
-
-        public Action(Player player, int roomID, int gameNumber)
-        {
-            _player = player;
-            _roomID = roomID;
-            _gameNumber = gameNumber;
-        }
-
-        public abstract String DoAction();
-
+        public abstract String ReplayAction();
     }
 }

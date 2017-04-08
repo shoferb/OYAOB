@@ -7,16 +7,24 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Actions
 {
-    public class LeaveAction : GameAction
+    public class LeaveAction : Action
     {
-        public LeaveAction(int pot, List<Card> cardsOnTable, Player player, int roomID, int gameNumber) :
-            base(pot, cardsOnTable, player, roomID, gameNumber)
+        public Player _player { get; set; }
+
+        public LeaveAction(Player player)
         {
+            _player = player;
         }
 
-        public override String DoAction()
+        public override String ReplayAction()
         {
-            throw new NotImplementedException();
+            return ToString();
+        }
+
+        public override String ToString()
+        {
+            return String.Format("PlayerName: {0}, left the game\n",
+                        _player.MemberName);
         }
     }
 }

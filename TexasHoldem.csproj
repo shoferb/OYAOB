@@ -53,16 +53,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Logic\Actions\Action.cs" />
+    <Compile Include="Logic\Actions\DrawCard.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
     <Compile Include="Logic\Actions\FoldAction.cs" />
-    <Compile Include="Logic\Actions\GameAction.cs" />
+    <Compile Include="Logic\Actions\HandCards.cs" />
     <Compile Include="Logic\Actions\JoinAction.cs" />
     <Compile Include="Logic\Actions\LeaveAction.cs" />
-    <Compile Include="Logic\Actions\LoseAction.cs" />
     <Compile Include="Logic\Actions\PlayerRole.cs" />
     <Compile Include="Logic\Actions\RaiseAction.cs" />
-    <Compile Include="Logic\Actions\UserAction.cs" />
+    <Compile Include="Logic\Actions\PlayerAction.cs" />
+    <Compile Include="Logic\Actions\StartGame.cs" />
     <Compile Include="Logic\Actions\WinAction.cs" />
     <Compile Include="Logic\Game Control\GameCenter.cs" />
     <Compile Include="Logic\Game Control\League.cs" />
