@@ -11,7 +11,6 @@ C:\Users\ychen\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe.config
 C:\Users\User\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csprojResolveAssemblyReference.cache
 C:\Users\User\Source\Repos\OYAOB\obj\Debug\TexasHoldem.Properties.Resources.resources
 C:\Users\User\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csproj.GenerateResource.Cache
-C:\Users\User\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe.config
 C:\Users\User\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe
 C:\Users\User\Source\Repos\OYAOB\bin\Debug\TexasHoldem.pdb
 C:\Users\User\Source\Repos\OYAOB\obj\Debug\TexasHoldem.exe
