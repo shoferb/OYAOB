@@ -13,7 +13,7 @@ namespace TexasHoldem.Logic.Users
         public Player(int id, string name, string memberName, int password, int points, int money,String email, int gameId, bool isActive) : base(id, name, memberName, password, points, money,email,gameId)
         {
             this.isActive = isActive;
-            //sads
+            //sads dsajfh
         }
 
         //getter setter

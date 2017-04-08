@@ -14,7 +14,7 @@ namespace TexasHoldem.Logic.Users
         {
             
             this.gameId = gameId;
-            //new
+            //new lskd
         }
 
         //getter setter
