@@ -1,9 +1,1 @@
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\bin\Debug\TexasHoldemTests.dll
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\bin\Debug\TexasHoldemTests.pdb
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\bin\Debug\TexasHoldem.exe
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\bin\Debug\TexasHoldem.pdb
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\obj\Debug\TexasHoldemTests.csprojResolveAssemblyReference.cache
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\obj\Debug\TexasHoldemTests.dll
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\obj\Debug\TexasHoldemTests.pdb
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\bin\Debug\nunit.framework.dll
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\TexasHoldemTests\bin\Debug\nunit.framework.xml
+C:\Users\oded\Documents\Visual Studio 2013\Projects\TexasHoldem\TexasHoldemTests\obj\Debug\TexasHoldemTests.csprojResolveAssemblyReference.cache

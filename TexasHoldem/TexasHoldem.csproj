@@ -55,6 +55,35 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logic\Actions\Action.cs" />
+    <Compile Include="Logic\Actions\CallAction.cs" />
+    <Compile Include="Logic\Actions\CheckAction.cs" />
+    <Compile Include="Logic\Actions\FoldAction.cs" />
+    <Compile Include="Logic\Actions\GameAction.cs" />
+    <Compile Include="Logic\Actions\JoinAction.cs" />
+    <Compile Include="Logic\Actions\LeaveAction.cs" />
+    <Compile Include="Logic\Actions\LoseAction.cs" />
+    <Compile Include="Logic\Actions\PlayerRole.cs" />
+    <Compile Include="Logic\Actions\RaiseAction.cs" />
+    <Compile Include="Logic\Actions\UserAction.cs" />
+    <Compile Include="Logic\Actions\WinAction.cs" />
+    <Compile Include="Logic\Game Control\GameCenter.cs" />
+    <Compile Include="Logic\Game Control\League.cs" />
+    <Compile Include="Logic\Game\Card.cs" />
+    <Compile Include="Logic\Game\ConcreteGamePrefDecorator.cs" />
+    <Compile Include="Logic\Game\ConcreteGameRoom.cs" />
+    <Compile Include="Logic\Game\Deck.cs" />
+    <Compile Include="Logic\Game\GamePrefDecorator.cs" />
+    <Compile Include="Logic\Game\GameRoom.cs" />
+    <Compile Include="Logic\Notifications And Logs\ActionLog.cs" />
+    <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />
+    <Compile Include="Logic\Notifications And Logs\Log.cs" />
+    <Compile Include="Logic\Notifications And Logs\Notification.cs" />
+    <Compile Include="Logic\Replay\GameReplay.cs" />
+    <Compile Include="Logic\Replay\ReplayManager.cs" />
+    <Compile Include="Logic\Users\Player.cs" />
+    <Compile Include="Logic\Users\Spectetor.cs" />
+    <Compile Include="Logic\Users\User.cs" />
     <Compile Include="MainClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
