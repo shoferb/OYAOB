@@ -8,7 +8,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    abstract class LogServiceHandler : ServiceHandler
+    public abstract class LogServiceHandler : ServiceHandler
     {
         public abstract bool SendNotification(User receiver, Notification toSend);
         public abstract bool Log(Log log);

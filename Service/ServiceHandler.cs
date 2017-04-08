@@ -10,7 +10,7 @@ using TexasHoldem.Logic.Users;
 //Service handler interface
 namespace TexasHoldem.Service
 {
-    abstract class ServiceHandler
+    public abstract class ServiceHandler
     {
     }
 }

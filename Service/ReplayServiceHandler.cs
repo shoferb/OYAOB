@@ -5,7 +5,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    abstract class ReplayServiceHandler
+    public abstract class ReplayServiceHandler
     {
         public enum Actions
         {

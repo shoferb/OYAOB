@@ -2,7 +2,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    abstract class UserServiceHandler : ServiceHandler
+    public abstract class UserServiceHandler : ServiceHandler
     {
         public const int InitialMoneyAmount = 100;
         public const int InitialPointsAmount = 0;

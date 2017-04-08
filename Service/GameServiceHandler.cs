@@ -4,7 +4,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    abstract class GameServiceHandler : ServiceHandler
+    public abstract class GameServiceHandler : ServiceHandler
     {
         public abstract GamePrefDecorator GetGameFromId(int gameId);
 
