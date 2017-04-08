@@ -4,8 +4,8 @@ namespace TexasHoldem.Service
 {
     abstract class UserServiceHandler : ServiceHandler
     {
-        protected const int InitialMoneyAmount = 100;
-        protected const int InitialPointsAmount = 0;
+        public const int InitialMoneyAmount = 100;
+        public const int InitialPointsAmount = 0;
 
         public abstract User GetUserFromId(int userId);
         public abstract int GetNextUserId();

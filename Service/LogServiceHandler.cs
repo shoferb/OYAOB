@@ -10,8 +10,8 @@ namespace TexasHoldem.Service
 {
     abstract class LogServiceHandler : ServiceHandler
     {
-        protected abstract bool SendNotification(User receiver, Notification toSend);
-        protected abstract bool Log(Log log);
+        public abstract bool SendNotification(User receiver, Notification toSend);
+        public abstract bool Log(Log log);
         //TODO: more notification stuff
     }
 }
