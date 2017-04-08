@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A128DAF2-D701-4502-B267-A804D0F83BCF}</ProjectGuid>
+    <ProjectGuid>{B529547D-5982-4C96-904A-7E12163AF759}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TexasHoldemTests</RootNamespace>
