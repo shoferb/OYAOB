@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Actions;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Replay.Tests
 {
@@ -14,7 +15,7 @@ namespace TexasHoldem.Logic.Replay.Tests
     {
         private GameReplay testGR = new GameReplay(1, 1);
         private Actions.Action testAction = new CallAction(new Card(1), new Card(2), 1, Role.None, 10,
-            new User.Player(), 1, 1);
+            new Player(1, "test", "mem", 123, 10, 100, "email@gmail.com", 1, true), 1, 1);
 
         [TestMethod()]
         public void GameReplayTest()
