@@ -43,7 +43,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.THREE_OF_A_KIND;
             }
-            else if (isTwoPair(cards))
+            else if (IsTwoPair(cards))
             {
                 _rank = HandRank.TWO_PAIR;
             }
@@ -212,38 +212,23 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return false;
         }
 
-        private bool isTwoPair(Card[] flop)
+        private bool IsTwoPair(Card[] cards)
         {
-            int cardRepeats = 1;
-            int noOfCardRepeats = 0;
-            bool isTwoPair = false;
+            _relevantCards.Clear();
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+            int pairs = 0;
             int i = 0;
-            int k = i + 1;
-            while (i < flop.Count() && !isTwoPair)
+            while (i < cards.Count()-1 && pairs<2)
             {
-                cardRepeats = 1;
-                while (k < flop.Count() && !isTwoPair)
+                if (cards[i]._value == cards[i + 1]._value)
                 {
-                    if (flop[i]._value == flop[k]._value)
-                    {
-                        cardRepeats++;
-                        if (cardRepeats == 2)
-                        {
-                            cardRepeats = 1;
-                            noOfCardRepeats++;
-                            if (noOfCardRepeats == 2)
-                            {
-                                isTwoPair = true;
-
-                            }
-                        }
-
-                    }
-                    k++;
+                    pairs++;
+                    _relevantCards.Add(cards[i]);
+                    _relevantCards.Add(cards[i+1]);
                 }
                 i++;
             }
-            return isTwoPair;
+            return (pairs == 2);
         }
 
         private bool isPair(Card[] flop)
