@@ -11,10 +11,10 @@ namespace TexasHoldem.Logic.Game.Evaluator
         public HandRank _rank;
         public List<Card> _relevantCards = new List<Card>();
 
-        public void determineHandRank(Card[] cards)
+        public void DetermineHandRank(Card[] cards)
         {
             Array.Sort(cards, (x, y) => x._value.CompareTo(y._value));
-            if (isARoyalFlush(cards))
+            if (IsRoyalFlush(cards))
             {
                 _rank = HandRank.ROYAL_FLUSH;
             }
@@ -31,15 +31,15 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.FULL_HOUSE;
             }
-            else if (isAFlush(cards))
+            else if (IsAFlush(cards) != Suits.None)
             {
                 _rank = HandRank.FLUSH;
             }
-            else if (isAStraight(cards))
+            else if (IsAStraight(cards) != Suits.None)
             {
                 _rank = HandRank.STRAIGHT;
             }
-            else if (isThreeOfAKind(cards))
+            else if (IsThreeOfAKind(cards))
             {
                 _rank = HandRank.THREE_OF_A_KIND;
             }
@@ -58,48 +58,17 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         }
 
-        public bool isARoyalFlush(Card[] cards)
+        public bool IsRoyalFlush(Card[] cards)
         {
             _relevantCards.Clear();
-            Suits flush = isAFlush(cards);
+            Suits flush = IsAFlush(cards);
             if (flush == Suits.None) return false;
-            Suits straight = isRoyalStraight(cards, flush);
+            Suits straight = ShapeOfStraight(cards, flush);
             if (!(flush == straight)) return false;
             return true;
-            /*
-            bool aceExists = false, kingExists = false, queenExists = false, jackExists = false, tenExists = false;
-            foreach (Card c in cards)
-            {
-                switch (c._value)
-                {
-                    case 1:
-                        aceExists = true;
-                        _relevantCards.Add(c);
-                        break;
-                    case 13:
-                        kingExists = true;
-                        _relevantCards.Add(c);
-                        break;
-                    case 12:
-                        queenExists = true;
-                        _relevantCards.Add(c);
-                        break;
-                    case 11:
-                        jackExists = true;
-                        _relevantCards.Add(c);
-                        break;
-                    case 10:
-                        tenExists = true;
-                        _relevantCards.Add(c);
-                        break;
-                }
-            }
-            return (aceExists && kingExists && queenExists && jackExists && tenExists);
-        */
-    
          }
 
-        private Suits isRoyalStraight(Card[] cards, Suits flush)
+        public Suits ShapeOfStraight(Card[] cards, Suits flush)
         {
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
@@ -120,8 +89,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
             int noOfCardsInARow = 0;
             int pos = 0;
-            bool isAStraight = false;
-            while (pos < relevantArr.Count() - 1 && !isAStraight)
+            while (pos < relevantArr.Count() - 1 )
             {
                 if (relevantArr[pos]._value - relevantArr[pos + 1]._value == 1)
                 {
@@ -130,7 +98,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     if (noOfCardsInARow == 4)
                     {
                         _relevantCards.Add(relevantArr[pos + 1]);
-                        isAStraight = true;
+                        return flush;
                     }
                     else
                     {
@@ -144,18 +112,16 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     pos++;
                 }
             }
-            if (isAStraight) return flush;
             return Suits.None;
         }
 
-        public Suits isAStraight(Card[] cards)
+        public Suits IsAStraight(Card[] cards)
         {
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int noOfCardsInARow = 0;
             int pos = 0;
-            bool isAStraight = false;
-            while (pos < cards.Count() - 1 && !isAStraight)
+            while (pos < cards.Count() - 1 )
             {
                 if (cards[pos]._value - cards[pos + 1]._value == 1)
                 {
@@ -164,7 +130,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     if (noOfCardsInARow == 4)
                     {
                         _relevantCards.Add(cards[pos+1]);
-                        isAStraight = true;
+                        return cards[pos+1]._suit;
                     }
                     else
                     {
@@ -178,10 +144,10 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     pos++;
                 }
             }
-            return isAStraight;
+            return Suits.None;
         }
 
-        public Suits isAFlush(Card[] cards)
+        public Suits IsAFlush(Card[] cards)
         {
             _relevantCards.Clear();
             Suits flush = Suits.None;
@@ -189,6 +155,8 @@ namespace TexasHoldem.Logic.Game.Evaluator
             int noOfSpades = 0;
             int noOfHearts = 0;
             int noOfDiamonds = 0;
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+
             foreach (Card c in cards)
             {
                 switch (c._suit)
@@ -208,12 +176,11 @@ namespace TexasHoldem.Logic.Game.Evaluator
                 }
             }
             if (noOfClubs >= 5) flush = Suits.Clubs;
-            if (noOfSpades >= 5) flush = Suits.Clubs;
-            if (noOfHearts >= 5) flush = Suits.Clubs;
-            if (noOfDiamonds >= 5) flush = Suits.Clubs;
+            if (noOfSpades >= 5) flush = Suits.Spades;
+            if (noOfHearts >= 5) flush = Suits.Hearts;
+            if (noOfDiamonds >= 5) flush = Suits.Diamonds;
             if (flush == Suits.None) return flush;
 
-            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int counter = 0;
             foreach (Card c in cards)
             {
@@ -226,30 +193,23 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return flush;
         }
 
-        private bool isThreeOfAKind(Card[] flop)
+        private bool IsThreeOfAKind(Card[] cards)
         {
-            int cardRepeats = 1;
-            bool isThreeOfAKind = false;
+            _relevantCards.Clear();
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
-            int k = i + 1;
-            while (i < flop.Count() && !isThreeOfAKind)
+            while (i <= cards.Count() - 2 )
             {
-                cardRepeats = 1;
-                while (k < flop.Count() && !isThreeOfAKind)
+                if (cards[i]._value == cards[i+1]._value && cards[i + 1]._value == cards[i+2]._value)
                 {
-                    if (flop[i]._value == flop[k]._value)
-                    {
-                        cardRepeats++;
-                        if (cardRepeats == 3)
-                        {
-                            return true;
-                        }
-                    }
-                    k++;
+                    _relevantCards.Add(cards[i]);
+                    _relevantCards.Add(cards[i+1]);
+                    _relevantCards.Add(cards[i+2]);
+                    return true;
                 }
                 i++;
             }
-            return isThreeOfAKind;
+            return false;
         }
 
         private bool isTwoPair(Card[] flop)
@@ -371,7 +331,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         private bool isAStraightFlush(Card[] flop)
         {
-            return isAFlush(flop) && isAStraight(flop);
+            return IsAFlush(flop) && IsAStraight(flop);
         }
 
         public Card getHighCard(Card[] flop)
