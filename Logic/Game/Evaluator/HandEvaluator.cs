@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.ROYAL_FLUSH;
             }
-            else if (isAStraightFlush(cards))
+            else if (IsAStraightFlush(cards))
             {
                 _rank = HandRank.STRAIGHT_FLUSH;
 
@@ -58,8 +58,8 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         }
 
-        public bool IsRoyalFlush(Card[] cards)
-        {
+        public bool IsAStraightFlush(Card[] cards)
+        {     
             _relevantCards.Clear();
             Suits flush = IsAFlush(cards);
             if (flush == Suits.None) return false;
@@ -294,9 +294,19 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return false;
         }
 
-        private bool isAStraightFlush(Card[] flop)
+        public bool IsRoyalFlush(Card[] cards)
         {
-            return IsAFlush(flop) && IsAStraight(flop);
+            if (IsAStraightFlush(cards))
+            {
+                foreach (Card c in _relevantCards)
+                {
+                    if (c._value == (14)) //ACE
+                    {
+                        return true;
+                    }
+                } 
+            }
+            return false;
         }
 
         public Card getHighCard(Card[] flop)
@@ -304,14 +314,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             Array.Sort(flop, (x, y) => x._value.CompareTo(y._value));
             return flop[0];
         }
-/*
-        public Card getHandHighCard()
-        {
-            //Array.Sort(flop, (x, y) => x._value.CompareTo(y._value));
-            Arrays.sort(hand, byRank);
-            return hand[0];
-        }
-        */
+
     }
 }
 
