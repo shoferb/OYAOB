@@ -29,7 +29,8 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         public string GetUserPw(int id)
         {
-            return _userService.GetUserFromId(id).Password;
+            //return _userService.GetUserFromId(id).Password;
+            return "";
         }
 
         public string GetUserEmail(int id)
@@ -58,10 +59,21 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
             List<int> gameIds = new List<int>();
             allGames.ForEach(game =>
             {
-                if (game.player.Contains(userId))
+                game.RoomPlayers.ForEach(p =>
                 {
-                    gameIds.Add(game.Id);
-                }
+                    if (p.Id == userId)
+                    {
+                        gameIds.Add(game.GameId);
+                    }
+                });
+                game.RoomSpectetors.ForEach(s =>
+                {
+                    if (s.Id == userId)
+                    {
+                        gameIds.Add(game.GameId);
+                    }
+                });
+
             });
             return gameIds;
         }

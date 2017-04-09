@@ -38,9 +38,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
                         user.Points, user.Money, user.Email, roomId, false);
                     if (_gameService.AddPlayerToRoom(player, game))
                     {
-                        //return game._id;
-                        return 0;
-                        //TODO: wait for Yrden to dix GameRoom
+                        return game.GameId;
                     }
                 }
             }
@@ -78,14 +76,17 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         public bool IsUserInRoom(int userId, int roomId)
         {
-            //return _gameService.GetGameById(roomId)
-            return false;
-            //TODO: fix this after Yarden adds player list 
+            var roomPlayers = _gameService.GetGameById(roomId).RoomPlayers;
+            var roomSpect = _gameService.GetGameById(roomId).RoomSpectetors;
+
+            return (roomPlayers.Exists(p => p.Id == userId) ||
+                roomSpect.Exists(s => s.Id == userId));
         }
 
         public bool IsRoomActive(int roomId)
         {
-            throw new NotImplementedException();
+            var room = _gameService.GetGameById(roomId);
+            return room != null && room.IsActive;
         }
 
         public bool StartGame(int roomId)
@@ -105,8 +106,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
             List<int> toReturn = new List<int>();
             games.ForEach(game =>
             {
-                //toReturn.Add(game.Id);
-                //TODO: wait for Yarden
+                toReturn.Add(game.GameId);
             });
             return toReturn;
         }
@@ -131,37 +131,37 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         public int GetDealerId(int roomId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(roomId).CurrentDealer.Id;
         }
 
         public int GetBbId(int roomId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(roomId).CurrentBb.Id;
         }
 
         public int GetSbId(int roomId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(roomId).CurrentSb.Id;
         }
 
         public int GetDeckSize(int gameId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(gameId).GetDeckSize();
         }
 
         public int GetCurrPlayer(int gameId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(gameId).CurrentPlayer.Id;
         }
 
         public int GetSbSize(int gameId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(gameId).Pot.SmallBlind;
         }
 
         public int GetPotSize(int gameId)
         {
-            throw new NotImplementedException();
+            return _gameService.GetGameById(gameId).Pot.Amount;
         }
 
         public int GetWinner(int gameId)
@@ -169,26 +169,65 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
             return _gameService.FindWinner(gameId).Id;
         }
 
+        private bool CheckCurrPlayerIsPlayer(int playerId, ConcreteGameRoom room)
+        {
+            Player player = _userService.GetPlayer(playerId, room.GameId);
+            if (player != null && room != null)
+            {
+                var currPlayer = _gameService.GetGameById(room.GameId).CurrentPlayer;
+                if (currPlayer.Equals(player))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool Fold(int userId, int roomId)
         {
-            throw new NotImplementedException();
+            var game = _gameService.GetGameById(roomId);
+            if (CheckCurrPlayerIsPlayer(userId, game))
+            {
+                game.Fold();
+                return true;
+            }
+            return false;
         }
 
         public bool Check(int userId, int roomId)
         {
-            throw new NotImplementedException();
+            var game = _gameService.GetGameById(roomId);
+            if (CheckCurrPlayerIsPlayer(userId, game))
+            {
+                game.Check();
+                return true;
+            }
+            return false;
         }
 
         public bool Call(int userId, int roomId, int amount)
         {
-            throw new NotImplementedException();
+            var game = _gameService.GetGameById(roomId);
+            if (CheckCurrPlayerIsPlayer(userId, game))
+            {
+                game.Call();
+                return true;
+            }
+            return false;
         }
 
         public bool Raise(int userId, int roomId, int amount)
         {
-            throw new NotImplementedException();
+            var game = _gameService.GetGameById(roomId);
+            if (CheckCurrPlayerIsPlayer(userId, game))
+            {
+                game.Raise(amount);
+                return true;
+            }
+            return false;
         }
 
+        //TODO: figure out what to do with these
         public bool DealFirstCards(int gameId)
         {
             throw new NotImplementedException();
