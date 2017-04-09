@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Service
 {
