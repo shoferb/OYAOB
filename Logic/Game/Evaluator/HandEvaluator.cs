@@ -23,7 +23,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
                 _rank = HandRank.STRAIGHT_FLUSH;
 
             }
-            else if (isAFourOfAKind(cards))
+            else if (IsAFourOfAKind(cards))
             {
                 _rank = HandRank.FOUR_OF_A_KIND;
             }
@@ -252,7 +252,6 @@ namespace TexasHoldem.Logic.Game.Evaluator
         private bool IsAFullHouse(Card[] cards)
         {
             _relevantCards.Clear();
-            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             if (!IsThreeOfAKind(cards))
             {
                 return false;
@@ -273,30 +272,26 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return false;
         }
 
-        public bool isAFourOfAKind(Card[] flop)
+        public bool IsAFourOfAKind(Card[] cards)
         {
-            int cardRepeats = 1;
-            bool isFourOfAKind = false;
+            _relevantCards.Clear();
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
-            int k = i + 1;
-            while (i < flop.Count() && !isFourOfAKind)
+            while (i <= cards.Count() - 3)
             {
-                cardRepeats = 1;
-                while (k < flop.Count() && !isFourOfAKind)
+                if (cards[i]._value == cards[i + 1]._value &&
+                    cards[i + 1]._value == cards[i + 2]._value &&
+                    cards[i + 2]._value == cards[i + 3]._value)
                 {
-                    if (flop[i]._value == flop[k]._value)
-                    {
-                        cardRepeats++;
-                        if (cardRepeats == 4)
-                        {
-                            isFourOfAKind = true;
-                        }
-                    }
-                    k++;
+                    _relevantCards.Add(cards[i]);
+                    _relevantCards.Add(cards[i + 1]);
+                    _relevantCards.Add(cards[i + 2]);
+                    _relevantCards.Add(cards[i + 3]);
+                    return true;
                 }
                 i++;
             }
-            return isFourOfAKind;
+            return false;
         }
 
         private bool isAStraightFlush(Card[] flop)
