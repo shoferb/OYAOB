@@ -47,7 +47,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.TWO_PAIR;
             }
-            else if (isPair(cards))
+            else if (IsPair(cards))
             {
                 _rank = HandRank.PAIR;
             }
@@ -231,30 +231,22 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return (pairs == 2);
         }
 
-        private bool isPair(Card[] flop)
+        private bool IsPair(Card[] cards)
         {
-            int cardRepeats = 1;
-            bool isPair = false;
+            _relevantCards.Clear();
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
-            int k = i + 1;
-            while (i < flop.Count() && !isPair)
+            while (i < cards.Count() - 1 )
             {
-                cardRepeats = 1;
-                while (k < flop.Count() && !isPair)
+                if (cards[i]._value == cards[i + 1]._value)
                 {
-                    if (flop[i]._value == flop[k]._value)
-                    {
-                        cardRepeats++;
-                        if (cardRepeats == 2)
-                        {
-                            isPair = true;
-                        }
-                    }
-                    k++;
+                    _relevantCards.Add(cards[i]);
+                    _relevantCards.Add(cards[i + 1]);
+                    return true;
                 }
                 i++;
             }
-            return isPair;
+            return false;
         }
 
         private bool isAFullHouse(Card[] flop)
