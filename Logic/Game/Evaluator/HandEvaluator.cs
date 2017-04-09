@@ -308,13 +308,6 @@ namespace TexasHoldem.Logic.Game.Evaluator
             }
             return false;
         }
-
-        public Card getHighCard(Card[] flop)
-        {
-            Array.Sort(flop, (x, y) => x._value.CompareTo(y._value));
-            return flop[0];
-        }
-
     }
 }
 
