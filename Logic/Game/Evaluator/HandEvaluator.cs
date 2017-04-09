@@ -27,7 +27,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.FOUR_OF_A_KIND;
             }
-            else if (isAFullHouse(cards))
+            else if (IsAFullHouse(cards))
             {
                 _rank = HandRank.FULL_HOUSE;
             }
@@ -249,35 +249,28 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return false;
         }
 
-        private bool isAFullHouse(Card[] flop)
+        private bool IsAFullHouse(Card[] cards)
         {
-            Array.Sort(flop, (x, y) => x._value.CompareTo(y._value));
-            int noOfRepeats = 1;
-            bool isThreeOfAKind = false;
-            bool isTwoOfAKind = false;
-            for (int i = 0; i < flop.Count() - 1; i++)
+            _relevantCards.Clear();
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+            if (!IsThreeOfAKind(cards))
             {
-                if (flop[i]._value == flop[i + 1]._value)
-                {
-                    noOfRepeats++;
-                    if (noOfRepeats == 3)
-                    {
-                        isThreeOfAKind = true;
-                        noOfRepeats = 1;
-                    }
-                    else if (noOfRepeats == 2)
-                    {
-                        isTwoOfAKind = true;
-                        noOfRepeats = 1;
-                    }
-                }
-                else
-                {
-                    noOfRepeats = 1;
-                }
+                return false;
             }
-            return (isTwoOfAKind && isThreeOfAKind);
-
+            Card[] relevantArr = cards.Where(x => !_relevantCards.Contains(x)).ToArray(); //intersect
+            Array.Sort(relevantArr, (x, y) => y._value.CompareTo(x._value)); //decending
+            int i = 0;
+            while (i < relevantArr.Count() - 1)
+            {
+                if (relevantArr[i]._value == relevantArr[i + 1]._value)
+                {
+                    _relevantCards.Add(cards[i]);
+                    _relevantCards.Add(cards[i + 1]);
+                    return true;
+                }
+                i++;
+            }
+            return false;
         }
 
         public bool isAFourOfAKind(Card[] flop)
