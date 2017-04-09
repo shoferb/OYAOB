@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Game
 {
     public abstract class GamePrefDecorator : GameRoom
     {
-        protected GamePrefDecorator(string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber) : base(name, sb, bb, minMoney, maxMoney, gameNumber)
+        protected GamePrefDecorator(string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
         {
         }
 

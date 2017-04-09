@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
@@ -6,19 +7,17 @@ namespace TexasHoldem.Logic.Game
     public abstract class GameRoom
     {
  
-        private string _name { set; get; }
-        private int _smallBlind { set; get; }
-        private int _bigBlind { set; get; }
+        private string _name { set; get; }       
         private int _minEnterMoney { set; get; }
         private int _maxEnterMoney { set; get; }
-        private int _gameNumber { set; get; }
-       
 
-        protected GameRoom(string name, int sb, int bb, int minMoney, int maxMoney, int gameNumber)
+        private int _gameNumber { set; get; }
+        private List<Player> _roomPlayers = new List<Player>();
+        private List<Spectetor> _roomSpectetors = new List<Spectetor>();
+
+        protected GameRoom(string name, int minMoney, int maxMoney, int gameNumber )
         {
             this._name = name;
-            this._smallBlind = sb;
-            this._bigBlind = bb;
             this._minEnterMoney = minMoney;
             this._maxEnterMoney = maxMoney;
             this._gameNumber = gameNumber;
@@ -45,6 +44,11 @@ namespace TexasHoldem.Logic.Game
         }
 
         private Player findWinner(int sum)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool Play()
         {
             throw new NotImplementedException();
         }
