@@ -326,19 +326,35 @@ namespace TexasHoldem.Logic.Game.Evaluator
         public bool IsAFullHouse(Card[] cards)
         {
             _relevantCards.Clear();
-            if (!IsThreeOfAKind(cards))
+            bool found = false;
+            FixAceTo14(cards);
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+            int i = 0;
+            while (i <= cards.Count() - 2 && !found)
             {
+                if (cards[i]._value == cards[i + 1]._value && cards[i + 1]._value == cards[i + 2]._value)
+                {
+                    _relevantCards.Add(cards[i]);
+                    _relevantCards.Add(cards[i + 1]);
+                    _relevantCards.Add(cards[i + 2]);
+                    found = true;
+                }
+                i++;
+            }
+            if (!found)
+            {
+                FixAceTo1(cards);
                 return false;
             }
             Card[] relevantArr = cards.Where(x => !_relevantCards.Contains(x)).ToArray(); //intersect
             Array.Sort(relevantArr, (x, y) => y._value.CompareTo(x._value)); //decending
-            int i = 0;
+            i = 0;
             while (i < relevantArr.Count() - 1)
             {
                 if (relevantArr[i]._value == relevantArr[i + 1]._value)
                 {
-                    _relevantCards.Add(cards[i]);
-                    _relevantCards.Add(cards[i + 1]);
+                    _relevantCards.Add(relevantArr[i]);
+                    _relevantCards.Add(relevantArr[i + 1]);
                     return true;
                 }
                 i++;
@@ -377,17 +393,23 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         public bool IsRoyalFlush(Card[] cards)
         {
+            bool ace = false;
+            bool two = false;
             if (IsAStraightFlush(cards))
             {
                 foreach (Card c in _relevantCards)
                 {
-                    if (c._value == (14)) //ACE
+                    if (c._value == (1)) //ACE
                     {
-                        return true;
+                        ace = true;
                     }
-                } 
+                    if (c._value == (2)) //two
+                    {
+                        two = true;
+                    }
+                }
             }
-            return false;
+            return (ace && !two); //we got flush straight with ace and with no two (1,2,3,4,5)
         }
 
         private void FixAceTo14(Card[] cards)
