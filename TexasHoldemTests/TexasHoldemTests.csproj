@@ -82,6 +82,7 @@
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
+    <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Users;
+using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Replay.Tests
 {
@@ -22,8 +23,8 @@ namespace TexasHoldem.Logic.Replay.Tests
         {
             _testRM = new ReplayManager();
             _testGR = new GameReplay(1, 1);
-            _testAction = new CallAction(new Player(1, "test1", "mem", 123, 10, 100, "email@gmail.com", 1, true),
-                new Card(1), new Card(2), 10);
+            _testAction = new CallAction(new Player(1, "test1", "mem", "123", 10, 100, "email@gmail.com", 1, true),
+                new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
             _testGR.AddAction(_testAction);
             _testRM.AddGameReplay(_testGR);
         }
