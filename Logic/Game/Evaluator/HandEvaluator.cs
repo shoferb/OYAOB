@@ -295,9 +295,11 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         public bool IsAFourOfAKind(Card[] cards)
         {
+            FixAceTo14(cards);
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
+            bool found = false;
             while (i <= cards.Count() - 3)
             {
                 if (cards[i]._value == cards[i + 1]._value &&
@@ -308,11 +310,16 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     _relevantCards.Add(cards[i + 1]);
                     _relevantCards.Add(cards[i + 2]);
                     _relevantCards.Add(cards[i + 3]);
-                    return true;
+                    found = true;
                 }
                 i++;
             }
-            return false;
+            if (!found)
+            {
+                FixAceTo1(cards);
+                return false;
+            }
+            return GetBestHand(cards);
         }
 
         public bool IsRoyalFlush(Card[] cards)
