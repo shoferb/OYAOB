@@ -13,7 +13,8 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         public void DetermineHandRank(Card[] cards)
         {
-            Array.Sort(cards, (x, y) => x._value.CompareTo(y._value));
+            FixAceTo14(cards);
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             if (IsRoyalFlush(cards))
             {
                 _rank = HandRank.ROYAL_FLUSH;
@@ -55,7 +56,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.HIGH_CARD;
             }
-
+            FixAceTo1(cards);
         }
 
         public bool IsAStraightFlush(Card[] cards)
@@ -214,6 +215,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         public bool IsTwoPair(Card[] cards)
         {
+            FixAceTo14(cards);
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int pairs = 0;
@@ -228,25 +230,53 @@ namespace TexasHoldem.Logic.Game.Evaluator
                 }
                 i++;
             }
-            return (pairs == 2);
+            if (pairs < 2)
+            {
+                FixAceTo1(cards);
+                return false;
+            }
+            i = 0;
+            while (i < cards.Count() && _relevantCards.Count < 5)
+            {
+                if (!_relevantCards.Contains(cards[i]))
+                {
+                    _relevantCards.Add(cards[i]);
+                }
+                i++;
+            }
+            FixAceTo1(cards);
+            return true;
         }
 
         public bool IsPair(Card[] cards)
         {
+            FixAceTo14(cards);
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
-            while (i < cards.Count() - 1 )
+            bool found = false;
+            while (i < cards.Count() - 1 && !found)
             {
                 if (cards[i]._value == cards[i + 1]._value)
                 {
                     _relevantCards.Add(cards[i]);
                     _relevantCards.Add(cards[i + 1]);
-                    return true;
+                    found = true;
                 }
                 i++;
             }
-            return false;
+            if (!found) return false;
+            i = 0;
+            while (i < cards.Count() && _relevantCards.Count < 5)
+            {
+                if (!_relevantCards.Contains(cards[i]))
+                {
+                    _relevantCards.Add(cards[i]);
+                }
+                i++;
+            }
+            FixAceTo1(cards);
+            return true;
         }
 
         public bool IsAFullHouse(Card[] cards)
@@ -308,6 +338,38 @@ namespace TexasHoldem.Logic.Game.Evaluator
             }
             return false;
         }
+
+        private void FixAceTo14(Card[] cards)
+        {
+            foreach (Card c in cards)
+            {
+                if (c._value == 1) //ACE
+                {
+                    c._value = 14;
+                }
+            }
+        }
+
+        private void FixAceTo1(Card[] cards)
+        {
+            foreach (Card c in cards)
+            {
+                if (c._value == (14)) //ACE
+                {
+                    c._value = 1;
+                }
+            }
+            foreach (Card c in _relevantCards)
+            {
+                if (c._value == (14)) //ACE
+                {
+                    c._value = 1;
+                }
+            }
+
+        }
+
+
     }
 }
 

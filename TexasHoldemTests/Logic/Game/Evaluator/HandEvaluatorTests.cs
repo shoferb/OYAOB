@@ -133,6 +133,7 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             Assert.IsTrue(_evalCards.Contains(_card5));
             Assert.IsTrue(_evalCards.Contains(_card3));
             Assert.IsTrue(_evalCards.Contains(_card4));
+            Assert.IsTrue(_evalCards.Contains(_card7));
         }
 
         [TestMethod()]
@@ -160,6 +161,7 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             Assert.IsTrue(_evalCards.Contains(_card5));
             Assert.IsTrue(_evalCards.Contains(_card6));
             Assert.IsTrue(_evalCards.Contains(_card7));
+            Assert.IsTrue(_evalCards.Contains(_card1));
         }
 
         [TestMethod()]
@@ -208,13 +210,16 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             _evalCards = _evaluator._relevantCards;
             Assert.IsTrue(_evalCards.Contains(_card1));
             Assert.IsTrue(_evalCards.Contains(_card5));
+            Assert.IsTrue(_evalCards.Contains(_card7));
+            Assert.IsTrue(_evalCards.Contains(_card6));
+            Assert.IsTrue(_evalCards.Contains(_card4));
         }
 
         [TestMethod()]
         public void IsPairTest2()
         {
             _card1 = new Card(Suits.Clubs, 4);
-            _card2 = new Card(Suits.Hearts, 2);
+            _card2 = new Card(Suits.Hearts, 1); 
             _card3 = new Card(Suits.Clubs, 3);
             _card4 = new Card(Suits.Diamonds, 5);
             _card5 = new Card(Suits.Hearts, 3);
@@ -233,6 +238,9 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             _evalCards = _evaluator._relevantCards;
             Assert.IsTrue(_evalCards.Contains(_card3));
             Assert.IsTrue(_evalCards.Contains(_card5));
+            Assert.IsTrue(_evalCards.Contains(_card2));
+            Assert.IsTrue(_evalCards.Contains(_card6));
+            Assert.IsTrue(_evalCards.Contains(_card7));
         }
 
         [TestMethod()]
