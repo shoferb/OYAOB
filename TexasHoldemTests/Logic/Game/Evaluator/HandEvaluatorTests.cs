@@ -50,13 +50,168 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
         [TestMethod()]
         public void IsAStraightTest()
         {
-            Assert.Fail();
+            _card1 = new Card(Suits.Clubs, 6);
+            _card2 = new Card(Suits.Hearts, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Diamonds, 4);
+            _card5 = new Card(Suits.Hearts, 5);
+            _card6 = new Card(Suits.Hearts, 13);
+            _card7 = new Card(Suits.Diamonds, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAStraight(_cards) != Suits.None);
+            _evalCards = _evaluator._relevantCards;
+            Assert.IsTrue(_evalCards.Contains(_card1));
+            Assert.IsTrue(_evalCards.Contains(_card5));
+            Assert.IsTrue(_evalCards.Contains(_card4));
+            Assert.IsTrue(_evalCards.Contains(_card3));
+            Assert.IsTrue(_evalCards.Contains(_card2));
+
+        }
+
+        [TestMethod()]
+        public void IsAStraightTest2()
+        {
+            _card1 = new Card(Suits.Clubs, 10);
+            _card2 = new Card(Suits.Hearts, 2);
+            _card3 = new Card(Suits.Clubs, 11);
+            _card4 = new Card(Suits.Diamonds, 12);
+            _card5 = new Card(Suits.Hearts, 5);
+            _card6 = new Card(Suits.Hearts, 13);
+            _card7 = new Card(Suits.Diamonds, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAStraight(_cards) != Suits.None);
+            _evalCards = _evaluator._relevantCards;
+            Assert.IsTrue(_evalCards.Contains(_card1));
+            Assert.IsTrue(_evalCards.Contains(_card3));
+            Assert.IsTrue(_evalCards.Contains(_card4));
+            Assert.IsTrue(_evalCards.Contains(_card6));
+            Assert.IsTrue(_evalCards.Contains(_card7));
+
+        }
+
+        [TestMethod()]
+        public void IsAStraightTest3()
+        {
+            _card1 = new Card(Suits.Clubs, 7);
+            _card2 = new Card(Suits.Hearts, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Diamonds, 4);
+            _card5 = new Card(Suits.Hearts, 5);
+            _card6 = new Card(Suits.Hearts, 13);
+            _card7 = new Card(Suits.Diamonds, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAStraight(_cards) != Suits.None);
+            _evalCards = _evaluator._relevantCards;
+            Assert.IsTrue(_evalCards.Contains(_card5));
+            Assert.IsTrue(_evalCards.Contains(_card4));
+            Assert.IsTrue(_evalCards.Contains(_card3));
+            Assert.IsTrue(_evalCards.Contains(_card2));
+            Assert.IsTrue(_evalCards.Contains(_card7));
+
         }
 
         [TestMethod()]
         public void IsAFlushTest()
         {
-            Assert.Fail();
+            _card1 = new Card(Suits.Clubs, 9);
+            _card2 = new Card(Suits.Clubs, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Diamonds, 4);
+            _card5 = new Card(Suits.Hearts, 9);
+            _card6 = new Card(Suits.Clubs, 1);
+            _card7 = new Card(Suits.Clubs, 13);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAFlush(_cards) == Suits.Clubs);
+            _evalCards = _evaluator._relevantCards;
+            Assert.IsTrue(_evalCards.Contains(_card1));
+            Assert.IsTrue(_evalCards.Contains(_card2));
+            Assert.IsTrue(_evalCards.Contains(_card3));
+            Assert.IsTrue(_evalCards.Contains(_card6));
+            Assert.IsTrue(_evalCards.Contains(_card7));
+
+        }
+
+        [TestMethod()]
+        public void IsAFlushTest2()
+        {
+            _card1 = new Card(Suits.Clubs, 9);
+            _card2 = new Card(Suits.Clubs, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Clubs, 4);
+            _card5 = new Card(Suits.Hearts, 9);
+            _card6 = new Card(Suits.Clubs, 1);
+            _card7 = new Card(Suits.Clubs, 13);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAFlush(_cards) == Suits.Clubs);
+            _evalCards = _evaluator._relevantCards;
+            Assert.IsTrue(_evalCards.Contains(_card1));
+            Assert.IsTrue(_evalCards.Contains(_card4));
+            Assert.IsTrue(_evalCards.Contains(_card3));
+            Assert.IsTrue(_evalCards.Contains(_card6));
+            Assert.IsTrue(_evalCards.Contains(_card7));
+
+        }
+
+        [TestMethod()]
+        public void IsAFlushTest3()
+        {
+            _card1 = new Card(Suits.Clubs, 9);
+            _card2 = new Card(Suits.Clubs, 2);
+            _card3 = new Card(Suits.Hearts, 3);
+            _card4 = new Card(Suits.Clubs, 4);
+            _card5 = new Card(Suits.Hearts, 9);
+            _card6 = new Card(Suits.Clubs, 1);
+            _card7 = new Card(Suits.Hearts, 13);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAFlush(_cards) == Suits.None);
         }
 
         [TestMethod()]

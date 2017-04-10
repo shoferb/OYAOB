@@ -119,6 +119,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
         public Suits IsAStraight(Card[] cards)
         {
             _relevantCards.Clear();
+            FixAceTo14(cards);
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int noOfCardsInARow = 0;
             int pos = 0;
@@ -131,19 +132,41 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     if (noOfCardsInARow == 4)
                     {
                         _relevantCards.Add(cards[pos+1]);
+                        FixAceTo1(cards);
                         return cards[pos+1]._suit;
-                    }
-                    else
-                    {
-                        pos++;
-                        _relevantCards.Clear();
                     }
                 }
                 else
                 {
+                    _relevantCards.Clear();
                     noOfCardsInARow = 0;
-                    pos++;
                 }
+                pos++;
+            }
+            FixAceTo1(cards);
+            _relevantCards.Clear();
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+            noOfCardsInARow = 0;
+            pos = 0;
+            while (pos < cards.Count() - 1)
+            {
+                if (cards[pos]._value - cards[pos + 1]._value == 1)
+                {
+                    noOfCardsInARow++;
+                    _relevantCards.Add(cards[pos]);
+                    if (noOfCardsInARow == 4)
+                    {
+                        _relevantCards.Add(cards[pos + 1]);
+                        FixAceTo1(cards);
+                        return cards[pos + 1]._suit;
+                    }
+                }
+                else
+                {
+                    _relevantCards.Clear();
+                    noOfCardsInARow = 0;
+                }
+                pos++;
             }
             return Suits.None;
         }
@@ -151,6 +174,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
         public Suits IsAFlush(Card[] cards)
         {
             _relevantCards.Clear();
+            FixAceTo14(cards);
             Suits flush = Suits.None;
             int noOfClubs = 0;
             int noOfSpades = 0;
@@ -180,7 +204,11 @@ namespace TexasHoldem.Logic.Game.Evaluator
             if (noOfSpades >= 5) flush = Suits.Spades;
             if (noOfHearts >= 5) flush = Suits.Hearts;
             if (noOfDiamonds >= 5) flush = Suits.Diamonds;
-            if (flush == Suits.None) return flush;
+            if (flush == Suits.None)
+            {
+                FixAceTo1(cards);
+                return flush;
+            }
 
             int counter = 0;
             foreach (Card c in cards)
@@ -191,6 +219,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     counter++;
                 }
             }
+            FixAceTo1(cards);
             return flush;
         }
 
