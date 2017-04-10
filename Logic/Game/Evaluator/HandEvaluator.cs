@@ -193,7 +193,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return flush;
         }
 
-        private bool IsThreeOfAKind(Card[] cards)
+        public bool IsThreeOfAKind(Card[] cards)
         {
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
@@ -212,7 +212,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return false;
         }
 
-        private bool IsTwoPair(Card[] cards)
+        public bool IsTwoPair(Card[] cards)
         {
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
@@ -231,7 +231,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return (pairs == 2);
         }
 
-        private bool IsPair(Card[] cards)
+        public bool IsPair(Card[] cards)
         {
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
@@ -249,7 +249,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return false;
         }
 
-        private bool IsAFullHouse(Card[] cards)
+        public bool IsAFullHouse(Card[] cards)
         {
             _relevantCards.Clear();
             if (!IsThreeOfAKind(cards))

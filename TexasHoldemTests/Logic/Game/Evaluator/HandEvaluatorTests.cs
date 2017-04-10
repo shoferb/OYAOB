@@ -42,6 +42,30 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
         }
 
         [TestMethod()]
+        public void IsThreeOfAKindTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void IsTwoPairTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void IsPairTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void IsAFullHouseTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
         public void IsAFourOfAKindTest()
         {
             Assert.Fail();
