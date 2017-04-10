@@ -11,6 +11,7 @@ namespace TexasHoldem.Logic.Game
         Hearts,
         Diamonds,
         Spades,
-        Clubs
+        Clubs,
+        None
     }
 }

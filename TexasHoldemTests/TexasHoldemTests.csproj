@@ -71,16 +71,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AcptTests\Bridges\GameBridgeProxy.cs" />
-    <Compile Include="AcptTests\Bridges\IGameBridge.cs" />
-    <Compile Include="AcptTests\Bridges\IReplayBridge.cs" />
-    <Compile Include="AcptTests\Bridges\IUserBridge.cs" />
-    <Compile Include="AcptTests\Bridges\ReplayBridgeProxy.cs" />
-    <Compile Include="AcptTests\Bridges\UserBridgeProxy.cs" />
+    <Compile Include="AcptTests\Bridges\Interface\IGameBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Interface\IReplayBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Proxy\UserBridgeProxy.cs" />
+    <Compile Include="AcptTests\Bridges\Real\GameBridgeReal.cs" />
+    <Compile Include="AcptTests\Bridges\Real\ReplayBridgeReal.cs" />
+    <Compile Include="AcptTests\Bridges\Real\UserBridgeReal.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
+    <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -94,6 +96,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

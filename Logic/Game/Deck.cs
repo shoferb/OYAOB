@@ -11,7 +11,7 @@ namespace TexasHoldem
 {
     public class Deck
     {
-        private int _numOfCards { get; set; }
+        private int _numOfCards;
         private ArrayList _cards = new ArrayList();
         private int[] _numbers = new int[] {0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
@@ -20,6 +20,11 @@ namespace TexasHoldem
         public Deck()
         {
             giveValuesToCards();
+        }
+
+        public int NumOfCards
+        {
+            get { return _numOfCards; }
         }
 
         private void giveValuesToCards()

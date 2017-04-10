@@ -6,14 +6,17 @@ namespace TexasHoldem.Logic.Game
 {
     public abstract class GameRoom
     {
- 
+
+        private int _gameId;
         private string _name { set; get; }       
         private int _minEnterMoney { set; get; }
         private int _maxEnterMoney { set; get; }
 
         private int _gameNumber { set; get; }
-        private List<Player> _roomPlayers = new List<Player>();
-        private List<Spectetor> _roomSpectetors = new List<Spectetor>();
+        protected bool _isActive;
+
+        private List<Player> _roomPlayers;
+        private List<Spectetor> _roomSpectetors;
 
         protected GameRoom(string name, int minMoney, int maxMoney, int gameNumber )
         {
@@ -21,7 +24,34 @@ namespace TexasHoldem.Logic.Game
             this._minEnterMoney = minMoney;
             this._maxEnterMoney = maxMoney;
             this._gameNumber = gameNumber;
+
+            this._roomPlayers = new List<Player>();
+            this._roomSpectetors= new List<Spectetor>();
         }
+
+
+        public List<Player> RoomPlayers
+        {
+            get { return _roomPlayers; }
+        }
+
+        public List<Spectetor> RoomSpectetors
+        {
+            get { return _roomSpectetors; }
+        }
+
+        public int GameId
+        {
+            get { return _gameId; }
+            set { _gameId = value; }
+        }
+
+        public bool IsActive
+        {
+            get { return _isActive; }
+            set { _isActive = value; }
+        }
+
 
         private void Fold()
         {

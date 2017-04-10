@@ -12,14 +12,14 @@ namespace TexasHoldem.Logic.Users
         private int id;
         private String name;
         private String memberName;
-        private int password;
+        private string password;
         //private ?String avatr - image path
         private int points;
         private int money;
         private List<Notification> waitListNotification;
         private String email;
 
-        public User(int id, string name, string memberName, int password, int points, int money, String email)
+        public User(int id, string name, string memberName, string password, int points, int money, String email)
         {
             this.id = id;
             this.name = name;
@@ -74,7 +74,7 @@ namespace TexasHoldem.Logic.Users
         }
 
         //use case - allow edit email 
-        public bool EditPassword(String newEmail)
+        public bool EditEmail(String newEmail)
         {
             bool toReturn;
             bool valid = IsValidEmail(newEmail);
@@ -91,10 +91,10 @@ namespace TexasHoldem.Logic.Users
         }
         
         //use case allow to change password
-        public bool EditPassword(int newPassword)
+        public bool EditPassword(string newPassword)
         {
             bool toReturn;
-            int len = IntLength(newPassword);
+            int len = newPassword.Length;
             if (len > 7 && len < 13)
             {
                 toReturn = true;
@@ -152,7 +152,7 @@ namespace TexasHoldem.Logic.Users
                 memberName = value;
             }
         }
-        public int Password
+        public string Password
         {
             get
             {

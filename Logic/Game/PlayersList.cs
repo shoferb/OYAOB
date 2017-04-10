@@ -57,7 +57,7 @@ namespace TexasHoldem.Logic.Game
             return list.Remove(item);
         }
 
-        public bool IsReadOnly { get; }
+        public bool IsReadOnly { get; set; }
         public int IndexOf(Player p)
         {
             return list.IndexOf(p);

@@ -6,37 +6,62 @@ namespace TexasHoldem.Logic.Game
 {
     public class ConcreteGameRoom : GameRoom
     {
-        private int _id { get; set; }
-        private bool _isActive { get; set; }
+        private int _id { get; set; } //base has ID allready
         private Pot p = new Pot();
-        private List<Player> _roomPlayers = new List<Player>(); //change to list of playres
+        private PlayersList _roomPlayers = new PlayersList();
         private List<Spectetor> _roomSpectetors = new List<Spectetor>();
-        private Dictionary<Player, Card[]> _playerNcards;
         private GameHand _hand;
-        private Player _currentPlayer { get; set; }
-        private Player _currentDealer { get; set; }
+        private Player _currentPlayer;
+        private Player _currentDealer;
         private List<Card> _cardsOnTable { get; set; }
-        public Card [] _playerCards = new Card[2];
         private Deck _deck;
-        private Player _currentSB { get; set; }
-        private Player _currentBB { get; set; }
+        private Player _currentSB;
+        private Player _currentBB;
         private int _roundCounter { get; set; }
 
-public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn, List<Card> cards, string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
+        public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn, List<Card> cards, string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
         {
             this._id = id;
-            this._isActive = true;
+            this.IsActive = true;
             this._currentPlayer = curr;
             this._currentDealer = dealer;
             this._cardsOnTable = cards;
             this._deck = new Deck();
             this._hand = new GameHand(_deck);
             this._roundCounter = 0;
-            this._playerNcards =  new Dictionary<Player, Card[]>();
-
         }
 
-        private bool AddPlayerToGame(Player p)
+        public int GetDeckSize()
+        {
+            return _deck.NumOfCards;
+        }
+
+        public Player CurrentDealer
+        {
+            get { return _currentDealer; }
+        }
+
+        public Player CurrentPlayer
+        {
+            get { return _currentPlayer; }
+        }
+
+        public Player CurrentSb
+        {
+            get { return _currentSB; }
+        }
+
+        public Player CurrentBb
+        {
+            get { return _currentBB; }
+        }
+
+        public Pot Pot
+        {
+            get { return p; }
+        }
+
+        private bool addPlayerToGame(Player p)
         {
             if (this._roomPlayers.Count > 8) return false;
             else
@@ -63,8 +88,8 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
             else _roomSpectetors.Remove(s);
             return true;
         }
-        //TODO not be according to the indexes
-        private bool SetRoles()
+
+        private bool setRoles()
         {
             if (this._roomPlayers.Count < 2) return false;
            else if (this._roomPlayers.Count == 2)
@@ -83,25 +108,24 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
                 this._currentPlayer = _roomPlayers[3];
                 return true;
             }
-            //check the position of the dealer and take the next one
             return false;
         }
-        private void Fold()
+        public void Fold()
         {
             throw new NotImplementedException();
         }
 
-        private void Raise(int sum)
+        public void Raise(int sum)
         {
             throw new NotImplementedException();
         }
 
-        private void Check()
+        public void Check()
         {
             throw new NotImplementedException();
         }
 
-        private void Call()
+        public void Call()
         {
             throw new NotImplementedException();
         }
@@ -116,7 +140,7 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
             bool flag = false;
             while (!flag)
             {
-                flag = SetRoles();
+                flag = setRoles();
             }
 
             foreach (Player p in _roomPlayers)

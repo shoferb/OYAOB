@@ -75,6 +75,8 @@
     <Compile Include="Logic\Game\GameHand.cs" />
     <Compile Include="Logic\Game\GamePrefDecorator.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />
+    <Compile Include="Logic\Game\Evaluator\HandEvaluator.cs" />
+    <Compile Include="Logic\Game\Evaluator\HandRank.cs" />
     <Compile Include="Logic\Game\PlayersList.cs" />
     <Compile Include="Logic\Game\PokerLogic.cs" />
     <Compile Include="Logic\Game\POKERSCORE.cs" />
@@ -103,6 +105,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Service\GameServiceHandler.cs" />
+    <Compile Include="Service\LogServiceHandler.cs" />
+    <Compile Include="Service\ReplayServiceHandler.cs" />
+    <Compile Include="Service\ServiceHandler.cs" />
+    <Compile Include="Service\UserServiceHandler.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
