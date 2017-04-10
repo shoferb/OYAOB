@@ -196,21 +196,28 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         public bool IsThreeOfAKind(Card[] cards)
         {
+            bool found = false;
+            FixAceTo14(cards);
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
-            while (i <= cards.Count() - 2 )
+            while (i <= cards.Count() - 2 && !found)
             {
-                if (cards[i]._value == cards[i+1]._value && cards[i + 1]._value == cards[i+2]._value)
+                if (cards[i]._value == cards[i + 1]._value && cards[i + 1]._value == cards[i + 2]._value)
                 {
                     _relevantCards.Add(cards[i]);
-                    _relevantCards.Add(cards[i+1]);
-                    _relevantCards.Add(cards[i+2]);
-                    return true;
+                    _relevantCards.Add(cards[i + 1]);
+                    _relevantCards.Add(cards[i + 2]);
+                    found = true;
                 }
                 i++;
             }
-            return false;
+            if (!found)
+            {
+                FixAceTo1(cards);
+                return false;
+            }
+            return GetBestHand(cards);
         }
 
         public bool IsTwoPair(Card[] cards)
@@ -235,17 +242,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
                 FixAceTo1(cards);
                 return false;
             }
-            i = 0;
-            while (i < cards.Count() && _relevantCards.Count < 5)
-            {
-                if (!_relevantCards.Contains(cards[i]))
-                {
-                    _relevantCards.Add(cards[i]);
-                }
-                i++;
-            }
-            FixAceTo1(cards);
-            return true;
+            return GetBestHand(cards);
         }
 
         public bool IsPair(Card[] cards)
@@ -265,18 +262,12 @@ namespace TexasHoldem.Logic.Game.Evaluator
                 }
                 i++;
             }
-            if (!found) return false;
-            i = 0;
-            while (i < cards.Count() && _relevantCards.Count < 5)
+            if (!found)
             {
-                if (!_relevantCards.Contains(cards[i]))
-                {
-                    _relevantCards.Add(cards[i]);
-                }
-                i++;
+                FixAceTo1(cards);
+                return false;
             }
-            FixAceTo1(cards);
-            return true;
+            return GetBestHand(cards);
         }
 
         public bool IsAFullHouse(Card[] cards)
@@ -369,6 +360,21 @@ namespace TexasHoldem.Logic.Game.Evaluator
 
         }
 
+        private bool GetBestHand(Card[] cards)
+        {
+            Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+            int i = 0;
+            while (i < cards.Count() && _relevantCards.Count < 5)
+            {
+                if (!_relevantCards.Contains(cards[i]))
+                {
+                    _relevantCards.Add(cards[i]);
+                }
+                i++;
+            }
+            FixAceTo1(cards);
+            return true;
+        }
 
     }
 }

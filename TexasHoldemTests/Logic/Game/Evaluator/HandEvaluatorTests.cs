@@ -67,7 +67,7 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             _card3 = new Card(Suits.Clubs, 3);
             _card4 = new Card(Suits.Diamonds, 4);
             _card5 = new Card(Suits.Hearts, 9);
-            _card6 = new Card(Suits.Hearts, 7);
+            _card6 = new Card(Suits.Hearts, 1);
             _card7 = new Card(Suits.Diamonds, 9);
 
             _cards[0] = _card1;
@@ -83,6 +83,8 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             Assert.IsTrue(_evalCards.Contains(_card1));
             Assert.IsTrue(_evalCards.Contains(_card5));
             Assert.IsTrue(_evalCards.Contains(_card7));
+            Assert.IsTrue(_evalCards.Contains(_card6));
+            Assert.IsTrue(_evalCards.Contains(_card4));
         }
 
         [TestMethod()]
