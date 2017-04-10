@@ -72,6 +72,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
         public Suits ShapeOfStraight(Card[] cards, Suits flush)
         {
             _relevantCards.Clear();
+            FixAceTo14(cards);
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             List<Card> relevant = new List<Card>();
             foreach (Card c in cards)
@@ -83,6 +84,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             }   
             if (relevant.Count < 5)
             {
+                FixAceTo1(cards);
                 return Suits.None;
             }
             Card[] relevantArr = relevant.ToArray();
@@ -99,19 +101,41 @@ namespace TexasHoldem.Logic.Game.Evaluator
                     if (noOfCardsInARow == 4)
                     {
                         _relevantCards.Add(relevantArr[pos + 1]);
+                        FixAceTo1(cards);
                         return flush;
-                    }
-                    else
-                    {
-                        pos++;
-                        _relevantCards.Clear();
                     }
                 }
                 else
                 {
+                    _relevantCards.Clear();
                     noOfCardsInARow = 0;
-                    pos++;
                 }
+                pos++;
+            }
+            FixAceTo1(cards);
+            _relevantCards.Clear();
+            Array.Sort(relevantArr, (x, y) => y._value.CompareTo(x._value)); //decending
+            noOfCardsInARow = 0;
+            pos = 0;
+            while (pos < relevantArr.Count() - 1)
+            {
+                if (relevantArr[pos]._value - relevantArr[pos + 1]._value == 1)
+                {
+                    noOfCardsInARow++;
+                    _relevantCards.Add(relevantArr[pos]);
+                    if (noOfCardsInARow == 4)
+                    {
+                        _relevantCards.Add(relevantArr[pos + 1]);
+                        FixAceTo1(cards);
+                        return relevantArr[pos + 1]._suit;
+                    }
+                }
+                else
+                {
+                    _relevantCards.Clear();
+                    noOfCardsInARow = 0;
+                }
+                pos++;
             }
             return Suits.None;
         }

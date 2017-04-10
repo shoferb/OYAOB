@@ -44,8 +44,69 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
         [TestMethod()]
         public void ShapeOfStraightTest()
         {
-            Assert.Fail();
+            _card1 = new Card(Suits.Clubs, 6);
+            _card2 = new Card(Suits.Clubs, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Clubs, 4);
+            _card5 = new Card(Suits.Clubs, 5);
+            _card6 = new Card(Suits.Hearts, 13);
+            _card7 = new Card(Suits.Diamonds, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.ShapeOfStraight(_cards, Suits.Clubs) == Suits.Clubs);
         }
+
+        [TestMethod()]
+        public void ShapeOfStraightTest2()
+        {
+            _card1 = new Card(Suits.Diamonds, 6);
+            _card2 = new Card(Suits.Clubs, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Clubs, 4);
+            _card5 = new Card(Suits.Clubs, 5);
+            _card6 = new Card(Suits.Hearts, 13);
+            _card7 = new Card(Suits.Clubs, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.ShapeOfStraight(_cards, Suits.Clubs) == Suits.Clubs);
+        }
+
+        [TestMethod()]
+        public void ShapeOfStraightTest3()
+        {
+            _card1 = new Card(Suits.Diamonds, 11);
+            _card2 = new Card(Suits.Diamonds, 10);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Diamonds, 12);
+            _card5 = new Card(Suits.Clubs, 5);
+            _card6 = new Card(Suits.Diamonds, 13);
+            _card7 = new Card(Suits.Diamonds, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.ShapeOfStraight(_cards, Suits.Diamonds) == Suits.Diamonds);
+        }
+
 
         [TestMethod()]
         public void IsAStraightTest()
@@ -131,7 +192,28 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             Assert.IsTrue(_evalCards.Contains(_card3));
             Assert.IsTrue(_evalCards.Contains(_card2));
             Assert.IsTrue(_evalCards.Contains(_card7));
+        }
 
+        [TestMethod()]
+        public void IsAStraightTest4()
+        {
+            _card1 = new Card(Suits.Clubs, 7);
+            _card2 = new Card(Suits.Hearts, 2);
+            _card3 = new Card(Suits.Clubs, 3);
+            _card4 = new Card(Suits.Diamonds, 6);
+            _card5 = new Card(Suits.Hearts, 5);
+            _card6 = new Card(Suits.Hearts, 13);
+            _card7 = new Card(Suits.Diamonds, 1);
+
+            _cards[0] = _card1;
+            _cards[1] = _card2;
+            _cards[2] = _card3;
+            _cards[3] = _card4;
+            _cards[4] = _card5;
+            _cards[5] = _card6;
+            _cards[6] = _card7;
+
+            Assert.IsTrue(_evaluator.IsAStraight(_cards) == Suits.None);
         }
 
         [TestMethod()]
