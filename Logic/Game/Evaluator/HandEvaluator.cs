@@ -55,6 +55,18 @@ namespace TexasHoldem.Logic.Game.Evaluator
             else
             {
                 _rank = HandRank.HIGH_CARD;
+                _relevantCards.Clear();
+                FixAceTo14(cards);
+                Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
+                int i = 0;
+                while (i < cards.Count() && _relevantCards.Count < 5)
+                {
+                    if (!_relevantCards.Contains(cards[i]))
+                    {
+                        _relevantCards.Add(cards[i]);
+                    }
+                    i++;
+                }
             }
             FixAceTo1(cards);
         }
