@@ -19,7 +19,7 @@ namespace TexasHoldem.Logic.Game
 
         public void pullCards()
         {
-            for (int i = 0; i < 5; ++i)
+            for (int i = 0; i < 5; ++i) //TODO change to 2 
                 hand[i] = deck.Draw();
         }
 

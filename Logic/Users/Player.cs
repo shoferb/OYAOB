@@ -11,6 +11,8 @@ namespace TexasHoldem.Logic.Users
         private bool isActive;
         private int chipStack { get; set; }
 
+        public int position { get; set; }
+
         public Player(int id, string name, string memberName, int password, int points, int money, String email,
             int gameId, bool isActive) : base(id, name, memberName, password, points, money, email, gameId)
         {

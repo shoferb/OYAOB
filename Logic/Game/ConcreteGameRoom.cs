@@ -9,12 +9,14 @@ namespace TexasHoldem.Logic.Game
         private int _id { get; set; }
         private bool _isActive { get; set; }
         private Pot p = new Pot();
-        private PlayersList _roomPlayers = new PlayersList();
+        private List<Player> _roomPlayers = new List<Player>(); //change to list of playres
         private List<Spectetor> _roomSpectetors = new List<Spectetor>();
+        private Dictionary<Player, Card[]> _playerNcards;
         private GameHand _hand;
         private Player _currentPlayer { get; set; }
         private Player _currentDealer { get; set; }
         private List<Card> _cardsOnTable { get; set; }
+        public Card [] _playerCards = new Card[2];
         private Deck _deck;
         private Player _currentSB { get; set; }
         private Player _currentBB { get; set; }
@@ -30,10 +32,11 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
             this._deck = new Deck();
             this._hand = new GameHand(_deck);
             this._roundCounter = 0;
+            this._playerNcards =  new Dictionary<Player, Card[]>();
 
         }
 
-        private bool addPlayerToGame(Player p)
+        private bool AddPlayerToGame(Player p)
         {
             if (this._roomPlayers.Count > 8) return false;
             else
@@ -60,8 +63,8 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
             else _roomSpectetors.Remove(s);
             return true;
         }
-
-        private bool setRoles()
+        //TODO not be according to the indexes
+        private bool SetRoles()
         {
             if (this._roomPlayers.Count < 2) return false;
            else if (this._roomPlayers.Count == 2)
@@ -80,6 +83,7 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
                 this._currentPlayer = _roomPlayers[3];
                 return true;
             }
+            //check the position of the dealer and take the next one
             return false;
         }
         private void Fold()
@@ -112,7 +116,7 @@ public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn,
             bool flag = false;
             while (!flag)
             {
-                flag = setRoles();
+                flag = SetRoles();
             }
 
             foreach (Player p in _roomPlayers)

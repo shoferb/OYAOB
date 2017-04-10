@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Game
 {
-    class PokerLogic
+    class PokerLogic //TODO check if it seven
     {
         private static bool isFlush(GameHand h)
         {
