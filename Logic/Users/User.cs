@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Users
         private List<GameRoom> spectateGameList { get; set; }
         public bool IsHigherRank { get; set; }
 
-
+        //todo create toString
         public User(int id, string name, string memberName, string password, int points, int money, String email)
         {
             this.id = id;
@@ -41,9 +41,9 @@ namespace TexasHoldem.Logic.Users
             }
             else
             {
-                Console.WriteLine("this is not a valid email, please edit it");
+                //Console.WriteLine("this is not a valid email, please edit it");
             }
-            this.waitListNotification = new List<Notification>();
+            this.WaitListNotification = new List<Notification>();
             this.isActive = false;
             this.IsHigherRank = false;
         }
@@ -76,10 +76,11 @@ namespace TexasHoldem.Logic.Users
             return toReturn;
         }
 
+
         //private method - add the notification to list so can print when not in game
         private bool AddNotificationToList(Notification toAdd)
         {
-            this.waitListNotification.Add(toAdd);
+            this.WaitListNotification.Add(toAdd);
             return true;
         }
 
@@ -181,6 +182,19 @@ namespace TexasHoldem.Logic.Users
             set
             {
                 isActive = value;
+            }
+        }
+
+        public List<Notification> WaitListNotification
+        {
+            get
+            {
+                return waitListNotification;
+            }
+
+            set
+            {
+                waitListNotification = value;
             }
         }
     }

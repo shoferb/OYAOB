@@ -42,6 +42,48 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public bool RemoveUserById(int id)
+        {
+            bool toReturn = false;
+            User original = GetUserWithId(id);
+            try
+            {
+                users.Remove(original);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
+        public bool RemoveUserByUserNameAndPassword(string username,string password)
+        {
+            bool toReturn = false;
+            User toRemove = null;
+            bool found = false;
+            foreach (User u in users)
+            {
+                if ((u.Password.Equals(password)) && (u.MemberName.Equals(username)))
+                {
+                    toRemove = u;
+                    found = true;
+                }
+            }
+            try
+            {
+                users.Remove(toRemove);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
+
         public bool RemoveUser(User toRemove)
         {
             bool toReturn = false;
@@ -106,9 +148,10 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        public bool Logout(User original)
+        public bool Logout(int id)
         {
             bool toReturn = false;
+            User original = GetUserWithId(id);
             User changed = original;
             if (original == null)
             {
@@ -162,6 +205,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     toReturn = true;
                 }
+
             }
             return toReturn;
         }
@@ -177,6 +221,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
+
         private bool IsValidEmail(string email)
         {
             try
@@ -192,8 +237,9 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //use case - allow edit email 
-        public bool EditEmail(User toEdit , string newEmail)
+        public bool EditEmail(int id , string newEmail)
         {
+            User toEdit = GetUserWithId(id);
             User changed = toEdit;
             bool toReturn;
             bool valid = IsValidEmail(newEmail);
@@ -210,8 +256,9 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //use case allow to change password
-        public bool EditPassword(User toEdit, string newPassword)
+        public bool EditPassword(int id, string newPassword)
         {
+            User toEdit = GetUserWithId(id);
             bool toReturn;
             User changed = toEdit;
             int len = newPassword.Length;
@@ -228,8 +275,9 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        public bool EditUserName(User toEdit, string newUserName)
+        public bool EditUserName(int id, string newUserName)
         {
+            User toEdit = GetUserWithId(id);
             User changed = toEdit;
             bool toReturn;
             bool validname = IsUsernameFree(newUserName);
@@ -245,8 +293,9 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        public bool EditUserID(User toEdit, int newId)
+        public bool EditUserID(int id, int newId)
         {
+            User toEdit = GetUserWithId(id);
             User changed = toEdit;
             bool toReturn;
             changed.Id = newId;
@@ -254,8 +303,9 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        public bool EditUserPoints(User toEdit, int newPoints)
+        public bool EditUserPoints(int id, int newPoints)
         {
+            User toEdit = GetUserWithId(id);
             User changed = toEdit;
             bool toReturn;
             changed.Points = newPoints;
@@ -263,8 +313,9 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        public bool EditUserMoney(User toEdit, int newMoney)
+        public bool EditUserMoney(int id, int newMoney)
         {
+            User toEdit = GetUserWithId(id);
             User changed = toEdit;
             bool toReturn;
             changed.Money = newMoney;
@@ -272,8 +323,9 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        public bool EditActiveGame(User toEdit, bool activemode)
+        public bool EditActiveGame(int id, bool activemode)
         {
+            User toEdit = GetUserWithId(id);
             User changed = toEdit;
             bool toReturn;
             changed.IsActive = activemode;

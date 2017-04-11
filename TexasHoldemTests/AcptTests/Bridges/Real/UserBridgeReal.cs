@@ -181,7 +181,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         public bool EditPw(int id, string oldPw, string newPw)
         {
-            return _userService.EditUserPassword(id, oldPw, newPw);
+            return _userService.EditUserPassword(id, newPw);
         }
 
         public bool EditEmail(int id, string newEmail)
