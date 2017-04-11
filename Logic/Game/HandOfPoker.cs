@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TexasHoldem.Logic.Game.Evaluator;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
@@ -11,45 +12,62 @@ namespace TexasHoldem.Logic.Game
     class HandOfPoker
     {
         public bool _gameOver = false;
-
         public Player _currentPlayer;
-
+        public Player _dealerPlayer;
+        public int _dealerIdx;
+        public Player _bbPlayer;
+        public Player _sbPlayer;
+        
 
         int buttonPos = 0;
-        ConcreteGameRoom state;
+        GameRoom state;
 
-        public HandOfPoker(ConcreteGameRoom state)
+        public HandOfPoker(GameRoom state)
         {
-            NewHand(state);
-        }
-
-        public void NewHand(ConcreteGameRoom state)
-        {
-            this.state = state;
-            state.handStep = ConcreteGameRoom.HandStep.PreFlop;
-            Deck deck = new Deck();
-            state.deck = deck;
-            state.players = state.players;
-            this.buttonPos = state.buttonPos;
-
-            if (state.players.Count > 2)
-            {
-                state.actionPos = (state.buttonPos + 3) % state.players.Count;
-                // small blind
-                state.players[(buttonPos + 1) % state.players.Count].CommitChips(state.bb / 2);
-                // big blind
-                state.players[(buttonPos + 2) % state.players.Count].CommitChips(state.bb);
-            } 
+            if (state._players.Count < 8)
+                NewHand(state);
             else
             {
-                state.actionPos = (state.buttonPos) % state.players.Count;
+                //TODO: write to log and throw an exception.
+            }
+        } 
+
+        public void NewHand(GameRoom state)
+        {
+            this.state = state;
+            state._handStep = GameRoom.HandStep.PreFlop;
+            Deck deck = new Deck();
+            state._deck = deck;
+            state._players = state._players;
+            this.buttonPos = state._buttonPos;
+
+            if (state._players.Count > 2)
+            {
+                //delaer
+                this._dealerPlayer = state._players[this.buttonPos];
                 // small blind
-                state.players[(state.buttonPos) % state.players.Count].CommitChips(state.bb / 2);
+                this._sbPlayer = state._players[(this.buttonPos + 1)%state._players.Count];
+                state._players[(this.buttonPos + 1) % state._players.Count].CommitChips(state._bb / 2);
                 // big blind
-                state.players[(state.buttonPos + 1) % state.players.Count].CommitChips(state.bb);
+                this._bbPlayer = state._players[(this.buttonPos + 2)%state._players.Count];
+                state._players[(this.buttonPos + 2) % state._players.Count].CommitChips(state._bb);
+                //actionPos will keep track on the curr player.
+                state._actionPos = (this.buttonPos + 3) % state._players.Count;
+
+            }
+            else
+            {
+                state._actionPos = (this.buttonPos) % state._players.Count; // TODO: if only 2 who starts?
+                // small blind
+                this._dealerPlayer = state._players[(this.buttonPos) %state._players.Count];
+                this._sbPlayer = state._players[(this.buttonPos) %state._players.Count];
+                state._players[(this.buttonPos) % state._players.Count].CommitChips(state._bb / 2);
+                // big blind
+                this._bbPlayer = state._players[(this.buttonPos + 1)%state._players.Count];
+                state._players[(this.buttonPos + 1) % state._players.Count].CommitChips(state._bb);
             }
 
-            foreach (Player player in state.players)
+            foreach (Player player in state._players)
             {
                 player.inHand = true;
                 player.AddHoleCards(deck.Draw(), deck.Draw());
@@ -60,7 +78,7 @@ namespace TexasHoldem.Logic.Game
             Play(state);
         }
 
-        public void Play(ConcreteGameRoom state)
+        public void Play(GameRoom state)
         {
 
             while (!state.AllDoneWithTurn())
@@ -72,24 +90,29 @@ namespace TexasHoldem.Logic.Game
             }
 
             if (state.AllDoneWithTurn() || state.PlayersInHand() < 2)
-                if (ProgressHand(state.handStep))
-                { // progresses hand and returns whether hand is over (the last handStep was river)
+                if (ProgressHand(state._handStep))
+                { // progresses hand and returns whether hand is over (the last _handStep was river)
                     EndHand(state);
                     return;
                 }
                 else
                     Play(state);
-            if (!state.gameOver)
-                    _currentPlayer = state.NextToPlay();
+            if (!state._isGameOver)
+            {
+                _currentPlayer = state.NextToPlay();
+                _dealerPlayer = state._players[(state._players.IndexOf(_dealerPlayer) + 1) % state._players.Count];
+                _sbPlayer = state._players[(state._players.IndexOf(_sbPlayer) + 1) % state._players.Count];
+                _bbPlayer = state._players[(state._players.IndexOf(_bbPlayer) + 1) % state._players.Count];
 
+            }
 
         }
 
 
-        public bool ProgressHand(ConcreteGameRoom.HandStep previousStep)
+        public bool ProgressHand(GameRoom.HandStep previousStep)
         {
             List<Player> playersWhoWentAllIn = new List<Player>();
-            foreach (Player player in state.players)
+            foreach (Player player in state._players)
                 if (player.IsAllIn() && player.chipsCommitted > 0)
                     playersWhoWentAllIn.Add(player);
 
@@ -113,7 +136,7 @@ namespace TexasHoldem.Logic.Game
                 }
 
             }
-            // moves chips to center, rests actionPos, maxCommitted = 0, resets last actions, resets last raise
+            // moves chips to center, rests _actionPos, _maxCommitted = 0, resets last actions, resets last raise
 
 
 
@@ -122,17 +145,17 @@ namespace TexasHoldem.Logic.Game
 
             switch (previousStep)
             {
-                case ConcreteGameRoom.HandStep.PreFlop:
+                case GameRoom.HandStep.PreFlop:
                     for (int i = 0; i <= 2; i++)
                         state.AddNewPublicCard();
                     break;
-                case ConcreteGameRoom.HandStep.Flop:
+                case GameRoom.HandStep.Flop:
                     state.AddNewPublicCard();
                     break;
-                case ConcreteGameRoom.HandStep.Turn:
+                case GameRoom.HandStep.Turn:
                     state.AddNewPublicCard();
                     break;
-                case ConcreteGameRoom.HandStep.River:
+                case GameRoom.HandStep.River:
                     return true;
 
                 default:
@@ -141,15 +164,15 @@ namespace TexasHoldem.Logic.Game
 
 
             int numNextStep = (int)previousStep + 1;
-            state.handStep = (ConcreteGameRoom.HandStep)numNextStep;
+            state._handStep = (GameRoom.HandStep)numNextStep;
 
             if (state.PlayersInHand() - state.PlayersAllIn() < 2)
             {
-                ProgressHand(state.handStep); // recursive, runs until you hit the river, which will immediately return true
+                ProgressHand(state._handStep); // recursive, runs until we'll hit the river
                 return true;
             }
             else
-                state.EndTurn(); // need to be able to tell who went all in during a particular phase, so do this later in this case
+                state.EndTurn(); 
 
             return false;
 
@@ -158,26 +181,12 @@ namespace TexasHoldem.Logic.Game
 
 
 
-        public void EndHand(ConcreteGameRoom state)
+        public void EndHand(GameRoom state)
         {
-            MessageBox.Show("Hand over.");
-
-
             List<Player> playersLeftInGame = new List<Player>();
-            List<Player> playersLeftInHand = new List<Player>();
-            foreach (Player player in state.players)
-                if (player.inHand && player.chipsCommitted > 0)  // player.chipsCommitted to exclude people who went allin earlier
-                    playersLeftInHand.Add(player);
+           
 
-            state.EndTurn();
-            DecideWinnersAndPayChips(new Tuple<int, List<Player>>(state.potCount, playersLeftInHand));
-
-            foreach (Tuple<int, List<Player>> sidePot in state.sidePots)
-                DecideWinnersAndPayChips(sidePot);
-
-
-
-            foreach (Player player in state.players)
+            foreach (Player player in state._players)
                 if (player.chipCount != 0)
                     playersLeftInGame.Add(player);
                 else
@@ -186,59 +195,38 @@ namespace TexasHoldem.Logic.Game
                     player.inHand = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
-            state.players = playersLeftInGame;
+            state._players = playersLeftInGame;
+            state.EndTurn();
+            List<HandEvaluator> winners= FindWinner(state._publicCards, playersLeftInGame);
+            //TODO: pay chips, give rank
+            foreach (Player player in state._players)
+                player.ClearCards(); // gets rid of cards of _players still alive
 
-            foreach (Player player in state.players)
-                player.ClearCards(); // gets rid of cards of players still alive
-
-
-
-            if (state.players.Count > 1)
+            if (state._players.Count > 1)
             {
-                // sets next buttonPos
+                // sets next _buttonPos
 
-                state.buttonPos++;
-                state.buttonPos = state.buttonPos % state.players.Count;
+                state._buttonPos++;
+                state._buttonPos = state._buttonPos % state._players.Count;
 
                 state.ClearPublicCards();
                 NewHand(state);
             }
             else
             {
-                state.gameOver = true;
+                state._isGameOver = true;
                 if (!_currentPlayer.OutOfMoney())
-                    state.players[0].inHand = false; // so if human wins doesn't try to display cards
-                MessageBox.Show("GAME OVER.");
+                    state._players[0].inHand = false; // so if human wins doesn't try to display cards
             }
 
 
         }
-
-        public void DecideWinnersAndPayChips(Tuple<int, List<Player>> pot)
+        //TODO: Aviv G - it's all yours:)
+        private List<HandEvaluator> FindWinner(List<Card> statePublicCards, List<Player> playersLeftInHand)
         {
-            /*
-                string message = "";
-                if (winners.Count < 2)
-                {
-                    message = "Player " + winners. + " won the pot of " + pot.Item1 + " chips.";
-                    if (pot.Item2.Count > 1)
-                    { message += " He won with a hand of: " + winner.hand.ToString(); }
-                }
-                else
-                {
-                    message = "A split pot between: ";
-                    message += "Player " + winners[0].name + " who had a hand of " + winners[0].hand.ToString();
-                    for (int i = 1; i < winners.Count; i++)
-                        message += ", Player " + winners[i].name + " who had a hand of " + winners[i].hand.ToString();
-                    message += ". They split a pot of " + pot.Item1 + " " + winners.Count + " ways, for " + pot.Item1 / winners.Count + " each.";
+            throw new NotImplementedException();
+        }
 
-                }
-
-
-    */
-
-             
-            }
         }
     }
 

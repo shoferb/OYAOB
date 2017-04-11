@@ -71,10 +71,9 @@
     <Compile Include="Logic\Game\ActualGame.cs" />
     <Compile Include="Logic\Game\Card.cs" />
     <Compile Include="Logic\Game\ConcreteGamePrefDecorator.cs" />
-    <Compile Include="Logic\Game\ConcreteGameRoom.cs" />
+    <Compile Include="Logic\Game\GameRoom.cs" />
     <Compile Include="Logic\Game\Deck.cs" />
     <Compile Include="Logic\Game\GamePrefDecorator.cs" />
-    <Compile Include="Logic\Game\GameRoom.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluator.cs" />
     <Compile Include="Logic\Game\Evaluator\HandRank.cs" />
     <Compile Include="Logic\Game\Hand.cs" />

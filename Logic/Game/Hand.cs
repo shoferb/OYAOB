@@ -12,20 +12,13 @@ namespace TexasHoldem.Logic.Game
         Card _holeOne;
         Card _holeTwo;
         List<Card> _publicCards = new List<Card>();
-        public HandEvaluator _bestHand;
         public Hand()
         {
             this._holeOne = null;
             this._holeTwo = null;
         }
 
-        public Tuple<HandRank, List<Card>> findBestHand()
-        {
-            //TODO AvivG
-            return null;
-        }
-
-        public List<Card> GetHoleCards()
+        public List<Card> GetCards()
         {
             List<Card> holeCards = new List<Card>()
                 {_holeOne,
@@ -49,7 +42,7 @@ namespace TexasHoldem.Logic.Game
             else
                 throw new System.ArgumentException("Too many cards.", "newCard");
         }
-        public void AddHoleCards(Card newCardA, Card newCardB)
+        public void AddCards(Card newCardA, Card newCardB)
         {
             if (_holeOne == null && _holeTwo == null)
             {
@@ -57,7 +50,7 @@ namespace TexasHoldem.Logic.Game
                 _holeTwo = newCardB;
             }
             else
-                throw new System.ArgumentException("Hole cards already determined.", "newCard");
+                throw new System.ArgumentException("Player cards already determined.", "newCard");
         }
 
         public int CompareTo(Object otherObject)

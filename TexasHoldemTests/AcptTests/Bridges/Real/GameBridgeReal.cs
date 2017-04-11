@@ -169,7 +169,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
             return _gameService.FindWinner(gameId).Id;
         }
 
-        private bool CheckCurrPlayerIsPlayer(int playerId, ConcreteGameRoom room)
+        private bool CheckCurrPlayerIsPlayer(int playerId, GameRoom room)
         {
             Player player = _userService.GetPlayer(playerId, room.GameId);
             if (player != null && room != null)

@@ -182,7 +182,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(52 - 6, GameBridge.GetDeckSize(RoomId));
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
-            //sb and bb paied:
+            //sb and _bb paied:
             Assert.AreEqual(chipsList[1] - smallBlind, UserBridge.GetUserChips(userList[1], RoomId));
             chipsList[1] -= smallBlind;
             potSize += smallBlind;
@@ -194,8 +194,8 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             //game start:
-            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user0 is dealr, user1 is sb, user2 is bb => user3 starts
-            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls equal to bb
+            Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user0 is dealr, user1 is sb, user2 is _bb => user3 starts
+            Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls equal to _bb
             Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
             chipsList[3] -= currMinBet;
             potSize += currMinBet;
