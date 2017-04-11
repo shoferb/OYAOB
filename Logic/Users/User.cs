@@ -24,19 +24,9 @@ namespace TexasHoldem.Logic.Users
         private bool isActive;
         public List<GameRoom> ActiveGameList { get; set; }
         private List<GameRoom> spectateGameList { get; set; }
+        public bool IsHigherRank { get; set; }
 
-        private bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+
         public User(int id, string name, string memberName, string password, int points, int money, String email)
         {
             this.id = id;
@@ -55,9 +45,21 @@ namespace TexasHoldem.Logic.Users
             }
             this.waitListNotification = new List<Notification>();
             this.isActive = false;
+            this.IsHigherRank = false;
         }
 
-       
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         //function to recive notificaion - return the notification.
         internal bool SendNotification(Notification toSend)
