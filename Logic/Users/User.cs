@@ -18,6 +18,7 @@ namespace TexasHoldem.Logic.Users
         private int money;
         private List<Notification> waitListNotification;
         private String email;
+        private bool isActive;
 
         public User(int id, string name, string memberName, string password, int points, int money, String email)
         {
@@ -36,6 +37,7 @@ namespace TexasHoldem.Logic.Users
                 Console.WriteLine("this is not a valid email, please edit it");
             }
             this.waitListNotification = new List<Notification>();
+            this.isActive = false;
         }
 
         private bool IsValidEmail(string email)
@@ -89,7 +91,7 @@ namespace TexasHoldem.Logic.Users
             }
             return toReturn;
         }
-        
+
         //use case allow to change password
         public bool EditPassword(string newPassword)
         {
@@ -198,6 +200,19 @@ namespace TexasHoldem.Logic.Users
             set
             {
                 email = value;
+            }
+        }
+
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+
+            set
+            {
+                isActive = value;
             }
         }
     }
