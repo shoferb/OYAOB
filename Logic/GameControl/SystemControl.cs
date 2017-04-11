@@ -153,6 +153,30 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public bool  IsUserWithId(int id)
+        {
+            bool toReturn = false;
+            foreach (User u in users)
+            {
+                if (u.Id == id)
+                {
+                    toReturn = true;
+                }
+            }
+            return toReturn;
+        }
+        public User GetUserWithId(int id)
+        {
+            User toReturn = null;
+            foreach (User u in users)
+            {
+                if (u.Id == id)
+                {
+                    toReturn = u;
+                }
+            }
+            return toReturn;
+        }
         private bool IsValidEmail(string email)
         {
             try
