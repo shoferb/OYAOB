@@ -20,9 +20,9 @@ namespace TexasHoldem.Logic.Game
         
 
         int buttonPos = 0;
-        GameRoom state;
+        ConcreteGameRoom state;
 
-        public HandOfPoker(GameRoom state)
+        public HandOfPoker(ConcreteGameRoom state)
         {
             if (state._players.Count < 8)
                 NewHand(state);
@@ -32,10 +32,10 @@ namespace TexasHoldem.Logic.Game
             }
         } 
 
-        public void NewHand(GameRoom state)
+        public void NewHand(ConcreteGameRoom state)
         {
             this.state = state;
-            state._handStep = GameRoom.HandStep.PreFlop;
+            state._handStep = ConcreteGameRoom.HandStep.PreFlop;
             Deck deck = new Deck();
             state._deck = deck;
             state._players = state._players;
@@ -78,7 +78,7 @@ namespace TexasHoldem.Logic.Game
             Play(state);
         }
 
-        public void Play(GameRoom state)
+        public void Play(ConcreteGameRoom state)
         {
 
             while (!state.AllDoneWithTurn())
@@ -109,7 +109,7 @@ namespace TexasHoldem.Logic.Game
         }
 
 
-        public bool ProgressHand(GameRoom.HandStep previousStep)
+        public bool ProgressHand(ConcreteGameRoom.HandStep previousStep)
         {
             List<Player> playersWhoWentAllIn = new List<Player>();
             foreach (Player player in state._players)
@@ -145,17 +145,17 @@ namespace TexasHoldem.Logic.Game
 
             switch (previousStep)
             {
-                case GameRoom.HandStep.PreFlop:
+                case ConcreteGameRoom.HandStep.PreFlop:
                     for (int i = 0; i <= 2; i++)
                         state.AddNewPublicCard();
                     break;
-                case GameRoom.HandStep.Flop:
+                case ConcreteGameRoom.HandStep.Flop:
                     state.AddNewPublicCard();
                     break;
-                case GameRoom.HandStep.Turn:
+                case ConcreteGameRoom.HandStep.Turn:
                     state.AddNewPublicCard();
                     break;
-                case GameRoom.HandStep.River:
+                case ConcreteGameRoom.HandStep.River:
                     return true;
 
                 default:
@@ -164,7 +164,7 @@ namespace TexasHoldem.Logic.Game
 
 
             int numNextStep = (int)previousStep + 1;
-            state._handStep = (GameRoom.HandStep)numNextStep;
+            state._handStep = (ConcreteGameRoom.HandStep)numNextStep;
 
             if (state.PlayersInHand() - state.PlayersAllIn() < 2)
             {
@@ -181,7 +181,7 @@ namespace TexasHoldem.Logic.Game
 
 
 
-        public void EndHand(GameRoom state)
+        public void EndHand(ConcreteGameRoom state)
         {
             List<Player> playersLeftInGame = new List<Player>();
            

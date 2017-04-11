@@ -101,7 +101,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
             return null;
         }
 
-        private List<int> GamesToIds(List<GameRoom> games)
+        private List<int> GamesToIds(List<ConcreteGameRoom> games)
         {
             List<int> toReturn = new List<int>();
             games.ForEach(game =>
@@ -113,19 +113,19 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         public List<int> ListAvailableGamesByUserRank(int userRank)
         {
-            List<GameRoom> allGames = new List<GameRoom>(_gameService.GetAvaiableGamesByUserRank(userRank));
+            List<ConcreteGameRoom> allGames = new List<ConcreteGameRoom>(_gameService.GetAvaiableGamesByUserRank(userRank));
             return GamesToIds(allGames);
         }
 
         public List<int> ListSpectateableRooms()
         {
-            List<GameRoom> allGames = new List<GameRoom>(_gameService.GetSpectateableGames());
+            List<ConcreteGameRoom> allGames = new List<ConcreteGameRoom>(_gameService.GetSpectateableGames());
             return GamesToIds(allGames);
         }
 
         public List<int> GetAllGames()
         {
-            List<GameRoom> allGames = new List<GameRoom>(_gameService.GetAllGames());
+            List<ConcreteGameRoom> allGames = new List<ConcreteGameRoom>(_gameService.GetAllGames());
             return GamesToIds(allGames);
         }
 
@@ -169,7 +169,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
             return _gameService.FindWinner(gameId).Id;
         }
 
-        private bool CheckCurrPlayerIsPlayer(int playerId, GameRoom room)
+        private bool CheckCurrPlayerIsPlayer(int playerId, ConcreteGameRoom room)
         {
             Player player = _userService.GetPlayer(playerId, room.GameId);
             if (player != null && room != null)

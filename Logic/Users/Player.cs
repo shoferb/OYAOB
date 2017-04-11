@@ -71,7 +71,7 @@ namespace TexasHoldem.Logic.Users
         {
             hand.AddCard(newCard);
         }
-        public bool CanCheck(GameRoom state)
+        public bool CanCheck(ConcreteGameRoom state)
         {
             if (state._maxCommitted == chipsCommitted)
                 return true;
@@ -98,12 +98,12 @@ namespace TexasHoldem.Logic.Users
             CommitChips(additionalChips);
         }
 
-        public void Call(GameRoom state)
+        public void Call(ConcreteGameRoom state)
         {
             Call(state.ToCall());
 
         }
-        public void Bet(int additionalChips, GameRoom state)
+        public void Bet(int additionalChips, ConcreteGameRoom state)
         {
             lastAction = "bet";
             additionalChips = Math.Max(additionalChips, state._bb); // have to bet at least the _bb
@@ -112,7 +112,7 @@ namespace TexasHoldem.Logic.Users
             state._sb = additionalChips;
 
         }
-        public void Raise(int additionalChips, int toCall, GameRoom state)
+        public void Raise(int additionalChips, int toCall, ConcreteGameRoom state)
         {
             if (toCall >= chipCount)
             { // if has less than or equal number of chips to call (ie cannot raise)
@@ -130,7 +130,7 @@ namespace TexasHoldem.Logic.Users
             }
 
         }
-        public void Raise(int additionalChips, GameRoom state)
+        public void Raise(int additionalChips, ConcreteGameRoom state)
         {
             additionalChips = Math.Max(additionalChips, state._bb); // have to raise at least the _bb
             additionalChips = Math.Max(additionalChips, state._sb); // have to raise at least the last bet/raise
@@ -144,7 +144,7 @@ namespace TexasHoldem.Logic.Users
          }*/
 
             //for test propuse only !!!
-        public void Play(GameRoom state)
+        public void Play(ConcreteGameRoom state)
         {
             bool canCheck = this.CanCheck(state);
             Random random = new Random();

@@ -11,7 +11,7 @@ namespace TexasHoldem.Logic.Game
     { 
     List<Player> _players;
     public HandOfPoker _handsOfPoker;
-    public GameRoom _state;
+    public ConcreteGameRoom _state;
     public ActualGame(int numPlayers, int startingChips)
     {
         //TODO: when will be log class - ResetLog();
@@ -21,7 +21,7 @@ namespace TexasHoldem.Logic.Game
         Random random = new Random();
         int buttonPos = random.Next(1, _players.Count);
 
-        _state = new GameRoom(_players, buttonPos);
+        _state = new ConcreteGameRoom(_players, buttonPos);
         _state._bb = bb;
 
         _handsOfPoker = new HandOfPoker(_state);
@@ -31,8 +31,7 @@ namespace TexasHoldem.Logic.Game
 
     public void GameEnds()
     {
-
-        Console.WriteLine("Player " + _players[0].name + " wins!");
+            //TODO: maybe ?
     }
 }
 }

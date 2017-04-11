@@ -11,15 +11,15 @@ namespace TexasHoldem.Service
         public abstract GamePrefDecorator CreateGameRoom(int id, string name, int sb,
             int bb, int minMoney, int maxMoney, int gameNum);
         public abstract int GetNextFreeRoomId();
-        public abstract GameRoom GetGameById(int id);
-        public abstract bool AddPlayerToRoom(Player player, /*TODO: maybe change this*/ GameRoom room);
-        public abstract bool AddSpectatorToRoom(Spectetor spectator, /*TODO: maybe change this*/ GameRoom room);
-        public abstract bool MakeRoomActive(GameRoom room);
+        public abstract ConcreteGameRoom GetGameById(int id);
+        public abstract bool AddPlayerToRoom(Player player, /*TODO: maybe change this*/ ConcreteGameRoom room);
+        public abstract bool AddSpectatorToRoom(Spectetor spectator, /*TODO: maybe change this*/ ConcreteGameRoom room);
+        public abstract bool MakeRoomActive(ConcreteGameRoom room);
         public abstract bool RemoveRoom(int gameId);
-        public abstract bool Fold(Player player, GameRoom room);
-        public abstract bool Check(Player player, GameRoom room);
-        public abstract bool Call(Player player, GameRoom room);
-        public abstract bool Raise(Player player, GameRoom room, int sum);
+        public abstract bool Fold(Player player, ConcreteGameRoom room);
+        public abstract bool Check(Player player, ConcreteGameRoom room);
+        public abstract bool Call(Player player, ConcreteGameRoom room);
+        public abstract bool Raise(Player player, ConcreteGameRoom room, int sum);
         public abstract Player FindWinner(int gameId);
         public abstract List<GamePrefDecorator> GetAllGames();
         public abstract List<GamePrefDecorator> GetAvaiableGamesByUserRank(int rank);

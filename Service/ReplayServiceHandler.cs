@@ -25,7 +25,7 @@ namespace TexasHoldem.Service
 
         public abstract List<GameReplay> GetUserReplays(int userId);
         public abstract GameReplay GetGameReplay(int roomId, int gameNum);
-        public abstract Action CreateAction(GameRoom room, Player player, Actions action);
+        public abstract Action CreateAction(ConcreteGameRoom room, Player player, Actions action);
         public abstract bool AddActionToReplay(Action action, int roomId, int gameNum);
         public abstract Action GetNextAction(int roomId, int gameNum);
         public abstract bool StopReplay(int roomId, int gameNum); //TODO: ?

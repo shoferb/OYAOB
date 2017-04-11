@@ -7,36 +7,10 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    public abstract class GamePrefDecorator : GameRoom
+    public abstract class GamePrefDecorator : GameRoom 
     {
-        protected GamePrefDecorator(string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
+        public GamePrefDecorator(List<Player> players, int buttonPos) : base(players, buttonPos)
         {
         }
-
-        private void Fold()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Raise(int sum)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Check()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Call()
-        {
-            throw new NotImplementedException();
-        }
-
-        private Player findWinner(int sum)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
