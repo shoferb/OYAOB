@@ -121,7 +121,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
         //game related tests:
 
-        //TODO: huge method, consider spliting
         //tests a whole game including all actions, card deals, pot size changes, etc.
         [TestCase]
         public void GameTestGood()

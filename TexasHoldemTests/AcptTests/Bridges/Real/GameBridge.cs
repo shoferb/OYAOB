@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
+using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges.Real
 {
-    class GameBridgeReal : IGameBridge
+    class GameBridge : IGameBridge
     {
         private GameServiceHandler _gameService;
         private UserServiceHandler _userService;
@@ -18,7 +19,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         private readonly Random _rand;
 
-        public GameBridgeReal()
+        public GameBridge()
         {
             //TODO: init services here
             _rand = new Random();
@@ -96,9 +97,13 @@ namespace TexasHoldemTests.AcptTests.Bridges.Real
 
         public List<int> GetPlayersInRoom(int roomId)
         {
-            var games = _gameService.GetGameById(roomId);
-            //TODO: wait for Yerden's update
-            return null;
+            var players = _gameService.GetGameById(roomId).RoomPlayers;
+            List<int> toReturn = new List<int>();
+            players.ForEach(p =>
+            {
+                toReturn.Add(p.Id);
+            });
+            return toReturn;
         }
 
         private List<int> GamesToIds(List<ConcreteGameRoom> games)

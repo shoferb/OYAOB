@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace TexasHoldemTests.AcptTests.Bridges
+namespace TexasHoldemTests.AcptTests.Bridges.Interface
 {
     public interface IGameBridge
     {
 
-        bool CreateGameRoom(int userId, int roomId); //no preferences because can't get preference class
+        bool CreateGameRoom(int userId, int roomId);
         int CreateGameRoom(int userId); //create game room and return it's id 
         bool RemoveGameRoom(int id);
         int GetNextFreeRoomId();

@@ -74,10 +74,9 @@
     <Compile Include="AcptTests\Bridges\Interface\IGameBridge.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Proxy\UserBridgeProxy.cs" />
-    <Compile Include="AcptTests\Bridges\Real\GameBridgeReal.cs" />
-    <Compile Include="AcptTests\Bridges\Real\ReplayBridgeReal.cs" />
-    <Compile Include="AcptTests\Bridges\Real\UserBridgeReal.cs" />
+    <Compile Include="AcptTests\Bridges\Real\GameBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\ReplayBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\UserBridge.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />

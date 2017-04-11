@@ -7,11 +7,11 @@ using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges.Real
 {
-    class ReplayBridgeReal : IReplayBridge
+    class ReplayBridge : IReplayBridge
     {
         private ReplayServiceHandler _replayService;
 
-        public ReplayBridgeReal()
+        public ReplayBridge()
         {
             //TODO: init service here
         }
