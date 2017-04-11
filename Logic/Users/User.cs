@@ -48,7 +48,7 @@ namespace TexasHoldem.Logic.Users
             this.IsHigherRank = false;
         }
 
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace TexasHoldem.Logic.Users
         }
 
         //function to recive notificaion - return the notification.
-        internal bool SendNotification(Notification toSend)
+        public bool SendNotification(Notification toSend)
         {
             bool toReturn = false;
             if (AddNotificationToList(toSend))
@@ -78,7 +78,7 @@ namespace TexasHoldem.Logic.Users
 
 
         //private method - add the notification to list so can print when not in game
-        private bool AddNotificationToList(Notification toAdd)
+        public bool AddNotificationToList(Notification toAdd)
         {
             this.WaitListNotification.Add(toAdd);
             return true;
