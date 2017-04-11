@@ -8,45 +8,48 @@ namespace TexasHoldem.Logic.Game_Control
 {
     public class League
     {
-        private String name;
+        private string name;
         private int minRank;
         private int maxRank;
 
-        public League(string name, int minRank, int maxRank)
+
+        public string Name
         {
-            this.name = name;
-            this.minRank = minRank;
-            this.maxRank = maxRank;
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                name = value;
+            }
         }
 
+        public int MinRank
+        {
+            get
+            {
+                return minRank;
+            }
 
-        //getter setter name
-        public String getName()
-        {
-            return name;
-        }
-        public void setName(String newName)
-        {
-            name = newName;
-        }
-        //getter setter minRank
-        public int getMinRank()
-        {
-            return minRank;
-        }
-        public void setMinRank(int newMinRank)
-        {
-            minRank = newMinRank;
-        }
-        //getter setter maxRanl
-        public int getMaxRank()
-        {
-            return maxRank;
-        }
-        public void setMaxRank(int newMaxRank)
-        {
-            maxRank = newMaxRank;
+            set
+            {
+                minRank = value;
+            }
         }
 
+        public int MaxRank
+        {
+            get
+            {
+                return maxRank;
+            }
+
+            set
+            {
+                maxRank = value;
+            }
+        }
     }
 }
