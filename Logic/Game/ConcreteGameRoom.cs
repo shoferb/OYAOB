@@ -4,150 +4,167 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    public class ConcreteGameRoom : GameRoom
+    public class ConcreteGameRoom 
     {
         private int _id { get; set; } //base has ID allready
-        private Pot p = new Pot();
-        private PlayersList _roomPlayers = new PlayersList();
-        private List<Spectetor> _roomSpectetors = new List<Spectetor>();
-        private GameHand _hand;
-        private Player _currentPlayer;
-        private Player _currentDealer;
-        private List<Card> _cardsOnTable { get; set; }
-        private Deck _deck;
-        private Player _currentSB;
-        private Player _currentBB;
-        private int _roundCounter { get; set; }
-
-        public ConcreteGameRoom(int id, int blind, Player curr, Player dealer, int turn, List<Card> cards, string name, int minMoney, int maxMoney, int gameNumber) : base(name, minMoney, maxMoney, gameNumber)
+        public enum HandStep { PreFlop, Flop, Turn, River }
+        public List<Player> players { get; set; }
+        public int buttonPos { get; set; }
+        public int maxCommitted { get; set; }
+        public int actionPos { get; set; }
+        public int potCount { get; set; }
+        public int bb { get; set; }
+        public int lastRaise { get; set; } // in order to keep track of the minimum next raise
+        public Deck deck { get; set; }
+        public HandStep handStep { get; set; }
+        public List<Card> publicCards { get; set; }
+        public bool gameOver { get; set; }
+        public List<Tuple<int, List<Player>>> sidePots { get; set; }
+        public ConcreteGameRoom(List<Player> players, int buttonPos)
         {
-            this._id = id;
-            this.IsActive = true;
-            this._currentPlayer = curr;
-            this._currentDealer = dealer;
-            this._cardsOnTable = cards;
-            this._deck = new Deck();
-            this._hand = new GameHand(_deck);
-            this._roundCounter = 0;
+            //TODO : generate random this._id ;
+            gameOver = false;
+            this.potCount = 0;
+            this.actionPos = (buttonPos + 3) % players.Count;
+            this.players = players;
+            this.buttonPos = buttonPos;
+            this.maxCommitted = 0;
+            publicCards = new List<Card>();
+            lastRaise = 0;
+            sidePots = new List<Tuple<int, List<Player>>>();
         }
 
-        public int GetDeckSize()
+        public void AddNewPublicCard()
         {
-            return _deck.NumOfCards;
+            foreach (Player player in players)
+                player.AddCard(deck.ShowCard());
+            publicCards.Add(deck.Draw());
         }
 
-        public Player CurrentDealer
+        public Player NextToPlay()
         {
-            get { return _currentDealer; }
+            return players[actionPos];
+        }
+        public int ToCall()
+        {
+            return maxCommitted - players[actionPos].chipsCommitted;
+
+        }
+        public void UpdateGameState()
+        {
+            // next player picked
+
+            do { actionPos = (actionPos + 1) % players.Count; }
+            while (!players[actionPos].inHand);
+
+            UpdateMaxCommitted();
+
+
+
         }
 
-        public Player CurrentPlayer
+        public void ClearPublicCards()
         {
-            get { return _currentPlayer; }
+            publicCards.Clear();
         }
 
-        public Player CurrentSb
+        public void UpdateMaxCommitted()
         {
-            get { return _currentSB; }
+            foreach (Player player in players)
+                if (player.chipsCommitted > maxCommitted)
+                    maxCommitted = player.chipsCommitted;
         }
-
-        public Player CurrentBb
+        public void EndTurn()
         {
-            get { return _currentBB; }
+            MoveChipsToPot();
+            ResetActionPos();
+
+            lastRaise = 0;
+            maxCommitted = 0;
+
+            foreach (Player player in players)
+                if (player.inHand)
+                    player.lastAction = "";
+
+
         }
-
-        public Pot Pot
+        public void ResetActionPos()
         {
-            get { return p; }
+            int offset = 1;
+            if (handStep == HandStep.River)
+                offset = 3;
+
+            actionPos = (buttonPos + offset) % players.Count;
+            while (!players[actionPos].inHand)
+                actionPos = (actionPos + 1) % players.Count;
+
+
+
+
         }
-
-        private bool addPlayerToGame(Player p)
+        public void MoveChipsToPot()
         {
-            if (this._roomPlayers.Count > 8) return false;
-            else
+            foreach (Player player in players)
             {
-               this. _roomPlayers.Add(p);
-                return true;
+                potCount += player.chipsCommitted;
+                player.chipsCommitted = 0;
             }
         }
-
-        private bool removePlayerFromGame(Player p)
+        public int PlayersInHand()
         {
-            //TODO
-            return true;
+            int playersInHand = 0;
+            foreach (Player player in players)
+                if (player.inHand)
+                    playersInHand++;
+            return playersInHand;
+
         }
 
-        private bool addSpectetorToGame(Spectetor s)
-        { 
-           this._roomSpectetors.Add(s);
-            return true;      
-        }
-        private bool removeSpectetorFromGame(Spectetor s)
+        public int PlayersAllIn()
         {
-            if (_roomSpectetors.Count == 0) return false;
-            else _roomSpectetors.Remove(s);
-            return true;
+            int playersAllIn = 0;
+            foreach (Player player in players)
+                if (player.IsAllIn())
+                    playersAllIn++;
+            return playersAllIn;
         }
 
-        private bool setRoles()
+        public bool AllDoneWithTurn()
         {
-            if (this._roomPlayers.Count < 2) return false;
-           else if (this._roomPlayers.Count == 2)
+            bool allDone = true;
+            foreach (Player player in players)
+                if (!(player.inHand == false || player.IsAllIn() || (player.lastAction == "call" || player.lastAction == "check" || player.lastAction == "bet" || player.lastAction == "raise") && player.chipsCommitted == maxCommitted))
+                    allDone = false;
+            return allDone;
+
+
+
+        }
+
+        public void newSplitPot(Player allInPlayer)
+        {
+            List<Player> eligiblePlayers = new List<Player>();
+            int sidePotCount = 0;
+            int chipsToMatch = allInPlayer.chipsCommitted;
+            foreach (Player player in players)
             {
-                this._currentDealer = _roomPlayers[0];
-                this._currentBB = _roomPlayers[0];
-                this._currentSB = _roomPlayers[1];
-                this._currentPlayer = _roomPlayers[1];
-                return true;
+                if (player.inHand && player.chipsCommitted > 0)
+                {
+                    player.chipsCommitted -= chipsToMatch;
+                    sidePotCount += chipsToMatch;
+                    eligiblePlayers.Add(player);
+                }
             }
-           else if (this._roomPlayers.Count > 2)
-            {
-                this._currentDealer = _roomPlayers[0];                
-                this._currentSB = _roomPlayers[1];
-                this._currentBB = _roomPlayers[2];
-                this._currentPlayer = _roomPlayers[3];
-                return true;
-            }
-            return false;
-        }
-        public void Fold()
-        {
-            throw new NotImplementedException();
+            sidePotCount += potCount;
+            potCount = 0;
+
+            if (sidePotCount > 0)
+                sidePots.Add(new Tuple<int, List<Player>>(sidePotCount, eligiblePlayers));
+
+
         }
 
-        public void Raise(int sum)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Check()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Call()
-        {
-            throw new NotImplementedException();
-        }
-
-        private Player findWinner(int sum)
-        {   //TODO : byAvivG
-            throw new NotImplementedException();
-        }
-
-        private void Play()
-        {
-            bool flag = false;
-            while (!flag)
-            {
-                flag = setRoles();
-            }
-
-            foreach (Player p in _roomPlayers)
-            {
-                
-            }
-        }
 
     }
 }

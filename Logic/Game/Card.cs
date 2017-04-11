@@ -17,5 +17,11 @@ namespace TexasHoldem
             this._suit = s;
             this._value = val;
         }
+
+        public override string ToString()
+        {
+            return _value + " of " + _suit.ToString();
+        }
+
     }
 }
