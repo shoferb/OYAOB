@@ -67,6 +67,7 @@
     <Compile Include="Logic\Actions\WinAction.cs" />
     <Compile Include="Logic\Game Control\GameCenter.cs" />
     <Compile Include="Logic\Game Control\League.cs" />
+    <Compile Include="Logic\Game Control\SystemControl.cs" />
     <Compile Include="Logic\Game\Action.cs" />
     <Compile Include="Logic\Game\ActualGame.cs" />
     <Compile Include="Logic\Game\Card.cs" />
