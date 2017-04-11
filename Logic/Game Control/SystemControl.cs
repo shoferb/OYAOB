@@ -95,7 +95,24 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        
-        
+
+        //register to system - return string that tell is success or fail and why
+        public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
+        {
+            bool toReturn = false;
+            foreach (User u in users)
+            {
+                if (u.MemberName.Equals(memberName))
+                {
+                   //was string toReturn = "Registration failed - this user name is taken!";
+                    return toReturn; // fail username taken
+                }
+            }
+            User  newUser= new User(id,name,memberName,password,0,money,email);
+            toReturn = AddNewUser(newUser);
+            return toReturn;
+        }
+
+
     }
 }
