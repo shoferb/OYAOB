@@ -7,12 +7,12 @@ using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges.Real
 {
-    class UserBridgeReal : IUserBridge
+    class UserBridge : IUserBridge
     {
         private UserServiceHandler _userService;
         private GameServiceHandler _gameService;
 
-        public UserBridgeReal()
+        public UserBridge()
         {
             //TODO: init service here
         }
