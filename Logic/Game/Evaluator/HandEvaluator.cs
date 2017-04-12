@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game.Evaluator
 {
@@ -10,6 +11,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
     {
         public HandRank _rank;
         public List<Card> _relevantCards = new List<Card>();
+        public Player _player { get; set;}
 
         public void DetermineHandRank(Card[] cards)
         {
