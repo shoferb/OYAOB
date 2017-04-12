@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    class HandOfPoker
+    public class HandOfPoker
     {
         public bool _gameOver = false;
         public Player _currentPlayer;
