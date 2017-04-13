@@ -25,7 +25,7 @@ namespace TexasHoldem.Logic.Game
         public abstract int _gameRoles { get; set; }
         public GameRoom(List<Player> players, int buttonPos)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public abstract void AddNewPublicCard();
