@@ -1057,7 +1057,7 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             _cards[5] = _card6;
             _cards[6] = _card7;
 
-        /*    Assert.IsTrue(_evaluator.IsAFullHouse(_cards));*/
+            Assert.IsTrue(_evaluator.IsAFullHouse(_cards));
             _evalCards = _evaluator._relevantCards;
             Assert.IsTrue(_evalCards.Contains(_card1));
             Assert.IsTrue(_evalCards.Contains(_card5));
@@ -1085,7 +1085,7 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
             _cards[5] = _card6;
             _cards[6] = _card7;
 
-        /*    Assert.IsTrue(_evaluator.IsAFullHouse(_cards));*/
+            Assert.IsTrue(_evaluator.IsAFullHouse(_cards));
             _evalCards = _evaluator._relevantCards;
             Assert.IsTrue(_evalCards.Contains(_card1));
             Assert.IsTrue(_evalCards.Contains(_card5));

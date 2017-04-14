@@ -82,12 +82,9 @@ namespace TexasHoldem.Logic.Game.Tests
             table.Add(card3);
             table.Add(card4);
             table.Add(card5);
-            _player1.AddCard(card6);
-            _player1.AddCard(card7);
-            _player2.AddCard(card6);
-            _player2.AddCard(card7);
-            _player3.AddCard(card6);
-            _player3.AddCard(card7);
+            _player1.AddHoleCards(card6, card7);
+            _player2.AddHoleCards(card6, card7);
+            _player3.AddHoleCards(card6, card7);
             _winners = _hand.FindWinner(table, _players);
             Assert.IsTrue(_winners.Count == 3);
         }

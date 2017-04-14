@@ -238,7 +238,8 @@ namespace TexasHoldem.Logic.Game
             foreach (Player p in playersLeftInHand)
             {
                 HandEvaluator h = new HandEvaluator(p);
-                List<Card> playerCards = statePublicCards;
+                List<Card> playerCards = new List<Card>();
+                playerCards.AddRange(statePublicCards);
                 playerCards.AddRange(p._hand.GetCards());
                 Card[] cards = playerCards.ToArray();
                 h.DetermineHandRank(cards);
