@@ -45,19 +45,25 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void PlayTest()
         {
-            Assert.Fail();
+            _hand.NewHand(_room);
+            _hand.Play(_room);
+            Assert.IsTrue(_hand._forTest>4);
         }
 
         [TestMethod()]
         public void ProgressHandTest()
         {
-            Assert.Fail();
+            _hand.NewHand(_room);
+            _hand.Play(_room);
+            Assert.IsTrue(_hand._verifyAction == 4);
         }
 
         [TestMethod()]
         public void EndHandTest()
         {
-            Assert.Fail();
+            _hand.NewHand(_room);
+            _hand.Play(_room);
+           Assert.IsTrue(_hand._winners.Count>=1);
         }
 
         [TestMethod()]

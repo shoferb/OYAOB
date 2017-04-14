@@ -11,12 +11,15 @@ namespace TexasHoldem.Logic.Game
 {
     public class HandOfPoker
     {
+        public int _forTest = 0;
+        public int _verifyAction = 0;      
         public bool _gameOver = false;
         public Player _currentPlayer;
         public Player _dealerPlayer;
         public int _dealerIdx;
         public Player _bbPlayer;
         public Player _sbPlayer;
+        public List<HandEvaluator> _winners;
 
 
         private int buttonPos;
@@ -76,11 +79,11 @@ namespace TexasHoldem.Logic.Game
 
         public void Play(ConcreteGameRoom state)
         {
-
+           
             while (!state.AllDoneWithTurn())
             {
                 state.NextToPlay().Play(state);
-
+                this._forTest++;
 
                 state.UpdateGameState();
             }
@@ -106,7 +109,7 @@ namespace TexasHoldem.Logic.Game
 
 
         public bool ProgressHand(ConcreteGameRoom.HandStep previousStep)
-        {
+        {            
             List<Player> playersWhoWentAllIn = new List<Player>();
             foreach (Player player in state._players)
                 if (player.IsAllIn() && player._chipsCommitted > 0)
@@ -144,14 +147,18 @@ namespace TexasHoldem.Logic.Game
                 case ConcreteGameRoom.HandStep.PreFlop:
                     for (int i = 0; i <= 2; i++)
                         state.AddNewPublicCard();
+                    this._verifyAction++;
                     break;
                 case ConcreteGameRoom.HandStep.Flop:
                     state.AddNewPublicCard();
+                    this._verifyAction++;
                     break;
                 case ConcreteGameRoom.HandStep.Turn:
                     state.AddNewPublicCard();
+                    this._verifyAction++;
                     break;
                 case ConcreteGameRoom.HandStep.River:
+                    this._verifyAction++;
                     return true;
 
                 default:
@@ -193,8 +200,14 @@ namespace TexasHoldem.Logic.Game
                 }
             state._players = playersLeftInGame;
             state.EndTurn();
-            List<HandEvaluator> winners= FindWinner(state._publicCards, playersLeftInGame);
-            //TODO: pay chips, give rank win method will be in Orelli
+            _winners= FindWinner(state._publicCards, playersLeftInGame);
+            int amount = state._potCount/_winners.Count;
+
+            foreach (HandEvaluator h in _winners)
+            {
+                //h._player.win(amount);
+            }
+            
             foreach (Player player in state._players)
                 player.ClearCards(); // gets rid of cards of _players still alive
 

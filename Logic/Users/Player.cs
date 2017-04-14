@@ -178,5 +178,9 @@ namespace TexasHoldem.Logic.Users
 
         }
 
+      /*  public void win(int amount)
+        {
+            throw new NotImplementedException();
+        }*/
     }
 }

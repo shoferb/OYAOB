@@ -41,7 +41,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void ToCallTest()
         {
-            Assert.IsTrue(_gameRoom.ToCall()==1);
+             Assert.IsTrue(_gameRoom.ToCall()==1);
         }
 
         [TestMethod()]

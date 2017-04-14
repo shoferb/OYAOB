@@ -36,10 +36,10 @@ namespace TexasHoldem.Logic.Game.Evaluator
             {
                 _rank = HandRank.FOUR_OF_A_KIND;
             }
-            else if (IsAFullHouse(cards))
+           /* else if (IsAFullHouse(cards))
             {
                 _rank = HandRank.FULL_HOUSE;
-            }
+            }*/
             else if (IsAFlush(cards) != Suits.None)
             {
                 _rank = HandRank.FLUSH;
@@ -343,7 +343,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             return GetBestHand(cards);
         }
 
-        public bool IsAFullHouse(Card[] cards)
+      /*  public bool IsAFullHouse(Card[] cards)
         {
             _relevantCards.Clear();
             bool found = false;
@@ -380,7 +380,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
                 i++;
             }
             return false;
-        }
+        }*/
 
         public bool IsAFourOfAKind(Card[] cards)
         {
