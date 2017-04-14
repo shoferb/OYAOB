@@ -17,18 +17,15 @@ namespace TexasHoldem.Logic.Game
         public int _dealerIdx;
         public Player _bbPlayer;
         public Player _sbPlayer;
-        
 
-        int buttonPos = 0;
+
+        private int buttonPos;
         ConcreteGameRoom state;
 
         public HandOfPoker(ConcreteGameRoom state)
         {
-            
-                NewHand(state);
-            
-             //TODO: write to log and throw an exception.
-            
+            //TODO: write to log and throw an exception.
+
         } 
 
         public void NewHand(ConcreteGameRoom state)
@@ -73,8 +70,8 @@ namespace TexasHoldem.Logic.Game
             }
             state.UpdateMaxCommitted();
 
+           // Play(state);
 
-            Play(state);
         }
 
         public void Play(ConcreteGameRoom state)
@@ -216,6 +213,7 @@ namespace TexasHoldem.Logic.Game
                 state._isGameOver = true;
                 if (!_currentPlayer.OutOfMoney())
                     state._players[0]._isActive = false; // so if human wins doesn't try to display cards
+                //GameOver
             }
 
 

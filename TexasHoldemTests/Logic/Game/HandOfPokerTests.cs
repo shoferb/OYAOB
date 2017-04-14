@@ -36,15 +36,10 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
-        public void HandOfPokerTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
         public void NewHandTest()
         {
-            Assert.Fail();
+            _hand.NewHand(_room);
+            Assert.IsTrue(_hand._dealerPlayer!= _hand._bbPlayer && _hand._dealerPlayer != _hand._sbPlayer);
         }
 
         [TestMethod()]
