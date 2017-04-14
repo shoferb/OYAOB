@@ -13,52 +13,35 @@ namespace TexasHoldem.Logic.Game.Tests
     public class ConcreteGameRoomTests
     {
         private ConcreteGameRoom _gameRoom;
+        private HandOfPoker _pokerHand;
         private bool _isGameOver = false;
-        private int _potCount = 0;
-       // private static int _buttonPos = 8;
-        private static List<Player> _players = new List<Player>(2);
-       // private int _actionPos = (_buttonPos + 3) % _players.Count;
-        private int _maxCommitted = 0;
+        private static List<Player> _players;
         private List<Card> _publicCards;
         private int _sb = 0;
         private List<Tuple<int, List<Player>>> _sidePots;
         private ConcreteGameRoom.HandStep _handStep;
-        private int _bb;
         private Deck _deck;
-
+        private Player _A;
+        private Player _B;
         [TestInitialize()]
         public void Initialize()
         {
+            _A = new Player(1000, 100, 1, "Yarden", "Chen", "", 0, 0, "", 0, false);
+            _B = new Player(500, 100, 2,"Aviv","G","",0,0,"",0,false);
+            _players = new List<Player>();
+            _players.Add(_A);
+            _players.Add(_B);
             _gameRoom = new ConcreteGameRoom(_players, 2);
+            _pokerHand = new HandOfPoker(_gameRoom);
             _publicCards = new List<Card>();
             _sidePots = new List<Tuple<int, List<Player>>>();
             _deck = new Deck();
         }
       
-
-        [TestMethod()]
-        public void AddNewPublicCardTest()
-        {
-            _gameRoom.AddNewPublicCard();
-            Assert.IsTrue(_gameRoom._publicCards.Count>0);
-        }
-
-        [TestMethod()]
-        public void NextToPlayTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DelaerPositionTest()
-        {
-            Assert.Fail();
-        }
-
         [TestMethod()]
         public void ToCallTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(_gameRoom.ToCall()==1);
         }
 
         [TestMethod()]
@@ -71,6 +54,13 @@ namespace TexasHoldem.Logic.Game.Tests
         public void ClearPublicCardsTest()
         {
             Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddNewPublicCardTest()
+        {
+            _gameRoom.AddNewPublicCard();
+            Assert.IsTrue(_gameRoom._publicCards.Count > 0);
         }
 
         [TestMethod()]

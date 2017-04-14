@@ -29,7 +29,6 @@ namespace TexasHoldem.Logic.Game
 
         public abstract void AddNewPublicCard();
         public abstract Player NextToPlay();
-        public abstract Player DelaerPosition();
         public abstract int ToCall();
         public abstract void UpdateGameState();
         public abstract void ClearPublicCards();

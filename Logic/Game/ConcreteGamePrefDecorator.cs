@@ -36,11 +36,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public override Player DelaerPosition()
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public override int ToCall()
         {
             throw new NotImplementedException();

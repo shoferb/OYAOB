@@ -10,24 +10,26 @@ namespace TexasHoldem.Logic.Users
     public class Player : Spectetor
     {
         private bool isActive;
-        public bool inHand { get; set; }
+        public bool _isActive { get; set; }
         public int seatNumber { get; set; }
         public string name { get; set; }
-        public int chipCount { get; set; }
-        public int chipsCommitted { get; set; }
+        public int _chipCount { get; set; }
+        public int _chipsCommitted { get; set; }
 
-        public string lastAction { get; set; }
-        public Hand hand = new Hand();
+        public string _lastAction { get; set; }
+        public Hand _hand = new Hand();
 
-        public Player(int id, string name, string memberName, string password, int points, int money, String email,
+        public Player(int chipCount, int chipsComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int gameId, bool isActive) : base(id, name, memberName, password, points, money, email, gameId)
         {
+            this._chipCount = chipCount;
+            this._chipsCommitted = chipsComitted;
             this.isActive = isActive;
             this.seatNumber = seatNumber;
             this.name = name;
-            this.chipsCommitted = chipsCommitted;
-            this.chipCount = chipCount;
-            inHand = false;
+            this._chipsCommitted = _chipsCommitted;
+            this._chipCount = chipCount;
+            _isActive = false;
 
         }
 
@@ -40,61 +42,61 @@ namespace TexasHoldem.Logic.Users
         }
         public bool IsAllIn()
         {
-            if (chipCount == 0 && inHand)
+            if (_chipCount == 0 && _isActive)
                 return true;
             return false;
         }
 
         public void ClearCards()
         {
-            hand.ClearCards();
+            _hand.ClearCards();
         }
         public List<Card> GetHoleCards()
         {
-            return hand.GetCards();
+            return _hand.GetCards();
 
         }
         public bool OutOfMoney()
         {
-            if (chipCount == 0)
+            if (_chipCount == 0)
                 return true;
             return false;
         }
 
         public void CommitChips(int chips)
         {
-            chipCount -= chips;
-            chipsCommitted += chips;
+            _chipCount -= chips;
+            _chipsCommitted += chips;
         }
 
         public void AddCard(Card newCard)
         {
-            hand.AddCard(newCard);
+            _hand.AddCard(newCard);
         }
         public bool CanCheck(ConcreteGameRoom state)
         {
-            if (state._maxCommitted == chipsCommitted)
+            if (state._maxCommitted == _chipsCommitted)
                 return true;
             return false;
         }
         public void AddHoleCards(Card newCardA, Card newCardB)
         {
-            hand.AddCards(newCardA, newCardB);
+            _hand.AddCards(newCardA, newCardB);
         }
         public void Fold()
         {
-            lastAction = "fold";
-            inHand = false;
+            _lastAction = "fold";
+            _isActive = false;
         }
         public void Check()
         {
-            lastAction = "check";
+            _lastAction = "check";
         }
 
         public void Call(int additionalChips)
         {
-            lastAction = "call";
-            additionalChips = Math.Min(additionalChips, chipCount); // if can't afford that many chips in a call, go all in           
+            _lastAction = "call";
+            additionalChips = Math.Min(additionalChips, _chipCount); // if can't afford that many chips in a call, go all in           
             CommitChips(additionalChips);
         }
 
@@ -105,25 +107,25 @@ namespace TexasHoldem.Logic.Users
         }
         public void Bet(int additionalChips, ConcreteGameRoom state)
         {
-            lastAction = "bet";
+            _lastAction = "bet";
             additionalChips = Math.Max(additionalChips, state._bb); // have to bet at least the _bb
-            additionalChips = Math.Min(additionalChips, chipCount); // if can't afford that many chips in a call, go all in            
+            additionalChips = Math.Min(additionalChips, _chipCount); // if can't afford that many chips in a call, go all in            
             CommitChips(additionalChips);
             state._sb = additionalChips;
 
         }
         public void Raise(int additionalChips, int toCall, ConcreteGameRoom state)
         {
-            if (toCall >= chipCount)
+            if (toCall >= _chipCount)
             { // if has less than or equal number of chips to call (ie cannot raise)
-                Call(chipCount);
-                state._sb = chipCount;
+                Call(_chipCount);
+                state._sb = _chipCount;
             }
             else
             {
-                lastAction = "raise";
+                _lastAction = "raise";
                 int totalChips = additionalChips + toCall;
-                totalChips = Math.Min(totalChips, chipCount); // if can't afford that many chips to raise, go all in
+                totalChips = Math.Min(totalChips, _chipCount); // if can't afford that many chips to raise, go all in
 
                 CommitChips(totalChips);
                 state._sb = totalChips;
@@ -140,7 +142,7 @@ namespace TexasHoldem.Logic.Users
 
         /* public int CompareTo(Object otherObject)
          {
-             return hand.CompareTo((((Player)otherObject).hand));
+             return _hand.CompareTo((((Player)otherObject)._hand));
          }*/
 
             //for test propuse only !!!

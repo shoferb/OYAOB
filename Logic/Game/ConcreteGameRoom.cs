@@ -22,6 +22,7 @@ namespace TexasHoldem.Logic.Game
             _sb = 0;
             _sidePots = new List<Tuple<int, List<Player>>>();
             _gameNumber++;
+           
         }
 
         public override List<Player> _players { get; set; }
@@ -38,33 +39,30 @@ namespace TexasHoldem.Logic.Game
         public override List<Tuple<int, List<Player>>> _sidePots { get; set; }
         public override int _gameRoles { get; set; }
 
-        public override void AddNewPublicCard()
-        {
-            foreach (Player player in _players)
-                player.AddCard(_deck.ShowCard());
-            _publicCards.Add(_deck.Draw());
-        }
+        
 
         public override Player NextToPlay()
         {
             return _players[_actionPos];
         }
 
-        public override Player DelaerPosition()
-        {
-            return null;
-        }
         public override int ToCall()
         {
-            return _maxCommitted - _players[_actionPos].chipsCommitted;
+            return _maxCommitted - _players[_actionPos]._chipsCommitted;
 
+        }
+        public override void AddNewPublicCard()
+        {
+            foreach (Player player in _players)
+                player.AddCard(_deck.ShowCard());
+            _publicCards.Add(_deck.Draw());
         }
         public override void UpdateGameState()
         {
             // next player picked
 
             do { _actionPos = (_actionPos + 1) % _players.Count; }
-            while (!_players[_actionPos].inHand);
+            while (!_players[_actionPos]._isActive);
 
             UpdateMaxCommitted();
         }
@@ -77,8 +75,8 @@ namespace TexasHoldem.Logic.Game
         public override void UpdateMaxCommitted()
         {
             foreach (Player player in _players)
-                if (player.chipsCommitted > _maxCommitted)
-                    _maxCommitted = player.chipsCommitted;
+                if (player._chipsCommitted > _maxCommitted)
+                    _maxCommitted = player._chipsCommitted;
         }
         public override void EndTurn()
         {
@@ -89,8 +87,8 @@ namespace TexasHoldem.Logic.Game
             _maxCommitted = 0;
 
             foreach (Player player in _players)
-                if (player.inHand)
-                    player.lastAction = "";
+                if (player._isActive)
+                    player._lastAction = "";
 
 
         }
@@ -101,22 +99,22 @@ namespace TexasHoldem.Logic.Game
                 offset = 3;
             //@TODO fix divide by 0 
             _actionPos = (_buttonPos + offset) % _players.Count;
-            while (!_players[_actionPos].inHand)
+            while (!_players[_actionPos]._isActive)
                 _actionPos = (_actionPos + 1) % _players.Count;
         }
         public override void MoveChipsToPot()
         {
             foreach (Player player in _players)
             {
-                _potCount += player.chipsCommitted;
-                player.chipsCommitted = 0;
+                _potCount += player._chipsCommitted;
+                player._chipsCommitted = 0;
             }
         }
         public override int PlayersInHand()
         {
             int playersInHand = 0;
             foreach (Player player in _players)
-                if (player.inHand)
+                if (player._isActive)
                     playersInHand++;
             return playersInHand;
 
@@ -135,7 +133,7 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in _players)
-                if (!(player.inHand == false || player.IsAllIn() || (player.lastAction == "call" || player.lastAction == "check" || player.lastAction == "bet" || player.lastAction == "raise") && player.chipsCommitted == _maxCommitted))
+                if (!(player._isActive == false || player.IsAllIn() || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._chipsCommitted == _maxCommitted))
                     allDone = false;
             return allDone;
 
@@ -147,12 +145,12 @@ namespace TexasHoldem.Logic.Game
         {
             List<Player> eligiblePlayers = new List<Player>();
             int sidePotCount = 0;
-            int chipsToMatch = allInPlayer.chipsCommitted;
+            int chipsToMatch = allInPlayer._chipsCommitted;
             foreach (Player player in _players)
             {
-                if (player.inHand && player.chipsCommitted > 0)
+                if (player._isActive && player._chipsCommitted > 0)
                 {
-                    player.chipsCommitted -= chipsToMatch;
+                    player._chipsCommitted -= chipsToMatch;
                     sidePotCount += chipsToMatch;
                     eligiblePlayers.Add(player);
                 }

@@ -24,9 +24,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestInitialize()]
         public void Initialize()   
         {
-            _player1 = new Player(1, "one", "one", "one", 10, 100, "one@", 1, true);
-            _player2 = new Player(2, "two", "two", "two", 10, 100, "two@", 1, true);
-            _player3 = new Player(3, "three", "three", "three", 10, 100, "three@", 1, true);
+            _player1 = new Player(1000,100,1,"Y","C","",0,0,"",0,false);
+            _player2 = new Player(1000, 200, 1, "L", "M", "", 0, 0, "", 0, false);
+            _player3 = new Player(1000, 300, 1, "Z", "X", "", 0, 0, "", 0, false);
             _players = new List<Player>();
             _players.Add(_player1);
             _players.Add(_player2);

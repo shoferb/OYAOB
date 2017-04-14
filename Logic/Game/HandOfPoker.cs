@@ -24,12 +24,11 @@ namespace TexasHoldem.Logic.Game
 
         public HandOfPoker(ConcreteGameRoom state)
         {
-            if (state._players.Count < 8)
+            
                 NewHand(state);
-            else
-            {
-                //TODO: write to log and throw an exception.
-            }
+            
+             //TODO: write to log and throw an exception.
+            
         } 
 
         public void NewHand(ConcreteGameRoom state)
@@ -69,7 +68,7 @@ namespace TexasHoldem.Logic.Game
 
             foreach (Player player in state._players)
             {
-                player.inHand = true;
+                player._isActive = true;
                 player.AddHoleCards(deck.Draw(), deck.Draw());
             }
             state.UpdateMaxCommitted();
@@ -91,7 +90,7 @@ namespace TexasHoldem.Logic.Game
 
             if (state.AllDoneWithTurn() || state.PlayersInHand() < 2)
                 if (ProgressHand(state._handStep))
-                { // progresses hand and returns whether hand is over (the last _handStep was river)
+                { // progresses _hand and returns whether _hand is over (the last _handStep was river)
                     EndHand(state);
                     return;
                 }
@@ -113,7 +112,7 @@ namespace TexasHoldem.Logic.Game
         {
             List<Player> playersWhoWentAllIn = new List<Player>();
             foreach (Player player in state._players)
-                if (player.IsAllIn() && player.chipsCommitted > 0)
+                if (player.IsAllIn() && player._chipsCommitted > 0)
                     playersWhoWentAllIn.Add(player);
 
             while (playersWhoWentAllIn.Count > 0)
@@ -123,10 +122,10 @@ namespace TexasHoldem.Logic.Game
 
                 foreach (Player player in playersWhoWentAllIn) // find player who has the smallest all in
                 {
-                    if (player.chipsCommitted < minAllIn)
+                    if (player._chipsCommitted < minAllIn)
                     {
                         minAllInPlayer = player;
-                        minAllIn = player.chipsCommitted;
+                        minAllIn = player._chipsCommitted;
                     }
                 }
                 if (minAllInPlayer != null)
@@ -187,12 +186,12 @@ namespace TexasHoldem.Logic.Game
            
 
             foreach (Player player in state._players)
-                if (player.chipCount != 0)
+                if (player._chipCount != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
                    // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
-                    player.inHand = false;
+                    player._isActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
             state._players = playersLeftInGame;
@@ -216,7 +215,7 @@ namespace TexasHoldem.Logic.Game
             {
                 state._isGameOver = true;
                 if (!_currentPlayer.OutOfMoney())
-                    state._players[0].inHand = false; // so if human wins doesn't try to display cards
+                    state._players[0]._isActive = false; // so if human wins doesn't try to display cards
             }
 
 
@@ -229,7 +228,7 @@ namespace TexasHoldem.Logic.Game
             {
                 HandEvaluator h = new HandEvaluator(p);
                 List<Card> playerCards = statePublicCards;
-                playerCards.AddRange(p.hand.GetCards());
+                playerCards.AddRange(p._hand.GetCards());
                 Card[] cards = playerCards.ToArray();
                 h.DetermineHandRank(cards);
                 if (winners.Count == 0)
