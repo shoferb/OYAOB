@@ -16,8 +16,6 @@ namespace TexasHoldem.Logic.Game.Tests
         private HandOfPoker _pokerHand;
         private bool _isGameOver = false;
         private static List<Player> _players;
-        private List<Card> _publicCards;
-        private int _sb = 0;
         private List<Tuple<int, List<Player>>> _sidePots;
         private ConcreteGameRoom.HandStep _handStep;
         private Deck _deck;
@@ -33,81 +31,67 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_B);
             _gameRoom = new ConcreteGameRoom(_players, 2);
             _pokerHand = new HandOfPoker(_gameRoom);
-            _publicCards = new List<Card>();
-            _sidePots = new List<Tuple<int, List<Player>>>();
             _deck = new Deck();
         }
       
         [TestMethod()]
         public void ToCallTest()
         {
-             Assert.IsTrue(_gameRoom.ToCall()==1);
+            _gameRoom._maxCommitted = 1000;
+             Assert.IsTrue(_gameRoom.ToCall()==900);
         }
 
         [TestMethod()]
         public void UpdateGameStateTest()
-        {
-            Assert.Fail();
+        {// if there are only 2 player the dealer is also sb and the bb is start, and then 
+            //the dealer should play in the next turn
+            _pokerHand.NewHand(_gameRoom);
+            Player p = _pokerHand._dealerPlayer;
+            _gameRoom.UpdateGameState();
+            Assert.IsTrue(_gameRoom.NextToPlay()!= p);
         }
 
         [TestMethod()]
         public void ClearPublicCardsTest()
         {
-            Assert.Fail();
+            _gameRoom.ClearPublicCards();
+            Assert.IsTrue(_gameRoom._publicCards.Count == 0);
         }
 
         [TestMethod()]
         public void AddNewPublicCardTest()
         {
+            _pokerHand.NewHand(_gameRoom);
             _gameRoom.AddNewPublicCard();
             Assert.IsTrue(_gameRoom._publicCards.Count > 0);
         }
 
-        [TestMethod()]
-        public void UpdateMaxCommittedTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
+       [TestMethod()]
         public void EndTurnTest()
         {
-            Assert.Fail();
-        }
+            _pokerHand.NewHand(_gameRoom);
+            _gameRoom.EndTurn();
+            foreach (Player p in _gameRoom._players)
+            {
+                if (p._isActive)
+                Assert.IsTrue(p._lastAction.Equals(""));
+            }
 
-        [TestMethod()]
-        public void ResetActionPosTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void MoveChipsToPotTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void PlayersInHandTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void PlayersAllInTest()
-        {
-            Assert.Fail();
         }
 
         [TestMethod()]
         public void AllDoneWithTurnTest()
         {
-            Assert.Fail();
+            _pokerHand.NewHand(_gameRoom);
+            _A._isActive = false;
+            _B._isActive = false;
+            Assert.IsTrue(_gameRoom.AllDoneWithTurn());
         }
 
         [TestMethod()]
         public void newSplitPotTest()
         {
+            //TODO
             Assert.Fail();
         }
     }

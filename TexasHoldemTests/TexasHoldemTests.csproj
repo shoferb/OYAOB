@@ -79,6 +79,7 @@
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
+    <Compile Include="Logic\Game\DeckTests.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Game\HandOfPokerTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />

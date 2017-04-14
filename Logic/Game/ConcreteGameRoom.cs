@@ -97,7 +97,6 @@ namespace TexasHoldem.Logic.Game
             int offset = 1;
             if (_handStep == HandStep.River)
                 offset = 3;
-            //@TODO fix divide by 0 
             _actionPos = (_buttonPos + offset) % _players.Count;
             while (!_players[_actionPos]._isActive)
                 _actionPos = (_actionPos + 1) % _players.Count;

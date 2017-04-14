@@ -12,8 +12,8 @@ namespace TexasHoldem
 {
     public class Deck
     {
-        private int _numOfCards;
-        List<Card> _deck;
+        public int _numOfCards;
+        public List<Card> _deck;
         public int[] _cardRank = new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
         static Random r = new Random();
