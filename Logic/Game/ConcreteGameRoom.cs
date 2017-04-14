@@ -7,10 +7,11 @@ namespace TexasHoldem.Logic.Game
     public class ConcreteGameRoom : GameRoom
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
-    
+        public Guid _id { get; private set; }
+        public static int _gameNumber=0;
         public ConcreteGameRoom(List<Player> players, int buttonPos) : base(players, buttonPos)
         {
-            //TODO : generate random this._id ;
+            this._id = Guid.NewGuid();
             _isGameOver = false;
             this._potCount = 0;
             this._actionPos = (buttonPos + 3) % players.Count;
@@ -20,9 +21,9 @@ namespace TexasHoldem.Logic.Game
             _publicCards = new List<Card>();
             _sb = 0;
             _sidePots = new List<Tuple<int, List<Player>>>();
+            _gameNumber++;
         }
 
-        public override int _id { get; set; }
         public override List<Player> _players { get; set; }
         public override int _buttonPos { get; set; }
         public override int _maxCommitted { get; set; }

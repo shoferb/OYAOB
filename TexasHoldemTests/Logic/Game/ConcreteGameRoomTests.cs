@@ -5,22 +5,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
     [TestClass()]
     public class ConcreteGameRoomTests
     {
-        [TestMethod()]
-        public void ConcreteGameRoomTest()
+        private ConcreteGameRoom _gameRoom;
+        private bool _isGameOver = false;
+        private int _potCount = 0;
+       // private static int _buttonPos = 8;
+        private static List<Player> _players = new List<Player>(2);
+       // private int _actionPos = (_buttonPos + 3) % _players.Count;
+        private int _maxCommitted = 0;
+        private List<Card> _publicCards;
+        private int _sb = 0;
+        private List<Tuple<int, List<Player>>> _sidePots;
+        private ConcreteGameRoom.HandStep _handStep;
+        private int _bb;
+        private Deck _deck;
+
+        [TestInitialize()]
+        public void Initialize()
         {
-            Assert.Fail();
+            _gameRoom = new ConcreteGameRoom(_players, 2);
+            _publicCards = new List<Card>();
+            _sidePots = new List<Tuple<int, List<Player>>>();
+            _deck = new Deck();
         }
+      
 
         [TestMethod()]
         public void AddNewPublicCardTest()
         {
-            Assert.Fail();
+            _gameRoom.AddNewPublicCard();
+            Assert.IsTrue(_gameRoom._publicCards.Count>0);
         }
 
         [TestMethod()]

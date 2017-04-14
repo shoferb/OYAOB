@@ -198,7 +198,7 @@ namespace TexasHoldem.Logic.Game
             state._players = playersLeftInGame;
             state.EndTurn();
             List<HandEvaluator> winners= FindWinner(state._publicCards, playersLeftInGame);
-            //TODO: pay chips, give rank
+            //TODO: pay chips, give rank win method will be in Orelli
             foreach (Player player in state._players)
                 player.ClearCards(); // gets rid of cards of _players still alive
 

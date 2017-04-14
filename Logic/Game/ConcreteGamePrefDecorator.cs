@@ -13,7 +13,6 @@ namespace TexasHoldem.Logic.Game
         {
         }
 
-        public override int _id { get; set; }
         public override List<Player> _players { get; set; }
         public override int _buttonPos { get; set; }
         public override int _maxCommitted { get; set; }
