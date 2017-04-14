@@ -25,7 +25,7 @@ namespace TexasHoldem.Logic.Game.Evaluator.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _evaluator = new HandEvaluator();
+            _evaluator = new HandEvaluator(null);
             _cards = new Card[7];
         }
 

@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    class HandOfPoker
+    public class HandOfPoker
     {
         public bool _gameOver = false;
         public Player _currentPlayer;
@@ -222,11 +222,73 @@ namespace TexasHoldem.Logic.Game
 
         }
         //TODO: Aviv G - it's all yours:)
-        private List<HandEvaluator> FindWinner(List<Card> statePublicCards, List<Player> playersLeftInHand)
+        public List<HandEvaluator> FindWinner(List<Card> statePublicCards, List<Player> playersLeftInHand)
         {
-            throw new NotImplementedException();
+            List<HandEvaluator> winners = new List<HandEvaluator>();
+            foreach (Player p in playersLeftInHand)
+            {
+                HandEvaluator h = new HandEvaluator(p);
+                List<Card> playerCards = statePublicCards;
+                playerCards.AddRange(p.hand.GetCards());
+                Card[] cards = playerCards.ToArray();
+                h.DetermineHandRank(cards);
+                if (winners.Count == 0)
+                {
+                    winners.Add(h);
+                    continue;
+                }
+                if (h._rank.CompareTo(winners.ElementAt(0)._rank) > 0)
+                {
+                    winners.Clear();
+                    winners.Add(h);
+                }
+                else if(h._rank.CompareTo(winners.ElementAt(0)._rank) == 0)
+                {
+                    winners.Add(h);
+                }
+            }
+            if (winners.Count() == 1)
+            {
+                return winners;
+            }
+            return EvalTies(winners);
         }
 
+        public List<HandEvaluator> EvalTies(List<HandEvaluator> winners)
+        {
+            List<Card> playerOneCards;
+            List<Card> playerTwoCards;
+            int i = 1;
+            bool tie;
+            while (winners.Count >= 2 && i < winners.Count() )
+            {
+                playerOneCards = winners.ElementAt(i-1)._relevantCards;
+                playerTwoCards = winners.ElementAt(i)._relevantCards;
+                playerOneCards.OrderBy(o => o._value).ToList();
+                playerTwoCards.OrderBy(o => o._value).ToList();
+                tie = true;
+                for (int j=0; j < playerOneCards.Count && j < playerTwoCards.Count; j++)
+                {
+                    if (playerOneCards.ElementAt(j)._value > playerTwoCards.ElementAt(j)._value)
+                    {
+                        winners.RemoveAt(i);
+                        tie = false;
+                        break;
+                    }
+                    else if(playerOneCards.ElementAt(j)._value < playerTwoCards.ElementAt(j)._value)
+                    {
+                        winners.RemoveAt(i-1);
+                        tie = false;
+                        break;
+                    }           
+                }
+                if (tie == true)
+                {
+                    i++;
+                }
+            }
+            return winners;
         }
+    }
     }
 

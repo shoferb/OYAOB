@@ -11,6 +11,12 @@ namespace TexasHoldem.Logic.Game.Evaluator
     {
         public HandRank _rank;
         public List<Card> _relevantCards = new List<Card>();
+
+        public HandEvaluator(Player player)
+        {
+            _player = player;
+        }
+
         public Player _player { get; set;}
 
         public void DetermineHandRank(Card[] cards)

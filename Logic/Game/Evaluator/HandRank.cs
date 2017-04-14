@@ -8,15 +8,15 @@ namespace TexasHoldem.Logic.Game.Evaluator
 {
     public enum HandRank
     {
-        ROYAL_FLUSH,
-        STRAIGHT_FLUSH,
-        FOUR_OF_A_KIND,
-        FULL_HOUSE,
-        FLUSH,
-        STRAIGHT,
-        THREE_OF_A_KIND,
-        TWO_PAIR,
-        PAIR,
-        HIGH_CARD
+        ROYAL_FLUSH = 9,
+        STRAIGHT_FLUSH = 8,
+        FOUR_OF_A_KIND = 7,
+        FULL_HOUSE = 6,
+        FLUSH = 5,
+        STRAIGHT = 4,
+        THREE_OF_A_KIND = 3,
+        TWO_PAIR = 2,
+        PAIR = 1,
+        HIGH_CARD = 0
     }
 }
