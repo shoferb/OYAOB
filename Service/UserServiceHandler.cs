@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 
@@ -6,10 +8,30 @@ namespace TexasHoldem.Service
 {
     public abstract class UserServiceHandler : ServiceHandler
     {
-        public const int InitialMoneyAmount = 100;
-        public const int InitialPointsAmount = 0;
+        private SystemControl sc = new SystemControl();
+        private GameCenter gc = new GameCenter();
 
-        public abstract User GetUserFromId(int userId);
+
+        //public const int InitialMoneyAmount = 100;
+//        public const int InitialPointsAmount = 0;
+
+
+       //return user with id, if doesent exist return null
+        public User GetUserFromId(int userId)
+        {
+            User toReturn = null;
+            bool isThereUser = sc.IsUserWithId(userId);
+            if (!isThereUser)
+            {
+                Console.WriteLine("There is no user with id: " + userId);
+            }
+            else
+            {
+                toReturn = sc.GetUserWithId(userId);
+            }
+            return toReturn;
+
+        }
         public abstract List<User> GetAllUsers();
         public abstract int GetMaxUserPoints();
         public abstract Player GetPlayer(int userId, int roomId);

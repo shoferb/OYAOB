@@ -12,6 +12,13 @@ namespace TexasHoldem.Logic.Game_Control
         private int minRank;
         private int maxRank;
 
+        public League(string name, int minRank, int maxRank)
+        {
+            this.name = name;
+            this.minRank = minRank;
+            this.maxRank = maxRank;
+        }
+
 
         //getter setter name
         public String getName()

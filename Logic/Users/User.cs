@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Users
 {
@@ -17,7 +20,12 @@ namespace TexasHoldem.Logic.Users
         private int points;
         private int money;
         private List<Notification> waitListNotification;
-        private String email;
+        private string email;
+        private bool isActive;
+        public List<GameRoom> ActiveGameList { get; set; }
+        private List<GameRoom> spectateGameList { get; set; }
+        public bool IsHigherRank { get; set; }
+
 
         public User(int id, string name, string memberName, string password, int points, int money, String email)
         {
@@ -36,6 +44,8 @@ namespace TexasHoldem.Logic.Users
                 Console.WriteLine("this is not a valid email, please edit it");
             }
             this.waitListNotification = new List<Notification>();
+            this.isActive = false;
+            this.IsHigherRank = false;
         }
 
         private bool IsValidEmail(string email)
@@ -73,48 +83,9 @@ namespace TexasHoldem.Logic.Users
             return true;
         }
 
-        //use case - allow edit email 
-        public bool EditEmail(String newEmail)
-        {
-            bool toReturn;
-            bool valid = IsValidEmail(newEmail);
-            if (valid)
-            {
-                this.email = newEmail;
-                toReturn = true;
-            }
-            else
-            {
-                toReturn = false;
-            }
-            return toReturn;
-        }
         
-        //use case allow to change password
-        public bool EditPassword(string newPassword)
-        {
-            bool toReturn;
-            int len = newPassword.Length;
-            if (len > 7 && len < 13)
-            {
-                toReturn = true;
-                this.password = newPassword;
-            }
-            else
-            {
-                toReturn = false;
-            }
-            return toReturn;
-        }
-
-        private int IntLength(int i)
-        {
-            if (i < 0)
-                throw new ArgumentOutOfRangeException();
-            if (i == 0)
-                return 1;
-            return (int)Math.Floor(Math.Log10(i)) + 1;
-        }
+       
+        
         //getters setters
         public int Id
         {
@@ -198,6 +169,18 @@ namespace TexasHoldem.Logic.Users
             set
             {
                 email = value;
+            }
+        }
+        public bool IsActive
+        {
+            get
+            {
+                return isActive;
+            }
+
+            set
+            {
+                isActive = value;
             }
         }
     }
