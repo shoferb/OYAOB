@@ -275,8 +275,8 @@ namespace TexasHoldem.Logic.Game
             {
                 playerOneCards = winners.ElementAt(i-1)._relevantCards;
                 playerTwoCards = winners.ElementAt(i)._relevantCards;
-                playerOneCards.OrderBy(o => o._value).ToList();
-                playerTwoCards.OrderBy(o => o._value).ToList();
+                playerOneCards = playerOneCards.OrderByDescending(o => o._value).ToList();
+                playerTwoCards = playerTwoCards.OrderByDescending(o => o._value).ToList();
                 tie = true;
                 for (int j=0; j < playerOneCards.Count && j < playerTwoCards.Count; j++)
                 {

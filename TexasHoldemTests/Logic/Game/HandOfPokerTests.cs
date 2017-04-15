@@ -90,6 +90,65 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
+        public void FindWinnerAlmostTieTest()
+        {
+            List<Card> table = new List<Card>();
+            Card card1 = new Card(Suits.Clubs, 1);
+            Card card2 = new Card(Suits.Clubs, 13);
+            Card card3 = new Card(Suits.Clubs, 2);
+            Card card4 = new Card(Suits.Clubs, 3);
+            Card card5 = new Card(Suits.Clubs, 12);
+            Card card6 = new Card(Suits.Clubs, 4);
+            Card card7 = new Card(Suits.Clubs, 5);
+            Card card8 = new Card(Suits.Clubs, 11);
+            Card card9 = new Card(Suits.Clubs, 10);
+            Card card10 = new Card(Suits.Spades, 11);
+            Card card11 = new Card(Suits.Spades, 10);
+            table.Add(card1);
+            table.Add(card2);
+            table.Add(card3);
+            table.Add(card4);
+            table.Add(card5);
+            _player1.AddHoleCards(card10, card11);
+            _player2.AddHoleCards(card6, card7);
+            _player3.AddHoleCards(card8, card9);
+            _winners = _hand.FindWinner(table, _players);
+            Assert.IsTrue(_winners.Count == 1);
+            Assert.IsTrue(_winners[0]._player == _player3);
+        }
+
+        [TestMethod()]
+        public void FindWinnerAlmostTieTest2()
+        {
+            List<Card> table = new List<Card>();
+            Card card1 = new Card(Suits.Clubs, 1);
+            Card card2 = new Card(Suits.Clubs, 13);
+            Card card3 = new Card(Suits.Clubs, 2);
+            Card card4 = new Card(Suits.Spades, 3);
+            Card card5 = new Card(Suits.Clubs, 12);
+            Card card6 = new Card(Suits.Spades, 4);
+            Card card7 = new Card(Suits.Spades, 5);
+            Card card8 = new Card(Suits.Hearts, 11);
+            Card card9 = new Card(Suits.Hearts, 10);
+            Card card10 = new Card(Suits.Spades, 11);
+            Card card11 = new Card(Suits.Spades, 10);
+            table.Add(card1);
+            table.Add(card2);
+            table.Add(card3);
+            table.Add(card4);
+            table.Add(card5);
+            _player1.AddHoleCards(card10, card11);
+            _player2.AddHoleCards(card6, card7);
+            _player3.AddHoleCards(card8, card9);
+            _winners = _hand.FindWinner(table, _players);
+            Assert.IsTrue(_winners.Count == 2);
+            Assert.IsTrue(_winners[0]._player == _player1 || 
+                _winners[0]._player == _player3);
+            Assert.IsTrue(_winners[1]._player == _player1 ||
+                _winners[1]._player == _player3);
+        }
+
+        [TestMethod()]
         public void EvalTiesTest()
         {
             Assert.Fail();
