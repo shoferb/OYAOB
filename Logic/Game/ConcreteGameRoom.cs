@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Game
             this._maxCommitted = 0;
             this._publicCards = new List<Card>();
             this._sb = startingChip;
-            this._bb = _bb*2;
+            this._bb = _sb*2;
             this._sidePots = new List<Tuple<int, List<Player>>>();
             _gameNumber++;
             this._gm = new GameManager(this);
