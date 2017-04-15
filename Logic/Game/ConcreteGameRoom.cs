@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Game
         public enum HandStep { PreFlop, Flop, Turn, River }
         public Guid _id { get; private set; }
         public static int _gameNumber=0;
-        private GameManager _mg;
+        public GameManager _gm;
         public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
         {
             int buttonPos = 0;
@@ -25,7 +25,7 @@ namespace TexasHoldem.Logic.Game
             this._bb = _bb*2;
             this._sidePots = new List<Tuple<int, List<Player>>>();
             _gameNumber++;
-            this._mg = new GameManager(this);
+            this._gm = new GameManager(this);
          }
 
         public override List<Player> _players { get; set; }
@@ -100,9 +100,12 @@ namespace TexasHoldem.Logic.Game
             int offset = 1;
             if (_handStep == HandStep.River)
                 offset = 3;
-            _actionPos = (_buttonPos + offset) % _players.Count;
-            while (!_players[_actionPos]._isActive)
-                _actionPos = (_actionPos + 1) % _players.Count;
+            if (_players.Count == 0) _actionPos = 0;
+            else
+             { _actionPos = (_buttonPos + offset) % _players.Count;
+                while (!_players[_actionPos]._isActive)
+                    _actionPos = (_actionPos + 1) % _players.Count;
+            }
         }
         public override void MoveChipsToPot()
         {

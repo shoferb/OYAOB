@@ -11,8 +11,8 @@ namespace TexasHoldem.Logic.Game
 {
     public class GameManager
     {
-        public int _forTest = 0;
-        public int _verifyAction = 0;      
+        public int _forTest;
+        public int _verifyAction;      
         public bool _gameOver = false;
         public Player _currentPlayer;
         public Player _dealerPlayer;
@@ -21,12 +21,12 @@ namespace TexasHoldem.Logic.Game
         public Player _sbPlayer;
         public List<HandEvaluator> _winners;
 
-
         private int buttonPos;
         ConcreteGameRoom state;
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
+            this._forTest = 0;
             SetRoles(state);
             Play(state);
         } 
@@ -147,19 +147,15 @@ namespace TexasHoldem.Logic.Game
                 case ConcreteGameRoom.HandStep.PreFlop:
                     for (int i = 0; i <= 2; i++)
                         state.AddNewPublicCard();
-                    this._verifyAction++;
                     break;
                 case ConcreteGameRoom.HandStep.Flop:
                     state.AddNewPublicCard();
-                    this._verifyAction++;
-                    break;
+                  break;
                 case ConcreteGameRoom.HandStep.Turn:
                     state.AddNewPublicCard();
-                    this._verifyAction++;
                     break;
                 case ConcreteGameRoom.HandStep.River:
-                    this._verifyAction++;
-                    return true;
+                   return true;
 
                 default:
                     break;
