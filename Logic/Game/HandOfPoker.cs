@@ -31,7 +31,7 @@ namespace TexasHoldem.Logic.Game
 
         } 
 
-        public void NewHand(ConcreteGameRoom state)
+        public void SetRoles(ConcreteGameRoom state)
         {
             this.state = state;
             state._handStep = ConcreteGameRoom.HandStep.PreFlop;
@@ -201,16 +201,18 @@ namespace TexasHoldem.Logic.Game
             state._players = playersLeftInGame;
             state.EndTurn();
             _winners= FindWinner(state._publicCards, playersLeftInGame);
-            int amount = state._potCount/_winners.Count;
+           int amount = state._potCount/_winners.Count;
 
             foreach (HandEvaluator h in _winners)
             {
-                //h._player.win(amount);
+                h._player.Win(amount);
             }
-            
-            foreach (Player player in state._players)
-                player.ClearCards(); // gets rid of cards of _players still alive
 
+            foreach (Player player in state._players)
+            {
+                player.ClearCards(); // gets rid of cards of _players still alive
+                Player.Lose();
+            }
             if (state._players.Count > 1)
             {
                 // sets next _buttonPos
@@ -219,7 +221,7 @@ namespace TexasHoldem.Logic.Game
                 state._buttonPos = state._buttonPos % state._players.Count;
 
                 state.ClearPublicCards();
-                NewHand(state);
+                SetRoles(state);
             }
             else
             {

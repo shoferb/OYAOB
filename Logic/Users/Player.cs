@@ -177,10 +177,15 @@ namespace TexasHoldem.Logic.Users
 
 
         }
-
-      /*  public void win(int amount)
+        //TODO: orellie
+         public void Win(int amount)
         {
-            throw new NotImplementedException();
-        }*/
+           
+        }
+        //TODO: orellie
+        public static void Lose()
+        {
+            
+        }
     }
 }

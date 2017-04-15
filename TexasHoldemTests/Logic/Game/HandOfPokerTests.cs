@@ -38,14 +38,14 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void NewHandTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             Assert.IsTrue(_hand._dealerPlayer!= _hand._bbPlayer && _hand._dealerPlayer != _hand._sbPlayer);
         }
 
         [TestMethod()]
         public void PlayTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             _hand.Play(_room);
             Assert.IsTrue(_hand._forTest>4);
         }
@@ -53,7 +53,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void ProgressHandTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             _hand.Play(_room);
             Assert.IsTrue(_hand._verifyAction == 4);
         }
@@ -61,7 +61,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void EndHandTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             _hand.Play(_room);
            Assert.IsTrue(_hand._winners.Count>=1);
         }
