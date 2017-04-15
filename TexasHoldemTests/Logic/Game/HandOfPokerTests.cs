@@ -18,15 +18,15 @@ namespace TexasHoldem.Logic.Game.Tests
         private Player _player1;
         private Player _player2;
         private Player _player3;
-        List<Player> _players;
-        List<HandEvaluator> _winners;
+        private List<Player> _players;
+        private List<HandEvaluator> _winners;
 
         [TestInitialize()]
         public void Initialize()   
         {
-            _player1 = new Player(1000,100,1,"Y","C","",0,0,"",0,false);
-            _player2 = new Player(1000, 200, 1, "L", "M", "", 0, 0, "", 0, false);
-            _player3 = new Player(1000, 300, 1, "Z", "X", "", 0, 0, "", 0, false);
+            _player1 = new Player(1000,100,1,"Y","C","",0,0,"",0);
+            _player2 = new Player(1000, 200, 1, "L", "M", "", 0, 0, "", 0);
+            _player3 = new Player(1000, 300, 1, "Z", "X", "", 0, 0, "", 0);
             _players = new List<Player>();
             _players.Add(_player1);
             _players.Add(_player2);
@@ -47,6 +47,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             _hand.SetRoles(_room);
             _hand.Play(_room);
+            Console.WriteLine(_hand._forTest);
             Assert.IsTrue(_hand._forTest>4);
         }
 

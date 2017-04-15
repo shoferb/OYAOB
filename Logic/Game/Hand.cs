@@ -9,20 +9,20 @@ namespace TexasHoldem.Logic.Game
 {
     public class Hand 
     {
-        Card _holeOne;
-        Card _holeTwo;
-        List<Card> _publicCards = new List<Card>();
+        public Card _firstCard;
+        public Card _seconedCard;
+        public List<Card> _publicCards = new List<Card>();
         public Hand()
         {
-            this._holeOne = null;
-            this._holeTwo = null;
+            this._firstCard = null;
+            this._seconedCard = null;
         }
 
         public List<Card> GetCards()
         {
             List<Card> holeCards = new List<Card>()
-                {_holeOne,
-                 _holeTwo,
+                {_firstCard,
+                 _seconedCard,
                 };
             return holeCards;
 
@@ -30,8 +30,8 @@ namespace TexasHoldem.Logic.Game
 
         public void ClearCards()
         {
-            _holeOne = null;
-            _holeTwo = null;
+            _firstCard = null;
+            _seconedCard = null;
             _publicCards.Clear();
 
         }
@@ -44,10 +44,10 @@ namespace TexasHoldem.Logic.Game
         }
         public void Add2Cards(Card newCardA, Card newCardB)
         {
-            if (_holeOne == null && _holeTwo == null)
+            if (_firstCard == null && _seconedCard == null)
             {
-                _holeOne = newCardA;
-                _holeTwo = newCardB;
+                _firstCard = newCardA;
+                _seconedCard = newCardB;
             }
             else
                 throw new System.ArgumentException("Player cards already determined.", "newCard");

@@ -24,8 +24,8 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _A = new Player(1000, 100, 1, "Yarden", "Chen", "", 0, 0, "", 0, false);
-            _B = new Player(500, 100, 2,"Aviv","G","",0,0,"",0,false);
+            _A = new Player(1000, 100, 1, "Yarden", "Chen", "", 0, 0, "", 0);
+            _B = new Player(500, 100, 2,"Aviv","G","",0,0,"",0);
             _players = new List<Player>();
             _players.Add(_A);
             _players.Add(_B);

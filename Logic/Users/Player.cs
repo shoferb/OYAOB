@@ -9,37 +9,33 @@ namespace TexasHoldem.Logic.Users
 {
     public class Player : Spectetor
     {
-        private bool isActive;
+        
         public bool _isActive { get; set; }
-        public int seatNumber { get; set; }
         public string name { get; set; }
         public int _chipCount { get; set; }
         public int _chipsCommitted { get; set; }
 
         public string _lastAction { get; set; }
-        public Hand _hand = new Hand();
+        public Hand _hand;
 
         public Player(int chipCount, int chipsComitted, int id, string name, string memberName, string password, int points, int money, String email,
-            int gameId, bool isActive) : base(id, name, memberName, password, points, money, email, gameId)
+            int gameId) : base(id, name, memberName, password, points, money, email, gameId)
         {
+            //TODO: Orellie, I deleted the "IsActive" field and refactor isHand to it. it's not
+            //TODO: should pass in the constructor, I'm changing it from the game.
+            //TODO: pls delete the money field - bc we have the cheaps already, and the gameID
             this._chipCount = chipCount;
             this._chipsCommitted = chipsComitted;
-            this.isActive = isActive;
-            this.seatNumber = seatNumber;
-            this.name = name;
+           this.name = name;
             this._chipsCommitted = _chipsCommitted;
             this._chipCount = chipCount;
             _isActive = false;
+            _hand = new Hand();
 
         }
 
         //getter setter
-        public bool IsActive
-        {
-            get { return isActive; }
-
-            set { isActive = value; }
-        }
+        
         public bool IsAllIn()
         {
             if (_chipCount == 0 && _isActive)
