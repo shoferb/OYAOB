@@ -25,7 +25,7 @@ namespace TexasHoldem.Logic.Game
         _state._bb = bb;
 
         _handsOfPoker = new HandOfPoker(_state);
-            _handsOfPoker.NewHand(_state);
+            _handsOfPoker.SetRoles(_state);
             _handsOfPoker.Play(_state);
         if (_players.Count == 1)
             GameEnds();

@@ -38,14 +38,14 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void NewHandTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             Assert.IsTrue(_hand._dealerPlayer!= _hand._bbPlayer && _hand._dealerPlayer != _hand._sbPlayer);
         }
 
         [TestMethod()]
         public void PlayTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             _hand.Play(_room);
             Assert.IsTrue(_hand._forTest>4);
         }
@@ -53,15 +53,16 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void ProgressHandTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             _hand.Play(_room);
+            Console.WriteLine(_hand._verifyAction);
             Assert.IsTrue(_hand._verifyAction == 4);
         }
 
         [TestMethod()]
         public void EndHandTest()
         {
-            _hand.NewHand(_room);
+            _hand.SetRoles(_room);
             _hand.Play(_room);
            Assert.IsTrue(_hand._winners.Count>=1);
         }
@@ -142,7 +143,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _player3.AddHoleCards(card8, card9);
             _winners = _hand.FindWinner(table, _players);
             Assert.IsTrue(_winners.Count == 2);
-            Assert.IsTrue(_winners[0]._player == _player1 || 
+            Assert.IsTrue(_winners[0]._player == _player1 ||
                 _winners[0]._player == _player3);
             Assert.IsTrue(_winners[1]._player == _player1 ||
                 _winners[1]._player == _player3);
