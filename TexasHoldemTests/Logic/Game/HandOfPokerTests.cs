@@ -55,6 +55,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             _hand.SetRoles(_room);
             _hand.Play(_room);
+            Console.WriteLine(_hand._verifyAction);
             Assert.IsTrue(_hand._verifyAction == 4);
         }
 

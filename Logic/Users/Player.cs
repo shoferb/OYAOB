@@ -71,7 +71,7 @@ namespace TexasHoldem.Logic.Users
 
         public void AddCard(Card newCard)
         {
-            _hand.AddCard(newCard);
+            _hand.AddPublicCardToPlayer(newCard);
         }
         public bool CanCheck(ConcreteGameRoom state)
         {
@@ -81,7 +81,7 @@ namespace TexasHoldem.Logic.Users
         }
         public void AddHoleCards(Card newCardA, Card newCardB)
         {
-            _hand.AddCards(newCardA, newCardB);
+            _hand.Add2Cards(newCardA, newCardB);
         }
         public void Fold()
         {

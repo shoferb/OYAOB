@@ -7,7 +7,7 @@ using TexasHoldem.Logic.Game.Evaluator;
 
 namespace TexasHoldem.Logic.Game
 {
-    public class Hand : IComparable
+    public class Hand 
     {
         Card _holeOne;
         Card _holeTwo;
@@ -35,14 +35,14 @@ namespace TexasHoldem.Logic.Game
             _publicCards.Clear();
 
         }
-        public void AddCard(Card newCard)
+        public void AddPublicCardToPlayer(Card newCard)
         {
             if (_publicCards.Count < 5)
                 _publicCards.Add(newCard);
             else
                 throw new System.ArgumentException("Too many cards.", "newCard");
         }
-        public void AddCards(Card newCardA, Card newCardB)
+        public void Add2Cards(Card newCardA, Card newCardB)
         {
             if (_holeOne == null && _holeTwo == null)
             {
@@ -53,11 +53,5 @@ namespace TexasHoldem.Logic.Game
                 throw new System.ArgumentException("Player cards already determined.", "newCard");
         }
 
-        public int CompareTo(Object otherObject)
-        {
-            //TODO: myabe I'll delete it later - maybe AvivG will use it.
-            return 0;
-
         }
-    }
 }
