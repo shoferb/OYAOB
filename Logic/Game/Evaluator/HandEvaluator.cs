@@ -274,7 +274,7 @@ namespace TexasHoldem.Logic.Game.Evaluator
             _relevantCards.Clear();
             Array.Sort(cards, (x, y) => y._value.CompareTo(x._value)); //decending
             int i = 0;
-            while (i <= cards.Count() - 2 && !found)
+            while (i < cards.Count() - 2 && !found)
             {
                 if (cards[i]._value == cards[i + 1]._value && cards[i + 1]._value == cards[i + 2]._value)
                 {
