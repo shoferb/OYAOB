@@ -9,21 +9,24 @@ namespace TexasHoldem.Logic.Game
         public enum HandStep { PreFlop, Flop, Turn, River }
         public Guid _id { get; private set; }
         public static int _gameNumber=0;
-        public ConcreteGameRoom(List<Player> players, int buttonPos) : base(players, buttonPos)
+        private GameManager _mg;
+        public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
         {
+            int buttonPos = 0;
             this._id = Guid.NewGuid();
-            _isGameOver = false;
+            this._isGameOver = false;
             this._potCount = 0;
             this._actionPos = (buttonPos + 3) % players.Count;
             this._players = players;
             this._buttonPos = buttonPos;
             this._maxCommitted = 0;
-            _publicCards = new List<Card>();
-            _sb = 0;
-            _sidePots = new List<Tuple<int, List<Player>>>();
+            this._publicCards = new List<Card>();
+            this._sb = startingChip;
+            this._bb = _bb*2;
+            this._sidePots = new List<Tuple<int, List<Player>>>();
             _gameNumber++;
-           
-        }
+            this._mg = new GameManager(this);
+         }
 
         public override List<Player> _players { get; set; }
         public override int _buttonPos { get; set; }

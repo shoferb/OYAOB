@@ -11,9 +11,9 @@ using TexasHoldem.Logic.Game.Evaluator;
 namespace TexasHoldem.Logic.Game.Tests
 {
     [TestClass()]
-    public class HandOfPokerTests
+    public class GameManagerTests
     {
-        private HandOfPoker _hand;
+        private GameManager _hand;
         private ConcreteGameRoom _room;
         private Player _player1;
         private Player _player2;
@@ -31,15 +31,14 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_player1);
             _players.Add(_player2);
             _players.Add(_player3);
-            _room = new ConcreteGameRoom(_players, 1);
-            _hand = new HandOfPoker(_room);
+            _room = new ConcreteGameRoom(_players, 100);
+            _hand = new GameManager(_room);
         }
 
         [TestMethod()]
         public void NewHandTest()
         {
-            _hand.SetRoles(_room);
-            Assert.IsTrue(_hand._dealerPlayer!= _hand._bbPlayer && _hand._dealerPlayer != _hand._sbPlayer);
+           Assert.IsTrue(_hand._dealerPlayer!= _hand._bbPlayer && _hand._dealerPlayer != _hand._sbPlayer);
         }
 
         [TestMethod()]
@@ -91,10 +90,5 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(_winners.Count == 3);
         }
 
-        [TestMethod()]
-        public void EvalTiesTest()
-        {
-            Assert.Fail();
-        }
-    }
+      }
 }

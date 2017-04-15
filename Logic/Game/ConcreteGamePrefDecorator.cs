@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Game
 {
     public class ConcreteGamePrefDecorator : GamePrefDecorator
     {
-        public ConcreteGamePrefDecorator(List<Player> players, int buttonPos) : base(players, buttonPos)
+        public ConcreteGamePrefDecorator(List<Player> players, int startingChip) : base(players, startingChip)
         {
         }
 

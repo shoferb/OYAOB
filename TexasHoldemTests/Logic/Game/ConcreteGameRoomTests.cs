@@ -13,7 +13,7 @@ namespace TexasHoldem.Logic.Game.Tests
     public class ConcreteGameRoomTests
     {
         private ConcreteGameRoom _gameRoom;
-        private HandOfPoker _pokerHand;
+        private GameManager _pokerHand;
         private bool _isGameOver = false;
         private static List<Player> _players;
         private List<Tuple<int, List<Player>>> _sidePots;
@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_A);
             _players.Add(_B);
             _gameRoom = new ConcreteGameRoom(_players, 2);
-            _pokerHand = new HandOfPoker(_gameRoom);
+            _pokerHand = new GameManager(_gameRoom);
             _deck = new Deck();
         }
       

@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    public class HandOfPoker
+    public class GameManager
     {
         public int _forTest = 0;
         public int _verifyAction = 0;      
@@ -24,11 +24,11 @@ namespace TexasHoldem.Logic.Game
 
         private int buttonPos;
         ConcreteGameRoom state;
-
-        public HandOfPoker(ConcreteGameRoom state)
+        //change to gameroom
+        public GameManager(ConcreteGameRoom state)
         {
-            //TODO: write to log and throw an exception.
-
+            SetRoles(state);
+            Play(state);
         } 
 
         public void SetRoles(ConcreteGameRoom state)

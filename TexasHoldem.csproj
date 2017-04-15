@@ -69,7 +69,6 @@
     <Compile Include="Logic\GameControl\League.cs" />
     <Compile Include="Logic\GameControl\SystemControl.cs" />
     <Compile Include="Logic\Game\Action.cs" />
-    <Compile Include="Logic\Game\ActualGame.cs" />
     <Compile Include="Logic\Game\Card.cs" />
     <Compile Include="Logic\Game\ConcreteGamePrefDecorator.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoom.cs" />
@@ -79,7 +78,7 @@
     <Compile Include="Logic\Game\Evaluator\HandRank.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />
     <Compile Include="Logic\Game\Hand.cs" />
-    <Compile Include="Logic\Game\HandOfPoker.cs" />
+    <Compile Include="Logic\Game\GameManager.cs" />
     <Compile Include="Logic\Game\Suits.cs" />
     <Compile Include="Logic\Notifications And Logs\ActionLog.cs" />
     <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />

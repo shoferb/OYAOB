@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Game
         public abstract bool _isGameOver { get; set; }
         public abstract List<Tuple<int, List<Player>>> _sidePots { get; set; }
         public abstract int _gameRoles { get; set; }
-        public GameRoom(List<Player> players, int buttonPos)
+        public GameRoom(List<Player> players, int startingChip)
         {
             //throw new NotImplementedException();
         }
