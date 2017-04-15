@@ -265,7 +265,7 @@ namespace TexasHoldem.Logic.Game
             return EvalTies(winners);
         }
 
-        public List<HandEvaluator> EvalTies(List<HandEvaluator> winners)
+        private List<HandEvaluator> EvalTies(List<HandEvaluator> winners)
         {
             List<Card> playerOneCards;
             List<Card> playerTwoCards;
@@ -275,6 +275,8 @@ namespace TexasHoldem.Logic.Game
             {
                 playerOneCards = winners.ElementAt(i-1)._relevantCards;
                 playerTwoCards = winners.ElementAt(i)._relevantCards;
+                FixAceTo14(playerOneCards);
+                FixAceTo14(playerTwoCards);
                 playerOneCards = playerOneCards.OrderByDescending(o => o._value).ToList();
                 playerTwoCards = playerTwoCards.OrderByDescending(o => o._value).ToList();
                 tie = true;
@@ -297,9 +299,33 @@ namespace TexasHoldem.Logic.Game
                 {
                     i++;
                 }
+                FixAceTo1(playerOneCards);
+                FixAceTo1(playerTwoCards);
             }
             return winners;
         }
+
+        private void FixAceTo14(List<Card> cards)
+        {
+            foreach (Card c in cards)
+            {
+                if (c._value == 1) //ACE
+                {
+                    c._value = 14;
+                }
+            }
+        }
+
+        private void FixAceTo1(List<Card> cards)
+        {
+            foreach (Card c in cards)
+            {
+                if (c._value == (14)) //ACE
+                {
+                    c._value = 1;
+                }
+            }
+        }
     }
-    }
+ }
 

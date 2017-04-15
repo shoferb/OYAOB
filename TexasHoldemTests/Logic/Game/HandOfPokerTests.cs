@@ -149,9 +149,31 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
-        public void EvalTiesTest()
+        public void FindWinnerTest3()
         {
-            Assert.Fail();
+            List<Card> table = new List<Card>();
+            Card card1 = new Card(Suits.Clubs, 1);
+            Card card2 = new Card(Suits.Hearts, 12);
+            Card card3 = new Card(Suits.Clubs, 6);
+            Card card4 = new Card(Suits.Spades, 1);
+            Card card5 = new Card(Suits.Diamonds, 6);
+            Card card6 = new Card(Suits.Hearts, 1);
+            Card card7 = new Card(Suits.Spades, 5);
+            Card card8 = new Card(Suits.Hearts, 7);
+            Card card9 = new Card(Suits.Spades, 6);
+            Card card10 = new Card(Suits.Spades, 13);
+            Card card11 = new Card(Suits.Clubs, 13);
+            table.Add(card1);
+            table.Add(card2);
+            table.Add(card3);
+            table.Add(card4);
+            table.Add(card5);
+            _player1.AddHoleCards(card6, card7);
+            _player2.AddHoleCards(card8, card9);
+            _player3.AddHoleCards(card10, card11);
+            _winners = _hand.FindWinner(table, _players);
+            Assert.IsTrue(_winners.Count == 1);
+            Assert.IsTrue(_winners[0]._player == _player1);
         }
     }
 }
