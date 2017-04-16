@@ -10,7 +10,8 @@ namespace TexasHoldem.Logic.Users
     {
         private int gameId;
 
-        public Spectetor(int id, string name, string memberName, string password, int points, int money,String email,int gameId) : base(id, name, memberName, password, points, money,email)
+        public Spectetor(int id, string name, string memberName, string password, int points, int money,String email,int gameId) :
+            base(id, name, memberName, password, points, money, email)
         {
             
             this.gameId = gameId;

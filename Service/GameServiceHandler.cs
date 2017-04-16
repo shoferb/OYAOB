@@ -12,8 +12,9 @@ namespace TexasHoldem.Service
             int bb, int minMoney, int maxMoney, int gameNum);
         public abstract int GetNextFreeRoomId();
         public abstract ConcreteGameRoom GetGameById(int id);
-        public abstract bool AddPlayerToRoom(Player player, /*TODO: maybe change this*/ ConcreteGameRoom room);
+        public abstract bool AddPlayerToRoom(Player player, ConcreteGameRoom room);
         public abstract bool AddSpectatorToRoom(Spectetor spectator, /*TODO: maybe change this*/ ConcreteGameRoom room);
+        public abstract bool RemoveUserFromRoom(int userId, int roomId);
         public abstract bool MakeRoomActive(ConcreteGameRoom room);
         public abstract bool RemoveRoom(int gameId);
         public abstract bool Fold(Player player, ConcreteGameRoom room);

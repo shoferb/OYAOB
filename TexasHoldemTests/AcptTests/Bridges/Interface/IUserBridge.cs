@@ -18,8 +18,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<int> GetUsersGameRooms(int userId);
         List<string> GetUserNotificationMsgs(int userId);
         int GetNextFreeUserId();
-        int GetUserWins(int userId);
-        int GetUserLosses(int userId);
         int GetUserRank(int userId);
         void SetUserRank(int userId, int rank); //change user's rank BY SYSTEM
         bool SetUserRank(int userIdToChange, int rank, int changingUserId); //change user's rank BY LEADING USER
