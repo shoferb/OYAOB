@@ -14,7 +14,7 @@ namespace TexasHoldem.Logic.Game
         public GameReplay _gameReplay { get; set; }
         public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
         {
-            this._id = Guid.NewGuid();
+            this._id = Guid.NewGuid(); //TODO: how to get the number - check for Aviv 
             this._isGameOver = false;
             this._potCount = 0;          
             this._players = players;
@@ -29,6 +29,7 @@ namespace TexasHoldem.Logic.Game
          }
 
         public override List<Player> _players { get; set; }
+        public override List<Spectetor> _spectatores { get; set; }
         public override int _dealerPos { get; set; }
         public override int _maxCommitted { get; set; }
         public override int _actionPos { get; set; }
@@ -51,7 +52,7 @@ namespace TexasHoldem.Logic.Game
 
         public override int ToCall()
         {
-            return _maxCommitted - _players[_actionPos]._chipsCommitted;
+            return _maxCommitted - _players[_actionPos]._totalChips;
 
         }
         public override void AddNewPublicCard()
@@ -78,8 +79,8 @@ namespace TexasHoldem.Logic.Game
         public override void UpdateMaxCommitted()
         {
             foreach (Player player in _players)
-                if (player._chipsCommitted > _maxCommitted)
-                    _maxCommitted = player._chipsCommitted;
+                if (player._totalChips > _maxCommitted)
+                    _maxCommitted = player._totalChips;
         }
         public override void EndTurn()
         {
@@ -111,8 +112,8 @@ namespace TexasHoldem.Logic.Game
         {
             foreach (Player player in _players)
             {
-                _potCount += player._chipsCommitted;
-                player._chipsCommitted = 0;
+                _potCount += player._totalChips;
+                player._totalChips = 0;
             }
         }
         public override int PlayersInHand()
@@ -138,7 +139,7 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in _players)
-                if (!(player._isActive == false || player.IsAllIn() || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._chipsCommitted == _maxCommitted))
+                if (!(player._isActive == false || player.IsAllIn() || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._totalChips == _maxCommitted))
                     allDone = false;
             return allDone;
 
@@ -150,12 +151,12 @@ namespace TexasHoldem.Logic.Game
         {
             List<Player> eligiblePlayers = new List<Player>();
             int sidePotCount = 0;
-            int chipsToMatch = allInPlayer._chipsCommitted;
+            int chipsToMatch = allInPlayer._totalChips;
             foreach (Player player in _players)
             {
-                if (player._isActive && player._chipsCommitted > 0)
+                if (player._isActive && player._totalChips > 0)
                 {
-                    player._chipsCommitted -= chipsToMatch;
+                    player._totalChips -= chipsToMatch;
                     sidePotCount += chipsToMatch;
                     eligiblePlayers.Add(player);
                 }

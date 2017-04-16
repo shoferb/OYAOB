@@ -14,6 +14,7 @@ namespace TexasHoldem.Logic.Game
         }
 
         public override List<Player> _players { get; set; }
+        public override List<Spectetor> _spectatores { get; set; }
         public override int _dealerPos { get; set; }
         public override int _maxCommitted { get; set; }
         public override int _actionPos { get; set; }

@@ -12,7 +12,6 @@ namespace TexasHoldem.Logic.Game
 {
     public class GameManager
     {
-        public int _forTest;
         public int _verifyAction;      
         public bool _gameOver = false;
         public Player _currentPlayer;
@@ -20,14 +19,13 @@ namespace TexasHoldem.Logic.Game
         public Player _bbPlayer;
         public Player _sbPlayer;
         public List<HandEvaluator> _winners;
-
+        public static bool _firstEnter = true;
         private int buttonPos;
         ConcreteGameRoom _state;
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
-            this._forTest = 0;
-            this._state = state;
+           this._state = state;
 
         } 
 
@@ -72,28 +70,30 @@ namespace TexasHoldem.Logic.Game
             }
             this._state.UpdateMaxCommitted();
 
-           // Play(state);
 
         }
 
         public bool Play() //need to change all the function to: start, while not end, end
-        {   
+        {
+            
             if (this._state._players.Count < 2) return false;
             else
             {
-                StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
-                _state._gameReplay.AddAction(startAction);
-                this._state._dealerPos = 0;
-                SetRoles();
+                if (_firstEnter)
+                StartTheGame();
+                
                 while (!this._state.AllDoneWithTurn())
                 {
-                    this._state.NextToPlay().Play(this._state);
-                    this._forTest++;
-
-                    this._state.UpdateGameState();
+                   int move;
+                   this._currentPlayer = this._state.NextToPlay();
+                    move = this._currentPlayer.Play(this._state._sb);
+                    PlayerDesicion(move);
+                    
+                   this._state.UpdateGameState();
                 }
 
                 if (this._state.AllDoneWithTurn() || this._state.PlayersInHand() < 2)
+                {
                     if (ProgressHand(this._state._handStep))
                     {
                         // progresses _hand and returns whether _hand is over (the last _handStep was river)
@@ -101,17 +101,54 @@ namespace TexasHoldem.Logic.Game
                         return true;
                     }
                     else
-                        Play();
-                if (!this._state._isGameOver)
-                {
-                    _currentPlayer = this._state.NextToPlay();
-                    _dealerPlayer = this._state._players[(this._state._players.IndexOf(_dealerPlayer) + 1)% this._state._players.Count];
-                    _sbPlayer = this._state._players[(this._state._players.IndexOf(_sbPlayer) + 1)% this._state._players.Count];
-                    _bbPlayer = this._state._players[(this._state._players.IndexOf(_bbPlayer) + 1)% this._state._players.Count];
-
+                    {
+                        _currentPlayer = this._state.NextToPlay();
+                        _dealerPlayer =
+                            this._state._players[
+                                (this._state._players.IndexOf(_dealerPlayer) + 1) % this._state._players.Count];
+                        _sbPlayer =
+                            this._state._players[
+                                (this._state._players.IndexOf(_sbPlayer) + 1) % this._state._players.Count];
+                        _bbPlayer =
+                            this._state._players[
+                                (this._state._players.IndexOf(_bbPlayer) + 1) % this._state._players.Count];
+                        return Play();
+                    }
+                       
                 }
+               
             }
             return true;
+            
+        }
+
+        public void PlayerDesicion(int move)
+        {
+            int sb = this._state._sb;
+            switch (move)
+            {
+                case -1:
+                    Fold();
+                    break;
+                case 0:
+                    Check();
+                    break;
+                default:
+                    if (move == sb)
+                        Call(sb);
+                    else
+                        Raise(move);
+                    break;
+            }
+        }
+
+        private void StartTheGame()
+        {
+            this._state._dealerPos = 0;
+            SetRoles();
+            StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
+            _state._gameReplay.AddAction(startAction);
+            _firstEnter = false;
         }
 
 
@@ -119,7 +156,7 @@ namespace TexasHoldem.Logic.Game
         {            
             List<Player> playersWhoWentAllIn = new List<Player>();
             foreach (Player player in this._state._players)
-                if (player.IsAllIn() && player._chipsCommitted > 0)
+                if (player.IsAllIn() && player._totalChips > 0)
                     playersWhoWentAllIn.Add(player);
 
             while (playersWhoWentAllIn.Count > 0)
@@ -129,10 +166,10 @@ namespace TexasHoldem.Logic.Game
 
                 foreach (Player player in playersWhoWentAllIn) // find player who has the smallest all in
                 {
-                    if (player._chipsCommitted < minAllIn)
+                    if (player._totalChips < minAllIn)
                     {
                         minAllInPlayer = player;
-                        minAllIn = player._chipsCommitted;
+                        minAllIn = player._totalChips;
                     }
                 }
                 if (minAllInPlayer != null)
@@ -193,7 +230,7 @@ namespace TexasHoldem.Logic.Game
            
 
             foreach (Player player in this._state._players)
-                if (player._chipCount != 0)
+                if (player._enteredChip != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
@@ -345,6 +382,57 @@ namespace TexasHoldem.Logic.Game
                 }
             }
         }
+
+        public void Fold()
+        {
+            this._currentPlayer._lastAction = "fold";
+            this._currentPlayer._isActive = false;
+        }
+        public void Check()
+        {
+            this._currentPlayer._lastAction = "check";
+        }
+
+        public void Call(int additionalChips)
+        {
+            this._currentPlayer._lastAction = "call";
+            additionalChips = Math.Min(additionalChips, this._currentPlayer._enteredChip); // if can't afford that many chips in a call, go all in           
+            this._currentPlayer.CommitChips(additionalChips);
+        }
+
+        public void Call()
+        {
+            Call(this._state.ToCall());
+
+        }
+
+        public void Raise(int additionalChips, int toCall)
+        {
+            if (toCall >= this._currentPlayer._enteredChip)
+            { // if has less than or equal number of chips to call (ie cannot raise)
+                Call(this._currentPlayer._enteredChip);
+                this._state._sb = this._currentPlayer._enteredChip;
+            }
+            else
+            {
+                this._currentPlayer._lastAction = "raise";
+                int totalChips = additionalChips + toCall;
+                totalChips = Math.Min(totalChips, this._currentPlayer._enteredChip); // if can't afford that many chips to raise, go all in
+
+                this._currentPlayer.CommitChips(totalChips);
+                this._state._sb = totalChips;
+            }
+
+        }
+        public void Raise(int additionalChips)
+        {
+            additionalChips = Math.Max(additionalChips, this._state._bb); // have to raise at least the _bb
+            additionalChips = Math.Max(additionalChips, this._state._sb); // have to raise at least the last bet/raise
+            Raise(additionalChips, this._state.ToCall());
+
+        }
+
+       
     }
  }
 

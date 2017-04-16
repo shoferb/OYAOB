@@ -12,23 +12,23 @@ namespace TexasHoldem.Logic.Users
         
         public bool _isActive { get; set; }
         public string name { get; set; }
-        public int _chipCount { get; set; }
-        public int _chipsCommitted { get; set; }
+        public int _enteredChip { get; set; }
+        public int _totalChips { get; set; }
 
         public string _lastAction { get; set; }
         public Hand _hand;
 
-        public Player(int chipCount, int chipsComitted, int id, string name, string memberName, string password, int points, int money, String email,
+        public Player(int enteredChip, int totalChipsComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int gameId) : base(id, name, memberName, password, points, money, email, gameId)
         {
             //TODO: Orellie, I deleted the "IsActive" field and refactor isHand to it. it's not
             //TODO: should pass in the constructor, I'm changing it from the game.
             //TODO: pls delete the money field - bc we have the cheaps already, and the gameID
-            this._chipCount = chipCount;
-            this._chipsCommitted = chipsComitted;
+            this._enteredChip = enteredChip;
+            this._totalChips = totalChipsComitted;
            this.name = name;
-            this._chipsCommitted = _chipsCommitted;
-            this._chipCount = chipCount;
+            this._totalChips = _totalChips;
+            this._enteredChip = enteredChip;
             _isActive = false;
             _hand = new Hand();
 
@@ -38,7 +38,7 @@ namespace TexasHoldem.Logic.Users
         
         public bool IsAllIn()
         {
-            if (_chipCount == 0 && _isActive)
+            if (_enteredChip == 0 && _isActive)
                 return true;
             return false;
         }
@@ -54,16 +54,12 @@ namespace TexasHoldem.Logic.Users
         }
         public bool OutOfMoney()
         {
-            if (_chipCount == 0)
+            if (_enteredChip == 0)
                 return true;
             return false;
         }
 
-        public void CommitChips(int chips)
-        {
-            _chipCount -= chips;
-            _chipsCommitted += chips;
-        }
+       
 
         public void AddCard(Card newCard)
         {
@@ -71,7 +67,7 @@ namespace TexasHoldem.Logic.Users
         }
         public bool CanCheck(ConcreteGameRoom state)
         {
-            if (state._maxCommitted == _chipsCommitted)
+            if (state._maxCommitted == _totalChips)
                 return true;
             return false;
         }
@@ -79,102 +75,20 @@ namespace TexasHoldem.Logic.Users
         {
             _hand.Add2Cards(newCardA, newCardB);
         }
-        public void Fold()
-        {
-            _lastAction = "fold";
-            _isActive = false;
-        }
-        public void Check()
-        {
-            _lastAction = "check";
-        }
+        
 
-        public void Call(int additionalChips)
-        {
-            _lastAction = "call";
-            additionalChips = Math.Min(additionalChips, _chipCount); // if can't afford that many chips in a call, go all in           
-            CommitChips(additionalChips);
-        }
-
-        public void Call(ConcreteGameRoom state)
-        {
-            Call(state.ToCall());
-
-        }
-        public void Bet(int additionalChips, ConcreteGameRoom state)
-        {
-            _lastAction = "bet";
-            additionalChips = Math.Max(additionalChips, state._bb); // have to bet at least the _bb
-            additionalChips = Math.Min(additionalChips, _chipCount); // if can't afford that many chips in a call, go all in            
-            CommitChips(additionalChips);
-            state._sb = additionalChips;
-
-        }
-        public void Raise(int additionalChips, int toCall, ConcreteGameRoom state)
-        {
-            if (toCall >= _chipCount)
-            { // if has less than or equal number of chips to call (ie cannot raise)
-                Call(_chipCount);
-                state._sb = _chipCount;
-            }
-            else
-            {
-                _lastAction = "raise";
-                int totalChips = additionalChips + toCall;
-                totalChips = Math.Min(totalChips, _chipCount); // if can't afford that many chips to raise, go all in
-
-                CommitChips(totalChips);
-                state._sb = totalChips;
-            }
-
-        }
-        public void Raise(int additionalChips, ConcreteGameRoom state)
-        {
-            additionalChips = Math.Max(additionalChips, state._bb); // have to raise at least the _bb
-            additionalChips = Math.Max(additionalChips, state._sb); // have to raise at least the last bet/raise
-            Raise(additionalChips, state.ToCall(), state);
-
-        }
-
-        /* public int CompareTo(Object otherObject)
-         {
-             return _hand.CompareTo((((Player)otherObject)._hand));
-         }*/
-
-            //for test propuse only !!!
+       //for test propuse only !!!
         public void Play(ConcreteGameRoom state)
         {
-            bool canCheck = this.CanCheck(state);
-            Random random = new Random();
-            int choice;
-            if (canCheck)
-                choice = random.Next(1, 3);
-            else
-                choice = random.Next(0, 3);
+        }
 
-            if (canCheck)
-            {
-                if (choice == 1)
-                    Check();
-                else if (choice == 2)
-                    Bet(state._bb * 2, state);
-            }
-            else
-            {
-                if (choice == 0)
-                    Fold();
-                else if (choice == 1)
-                    Call(state);
-                else if (choice == 2)
-                    Raise(state._bb * 2, state);
-            }
-
-
-
-
+        public void CommitChips(int chips)
+        {
+            this._enteredChip -= chips;
+            this._totalChips += chips;
         }
         //TODO: orellie
-         public void Win(int amount)
+        public void Win(int amount)
         {
            
         }
@@ -182,6 +96,11 @@ namespace TexasHoldem.Logic.Users
         public static void Lose()
         {
             
+        }
+        //TODO : orellie 
+        internal int Play(int _sb)
+        {
+            return 0;
         }
     }
 }

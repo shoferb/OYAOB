@@ -10,6 +10,7 @@ namespace TexasHoldem.Logic.Game
     public abstract class GameRoom
     {
         public abstract List<Player> _players { get; set; }
+        public abstract List<Spectetor> _spectatores { get; set; }
         public abstract int _dealerPos { get; set; }
         public abstract int _maxCommitted { get; set; }
         public abstract int _actionPos { get; set; }
