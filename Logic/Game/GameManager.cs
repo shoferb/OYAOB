@@ -76,7 +76,7 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        public bool Play()
+        public bool Play() //need to change all the function to: start, while not end, end
         {   
             if (this._state._players.Count < 2) return false;
             else
