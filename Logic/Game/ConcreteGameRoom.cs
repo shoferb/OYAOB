@@ -146,7 +146,7 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        public override void newSplitPot(Player allInPlayer)
+        public override bool newSplitPot(Player allInPlayer)
         {
             List<Player> eligiblePlayers = new List<Player>();
             int sidePotCount = 0;
@@ -164,8 +164,10 @@ namespace TexasHoldem.Logic.Game
             _potCount = 0;
 
             if (sidePotCount > 0)
+            {
                 _sidePots.Add(new Tuple<int, List<Player>>(sidePotCount, eligiblePlayers));
-
+            }
+            return true;
 
         }
 

@@ -87,7 +87,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public override void newSplitPot(Player allInPlayer)
+        public override bool newSplitPot(Player allInPlayer)
         {
             throw new NotImplementedException();
         }

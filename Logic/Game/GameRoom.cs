@@ -39,6 +39,6 @@ namespace TexasHoldem.Logic.Game
         public abstract int PlayersInHand();
         public abstract int PlayersAllIn();
         public abstract bool AllDoneWithTurn();
-        public abstract void newSplitPot(Player allInPlayer);
+        public abstract bool newSplitPot(Player allInPlayer);
     }
 }
