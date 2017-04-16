@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Game
     public abstract class GameRoom
     {
         public abstract List<Player> _players { get; set; }
-        public abstract int _buttonPos { get; set; }
+        public abstract int _dealerPos { get; set; }
         public abstract int _maxCommitted { get; set; }
         public abstract int _actionPos { get; set; }
         public abstract int _potCount { get; set; }
@@ -24,7 +24,8 @@ namespace TexasHoldem.Logic.Game
         public abstract int _gameRoles { get; set; }
         public GameRoom(List<Player> players, int startingChip)
         {
-            //throw new NotImplementedException();
+            this._players = players;
+            this._sb = startingChip;
         }
 
         public abstract void AddNewPublicCard();

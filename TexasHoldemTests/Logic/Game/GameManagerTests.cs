@@ -33,10 +33,10 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_player3);
            _room = new ConcreteGameRoom(_players, 50);
         }
-
+        //TODO: move the random play of player to here
         [TestMethod()]
-        public void NewHandTest()
-        {
+        public void SetRoleTest()
+        {   //check game with only two.
             Console.WriteLine(_room._gm._sbPlayer.name);
             Console.WriteLine(_room._gm._dealerPlayer.name);
             Console.WriteLine(_room._gm._bbPlayer.name);
@@ -66,7 +66,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void FindWinnerTieTest()
         {
             _room.ClearPublicCards();
-            _player1.ClearCards();
+           _player1.ClearCards();
             _player2.ClearCards();
             _player3.ClearCards();
             List<Card> table = new List<Card>();

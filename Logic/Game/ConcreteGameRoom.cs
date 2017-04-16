@@ -12,13 +12,12 @@ namespace TexasHoldem.Logic.Game
         public GameManager _gm;
         public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
         {
-            int buttonPos = 0;
+            this._dealerPos = 0;
             this._id = Guid.NewGuid();
             this._isGameOver = false;
             this._potCount = 0;
-            this._actionPos = (buttonPos + 3) % players.Count;
+            this._actionPos = (this._dealerPos + 3) % players.Count;
             this._players = players;
-            this._buttonPos = buttonPos;
             this._maxCommitted = 0;
             this._publicCards = new List<Card>();
             this._sb = startingChip;
@@ -29,7 +28,7 @@ namespace TexasHoldem.Logic.Game
          }
 
         public override List<Player> _players { get; set; }
-        public override int _buttonPos { get; set; }
+        public override int _dealerPos { get; set; }
         public override int _maxCommitted { get; set; }
         public override int _actionPos { get; set; }
         public override int _potCount { get; set; }
@@ -102,7 +101,7 @@ namespace TexasHoldem.Logic.Game
                 offset = 3;
             if (_players.Count == 0) _actionPos = 0;
             else
-             { _actionPos = (_buttonPos + offset) % _players.Count;
+             { _actionPos = (_dealerPos + offset) % _players.Count;
                 while (!_players[_actionPos]._isActive)
                     _actionPos = (_actionPos + 1) % _players.Count;
             }

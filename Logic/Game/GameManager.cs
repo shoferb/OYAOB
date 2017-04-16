@@ -27,8 +27,7 @@ namespace TexasHoldem.Logic.Game
         public GameManager(ConcreteGameRoom state)
         {
             this._forTest = 0;
-            SetRoles(state);
-            Play(state);
+           
         } 
 
         public void SetRoles(ConcreteGameRoom state)
@@ -38,7 +37,7 @@ namespace TexasHoldem.Logic.Game
             Deck deck = new Deck();
             state._deck = deck;
             state._players = state._players;
-            this.buttonPos = state._buttonPos;
+            this.buttonPos = state._dealerPos;
 
             if (state._players.Count > 2)
             {
@@ -79,7 +78,7 @@ namespace TexasHoldem.Logic.Game
 
         public void Play(ConcreteGameRoom state)
         {
-           
+            SetRoles(state);  
             while (!state.AllDoneWithTurn())
             {
                 state.NextToPlay().Play(state);
@@ -212,10 +211,10 @@ namespace TexasHoldem.Logic.Game
             }
             if (state._players.Count > 1)
             {
-                // sets next _buttonPos
+                // sets next _dealerPos
 
-                state._buttonPos++;
-                state._buttonPos = state._buttonPos % state._players.Count;
+                state._dealerPos++;
+                state._dealerPos = state._dealerPos % state._players.Count;
 
                 state.ClearPublicCards();
                 SetRoles(state);
