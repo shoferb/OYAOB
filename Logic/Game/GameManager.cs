@@ -21,6 +21,7 @@ namespace TexasHoldem.Logic.Game
         public List<HandEvaluator> _winners;
         public static bool _firstEnter = true;
         private int buttonPos;
+        private bool _backFromRaise;
         ConcreteGameRoom _state;
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
@@ -88,11 +89,15 @@ namespace TexasHoldem.Logic.Game
                    this._currentPlayer = this._state.NextToPlay();
                     move = this._currentPlayer.Play(this._state._sb);
                     PlayerDesicion(move);
-                    
+                    if (_backFromRaise)
+                    {
+                        _backFromRaise = false;
+                        break;
+                    }
                    this._state.UpdateGameState();
                 }
 
-                if (this._state.AllDoneWithTurn() || this._state.PlayersInHand() < 2)
+                if (this._state.AllDoneWithTurn() || this._state.PlayersInGame() < 2)
                 {
                     if (ProgressHand(this._state._handStep))
                     {
@@ -122,6 +127,7 @@ namespace TexasHoldem.Logic.Game
             
         }
 
+        
         public void PlayerDesicion(int move)
         {
             int sb = this._state._sb;
@@ -137,9 +143,33 @@ namespace TexasHoldem.Logic.Game
                     if (move == sb)
                         Call(sb);
                     else
+                    {
                         Raise(move);
+                        StartNewRoundAfterRaise();
+                    }
                     break;
             }
+        }
+
+        private void StartNewRoundAfterRaise()
+        {
+            if (this._state.PlayersInGame() < 2)
+                EndHand();
+
+            Player tempPlayer = this._currentPlayer;
+            foreach (Player p in _state._players)
+            {
+                while (p != tempPlayer)
+                {
+                    int move;
+                    this._currentPlayer = this._state.NextToPlay();
+                    move = this._currentPlayer.Play(this._state._sb);
+                    PlayerDesicion(move);
+
+                    this._state.UpdateGameState();
+                }
+            }
+            _backFromRaise = true;
         }
 
         private void StartTheGame()
@@ -154,36 +184,9 @@ namespace TexasHoldem.Logic.Game
 
         public bool ProgressHand(ConcreteGameRoom.HandStep previousStep)
         {            
-            List<Player> playersWhoWentAllIn = new List<Player>();
-            foreach (Player player in this._state._players)
-                if (player.IsAllIn() && player._totalChips > 0)
-                    playersWhoWentAllIn.Add(player);
+            
 
-            while (playersWhoWentAllIn.Count > 0)
-            {
-                int minAllIn = 10000000;
-                Player minAllInPlayer = playersWhoWentAllIn[0];
-
-                foreach (Player player in playersWhoWentAllIn) // find player who has the smallest all in
-                {
-                    if (player._totalChips < minAllIn)
-                    {
-                        minAllInPlayer = player;
-                        minAllIn = player._totalChips;
-                    }
-                }
-                if (minAllInPlayer != null)
-                {
-                    this._state.newSplitPot(minAllInPlayer);
-                    playersWhoWentAllIn.Remove(minAllInPlayer);
-                }
-
-            }
-            // moves chips to center, rests _actionPos, _maxCommitted = 0, resets last actions, resets last raise
-
-
-
-            if (this._state.PlayersInHand() < 2)
+            if (this._state.PlayersInGame() < 2)
                 return true;
 
             switch (previousStep)
@@ -209,7 +212,7 @@ namespace TexasHoldem.Logic.Game
             int numNextStep = (int)previousStep + 1;
             this._state._handStep = (ConcreteGameRoom.HandStep)numNextStep;
 
-            if (this._state.PlayersInHand() - this._state.PlayersAllIn() < 2)
+            if (this._state.PlayersInGame() - this._state.PlayersAllIn() < 2)
             {
                 ProgressHand(this._state._handStep); // recursive, runs until we'll hit the river
                 return true;
@@ -230,7 +233,7 @@ namespace TexasHoldem.Logic.Game
            
 
             foreach (Player player in this._state._players)
-                if (player._enteredChip != 0)
+                if (player._totalChip != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
@@ -396,7 +399,7 @@ namespace TexasHoldem.Logic.Game
         public void Call(int additionalChips)
         {
             this._currentPlayer._lastAction = "call";
-            additionalChips = Math.Min(additionalChips, this._currentPlayer._enteredChip); // if can't afford that many chips in a call, go all in           
+            additionalChips = Math.Min(additionalChips, this._currentPlayer._totalChip); // if can't afford that many chips in a call, go all in           
             this._currentPlayer.CommitChips(additionalChips);
         }
 
@@ -406,30 +409,12 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        public void Raise(int additionalChips, int toCall)
+       public void Raise(int additionalChips)
         {
-            if (toCall >= this._currentPlayer._enteredChip)
-            { // if has less than or equal number of chips to call (ie cannot raise)
-                Call(this._currentPlayer._enteredChip);
-                this._state._sb = this._currentPlayer._enteredChip;
-            }
-            else
-            {
-                this._currentPlayer._lastAction = "raise";
-                int totalChips = additionalChips + toCall;
-                totalChips = Math.Min(totalChips, this._currentPlayer._enteredChip); // if can't afford that many chips to raise, go all in
-
-                this._currentPlayer.CommitChips(totalChips);
-                this._state._sb = totalChips;
-            }
-
-        }
-        public void Raise(int additionalChips)
-        {
-            additionalChips = Math.Max(additionalChips, this._state._bb); // have to raise at least the _bb
-            additionalChips = Math.Max(additionalChips, this._state._sb); // have to raise at least the last bet/raise
-            Raise(additionalChips, this._state.ToCall());
-
+            _state._maxCommitted += additionalChips;
+            this._currentPlayer._lastAction = "raise";
+            this._currentPlayer.CommitChips(additionalChips);
+            this._state._sb += additionalChips;
         }
 
        

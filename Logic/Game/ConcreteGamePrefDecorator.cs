@@ -14,6 +14,7 @@ namespace TexasHoldem.Logic.Game
         }
 
         public override List<Player> _players { get; set; }
+        public override Guid _id { get; set; }
         public override List<Spectetor> _spectatores { get; set; }
         public override int _dealerPos { get; set; }
         public override int _maxCommitted { get; set; }
@@ -73,7 +74,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public override int PlayersInHand()
+        public override int PlayersInGame()
         {
             throw new NotImplementedException();
         }

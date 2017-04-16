@@ -12,23 +12,23 @@ namespace TexasHoldem.Logic.Users
         
         public bool _isActive { get; set; }
         public string name { get; set; }
-        public int _enteredChip { get; set; }
-        public int _totalChips { get; set; }
+        public int _totalChip { get; set; }
+        public int _gameChip { get; set; }
 
         public string _lastAction { get; set; }
         public Hand _hand;
 
-        public Player(int enteredChip, int totalChipsComitted, int id, string name, string memberName, string password, int points, int money, String email,
+        public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int gameId) : base(id, name, memberName, password, points, money, email, gameId)
         {
             //TODO: Orellie, I deleted the "IsActive" field and refactor isHand to it. it's not
             //TODO: should pass in the constructor, I'm changing it from the game.
             //TODO: pls delete the money field - bc we have the cheaps already, and the gameID
-            this._enteredChip = enteredChip;
-            this._totalChips = totalChipsComitted;
+            this._totalChip = totalChip;
+            this._gameChip = gameChipComitted;
            this.name = name;
-            this._totalChips = _totalChips;
-            this._enteredChip = enteredChip;
+            this._gameChip = _gameChip;
+            this._totalChip = totalChip;
             _isActive = false;
             _hand = new Hand();
 
@@ -38,7 +38,7 @@ namespace TexasHoldem.Logic.Users
         
         public bool IsAllIn()
         {
-            if (_enteredChip == 0 && _isActive)
+            if (_totalChip == 0 && _isActive)
                 return true;
             return false;
         }
@@ -54,7 +54,7 @@ namespace TexasHoldem.Logic.Users
         }
         public bool OutOfMoney()
         {
-            if (_enteredChip == 0)
+            if (_totalChip == 0)
                 return true;
             return false;
         }
@@ -67,7 +67,7 @@ namespace TexasHoldem.Logic.Users
         }
         public bool CanCheck(ConcreteGameRoom state)
         {
-            if (state._maxCommitted == _totalChips)
+            if (state._maxCommitted == _gameChip)
                 return true;
             return false;
         }
@@ -84,8 +84,8 @@ namespace TexasHoldem.Logic.Users
 
         public void CommitChips(int chips)
         {
-            this._enteredChip -= chips;
-            this._totalChips += chips;
+            this._totalChip -= chips;
+            this._gameChip += chips;
         }
         //TODO: orellie
         public void Win(int amount)
