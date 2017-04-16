@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
 using TexasHoldem.Logic.Users;
 
@@ -237,14 +238,14 @@ namespace TexasHoldem.Logic.Game
 
         }
         //TODO: Aviv G - it's all yours:)
-        public List<HandEvaluator> FindWinner(List<Card> statePublicCards, List<Player> playersLeftInHand)
+        public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
         {
             List<HandEvaluator> winners = new List<HandEvaluator>();
             foreach (Player p in playersLeftInHand)
             {
                 HandEvaluator h = new HandEvaluator(p);
                 List<Card> playerCards = new List<Card>();
-                playerCards.AddRange(statePublicCards);
+                playerCards.AddRange(table);
                 playerCards.AddRange(p._hand.GetCards());
                 Card[] cards = playerCards.ToArray();
                 h.DetermineHandRank(cards);
@@ -265,12 +266,16 @@ namespace TexasHoldem.Logic.Game
             }
             if (winners.Count() == 1)
             {
+                WinAction win = new WinAction(winners[0]._player, 
+                    winners[0]._player._hand._firstCard, winners[0]._player._hand._seconedCard,
+                    _state._potCount, table, winners[0]._relevantCards);
+                _state._gameReplay.AddAction(win);
                 return winners;
             }
-            return EvalTies(winners);
+            return EvalTies(winners, table);
         }
 
-        private List<HandEvaluator> EvalTies(List<HandEvaluator> winners)
+        private List<HandEvaluator> EvalTies(List<HandEvaluator> winners, List<Card> table)
         {
             List<Card> playerOneCards;
             List<Card> playerTwoCards;
@@ -306,6 +311,13 @@ namespace TexasHoldem.Logic.Game
                 }
                 FixAceTo1(playerOneCards);
                 FixAceTo1(playerTwoCards);
+            }
+            foreach (HandEvaluator h in winners)
+            {
+                WinAction win = new WinAction(h._player,
+                     h._player._hand._firstCard, h._player._hand._seconedCard,
+                     (int)_state._potCount/winners.Count, table, h._relevantCards);
+                     _state._gameReplay.AddAction(win);
             }
             return winners;
         }

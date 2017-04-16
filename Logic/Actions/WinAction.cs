@@ -11,11 +11,14 @@ namespace TexasHoldem.Logic.Actions
     {
         public List<Card> _cardsOnTable { get; set; }
         public List<Card> _winningHand { get; set; }
+        public int _pot;
 
         public WinAction(Player player, Card card1, Card card2, int pot, List<Card> table, List<Card> winningHand ) :
             base(player, card1, card2, pot)
         {
-
+            _cardsOnTable = table;
+            _winningHand = winningHand;
+            _pot = pot;
         }
 
         public override String ReplayAction()
