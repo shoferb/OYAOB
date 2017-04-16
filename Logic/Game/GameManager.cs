@@ -197,6 +197,7 @@ namespace TexasHoldem.Logic.Game
             state._players = playersLeftInGame;
             state.EndTurn();
             _winners= FindWinner(state._publicCards, playersLeftInGame);
+            //division by 0
            int amount = state._potCount/_winners.Count;
 
             foreach (HandEvaluator h in _winners)
