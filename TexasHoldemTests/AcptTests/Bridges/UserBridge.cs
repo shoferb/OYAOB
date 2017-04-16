@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
@@ -18,38 +19,70 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool IsUserLoggedIn(int userId)
         {
-            throw new System.NotImplementedException();
+            var user = _userService.GetUserFromId(userId);
+            return user != null && user.IsActive;
         }
 
         public string GetUserName(int id)
         {
-            return _userService.GetUserFromId(id).Name;
+            var user = _userService.GetUserFromId(id);
+            if (user != null)
+            {
+                return user.Name;
+            }
+            return "";
         }
 
         public string GetUserPw(int id)
         {
-            //return _userService.GetUserFromId(id).Password;
+            var user = _userService.GetUserFromId(id);
+            if (user != null)
+            {
+                return user.Password;
+            }
             return "";
         }
 
         public string GetUserEmail(int id)
         {
-            return _userService.GetUserFromId(id).Email;
+            var user = _userService.GetUserFromId(id);
+            if (user != null)
+            {
+                return user.Email;
+            }
+            return "";
         }
 
         public int GetUserMoney(int id)
         {
-            return _userService.GetUserFromId(id).Money;
+            var user = _userService.GetUserFromId(id);
+            if (user != null)
+            {
+                return user.Money;
+            }
+            return 0;
         }
 
         public int GetUserChips(int userId)
         {
-            throw new System.NotImplementedException();
+            int chips = 0;
+            User user = _userService.GetUserFromId(userId);
+            user.ActiveGameList.ForEach(game =>
+            {
+                //TODO: wait for id to move to gameroom
+                //chips += _userService.GetPlayer(userId, game._id)._chipCount;
+            });
+            return chips;
         }
 
         public int GetUserChips(int userId, int roomId)
         {
-            throw new System.NotImplementedException();
+            var player = _userService.GetPlayer(userId, roomId);
+            if (player != null)
+            {
+                return player._chipCount;
+            }
+            return 0;
         }
 
         public List<int> GetUsersGameRooms(int userId)
@@ -116,12 +149,17 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool SetLeagueCriteria(int userId, int criteria)
         {
-            throw new System.NotImplementedException();
+            if (_userService.GetUserFromId(userId).IsHigherRank)
+            {
+                GameCenter center = new GameCenter();
+                return center.LeagueChange(criteria);
+            }
+            return false;
         }
 
         public bool IsThereUser(int id)
         {
-            throw new System.NotImplementedException();
+            return _userService.GetUserFromId(id) != null;
         }
 
         public List<int> GetAllUsers()
