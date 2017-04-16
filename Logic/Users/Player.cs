@@ -18,8 +18,9 @@ namespace TexasHoldem.Logic.Users
         public string _lastAction { get; set; }
         public Hand _hand;
 
-        public Player(int chipCount, int chipsComitted, int id, string name, string memberName, string password, int points, int money, String email,
-            int gameId) : base(id, name, memberName, password, points, money, email, gameId)
+        public Player(int chipCount, int chipsComitted, int id, string name, string memberName, 
+            string password, int points, int money, String email, int gameId) :
+            base(id, name, memberName, password, points, money, email, gameId)
         {
             //TODO: Orellie, I deleted the "IsActive" field and refactor isHand to it. it's not
             //TODO: should pass in the constructor, I'm changing it from the game.
