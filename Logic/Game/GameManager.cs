@@ -16,101 +16,106 @@ namespace TexasHoldem.Logic.Game
         public bool _gameOver = false;
         public Player _currentPlayer;
         public Player _dealerPlayer;
-        public int _dealerIdx;
         public Player _bbPlayer;
         public Player _sbPlayer;
         public List<HandEvaluator> _winners;
 
         private int buttonPos;
-        ConcreteGameRoom state;
+        ConcreteGameRoom _state;
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
             this._forTest = 0;
-           
+            this._state = state;
+
         } 
 
-        public void SetRoles(ConcreteGameRoom state)
+        public void SetRoles()
         {
-            this.state = state;
-            state._handStep = ConcreteGameRoom.HandStep.PreFlop;
+            this._state._handStep = ConcreteGameRoom.HandStep.PreFlop;
             Deck deck = new Deck();
-            state._deck = deck;
-            state._players = state._players;
-            this.buttonPos = state._dealerPos;
+            this._state._deck = deck;
+            this._state._players = this._state._players;
+            this.buttonPos = this._state._dealerPos;
 
-            if (state._players.Count > 2)
+            if (this._state._players.Count > 2)
             {
                 //delaer
-                this._dealerPlayer = state._players[this.buttonPos];
+                this._dealerPlayer = this._state._players[this.buttonPos];
                 // small blind
-                this._sbPlayer = state._players[(this.buttonPos + 1)%state._players.Count];
-                state._players[(this.buttonPos + 1) % state._players.Count].CommitChips(state._bb / 2);
+                this._sbPlayer = this._state._players[(this.buttonPos + 1)% this._state._players.Count];
+                this._state._players[(this.buttonPos + 1) % this._state._players.Count].CommitChips(this._state._bb / 2);
                 // big blind
-                this._bbPlayer = state._players[(this.buttonPos + 2)%state._players.Count];
-                state._players[(this.buttonPos + 2) % state._players.Count].CommitChips(state._bb);
+                this._bbPlayer = this._state._players[(this.buttonPos + 2)% this._state._players.Count];
+                this._state._players[(this.buttonPos + 2) % this._state._players.Count].CommitChips(this._state._bb);
                 //actionPos will keep track on the curr player.
-                state._actionPos = (this.buttonPos + 3) % state._players.Count;
+                this._state._actionPos = (this.buttonPos + 3) % this._state._players.Count;
 
             }
             else
             {
-                state._actionPos = (this.buttonPos) % state._players.Count; // TODO: if only 2 who starts?
+                this._state._actionPos = (this.buttonPos) % this._state._players.Count; 
                 // small blind
-                this._dealerPlayer = state._players[(this.buttonPos) %state._players.Count];
-                this._sbPlayer = state._players[(this.buttonPos) %state._players.Count];
-                state._players[(this.buttonPos) % state._players.Count].CommitChips(state._bb / 2);
+                this._dealerPlayer = this._state._players[(this.buttonPos) % this._state._players.Count];
+                this._sbPlayer = this._state._players[(this.buttonPos) % this._state._players.Count];
+                this._state._players[(this.buttonPos) % this._state._players.Count].CommitChips(this._state._bb / 2);
                 // big blind
-                this._bbPlayer = state._players[(this.buttonPos + 1)%state._players.Count];
-                state._players[(this.buttonPos + 1) % state._players.Count].CommitChips(state._bb);
+                this._bbPlayer = this._state._players[(this.buttonPos + 1)% this._state._players.Count];
+                this._state._players[(this.buttonPos + 1) % this._state._players.Count].CommitChips(this._state._bb);
             }
 
-            foreach (Player player in state._players)
+            foreach (Player player in this._state._players)
             {
                 player._isActive = true;
                 player.AddHoleCards(deck.Draw(), deck.Draw());
             }
-            state.UpdateMaxCommitted();
+            this._state.UpdateMaxCommitted();
 
            // Play(state);
 
         }
 
-        public void Play(ConcreteGameRoom state)
-        {
-            SetRoles(state);  
-            while (!state.AllDoneWithTurn())
+        public bool Play()
+        {   
+            if (this._state._players.Count < 2) return false;
+            else
             {
-                state.NextToPlay().Play(state);
-                this._forTest++;
+                this._state._dealerPos = 0;
+                SetRoles();
+                while (!this._state.AllDoneWithTurn())
+                {
+                    this._state.NextToPlay().Play(this._state);
+                    this._forTest++;
 
-                state.UpdateGameState();
-            }
-
-            if (state.AllDoneWithTurn() || state.PlayersInHand() < 2)
-                if (ProgressHand(state._handStep))
-                { // progresses _hand and returns whether _hand is over (the last _handStep was river)
-                    EndHand(state);
-                    return;
+                    this._state.UpdateGameState();
                 }
-                else
-                    Play(state);
-            if (!state._isGameOver)
-            {
-                _currentPlayer = state.NextToPlay();
-                _dealerPlayer = state._players[(state._players.IndexOf(_dealerPlayer) + 1) % state._players.Count];
-                _sbPlayer = state._players[(state._players.IndexOf(_sbPlayer) + 1) % state._players.Count];
-                _bbPlayer = state._players[(state._players.IndexOf(_bbPlayer) + 1) % state._players.Count];
 
+                if (this._state.AllDoneWithTurn() || this._state.PlayersInHand() < 2)
+                    if (ProgressHand(this._state._handStep))
+                    {
+                        // progresses _hand and returns whether _hand is over (the last _handStep was river)
+                        EndHand();
+                        return true;
+                    }
+                    else
+                        Play();
+                if (!this._state._isGameOver)
+                {
+                    _currentPlayer = this._state.NextToPlay();
+                    _dealerPlayer = this._state._players[(this._state._players.IndexOf(_dealerPlayer) + 1)% this._state._players.Count];
+                    _sbPlayer = this._state._players[(this._state._players.IndexOf(_sbPlayer) + 1)% this._state._players.Count];
+                    _bbPlayer = this._state._players[(this._state._players.IndexOf(_bbPlayer) + 1)% this._state._players.Count];
+
+                }
             }
-
+            return true;
         }
 
 
         public bool ProgressHand(ConcreteGameRoom.HandStep previousStep)
         {            
             List<Player> playersWhoWentAllIn = new List<Player>();
-            foreach (Player player in state._players)
+            foreach (Player player in this._state._players)
                 if (player.IsAllIn() && player._chipsCommitted > 0)
                     playersWhoWentAllIn.Add(player);
 
@@ -129,7 +134,7 @@ namespace TexasHoldem.Logic.Game
                 }
                 if (minAllInPlayer != null)
                 {
-                    state.newSplitPot(minAllInPlayer);
+                    this._state.newSplitPot(minAllInPlayer);
                     playersWhoWentAllIn.Remove(minAllInPlayer);
                 }
 
@@ -138,20 +143,20 @@ namespace TexasHoldem.Logic.Game
 
 
 
-            if (state.PlayersInHand() < 2)
+            if (this._state.PlayersInHand() < 2)
                 return true;
 
             switch (previousStep)
             {
                 case ConcreteGameRoom.HandStep.PreFlop:
                     for (int i = 0; i <= 2; i++)
-                        state.AddNewPublicCard();
+                        this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.Flop:
-                    state.AddNewPublicCard();
+                    this._state.AddNewPublicCard();
                   break;
                 case ConcreteGameRoom.HandStep.Turn:
-                    state.AddNewPublicCard();
+                    this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.River:
                    return true;
@@ -162,15 +167,15 @@ namespace TexasHoldem.Logic.Game
 
 
             int numNextStep = (int)previousStep + 1;
-            state._handStep = (ConcreteGameRoom.HandStep)numNextStep;
+            this._state._handStep = (ConcreteGameRoom.HandStep)numNextStep;
 
-            if (state.PlayersInHand() - state.PlayersAllIn() < 2)
+            if (this._state.PlayersInHand() - this._state.PlayersAllIn() < 2)
             {
-                ProgressHand(state._handStep); // recursive, runs until we'll hit the river
+                ProgressHand(this._state._handStep); // recursive, runs until we'll hit the river
                 return true;
             }
             else
-                state.EndTurn(); 
+                this._state.EndTurn(); 
 
             return false;
 
@@ -179,12 +184,12 @@ namespace TexasHoldem.Logic.Game
 
 
 
-        public void EndHand(ConcreteGameRoom state)
+        public void EndHand()
         {
             List<Player> playersLeftInGame = new List<Player>();
            
 
-            foreach (Player player in state._players)
+            foreach (Player player in this._state._players)
                 if (player._chipCount != 0)
                     playersLeftInGame.Add(player);
                 else
@@ -193,37 +198,39 @@ namespace TexasHoldem.Logic.Game
                     player._isActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
-            state._players = playersLeftInGame;
-            state.EndTurn();
-            _winners= FindWinner(state._publicCards, playersLeftInGame);
-            //division by 0
-           int amount = state._potCount/_winners.Count;
-
-            foreach (HandEvaluator h in _winners)
+            this._state._players = playersLeftInGame;
+            this._state.EndTurn();
+            _winners= FindWinner(this._state._publicCards, playersLeftInGame);
+            
+            int amount;
+            if (_winners.Count > 0) // so there are winners at the end of the game
             {
-                h._player.Win(amount);
-            }
+                amount = this._state._potCount/_winners.Count;
 
-            foreach (Player player in state._players)
+                foreach (HandEvaluator h in _winners)
+                {
+                    h._player.Win(amount);
+                }
+            }
+            foreach (Player player in this._state._players)
             {
                 player.ClearCards(); // gets rid of cards of _players still alive
-                Player.Lose();
             }
-            if (state._players.Count > 1)
+            if (this._state._players.Count > 1)
             {
-                // sets next _dealerPos
+                // sets next _dealerPos - if we want to "run" for a new game immediantly
 
-                state._dealerPos++;
-                state._dealerPos = state._dealerPos % state._players.Count;
+                this._state._dealerPos++;
+                this._state._dealerPos = this._state._dealerPos % this._state._players.Count;
 
-                state.ClearPublicCards();
-                SetRoles(state);
+                this._state.ClearPublicCards();
+                SetRoles();
             }
             else
             {
-                state._isGameOver = true;
+                this._state._isGameOver = true;
                 if (!_currentPlayer.OutOfMoney())
-                    state._players[0]._isActive = false; // so if human wins doesn't try to display cards
+                    this._state._players[0]._isActive = false; // so if human wins doesn't try to display cards
                 //GameOver
             }
 

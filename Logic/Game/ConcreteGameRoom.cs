@@ -12,11 +12,9 @@ namespace TexasHoldem.Logic.Game
         public GameManager _gm;
         public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
         {
-            this._dealerPos = 0;
             this._id = Guid.NewGuid();
             this._isGameOver = false;
-            this._potCount = 0;
-            this._actionPos = (this._dealerPos + 3) % players.Count;
+            this._potCount = 0;          
             this._players = players;
             this._maxCommitted = 0;
             this._publicCards = new List<Card>();
