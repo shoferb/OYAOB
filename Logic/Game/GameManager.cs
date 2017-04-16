@@ -81,6 +81,8 @@ namespace TexasHoldem.Logic.Game
             if (this._state._players.Count < 2) return false;
             else
             {
+                StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
+                _state._gameReplay.AddAction(startAction);
                 this._state._dealerPos = 0;
                 SetRoles();
                 while (!this._state.AllDoneWithTurn())
