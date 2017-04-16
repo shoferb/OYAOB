@@ -253,20 +253,21 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return false;
         }
 
-        //TODO: figure out what to do with these
-        public bool DealFirstCards(int gameId)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool DealFlop(int gameId)
         {
-            throw new NotImplementedException();
+            const int numOfCardsToDeal = 3;
+            for (int i = 0; i < numOfCardsToDeal; i++)
+            {
+                DealSingleCardToTable(gameId);
+            }
+            return true;
         }
 
         public bool DealSingleCardToTable(int gameId)
         {
-            throw new NotImplementedException();
+            var game = _gameService.GetGameById(gameId);
+            game.AddNewPublicCard();
+            return true;
         }
     }
 }
