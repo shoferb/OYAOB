@@ -23,9 +23,7 @@ namespace TexasHoldem.Logic.Users
         public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int roomId) : base(id, name, memberName, password, points, money, email, roomId)
         {
-            //TODO: Orellie, I deleted the "IsActive" field and refactor isHand to it. it's not
-            //TODO: should pass in the constructor, I'm changing it from the game.
-            //TODO: pls delete the money field - bc we have the cheaps already, and the gameID
+            
             this._totalChip = totalChip;
             this._gameChip = gameChipComitted;
             this.name = name;

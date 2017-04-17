@@ -64,6 +64,7 @@ namespace TexasHoldem.Logic.Game_Control
           {
               if (room._id == roomId)
               {
+                  
                   toReturn = room;
               }
           }
@@ -118,6 +119,80 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 toReturn = false;
             }
+            return toReturn;
+        }
+
+        public bool AddPlayerToRoom(int roomId, int userId,int playerChipToEnterRoom)
+        {
+            bool toReturn = false;
+            SystemControl sc = new SystemControl();
+            User user = sc.GetUserWithId(userId);
+            ConcreteGameRoom room = GetRoomById(roomId);
+            int sb = room._sb;
+            if (playerChipToEnterRoom < sb)
+            {
+                return toReturn;
+            }
+            Player playerToAdd = new Player(playerChipToEnterRoom, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                user.Money, user.Email, roomId);
+            try
+            {
+                ConcreteGameRoom toAdd = room;
+                room._players.Add(playerToAdd);
+                User newUser = user; // add room to user list
+                newUser.ActiveGameList.Add(room);
+                sc.ReplaceUser(user, newUser);
+                games.Remove(room);
+                games.Add(toAdd);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
+
+        public bool RemovePlayerFromRomm(int roomId, int userId)
+        {
+            bool toReturn = false;
+            bool exist = IsRoomExist(roomId);
+            if (!exist)
+            {
+                return toReturn;
+            }
+            SystemControl sc = new SystemControl();
+            ConcreteGameRoom room = GetRoomById(roomId);
+            ConcreteGameRoom toAdd = room;
+            List<Player> allPlayers = room._players;
+            Player playerToRemove = null;
+            User user = sc.GetUserWithId(userId);
+            User newUser = user;
+            foreach (Player p in allPlayers)
+            {
+                if ((p.Id == userId) && (p.RoomId == roomId))
+                {
+                    playerToRemove = p;
+                }
+            }
+
+            try
+            {
+                allPlayers.Remove(playerToRemove);
+                toAdd._players = allPlayers;
+                games.Remove(room);
+                games.Add(toAdd);
+
+                newUser.ActiveGameList.Remove(room);
+                sc.ReplaceUser(user, newUser);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            
             return toReturn;
         }
 
