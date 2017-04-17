@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Game
     public class ConcreteGameRoom : GameRoom
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
-        public static int _gameNumber=0;
+        public int _gameNumber=0;
         public GameManager _gm;
         public GameReplay _gameReplay { get; set; }
         public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
@@ -22,7 +22,6 @@ namespace TexasHoldem.Logic.Game
             this._sb = startingChip;
             this._bb = _sb*2;
             this._sidePots = new List<Tuple<int, List<Player>>>();
-            _gameNumber++;
             _gameReplay = new GameReplay(_id.GetHashCode(), 0); // thats how we get the int from GUID?
             this._gm = new GameManager(this);
          }

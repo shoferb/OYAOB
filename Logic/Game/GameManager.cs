@@ -193,6 +193,7 @@ namespace TexasHoldem.Logic.Game
 
         private void StartTheGame()
         {
+            this._state._gameNumber++;
             this._state._dealerPos = 0;
             SetRoles();
             _firstEnter = false;
