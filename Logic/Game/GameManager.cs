@@ -194,7 +194,7 @@ namespace TexasHoldem.Logic.Game
 
         private void StartTheGame()
         {
-            _state._gameReplay = new GameReplay(_state._id.ToString(), _state._gameNumber);
+            _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
             this._state._dealerPos = 0;
             SetRoles();
             _firstEnter = false;
