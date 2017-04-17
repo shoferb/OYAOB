@@ -13,7 +13,7 @@ namespace TexasHoldem.Logic.Game_Control
     {
         private List<League> leagueTable;
         private List<Log> logs;
-        private User HigherRank;
+        private User higherRank;
         private int leagueGap;
 
         public bool LeagueChange(int leagugap)
@@ -29,7 +29,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 leaugeName = "" + i;
                 to = currpoint + leagueGap;
-                League toAdd = new League(leaugeName,currpoint,to);
+                League toAdd = new League(leaugeName, currpoint, to);
                 i++;
                 currpoint = to;
             }
@@ -66,7 +66,7 @@ namespace TexasHoldem.Logic.Game_Control
             this.logs = new List<Log>();
         }
 
-        public bool SendNotification(User reciver,Notification toSend)
+        public bool SendNotification(User reciver, Notification toSend)
         {
             bool toReturn = false;
             reciver.SendNotification(toSend);
@@ -103,25 +103,27 @@ namespace TexasHoldem.Logic.Game_Control
         {
             get
             {
-                return LeagueGap1;
+                return LeagueGap;
             }
 
             set
             {
-                LeagueGap1 = value;
+                LeagueGap = value;
             }
         }
 
-        public int LeagueGap1
+
+
+        public User HigherRank
         {
             get
             {
-                return leagueGap;
+                return higherRank;
             }
 
             set
             {
-                leagueGap = value;
+                higherRank = value;
             }
         }
     }
