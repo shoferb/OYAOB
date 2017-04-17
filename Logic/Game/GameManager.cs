@@ -68,6 +68,9 @@ namespace TexasHoldem.Logic.Game
             {
                 player._isActive = true;
                 player.AddHoleCards(deck.Draw(), deck.Draw());
+                HandCards hand = new HandCards(player, player._hand._firstCard,
+                    player._hand._seconedCard);
+                _state._gameReplay.AddAction(hand);
             }
             this._state.UpdateMaxCommitted();
             this._state.MoveChipsToPot();
