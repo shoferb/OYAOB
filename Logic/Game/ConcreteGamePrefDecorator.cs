@@ -9,89 +9,26 @@ namespace TexasHoldem.Logic.Game
 {
     public class ConcreteGamePrefDecorator : GamePrefDecorator
     {
-        public ConcreteGamePrefDecorator(List<Player> players, int startingChip) : base(players, startingChip)
+        public ConcreteGamePrefDecorator(List<Player> players, int startingChip, int ID) : base(players, startingChip, ID)
         {
         }
 
-        public override List<Player> _players { get; set; }
-        public override Guid _id { get; set; }
-        public override List<Spectetor> _spectatores { get; set; }
-        public override int _dealerPos { get; set; }
-        public override int _maxCommitted { get; set; }
-        public override int _actionPos { get; set; }
-        public override int _potCount { get; set; }
-        public override int _bb { get; set; }
-        public override int _sb { get; set; }
-        public override Deck _deck { get; set; }
-        public override ConcreteGameRoom.HandStep _handStep { get; set; }
-        public override List<Card> _publicCards { get; set; }
-        public override bool _isGameOver { get; set; }
-        public override List<Tuple<int, List<Player>>> _sidePots { get; set; }
-        public override int _gameRoles { get; set; }
-        public override void AddNewPublicCard()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Player> _players { get; set; }
+        public Guid _id { get; set; }
+        public List<Spectetor> _spectatores { get; set; }
+        public int _dealerPos { get; set; }
+        public int _maxCommitted { get; set; }
+        public int _actionPos { get; set; }
+        public int _potCount { get; set; }
+        public int _bb { get; set; }
+        public int _sb { get; set; }
+        public Deck _deck { get; set; }
+        public List<Card> _publicCards { get; set; }
+        public bool _isGameOver { get; set; }
+        public List<Tuple<int, List<Player>>> _sidePots { get; set; }
+        public int _gameRoles { get; set; }
 
-        public override Player NextToPlay()
-        {
-            throw new NotImplementedException();
-        }
 
-        
-        public override int ToCall()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void UpdateGameState()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ClearPublicCards()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void UpdateMaxCommitted()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void EndTurn()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ResetActionPos()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void MoveChipsToPot()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int PlayersInGame()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int PlayersAllIn()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool AllDoneWithTurn()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool newSplitPot(Player allInPlayer)
-        {
-            throw new NotImplementedException();
-        }
     }
+
 }

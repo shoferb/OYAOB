@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Game
 {
     public abstract class GamePrefDecorator : GameRoom 
     {
-        public GamePrefDecorator(List<Player> players, int startingChip) : base(players, startingChip)
+        public GamePrefDecorator(List<Player> players, int startingChip, int ID) : base(players, startingChip, ID)
         {
         }
     }
