@@ -98,6 +98,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
                         gameIds.Add(game._id.GetHashCode());
                     }
                 });
+                //TODO:
                 //game.RoomSpectetors.ForEach(s =>
                 //{
                 //    if (s.Id == userId)

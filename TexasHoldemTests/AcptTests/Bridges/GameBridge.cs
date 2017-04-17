@@ -77,6 +77,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool IsUserInRoom(int userId, int roomId)
         {
+            //TODO
             var roomPlayers = _gameService.GetGameById(roomId)._players;
             //var roomSpect = _gameService.GetGameById(roomId).;
 
