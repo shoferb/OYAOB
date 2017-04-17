@@ -163,5 +163,11 @@ namespace TexasHoldem.Service
             List<Notification> toReturn = user.WaitListNotification;
             return toReturn;
         }
+
+        //todo impl
+        public bool EditUserAvatar(int id, string newAvatarPath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

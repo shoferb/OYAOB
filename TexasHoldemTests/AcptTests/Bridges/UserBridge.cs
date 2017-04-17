@@ -215,9 +215,9 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _userService.EditUserName(id, newName);
         }
 
-        public bool EditPw(int id, string oldPw, string newPw)
+        public bool EditPw(int id, string newPw)
         {
-            return _userService.EditUserPassword(id, oldPw, newPw);
+            return _userService.EditUserPassword(id, newPw);
         }
 
         public bool EditEmail(int id, string newEmail)

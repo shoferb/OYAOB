@@ -16,7 +16,7 @@ namespace TexasHoldem.Logic.Users
         private String name;
         private String memberName;
         private string password;
-        //private ?String avatr - image path
+        private String avatar;//- image path
         private int points;
         private int money;
         private List<Notification> waitListNotification;
@@ -27,7 +27,7 @@ namespace TexasHoldem.Logic.Users
         public bool IsHigherRank { get; set; }
         //להוסיף שדות מספר נצחונות והפסדים
         //todo create toString
-        public User(int id, string name, string memberName, string password, int points, int money, String email)
+        public User(int id, string name, string memberName, string password, int points, int money, string email)
         {
             this.id = id;
             this.name = name;
@@ -195,6 +195,19 @@ namespace TexasHoldem.Logic.Users
             set
             {
                 waitListNotification = value;
+            }
+        }
+
+        public string Avatar
+        {
+            get
+            {
+                return avatar;
+            }
+
+            set
+            {
+                avatar = value;
             }
         }
     }

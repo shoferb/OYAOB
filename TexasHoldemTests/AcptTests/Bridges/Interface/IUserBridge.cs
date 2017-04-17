@@ -33,7 +33,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool DeleteUser(string name, string pw); //used only for tests. deletes user from system if exists
         bool DeleteUser(int id); //used only for tests. deletes user from system if exists
         bool EditName(int id, string newName);
-        bool EditPw(int id, string oldPw, string newPw);
+        bool EditPw(int id, string newPw);
         bool EditEmail(int id, string newEmail);
         bool EditAvatar(int id, string newAvatarPath);
         bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount);
