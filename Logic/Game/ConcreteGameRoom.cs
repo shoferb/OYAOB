@@ -1,5 +1,6 @@
 ﻿ using System;
 using System.Collections.Generic;
+using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
@@ -54,12 +55,19 @@ namespace TexasHoldem.Logic.Game
             return _maxCommitted - _players[_actionPos]._gameChip;
 
         }
+
         public override void AddNewPublicCard()
         {
+            Card c = _deck.ShowCard();
             foreach (Player player in _players)
-                player.AddCard(_deck.ShowCard());
+            {
+                player.AddCard(c);
+            }
             _publicCards.Add(_deck.Draw());
+            DrawCard draw = new DrawCard(c, _publicCards, _potCount);
+            _gameReplay.AddAction(draw);
         }
+
         public override void UpdateGameState()
         {
             // next player picked

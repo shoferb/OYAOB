@@ -64,15 +64,15 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(_player1._lastAction == "check");
         }
 
-        [TestMethod()]
-        public void PlayerDesicionFoldRaise()
-        {
-            _room._gm._currentPlayer = _player1;
-            _room._sb = 50;
-            _room._gm.PlayerDesicion(100);
-            //TODO - the test isn't check nothing now....
-            Assert.IsTrue(_player1._lastAction == "raise");
-        }
+        //[TestMethod()]
+        //public void PlayerDesicionFoldRaise()
+        //{
+        //    _room._gm._currentPlayer = _player1;
+        //    _room._sb = 50;
+        //    _room._gm.PlayerDesicion(100);
+        //    //TODO - the test isn't check nothing now....
+        //    Assert.IsTrue(_player1._lastAction == "raise");
+        //}
 
         [TestMethod()]
         public void ProgressHandTest()

@@ -81,8 +81,9 @@ namespace TexasHoldem.Logic.Game
             else
             {
                 if (_firstEnter)
-                StartTheGame();
-                
+                {
+                    StartTheGame();
+                }       
                 while (!this._state.AllDoneWithTurn())
                 {
                    int move;
