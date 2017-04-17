@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Game
             this._sb = startingChip;
             this._bb = _sb*2;
             this._sidePots = new List<Tuple<int, List<Player>>>();
-            _gameReplay = new GameReplay(_id.GetHashCode(), 0); // thats how we get the int from GUID?
+            _gameReplay = null;
             this._gm = new GameManager(this);
          }
 

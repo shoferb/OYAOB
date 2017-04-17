@@ -28,7 +28,7 @@ namespace TexasHoldem.Logic.Game
         {
             this._players = players;
             this._sb = startingChip;
-            this._id = Guid.NewGuid(); //TODO: how to get the number - check for Aviv 
+            this._id = Guid.NewGuid();  
         }
 
         public abstract void AddNewPublicCard();
