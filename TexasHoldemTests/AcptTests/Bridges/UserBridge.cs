@@ -97,7 +97,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<int> GetUsersGameRooms(int userId)
         {
-            List<ConcreteGameRoom> allGames = _gameService.GetAllGames();
+            List<GameRoom> allGames = _gameService.GetAllGames();
             List<int> gameIds = new List<int>();
             allGames.ForEach(game =>
             {
