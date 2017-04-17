@@ -332,5 +332,7 @@ namespace TexasHoldem.Logic.Game_Control
             toReturn = ReplaceUser(toEdit, changed);
             return toReturn;
         }
+
+        
     }
 }
