@@ -18,6 +18,7 @@ namespace TexasHoldem.Logic.Game.Tests
         private Player _B;
         private Player _C;
         private Player _D;
+
         [TestInitialize()]
         public void Initialize()
         {
@@ -81,29 +82,25 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void AddNewPublicCardTest()
         {
+            _gameRoom._deck = new Deck();
             _gameRoom.AddNewPublicCard();
            Assert.IsTrue(_gameRoom._publicCards.Count > 0);
         }
 
        [TestMethod()]
         public void EndTurnTest()
-        {
-           /* _gameRoom.EndTurn();
+       {
+           
+            _gameRoom.EndTurn();
             foreach (Player p in _gameRoom._players)
             {
                 if (p._isActive)
                 Assert.IsTrue(p._lastAction.Equals(""));
             }
-            */
+            
         }
 
-        [TestMethod()]
-        public void AllDoneWithTurnTest()
-        {
-            _A._isActive = false;
-            _B._isActive = false;
-            Assert.IsTrue(_gameRoom.AllDoneWithTurn());
-        }
+        
 
         [TestMethod()]
         public void newSplitPotTest()

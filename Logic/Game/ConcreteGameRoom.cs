@@ -104,15 +104,7 @@ namespace TexasHoldem.Logic.Game
         }
         public override void ResetActionPos()
         {
-            int offset = 1;
-            if (_handStep == HandStep.River)
-                offset = 3;
-            if (_players.Count == 0) _actionPos = 0;
-            else
-             { _actionPos = (_dealerPos + offset) % _players.Count;
-                while (!_players[_actionPos]._isActive)
-                    _actionPos = (_actionPos + 1) % _players.Count;
-            }
+            
         }
         public override void MoveChipsToPot()
         {
