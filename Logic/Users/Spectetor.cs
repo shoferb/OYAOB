@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.Users
         {
             
             this.roomId = roomId;
-            //new lskd
+            
         }
 
         //getter setter

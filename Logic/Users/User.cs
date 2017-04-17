@@ -22,8 +22,8 @@ namespace TexasHoldem.Logic.Users
         private List<Notification> waitListNotification;
         private string email;
         private bool isActive;
-        public List<GameRoom> ActiveGameList { get; set; }
-        private List<GameRoom> spectateGameList { get; set; }
+        private List<GameRoom> activeGameList;
+        private List<GameRoom> spectateGameList;
         public bool IsHigherRank { get; set; }
         //להוסיף שדות מספר נצחונות והפסדים
         //todo create toString
@@ -208,6 +208,32 @@ namespace TexasHoldem.Logic.Users
             set
             {
                 avatar = value;
+            }
+        }
+
+        public List<GameRoom> SpectateGameList
+        {
+            get
+            {
+                return spectateGameList;
+            }
+
+            set
+            {
+                spectateGameList = value;
+            }
+        }
+
+        public List<GameRoom> ActiveGameList
+        {
+            get
+            {
+                return activeGameList;
+            }
+
+            set
+            {
+                activeGameList = value;
             }
         }
     }

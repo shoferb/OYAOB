@@ -110,7 +110,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool AddRoom(ConcreteGameRoom roomToAdd)
         {
-            bool toReturn = false;
+            bool toReturn;
             try
             {
                 this.games.Add(roomToAdd);
@@ -130,6 +130,11 @@ namespace TexasHoldem.Logic.Game_Control
             User user = sc.GetUserWithId(userId);
             ConcreteGameRoom room = GetRoomById(roomId);
             int sb = room._sb;
+            bool exist = IsRoomExist(roomId);
+            if (!exist)
+            {
+                return toReturn;
+            }
             if (playerChipToEnterRoom < sb)
             {
                 return toReturn;
@@ -139,9 +144,11 @@ namespace TexasHoldem.Logic.Game_Control
             try
             {
                 ConcreteGameRoom toAdd = room;
-                room._players.Add(playerToAdd);
                 User newUser = user; // add room to user list
                 newUser.ActiveGameList.Add(room);
+               
+                room._players.Add(playerToAdd);
+                
                 sc.ReplaceUser(user, newUser);
                 games.Remove(room);
                 games.Add(toAdd);
@@ -154,8 +161,38 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public bool AddSpectetorToRoom(int roomId, int userId)
+        {
+            bool toReturn = false;
+            SystemControl sc = new SystemControl();
+            User user = sc.GetUserWithId(userId);
+            bool exist = IsRoomExist(roomId);
+            if (!exist)
+            {
+                return toReturn;
+            }
+            ConcreteGameRoom room = GetRoomById(roomId);
+            try
+            {
+                ConcreteGameRoom toAdd = room;
+                User newUser = user; // add room to user list
+                newUser.SpectateGameList.Add(room);
+                Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                    user.Money, user.Email, roomId);
+                toAdd._spectatores.Add(spectetor);
+                sc.ReplaceUser(user, newUser);
+                games.Remove(room);
+                games.Add(toAdd);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
 
-        public bool RemovePlayerFromRomm(int roomId, int userId)
+        public bool RemovePlayerFromRoom(int roomId, int userId)
         {
             bool toReturn = false;
             bool exist = IsRoomExist(roomId);
@@ -196,6 +233,47 @@ namespace TexasHoldem.Logic.Game_Control
             
             return toReturn;
         }
+
+
+        public bool RemoveSpectetorFromRoom(int roomId, int userId)
+        {
+            bool toReturn = false;
+            bool exist = IsRoomExist(roomId);
+            if (!exist)
+            {
+                return toReturn;
+            }
+            SystemControl sc = new SystemControl();
+            ConcreteGameRoom room = GetRoomById(roomId);
+            ConcreteGameRoom toAdd = room;
+            List<Spectetor> allSpectetors = room._spectatores;
+            Spectetor sprctetorToRemove = null;
+            User user = sc.GetUserWithId(userId);
+            User newUser = user;
+            foreach (Spectetor s in allSpectetors)
+            {
+                if ((s.Id == userId) && (s.RoomId == roomId))
+                {
+                    sprctetorToRemove = s;
+                }
+            }
+            try
+            {
+                allSpectetors.Remove(sprctetorToRemove);
+                toAdd._spectatores = allSpectetors;
+                games.Remove(room);
+                newUser.SpectateGameList.Remove(room);
+                sc.ReplaceUser(user, newUser);
+                games.Add(toAdd);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
 
         public bool LeagueChange(int leagugap)
         {
