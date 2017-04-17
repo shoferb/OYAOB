@@ -77,12 +77,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool IsUserInRoom(int userId, int roomId)
         {
-            //TODO
             var roomPlayers = _gameService.GetGameById(roomId)._players;
-            //var roomSpect = _gameService.GetGameById(roomId).;
+            var roomSpect = _gameService.GetGameById(roomId)._spectatores;
 
-            return (roomPlayers.Exists(p => p.Id == userId) //||
-                //roomSpect.Exists(s => s.Id == userId)
+            return (roomPlayers.Exists(p => p.Id == userId) ||
+                roomSpect.Exists(s => s.Id == userId)
                 );
         }
 
@@ -211,10 +210,17 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool Fold(int userId, int roomId)
         {
-            var player = FindPlayerInGame(userId, roomId);
-            if (player != null)
+            //var player = FindPlayerInGame(userId, roomId);
+            //if (player != null)
+            //{
+            //    player.Fold();
+            //    return true;
+            //}
+            //return false;
+            var game = _gameService.GetGameById(roomId);
+            if (game != null)
             {
-                player.Fold();
+                new GameManager(game).Fold();
                 return true;
             }
             return false;
@@ -222,10 +228,17 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool Check(int userId, int roomId)
         {
-            var player = FindPlayerInGame(userId, roomId);
-            if (player != null)
+            //var player = FindPlayerInGame(userId, roomId);
+            //if (player != null)
+            //{
+            //    player.Check();
+            //    return true;
+            //}
+            //return false;
+            var game = _gameService.GetGameById(roomId);
+            if (game != null)
             {
-                player.Check();
+                new GameManager(game).Check();
                 return true;
             }
             return false;
@@ -233,10 +246,17 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool Call(int userId, int roomId, int amount)
         {
-            var player = FindPlayerInGame(userId, roomId);
-            if (player != null)
+            //var player = FindPlayerInGame(userId, roomId);
+            //if (player != null)
+            //{
+            //    player.Call(amount);
+            //    return true;
+            //}
+            //return false;
+            var game = _gameService.GetGameById(roomId);
+            if (game != null)
             {
-                player.Call(amount);
+                new GameManager(game).Call(amount);
                 return true;
             }
             return false;
@@ -244,11 +264,18 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool Raise(int userId, int roomId, int amount)
         {
+            //var game = _gameService.GetGameById(roomId);
+            //var player = _userService.GetPlayer(userId, roomId);
+            //if (CheckCurrPlayerIsPlayer(userId, game))
+            //{
+            //    player.Raise(amount, game);
+            //    return true;
+            //}
+            //return false;
             var game = _gameService.GetGameById(roomId);
-            var player = _userService.GetPlayer(userId, roomId);
-            if (CheckCurrPlayerIsPlayer(userId, game))
+            if (game != null)
             {
-                player.Raise(amount, game);
+                new GameManager(game).Raise(amount);
                 return true;
             }
             return false;

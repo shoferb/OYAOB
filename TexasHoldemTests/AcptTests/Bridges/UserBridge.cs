@@ -69,8 +69,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             User user = _userService.GetUserFromId(userId);
             user.ActiveGameList.ForEach(game =>
             {
-                //TODO: wait for id to move to gameroom
-                //chips += _userService.GetPlayer(userId, game._id)._chipCount;
+                chips += _userService.GetPlayer(userId, game._id.GetHashCode())._totalChip;
             });
             return chips;
         }
@@ -80,7 +79,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var player = _userService.GetPlayer(userId, roomId);
             if (player != null)
             {
-                return player._chipCount;
+                return player._totalChip;
             }
             return 0;
         }
@@ -98,14 +97,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
                         gameIds.Add(game._id.GetHashCode());
                     }
                 });
-                //TODO:
-                //game.RoomSpectetors.ForEach(s =>
-                //{
-                //    if (s.Id == userId)
-                //    {
-                //        gameIds.Add(game.GameId);
-                //    }
-                //});
+                game._spectatores.ForEach(s =>
+                {
+                    if (s.Id == userId)
+                    {
+                        gameIds.Add(game._id.GetHashCode());
+                    }
+                });
 
             });
             return gameIds;
@@ -271,7 +269,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var player = _userService.GetPlayer(userId, roomId);
             if (player != null)
             {
-                player._chipCount += amount;
+                player._totalChip += amount;
                 return true;
             }
             return false;
