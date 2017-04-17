@@ -36,7 +36,6 @@ namespace TexasHoldem.Service
         public abstract int GetMaxUserPoints();
         public abstract Player GetPlayer(int userId, int roomId);
         public abstract int GetNextUserId();
-        public abstract int IncUserId();
         public abstract bool LoginUser(string name, string password);
         public abstract bool LogoutUser(int userId);
 

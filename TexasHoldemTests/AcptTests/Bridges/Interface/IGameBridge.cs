@@ -37,7 +37,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool Raise(int userId, int roomId, int amount);
 
         //game system actions:
-        bool DealFirstCards(int gameId);
         bool DealFlop(int gameId); 
         bool DealSingleCardToTable(int gameId); //Turn and River        
 
