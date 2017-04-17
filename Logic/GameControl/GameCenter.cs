@@ -4,7 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -15,6 +18,71 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
+        private List<ConcreteGameRoom> games; //all games 
+        private static int roomIdCounter = 0;
+        private ReplayManager _replayManager;
+
+        public GameCenter()
+        {
+            this.leagueTable = new List<League>();
+            //add first league function
+            this.logs = new List<Log>();
+            this.games = new List<ConcreteGameRoom>();
+        }
+
+        //return thr next room Id
+        public int GetNextIdRoom()
+        {
+            int toReturn = System.Threading.Interlocked.Increment(ref roomIdCounter);
+            return toReturn;
+        }
+
+        //create new game room
+        public bool CreateNewRoom(int userId,int smallBlind,int playerMoney, ReplayManager rp)
+        {
+            bool toReturn = false;
+            if (playerMoney < smallBlind)
+            {
+                return toReturn;
+            }
+            int nextId = GetNextIdRoom();
+            List<Player> players = new List<Player>();
+            SystemControl sc = new SystemControl();
+            User user = sc.GetUserWithId(userId);
+            
+            Player player = new Player(smallBlind, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                user.Money, user.Email, nextId);
+            ConcreteGameRoom room = new ConcreteGameRoom(players,smallBlind,nextId);
+            toReturn = AddRoom(room);
+            return toReturn;
+        }
+
+      /* public ConcreteGameRoom GetRoomById(int roomId)
+        {
+            throw 
+        }*/
+
+        public bool RemoveRoom(int gameID)
+        {
+            bool toReturn = false;
+
+            return toReturn;
+        }
+
+        public bool AddRoom(ConcreteGameRoom roomToAdd)
+        {
+            bool toReturn = false;
+            try
+            {
+                this.games.Add(roomToAdd);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
 
         public bool LeagueChange(int leagugap)
         {
@@ -59,12 +127,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
-        public GameCenter()
-        {
-            this.leagueTable = new List<League>();
-            //add first league function
-            this.logs = new List<Log>();
-        }
+        
 
         public bool SendNotification(User reciver, Notification toSend)
         {

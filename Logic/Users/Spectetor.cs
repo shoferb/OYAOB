@@ -8,27 +8,27 @@ namespace TexasHoldem.Logic.Users
 {
     public class Spectetor : User
     {
-        private int gameId;
+        private int roomId;
 
-        public Spectetor(int id, string name, string memberName, string password, int points, int money,String email,int gameId) :
+        public Spectetor(int id, string name, string memberName, string password, int points, int money,String email,int roomId) :
             base(id, name, memberName, password, points, money, email)
         {
             
-            this.gameId = gameId;
+            this.roomId = roomId;
             //new lskd
         }
 
         //getter setter
-        public int GameId
+        public int RoomId
         {
             get
             {
-                return gameId;
+                return roomId;
             }
 
             set
             {
-                gameId = value;
+                roomId = value;
             }
         }
     }
