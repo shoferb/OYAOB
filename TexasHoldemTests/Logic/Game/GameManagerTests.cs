@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_player1);
             _players.Add(_player2);
             _players.Add(_player3);
-           _room = new ConcreteGameRoom(_players, 50);
+           _room = new ConcreteGameRoom(_players, 50, 0);
         }
         //TODO: move the random play of player to here
         [TestMethod()]
