@@ -120,7 +120,6 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in _players)
             {
                 _potCount += player._gameChip;
-                player._gameChip = 0;
             }
         }
         public override int PlayersInGame()

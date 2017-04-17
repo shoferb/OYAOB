@@ -78,8 +78,9 @@ namespace TexasHoldem.Logic.Users
         
 
        //for test propuse only !!!
-        public void Play(ConcreteGameRoom state)
+        public int Play(int amount, ConcreteGameRoom.HandStep h)
         {
+            return 0;
         }
 
         public void CommitChips(int chips)
@@ -97,10 +98,6 @@ namespace TexasHoldem.Logic.Users
         {
             
         }
-        //TODO : orellie 
-        internal int Play(int _sb)
-        {
-            return 0;
-        }
+       
     }
 }
