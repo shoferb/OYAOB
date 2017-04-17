@@ -53,7 +53,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             _room._gm._currentPlayer = _player1;
             _room._gm.PlayerDesicion(-1);
-            Assert.IsTrue(_player1._isActive==false);
+            Assert.IsTrue(_player1.isPlayerActive == false);
         }
 
         [TestMethod()]
@@ -70,8 +70,8 @@ namespace TexasHoldem.Logic.Game.Tests
             _room._deck = new Deck();
             _room._gm._currentPlayer = _player1;
             _room._maxCommitted = 50;
-            _player1._isActive = true;
-            _player2._isActive = true;
+            _player1.isPlayerActive = true;
+            _player2.isPlayerActive = true;
             _room._gm.PlayerDesicion(100);
             Assert.IsTrue(_room._maxCommitted >= 100);
         }
@@ -80,9 +80,9 @@ namespace TexasHoldem.Logic.Game.Tests
         public void ProgressHandTest()
         {
             _room._deck = new Deck();
-            _player1._isActive = true;
-            _player2._isActive = true;
-            _player3._isActive = true;
+            _player1.isPlayerActive = true;
+            _player2.isPlayerActive = true;
+            _player3.isPlayerActive = true;
             _room._gm.ProgressHand(ConcreteGameRoom.HandStep.PreFlop);
             Assert.IsTrue(_room._handStep == ConcreteGameRoom.HandStep.Flop);
             Assert.IsTrue(_room._publicCards.Count==3);

@@ -70,7 +70,7 @@ namespace TexasHoldem.Logic.Game
             // next player picked
 
             do { _actionPos = (_actionPos + 1) % _players.Count; }
-            while (!_players[_actionPos]._isActive);
+            while (!_players[_actionPos].isPlayerActive);
 
             UpdateMaxCommitted();
         }
@@ -91,7 +91,7 @@ namespace TexasHoldem.Logic.Game
             MoveChipsToPot();
 
            foreach (Player player in _players)
-                if (player._isActive)
+                if (player.isPlayerActive)
                     player._lastAction = "";
 
 
@@ -108,7 +108,7 @@ namespace TexasHoldem.Logic.Game
         {
             int playersInGame = 0;
             foreach (Player player in _players)
-                if (player._isActive)
+                if (player.isPlayerActive)
                     playersInGame++;
             return playersInGame;
 
@@ -127,7 +127,7 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in _players)
-                if (!(player._isActive == false || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._gameChip == _maxCommitted))
+                if (!(player.isPlayerActive == false || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._gameChip == _maxCommitted))
                     allDone = false;
             return allDone;
 
@@ -142,7 +142,7 @@ namespace TexasHoldem.Logic.Game
             int chipsToMatch = allInPlayer._gameChip;
             foreach (Player player in _players)
             {
-                if (player._isActive && player._gameChip > 0)
+                if (player.isPlayerActive && player._gameChip > 0)
                 {
                     player._gameChip -= chipsToMatch;
                     sidePotCount += chipsToMatch;

@@ -70,7 +70,7 @@ namespace TexasHoldem.Logic.Game
 
             foreach (Player player in this._state._players)
             {
-                player._isActive = true;
+                player.isPlayerActive = true;
                 player.AddHoleCards(deck.Draw(), deck.Draw());
                 HandCards hand = new HandCards(player, player._hand._firstCard,
                     player._hand._seconedCard);
@@ -253,7 +253,7 @@ namespace TexasHoldem.Logic.Game
                 else
                 {
                    // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
-                    player._isActive = false;
+                    player.isPlayerActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
 
@@ -289,7 +289,7 @@ namespace TexasHoldem.Logic.Game
                 this._state._isGameOver = true;
                 _firstEnter = true;
                 if (!_currentPlayer.OutOfMoney())
-                    this._state._players[0]._isActive = false; 
+                    this._state._players[0].isPlayerActive = false; 
             }
 
 
@@ -404,7 +404,7 @@ namespace TexasHoldem.Logic.Game
         public void Fold()
         {
             this._currentPlayer._lastAction = "fold";
-            this._currentPlayer._isActive = false;
+            this._currentPlayer.isPlayerActive = false;
             FoldAction fold = new FoldAction(_currentPlayer, _currentPlayer._hand._firstCard,
                 _currentPlayer._hand._seconedCard);
             _state._gameReplay.AddAction(fold);
