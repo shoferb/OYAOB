@@ -4,7 +4,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
 {
     public interface IReplayBridge
     {
-        List<string> GetReplayableGames(int userId);
+        List<int> GetReplayableGames(int userId);
         List<string> ViewReplay(int roomId, int gameNum);
 
         //can be done while viewing replay

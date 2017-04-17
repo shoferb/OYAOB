@@ -13,10 +13,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
             //TODO: init service here
         }
 
-        public List<string> GetReplayableGames(int userId)
+        public List<int> GetReplayableGames(int userId)
         {
             var replays = _replayService.GetUserReplays(userId);
-            var gameIds = new List<string>();
+            var gameIds = new List<int>();
             replays.ForEach(replay =>
             {
                 gameIds.Add(replay._gameRoomID);
