@@ -57,15 +57,52 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-      /* public ConcreteGameRoom GetRoomById(int roomId)
-        {
-            throw 
-        }*/
+      public ConcreteGameRoom GetRoomById(int roomId)
+      {
+          ConcreteGameRoom toReturn = null;
+          foreach (ConcreteGameRoom room in games)
+          {
+              if (room._id == roomId)
+              {
+                  toReturn = room;
+              }
+          }
+          return toReturn;
+      }
 
-        public bool RemoveRoom(int gameID)
+        public bool IsRoomExist(int roomId)
+        {
+
+            bool toReturn = false;
+            foreach (ConcreteGameRoom room in games)
+            {
+                if (room._id == roomId)
+                {
+                    toReturn = true;
+                }
+            }
+            return toReturn;
+        }
+
+
+        public bool RemoveRoom(int roomId)
         {
             bool toReturn = false;
-
+            bool exist = IsRoomExist(roomId);
+            if (!exist)
+            {
+                return toReturn;
+            }
+            ConcreteGameRoom toRemove = GetRoomById(roomId);
+            try
+            {
+                games.Remove(toRemove);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
             return toReturn;
         }
 
