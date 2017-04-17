@@ -64,10 +64,16 @@ namespace TexasHoldem.Logic.Game
                 this._state._players[(this.buttonPos + 1) % this._state._players.Count].CommitChips(this._state._bb);
             }
 
+            StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
+            _state._gameReplay.AddAction(startAction);
+
             foreach (Player player in this._state._players)
             {
                 player._isActive = true;
                 player.AddHoleCards(deck.Draw(), deck.Draw());
+                HandCards hand = new HandCards(player, player._hand._firstCard,
+                    player._hand._seconedCard);
+                _state._gameReplay.AddAction(hand);
             }
             this._state.UpdateMaxCommitted();
             this._state.MoveChipsToPot();
@@ -189,8 +195,6 @@ namespace TexasHoldem.Logic.Game
         {
             this._state._dealerPos = 0;
             SetRoles();
-            StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
-            _state._gameReplay.AddAction(startAction);
             _firstEnter = false;
         }
 
