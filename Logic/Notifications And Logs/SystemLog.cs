@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Notifications_And_Logs
 {
-    public class ErrorLog : Log
+    public class SystemLog : Log
     {
         private String msg;
 
-        public ErrorLog(int lodId,string msg) : base(lodId)
+        public SystemLog(int lodId,string msg) : base()
         {
             this.msg = msg;
         }

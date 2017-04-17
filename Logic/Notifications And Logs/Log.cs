@@ -8,26 +8,26 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
 {
     public class Log
     {
+        private static int counter = 0;
+        private int logId;
 
-        private int lodId;
-
-        public Log(int lodId)
+        public Log()
         {
-            this.lodId = lodId;
+            this.logId = System.Threading.Interlocked.Increment(ref counter);
         }
 
 
         //getter Setter
-        public int LodId
+        public int LogId
         {
             get
             {
-                return lodId;
+                return logId;
             }
 
             set
             {
-                lodId = value;
+                logId = value;
             }
         }
     }

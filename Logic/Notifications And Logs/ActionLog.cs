@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
     {
         private int gameId;
 
-        public ActionLog(int logId,int gameId) : base(logId)
+        public ActionLog(int logId,int gameId) : base()
         {
             this.gameId = gameId;
         }
