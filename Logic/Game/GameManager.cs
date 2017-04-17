@@ -194,7 +194,6 @@ namespace TexasHoldem.Logic.Game
 
         private void StartTheGame()
         {
-            this._state._gameNumber++;
             _state._gameReplay = new GameReplay(_state._id.ToString(), _state._gameNumber);
             this._state._dealerPos = 0;
             SetRoles();
@@ -246,9 +245,8 @@ namespace TexasHoldem.Logic.Game
 
         public void EndHand()
         {
-            List<Player> playersLeftInGame = new List<Player>();
-           
-
+            this._state._gameNumber++;
+            List<Player> playersLeftInGame = new List<Player>();        
             foreach (Player player in this._state._players)
                 if (player._totalChip != 0)
                     playersLeftInGame.Add(player);
