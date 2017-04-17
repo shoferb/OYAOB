@@ -88,7 +88,8 @@ namespace TexasHoldem.Logic.Game
                 {
                    int move;
                    this._currentPlayer = this._state.NextToPlay();
-                    move = this._currentPlayer.Play(this._state._sb);
+                    
+                    move = this._currentPlayer.Play(this._state._maxCommitted, this._state._handStep);
                     PlayerDesicion(move);
                     if (_backFromRaise)
                     {
@@ -97,6 +98,7 @@ namespace TexasHoldem.Logic.Game
                     }
                    this._state.UpdateGameState();
                 }
+                this._state.MoveChipsToPot();
 
                 if (this._state.AllDoneWithTurn() || this._state.PlayersInGame() < 2)
                 {
@@ -160,11 +162,11 @@ namespace TexasHoldem.Logic.Game
             Player tempPlayer = this._currentPlayer;
             foreach (Player p in _state._players)
             {
-                while (p != tempPlayer)
+                if (p != tempPlayer)
                 {
                     int move;
                     this._currentPlayer = this._state.NextToPlay();
-                    move = this._currentPlayer.Play(this._state._sb);
+                    move = this._currentPlayer.Play(this._state._sb, this._state._handStep);
                     PlayerDesicion(move);
 
                     this._state.UpdateGameState();
@@ -415,7 +417,7 @@ namespace TexasHoldem.Logic.Game
             _state._maxCommitted += additionalChips;
             this._currentPlayer._lastAction = "raise";
             this._currentPlayer.CommitChips(additionalChips);
-            this._state._sb += additionalChips;
+            
         }
 
        
