@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Users
     public class Player : Spectetor
     {
 
-        public bool _isActive { get; set; }
+        public bool isPlayerActive { get; set; }
         public string name { get; set; }
         public int _totalChip { get; set; }
         public int _gameChip { get; set; }
@@ -18,8 +18,10 @@ namespace TexasHoldem.Logic.Users
         public string _lastAction { get; set; }
         public Hand _hand;
         public enum playerMoves { Call, Check, Bet, Fold, Raise }
+
+
         public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
-            int gameId) : base(id, name, memberName, password, points, money, email, gameId)
+            int roomId) : base(id, name, memberName, password, points, money, email, roomId)
         {
             //TODO: Orellie, I deleted the "IsActive" field and refactor isHand to it. it's not
             //TODO: should pass in the constructor, I'm changing it from the game.
@@ -29,7 +31,7 @@ namespace TexasHoldem.Logic.Users
             this.name = name;
             this._gameChip = _gameChip;
             this._totalChip = totalChip;
-            _isActive = false;
+            isPlayerActive = false;
             _hand = new Hand();
 
         }
@@ -38,7 +40,7 @@ namespace TexasHoldem.Logic.Users
 
         public bool IsAllIn()
         {
-            if (_totalChip == 0 && _isActive)
+            if (_totalChip == 0 && isPlayerActive)
                 return true;
             return false;
         }
