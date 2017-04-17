@@ -80,9 +80,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var roomPlayers = _gameService.GetGameById(roomId)._players;
             var roomSpect = _gameService.GetGameById(roomId)._spectatores;
 
-            return (roomPlayers.Exists(p => p.Id == userId) ||
-                roomSpect.Exists(s => s.Id == userId)
-                );
+            return roomPlayers.Exists(p => p.Id == userId) ||
+                   roomSpect.Exists(s => s.Id == userId);
         }
 
         public bool IsRoomActive(int roomId)

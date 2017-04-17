@@ -16,7 +16,7 @@ namespace TexasHoldem.Logic.Users
         private String name;
         private String memberName;
         private string password;
-        //private ?String avatr - image path
+        private string avatar;
         private int points;
         private int money;
         private List<Notification> waitListNotification;
@@ -182,6 +182,11 @@ namespace TexasHoldem.Logic.Users
             {
                 isActive = value;
             }
+        }
+        public string Avatar
+        {
+            get { return avatar; }
+            set { avatar = value; }
         }
     }
 }

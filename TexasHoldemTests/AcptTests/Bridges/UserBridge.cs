@@ -52,6 +52,16 @@ namespace TexasHoldemTests.AcptTests.Bridges
             }
             return "";
         }
+        
+        public string GetUserAvatar(int id)
+        {
+            var user = _userService.GetUserFromId(id);
+            if (user != null)
+            {
+                return user.Avatar;
+            }
+            return "";
+        }
 
         public int GetUserMoney(int id)
         {
@@ -213,6 +223,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool EditEmail(int id, string newEmail)
         {
             return _userService.EditUserEmail(id, newEmail);
+        }
+        
+        public bool EditAvatar(int id, string newAvatarPath)
+        {
+            return _userService.EditUserAvatar(id, newAvatarPath);
         }
 
         public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
