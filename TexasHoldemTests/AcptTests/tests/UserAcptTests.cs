@@ -19,6 +19,9 @@ namespace TexasHoldemTests.AcptTests.tests
         private string _userEmailGood2;
         private string _userEmailBad1;
         private string _userEmailBad2;
+        private string _userAvatarGood;
+        private string _userAvatarBad;
+        private const string _userAvatarDefault = "default path. CHANGE ME WHEN THERE IS REAL PATH!"; //TODO: fill this up
 
         //setup: (called from case)
         protected override void SubClassInit()
@@ -36,6 +39,9 @@ namespace TexasHoldemTests.AcptTests.tests
             _userEmailGood2 = "gooduser2@gmail.com";
             _userEmailBad1 = "מייל בעברית";
             _userEmailBad2 = "baduser"; //no @ sign
+
+            _userAvatarGood = "/path/to/good/avatar"; //TODO: change this to real path
+            _userAvatarBad = "I ain't no path!";
         }
 
         //tear down: (called from case)
@@ -282,8 +288,8 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood2);
 
             //set back
-            Assert.True(UserBridge.EditEmail(UserId, _userEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.True(UserBridge.EditAvatar(UserId, _userAvatarDefault));
+            Assert.AreEqual(UserBridge.GetUserAvatar(UserId), _userAvatarDefault);
         }
 
         [TestCase]
@@ -307,6 +313,19 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad2));
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+        }
+
+        [TestCase]
+        public void UserEditAvatarTestGood()
+        {
+            RegisterUser1();
+
+            Assert.True(UserBridge.EditAvatar(UserId, _userAvatarGood));
+            Assert.AreEqual(UserBridge.GetUserAvatar(UserId), _userAvatarGood);
+
+            //set back
+            Assert.True(UserBridge.EditEmail(UserId, _userEmailGood1));
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
         }
 
@@ -335,8 +354,6 @@ namespace TexasHoldemTests.AcptTests.tests
             //user1 is NOT top user
             Assert.False(UserBridge.SetUserRank(someUser, 10, UserId));
         }
-
-        //TODO: test edit avatar
 
         [TestCase]
         public void UserAddUserMoneyTestGood()

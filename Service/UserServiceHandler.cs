@@ -46,8 +46,10 @@ namespace TexasHoldem.Service
 
         public abstract bool EditUserPassword(int userId, string oldPassword, string newPassword);
         public abstract bool EditUserEmail(int userId, string newEmail);
+        public abstract bool EditUserAvatar(int id, string newAvatarPath);
         public abstract bool EditUserName(int userId, string newName);
 
         public abstract List<Notification> GetUserNotifications(int userId);
+
     }
 }

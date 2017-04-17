@@ -12,6 +12,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         string GetUserName(int id);
         string GetUserPw(int id);
         string GetUserEmail(int id);
+        string GetUserAvatar(int userId);
         int GetUserMoney(int id);
         int GetUserChips(int userId);
         int GetUserChips(int userId, int roomId);
@@ -34,7 +35,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool EditName(int id, string newName);
         bool EditPw(int id, string oldPw, string newPw);
         bool EditEmail(int id, string newEmail);
-        //TODO: add edit avatar
+        bool EditAvatar(int id, string newAvatarPath);
         bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount);
         bool AddUserToGameRoomAsSpectator(int userId, int roomId);
         bool RemoveUserFromRoom(int userId, int roomId);
