@@ -13,7 +13,6 @@ namespace TexasHoldem.Logic.Game.Tests
     [TestClass()]
     public class GameManagerTests
     {
-        // private GameManager _hand;
         private ConcreteGameRoom _room;
         private Player _player1;
         private Player _player2;
@@ -35,30 +34,55 @@ namespace TexasHoldem.Logic.Game.Tests
         }
         //TODO: move the random play of player to here
         [TestMethod()]
-        public void SetRoleTest()
-        {   //check game with only two.
-            Console.WriteLine(_room._gm._sbPlayer.name);
-            Console.WriteLine(_room._gm._dealerPlayer.name);
-            Console.WriteLine(_room._gm._bbPlayer.name);
+        public void SetRoleTest3Players()
+        {
+            _room._gm.SetRoles();
             Assert.IsTrue(_room._gm._dealerPlayer!= _room._gm._bbPlayer && _room._gm._dealerPlayer != _room._gm._sbPlayer);
         }
 
         [TestMethod()]
-        public void PlayTest()
-        {
-            Console.WriteLine(_room._gm._forTest);
-            Assert.IsTrue(_room._gm._forTest>=3);
+        public void SetRoleTest2Players()
+        {   
+            _room._players.Remove(_player1);
+            _room._gm.SetRoles();
+            Assert.IsTrue(_room._gm._dealerPlayer != _room._gm._bbPlayer && _room._gm._dealerPlayer == _room._gm._sbPlayer);
         }
 
         [TestMethod()]
-        public void ProgressHandTest()
+        public void PlayerDesicionFoldTest()
         {
+            _room._gm._currentPlayer = _player1;
+            _room._gm.PlayerDesicion(-1);
+            Assert.IsTrue(_player1._isActive==false);
+        }
+
+        [TestMethod()]
+        public void PlayerDesicionFoldCheck()
+        {
+            _room._gm._currentPlayer = _player1;
+            _room._gm.PlayerDesicion(0);
+            Assert.IsTrue(_player1._lastAction == "check");
+        }
+
+        //[TestMethod()]
+        //public void PlayerDesicionFoldRaise()
+        //{
+        //    _room._gm._currentPlayer = _player1;
+        //    _room._sb = 50;
+        //    _room._gm.PlayerDesicion(100);
+        //    //TODO - the test isn't check nothing now....
+        //    Assert.IsTrue(_player1._lastAction == "raise");
+        //}
+
+        [TestMethod()]
+        public void ProgressHandTest()
+        {//TODO
             Assert.IsTrue(true);
         }
 
         [TestMethod()]
         public void EndHandTest()
-        {
+        {//TODO
             Assert.IsTrue(_room._gm._winners.Count >= 1);
         }
 

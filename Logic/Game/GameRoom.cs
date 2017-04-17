@@ -10,6 +10,8 @@ namespace TexasHoldem.Logic.Game
     public abstract class GameRoom
     {
         public abstract List<Player> _players { get; set; }
+        public abstract Guid _id { get;  set; }
+        public abstract List<Spectetor> _spectatores { get; set; }
         public abstract int _dealerPos { get; set; }
         public abstract int _maxCommitted { get; set; }
         public abstract int _actionPos { get; set; }
@@ -26,6 +28,7 @@ namespace TexasHoldem.Logic.Game
         {
             this._players = players;
             this._sb = startingChip;
+            this._id = Guid.NewGuid(); //TODO: how to get the number - check for Aviv 
         }
 
         public abstract void AddNewPublicCard();
@@ -37,7 +40,7 @@ namespace TexasHoldem.Logic.Game
         public abstract void EndTurn();
         public abstract void ResetActionPos();
         public abstract void MoveChipsToPot();
-        public abstract int PlayersInHand();
+        public abstract int PlayersInGame();
         public abstract int PlayersAllIn();
         public abstract bool AllDoneWithTurn();
         public abstract bool newSplitPot(Player allInPlayer);

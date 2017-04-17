@@ -1,5 +1,6 @@
 ﻿ using System;
 using System.Collections.Generic;
+using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
@@ -8,13 +9,11 @@ namespace TexasHoldem.Logic.Game
     public class ConcreteGameRoom : GameRoom
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
-        public Guid _id { get; private set; }
         public static int _gameNumber=0;
         public GameManager _gm;
         public GameReplay _gameReplay { get; set; }
         public ConcreteGameRoom(List<Player> players, int startingChip) : base(players, startingChip)
         {
-            this._id = Guid.NewGuid();
             this._isGameOver = false;
             this._potCount = 0;          
             this._players = players;
@@ -29,6 +28,8 @@ namespace TexasHoldem.Logic.Game
          }
 
         public override List<Player> _players { get; set; }
+        public override Guid _id { get; set; }
+        public override List<Spectetor> _spectatores { get; set; }
         public override int _dealerPos { get; set; }
         public override int _maxCommitted { get; set; }
         public override int _actionPos { get; set; }
@@ -51,15 +52,22 @@ namespace TexasHoldem.Logic.Game
 
         public override int ToCall()
         {
-            return _maxCommitted - _players[_actionPos]._chipsCommitted;
+            return _maxCommitted - _players[_actionPos]._gameChip;
 
         }
+
         public override void AddNewPublicCard()
         {
+            Card c = _deck.ShowCard();
             foreach (Player player in _players)
-                player.AddCard(_deck.ShowCard());
+            {
+                player.AddCard(c);
+            }
             _publicCards.Add(_deck.Draw());
+            DrawCard draw = new DrawCard(c, _publicCards, _potCount);
+            _gameReplay.AddAction(draw);
         }
+
         public override void UpdateGameState()
         {
             // next player picked
@@ -78,8 +86,8 @@ namespace TexasHoldem.Logic.Game
         public override void UpdateMaxCommitted()
         {
             foreach (Player player in _players)
-                if (player._chipsCommitted > _maxCommitted)
-                    _maxCommitted = player._chipsCommitted;
+                if (player._gameChip > _maxCommitted)
+                    _maxCommitted = player._gameChip;
         }
         public override void EndTurn()
         {
@@ -111,17 +119,17 @@ namespace TexasHoldem.Logic.Game
         {
             foreach (Player player in _players)
             {
-                _potCount += player._chipsCommitted;
-                player._chipsCommitted = 0;
+                _potCount += player._gameChip;
+                player._gameChip = 0;
             }
         }
-        public override int PlayersInHand()
+        public override int PlayersInGame()
         {
-            int playersInHand = 0;
+            int playersInGame = 0;
             foreach (Player player in _players)
                 if (player._isActive)
-                    playersInHand++;
-            return playersInHand;
+                    playersInGame++;
+            return playersInGame;
 
         }
 
@@ -138,7 +146,7 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in _players)
-                if (!(player._isActive == false || player.IsAllIn() || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._chipsCommitted == _maxCommitted))
+                if (!(player._isActive == false || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._gameChip == _maxCommitted))
                     allDone = false;
             return allDone;
 
@@ -150,12 +158,12 @@ namespace TexasHoldem.Logic.Game
         {
             List<Player> eligiblePlayers = new List<Player>();
             int sidePotCount = 0;
-            int chipsToMatch = allInPlayer._chipsCommitted;
+            int chipsToMatch = allInPlayer._gameChip;
             foreach (Player player in _players)
             {
-                if (player._isActive && player._chipsCommitted > 0)
+                if (player._isActive && player._gameChip > 0)
                 {
-                    player._chipsCommitted -= chipsToMatch;
+                    player._gameChip -= chipsToMatch;
                     sidePotCount += chipsToMatch;
                     eligiblePlayers.Add(player);
                 }

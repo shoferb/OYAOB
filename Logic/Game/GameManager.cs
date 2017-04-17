@@ -12,7 +12,6 @@ namespace TexasHoldem.Logic.Game
 {
     public class GameManager
     {
-        public int _forTest;
         public int _verifyAction;      
         public bool _gameOver = false;
         public Player _currentPlayer;
@@ -20,14 +19,14 @@ namespace TexasHoldem.Logic.Game
         public Player _bbPlayer;
         public Player _sbPlayer;
         public List<HandEvaluator> _winners;
-
+        public static bool _firstEnter = true;
         private int buttonPos;
+        private bool _backFromRaise;
         ConcreteGameRoom _state;
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
-            this._forTest = 0;
-            this._state = state;
+           this._state = state;
 
         } 
 
@@ -72,28 +71,35 @@ namespace TexasHoldem.Logic.Game
             }
             this._state.UpdateMaxCommitted();
 
-           // Play(state);
 
         }
 
         public bool Play() //need to change all the function to: start, while not end, end
-        {   
+        {
+            
             if (this._state._players.Count < 2) return false;
             else
             {
-                StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
-                _state._gameReplay.AddAction(startAction);
-                this._state._dealerPos = 0;
-                SetRoles();
+                if (_firstEnter)
+                {
+                    StartTheGame();
+                }       
                 while (!this._state.AllDoneWithTurn())
                 {
-                    this._state.NextToPlay().Play(this._state);
-                    this._forTest++;
-
-                    this._state.UpdateGameState();
+                   int move;
+                   this._currentPlayer = this._state.NextToPlay();
+                    move = this._currentPlayer.Play(this._state._sb);
+                    PlayerDesicion(move);
+                    if (_backFromRaise)
+                    {
+                        _backFromRaise = false;
+                        break;
+                    }
+                   this._state.UpdateGameState();
                 }
 
-                if (this._state.AllDoneWithTurn() || this._state.PlayersInHand() < 2)
+                if (this._state.AllDoneWithTurn() || this._state.PlayersInGame() < 2)
+                {
                     if (ProgressHand(this._state._handStep))
                     {
                         // progresses _hand and returns whether _hand is over (the last _handStep was river)
@@ -101,52 +107,87 @@ namespace TexasHoldem.Logic.Game
                         return true;
                     }
                     else
-                        Play();
-                if (!this._state._isGameOver)
-                {
-                    _currentPlayer = this._state.NextToPlay();
-                    _dealerPlayer = this._state._players[(this._state._players.IndexOf(_dealerPlayer) + 1)% this._state._players.Count];
-                    _sbPlayer = this._state._players[(this._state._players.IndexOf(_sbPlayer) + 1)% this._state._players.Count];
-                    _bbPlayer = this._state._players[(this._state._players.IndexOf(_bbPlayer) + 1)% this._state._players.Count];
-
+                    {
+                        _currentPlayer = this._state.NextToPlay();
+                        _dealerPlayer =
+                            this._state._players[
+                                (this._state._players.IndexOf(_dealerPlayer) + 1) % this._state._players.Count];
+                        _sbPlayer =
+                            this._state._players[
+                                (this._state._players.IndexOf(_sbPlayer) + 1) % this._state._players.Count];
+                        _bbPlayer =
+                            this._state._players[
+                                (this._state._players.IndexOf(_bbPlayer) + 1) % this._state._players.Count];
+                        return Play();
+                    }
+                       
                 }
+               
             }
             return true;
+            
+        }
+
+        
+        public void PlayerDesicion(int move)
+        {
+            int sb = this._state._sb;
+            switch (move)
+            {
+                case -1:
+                    Fold();
+                    break;
+                case 0:
+                    Check();
+                    break;
+                default:
+                    if (move == sb)
+                        Call(sb);
+                    else
+                    {
+                        Raise(move);
+                        StartNewRoundAfterRaise();
+                    }
+                    break;
+            }
+        }
+
+        private void StartNewRoundAfterRaise()
+        {
+            if (this._state.PlayersInGame() < 2)
+                EndHand();
+
+            Player tempPlayer = this._currentPlayer;
+            foreach (Player p in _state._players)
+            {
+                while (p != tempPlayer)
+                {
+                    int move;
+                    this._currentPlayer = this._state.NextToPlay();
+                    move = this._currentPlayer.Play(this._state._sb);
+                    PlayerDesicion(move);
+
+                    this._state.UpdateGameState();
+                }
+            }
+            _backFromRaise = true;
+        }
+
+        private void StartTheGame()
+        {
+            this._state._dealerPos = 0;
+            SetRoles();
+            StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
+            _state._gameReplay.AddAction(startAction);
+            _firstEnter = false;
         }
 
 
         public bool ProgressHand(ConcreteGameRoom.HandStep previousStep)
         {            
-            List<Player> playersWhoWentAllIn = new List<Player>();
-            foreach (Player player in this._state._players)
-                if (player.IsAllIn() && player._chipsCommitted > 0)
-                    playersWhoWentAllIn.Add(player);
+            
 
-            while (playersWhoWentAllIn.Count > 0)
-            {
-                int minAllIn = 10000000;
-                Player minAllInPlayer = playersWhoWentAllIn[0];
-
-                foreach (Player player in playersWhoWentAllIn) // find player who has the smallest all in
-                {
-                    if (player._chipsCommitted < minAllIn)
-                    {
-                        minAllInPlayer = player;
-                        minAllIn = player._chipsCommitted;
-                    }
-                }
-                if (minAllInPlayer != null)
-                {
-                    this._state.newSplitPot(minAllInPlayer);
-                    playersWhoWentAllIn.Remove(minAllInPlayer);
-                }
-
-            }
-            // moves chips to center, rests _actionPos, _maxCommitted = 0, resets last actions, resets last raise
-
-
-
-            if (this._state.PlayersInHand() < 2)
+            if (this._state.PlayersInGame() < 2)
                 return true;
 
             switch (previousStep)
@@ -172,7 +213,7 @@ namespace TexasHoldem.Logic.Game
             int numNextStep = (int)previousStep + 1;
             this._state._handStep = (ConcreteGameRoom.HandStep)numNextStep;
 
-            if (this._state.PlayersInHand() - this._state.PlayersAllIn() < 2)
+            if (this._state.PlayersInGame() - this._state.PlayersAllIn() < 2)
             {
                 ProgressHand(this._state._handStep); // recursive, runs until we'll hit the river
                 return true;
@@ -193,7 +234,7 @@ namespace TexasHoldem.Logic.Game
            
 
             foreach (Player player in this._state._players)
-                if (player._chipCount != 0)
+                if (player._totalChip != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
@@ -345,6 +386,39 @@ namespace TexasHoldem.Logic.Game
                 }
             }
         }
+
+        public void Fold()
+        {
+            this._currentPlayer._lastAction = "fold";
+            this._currentPlayer._isActive = false;
+        }
+        public void Check()
+        {
+            this._currentPlayer._lastAction = "check";
+        }
+
+        public void Call(int additionalChips)
+        {
+            this._currentPlayer._lastAction = "call";
+            additionalChips = Math.Min(additionalChips, this._currentPlayer._totalChip); // if can't afford that many chips in a call, go all in           
+            this._currentPlayer.CommitChips(additionalChips);
+        }
+
+        public void Call()
+        {
+            Call(this._state.ToCall());
+
+        }
+
+       public void Raise(int additionalChips)
+        {
+            _state._maxCommitted += additionalChips;
+            this._currentPlayer._lastAction = "raise";
+            this._currentPlayer.CommitChips(additionalChips);
+            this._state._sb += additionalChips;
+        }
+
+       
     }
  }
 
