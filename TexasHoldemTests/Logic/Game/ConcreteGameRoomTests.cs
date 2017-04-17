@@ -31,24 +31,24 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_B);
             _players.Add(_C);
             _players.Add(_D);
-            _gameRoom = new ConcreteGameRoom(_players, 50, 1);
+            _gameRoom = new ConcreteGameRoom(_players, 50, 1, new Replay.ReplayManager());
            
         }
       
        [TestMethod()]
         public void UpdateGameState4PlayersTest()
         {
-            _gameRoom._gm.SetRoles();
-            Player curr = _gameRoom._gm._currentPlayer;
-            Player sb = _gameRoom._gm._sbPlayer;
-            Player bb = _gameRoom._gm._bbPlayer;
-            Player dealer = _gameRoom._gm._dealerPlayer;
+            _gameRoom._gameManager.SetRoles();
+            Player curr = _gameRoom._gameManager._currentPlayer;
+            Player sb = _gameRoom._gameManager._sbPlayer;
+            Player bb = _gameRoom._gameManager._bbPlayer;
+            Player dealer = _gameRoom._gameManager._dealerPlayer;
             _gameRoom.UpdateGameState();
             MoveRoles();
-            Assert.IsTrue(curr != _gameRoom._gm._currentPlayer);
-            Assert.IsTrue(sb != _gameRoom._gm._sbPlayer);
-            Assert.IsTrue(bb != _gameRoom._gm._bbPlayer);
-            Assert.IsTrue(dealer != _gameRoom._gm._dealerPlayer);
+            Assert.IsTrue(curr != _gameRoom._gameManager._currentPlayer);
+            Assert.IsTrue(sb != _gameRoom._gameManager._sbPlayer);
+            Assert.IsTrue(bb != _gameRoom._gameManager._bbPlayer);
+            Assert.IsTrue(dealer != _gameRoom._gameManager._dealerPlayer);
 
         }
 
@@ -56,19 +56,19 @@ namespace TexasHoldem.Logic.Game.Tests
         public void UpdateGameState3PlayersTest()
         {// the _bb is the curr player
             _gameRoom._players.Remove(_D);
-            _gameRoom._gm.SetRoles();
-            Player curr = _gameRoom._gm._currentPlayer;
-            Player sb = _gameRoom._gm._sbPlayer;
-            Player bb = _gameRoom._gm._bbPlayer;
-            Player dealer = _gameRoom._gm._dealerPlayer;
+            _gameRoom._gameManager.SetRoles();
+            Player curr = _gameRoom._gameManager._currentPlayer;
+            Player sb = _gameRoom._gameManager._sbPlayer;
+            Player bb = _gameRoom._gameManager._bbPlayer;
+            Player dealer = _gameRoom._gameManager._dealerPlayer;
             Assert.IsTrue(curr == bb);
             _gameRoom.UpdateGameState();
             //the dealer is the curr
             MoveRoles();
-            Assert.IsTrue(curr != _gameRoom._gm._currentPlayer);
-            Assert.IsTrue(sb != _gameRoom._gm._sbPlayer);
-            Assert.IsTrue(bb != _gameRoom._gm._bbPlayer);
-            Assert.IsTrue(dealer != _gameRoom._gm._dealerPlayer);
+            Assert.IsTrue(curr != _gameRoom._gameManager._currentPlayer);
+            Assert.IsTrue(sb != _gameRoom._gameManager._sbPlayer);
+            Assert.IsTrue(bb != _gameRoom._gameManager._bbPlayer);
+            Assert.IsTrue(dealer != _gameRoom._gameManager._dealerPlayer);
 
         }
 
@@ -110,16 +110,16 @@ namespace TexasHoldem.Logic.Game.Tests
 
         private void MoveRoles()
         {
-            _gameRoom._gm._currentPlayer = _gameRoom.NextToPlay();
-            _gameRoom._gm._dealerPlayer =
+            _gameRoom._gameManager._currentPlayer = _gameRoom.NextToPlay();
+            _gameRoom._gameManager._dealerPlayer =
                            this._gameRoom._players[
-                               (this._gameRoom._players.IndexOf(_gameRoom._gm._dealerPlayer) + 1) % this._gameRoom._players.Count];
-            _gameRoom._gm._sbPlayer =
+                               (this._gameRoom._players.IndexOf(_gameRoom._gameManager._dealerPlayer) + 1) % this._gameRoom._players.Count];
+            _gameRoom._gameManager._sbPlayer =
                 this._gameRoom._players[
-                    (this._gameRoom._players.IndexOf(_gameRoom._gm._sbPlayer) + 1) % this._gameRoom._players.Count];
-            _gameRoom._gm._bbPlayer =
+                    (this._gameRoom._players.IndexOf(_gameRoom._gameManager._sbPlayer) + 1) % this._gameRoom._players.Count];
+            _gameRoom._gameManager._bbPlayer =
                 this._gameRoom._players[
-                    (this._gameRoom._players.IndexOf(_gameRoom._gm._bbPlayer) + 1) % this._gameRoom._players.Count];
+                    (this._gameRoom._players.IndexOf(_gameRoom._gameManager._bbPlayer) + 1) % this._gameRoom._players.Count];
         }
     }
 }

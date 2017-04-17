@@ -28,6 +28,7 @@ namespace TexasHoldem.Logic.Game_Control
             //add first league function
             this.logs = new List<Log>();
             this.games = new List<ConcreteGameRoom>();
+            _replayManager = new ReplayManager();
         }
 
         //return thr next room Id
@@ -38,7 +39,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //create new game room
-        public bool CreateNewRoom(int userId,int smallBlind,int playerMoney, ReplayManager rp)
+        public bool CreateNewRoom(int userId,int smallBlind,int playerMoney)
         {
             bool toReturn = false;
             if (playerMoney < smallBlind)
@@ -52,7 +53,7 @@ namespace TexasHoldem.Logic.Game_Control
             
             Player player = new Player(smallBlind, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                 user.Money, user.Email, nextId);
-            ConcreteGameRoom room = new ConcreteGameRoom(players,smallBlind,nextId);
+            ConcreteGameRoom room = new ConcreteGameRoom(players,smallBlind,nextId, _replayManager);
             toReturn = AddRoom(room);
             return toReturn;
         }
