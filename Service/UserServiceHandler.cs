@@ -6,7 +6,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    public abstract class UserServiceHandler : ServiceHandler
+    public class UserServiceHandler : ServiceHandler
     {
         private SystemControl sc = new SystemControl();
         private GameCenter gc = new GameCenter();
@@ -47,12 +47,19 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        //TODO
+        public Player GetPlayer(int userId, int roomId)
+        {
+            return null;;
+        }
 
-        public abstract Player GetPlayer(int userId, int roomId);
 
-
+        //TODO
         //? to renove?
-        public abstract int GetNextUserId();
+        public int GetNextUserId()
+        {
+            return 1;
+        }
 
         // public abstract int IncUserId();
         public bool LoginUser(string name, string password)

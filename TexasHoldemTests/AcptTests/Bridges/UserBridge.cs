@@ -9,12 +9,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     class UserBridge : IUserBridge
     {
-        private UserServiceHandler _userService;
+        private readonly UserServiceHandler _userService;
         private GameServiceHandler _gameService;
 
         public UserBridge()
         {
             //TODO: init service here
+            _userService = new UserServiceHandler();
         }
 
         public bool IsUserLoggedIn(int userId)

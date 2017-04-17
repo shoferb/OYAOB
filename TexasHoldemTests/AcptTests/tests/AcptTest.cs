@@ -22,9 +22,9 @@ namespace TexasHoldemTests.AcptTests.tests
 
         protected AcptTest()
         {
-            //UserBridge = new UserBridge();
+            UserBridge = new UserBridge();
             GameBridge = new GameBridge();
-            //ReplayBridge = new ReplayBridge();
+            ReplayBridge = new ReplayBridge();
             OtherUsers = new List<int>();
 
             User1Name = "Oded";
