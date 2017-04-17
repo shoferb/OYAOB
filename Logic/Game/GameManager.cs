@@ -407,7 +407,11 @@ namespace TexasHoldem.Logic.Game
         {
             this._currentPlayer._lastAction = "fold";
             this._currentPlayer._isActive = false;
+            FoldAction fold = new FoldAction(_currentPlayer, _currentPlayer._hand._firstCard,
+                _currentPlayer._hand._seconedCard);
+            _state._gameReplay.AddAction(fold);
         }
+
         public void Check()
         {
             this._currentPlayer._lastAction = "check";
