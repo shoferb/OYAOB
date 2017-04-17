@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            testGR = new GameReplay("1", 1);
+            testGR = new GameReplay(1, 1);
             testAction1 = new CallAction(new Player(1000, 500, 1, "test1", "mem", "123", 10, 100, "email@gmail.com", 1),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
             testAction2 = new CallAction(new Player(1000,100,1, "test2", "mem", "123", 10, 100, "email@gmail.com", 1),
@@ -57,10 +57,10 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestMethod()]
         public void RightGameTest()
         {
-            Assert.IsTrue(testGR.RightGame("1", 1));
-            Assert.IsFalse(testGR.RightGame("2", 1));
-            Assert.IsFalse(testGR.RightGame("1", 2));
-            Assert.IsFalse(testGR.RightGame("3", 3));
+            Assert.IsTrue(testGR.RightGame(1, 1));
+            Assert.IsFalse(testGR.RightGame(2, 1));
+            Assert.IsFalse(testGR.RightGame(1, 2));
+            Assert.IsFalse(testGR.RightGame(3, 3));
         }
 
     }

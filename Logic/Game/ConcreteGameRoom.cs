@@ -22,12 +22,11 @@ namespace TexasHoldem.Logic.Game
             this._sb = startingChip;
             this._bb = _sb*2;
             this._sidePots = new List<Tuple<int, List<Player>>>();
-            _gameReplay = new GameReplay(_id.ToString() , 0);
+            _gameReplay = new GameReplay(ID, 0);
             this._gm = new GameManager(this);
          }
 
         public List<Player> _players { get; set; }
-        public Guid _id { get; set; }
         public List<Spectetor> _spectatores { get; set; }
         public int _dealerPos { get; set; }
         public int _maxCommitted { get; set; }
