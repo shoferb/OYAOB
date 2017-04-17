@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 
@@ -15,6 +16,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
+        private List<GameRoom> activeRooms;
 
         public bool LeagueChange(int leagugap)
         {
@@ -64,6 +66,7 @@ namespace TexasHoldem.Logic.Game_Control
             this.leagueTable = new List<League>();
             //add first league function
             this.logs = new List<Log>();
+            activeRooms = new List<GameRoom>();
         }
 
         public bool SendNotification(User reciver, Notification toSend)
@@ -112,8 +115,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
-
         public User HigherRank
         {
             get
@@ -126,5 +127,6 @@ namespace TexasHoldem.Logic.Game_Control
                 higherRank = value;
             }
         }
+
     }
 }
