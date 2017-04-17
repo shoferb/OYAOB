@@ -10,9 +10,7 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
-        public GameManager _gm;
-        public GameReplay _gameReplay { get; set; }
-        public ConcreteGameRoom(List<Player> players, int startingChip, int ID) : base(players, startingChip, ID)
+        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm) : base(players, startingChip, ID, rm)
         {
             this._isGameOver = false;
             this._potCount = 0;          
@@ -22,8 +20,7 @@ namespace TexasHoldem.Logic.Game
             this._sb = startingChip;
             this._bb = _sb*2;
             this._sidePots = new List<Tuple<int, List<Player>>>();
-            _gameReplay = new GameReplay(ID, 0);
-            this._gm = new GameManager(this);
+            this._gameManager = new GameManager(this);
          }
 
         public List<Player> _players { get; set; }

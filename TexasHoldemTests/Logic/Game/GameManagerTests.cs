@@ -30,37 +30,37 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_player1);
             _players.Add(_player2);
             _players.Add(_player3);
-           _room = new ConcreteGameRoom(_players, 50, 0);
+           _room = new ConcreteGameRoom(_players, 50, 0, new Replay.ReplayManager());
         }
 
         [TestMethod()]
         public void SetRoleTest3Players()
         {
-            _room._gm.SetRoles();
-            Assert.IsTrue(_room._gm._dealerPlayer!= _room._gm._bbPlayer && _room._gm._dealerPlayer != _room._gm._sbPlayer);
+            _room._gameManager.SetRoles();
+            Assert.IsTrue(_room._gameManager._dealerPlayer!= _room._gameManager._bbPlayer && _room._gameManager._dealerPlayer != _room._gameManager._sbPlayer);
         }
 
         [TestMethod()]
         public void SetRoleTest2Players()
         {   
             _room._players.Remove(_player1);
-            _room._gm.SetRoles();
-            Assert.IsTrue(_room._gm._dealerPlayer != _room._gm._bbPlayer && _room._gm._dealerPlayer == _room._gm._sbPlayer);
+            _room._gameManager.SetRoles();
+            Assert.IsTrue(_room._gameManager._dealerPlayer != _room._gameManager._bbPlayer && _room._gameManager._dealerPlayer == _room._gameManager._sbPlayer);
         }
 
         [TestMethod()]
         public void PlayerDesicionFoldTest()
         {
-            _room._gm._currentPlayer = _player1;
-            _room._gm.PlayerDesicion(-1);
+            _room._gameManager._currentPlayer = _player1;
+            _room._gameManager.PlayerDesicion(-1);
             Assert.IsTrue(_player1.isPlayerActive == false);
         }
 
         [TestMethod()]
         public void PlayerDesicionFoldCheck()
         {
-            _room._gm._currentPlayer = _player1;
-            _room._gm.PlayerDesicion(0);
+            _room._gameManager._currentPlayer = _player1;
+            _room._gameManager.PlayerDesicion(0);
             Assert.IsTrue(_player1._lastAction == "check");
         }
 
@@ -68,11 +68,11 @@ namespace TexasHoldem.Logic.Game.Tests
         public void PlayerDesicionFoldRaise()
         {
             _room._deck = new Deck();
-            _room._gm._currentPlayer = _player1;
+            _room._gameManager._currentPlayer = _player1;
             _room._maxCommitted = 50;
             _player1.isPlayerActive = true;
             _player2.isPlayerActive = true;
-            _room._gm.PlayerDesicion(100);
+            _room._gameManager.PlayerDesicion(100);
             Assert.IsTrue(_room._maxCommitted >= 100);
         }
 
@@ -83,7 +83,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _player1.isPlayerActive = true;
             _player2.isPlayerActive = true;
             _player3.isPlayerActive = true;
-            _room._gm.ProgressHand(ConcreteGameRoom.HandStep.PreFlop);
+            _room._gameManager.ProgressHand(ConcreteGameRoom.HandStep.PreFlop);
             Assert.IsTrue(_room._handStep == ConcreteGameRoom.HandStep.Flop);
             Assert.IsTrue(_room._publicCards.Count==3);
 
@@ -118,7 +118,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _player1.AddHoleCards(card6, card7);
             _player2.AddHoleCards(card6, card7);
             _player3.AddHoleCards(card6, card7);
-            _winners = _room._gm.FindWinner(table, _players);
+            _winners = _room._gameManager.FindWinner(table, _players);
             Assert.IsTrue(_winners.Count == 3);
         }
 
@@ -149,7 +149,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _player1.AddHoleCards(card10, card11);
             _player2.AddHoleCards(card6, card7);
             _player3.AddHoleCards(card8, card9);
-            _winners = _room._gm.FindWinner(table, _players);
+            _winners = _room._gameManager.FindWinner(table, _players);
             Assert.IsTrue(_winners.Count == 1);
             Assert.IsTrue(_winners[0]._player == _player3);
         }
@@ -181,7 +181,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _player1.AddHoleCards(card10, card11);
             _player2.AddHoleCards(card6, card7);
             _player3.AddHoleCards(card8, card9);
-            _winners = _room._gm.FindWinner(table, _players);
+            _winners = _room._gameManager.FindWinner(table, _players);
             Assert.IsTrue(_winners.Count == 2);
             Assert.IsTrue(_winners[0]._player == _player1 ||
                 _winners[0]._player == _player3);
@@ -216,7 +216,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _player1.AddHoleCards(card6, card7);
             _player2.AddHoleCards(card8, card9);
             _player3.AddHoleCards(card10, card11);
-            _winners = _room._gm.FindWinner(table, _players);
+            _winners = _room._gameManager.FindWinner(table, _players);
             Assert.IsTrue(_winners.Count == 1);
             Assert.IsTrue(_winners[0]._player == _player1);
         }

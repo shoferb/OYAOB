@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
@@ -24,11 +25,16 @@ namespace TexasHoldem.Logic.Game
         public bool _isGameOver { get; set; }
         public List<Tuple<int, List<Player>>> _sidePots { get; set; }
         public int _gameRoles { get; set; }
-        public GameRoom(List<Player> players, int startingChip, int ID)
+        public GameReplay _gameReplay { get; set; }
+        public GameManager _gameManager;
+        public ReplayManager _replayManager;
+        public GameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm)
         {
             this._players = players;
             this._sb = startingChip;
             this._id = ID;
+            _replayManager = rm;
+            _gameReplay = new GameReplay(ID, 0);
         }
 
         public void AddNewPublicCard()
