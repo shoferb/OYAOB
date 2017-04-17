@@ -434,10 +434,12 @@ namespace TexasHoldem.Logic.Game
             _state._maxCommitted += additionalChips;
             this._currentPlayer._lastAction = "raise";
             this._currentPlayer.CommitChips(additionalChips);
-            
+            RaiseAction raise = new RaiseAction(_currentPlayer, _currentPlayer._hand._firstCard,
+                 _currentPlayer._hand._seconedCard, additionalChips);
+            _state._gameReplay.AddAction(raise);
         }
 
-       
+
     }
  }
 
