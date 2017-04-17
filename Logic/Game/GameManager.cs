@@ -148,8 +148,8 @@ namespace TexasHoldem.Logic.Game
 
         
         public void PlayerDesicion(int move)
-        {//change to max
-            int sb = this._state._sb;
+        {
+            int max = this._state._maxCommitted;
             switch (move)
             {
                 case -1:
@@ -159,8 +159,8 @@ namespace TexasHoldem.Logic.Game
                     Check();
                     break;
                 default:
-                    if (move == sb)
-                        Call(sb);
+                    if (move == max)
+                        Call(max);
                     else
                     {
                         Raise(move);

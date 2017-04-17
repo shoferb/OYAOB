@@ -43,7 +43,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Player bb = _gameRoom._gm._bbPlayer;
             Player dealer = _gameRoom._gm._dealerPlayer;
             _gameRoom.UpdateGameState();
-            moveRoles();
+            MoveRoles();
             Assert.IsTrue(curr != _gameRoom._gm._currentPlayer);
             Assert.IsTrue(sb != _gameRoom._gm._sbPlayer);
             Assert.IsTrue(bb != _gameRoom._gm._bbPlayer);
@@ -63,7 +63,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(curr == bb);
             _gameRoom.UpdateGameState();
             //the dealer is the curr
-            moveRoles();
+            MoveRoles();
             Assert.IsTrue(curr != _gameRoom._gm._currentPlayer);
             Assert.IsTrue(sb != _gameRoom._gm._sbPlayer);
             Assert.IsTrue(bb != _gameRoom._gm._bbPlayer);
@@ -111,7 +111,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(_gameRoom.newSplitPot(_A));
         }
 
-        private void moveRoles()
+        private void MoveRoles()
         {
             _gameRoom._gm._currentPlayer = _gameRoom.NextToPlay();
             _gameRoom._gm._dealerPlayer =
