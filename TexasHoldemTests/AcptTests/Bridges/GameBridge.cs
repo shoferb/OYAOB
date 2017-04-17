@@ -106,7 +106,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return toReturn;
         }
 
-        private List<int> GamesToIds(List<ConcreteGameRoom> games)
+        private List<int> GamesToIds(List<GameRoom> games)
         {
             List<int> toReturn = new List<int>();
             games.ForEach(game =>
@@ -118,19 +118,19 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<int> ListAvailableGamesByUserRank(int userRank)
         {
-            List<ConcreteGameRoom> allGames = _gameService.GetAvaiableGamesByUserRank(userRank);
+            List<GameRoom> allGames = _gameService.GetAvaiableGamesByUserRank(userRank);
             return GamesToIds(allGames);
         }
 
         public List<int> ListSpectateableRooms()
         {
-            List<ConcreteGameRoom> allGames = new List<ConcreteGameRoom>(_gameService.GetSpectateableGames());
+            List<GameRoom> allGames = _gameService.GetSpectateableGames();
             return GamesToIds(allGames);
         }
 
         public List<int> GetAllGames()
         {
-            List<ConcreteGameRoom> allGames = new List<ConcreteGameRoom>(_gameService.GetAllGames());
+            var allGames = _gameService.GetAllGames();
             return GamesToIds(allGames);
         }
 
@@ -181,7 +181,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.FindWinner(gameId).Id;
         }
 
-        private bool CheckCurrPlayerIsPlayer(int playerId, ConcreteGameRoom room)
+        private bool CheckCurrPlayerIsPlayer(int playerId, GameRoom room)
         {
             Player player = _userService.GetPlayer(playerId, room._id.GetHashCode());
             if (player != null && room != null)
@@ -219,7 +219,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                new GameManager(game).Fold();
+                new GameManager((ConcreteGameRoom) game).Fold();
                 return true;
             }
             return false;
@@ -237,7 +237,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                new GameManager(game).Check();
+                new GameManager((ConcreteGameRoom) game).Check();
                 return true;
             }
             return false;
@@ -255,7 +255,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                new GameManager(game).Call(amount);
+                new GameManager((ConcreteGameRoom) game).Call(amount);
                 return true;
             }
             return false;
@@ -274,7 +274,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                new GameManager(game).Raise(amount);
+                new GameManager((ConcreteGameRoom) game).Raise(amount);
                 return true;
             }
             return false;

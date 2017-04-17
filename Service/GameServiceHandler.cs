@@ -6,31 +6,31 @@ namespace TexasHoldem.Service
 {
     public abstract class GameServiceHandler : ServiceHandler
     {
-        private readonly Dictionary<ConcreteGameRoom, GameManager> _roomToManagerDictionary;
+        private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
 
         protected GameServiceHandler()
         {
-            _roomToManagerDictionary = new Dictionary<ConcreteGameRoom, GameManager>();
+            _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
         }
 
-        private GameManager GetManagerForGame(ConcreteGameRoom room)
+        private GameManager GetManagerForGame(GameRoom room)
         {
             if (_roomToManagerDictionary.ContainsKey(room))
             {
                 return _roomToManagerDictionary[room];
             }
-            GameManager manager = new GameManager(room);
+            GameManager manager = new GameManager((ConcreteGameRoom)room);
             _roomToManagerDictionary.Add(room, manager);
             return manager;
         }
 
-        public abstract GamePrefDecorator GetGameFromId(int gameId);
-        public abstract ConcreteGameRoom CreateGameRoom(int id, string name, int sb,
+        public abstract GameRoom GetGameFromId(int gameId);
+        public abstract GameRoom CreateGameRoom(int id, string name, int sb,
             int bb, int minMoney, int maxMoney, int gameNum);
         public abstract int GetNextFreeRoomId();
-        public abstract ConcreteGameRoom GetGameById(int id);
+        public abstract GameRoom GetGameById(int id);
 
-        public bool AddPlayerToRoom(Player player, ConcreteGameRoom room)
+        public bool AddPlayerToRoom(Player player, GameRoom room)
         {
             if (player != null && room != null && !room._players.Contains(player))
             {
@@ -51,10 +51,10 @@ namespace TexasHoldem.Service
         }
 
         public abstract bool RemoveUserFromRoom(int userId, int roomId);
-        public abstract bool MakeRoomActive(ConcreteGameRoom room);
+        public abstract bool MakeRoomActive(GameRoom room);
         public abstract bool RemoveRoom(int gameId);
 
-        public bool Fold(Player player, ConcreteGameRoom room)
+        public bool Fold(Player player, GameRoom room)
         {
             var manager = GetManagerForGame(room);
             if (player.Equals(manager._currentPlayer))
@@ -65,7 +65,7 @@ namespace TexasHoldem.Service
             return false;
         }
 
-        public bool Check(Player player, ConcreteGameRoom room)
+        public bool Check(Player player, GameRoom room)
         {
             var manager = GetManagerForGame(room);
             if (player.Equals(manager._currentPlayer))
@@ -76,7 +76,7 @@ namespace TexasHoldem.Service
             return false;
         }
 
-        public bool Call(Player player, ConcreteGameRoom room)
+        public bool Call(Player player, GameRoom room)
         {
             var manager = GetManagerForGame(room);
             if (player.Equals(manager._currentPlayer))
@@ -87,7 +87,7 @@ namespace TexasHoldem.Service
             return false;
         }
 
-        public bool Raise(Player player, ConcreteGameRoom room, int sum)
+        public bool Raise(Player player, GameRoom room, int sum)
         {
             var manager = GetManagerForGame(room);
             if (player.Equals(manager._currentPlayer))
@@ -98,8 +98,8 @@ namespace TexasHoldem.Service
             return false;
         }
         public abstract Player FindWinner(int gameId);
-        public abstract List<ConcreteGameRoom> GetAllGames();
-        public abstract List<ConcreteGameRoom> GetAvaiableGamesByUserRank(int rank);
-        public abstract List<ConcreteGameRoom> GetSpectateableGames();
+        public abstract List<GameRoom> GetAllGames();
+        public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
+        public abstract List<GameRoom> GetSpectateableGames();
     }
 }
