@@ -411,6 +411,9 @@ namespace TexasHoldem.Logic.Game
         public void Check()
         {
             this._currentPlayer._lastAction = "check";
+            CheckAction check = new CheckAction(_currentPlayer, _currentPlayer._hand._firstCard,
+                 _currentPlayer._hand._seconedCard);
+            _state._gameReplay.AddAction(check);
         }
 
         public void Call(int additionalChips)
