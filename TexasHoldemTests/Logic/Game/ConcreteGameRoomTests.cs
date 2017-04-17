@@ -13,11 +13,7 @@ namespace TexasHoldem.Logic.Game.Tests
     public class ConcreteGameRoomTests
     {
         private ConcreteGameRoom _gameRoom;
-        private bool _isGameOver = false;
         private static List<Player> _players;
-        private List<Tuple<int, List<Player>>> _sidePots;
-        private ConcreteGameRoom.HandStep _handStep;
-        private Deck _deck;
         private Player _A;
         private Player _B;
         [TestInitialize()]
@@ -28,25 +24,15 @@ namespace TexasHoldem.Logic.Game.Tests
             _players = new List<Player>();
             _players.Add(_A);
             _players.Add(_B);
-            _gameRoom = new ConcreteGameRoom(_players, 2);
-           _deck = new Deck();
+            _gameRoom = new ConcreteGameRoom(_players, 50);
+           
         }
       
-        [TestMethod()]
-        public void ToCallTest()
-        {
-            _gameRoom._maxCommitted = 1000;
-             Assert.IsTrue(_gameRoom.ToCall()==900);
-        }
-
-        [TestMethod()]
+       [TestMethod()]
         public void UpdateGameStateTest()
-        {// if there are only 2 player the dealer is also sb and the bb is start, and then 
-            //the dealer should play in the next turn
-           /* _gameRoom._gm.SetRoles();
-            Player p = _gameRoom._gm._dealerPlayer;
-            _gameRoom.UpdateGameState();
-            Assert.IsTrue(_gameRoom.NextToPlay()!= p);*/
+        {
+            _gameRoom._gm.SetRoles();
+
         }
 
         [TestMethod()]

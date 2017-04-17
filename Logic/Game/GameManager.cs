@@ -70,11 +70,21 @@ namespace TexasHoldem.Logic.Game
                 player.AddHoleCards(deck.Draw(), deck.Draw());
             }
             this._state.UpdateMaxCommitted();
-
+            this._state.MoveChipsToPot();
+            switch (_state._players.Count)
+            {
+                case 2:
+                case 3:
+                    this._currentPlayer = this._bbPlayer;
+                    break;
+                default:
+                    this._currentPlayer = this._state._players[this._state._actionPos];
+                    break;
+            }
 
         }
 
-        public bool Play() //need to change all the function to: start, while not end, end
+        public bool Play() 
         {
             
             if (this._state._players.Count < 2) return false;
