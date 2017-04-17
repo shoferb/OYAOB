@@ -32,7 +32,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_player3);
            _room = new ConcreteGameRoom(_players, 50, 0);
         }
-        //TODO: move the random play of player to here
+
         [TestMethod()]
         public void SetRoleTest3Players()
         {
@@ -64,20 +64,28 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(_player1._lastAction == "check");
         }
 
-        //[TestMethod()]
-        //public void PlayerDesicionFoldRaise()
-        //{
-        //    _room._gm._currentPlayer = _player1;
-        //    _room._sb = 50;
-        //    _room._gm.PlayerDesicion(100);
-        //    //TODO - the test isn't check nothing now....
-        //    Assert.IsTrue(_player1._lastAction == "raise");
-        //}
+        [TestMethod()]
+        public void PlayerDesicionFoldRaise()
+        {
+            _room._gm._currentPlayer = _player1;
+            _room._sb = 50;
+            _player1.IsActive = true;
+            _player2.IsActive = true;
+            _room._gm.PlayerDesicion(100);
+            Assert.IsTrue(_room._maxCommitted == 100);
+        }
 
         [TestMethod()]
         public void ProgressHandTest()
-        {//TODO
-            Assert.IsTrue(true);
+        {
+            _room._deck = new Deck();
+            _player1._isActive = true;
+            _player2._isActive = true;
+            _player3._isActive = true;
+            _room._gm.ProgressHand(ConcreteGameRoom.HandStep.PreFlop);
+            Assert.IsTrue(_room._handStep == ConcreteGameRoom.HandStep.Flop);
+            Assert.IsTrue(_room._publicCards.Count==3);
+
         }
 
         [TestMethod()]

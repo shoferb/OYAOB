@@ -91,10 +91,7 @@ namespace TexasHoldem.Logic.Game
         {
             MoveChipsToPot();
 
-            _sb = 0;
-            _maxCommitted = 0;
-
-            foreach (Player player in _players)
+           foreach (Player player in _players)
                 if (player._isActive)
                     player._lastAction = "";
 
