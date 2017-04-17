@@ -142,7 +142,7 @@ namespace TexasHoldem.Logic.Game
 
         
         public void PlayerDesicion(int move)
-        {
+        {//change to max
             int sb = this._state._sb;
             switch (move)
             {
@@ -254,7 +254,7 @@ namespace TexasHoldem.Logic.Game
                     player._isActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
-            this._state._players = playersLeftInGame;
+
             this._state.EndTurn();
             _winners= FindWinner(this._state._publicCards, playersLeftInGame);
             
@@ -285,9 +285,9 @@ namespace TexasHoldem.Logic.Game
             else
             {
                 this._state._isGameOver = true;
+                _firstEnter = true;
                 if (!_currentPlayer.OutOfMoney())
-                    this._state._players[0]._isActive = false; // so if human wins doesn't try to display cards
-                //GameOver
+                    this._state._players[0]._isActive = false; 
             }
 
 
