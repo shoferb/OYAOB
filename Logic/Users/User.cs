@@ -25,8 +25,8 @@ namespace TexasHoldem.Logic.Users
         public List<GameRoom> ActiveGameList { get; set; }
         private List<GameRoom> spectateGameList { get; set; }
         public bool IsHigherRank { get; set; }
-
-
+        //להוסיף שדות מספר נצחונות והפסדים
+        //todo create toString
         public User(int id, string name, string memberName, string password, int points, int money, String email)
         {
             this.id = id;
@@ -41,14 +41,14 @@ namespace TexasHoldem.Logic.Users
             }
             else
             {
-                Console.WriteLine("this is not a valid email, please edit it");
+                //Console.WriteLine("this is not a valid email, please edit it");
             }
-            this.waitListNotification = new List<Notification>();
+            this.WaitListNotification = new List<Notification>();
             this.isActive = false;
             this.IsHigherRank = false;
         }
 
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace TexasHoldem.Logic.Users
         }
 
         //function to recive notificaion - return the notification.
-        internal bool SendNotification(Notification toSend)
+        public bool SendNotification(Notification toSend)
         {
             bool toReturn = false;
             if (AddNotificationToList(toSend))
@@ -76,16 +76,17 @@ namespace TexasHoldem.Logic.Users
             return toReturn;
         }
 
+
         //private method - add the notification to list so can print when not in game
-        private bool AddNotificationToList(Notification toAdd)
+        public bool AddNotificationToList(Notification toAdd)
         {
-            this.waitListNotification.Add(toAdd);
+            this.WaitListNotification.Add(toAdd);
             return true;
         }
 
-        
-       
-        
+
+
+
         //getters setters
         public int Id
         {
@@ -181,6 +182,19 @@ namespace TexasHoldem.Logic.Users
             set
             {
                 isActive = value;
+            }
+        }
+
+        public List<Notification> WaitListNotification
+        {
+            get
+            {
+                return waitListNotification;
+            }
+
+            set
+            {
+                waitListNotification = value;
             }
         }
     }
