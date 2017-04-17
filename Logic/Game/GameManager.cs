@@ -259,7 +259,8 @@ namespace TexasHoldem.Logic.Game
 
             this._state.EndTurn();
             _winners= FindWinner(this._state._publicCards, playersLeftInGame);
-            
+
+            _state._replayManager.AddGameReplay(_state._gameReplay);
             int amount;
             if (_winners.Count > 0) // so there are winners at the end of the game
             {
@@ -282,6 +283,7 @@ namespace TexasHoldem.Logic.Game
                 this._state._dealerPos = this._state._dealerPos % this._state._players.Count;
 
                 this._state.ClearPublicCards();
+                _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
                 SetRoles();
             }
             else

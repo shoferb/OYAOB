@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -15,6 +16,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
+        private ReplayManager _replayManager;
 
         public bool LeagueChange(int leagugap)
         {
@@ -64,6 +66,7 @@ namespace TexasHoldem.Logic.Game_Control
             this.leagueTable = new List<League>();
             //add first league function
             this.logs = new List<Log>();
+            _replayManager = new ReplayManager();
         }
 
         public bool SendNotification(User reciver, Notification toSend)

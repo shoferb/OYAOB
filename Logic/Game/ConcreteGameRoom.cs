@@ -11,7 +11,6 @@ namespace TexasHoldem.Logic.Game
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
         public GameManager _gm;
-        public GameReplay _gameReplay { get; set; }
         public ConcreteGameRoom(List<Player> players, int startingChip, int ID) : base(players, startingChip, ID)
         {
             this._isGameOver = false;
