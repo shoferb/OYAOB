@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic.Users
 {
     public class Player : Spectetor
     {
-        
+
         public bool _isActive { get; set; }
         public string name { get; set; }
         public int _totalChip { get; set; }
@@ -17,7 +17,7 @@ namespace TexasHoldem.Logic.Users
 
         public string _lastAction { get; set; }
         public Hand _hand;
-
+        public enum playerMoves { Call, Check, Bet, Fold, Raise }
         public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int gameId) : base(id, name, memberName, password, points, money, email, gameId)
         {
@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Users
             //TODO: pls delete the money field - bc we have the cheaps already, and the gameID
             this._totalChip = totalChip;
             this._gameChip = gameChipComitted;
-           this.name = name;
+            this.name = name;
             this._gameChip = _gameChip;
             this._totalChip = totalChip;
             _isActive = false;
@@ -35,7 +35,7 @@ namespace TexasHoldem.Logic.Users
         }
 
         //getter setter
-        
+
         public bool IsAllIn()
         {
             if (_totalChip == 0 && _isActive)
@@ -59,7 +59,7 @@ namespace TexasHoldem.Logic.Users
             return false;
         }
 
-       
+
 
         public void AddCard(Card newCard)
         {
@@ -75,11 +75,27 @@ namespace TexasHoldem.Logic.Users
         {
             _hand.Add2Cards(newCardA, newCardB);
         }
-        
 
-       //for test propuse only !!!
+
+        //for test propuse only !!!'
+
+        /// return -1 if player select fold
+        /// return -2 if player selsct exit
+        /// return positive number bigger than 0 for call / raise 
+        /// return 0 for check
+
         public int Play(int amount, ConcreteGameRoom.HandStep h)
         {
+            List<playerMoves> validMoves;
+            if (h == ConcreteGameRoom.HandStep.PreFlop) //first round - can call/fold/raise
+            {
+
+            }
+            else if ((h == ConcreteGameRoom.HandStep.Flop) || (h == ConcreteGameRoom.HandStep.Turn) || (h == ConcreteGameRoom.HandStep.River)) //round 2 to 4 - can check/bet/fold
+            {
+
+            }
+
             return 0;
         }
 
@@ -91,13 +107,13 @@ namespace TexasHoldem.Logic.Users
         //TODO: orellie
         public void Win(int amount)
         {
-           
+
         }
         //TODO: orellie
         public static void Lose()
         {
-            
+
         }
-       
+
     }
 }
