@@ -34,6 +34,7 @@ namespace TexasHoldem.Logic.Game
             this._sb = startingChip;
             this._id = ID;
             _replayManager = rm;
+            _gameReplay = new GameReplay(ID, 0);
         }
 
         public void AddNewPublicCard()
