@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
@@ -194,6 +195,7 @@ namespace TexasHoldem.Logic.Game
         private void StartTheGame()
         {
             this._state._gameNumber++;
+            _state._gameReplay = new GameReplay(_state._id.ToString(), _state._gameNumber);
             this._state._dealerPos = 0;
             SetRoles();
             _firstEnter = false;
@@ -241,9 +243,6 @@ namespace TexasHoldem.Logic.Game
             return false;
 
         }
-
-
-
 
         public void EndHand()
         {
@@ -419,6 +418,9 @@ namespace TexasHoldem.Logic.Game
             this._currentPlayer._lastAction = "call";
             additionalChips = Math.Min(additionalChips, this._currentPlayer._totalChip); // if can't afford that many chips in a call, go all in           
             this._currentPlayer.CommitChips(additionalChips);
+            CallAction call = new CallAction(_currentPlayer, _currentPlayer._hand._firstCard,
+                _currentPlayer._hand._seconedCard, additionalChips);
+            _state._gameReplay.AddAction(call);
         }
 
         public void Call()
