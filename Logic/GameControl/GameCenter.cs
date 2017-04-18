@@ -264,7 +264,7 @@ namespace TexasHoldem.Logic.Game_Control
             List<Player> allPlayers = room._players;
             Player playerToRemove = null;
             User user = sc.GetUserWithId(userId);
-            User newUser = user;
+            
             foreach (Player p in allPlayers)
             {
                 if ((p.Id == userId) && (p.RoomId == roomId))
@@ -275,13 +275,14 @@ namespace TexasHoldem.Logic.Game_Control
 
             try
             {
-                allPlayers.Remove(playerToRemove);
-                toAdd._players = allPlayers;
-                games.Remove(room);
-                games.Add(toAdd);
+                playerToRemove._isInRoom = false; //not in room - need to remove in end od round
+                //allPlayers.Remove(playerToRemove);
+               // toAdd._players = allPlayers;
+                //games.Remove(room);
+                //games.Add(toAdd);
 
-                newUser.ActiveGameList.Remove(room);
-                sc.ReplaceUser(user, newUser);
+                user.ActiveGameList.Remove(room);
+                //sc.ReplaceUser(user, newUser);
                 toReturn = true;
             }
             catch (Exception e)

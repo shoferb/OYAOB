@@ -16,8 +16,9 @@ namespace TexasHoldem.Logic.Users
         public int _totalChip { get; set; } // וכמה נשאר כמה נכנס לחדר
         public int _gameChip { get; set; } //כמה התחיל את המשחק- כמה כרגע בזבז
         public string _lastAction { get; set; }
+        public bool _isInRoom { get; set; }
+    
 
-        
 
         public Hand _hand;
         public enum playerMoves { Call, Check, Bet, Fold, Raise }
