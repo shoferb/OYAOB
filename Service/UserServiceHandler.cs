@@ -197,5 +197,11 @@ namespace TexasHoldem.Service
             List<ConcreteGameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
             return toReturn;
         }
+
+        public bool IsHigestRankUser(int userId)
+        {
+            bool toReturn = sc.IsHigestRankUser(userId);
+            return toReturn;
+        }
     }
 }

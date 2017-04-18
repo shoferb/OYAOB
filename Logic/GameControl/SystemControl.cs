@@ -430,5 +430,12 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
+
+        public bool IsHigestRankUser(int userId)
+        {
+            User user = GetUserWithId(userId);
+            bool toReturn = user.IsHigherRank;
+            return toReturn;
+        }
     }
 }
