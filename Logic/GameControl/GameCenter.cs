@@ -31,6 +31,21 @@ namespace TexasHoldem.Logic.Game_Control
             _replayManager = new ReplayManager();
         }
 
+        private GameReplay GetGameReplay(int roomID, int gameID)
+        {
+            return _replayManager.GetGameReplay(roomID, gameID);
+        }
+
+        public string ShowGameReplay(int roomID, int gameID)
+        {
+            GameReplay gr = GetGameReplay(roomID, gameID);
+            if (gr == null)
+            {
+                return null;
+            }
+            return gr.ToString();
+        }
+
         //return thr next room Id
         public int GetNextIdRoom()
         {

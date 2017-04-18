@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
@@ -175,6 +176,11 @@ namespace TexasHoldem.Service
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
             throw new NotImplementedException();
+        }
+
+        public GameReplay GetGameReplay(int roomID, int gameID)
+        {
+            return gc.GetGameReplay(roomID, gameID); 
         }
     }
 }

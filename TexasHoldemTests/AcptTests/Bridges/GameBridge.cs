@@ -12,11 +12,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private GameServiceHandler _gameService;
         private UserServiceHandler _userService;
 
-        private const int MinMoney = 0;
-        private const int MaxMoney = Int32.MaxValue;
-        private const int SmallBlind = 1;
-        private const int BigBlind = 2;
-
         private readonly Random _rand;
 
         public GameBridge()
@@ -28,19 +23,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private int MakeRoomHelper(int userId, int roomId)
         {
             string name = _rand.Next().ToString();
-            var game = _gameService.CreateGameRoom(roomId, name,
-                SmallBlind, BigBlind, MinMoney, MaxMoney, 1);
-            if (game != null)
+            User user = _userService.GetUserFromId(userId);
+            if (user != null)
             {
-                User user = _userService.GetUserFromId(userId);
-                if (user != null)
+                if (_gameService.AddPlayerToRoom(userId, roomId, user.Money))
                 {
-                    Player player = new Player(0, 100, user.Id, user.Name, user.MemberName,
-                        user.Password, user.Points, user.Money, user.Email, roomId);
-                    if (_gameService.AddPlayerToRoom(player, game))
-                    {
-                        return game._id.GetHashCode();
-                    }
+                    return roomId;
                 }
             }
             return -1;
@@ -111,7 +99,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             List<int> toReturn = new List<int>();
             games.ForEach(game =>
             {
-                toReturn.Add(game._id.GetHashCode());
+                toReturn.Add(game._id);
             });
             return toReturn;
         }
@@ -176,35 +164,9 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.GetGameById(gameId)._potCount;
         }
 
-        public int GetWinner(int gameId)
+        public List<int> GetWinner(int gameId)
         {
-            return _gameService.FindWinner(gameId).Id;
-        }
-
-        private bool CheckCurrPlayerIsPlayer(int playerId, GameRoom room)
-        {
-            Player player = _userService.GetPlayer(playerId, room._id.GetHashCode());
-            if (player != null && room != null)
-            {
-                var game = _gameService.GetGameById(room._id.GetHashCode());
-                var currPlayer = game._players[game._actionPos].Id;
-                if (currPlayer == player.Id)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private Player FindPlayerInGame(int userId, int roomId)
-        {
-            var game = _gameService.GetGameById(roomId);
-            var player = _userService.GetPlayer(userId, roomId);
-            if (CheckCurrPlayerIsPlayer(userId, game))
-            {
-                return player;
-            }
-            return null;
+            return _gameService.FindWinner(gameId).ConvertAll(p => p.Id);
         }
 
         public bool Fold(int userId, int roomId)
