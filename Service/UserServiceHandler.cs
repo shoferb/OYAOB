@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
@@ -181,6 +182,19 @@ namespace TexasHoldem.Service
         public GameReplay GetGameReplay(int roomID, int gameID)
         {
             return gc.GetGameReplay(roomID, gameID); 
+        }
+
+
+        public List<ConcreteGameRoom> GetActiveGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = sc.GetActiveGamesByUserName(userName);
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetSpectetorGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
+            return toReturn;
         }
     }
 }

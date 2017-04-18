@@ -385,5 +385,33 @@ namespace TexasHoldem.Logic.Game_Control
             toReturn = user.SpectateGameList.Contains(toCheck);
             return toReturn;
         }
+
+        public List<ConcreteGameRoom> GetActiveGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            User user = FindUser(userName);
+            foreach (ConcreteGameRoom room in user.ActiveGameList)
+            {
+                if (room._isActiveGame)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetSpectetorGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            User user = FindUser(userName);
+            foreach (ConcreteGameRoom room in user.ActiveGameList)
+            {
+                if (room._isSpectetor)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
     }
 }
