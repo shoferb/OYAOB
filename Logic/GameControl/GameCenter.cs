@@ -527,7 +527,9 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public Error FindLog(int logId)
+
+        //todo - impl
+        public Log FindLog(int logId)
         {
             
                 throw new NotImplementedException();
@@ -535,7 +537,5 @@ namespace TexasHoldem.Logic.Game_Control
         }
     }
 
-    public class Error
-    {
-    }
+    
 }

@@ -89,6 +89,8 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
+        //todo - get priority - stuck until get log by id complete
         public Log.LogPriority GetLofPriority(int logId)
         {
             //Log getLog = GameCenter.Instance.FindLog(logId);
