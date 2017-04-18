@@ -437,5 +437,21 @@ namespace TexasHoldem.Logic.Game_Control
             bool toReturn = user.IsHigherRank;
             return toReturn;
         }
+
+
+        //change the gap and change league table
+        public bool ChangeGapByHighestUserAndCreateNewLeague(int userId, int newGap)
+        {
+            bool toReturn = false;
+            bool isHighest = IsHigestRankUser(userId);
+            if (!isHighest)
+            {
+                return toReturn;
+            }
+            toReturn = GameCenter.Instance.EditLeagueGap(newGap);
+            bool change = GameCenter.Instance.LeagueChangeAfterGapChange(newGap);
+            toReturn = (toReturn && change);
+            return toReturn;
+        }
     }
 }

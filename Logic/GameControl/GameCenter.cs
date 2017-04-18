@@ -45,6 +45,20 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        public bool EditLeagueGap(int newGap)
+        {
+            bool toReturn;
+            try
+            {
+                LeagueGap = newGap;
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
        
         private GameCenter()
         {
@@ -334,7 +348,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public bool LeagueChange(int leagugap)
+        public bool LeagueChangeAfterGapChange(int leagugap)
         {
             bool toReturn = false;
             int higherRank = HigherRank.Points;
