@@ -147,6 +147,12 @@ namespace TexasHoldem.Service
             return winningPlayers;
         }
 
+       
+        public List<ConcreteGameRoom> GetAllActiveGames()
+        {
+            List<ConcreteGameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
+            return toReturn;
+        }
         //TODO: do these after searching methods are done
         public abstract List<GameRoom> GetAllGames();
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);

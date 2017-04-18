@@ -377,6 +377,18 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public List<ConcreteGameRoom> GetAllActiveGame()
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            foreach (ConcreteGameRoom room in games)
+            {
+                if (room._isActiveGame)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
 
         public bool SendNotification(User reciver, Notification toSend)
         {
