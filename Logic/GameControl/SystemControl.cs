@@ -294,6 +294,23 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public bool EditAvatar(int id, string newAvatarPath)
+        {
+            User toEdit = GetUserWithId(id);
+            
+            bool toReturn;
+            try
+            {
+                toEdit.Avatar = newAvatarPath;
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
         public bool EditUserID(int id, int newId)
         {
             User toEdit = GetUserWithId(id);

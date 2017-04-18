@@ -176,7 +176,8 @@ namespace TexasHoldem.Service
         //todo impl
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
-            throw new NotImplementedException();
+            bool toReturn = sc.EditAvatar(id,newAvatarPath);
+            return toReturn;
         }
 
         public GameReplay GetGameReplay(int roomID, int gameID)

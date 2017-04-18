@@ -46,6 +46,7 @@ namespace TexasHoldem.Logic.Users
             this.WaitListNotification = new List<Notification>();
             this.isActive = false;
             this.IsHigherRank = false;
+            this.avatar = "path?";
         }
 
         public bool IsValidEmail(string email)
