@@ -11,7 +11,7 @@ namespace TexasHoldem.Service
         private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
         private readonly GameCenter _gameCenter;
 
-        protected GameServiceHandler()
+        public GameServiceHandler()
         {
             _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
             _gameCenter = new GameCenter();
@@ -32,6 +32,8 @@ namespace TexasHoldem.Service
         {
             return _gameCenter.GetRoomById(gameId);
         }
+
+        //TODO: do this
         public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId, 
             string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum);
 
@@ -71,7 +73,13 @@ namespace TexasHoldem.Service
 	        }
             return false;
         }
-        public abstract bool MakeRoomActive(GameRoom room);
+
+        //TODO: not sure about this one
+        public bool MakeRoomActive(GameRoom room)
+        {
+            var manager = GetManagerForGame(room);
+            return manager.Play();
+        }
 
         public bool RemoveRoom(int gameId)
         {
@@ -138,6 +146,8 @@ namespace TexasHoldem.Service
             }
             return winningPlayers;
         }
+
+        //TODO: do these after searching methods are done
         public abstract List<GameRoom> GetAllGames();
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
         public abstract List<GameRoom> GetSpectateableGames();

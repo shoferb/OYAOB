@@ -12,11 +12,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private GameServiceHandler _gameService;
         private UserServiceHandler _userService;
 
-        private const int MinMoney = 0;
-        private const int MaxMoney = Int32.MaxValue;
-        private const int SmallBlind = 1;
-        private const int BigBlind = 2;
-
         private readonly Random _rand;
 
         public GameBridge()
@@ -172,32 +167,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public List<int> GetWinner(int gameId)
         {
             return _gameService.FindWinner(gameId).ConvertAll(p => p.Id);
-        }
-
-        private bool CheckCurrPlayerIsPlayer(int playerId, GameRoom room)
-        {
-            Player player = _userService.GetPlayer(playerId, room._id.GetHashCode());
-            if (player != null && room != null)
-            {
-                var game = _gameService.GetGameById(room._id);
-                var currPlayer = game._players[game._actionPos].Id;
-                if (currPlayer == player.Id)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private Player FindPlayerInGame(int userId, int roomId)
-        {
-            var game = _gameService.GetGameById(roomId);
-            var player = _userService.GetPlayer(userId, roomId);
-            if (CheckCurrPlayerIsPlayer(userId, game))
-            {
-                return player;
-            }
-            return null;
         }
 
         public bool Fold(int userId, int roomId)

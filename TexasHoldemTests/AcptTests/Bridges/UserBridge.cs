@@ -80,7 +80,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             User user = _userService.GetUserFromId(userId);
             user.ActiveGameList.ForEach(game =>
             {
-                chips += _userService.GetPlayer(userId, game._id.GetHashCode())._totalChip;
+                chips += _userService.GetPlayer(userId, game._id)._totalChip;
             });
             return chips;
         }
@@ -105,14 +105,14 @@ namespace TexasHoldemTests.AcptTests.Bridges
                 {
                     if (p.Id == userId)
                     {
-                        gameIds.Add(game._id.GetHashCode());
+                        gameIds.Add(game._id);
                     }
                 });
                 game._spectatores.ForEach(s =>
                 {
                     if (s.Id == userId)
                     {
-                        gameIds.Add(game._id.GetHashCode());
+                        gameIds.Add(game._id);
                     }
                 });
 
