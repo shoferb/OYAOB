@@ -174,5 +174,11 @@ namespace TexasHoldem.Service
             List<ConcreteGameRoom> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
             return toReturn;
         }
+
+        public bool IsGameExist(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsRoomExist(roomId);
+            return toReturn;
+        }
     }
 }
