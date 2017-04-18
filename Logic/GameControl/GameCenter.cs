@@ -290,6 +290,7 @@ namespace TexasHoldem.Logic.Game_Control
             try
             {
                 playerToRemove._isInRoom = false; //not in room - need to remove in end od round
+                playerToRemove.IsActive = false;
                 //allPlayers.Remove(playerToRemove);
                // toAdd._players = allPlayers;
                 //games.Remove(room);
