@@ -8,15 +8,29 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
 {
     public class SystemLog : Log
     {
-        private String msg;
+        private int roomId;
+        private string msg;
 
-        public SystemLog(int lodId,string msg) : base()
+        public SystemLog(int roomId,string ms) : base()
         {
-            this.msg = msg;
+            this.roomId = roomId;
+            this.msg = ms;
         }
 
-
         //getter setter
+        public int RoomId
+        {
+            get
+            {
+                return roomId;
+            }
+
+            set
+            {
+                roomId = value;
+            }
+        }
+
         public string Msg
         {
             get
@@ -28,6 +42,13 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
             {
                 msg = value;
             }
+        }
+
+        public string ToString()
+        {
+            string toReturn = base.ToString();
+            toReturn = toReturn + " msg is: " + msg + "to room Id: " + roomId;
+            return toReturn;
         }
     }
 }

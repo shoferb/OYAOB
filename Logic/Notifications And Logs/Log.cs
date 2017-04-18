@@ -30,5 +30,12 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
                 logId = value;
             }
         }
+
+        public string ToString()
+        {
+            string toReturn = "Log id is: " + logId;
+            return toReturn;
+        }
+
     }
 }
