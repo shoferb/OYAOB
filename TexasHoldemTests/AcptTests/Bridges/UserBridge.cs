@@ -80,7 +80,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             User user = _userService.GetUserFromId(userId);
             user.ActiveGameList.ForEach(game =>
             {
-                chips += _userService.GetPlayer(userId, game._id.GetHashCode())._totalChip;
+                chips += _userService.GetPlayer(userId, game._id)._totalChip;
             });
             return chips;
         }
@@ -105,14 +105,14 @@ namespace TexasHoldemTests.AcptTests.Bridges
                 {
                     if (p.Id == userId)
                     {
-                        gameIds.Add(game._id.GetHashCode());
+                        gameIds.Add(game._id);
                     }
                 });
                 game._spectatores.ForEach(s =>
                 {
                     if (s.Id == userId)
                     {
-                        gameIds.Add(game._id.GetHashCode());
+                        gameIds.Add(game._id);
                     }
                 });
 
@@ -233,15 +233,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
-            var player = _userService.GetPlayer(userId, roomId);
-
-            if (player == null)
+            User user = _userService.GetUserFromId(userId);
+            if (user == null)
             {
-                User user = _userService.GetUserFromId(userId);
-                player = new Player(chipAmount, 0, user.Id, user.Name, user.MemberName,
-                    user.Password, user.Points, user.Money, user.Email, roomId);
-                var room = _gameService.GetGameById(roomId);
-                return _gameService.AddPlayerToRoom(player, room); 
+                return _gameService.AddPlayerToRoom(userId, roomId, chipAmount);
             }
             return false;
         }
@@ -249,9 +244,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool AddUserToGameRoomAsSpectator(int userId, int roomId)
         {
             User user = _userService.GetUserFromId(userId);
-            Spectetor spect = new Spectetor(userId, user.Name, user.MemberName,
-                user.Password, user.Points, user.Money, user.Email, roomId);
-            return _gameService.AddSpectatorToRoom(spect, _gameService.GetGameById(roomId));
+            if (user == null)
+            {
+                return _gameService.AddSpectatorToRoom(userId, roomId);
+            }
+            return false;
         }
 
         public bool RemoveUserFromRoom(int userId, int roomId)

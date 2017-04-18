@@ -296,10 +296,10 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
 
             //winner:
-            int winner = GameBridge.GetWinner(RoomId);
-            Assert.Contains(winner, userList);
-            Assert.AreNotEqual(winner, userList[2]); //user2 folded
-            Assert.AreNotEqual(winner, userList[3]); //user3 folded
+            var winners = GameBridge.GetWinner(RoomId);
+            Assert.True(winners.TrueForAll(winner => userList.Contains(winner)));
+            Assert.False(winners.Contains(userList[2])); //user2 folded
+            Assert.False(winners.Contains(userList[3])); //user3 folded
 
             //game is saved:
 

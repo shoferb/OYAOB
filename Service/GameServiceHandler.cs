@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
@@ -7,10 +9,12 @@ namespace TexasHoldem.Service
     public abstract class GameServiceHandler : ServiceHandler
     {
         private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
+        private readonly GameCenter _gameCenter;
 
-        protected GameServiceHandler()
+        public GameServiceHandler()
         {
             _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
+            _gameCenter = new GameCenter();
         }
 
         private GameManager GetManagerForGame(GameRoom room)
@@ -24,35 +28,63 @@ namespace TexasHoldem.Service
             return manager;
         }
 
-        public abstract GameRoom GetGameFromId(int gameId);
-        public abstract GameRoom CreateGameRoom(int id, string name, int sb,
-            int bb, int minMoney, int maxMoney, int gameNum);
-        public abstract int GetNextFreeRoomId();
-        public abstract GameRoom GetGameById(int id);
-
-        public bool AddPlayerToRoom(Player player, GameRoom room)
+        public ConcreteGameRoom GetGameFromId(int gameId)
         {
-            if (player != null && room != null && !room._players.Contains(player))
-            {
-                room._spectatores.Add(player);
-                return true;
-            }
+            return _gameCenter.GetRoomById(gameId);
+        }
+
+        //TODO: do this
+        public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId, 
+            string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum);
+
+        public int GetNextFreeRoomId()
+        {
+            return _gameCenter.GetNextIdRoom();
+        }
+
+        public ConcreteGameRoom GetGameById(int id)
+        {
+            return _gameCenter.GetRoomById(id);
+        }
+
+        public bool AddPlayerToRoom(int userId, int roomId, int amountOfChips)
+        {
+            return _gameCenter.AddPlayerToRoom(roomId, userId, amountOfChips);
+        }
+
+        public bool AddSpectatorToRoom(int userId, int roomId)
+        {
+            return _gameCenter.AddSpectetorToRoom(roomId, userId);
+        }
+
+        public bool RemoveUserFromRoom(int userId, int roomId)
+        {
+            GameRoom room = _gameCenter.GetRoomById(roomId);
+            if (room != null)
+	        {
+		        if (room._players.Exists(p => p.Id == userId))
+                {
+                    return _gameCenter.RemovePlayerFromRoom(roomId, userId);
+                }
+	            if (room._spectatores.Exists(s => s.Id == userId))
+	            {
+	                return _gameCenter.RemoveSpectetorFromRoom(roomId, userId);
+	            }
+	        }
             return false;
         }
 
-        public bool AddSpectatorToRoom(Spectetor spectator, GameRoom room)
+        //TODO: not sure about this one
+        public bool MakeRoomActive(GameRoom room)
         {
-            if (spectator != null && room != null && !room._spectatores.Contains(spectator))
-            {
-                room._spectatores.Add(spectator);
-                return true;
-            }
-            return false;
+            var manager = GetManagerForGame(room);
+            return manager.Play();
         }
 
-        public abstract bool RemoveUserFromRoom(int userId, int roomId);
-        public abstract bool MakeRoomActive(GameRoom room);
-        public abstract bool RemoveRoom(int gameId);
+        public bool RemoveRoom(int gameId)
+        {
+            return _gameCenter.RemoveRoom(gameId);
+        }
 
         public bool Fold(Player player, GameRoom room)
         {
@@ -97,7 +129,25 @@ namespace TexasHoldem.Service
             }
             return false;
         }
-        public abstract Player FindWinner(int gameId);
+
+        public List<Player> FindWinner(int gameId)
+        {
+            List<Player> winningPlayers = new List<Player>();
+            var room = _gameCenter.GetRoomById(gameId);
+            var manager = GetManagerForGame(room);
+            if (room != null && manager != null && manager._gameOver)
+            {
+                List<Player> activePlayers = room._players.FindAll(p => p.isPlayerActive);
+                var winners = manager.FindWinner(room._publicCards, activePlayers);
+                winners.ForEach(handEval =>
+                {
+                    winningPlayers.Add(handEval._player);
+                });
+            }
+            return winningPlayers;
+        }
+
+        //TODO: do these after searching methods are done
         public abstract List<GameRoom> GetAllGames();
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
         public abstract List<GameRoom> GetSpectateableGames();
