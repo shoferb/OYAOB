@@ -441,6 +441,17 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
+
+        public bool IsGameActive(int roomId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom room = GetRoomById(roomId);
+            if (room._isActiveGame)
+            {
+                toReturn = true;
+            }
+            return toReturn;
+        }
         public bool SendNotification(User reciver, Notification toSend)
         {
             bool toReturn = false;

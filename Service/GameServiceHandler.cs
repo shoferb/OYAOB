@@ -186,5 +186,11 @@ namespace TexasHoldem.Service
             bool toReturn = GameCenter.Instance.IsGameCanSpectete(roomId);
             return toReturn;
         }
+
+        public bool IsGameActive(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsGameActive(roomId);
+            return toReturn;
+        }
     }
 }
