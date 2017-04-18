@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -333,6 +334,56 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        
+        public bool RemoveRoomFromActiveRoom(int roomId, int userId)
+        {
+            bool toReturn = false;
+            try
+            {
+                ConcreteGameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                User user = GetUserWithId(userId);
+                user.ActiveGameList.Remove(toRemove);
+                toReturn = true;
+            }
+            catch(Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+         }
+
+        public bool RemoveRoomFromSpectetRoom(int roomId, int userId)
+        {
+            bool toReturn = false;
+            try
+            {
+                ConcreteGameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                User user = GetUserWithId(userId);
+                user.SpectateGameList.Remove(toRemove);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
+        public bool HasThisActiveGame(int roomId, int userId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            User user = GetUserWithId(userId);
+            toReturn = user.ActiveGameList.Contains(toCheck);
+            return toReturn;
+        }
+
+        public bool HasThisSpectetorGame(int roomId, int userId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            User user = GetUserWithId(userId);
+            toReturn = user.SpectateGameList.Contains(toCheck);
+            return toReturn;
+        }
     }
 }

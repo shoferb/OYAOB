@@ -142,6 +142,20 @@ namespace TexasHoldem.Logic.Game_Control
             ConcreteGameRoom toRemove = GetRoomById(roomId);
             try
             {
+                int userId;
+                SystemControl sc = new SystemControl();
+                foreach (Player p in toRemove._players)
+                {
+                    userId = p.Id;
+                    if (sc.HasThisActiveGame(roomId, userId))
+                    {
+                        sc.RemoveRoomFromActiveRoom(roomId, userId);
+                    }
+                    if (sc.HasThisSpectetorGame(roomId, userId))
+                    {
+                        sc.RemoveRoomFromSpectetRoom(roomId, userId);
+                    }
+                }
                 games.Remove(toRemove);
                 toReturn = true;
             }
