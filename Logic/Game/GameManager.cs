@@ -23,7 +23,7 @@ namespace TexasHoldem.Logic.Game
         public static bool _firstEnter = true;
         private int buttonPos;
         private bool _backFromRaise;
-        ConcreteGameRoom _state;
+        ConcreteGameRoom _state; //game
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
@@ -105,7 +105,7 @@ namespace TexasHoldem.Logic.Game
                 {
                    int move;
                    this._currentPlayer = this._state.NextToPlay();
-                    
+                    //move = this.playTurn(player)
                     move = this._currentPlayer.Play(this._state._maxCommitted, this._state._handStep);
                     PlayerDesicion(move);
                     if (_backFromRaise)

@@ -161,7 +161,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             if (_userService.GetUserFromId(userId).IsHigherRank)
             {
-                GameCenter center = new GameCenter();
+                GameCenter center = GameCenter.Instance;
                 return center.LeagueChange(criteria);
             }
             return false;

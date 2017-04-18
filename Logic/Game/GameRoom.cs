@@ -26,8 +26,9 @@ namespace TexasHoldem.Logic.Game
         public List<Tuple<int, List<Player>>> _sidePots { get; set; }
         public int _gameRoles { get; set; }
         public GameReplay _gameReplay { get; set; }
-        public GameManager _gameManager;
+        public GameManager _gm;
         public ReplayManager _replayManager;
+
         public GameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm)
         {
             this._players = players;

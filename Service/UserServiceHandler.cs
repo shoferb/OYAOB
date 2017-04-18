@@ -10,7 +10,7 @@ namespace TexasHoldem.Service
     public class UserServiceHandler : ServiceHandler
     {
         private SystemControl sc = new SystemControl();
-        private GameCenter gc = new GameCenter();
+        private GameCenter gc = GameCenter.Instance;
 
 
         //public const int InitialMoneyAmount = 100;

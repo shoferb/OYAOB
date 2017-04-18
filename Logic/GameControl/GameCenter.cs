@@ -12,25 +12,52 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
 {
-    public class GameCenter
+    public class  GameCenter
     {
         private List<League> leagueTable;
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
-        private List<ConcreteGameRoom> games; //all games 
+        public List<GameRoom> games { get;  }
+        public List<ErrorLog> errorLog { get; set; }
+        public List<SystemLog> systemLog { get; set; }
         private static int roomIdCounter = 0;
+        private static GameCenter singlton;
         private ReplayManager _replayManager;
 
-        public GameCenter()
+       
+        private static GameCenter instance = null;
+        private static readonly object padlock = new object();
+
+
+        public static GameCenter Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GameCenter();
+                    }
+                    return instance;
+                }
+            }
+        }
+
+       
+        private GameCenter()
         {
             this.leagueTable = new List<League>();
             //add first league function
             this.logs = new List<Log>();
-            this.games = new List<ConcreteGameRoom>();
+            this.games = new List<GameRoom>();
             _replayManager = new ReplayManager();
+            errorLog = new List<ErrorLog>();
+            systemLog = new List<SystemLog>();
         }
 
+       
         private GameReplay GetGameReplay(int roomID, int gameID)
         {
             return _replayManager.GetGameReplay(roomID, gameID);
@@ -52,15 +79,17 @@ namespace TexasHoldem.Logic.Game_Control
             int toReturn = System.Threading.Interlocked.Increment(ref roomIdCounter);
             return toReturn;
         }
-
+        
         //create new game room
+        //game type  policy, limit, no-limit, pot-limit
+        //אם הכסף של השחקן 0 אז מרוקנים את השדה של הכסף לגמרי
         public bool CreateNewRoom(int userId, int smallBlind, int playerMoney)
         {
             bool toReturn = false;
             if (playerMoney < smallBlind)
             {
                 return toReturn;
-            }
+            }   
             int nextId = GetNextIdRoom();
             List<Player> players = new List<Player>();
             SystemControl sc = new SystemControl();

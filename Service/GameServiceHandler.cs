@@ -14,7 +14,7 @@ namespace TexasHoldem.Service
         public GameServiceHandler()
         {
             _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
-            _gameCenter = new GameCenter();
+            _gameCenter = GameCenter.Instance;
         }
 
         private GameManager GetManagerForGame(GameRoom room)

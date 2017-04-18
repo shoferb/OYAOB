@@ -13,9 +13,8 @@ namespace TexasHoldem.Logic.Users
 
         public bool isPlayerActive { get; set; }
         public string name { get; set; }
-        public int _totalChip { get; set; }
-        public int _gameChip { get; set; }
-
+        public int _totalChip { get; set; } // וכמה נשאר כמה נכנס לחדר
+        public int _gameChip { get; set; } //כמה התחיל את המשחק- כמה כרגע בזבז
         public string _lastAction { get; set; }
 
         
@@ -155,7 +154,7 @@ namespace TexasHoldem.Logic.Users
         public int GetNewPoint()
         {
             int calc = (int)(Money / 100);
-            int newPoint = (20 * ((5 * WinNum) - LoseNum)) + calc;
+            int newPoint = (20 * ((5 * WinNum))) + calc;
             return newPoint;
         }
         public int WinNum

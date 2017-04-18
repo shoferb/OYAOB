@@ -13,11 +13,7 @@ namespace TexasHoldem.Service
     {
 
         private SystemControl sc = new SystemControl();
-        //we change this no more from user to anoter - need to remove
-       public abstract bool SendNotification(User receiver, Notification toSend);
-
-        //change - log() - need also to remove
-        public abstract bool Log(Log log);
+        
 
         public Log CreateNewLog()
         {
