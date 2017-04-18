@@ -390,6 +390,19 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public List<ConcreteGameRoom> GetAllSpectetorGame()
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            foreach (ConcreteGameRoom room in games)
+            {
+                if (room._isSpectetor)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
+
         public bool SendNotification(User reciver, Notification toSend)
         {
             bool toReturn = false;

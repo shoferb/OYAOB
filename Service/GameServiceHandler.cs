@@ -156,6 +156,12 @@ namespace TexasHoldem.Service
         //TODO: do these after searching methods are done
         public abstract List<GameRoom> GetAllGames();
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
-        public abstract List<GameRoom> GetSpectateableGames();
+
+        //todo - check if need to be Game room list
+        public  List<ConcreteGameRoom> GetSpectateableGames()
+        {
+            List<ConcreteGameRoom> toReturn = GameCenter.Instance.GetAllSpectetorGame();
+            return toReturn;
+        }
     }
 }
