@@ -88,7 +88,12 @@ namespace TexasHoldem.Service
             bool toReturn = user.SendNotification(toSend);
             return toReturn;
         }
-        //dlkad
+
+        public Log.LogPriority GetLofPriority(int logId)
+        {
+            //Log getLog = GameCenter.Instance.FindLog(logId);
+            throw new NotImplementedException();
+        }
         
         
     }

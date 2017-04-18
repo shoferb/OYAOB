@@ -526,5 +526,16 @@ namespace TexasHoldem.Logic.Game_Control
                 higherRank = value;
             }
         }
+
+        public Error FindLog(int logId)
+        {
+            
+                throw new NotImplementedException();
+            
+        }
+    }
+
+    public class Error
+    {
     }
 }
