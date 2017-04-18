@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
@@ -9,13 +10,11 @@ namespace TexasHoldem.Service
     {
         private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
         private readonly GameCenter _gameCenter;
-        private readonly SystemControl _sysControl;
 
         protected GameServiceHandler()
         {
             _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
             _gameCenter = new GameCenter();
-            _sysControl = new SystemControl();
         }
 
         private GameManager GetManagerForGame(GameRoom room)
@@ -36,8 +35,15 @@ namespace TexasHoldem.Service
         public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId, 
             string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum);
 
-        public abstract int GetNextFreeRoomId();
-        public abstract GameRoom GetGameById(int id);
+        public int GetNextFreeRoomId()
+        {
+            return _gameCenter.GetNextIdRoom();
+        }
+
+        public ConcreteGameRoom GetGameById(int id)
+        {
+            return _gameCenter.GetRoomById(id);
+        }
 
         public bool AddPlayerToRoom(int userId, int roomId, int amountOfChips)
         {
@@ -115,7 +121,23 @@ namespace TexasHoldem.Service
             }
             return false;
         }
-        public abstract Player FindWinner(int gameId);
+
+        public List<Player> FindWinner(int gameId)
+        {
+            List<Player> winningPlayers = new List<Player>();
+            var room = _gameCenter.GetRoomById(gameId);
+            var manager = GetManagerForGame(room);
+            if (room != null && manager != null && manager._gameOver)
+            {
+                List<Player> activePlayers = room._players.FindAll(p => p.isPlayerActive);
+                var winners = manager.FindWinner(room._publicCards, activePlayers);
+                winners.ForEach(handEval =>
+                {
+                    winningPlayers.Add(handEval._player);
+                });
+            }
+            return winningPlayers;
+        }
         public abstract List<GameRoom> GetAllGames();
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
         public abstract List<GameRoom> GetSpectateableGames();

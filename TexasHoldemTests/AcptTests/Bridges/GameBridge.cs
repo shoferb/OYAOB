@@ -31,16 +31,9 @@ namespace TexasHoldemTests.AcptTests.Bridges
             User user = _userService.GetUserFromId(userId);
             if (user != null)
             {
-                var game = _gameService.CreateGameRoom(userId, user.Money, roomId, name,
-                    SmallBlind, BigBlind, MinMoney, MaxMoney, 1);
-                if (game != null)
+                if (_gameService.AddPlayerToRoom(userId, roomId, user.Money))
                 {
-                    Player player = new Player(0, 100, user.Id, user.Name, user.MemberName,
-                        user.Password, user.Points, user.Money, user.Email, roomId);
-                    if (_gameService.AddPlayerToRoom(player, game))
-                    {
-                        return game._id.GetHashCode();
-                    }
+                    return roomId;
                 }
             }
             return -1;
@@ -111,7 +104,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             List<int> toReturn = new List<int>();
             games.ForEach(game =>
             {
-                toReturn.Add(game._id.GetHashCode());
+                toReturn.Add(game._id);
             });
             return toReturn;
         }
@@ -176,9 +169,9 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.GetGameById(gameId)._potCount;
         }
 
-        public int GetWinner(int gameId)
+        public List<int> GetWinner(int gameId)
         {
-            return _gameService.FindWinner(gameId).Id;
+            return _gameService.FindWinner(gameId).ConvertAll(p => p.Id);
         }
 
         private bool CheckCurrPlayerIsPlayer(int playerId, GameRoom room)
@@ -186,7 +179,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             Player player = _userService.GetPlayer(playerId, room._id.GetHashCode());
             if (player != null && room != null)
             {
-                var game = _gameService.GetGameById(room._id.GetHashCode());
+                var game = _gameService.GetGameById(room._id);
                 var currPlayer = game._players[game._actionPos].Id;
                 if (currPlayer == player.Id)
                 {
