@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
@@ -7,10 +8,14 @@ namespace TexasHoldem.Service
     public abstract class GameServiceHandler : ServiceHandler
     {
         private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
+        private readonly GameCenter _gameCenter;
+        private readonly SystemControl _sysControl;
 
         protected GameServiceHandler()
         {
             _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
+            _gameCenter = new GameCenter();
+            _sysControl = new SystemControl();
         }
 
         private GameManager GetManagerForGame(GameRoom room)
@@ -24,35 +29,48 @@ namespace TexasHoldem.Service
             return manager;
         }
 
-        public abstract GameRoom GetGameFromId(int gameId);
-        public abstract GameRoom CreateGameRoom(int id, string name, int sb,
-            int bb, int minMoney, int maxMoney, int gameNum);
+        public ConcreteGameRoom GetGameFromId(int gameId)
+        {
+            return _gameCenter.GetRoomById(gameId);
+        }
+        public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId, 
+            string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum);
+
         public abstract int GetNextFreeRoomId();
         public abstract GameRoom GetGameById(int id);
 
-        public bool AddPlayerToRoom(Player player, GameRoom room)
+        public bool AddPlayerToRoom(int userId, int roomId, int amountOfChips)
         {
-            if (player != null && room != null && !room._players.Contains(player))
-            {
-                room._spectatores.Add(player);
-                return true;
-            }
-            return false;
+            return _gameCenter.AddPlayerToRoom(roomId, userId, amountOfChips);
         }
 
-        public bool AddSpectatorToRoom(Spectetor spectator, GameRoom room)
+        public bool AddSpectatorToRoom(int userId, int roomId)
         {
-            if (spectator != null && room != null && !room._spectatores.Contains(spectator))
-            {
-                room._spectatores.Add(spectator);
-                return true;
-            }
-            return false;
+            return _gameCenter.AddSpectetorToRoom(roomId, userId);
         }
 
-        public abstract bool RemoveUserFromRoom(int userId, int roomId);
+        public bool RemoveUserFromRoom(int userId, int roomId)
+        {
+            GameRoom room = _gameCenter.GetRoomById(roomId);
+            if (room != null)
+	        {
+		        if (room._players.Exists(p => p.Id == userId))
+                {
+                    return _gameCenter.RemovePlayerFromRoom(roomId, userId);
+                }
+	            if (room._spectatores.Exists(s => s.Id == userId))
+	            {
+	                return _gameCenter.RemoveSpectetorFromRoom(roomId, userId);
+	            }
+	        }
+            return false;
+        }
         public abstract bool MakeRoomActive(GameRoom room);
-        public abstract bool RemoveRoom(int gameId);
+
+        public bool RemoveRoom(int gameId)
+        {
+            return _gameCenter.RemoveRoom(gameId);
+        }
 
         public bool Fold(Player player, GameRoom room)
         {

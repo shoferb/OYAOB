@@ -28,12 +28,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private int MakeRoomHelper(int userId, int roomId)
         {
             string name = _rand.Next().ToString();
-            var game = _gameService.CreateGameRoom(roomId, name,
-                SmallBlind, BigBlind, MinMoney, MaxMoney, 1);
-            if (game != null)
+            User user = _userService.GetUserFromId(userId);
+            if (user != null)
             {
-                User user = _userService.GetUserFromId(userId);
-                if (user != null)
+                var game = _gameService.CreateGameRoom(userId, user.Money, roomId, name,
+                    SmallBlind, BigBlind, MinMoney, MaxMoney, 1);
+                if (game != null)
                 {
                     Player player = new Player(0, 100, user.Id, user.Name, user.MemberName,
                         user.Password, user.Points, user.Money, user.Email, roomId);
