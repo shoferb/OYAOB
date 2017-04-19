@@ -27,8 +27,20 @@ namespace TexasHoldem.Logic.Game_Control
 
        
         private static GameCenter instance = null;
+
+
         private static readonly object padlock = new object();
 
+        private GameCenter()
+        {
+            this.leagueTable = new List<League>();
+            //todo - add first league function 
+            this.logs = new List<Log>();// - why need this ToString()?
+            this.games = new List<GameRoom>();
+            _replayManager = new ReplayManager();
+            errorLog = new List<ErrorLog>();
+            systemLog = new List<SystemLog>();
+        }
 
         public static GameCenter Instance
         {
@@ -36,7 +48,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 lock (padlock)
                 {
-                if (instance == null)
+                if(instance == null)
                     {
                         instance = new GameCenter();
                     }
@@ -45,21 +57,20 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+
         public ReplayManager GetReplayManager()
         {
             return _replayManager;
         }
 
+
+        //return all games in the system 0 active and non active
         public List<GameRoom> GetGames()
         {
             return games;
         }
-        /*
-         lock (padlock)
-            {
-
-            }
-            */
+       
+        //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
         {
             bool toReturn;
@@ -78,16 +89,7 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
        
-        private GameCenter()
-        {
-            this.leagueTable = new List<League>();
-            //add first league function
-            this.logs = new List<Log>();
-            this.games = new List<GameRoom>();
-            _replayManager = new ReplayManager();
-            errorLog = new List<ErrorLog>();
-            systemLog = new List<SystemLog>();
-        }
+      
 
        
         public GameReplay GetGameReplay(int roomID, int gameID, int userID)
@@ -101,6 +103,7 @@ namespace TexasHoldem.Logic.Game_Control
             return _replayManager.GetGameReplay(roomID, gameID);
         }
 
+
         public string ShowGameReplay(int roomID, int gameID, int userID)
         {
             GameReplay gr = GetGameReplay(roomID, gameID, userID);
@@ -111,6 +114,8 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
+
+        //need to syncronzed?? 
         public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
             GameReplay gr = GetGameReplay(roomID, gameID, userID);
@@ -166,11 +171,13 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userID); //todo singelton or field in GameCenter?
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userID); 
                 return user._gamesAvailableToReplay;
             }
         }
 
+
+        //return room by room if - suncronized due to for
         public ConcreteGameRoom GetRoomById(int roomId)
         {
             lock (padlock)
@@ -187,11 +194,14 @@ namespace TexasHoldem.Logic.Game_Control
             }          
         }
 
+
+        //todo - aviv to impl or to remove?
         internal GameReplay GetGameReplay(int roomID, int gameID)
         {
             throw new NotImplementedException();
         }
 
+        //return true if there is a room with this id
         public bool IsRoomExist(int roomId)
         {
             lock (padlock)
@@ -209,6 +219,9 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
+
+        //remove room form games list - remove the room remove the game from active game list and spectetor in user
+        //
         public bool RemoveRoom(int roomId)
         {
             lock (padlock)
@@ -247,6 +260,8 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+
+        //Add new room the games list
         public bool AddRoom(ConcreteGameRoom roomToAdd)
         {
             lock (padlock)
@@ -266,180 +281,205 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-       
+       //Add Player to room
+       //todo - dec money from user acourding to buy in policy
         public bool AddPlayerToRoom(int roomId, int userId, int playerChipToEnterRoom)
         {
-            bool toReturn = false;
-            SystemControl sc = SystemControl.SystemControlInstance;
-            User user = sc.GetUserWithId(userId);
-            ConcreteGameRoom room = GetRoomById(roomId);
-            int sb = room._sb;
-            bool exist = IsRoomExist(roomId);
-            if (!exist)
+            lock (padlock)
             {
+                bool toReturn = false;
+                SystemControl sc = SystemControl.SystemControlInstance;
+                User user = sc.GetUserWithId(userId);
+                ConcreteGameRoom room = GetRoomById(roomId);
+                int sb = room._sb;
+                bool exist = IsRoomExist(roomId);
+                if (!exist)
+                {
+                    return toReturn;
+                }
+                if (playerChipToEnterRoom < sb)
+                {
+                    return toReturn;
+                }
+                Player playerToAdd = new Player(playerChipToEnterRoom, 0, user.Id, user.Name, user.MemberName,
+                    user.Password, user.Points,
+                    user.Money, user.Email, roomId);
+                try
+                {
+                    ConcreteGameRoom toAdd = room;
+                    User newUser = user; // add room to user list
+                    newUser.ActiveGameList.Add(room);
+
+                    room._players.Add(playerToAdd);
+
+                   // sc.ReplaceUser(user, newUser);
+                    //games.Remove(room);
+                    //games.Add(toAdd);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
                 return toReturn;
             }
-            if (playerChipToEnterRoom < sb)
-            {
-                return toReturn;
-            }
-            Player playerToAdd = new Player(playerChipToEnterRoom, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                user.Money, user.Email, roomId);
-            try
-            {
-                ConcreteGameRoom toAdd = room;
-                User newUser = user; // add room to user list
-                newUser.ActiveGameList.Add(room);
-
-                room._players.Add(playerToAdd);
-
-                sc.ReplaceUser(user, newUser);
-                games.Remove(room);
-                games.Add(toAdd);
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-            return toReturn;
         }
 
+
+        //add spectetor to room - syncronized
         public bool AddSpectetorToRoom(int roomId, int userId)
         {
-            bool toReturn = false;
-            SystemControl sc = SystemControl.SystemControlInstance;
-            User user = sc.GetUserWithId(userId);
-            bool exist = IsRoomExist(roomId);
-            if (!exist)
+            lock (padlock)
             {
+                bool toReturn = false;
+                SystemControl sc = SystemControl.SystemControlInstance;
+                User user = sc.GetUserWithId(userId);
+                bool exist = IsRoomExist(roomId);
+                if (!exist)
+                {
+                    return toReturn;
+                }
+                ConcreteGameRoom room = GetRoomById(roomId);
+                try
+                {
+                    ConcreteGameRoom toAdd = room;
+                    User newUser = user; // add room to user list
+                    newUser.SpectateGameList.Add(room);
+                    Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                        user.Money, user.Email, roomId);
+                    toAdd._spectatores.Add(spectetor);
+                  //  sc.ReplaceUser(user, newUser);
+                   // games.Remove(room);
+                    //games.Add(toAdd);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
                 return toReturn;
             }
-            ConcreteGameRoom room = GetRoomById(roomId);
-            try
-            {
-                ConcreteGameRoom toAdd = room;
-                User newUser = user; // add room to user list
-                newUser.SpectateGameList.Add(room);
-                Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                    user.Money, user.Email, roomId);
-                toAdd._spectatores.Add(spectetor);
-                sc.ReplaceUser(user, newUser);
-                games.Remove(room);
-                games.Add(toAdd);
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-            return toReturn;
         }
 
+
+        //remove player from room
+        //todo - if player exit in the middle dec money
         public bool RemovePlayerFromRoom(int roomId, int userId)
         {
-            bool toReturn = false;
-            bool exist = IsRoomExist(roomId);
-            if (!exist)
+            lock (padlock)
             {
+                bool toReturn = false;
+                bool exist = IsRoomExist(roomId);
+                if (!exist)
+                {
+                    return toReturn;
+                }
+                SystemControl sc = SystemControl.SystemControlInstance;
+                ConcreteGameRoom room = GetRoomById(roomId);
+                ConcreteGameRoom toAdd = room;
+                List<Player> allPlayers = room._players;
+                Player playerToRemove = null;
+                User user = sc.GetUserWithId(userId);
+
+                foreach (Player p in allPlayers)
+                {
+                    if ((p.Id == userId) && (p.RoomId == roomId))
+                    {
+                        playerToRemove = p;
+                    }
+                }
+
+                try
+                {
+                    playerToRemove._isInRoom = false; //not in room - need to remove in end od round
+                    playerToRemove.IsActive = false;
+                    //allPlayers.Remove(playerToRemove);
+                    // toAdd._players = allPlayers;
+                    //games.Remove(room);
+                    //games.Add(toAdd);
+
+                    user.ActiveGameList.Remove(room);
+                    //sc.ReplaceUser(user, newUser);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+
                 return toReturn;
             }
-            SystemControl sc = SystemControl.SystemControlInstance;
-            ConcreteGameRoom room = GetRoomById(roomId);
-            ConcreteGameRoom toAdd = room;
-            List<Player> allPlayers = room._players;
-            Player playerToRemove = null;
-            User user = sc.GetUserWithId(userId);
-            
-            foreach (Player p in allPlayers)
-            {
-                if ((p.Id == userId) && (p.RoomId == roomId))
-                {
-                    playerToRemove = p;
-                }
-            }
-
-            try
-            {
-                playerToRemove._isInRoom = false; //not in room - need to remove in end od round
-                playerToRemove.IsActive = false;
-                //allPlayers.Remove(playerToRemove);
-               // toAdd._players = allPlayers;
-                //games.Remove(room);
-                //games.Add(toAdd);
-
-                user.ActiveGameList.Remove(room);
-                //sc.ReplaceUser(user, newUser);
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-
-            return toReturn;
         }
 
 
+
+        //remove spectetor from room - sycronized
         public bool RemoveSpectetorFromRoom(int roomId, int userId)
         {
-            bool toReturn = false;
-            bool exist = IsRoomExist(roomId);
-            if (!exist)
+            lock (padlock)
             {
+                bool toReturn = false;
+                bool exist = IsRoomExist(roomId);
+                if (!exist)
+                {
+                    return toReturn;
+                }
+                SystemControl sc = SystemControl.SystemControlInstance;
+                ConcreteGameRoom room = GetRoomById(roomId);
+                ConcreteGameRoom toAdd = room;
+                List<Spectetor> allSpectetors = room._spectatores;
+                Spectetor sprctetorToRemove = null;
+                User user = sc.GetUserWithId(userId);
+                User newUser = user;
+                foreach (Spectetor s in allSpectetors)
+                {
+                    if ((s.Id == userId) && (s.RoomId == roomId))
+                    {
+                        sprctetorToRemove = s;
+                    }
+                }
+                try
+                {
+                    allSpectetors.Remove(sprctetorToRemove);
+                    toAdd._spectatores = allSpectetors;
+                    games.Remove(room);
+                    newUser.SpectateGameList.Remove(room);
+                    sc.ReplaceUser(user, newUser);
+                    games.Add(toAdd);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
                 return toReturn;
             }
-            SystemControl sc = SystemControl.SystemControlInstance;
-            ConcreteGameRoom room = GetRoomById(roomId);
-            ConcreteGameRoom toAdd = room;
-            List<Spectetor> allSpectetors = room._spectatores;
-            Spectetor sprctetorToRemove = null;
-            User user = sc.GetUserWithId(userId);
-            User newUser = user;
-            foreach (Spectetor s in allSpectetors)
-            {
-                if ((s.Id == userId) && (s.RoomId == roomId))
-                {
-                    sprctetorToRemove = s;
-                }
-            }
-            try
-            {
-                allSpectetors.Remove(sprctetorToRemove);
-                toAdd._spectatores = allSpectetors;
-                games.Remove(room);
-                newUser.SpectateGameList.Remove(room);
-                sc.ReplaceUser(user, newUser);
-                games.Add(toAdd);
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-            return toReturn;
         }
 
-
+        //create new league whith new gap
         public bool LeagueChangeAfterGapChange(int leagugap)
         {
-            bool toReturn = false;
-            int higherRank = HigherRank.Points;
-            leagueTable = null;
-            int currpoint = 0;
-            int i = 1;
-            int to = 0;
-            String leaugeName;
-            while (currpoint < higherRank)
+            lock (padlock)
             {
-                leaugeName = "" + i;
-                to = currpoint + leagueGap;
-                League toAdd = new League(leaugeName, currpoint, to);
-                i++;
-                currpoint = to;
+                bool toReturn = false;
+                int higherRank = HigherRank.Points;
+                leagueTable = null;
+                int currpoint = 0;
+                int i = 1;
+                int to = 0;
+                String leaugeName;
+                while (currpoint < higherRank)
+                {
+                    leaugeName = "" + i;
+                    to = currpoint + leagueGap;
+                    League toAdd = new League(leaugeName, currpoint, to);
+                    i++;
+                    currpoint = to;
+                }
+                return toReturn;
             }
-            return toReturn;
         }
+
 
         public string UserLeageInfo(User user)
         {
@@ -465,59 +505,78 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        //get all active games - syncronized
         public List<ConcreteGameRoom> GetAllActiveGame()
         {
-            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-            foreach (ConcreteGameRoom room in games)
+            lock (padlock)
             {
-                if (room._isActiveGame)
+                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+                foreach (ConcreteGameRoom room in games)
                 {
-                    toReturn.Add(room);
+                    if (room._isActiveGame)
+                    {
+                        toReturn.Add(room);
+                    }
                 }
+                return toReturn;
             }
-            return toReturn;
         }
+
 
         public List<ConcreteGameRoom> GetAllSpectetorGame()
         {
-            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-            foreach (ConcreteGameRoom room in games)
+            lock (padlock)
             {
-                if (room._isSpectetor)
+                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+                foreach (ConcreteGameRoom room in games)
                 {
-                    toReturn.Add(room);
+                    if (room._isSpectetor)
+                    {
+                        toReturn.Add(room);
+                    }
                 }
+                return toReturn;
             }
-            return toReturn;
         }
+
+
 
         public List<ConcreteGameRoom> GetAllGames()
         {
-            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-            foreach (ConcreteGameRoom room in games)
+            lock (padlock)
             {
-                toReturn.Add(room);
+                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+                foreach (ConcreteGameRoom room in games)
+                {
+                    toReturn.Add(room);
+                }
+                return toReturn;
             }
-            return toReturn;
         }
 
 
         //todo ??? potCount =? postsize
+        //return list of games with pot size
         public List<ConcreteGameRoom> GetAllGamesByPotSize(int potSize)
         {
-            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-            foreach (ConcreteGameRoom room in games)
+            lock (padlock)
             {
-                if (room._potCount == potSize)
+                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+                foreach (ConcreteGameRoom room in games)
                 {
-                    toReturn.Add(room);
+                    if (room._potCount == potSize)
+                    {
+                        toReturn.Add(room);
+                    }
+
                 }
-                
+                return toReturn;
             }
-            return toReturn;
         }
 
 
+        //chaeck if game is spectetable
+        //todo cahnge to game room
         public bool IsGameCanSpectete(int roomId)
         {
             bool toReturn = false;
@@ -529,6 +588,8 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+
+        //check if game is active game
         public bool IsGameActive(int roomId)
         {
             bool toReturn = false;
@@ -539,11 +600,17 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
+
+
+        //seand notification to user
         public bool SendNotification(User reciver, Notification toSend)
         {
-            bool toReturn = false;
-            reciver.SendNotification(toSend);
-            return toReturn;
+            lock (padlock)
+            {
+                bool toReturn = false;
+                reciver.SendNotification(toSend);
+                return toReturn;
+            }
         }
 
         //getters setters
@@ -553,10 +620,13 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return leagueTable;
             }
-
+            
             set
             {
-                leagueTable = value;
+                lock (padlock)
+                {
+                    leagueTable = value;
+                }
             }
         }
         public List<Log> Logs
@@ -568,7 +638,10 @@ namespace TexasHoldem.Logic.Game_Control
 
             set
             {
-                logs = value;
+                lock (padlock)
+                {
+                    logs = value;
+                }
             }
         }
 
@@ -581,7 +654,10 @@ namespace TexasHoldem.Logic.Game_Control
 
             set
             {
-                LeagueGap = value;
+                lock (padlock)
+                {
+                    LeagueGap = value;
+                }
             }
         }
 
@@ -596,7 +672,10 @@ namespace TexasHoldem.Logic.Game_Control
 
             set
             {
-                higherRank = value;
+                lock (padlock)
+                {
+                    higherRank = value;
+                }
             }
         }
 
