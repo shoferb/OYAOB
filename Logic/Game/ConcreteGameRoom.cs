@@ -10,33 +10,19 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
-        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm) : base(players, startingChip, ID, rm)
+        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm , bool isSpectetor, GameMode gameModeChosen) : base(players, startingChip, ID, rm, isSpectetor, gameModeChosen)
         {
-            this._isGameOver = false;
+            this._isActiveGame = false;
             this._potCount = 0;          
             this._players = players;
             this._maxCommitted = 0;
             this._publicCards = new List<Card>();
-            this._sb = startingChip;
-            this._bb = _sb*2;
+            this._sb = (int) _bb / 2;
+            this._bb = startingChip;
             this._sidePots = new List<Tuple<int, List<Player>>>();
             this._gameManager = new GameManager(this);
          }
 
-        public List<Player> _players { get; set; }
-        public List<Spectetor> _spectatores { get; set; }
-        public int _dealerPos { get; set; }
-        public int _maxCommitted { get; set; }
-        public int _actionPos { get; set; }
-        public int _potCount { get; set; }
-        public int _bb { get; set; }
-        public int _sb { get; set; }
-        public Deck _deck { get; set; }
-        public HandStep _handStep { get; set; }
-        public List<Card> _publicCards { get; set; }
-        public bool _isGameOver { get; set; }
-        public List<Tuple<int, List<Player>>> _sidePots { get; set; }
-        public int _gameRoles { get; set; }
 
         
         public Player NextToPlay()

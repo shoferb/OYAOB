@@ -198,6 +198,7 @@ namespace TexasHoldem.Logic.Game
             this._state._dealerPos = 0;
             SetRoles();
             _firstEnter = false;
+            _state._isActiveGame = true;
         }
 
 
@@ -288,7 +289,7 @@ namespace TexasHoldem.Logic.Game
             }
             else
             {
-                this._state._isGameOver = true;
+                this._state._isActiveGame = false;
                 _firstEnter = true;
                 if (!_currentPlayer.OutOfMoney())
                     this._state._players[0].isPlayerActive = false; 
