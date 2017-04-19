@@ -178,12 +178,12 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //return room by room if - suncronized due to for
-        public ConcreteGameRoom GetRoomById(int roomId)
+        public GameRoom GetRoomById(int roomId)
         {
             lock (padlock)
             {
-                ConcreteGameRoom toReturn = null;
-                foreach (ConcreteGameRoom room in games)
+                GameRoom toReturn = null;
+                foreach (GameRoom room in games)
                 {
                     if (room._id == roomId)
                     {
@@ -207,7 +207,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                foreach (ConcreteGameRoom room in games)
+                foreach (GameRoom room in games)
                 {
                     if (room._id == roomId)
                     {
@@ -232,7 +232,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                ConcreteGameRoom toRemove = GetRoomById(roomId);
+                GameRoom toRemove = GetRoomById(roomId);
                 try
                 {
                     int userId;
@@ -262,7 +262,7 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //Add new room the games list
-        public bool AddRoom(ConcreteGameRoom roomToAdd)
+        public bool AddRoom(GameRoom roomToAdd)
         {
             lock (padlock)
             {
@@ -290,7 +290,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 SystemControl sc = SystemControl.SystemControlInstance;
                 User user = sc.GetUserWithId(userId);
-                ConcreteGameRoom room = GetRoomById(roomId);
+                GameRoom room = GetRoomById(roomId);
                 int sb = room._sb;
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
@@ -306,7 +306,7 @@ namespace TexasHoldem.Logic.Game_Control
                     user.Money, user.Email, roomId);
                 try
                 {
-                    ConcreteGameRoom toAdd = room;
+                    GameRoom toAdd = room;
                     User newUser = user; // add room to user list
                     newUser.ActiveGameList.Add(room);
 
@@ -339,10 +339,10 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                ConcreteGameRoom room = GetRoomById(roomId);
+                GameRoom room = GetRoomById(roomId);
                 try
                 {
-                    ConcreteGameRoom toAdd = room;
+                    GameRoom toAdd = room;
                     User newUser = user; // add room to user list
                     newUser.SpectateGameList.Add(room);
                     Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
@@ -375,8 +375,8 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 SystemControl sc = SystemControl.SystemControlInstance;
-                ConcreteGameRoom room = GetRoomById(roomId);
-                ConcreteGameRoom toAdd = room;
+                GameRoom room = GetRoomById(roomId);
+                GameRoom toAdd = room;
                 List<Player> allPlayers = room._players;
                 Player playerToRemove = null;
                 User user = sc.GetUserWithId(userId);
@@ -412,7 +412,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-
         //remove spectetor from room - sycronized
         public bool RemoveSpectetorFromRoom(int roomId, int userId)
         {
@@ -425,8 +424,8 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 SystemControl sc = SystemControl.SystemControlInstance;
-                ConcreteGameRoom room = GetRoomById(roomId);
-                ConcreteGameRoom toAdd = room;
+                GameRoom room = GetRoomById(roomId);
+                GameRoom toAdd = room;
                 List<Spectetor> allSpectetors = room._spectatores;
                 Spectetor sprctetorToRemove = null;
                 User user = sc.GetUserWithId(userId);
@@ -442,10 +441,10 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     allSpectetors.Remove(sprctetorToRemove);
                     toAdd._spectatores = allSpectetors;
-                    games.Remove(room);
+                   // games.Remove(room);
                     newUser.SpectateGameList.Remove(room);
-                    sc.ReplaceUser(user, newUser);
-                    games.Add(toAdd);
+                    //sc.ReplaceUser(user, newUser);
+                   // games.Add(toAdd);
                     toReturn = true;
                 }
                 catch (Exception e)
@@ -506,12 +505,12 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //get all active games - syncronized
-        public List<ConcreteGameRoom> GetAllActiveGame()
+        public List<GameRoom> GetAllActiveGame()
         {
             lock (padlock)
             {
-                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-                foreach (ConcreteGameRoom room in games)
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
                 {
                     if (room._isActiveGame)
                     {
@@ -523,12 +522,12 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public List<ConcreteGameRoom> GetAllSpectetorGame()
+        public List<GameRoom> GetAllSpectetorGame()
         {
             lock (padlock)
             {
-                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-                foreach (ConcreteGameRoom room in games)
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
                 {
                     if (room._isSpectetor)
                     {
@@ -541,12 +540,12 @@ namespace TexasHoldem.Logic.Game_Control
 
 
 
-        public List<ConcreteGameRoom> GetAllGames()
+        public List<GameRoom> GetAllGames()
         {
             lock (padlock)
             {
-                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-                foreach (ConcreteGameRoom room in games)
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
                 {
                     toReturn.Add(room);
                 }
@@ -557,12 +556,12 @@ namespace TexasHoldem.Logic.Game_Control
 
         //todo ??? potCount =? postsize
         //return list of games with pot size
-        public List<ConcreteGameRoom> GetAllGamesByPotSize(int potSize)
+        public List<GameRoom> GetAllGamesByPotSize(int potSize)
         {
             lock (padlock)
             {
-                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
-                foreach (ConcreteGameRoom room in games)
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
                 {
                     if (room._potCount == potSize)
                     {
@@ -580,7 +579,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool IsGameCanSpectete(int roomId)
         {
             bool toReturn = false;
-            ConcreteGameRoom room = GetRoomById(roomId);
+            GameRoom room = GetRoomById(roomId);
             if (room._isSpectetor)
             {
                 toReturn = true;
@@ -593,7 +592,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool IsGameActive(int roomId)
         {
             bool toReturn = false;
-            ConcreteGameRoom room = GetRoomById(roomId);
+            GameRoom room = GetRoomById(roomId);
             if (room._isActiveGame)
             {
                 toReturn = true;
