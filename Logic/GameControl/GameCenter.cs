@@ -661,8 +661,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
-
         public User HigherRank
         {
             get
@@ -679,11 +677,10 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
         //todo - impl
         public Log FindLog(int logId)
         {
-            
+                //find log in the 2 list
                 throw new NotImplementedException();
             
         }
