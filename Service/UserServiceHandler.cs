@@ -186,15 +186,15 @@ namespace TexasHoldem.Service
         }
 
 
-        public List<ConcreteGameRoom> GetActiveGamesByUserName(string userName)
+        public List<GameRoom> GetActiveGamesByUserName(string userName)
         {
-            List<ConcreteGameRoom> toReturn = sc.GetActiveGamesByUserName(userName);
+            List<GameRoom> toReturn = sc.GetActiveGamesByUserName(userName);
             return toReturn;
         }
 
-        public List<ConcreteGameRoom> GetSpectetorGamesByUserName(string userName)
+        public List<GameRoom> GetSpectetorGamesByUserName(string userName)
         {
-            List<ConcreteGameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
+            List<GameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
             return toReturn;
         }
 
