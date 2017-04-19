@@ -573,7 +573,79 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        //return list of games with game mode:
+        //limit / no - limit / pot limit
+        public List<GameRoom> GetGamesByGameMode(GameMode gm)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
+                {
+                    if (room._gameMode == gm)
+                    {
+                        toReturn.Add(room);
+                    }
 
+                }
+                return toReturn;
+            }
+        }
+
+        //return list of games by buy in policy
+        public List<GameRoom> GetGamesByBuyInPplicy(int buyIn)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
+                {
+                    if (room._enterPayingMoney == buyIn)
+                    {
+                        toReturn.Add(room);
+                    }
+
+                }
+                return toReturn;
+            }
+        }
+
+        //return list of games by min player in room
+        public List<GameRoom> GetGamesByMinPlayer(int min)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
+                {
+                    if (room._minPlayersInRoom == min)
+                    {
+                        toReturn.Add(room);
+                    }
+
+                }
+                return toReturn;
+            }
+        }
+
+
+        //return list of games by min player in room
+        public List<GameRoom> GetGamesByMaxPlayer(int max)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
+                {
+                    if (room._maxPlayersInRoom == max)
+                    {
+                        toReturn.Add(room);
+                    }
+
+                }
+                return toReturn;
+            }
+        }
         //chaeck if game is spectetable
         //todo cahnge to game room
         public bool IsGameCanSpectete(int roomId)
