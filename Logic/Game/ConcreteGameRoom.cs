@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
-        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen) : base(players, startingChip, ID, isSpectetor, gameModeChosen)
+        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney) : base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney)
         {
             this._isActiveGame = false;
             this._potCount = 0;          

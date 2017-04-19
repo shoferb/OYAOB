@@ -26,20 +26,26 @@ namespace TexasHoldem.Logic.Game
         public bool _isActiveGame { get; set; }
         public List<Tuple<int, List<Player>>> _sidePots { get; set; }
         public int _gameRoles { get; set; }
-        public GameMode _gameMode;
-        public bool _isSpectetor;
+         public GameMode _gameMode { get; }
+        public bool _isSpectetor { get; }
+        public int _minPlayersInRoom { get; }
+        public int _maxPlayersInRoom { get; }
+        public int _enterPayingMoney { get; }
         public GameReplay _gameReplay { get; set; }
         public GameManager _gm;
         public ReplayManager _replayManager;
         public GameCenter _gameCenter;
 
-        public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen)
+        public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
         {
             this._players = players;
             this._sb = startingChip;
             this._id = ID;
             this._isSpectetor = isSpectetor;
             this._gameMode = gameModeChosen;
+            this._minPlayersInRoom = minPlayersInRoom;
+            this._maxPlayersInRoom = maxPlayersInRoom;
+            this._enterPayingMoney = enterPayingMoney;
             _gameCenter = GameCenter.Instance;
             _replayManager = _gameCenter.GetReplayManager();
             _gameReplay = new GameReplay(ID, 0);
