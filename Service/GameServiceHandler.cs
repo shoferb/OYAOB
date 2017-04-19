@@ -28,7 +28,8 @@ namespace TexasHoldem.Service
             return manager;
         }
 
-        public ConcreteGameRoom GetGameFromId(int gameId)
+        // public ConcreteGameRoom GetGameFromId(int gameId)
+        public GameRoom GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
         }
@@ -42,7 +43,9 @@ namespace TexasHoldem.Service
             return _gameCenter.GetNextIdRoom();
         }
 
-        public ConcreteGameRoom GetGameById(int id)
+
+        //public ConcreteGameRoom GetGameById(int id)
+        public GameRoom GetGameById(int id)
         {
             return _gameCenter.GetRoomById(id);
         }
@@ -147,31 +150,34 @@ namespace TexasHoldem.Service
             return winningPlayers;
         }
 
-       
-        public List<ConcreteGameRoom> GetAllActiveGames()
+        //public List<ConcreteGameRoom> GetAllActiveGames()
+        public List<GameRoom> GetAllActiveGames()
         {
-            List<ConcreteGameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
+            List<GameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
             return toReturn;
         }
-        //TODO: do these after searching methods are done - change to gameRoom
-        public List<ConcreteGameRoom> GetAllGames()
+
+        //public List<ConcreteGameRoom> GetAllGames()
+        public List<GameRoom> GetAllGames()
         {
-            List<ConcreteGameRoom> toReturn = GameCenter.Instance.GetAllGames();
+            List<GameRoom> toReturn = GameCenter.Instance.GetAllGames();
             return toReturn;
         }
 
         //todo - why need this?
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
 
-        public  List<ConcreteGameRoom> GetSpectateableGames()
+        //public  List<ConcreteGameRoom> GetSpectateableGames()
+        public List<GameRoom> GetSpectateableGames()
         {
-            List<ConcreteGameRoom>  toReturn = GameCenter.Instance.GetAllSpectetorGame();
+            List<GameRoom>  toReturn = GameCenter.Instance.GetAllSpectetorGame();
             return toReturn;
         }
 
-        public List<ConcreteGameRoom> GetGamesByPotSize(int potSize)
+        //public List<ConcreteGameRoom> GetGamesByPotSize(int potSize)
+        public List<GameRoom> GetGamesByPotSize(int potSize)
         {
-            List<ConcreteGameRoom> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
+            List<GameRoom> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
             return toReturn;
         }
 
