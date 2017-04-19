@@ -10,7 +10,7 @@ namespace TexasHoldem.Service
 {
     public class UserServiceHandler : ServiceHandler
     {
-        private SystemControl sc = new SystemControl();
+        private SystemControl sc = SystemControl.SystemControlInstance;
         private GameCenter gc = GameCenter.Instance;
 
 

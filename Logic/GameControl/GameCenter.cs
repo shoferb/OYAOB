@@ -150,8 +150,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 int nextId = GetNextIdRoom();
                 List<Player> players = new List<Player>();
-                SystemControl sc = new SystemControl();  //imposible like that
-                User user = sc.GetUserWithId(userId);   //imposible like that
+               
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);   //imposible like that
 
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
@@ -166,7 +166,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                User user = SystemControl.GetUserWithId(userID); //todo singelton or field in GameCenter?
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userID); //todo singelton or field in GameCenter?
                 return user._gamesAvailableToReplay;
             }
         }
@@ -185,6 +185,11 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 return toReturn;
             }          
+        }
+
+        internal GameReplay GetGameReplay(int roomID, int gameID)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsRoomExist(int roomId)
@@ -218,7 +223,7 @@ namespace TexasHoldem.Logic.Game_Control
                 try
                 {
                     int userId;
-                    SystemControl sc = new SystemControl();
+                    SystemControl sc = SystemControl.SystemControlInstance;
                     foreach (Player p in toRemove._players)
                     {
                         userId = p.Id;
@@ -265,7 +270,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool AddPlayerToRoom(int roomId, int userId, int playerChipToEnterRoom)
         {
             bool toReturn = false;
-            SystemControl sc = new SystemControl();
+            SystemControl sc = SystemControl.SystemControlInstance;
             User user = sc.GetUserWithId(userId);
             ConcreteGameRoom room = GetRoomById(roomId);
             int sb = room._sb;
@@ -303,7 +308,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool AddSpectetorToRoom(int roomId, int userId)
         {
             bool toReturn = false;
-            SystemControl sc = new SystemControl();
+            SystemControl sc = SystemControl.SystemControlInstance;
             User user = sc.GetUserWithId(userId);
             bool exist = IsRoomExist(roomId);
             if (!exist)
@@ -339,7 +344,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return toReturn;
             }
-            SystemControl sc = new SystemControl();
+            SystemControl sc = SystemControl.SystemControlInstance;
             ConcreteGameRoom room = GetRoomById(roomId);
             ConcreteGameRoom toAdd = room;
             List<Player> allPlayers = room._players;
@@ -384,7 +389,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return toReturn;
             }
-            SystemControl sc = new SystemControl();
+            SystemControl sc = SystemControl.SystemControlInstance;
             ConcreteGameRoom room = GetRoomById(roomId);
             ConcreteGameRoom toAdd = room;
             List<Spectetor> allSpectetors = room._spectatores;

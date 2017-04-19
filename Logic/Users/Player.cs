@@ -123,7 +123,7 @@ namespace TexasHoldem.Logic.Users
                 WinNum = WinNum + 1;
                 int newPoint = GetNewPoint();
                 Points = newPoint;
-                SystemControl sc = new SystemControl();
+                SystemControl sc = SystemControl.SystemControlInstance;
                 //int highestRank = sc.
                 //todo - need to chck if user is noe the hugest rank
                 toReturn = true;

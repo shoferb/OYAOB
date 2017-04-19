@@ -12,8 +12,8 @@ namespace TexasHoldem.Service
     public abstract class LogServiceHandler : ServiceHandler
     {
 
-        private SystemControl sc = new SystemControl();
-        
+        private SystemControl sc = SystemControl.SystemControlInstance;
+
 
         public Log CreateNewLog()
         {

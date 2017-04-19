@@ -12,10 +12,31 @@ namespace TexasHoldem.Logic.Game_Control
     {
         private List<User> users;
 
-        public SystemControl()
+        private static SystemControl systemControlInstance = null;
+        private static readonly object padlock = new object();
+
+
+        public static SystemControl SystemControlInstance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (systemControlInstance == null)
+                    {
+                        systemControlInstance = new SystemControl();
+                    }
+                    return systemControlInstance;
+                }
+            }
+        }
+
+        private SystemControl()
         {
             this.users = new List<User>();
         }
+
+
         public List<User> Users
         {
             get
