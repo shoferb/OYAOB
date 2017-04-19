@@ -320,11 +320,25 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
+                List<Player> players = room._players;
+                
+                int numOfPlayerInRoom = 0;
+                foreach (Player p in players)
+                {
+                    if (p.isPlayerActive)
+                    {
+                        numOfPlayerInRoom++;
+                    }
+                }
+                
                 if (playerChipToEnterRoom < sb) //todo - YARDEN - nned to be small blind or big blind?
                 {
                     return toReturn;
                 }
-                
+                if (numOfPlayerInRoom == room._maxPlayersInRoom)
+                {
+                    return toReturn;
+                } 
                 int newMoney = user.Money - buyIn;
                 user.Money = newMoney;
                 if (playerChipToEnterRoom == 0)
