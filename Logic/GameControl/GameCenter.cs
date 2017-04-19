@@ -36,7 +36,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 lock (padlock)
                 {
-                    if (instance == null)
+                if (instance == null)
                     {
                         instance = new GameCenter();
                     }
@@ -54,18 +54,26 @@ namespace TexasHoldem.Logic.Game_Control
         {
             return games;
         }
+        /*
+         lock (padlock)
+            {
 
+            }
+            */
         public bool EditLeagueGap(int newGap)
         {
             bool toReturn;
-            try
+            lock (padlock)
             {
-                LeagueGap = newGap;
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
+                try
+                {
+                    LeagueGap = newGap;
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
             }
             return toReturn;
         }
@@ -121,117 +129,139 @@ namespace TexasHoldem.Logic.Game_Control
         //return thr next room Id
         public int GetNextIdRoom()
         {
-            int toReturn = System.Threading.Interlocked.Increment(ref roomIdCounter);
-            return toReturn;
+            lock (padlock)
+            {
+                int toReturn = System.Threading.Interlocked.Increment(ref roomIdCounter);
+                return toReturn;
+            }
         }
-        
+
         //create new game room
         //game type  policy, limit, no-limit, pot-limit
         //אם הכסף של השחקן 0 אז מרוקנים את השדה של הכסף לגמרי
-        public bool CreateNewRoom(int userId, int smallBlind, int playerMoney)
+        public bool CreateNewRoom(int userId, int startingChip, int playerMoney, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
         {
-            bool toReturn = false;
-            if (playerMoney < smallBlind)
+            lock (padlock)
             {
-                return toReturn;
-            }   
-            int nextId = GetNextIdRoom();
-            List<Player> players = new List<Player>();
-            SystemControl sc = new SystemControl();  //imposible like that
-            User user = sc.GetUserWithId(userId);   //imposible like that
+            bool toReturn = false;
+                if (playerMoney < startingChip)
+                {
+                    return toReturn;
+                }
+                int nextId = GetNextIdRoom();
+                List<Player> players = new List<Player>();
+                SystemControl sc = new SystemControl();  //imposible like that
+                User user = sc.GetUserWithId(userId);   //imposible like that
 
-            Player player = new Player(smallBlind, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                user.Money, user.Email, nextId);
-            ConcreteGameRoom room = new ConcreteGameRoom(players, smallBlind, nextId);
-            toReturn = AddRoom(room);
-            return toReturn;
+                Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                    user.Money, user.Email, nextId);
+                ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney);
+                toReturn = AddRoom(room);
+                return toReturn;
+            }
+            
         }
 
         public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
         {
-            User user = SystemControl.GetUserWithId(userID); //singelton or field in GameCenter?
-            return user._gamesAvailableToReplay;
+            lock (padlock)
+            {
+                User user = SystemControl.GetUserWithId(userID); //todo singelton or field in GameCenter?
+                return user._gamesAvailableToReplay;
+            }
         }
 
         public ConcreteGameRoom GetRoomById(int roomId)
         {
-            ConcreteGameRoom toReturn = null;
-            foreach (ConcreteGameRoom room in games)
+            lock (padlock)
             {
-                if (room._id == roomId)
+                ConcreteGameRoom toReturn = null;
+                foreach (ConcreteGameRoom room in games)
                 {
-
-                    toReturn = room;
+                    if (room._id == roomId)
+                    {
+                        toReturn = room;
+                    }
                 }
-            }
-            return toReturn;
+                return toReturn;
+            }          
         }
 
         public bool IsRoomExist(int roomId)
         {
-
-            bool toReturn = false;
-            foreach (ConcreteGameRoom room in games)
+            lock (padlock)
             {
-                if (room._id == roomId)
+                bool toReturn = false;
+                foreach (ConcreteGameRoom room in games)
                 {
-                    toReturn = true;
+                    if (room._id == roomId)
+                    {
+                        toReturn = true;
+                    }
                 }
+                return toReturn;
             }
-            return toReturn;
         }
 
 
         public bool RemoveRoom(int roomId)
         {
-            bool toReturn = false;
-            bool exist = IsRoomExist(roomId);
-            if (!exist)
+            lock (padlock)
             {
+                bool toReturn = false;
+                bool exist = IsRoomExist(roomId);
+                if (!exist)
+                {
+                    return toReturn;
+                }
+                ConcreteGameRoom toRemove = GetRoomById(roomId);
+                try
+                {
+                    int userId;
+                    SystemControl sc = new SystemControl();
+                    foreach (Player p in toRemove._players)
+                    {
+                        userId = p.Id;
+                        if (sc.HasThisActiveGame(roomId, userId))
+                        {
+                            sc.RemoveRoomFromActiveRoom(roomId, userId);
+                        }
+                        if (sc.HasThisSpectetorGame(roomId, userId))
+                        {
+                            sc.RemoveRoomFromSpectetRoom(roomId, userId);
+                        }
+                    }
+                    games.Remove(toRemove);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
                 return toReturn;
             }
-            ConcreteGameRoom toRemove = GetRoomById(roomId);
-            try
-            {
-                int userId;
-                SystemControl sc = new SystemControl();
-                foreach (Player p in toRemove._players)
-                {
-                    userId = p.Id;
-                    if (sc.HasThisActiveGame(roomId, userId))
-                    {
-                        sc.RemoveRoomFromActiveRoom(roomId, userId);
-                    }
-                    if (sc.HasThisSpectetorGame(roomId, userId))
-                    {
-                        sc.RemoveRoomFromSpectetRoom(roomId, userId);
-                    }
-                }
-                games.Remove(toRemove);
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-            return toReturn;
         }
 
         public bool AddRoom(ConcreteGameRoom roomToAdd)
         {
-            bool toReturn;
-            try
+            lock (padlock)
             {
-                this.games.Add(roomToAdd);
-                toReturn = true;
+                bool toReturn;
+                try
+                {
+                    this.games.Add(roomToAdd);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+                return toReturn;
             }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-            return toReturn;
         }
 
+
+       
         public bool AddPlayerToRoom(int roomId, int userId, int playerChipToEnterRoom)
         {
             bool toReturn = false;
