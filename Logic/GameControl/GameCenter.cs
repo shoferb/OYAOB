@@ -45,6 +45,11 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        public ReplayManager GetReplayManager()
+        {
+            return _replayManager;
+        }
+
         public bool EditLeagueGap(int newGap)
         {
             bool toReturn;
@@ -111,7 +116,7 @@ namespace TexasHoldem.Logic.Game_Control
 
             Player player = new Player(smallBlind, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                 user.Money, user.Email, nextId);
-            ConcreteGameRoom room = new ConcreteGameRoom(players, smallBlind, nextId, _replayManager);
+            ConcreteGameRoom room = new ConcreteGameRoom(players, smallBlind, nextId);
             toReturn = AddRoom(room);
             return toReturn;
         }
