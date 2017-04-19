@@ -614,13 +614,13 @@ namespace TexasHoldem.Logic.Game_Control
 
         //get all the game user spectete
         //syncronized due to for
-        public List<ConcreteGameRoom> GetSpectetorGamesByUserName(string userName)
+        public List<GameRoom> GetSpectetorGamesByUserName(string userName)
         {
             lock (padlock)
             {
-                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+                List<GameRoom> toReturn = new List<GameRoom>();
                 User user = FindUser(userName);
-                foreach (ConcreteGameRoom room in user.ActiveGameList)
+                foreach (GameRoom room in user.ActiveGameList)
                 {
                     if (room._isSpectetor)
                     {
