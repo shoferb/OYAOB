@@ -75,7 +75,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool IsRoomActive(int roomId)
         {
             var room = _gameService.GetGameById(roomId);
-            return room != null && room._isGameOver;
+            return room != null && room._isActiveGame;
         }
 
         public bool StartGame(int roomId)

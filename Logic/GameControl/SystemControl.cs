@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -293,6 +294,23 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public bool EditAvatar(int id, string newAvatarPath)
+        {
+            User toEdit = GetUserWithId(id);
+            
+            bool toReturn;
+            try
+            {
+                toEdit.Avatar = newAvatarPath;
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
         public bool EditUserID(int id, int newId)
         {
             User toEdit = GetUserWithId(id);
@@ -333,6 +351,107 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-        
+        public bool RemoveRoomFromActiveRoom(int roomId, int userId)
+        {
+            bool toReturn = false;
+            try
+            {
+                ConcreteGameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                User user = GetUserWithId(userId);
+                user.ActiveGameList.Remove(toRemove);
+                toReturn = true;
+            }
+            catch(Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+         }
+
+        public bool RemoveRoomFromSpectetRoom(int roomId, int userId)
+        {
+            bool toReturn = false;
+            try
+            {
+                ConcreteGameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                User user = GetUserWithId(userId);
+                user.SpectateGameList.Remove(toRemove);
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+
+        public bool HasThisActiveGame(int roomId, int userId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            User user = GetUserWithId(userId);
+            toReturn = user.ActiveGameList.Contains(toCheck);
+            return toReturn;
+        }
+
+        public bool HasThisSpectetorGame(int roomId, int userId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            User user = GetUserWithId(userId);
+            toReturn = user.SpectateGameList.Contains(toCheck);
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetActiveGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            User user = FindUser(userName);
+            foreach (ConcreteGameRoom room in user.ActiveGameList)
+            {
+                if (room._isActiveGame)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetSpectetorGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            User user = FindUser(userName);
+            foreach (ConcreteGameRoom room in user.ActiveGameList)
+            {
+                if (room._isSpectetor)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
+
+        public bool IsHigestRankUser(int userId)
+        {
+            User user = GetUserWithId(userId);
+            bool toReturn = user.IsHigherRank;
+            return toReturn;
+        }
+
+
+        //change the gap and change league table
+        public bool ChangeGapByHighestUserAndCreateNewLeague(int userId, int newGap)
+        {
+            bool toReturn = false;
+            bool isHighest = IsHigestRankUser(userId);
+            if (!isHighest)
+            {
+                return toReturn;
+            }
+            toReturn = GameCenter.Instance.EditLeagueGap(newGap);
+            bool change = GameCenter.Instance.LeagueChangeAfterGapChange(newGap);
+            toReturn = (toReturn && change);
+            return toReturn;
+        }
     }
 }

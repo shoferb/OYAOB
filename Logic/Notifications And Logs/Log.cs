@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
     {
         private static int counter = 0;
         private int logId;
-
+        public enum LogPriority { Info, Warn, Error }
         public Log()
         {
             this.logId = System.Threading.Interlocked.Increment(ref counter);
@@ -30,5 +30,12 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
                 logId = value;
             }
         }
+
+        public string ToString()
+        {
+            string toReturn = "Log id is: " + logId;
+            return toReturn;
+        }
+
     }
 }

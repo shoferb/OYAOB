@@ -12,25 +12,66 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
 {
-    public class GameCenter
+    public class  GameCenter
     {
         private List<League> leagueTable;
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
-        private List<ConcreteGameRoom> games; //all games 
+        public List<GameRoom> games { get;  }
+        public List<ErrorLog> errorLog { get; set; }
+        public List<SystemLog> systemLog { get; set; }
         private static int roomIdCounter = 0;
+        private static GameCenter singlton;
         private ReplayManager _replayManager;
 
-        public GameCenter()
+       
+        private static GameCenter instance = null;
+        private static readonly object padlock = new object();
+
+
+        public static GameCenter Instance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (instance == null)
+                    {
+                        instance = new GameCenter();
+                    }
+                    return instance;
+                }
+            }
+        }
+
+        public bool EditLeagueGap(int newGap)
+        {
+            bool toReturn;
+            try
+            {
+                LeagueGap = newGap;
+                toReturn = true;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+            }
+            return toReturn;
+        }
+       
+        private GameCenter()
         {
             this.leagueTable = new List<League>();
             //add first league function
             this.logs = new List<Log>();
-            this.games = new List<ConcreteGameRoom>();
+            this.games = new List<GameRoom>();
             _replayManager = new ReplayManager();
+            errorLog = new List<ErrorLog>();
+            systemLog = new List<SystemLog>();
         }
 
+       
         private GameReplay GetGameReplay(int roomID, int gameID)
         {
             return _replayManager.GetGameReplay(roomID, gameID);
@@ -52,15 +93,17 @@ namespace TexasHoldem.Logic.Game_Control
             int toReturn = System.Threading.Interlocked.Increment(ref roomIdCounter);
             return toReturn;
         }
-
+        
         //create new game room
+        //game type  policy, limit, no-limit, pot-limit
+        //אם הכסף של השחקן 0 אז מרוקנים את השדה של הכסף לגמרי
         public bool CreateNewRoom(int userId, int smallBlind, int playerMoney)
         {
             bool toReturn = false;
             if (playerMoney < smallBlind)
             {
                 return toReturn;
-            }
+            }   
             int nextId = GetNextIdRoom();
             List<Player> players = new List<Player>();
             SystemControl sc = new SystemControl();
@@ -113,6 +156,20 @@ namespace TexasHoldem.Logic.Game_Control
             ConcreteGameRoom toRemove = GetRoomById(roomId);
             try
             {
+                int userId;
+                SystemControl sc = new SystemControl();
+                foreach (Player p in toRemove._players)
+                {
+                    userId = p.Id;
+                    if (sc.HasThisActiveGame(roomId, userId))
+                    {
+                        sc.RemoveRoomFromActiveRoom(roomId, userId);
+                    }
+                    if (sc.HasThisSpectetorGame(roomId, userId))
+                    {
+                        sc.RemoveRoomFromSpectetRoom(roomId, userId);
+                    }
+                }
                 games.Remove(toRemove);
                 toReturn = true;
             }
@@ -221,7 +278,7 @@ namespace TexasHoldem.Logic.Game_Control
             List<Player> allPlayers = room._players;
             Player playerToRemove = null;
             User user = sc.GetUserWithId(userId);
-            User newUser = user;
+            
             foreach (Player p in allPlayers)
             {
                 if ((p.Id == userId) && (p.RoomId == roomId))
@@ -232,13 +289,15 @@ namespace TexasHoldem.Logic.Game_Control
 
             try
             {
-                allPlayers.Remove(playerToRemove);
-                toAdd._players = allPlayers;
-                games.Remove(room);
-                games.Add(toAdd);
+                playerToRemove._isInRoom = false; //not in room - need to remove in end od round
+                playerToRemove.IsActive = false;
+                //allPlayers.Remove(playerToRemove);
+               // toAdd._players = allPlayers;
+                //games.Remove(room);
+                //games.Add(toAdd);
 
-                newUser.ActiveGameList.Remove(room);
-                sc.ReplaceUser(user, newUser);
+                user.ActiveGameList.Remove(room);
+                //sc.ReplaceUser(user, newUser);
                 toReturn = true;
             }
             catch (Exception e)
@@ -290,7 +349,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public bool LeagueChange(int leagugap)
+        public bool LeagueChangeAfterGapChange(int leagugap)
         {
             bool toReturn = false;
             int higherRank = HigherRank.Points;
@@ -334,7 +393,80 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
+        public List<ConcreteGameRoom> GetAllActiveGame()
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            foreach (ConcreteGameRoom room in games)
+            {
+                if (room._isActiveGame)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
 
+        public List<ConcreteGameRoom> GetAllSpectetorGame()
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            foreach (ConcreteGameRoom room in games)
+            {
+                if (room._isSpectetor)
+                {
+                    toReturn.Add(room);
+                }
+            }
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetAllGames()
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            foreach (ConcreteGameRoom room in games)
+            {
+                toReturn.Add(room);
+            }
+            return toReturn;
+        }
+
+
+        //todo ??? potCount =? postsize
+        public List<ConcreteGameRoom> GetAllGamesByPotSize(int potSize)
+        {
+            List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+            foreach (ConcreteGameRoom room in games)
+            {
+                if (room._potCount == potSize)
+                {
+                    toReturn.Add(room);
+                }
+                
+            }
+            return toReturn;
+        }
+
+
+        public bool IsGameCanSpectete(int roomId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom room = GetRoomById(roomId);
+            if (room._isSpectetor)
+            {
+                toReturn = true;
+            }
+            return toReturn;
+        }
+
+        public bool IsGameActive(int roomId)
+        {
+            bool toReturn = false;
+            ConcreteGameRoom room = GetRoomById(roomId);
+            if (room._isActiveGame)
+            {
+                toReturn = true;
+            }
+            return toReturn;
+        }
         public bool SendNotification(User reciver, Notification toSend)
         {
             bool toReturn = false;
@@ -395,5 +527,16 @@ namespace TexasHoldem.Logic.Game_Control
                 higherRank = value;
             }
         }
+
+
+        //todo - impl
+        public Log FindLog(int logId)
+        {
+            
+                throw new NotImplementedException();
+            
+        }
     }
+
+    
 }

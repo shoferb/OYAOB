@@ -14,7 +14,7 @@ namespace TexasHoldem.Service
         public GameServiceHandler()
         {
             _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
-            _gameCenter = new GameCenter();
+            _gameCenter = GameCenter.Instance;
         }
 
         private GameManager GetManagerForGame(GameRoom room)
@@ -147,9 +147,50 @@ namespace TexasHoldem.Service
             return winningPlayers;
         }
 
-        //TODO: do these after searching methods are done
-        public abstract List<GameRoom> GetAllGames();
+       
+        public List<ConcreteGameRoom> GetAllActiveGames()
+        {
+            List<ConcreteGameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
+            return toReturn;
+        }
+        //TODO: do these after searching methods are done - change to gameRoom
+        public List<ConcreteGameRoom> GetAllGames()
+        {
+            List<ConcreteGameRoom> toReturn = GameCenter.Instance.GetAllGames();
+            return toReturn;
+        }
+
+        //todo - why need this?
         public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
-        public abstract List<GameRoom> GetSpectateableGames();
+
+        public  List<ConcreteGameRoom> GetSpectateableGames()
+        {
+            List<ConcreteGameRoom>  toReturn = GameCenter.Instance.GetAllSpectetorGame();
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetGamesByPotSize(int potSize)
+        {
+            List<ConcreteGameRoom> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
+            return toReturn;
+        }
+
+        public bool IsGameExist(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsRoomExist(roomId);
+            return toReturn;
+        }
+
+        public bool IsGameCanSpectete(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsGameCanSpectete(roomId);
+            return toReturn;
+        }
+
+        public bool IsGameActive(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsGameActive(roomId);
+            return toReturn;
+        }
     }
 }

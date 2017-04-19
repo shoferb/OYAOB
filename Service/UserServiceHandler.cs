@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
@@ -10,7 +11,7 @@ namespace TexasHoldem.Service
     public class UserServiceHandler : ServiceHandler
     {
         private SystemControl sc = new SystemControl();
-        private GameCenter gc = new GameCenter();
+        private GameCenter gc = GameCenter.Instance;
 
 
         //public const int InitialMoneyAmount = 100;
@@ -175,12 +176,32 @@ namespace TexasHoldem.Service
         //todo impl
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
-            throw new NotImplementedException();
+            bool toReturn = sc.EditAvatar(id,newAvatarPath);
+            return toReturn;
         }
 
         public GameReplay GetGameReplay(int roomID, int gameID)
         {
             return gc.GetGameReplay(roomID, gameID); 
+        }
+
+
+        public List<ConcreteGameRoom> GetActiveGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = sc.GetActiveGamesByUserName(userName);
+            return toReturn;
+        }
+
+        public List<ConcreteGameRoom> GetSpectetorGamesByUserName(string userName)
+        {
+            List<ConcreteGameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
+            return toReturn;
+        }
+
+        public bool IsHigestRankUser(int userId)
+        {
+            bool toReturn = sc.IsHigestRankUser(userId);
+            return toReturn;
         }
     }
 }
