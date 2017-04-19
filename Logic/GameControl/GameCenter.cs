@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
@@ -182,6 +183,7 @@ namespace TexasHoldem.Logic.Game_Control
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney);
+               // Thread MyThread = new Thread(new ThreadStart(room.SomeFunc));
                 toReturn = AddRoom(room);
                 return toReturn;
             }
