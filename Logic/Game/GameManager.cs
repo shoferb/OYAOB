@@ -97,6 +97,12 @@ namespace TexasHoldem.Logic.Game
             if (this._state._players.Count < 2) return false;
             else
             {
+                //add to users list of available game to replay
+                foreach (Player p in _state._players)
+                {
+                    p.AddGameAvailableToReplay(_state._id, _state._gameNumber);
+                }
+
                 if (_firstEnter)
                 {
                     StartTheGame();
@@ -297,7 +303,7 @@ namespace TexasHoldem.Logic.Game
 
 
         }
-        //TODO: Aviv G - it's all yours:)
+
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
         {
             List<HandEvaluator> winners = new List<HandEvaluator>();
