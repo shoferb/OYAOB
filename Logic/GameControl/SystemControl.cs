@@ -641,6 +641,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
+
         //change the gap and change league table
         //syncronized
         public bool ChangeGapByHighestUserAndCreateNewLeague(int userId, int newGap)
