@@ -25,6 +25,8 @@ namespace TexasHoldem.Logic.Users
         private List<GameRoom> activeGameList;
         private List<GameRoom> spectateGameList;
         public bool IsHigherRank { get; set; }
+        public int rank { get; set; }
+    
         //להוסיף שדות מספר נצחונות והפסדים
         //todo create toString
         public User(int id, string name, string memberName, string password, int points, int money, string email)
@@ -41,6 +43,7 @@ namespace TexasHoldem.Logic.Users
             }
             else
             {
+                //insert to error log
                 //Console.WriteLine("this is not a valid email, please edit it");
             }
             this.WaitListNotification = new List<Notification>();

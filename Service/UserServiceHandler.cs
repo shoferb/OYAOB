@@ -166,6 +166,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
         public List<Notification> GetUserNotifications(int userId)
         {
             User user = sc.GetUserWithId(userId);
@@ -173,7 +174,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        //todo impl
+        
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
             bool toReturn = sc.EditAvatar(id,newAvatarPath);
@@ -192,16 +193,28 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
         public List<GameRoom> GetSpectetorGamesByUserName(string userName)
         {
             List<GameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
             return toReturn;
         }
 
+
         public bool IsHigestRankUser(int userId)
         {
             bool toReturn = sc.IsHigestRankUser(userId);
             return toReturn;
+        }
+
+        public List<User> SortUserByRank()
+        {
+            return sc.SortByRank();
+        }
+
+        public List<User> SortUserByPoint()
+        {
+            return sc.SortUserByPoint();
         }
     }
 }

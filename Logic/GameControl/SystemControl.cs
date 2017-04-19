@@ -661,5 +661,28 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
+
+        public List<User> SortByRank()
+        {
+            List<User> sort = new List<User>();
+            sort.OrderByDescending(r => r.rank);
+            return sort;
+        }
+
+        public int GetUserRank(int userId)
+        {
+            List<User> sort = SortByRank();
+            User user = GetUserWithId(userId);
+            int toReturn = sort.IndexOf(user);
+            user.rank = toReturn;
+            return toReturn;
+        }
+
+        public List<User> SortUserByPoint()
+        {
+            List<User> sort = new List<User>();
+            sort.OrderBy(p => p.Points);
+            return sort;
+        }
     }
 }
