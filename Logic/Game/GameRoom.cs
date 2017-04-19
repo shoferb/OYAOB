@@ -14,7 +14,6 @@ namespace TexasHoldem.Logic.Game
         public int _id { get;  set; }
         public List<Spectetor> _spectatores { get; set; }
         public int _dealerPos { get; set; }
-        public GameMode _gameMode { get; }
         public int _maxCommitted { get; set; }
         public int _actionPos { get; set; }
         public int _potCount { get; set; }
@@ -23,19 +22,18 @@ namespace TexasHoldem.Logic.Game
         public Deck _deck { get; set; }
         public ConcreteGameRoom.HandStep _handStep { get; set; }
         public List<Card> _publicCards { get; set; }
-        public bool _isActiveGame { get; set; }
+        public bool _isGameOver { get; set; }
         public List<Tuple<int, List<Player>>> _sidePots { get; set; }
-        public bool _isSpectetor { get; }
+        public int _gameRoles { get; set; }
         public GameReplay _gameReplay { get; set; }
-        public GameManager _gameManager;
+        public GameManager _gm;
         public ReplayManager _replayManager;
-        public GameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm, bool isSpectetor, GameMode gameModeChosen)
+
+        public GameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm)
         {
             this._players = players;
             this._sb = startingChip;
             this._id = ID;
-            this._isSpectetor = _isSpectetor;
-            this._gameMode = gameModeChosen;
             _replayManager = rm;
             _gameReplay = new GameReplay(ID, 0);
         }

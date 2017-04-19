@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game
             this._sb = (int) _bb / 2;
             this._bb = startingChip;
             this._sidePots = new List<Tuple<int, List<Player>>>();
-            this._gameManager = new GameManager(this);
+            this._gm = new GameManager(this);
          }
 
 
