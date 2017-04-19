@@ -97,6 +97,16 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
+        public string getActionFromGameReplay(int roomID, int gameID, int actionNum)
+        {
+            TexasHoldem.Logic.Actions.Action action = _replayManager.GetActionFromGameReplay(roomID, gameID, actionNum);
+            if (action == null)
+            {
+                return null;
+            }
+            return action.ToString();
+        }
+
         //return thr next room Id
         public int GetNextIdRoom()
         {
