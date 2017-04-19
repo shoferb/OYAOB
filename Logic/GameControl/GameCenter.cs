@@ -84,6 +84,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error in edit league gap");
+                    AddErrorLog(log);
                     toReturn = false;
                 }
             }
@@ -155,12 +157,38 @@ namespace TexasHoldem.Logic.Game_Control
                 if (SystemControl.SystemControlInstance.GetUserWithId(userId) == null)
                 {
                     //there is no such user
+                    ErrorLog log = new ErrorLog("Error while trying to create room, there is no user with id: "+ userId);
+                    AddErrorLog(log);
                     return toReturn;
                 }
-                if (startingChip < 0 || minPlayersInRoom <= 0 || maxPlayersInRoom <=0 || enterPayingMoney < 0)
+                if (startingChip < 0)
                 {
                     //not valid value
 
+                    return toReturn;
+                }
+                if (minPlayersInRoom <= 0)
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to create room, mim amount of player is invalid - less or equal to zero");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (maxPlayersInRoom <= 0)
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to create room, Max amount of player is invalid - less or equal to zero");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (minPlayersInRoom > maxPlayersInRoom)
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to create room, invalid input - min player in room is bigger than max player in room");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (enterPayingMoney < 0)
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to create room, invalid input - the entering money of the player is a negative number");
+                    AddErrorLog(log);
                     return toReturn;
                 }
                
@@ -278,6 +306,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to remove game room");
+                    AddErrorLog(log);
                     toReturn = false;
                 }
                 return toReturn;
@@ -298,6 +328,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to add new room to game center");
+                    AddErrorLog(log);
                     toReturn = false;
                 }
                 return toReturn;
@@ -317,8 +349,16 @@ namespace TexasHoldem.Logic.Game_Control
                 int sb = room._sb;
                 int buyIn = room._enterPayingMoney;
                 bool exist = IsRoomExist(roomId);
-                if (!exist || playerChipToEnterRoom < 0)
+                if (!exist)
                 {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - invalid input - there is no user with user id: "+ userId + "(user with id: " + userId + " to room: " + roomId);
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if(playerChipToEnterRoom < 0) 
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - invalid input - the money the player wish to enter with is less tam zero (user with id: " + userId + " to room: " + roomId);
+                    AddErrorLog(log);
                     return toReturn;
                 }
                 List<Player> players = room._players;
@@ -334,10 +374,15 @@ namespace TexasHoldem.Logic.Game_Control
                 
                 if (playerChipToEnterRoom < sb) //todo - YARDEN - nned to be small blind or big blind?
                 {
+                    ErrorLog log = new ErrorLog("???????????????");
+                    AddErrorLog(log);
+                    
                     return toReturn;
                 }
                 if (numOfPlayerInRoom == room._maxPlayersInRoom)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to add player to room thaere is no place in the room - max amount of player tight now: "+ numOfPlayerInRoom+ "(user with id: " + userId + " to room: " + roomId);
+                    AddErrorLog(log);
                     return toReturn;
                 } 
                 int newMoney = user.Money - buyIn;
@@ -365,6 +410,9 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to add player (user with id: "+userId+" to room: "+roomId);
+                    AddErrorLog(log);
+                    
                     toReturn = false;
                 }
                 return toReturn;
@@ -401,7 +449,10 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to add spectetor, (user with id: "+userId+" to room: "+roomId);
+                    AddErrorLog(log);
                     toReturn = false;
+                    
                 }
                 return toReturn;
             }
@@ -418,6 +469,8 @@ namespace TexasHoldem.Logic.Game_Control
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to remove player from room, (user with id: " + userId + " from room: " + roomId + "user does not exist in this room");
+                    AddErrorLog(log);
                     return toReturn;
                 }
                 SystemControl sc = SystemControl.SystemControlInstance;
@@ -450,6 +503,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error while trying to remove player from room, (user with id: " + userId + " from room: " + roomId + "user does not exist in this room");
+                    AddErrorLog(log);
                     toReturn = false;
                 }
 
@@ -457,7 +512,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        //todo - contine loging from here
         //remove spectetor from room - sycronized
         public bool RemoveSpectetorFromRoom(int roomId, int userId)
         {
@@ -794,12 +849,50 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        //todo - impl
+        
         public Log FindLog(int logId)
         {
-                //find log in the 2 list
-                throw new NotImplementedException();
-            
+            lock (padlock)
+            {
+                Log toReturn = null;
+                bool found = false;
+                foreach (SystemLog sl in systemLog)
+                {
+                    if (sl.LogId == logId)
+                    {
+                        toReturn = sl;
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    foreach (ErrorLog el in errorLog)
+                    {
+                        if (el.LogId == logId)
+                        {
+                            toReturn = el;
+                            found = true;
+                        }
+                    }
+                }
+                return toReturn;
+            }
+        }
+
+        public void AddSystemLog(SystemLog log)
+        {
+            lock (padlock)
+            {
+                systemLog.Add(log);
+            }
+        }
+
+        public void AddErrorLog(ErrorLog log)
+        {
+            lock (padlock)
+            {
+                errorLog.Add(log);
+            }
         }
     }
 
