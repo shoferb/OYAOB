@@ -574,7 +574,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool HasThisActiveGame(int roomId, int userId)
         {
             bool toReturn;
-            ConcreteGameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
             User user = GetUserWithId(userId);
             toReturn = user.ActiveGameList.Contains(toCheck);
             return toReturn;
@@ -585,7 +585,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool HasThisSpectetorGame(int roomId, int userId)
         {
             bool toReturn = false;
-            ConcreteGameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
             User user = GetUserWithId(userId);
             toReturn = user.SpectateGameList.Contains(toCheck);
             return toReturn;
