@@ -594,13 +594,13 @@ namespace TexasHoldem.Logic.Game_Control
 
         //get all active games of user 
         //syncronizef due to for
-        public List<ConcreteGameRoom> GetActiveGamesByUserName(string userName)
+        public List<GameRoom> GetActiveGamesByUserName(string userName)
         {
             lock (padlock)
             {
-                List<ConcreteGameRoom> toReturn = new List<ConcreteGameRoom>();
+                List<GameRoom> toReturn = new List<GameRoom>();
                 User user = FindUser(userName);
-                foreach (ConcreteGameRoom room in user.ActiveGameList)
+                foreach (GameRoom room in user.ActiveGameList)
                 {
                     if (room._isActiveGame)
                     {
