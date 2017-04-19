@@ -63,13 +63,13 @@ namespace TexasHoldem.Logic.Replay
             return gameReplay;
         }
 
-        public string GetActionAt(int i)
+        public Action GetActionAt(int i)
         {
             if (i < 0 || i >= _actions.Count)
             {
                 return null;
             }
-            return _actions.ElementAt(i).ToString();
+            return _actions.ElementAt(i);
         }
 
     }
