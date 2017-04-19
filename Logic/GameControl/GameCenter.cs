@@ -292,14 +292,23 @@ namespace TexasHoldem.Logic.Game_Control
                 User user = sc.GetUserWithId(userId);
                 GameRoom room = GetRoomById(roomId);
                 int sb = room._sb;
+                int buyIn = room._enterPayingMoney;
                 bool exist = IsRoomExist(roomId);
-                if (!exist)
+                if (!exist || playerChipToEnterRoom < 0)
                 {
                     return toReturn;
                 }
-                if (playerChipToEnterRoom < sb)
+                if (playerChipToEnterRoom < sb) //todo - YARDEN - nned to be small blind or big blind?
                 {
                     return toReturn;
+                }
+                
+                int newMoney = user.Money - buyIn;
+                user.Money = newMoney;
+                if (playerChipToEnterRoom == 0)
+                {
+                    playerChipToEnterRoom = user.Money;
+                    user.Money = 0;
                 }
                 Player playerToAdd = new Player(playerChipToEnterRoom, 0, user.Id, user.Name, user.MemberName,
                     user.Password, user.Points,
