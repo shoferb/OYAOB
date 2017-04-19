@@ -114,6 +114,7 @@ namespace TexasHoldem.Logic.Game
                         break;
                     }
                    this._state.UpdateGameState();
+                    this._state.CheckIfPlayerWantToLeave();
                 }
                 this._state.MoveChipsToPot();
 
