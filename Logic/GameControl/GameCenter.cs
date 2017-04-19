@@ -82,14 +82,20 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
        
-        public GameReplay GetGameReplay(int roomID, int gameID)
+        public GameReplay GetGameReplay(int roomID, int gameID, int userID)
         {
+            Tuple<int, int> tuple = new Tuple<int, int>(roomID, gameID);
+            List<Tuple<int, int>> userGames = GetGamesAvailableForReplayByUser(userID);
+            if (!userGames.Contains(tuple))
+            {
+                return null;
+            }
             return _replayManager.GetGameReplay(roomID, gameID);
         }
 
-        public string ShowGameReplay(int roomID, int gameID)
+        public string ShowGameReplay(int roomID, int gameID, int userID)
         {
-            GameReplay gr = GetGameReplay(roomID, gameID);
+            GameReplay gr = GetGameReplay(roomID, gameID, userID);
             if (gr == null)
             {
                 return null;
@@ -97,9 +103,14 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
-        public string getActionFromGameReplay(int roomID, int gameID, int actionNum)
+        public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
-            TexasHoldem.Logic.Actions.Action action = _replayManager.GetActionFromGameReplay(roomID, gameID, actionNum);
+            GameReplay gr = GetGameReplay(roomID, gameID, userID);
+            if (gr == null)
+            {
+                return null;
+            }
+            TexasHoldem.Logic.Actions.Action action = gr.GetActionAt(actionNum);
             if (action == null)
             {
                 return null;
