@@ -16,8 +16,8 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
             this.roomId = roomId;
             this.msg = msg;
         }
-        
-       
+
+
         public int RoomId
         {
             get
@@ -46,7 +46,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
 
         public string ToString()
         {
-            string toReturn =  "this is a notification with  massage: " + msg + "to room Id: " + roomId;
+            string toReturn = "this is a notification with  massage: " + msg + "to room Id: " + roomId;
             return toReturn;
         }
     }

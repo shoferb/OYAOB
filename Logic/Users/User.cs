@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
-using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Users
@@ -22,6 +21,7 @@ namespace TexasHoldem.Logic.Users
         private List<Notification> waitListNotification;
         private string email;
         private bool isActive;
+        public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<GameRoom> activeGameList;
         private List<GameRoom> spectateGameList;
         public bool IsHigherRank { get; set; }
@@ -47,6 +47,10 @@ namespace TexasHoldem.Logic.Users
             this.isActive = false;
             this.IsHigherRank = false;
             this.avatar = "path?";
+            _gamesAvailableToReplay = new List<Tuple<int,int>>();
+            activeGameList = new List<GameRoom>();
+            spectateGameList = new List<GameRoom>();
+
         }
 
         public bool IsValidEmail(string email)
@@ -85,7 +89,16 @@ namespace TexasHoldem.Logic.Users
             return true;
         }
 
-
+        public bool AddGameAvailableToReplay(int roomID, int gameID)
+        {
+            Tuple<int, int> tup = new Tuple<int,int>(roomID, gameID);
+            if (_gamesAvailableToReplay.Contains(tup))
+            {
+                return false;
+            }
+            _gamesAvailableToReplay.Add(tup);
+            return true;
+        }
 
 
         //getters setters
@@ -237,5 +250,6 @@ namespace TexasHoldem.Logic.Users
                 activeGameList = value;
             }
         }
+        
     }
 }

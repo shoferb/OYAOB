@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Actions;
 
 namespace TexasHoldem.Logic.Replay
 {
@@ -48,6 +48,16 @@ namespace TexasHoldem.Logic.Replay
                 }
             }
             return null;
+        }
+
+        public Action GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
+        {
+            GameReplay gr = GetGameReplay(gameRoomID, gameNumber);
+            if (gr == null)
+            {
+                return null;
+            }
+            return gr.GetActionAt(actionNumber);
         }
     }
 }

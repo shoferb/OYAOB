@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
-        public List<GameRoom> games { get;  }
+        private List<GameRoom> games;
         public List<ErrorLog> errorLog { get; set; }
         public List<SystemLog> systemLog { get; set; }
         private static int roomIdCounter = 0;
@@ -43,6 +43,16 @@ namespace TexasHoldem.Logic.Game_Control
                     return instance;
                 }
             }
+        }
+
+        public ReplayManager GetReplayManager()
+        {
+            return _replayManager;
+        }
+
+        public List<GameRoom> GetGames()
+        {
+            return games;
         }
 
         public bool EditLeagueGap(int newGap)
@@ -72,19 +82,40 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
        
-        private GameReplay GetGameReplay(int roomID, int gameID)
+        public GameReplay GetGameReplay(int roomID, int gameID, int userID)
         {
+            Tuple<int, int> tuple = new Tuple<int, int>(roomID, gameID);
+            List<Tuple<int, int>> userGames = GetGamesAvailableForReplayByUser(userID);
+            if (!userGames.Contains(tuple))
+            {
+                return null;
+            }
             return _replayManager.GetGameReplay(roomID, gameID);
         }
 
-        public string ShowGameReplay(int roomID, int gameID)
+        public string ShowGameReplay(int roomID, int gameID, int userID)
         {
-            GameReplay gr = GetGameReplay(roomID, gameID);
+            GameReplay gr = GetGameReplay(roomID, gameID, userID);
             if (gr == null)
             {
                 return null;
             }
             return gr.ToString();
+        }
+
+        public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
+        {
+            GameReplay gr = GetGameReplay(roomID, gameID, userID);
+            if (gr == null)
+            {
+                return null;
+            }
+            TexasHoldem.Logic.Actions.Action action = gr.GetActionAt(actionNum);
+            if (action == null)
+            {
+                return null;
+            }
+            return action.ToString();
         }
 
         //return thr next room Id
@@ -106,14 +137,20 @@ namespace TexasHoldem.Logic.Game_Control
             }   
             int nextId = GetNextIdRoom();
             List<Player> players = new List<Player>();
-            SystemControl sc = new SystemControl();
-            User user = sc.GetUserWithId(userId);
+            SystemControl sc = new SystemControl();  //imposible like that
+            User user = sc.GetUserWithId(userId);   //imposible like that
 
             Player player = new Player(smallBlind, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                 user.Money, user.Email, nextId);
-            ConcreteGameRoom room = new ConcreteGameRoom(players, smallBlind, nextId, _replayManager);
+            ConcreteGameRoom room = new ConcreteGameRoom(players, smallBlind, nextId);
             toReturn = AddRoom(room);
             return toReturn;
+        }
+
+        public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
+        {
+            User user = SystemControl.GetUserWithId(userID); //singelton or field in GameCenter?
+            return user._gamesAvailableToReplay;
         }
 
         public ConcreteGameRoom GetRoomById(int roomId)

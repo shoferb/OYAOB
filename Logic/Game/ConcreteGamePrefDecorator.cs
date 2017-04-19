@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Game
 {
     public class ConcreteGamePrefDecorator : GamePrefDecorator
     {
-        public ConcreteGamePrefDecorator(List<Player> players, int startingChip, int ID, ReplayManager rm, bool isSpectetor, GameMode gameModeChosen) : base(players, startingChip, ID, rm, isSpectetor, gameModeChosen)
+        public ConcreteGamePrefDecorator(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen) : base(players, startingChip, ID, isSpectetor, gameModeChosen)
         {
         }
 

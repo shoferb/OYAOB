@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
@@ -30,15 +31,17 @@ namespace TexasHoldem.Logic.Game
         public GameReplay _gameReplay { get; set; }
         public GameManager _gm;
         public ReplayManager _replayManager;
+        public GameCenter _gameCenter;
 
-        public GameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm ,bool isSpectetor, GameMode gameModeChosen)
+        public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen)
         {
             this._players = players;
             this._sb = startingChip;
             this._id = ID;
             this._isSpectetor = isSpectetor;
             this._gameMode = gameModeChosen;
-            _replayManager = rm;
+            _gameCenter = GameCenter.Instance;
+            _replayManager = _gameCenter.GetReplayManager();
             _gameReplay = new GameReplay(ID, 0);
         }
 

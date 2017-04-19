@@ -98,6 +98,12 @@ namespace TexasHoldem.Logic.Game
             if (this._state._players.Count < 2) return false;
             else
             {
+                //add to users list of available game to replay
+                foreach (Player p in _state._players)
+                {
+                    p.AddGameAvailableToReplay(_state._id, _state._gameNumber);
+                }
+
                 if (_firstEnter)
                 {
                     StartTheGame();
@@ -262,7 +268,6 @@ namespace TexasHoldem.Logic.Game
 
             this._state.EndTurn();
             _winners= FindWinner(this._state._publicCards, playersLeftInGame);
-
             _state._replayManager.AddGameReplay(_state._gameReplay);
             int amount;
             if (_winners.Count > 0) // so there are winners at the end of the game
@@ -299,7 +304,7 @@ namespace TexasHoldem.Logic.Game
 
 
         }
-        //TODO: Aviv G - it's all yours:)
+
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
         {
             List<HandEvaluator> winners = new List<HandEvaluator>();
