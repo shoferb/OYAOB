@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
-using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Users

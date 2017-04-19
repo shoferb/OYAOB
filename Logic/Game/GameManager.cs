@@ -261,7 +261,6 @@ namespace TexasHoldem.Logic.Game
 
             this._state.EndTurn();
             _winners= FindWinner(this._state._publicCards, playersLeftInGame);
-
             _state._replayManager.AddGameReplay(_state._gameReplay);
             int amount;
             if (_winners.Count > 0) // so there are winners at the end of the game
