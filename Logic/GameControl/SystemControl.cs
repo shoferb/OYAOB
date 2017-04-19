@@ -353,26 +353,32 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        //todo - change to try catch for logger
+      
         //use case allow to change password - syncronized
         public bool EditPassword(int id, string newPassword)
         {
             lock (padlock)
             {
-                User toEdit = GetUserWithId(id);
-                bool toReturn;
-                User changed = toEdit;
-                int len = newPassword.Length;
-                if (len > 7 && len < 13)
+                bool toReturn= false;
+                try
                 {
+                    User toEdit = GetUserWithId(id);
+                   
+                    User changed = toEdit;
+                    int len = newPassword.Length;
+                    if (len > 7 && len < 13)
+                    {
 
-                    changed.Password = newPassword;
-                    toReturn = ReplaceUser(toEdit, changed);
+                        changed.Password = newPassword;
+                        //toReturn = ReplaceUser(toEdit, changed);
+                        toReturn = true;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     toReturn = false;
                 }
+                
                 return toReturn;
             }
         }
@@ -384,16 +390,21 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                User toEdit = GetUserWithId(id);
-                User changed = toEdit;
-                bool toReturn;
-                bool validname = IsUsernameFree(newUserName);
-                if (validname)
+                bool toReturn = false;
+                try
                 {
-                    changed.MemberName = newUserName;
-                    toReturn = ReplaceUser(toEdit, changed);
+                    User toEdit = GetUserWithId(id);
+                    User changed = toEdit;
+
+                    bool validname = IsUsernameFree(newUserName);
+                    if (validname)
+                    {
+                        changed.MemberName = newUserName;
+                        //toReturn = ReplaceUser(toEdit, changed);
+                        toReturn = true;
+                    }
                 }
-                else
+                catch (Exception e)
                 {
                     toReturn = false;
                 }
@@ -440,32 +451,52 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //edit user point - syncronized
-        //todo - add try catch for logger
+        
         public bool EditUserPoints(int id, int newPoints)
         {
             lock (padlock)
             {
-                User toEdit = GetUserWithId(id);
-                User changed = toEdit;
                 bool toReturn;
-                changed.Points = newPoints;
-                toReturn = ReplaceUser(toEdit, changed);
+                try
+                {
+                    User toEdit = GetUserWithId(id);
+                    User changed = toEdit;
+
+                    changed.Points = newPoints;
+                    //toReturn = ReplaceUser(toEdit, changed);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+               
                 return toReturn;
             }
         }
 
 
         //syncronized
-        //todo add try catch for logger
+        
         public bool EditUserMoney(int id, int newMoney)
         {
             lock (padlock)
             {
-                User toEdit = GetUserWithId(id);
-                User changed = toEdit;
                 bool toReturn;
-                changed.Money = newMoney;
-                toReturn = ReplaceUser(toEdit, changed);
+                try
+                {
+                    User toEdit = GetUserWithId(id);
+                    User changed = toEdit;
+
+                    changed.Money = newMoney;
+                    //toReturn = ReplaceUser(toEdit, changed);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+                
                 return toReturn;
             }
         }
@@ -476,11 +507,20 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                User toEdit = GetUserWithId(id);
-                User changed = toEdit;
                 bool toReturn;
-                changed.IsActive = activemode;
-                toReturn = ReplaceUser(toEdit, changed);
+                try
+                {
+                    User toEdit = GetUserWithId(id);
+                    User changed = toEdit;
+
+                    changed.IsActive = activemode;
+                    //toReturn = ReplaceUser(toEdit, changed);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
                 return toReturn;
             }
         }
