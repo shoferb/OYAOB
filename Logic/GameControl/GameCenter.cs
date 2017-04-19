@@ -143,13 +143,26 @@ namespace TexasHoldem.Logic.Game_Control
 
         //create new game room
         //game type  policy, limit, no-limit, pot-limit
-        //אם הכסף של השחקן 0 אז מרוקנים את השדה של הכסף לגמרי
-        public bool CreateNewRoom(int userId, int startingChip, int playerMoney, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
+        //אם הכסף של השחקן 0
+        //todo - YARDEN - for the player how create what is the starting chip mean?
+        public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
         {
             lock (padlock)
             {
-            bool toReturn = false;
-                if (playerMoney < startingChip)
+                bool toReturn = false;
+                if (SystemControl.SystemControlInstance.GetUserWithId(userId) == null)
+                {
+                    //there is no such user
+                    return toReturn;
+                }
+                if (startingChip < 0 || minPlayersInRoom <= 0 || maxPlayersInRoom <=0 || enterPayingMoney < 0)
+                {
+                    //not valid value
+
+                    return toReturn;
+                }
+               
+                if (startingChip == 0)
                 {
                     return toReturn;
                 }
@@ -157,7 +170,15 @@ namespace TexasHoldem.Logic.Game_Control
                 List<Player> players = new List<Player>();
                
                 User user = SystemControl.SystemControlInstance.GetUserWithId(userId);   //imposible like that
-
+                if (enterPayingMoney > 0)
+                {
+                    int newMoney = user.Money - enterPayingMoney;
+                    user.Money = newMoney;
+                }
+                if (startingChip == 0)
+                {
+                    startingChip = user.Money;
+                }
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney);
