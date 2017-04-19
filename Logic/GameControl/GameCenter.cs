@@ -282,7 +282,6 @@ namespace TexasHoldem.Logic.Game_Control
 
 
        //Add Player to room
-       //todo - dec money from user acourding to buy in policy
         public bool AddPlayerToRoom(int roomId, int userId, int playerChipToEnterRoom)
         {
             lock (padlock)
