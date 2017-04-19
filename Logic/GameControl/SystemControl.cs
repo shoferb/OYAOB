@@ -556,7 +556,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 try
                 {
-                    ConcreteGameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                    GameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
                     User user = GetUserWithId(userId);
                     user.SpectateGameList.Remove(toRemove);
                     toReturn = true;
