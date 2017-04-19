@@ -6,31 +6,17 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Notifications_And_Logs
 {
-    public class SystemLog : Log
+    public class ErrorLog : Log
     {
-        private int roomId;
-        private string msg;
+        private String msg;
 
-        public SystemLog(int roomId, string ms) : base()
+        public ErrorLog(string msg) : base()
         {
-            this.roomId = roomId;
-            this.msg = ms;
+            this.msg = msg;
         }
+
 
         //getter setter
-        public int RoomId
-        {
-            get
-            {
-                return roomId;
-            }
-
-            set
-            {
-                roomId = value;
-            }
-        }
-
         public string Msg
         {
             get
@@ -47,7 +33,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
         public string ToString()
         {
             string toReturn = base.ToString();
-            toReturn = toReturn + " msg is: " + msg + "to room Id: " + roomId;
+            toReturn = toReturn + " msg is: " + msg;
             return toReturn;
         }
     }
