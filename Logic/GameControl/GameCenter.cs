@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
         private User higherRank;
         private int leagueGap;
-        public List<GameRoom> games { get;  }
+        private List<GameRoom> games;
         public List<ErrorLog> errorLog { get; set; }
         public List<SystemLog> systemLog { get; set; }
         private static int roomIdCounter = 0;
@@ -50,6 +50,11 @@ namespace TexasHoldem.Logic.Game_Control
             return _replayManager;
         }
 
+        public List<GameRoom> GetGames()
+        {
+            return games;
+        }
+
         public bool EditLeagueGap(int newGap)
         {
             bool toReturn;
@@ -77,7 +82,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
        
-        private GameReplay GetGameReplay(int roomID, int gameID)
+        public GameReplay GetGameReplay(int roomID, int gameID)
         {
             return _replayManager.GetGameReplay(roomID, gameID);
         }
