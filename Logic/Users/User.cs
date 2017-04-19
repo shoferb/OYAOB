@@ -21,7 +21,7 @@ namespace TexasHoldem.Logic.Users
         private List<Notification> waitListNotification;
         private string email;
         private bool isActive;
-        private List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
+        public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<GameRoom> activeGameList;
         private List<GameRoom> spectateGameList;
         public bool IsHigherRank { get; set; }

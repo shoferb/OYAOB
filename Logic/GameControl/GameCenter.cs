@@ -126,14 +126,20 @@ namespace TexasHoldem.Logic.Game_Control
             }   
             int nextId = GetNextIdRoom();
             List<Player> players = new List<Player>();
-            SystemControl sc = new SystemControl();
-            User user = sc.GetUserWithId(userId);
+            SystemControl sc = new SystemControl();  //imposible like that
+            User user = sc.GetUserWithId(userId);   //imposible like that
 
             Player player = new Player(smallBlind, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                 user.Money, user.Email, nextId);
             ConcreteGameRoom room = new ConcreteGameRoom(players, smallBlind, nextId);
             toReturn = AddRoom(room);
             return toReturn;
+        }
+
+        public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
+        {
+            User user = SystemControl.GetUserWithId(userID); //singelton or field in GameCenter?
+            return user._gamesAvailableToReplay;
         }
 
         public ConcreteGameRoom GetRoomById(int roomId)
