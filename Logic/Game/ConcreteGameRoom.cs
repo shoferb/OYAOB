@@ -1,7 +1,8 @@
 ﻿ using System;
 using System.Collections.Generic;
 using TexasHoldem.Logic.Actions;
-using TexasHoldem.Logic.Replay;
+ using TexasHoldem.Logic.Game_Control;
+ using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
@@ -10,6 +11,7 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
+        public GameCenter _gameCenter = GameCenter.Instance;
         public ConcreteGameRoom(List<Player> players, int startingChip, int ID, ReplayManager rm , bool isSpectetor, GameMode gameModeChosen) : base(players, startingChip, ID, rm, isSpectetor, gameModeChosen)
         {
             this._isActiveGame = false;
@@ -21,7 +23,7 @@ namespace TexasHoldem.Logic.Game
             this._bb = startingChip;
             this._sidePots = new List<Tuple<int, List<Player>>>();
             this._gm = new GameManager(this);
-         }
+        }
 
 
         

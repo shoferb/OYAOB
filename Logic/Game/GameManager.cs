@@ -66,6 +66,7 @@ namespace TexasHoldem.Logic.Game
             }
 
             StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
+         //   this._state._gameCenter.systemLog.
             _state._gameReplay.AddAction(startAction);
 
             foreach (Player player in this._state._players)
