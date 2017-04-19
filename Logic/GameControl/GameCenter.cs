@@ -146,6 +146,7 @@ namespace TexasHoldem.Logic.Game_Control
         //game type  policy, limit, no-limit, pot-limit
         //אם הכסף של השחקן 0
         //todo - YARDEN - for the player how create what is the starting chip mean?
+        //todo- add field player money? or starting chip is ok?
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
         {
             lock (padlock)
