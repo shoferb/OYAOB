@@ -593,7 +593,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //return list of games by buy in policy
-        public List<GameRoom> GetGamesByBuyInPplicy(int buyIn)
+        public List<GameRoom> GetGamesByBuyInPolicy(int buyIn)
         {
             lock (padlock)
             {
@@ -629,7 +629,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //return list of games by min player in room
+        //return list of games by max player in room
         public List<GameRoom> GetGamesByMaxPlayer(int max)
         {
             lock (padlock)

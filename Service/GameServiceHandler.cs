@@ -193,9 +193,43 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
+        //return if game is active game
         public bool IsGameActive(int roomId)
         {
             bool toReturn = GameCenter.Instance.IsGameActive(roomId);
+            return toReturn;
+        }
+
+
+        //return list of games with game mode:
+        //limit / no - limit / pot limit
+        public List<GameRoom> GetGamesByGameMode(GameMode gm)
+        {
+            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByGameMode(gm);
+            return toReturn;
+        }
+
+        //return list of games by buy in policy
+        public List<GameRoom> GetGamesByBuyInPolicy(int buyIn)
+        {
+            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByBuyInPolicy(buyIn);
+            return toReturn;
+        }
+
+
+        //return list of games by min player in room
+        public List<GameRoom> GetGamesByMinPlayer(int min)
+        {
+            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByMinPlayer(min);
+            return toReturn;
+        }
+
+
+        //return list of games by min player in room
+        public List<GameRoom> GetGamesByMaxPlayer(int max)
+        {
+            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByMinPlayer(max);
             return toReturn;
         }
     }
