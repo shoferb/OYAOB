@@ -250,7 +250,7 @@ namespace TexasHoldem.Service
         //return list of games by starting chip policy
         public List<GameRoom> GetGamesByStartingChip(int startingChip)
         {
-            List<GameRoom> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip)
+            List<GameRoom> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip);
             return toRetun;
         }
         //return list of games by min player in room
