@@ -237,6 +237,22 @@ namespace TexasHoldem.Service
         }
 
 
+
+        //return list of games by min bet in room
+        public List<GameRoom> GetGamesByMinBet(int minBet)
+        {
+            List<GameRoom> toRetun = GameCenter.Instance.GetGamesByMinBet(minBet);
+            return toRetun;
+        }
+
+
+
+        //return list of games by starting chip policy
+        public List<GameRoom> GetGamesByStartingChip(int startingChip)
+        {
+            List<GameRoom> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip)
+            return toRetun;
+        }
         //return list of games by min player in room
         public List<GameRoom> GetGamesByMaxPlayer(int max)
         {

@@ -763,6 +763,48 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
+
+
+
+        //return list of games by min bet in room
+        //syncronized - due to for
+        public List<GameRoom> GetGamesByMinBet(int minBet)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
+                {
+                    if (room._minBetForRoom == minBet)
+                    {
+                        toReturn.Add(room);
+                    }
+
+                }
+                return toReturn;
+            }
+        }
+
+
+        //return list of games by starting chip policy
+        //syncronized - due to for
+        public List<GameRoom> GetGamesByStartingChip(int startingChip)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                foreach (GameRoom room in games)
+                {
+                    if (room._startingChip == startingChip)
+                    {
+                        toReturn.Add(room);
+                    }
+
+                }
+                return toReturn;
+            }
+        }
+
         //chaeck if game is spectetable
         //todo cahnge to game room
         public bool IsGameCanSpectete(int roomId)
