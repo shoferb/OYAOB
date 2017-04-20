@@ -117,7 +117,7 @@ namespace TexasHoldem.Logic.Game
                    int move;
                    this._currentPlayer = this._state.NextToPlay();
                     //move = this.playTurn(player)
-                    move = this._currentPlayer.Play(this._state._maxCommitted, this._state._handStep);
+                    move = Play(this._currentPlayer);
                     PlayerDesicion(move);
                     if (_backFromRaise)
                     {
@@ -159,7 +159,12 @@ namespace TexasHoldem.Logic.Game
             
         }
 
-        
+        //TODO: Orellie
+        private int Play(Player _currentPlayer)
+        {
+            return 0;
+        }
+
         public void PlayerDesicion(int move)
         {
             int max = this._state._maxCommitted;
