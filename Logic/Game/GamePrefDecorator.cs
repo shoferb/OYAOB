@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Game
 {
     public abstract class GamePrefDecorator : GameRoom 
     {
-        public GamePrefDecorator(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney) : base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney)
+        public GamePrefDecorator(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBetInRoom) : base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBetInRoom)
         {
         }
     }

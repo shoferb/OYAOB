@@ -10,7 +10,7 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
-        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney) : base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney)
+        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBetInRoom) : base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBetInRoom)
         {
             this._isActiveGame = false;
             this._potCount = 0;          
@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game
             this._maxCommitted = 0;
             this._publicCards = new List<Card>();
             this._sb = (int) _bb / 2;
-            this._bb = startingChip;
+            this._bb = minBetInRoom;
             this._sidePots = new List<Tuple<int, List<Player>>>();
             this._gm = new GameManager(this);
          }

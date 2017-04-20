@@ -31,15 +31,16 @@ namespace TexasHoldem.Logic.Game
         public int _minPlayersInRoom { get; }
         public int _maxPlayersInRoom { get; }
         public int _enterPayingMoney { get; }
+        public int _startingChip { get; }
         public GameReplay _gameReplay { get; set; }
         public GameManager _gm;
         public ReplayManager _replayManager;
         public GameCenter _gameCenter;
 
-        public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
+        public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int _minBetInRoom)
         {
             this._players = players;
-            this._sb = startingChip;
+            this._bb = _minBetInRoom;
             this._id = ID;
             this._isSpectetor = isSpectetor;
             this._gameMode = gameModeChosen;
