@@ -34,9 +34,20 @@ namespace TexasHoldem.Service
             return _gameCenter.GetRoomById(gameId);
         }
 
-        //TODO: do this
-        public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId, 
+        //TODO: change to the one below
+        public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
             string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum);
+
+
+        
+
+        //create room and add to games list game center
+        public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+            return GameCenter.Instance.CreateNewRoom(userId, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+        }
 
         public int GetNextFreeRoomId()
         {
@@ -52,7 +63,7 @@ namespace TexasHoldem.Service
 
         public bool AddPlayerToRoom(int userId, int roomId, int amountOfChips)
         {
-            return _gameCenter.AddPlayerToRoom(roomId, userId, amountOfChips);
+            return _gameCenter.AddPlayerToRoom(roomId, userId);
         }
 
         public bool AddSpectatorToRoom(int userId, int roomId)

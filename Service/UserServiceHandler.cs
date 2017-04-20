@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Media.Animation;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -52,7 +53,8 @@ namespace TexasHoldem.Service
         //TODO
         public Player GetPlayer(int userId, int roomId)
         {
-            return null;;
+            return null;
+            ;
         }
 
 
@@ -174,16 +176,16 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        
+
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
-            bool toReturn = sc.EditAvatar(id,newAvatarPath);
+            bool toReturn = sc.EditAvatar(id, newAvatarPath);
             return toReturn;
         }
 
         public GameReplay GetGameReplay(int roomID, int gameID)
         {
-            return gc.GetGameReplay(roomID, gameID); 
+            return gc.GetGameReplay(roomID, gameID);
         }
 
 
@@ -215,6 +217,16 @@ namespace TexasHoldem.Service
         public List<User> SortUserByPoint()
         {
             return sc.SortUserByPoint();
+        }
+
+        public bool SetDefultLeauseToNewUsers(int highestId, int newPoint)
+        {
+            return SystemControl.SystemControlInstance.SetDefultLeauseToNewUsers(highestId, newPoint);
+        }
+
+        public bool MovePlayerBetweenLeague(int highestId, int userToMove, int newPoint)
+        {
+            return SystemControl.SystemControlInstance.MovePlayerBetweenLeague(highestId, userToMove, newPoint);
         }
     }
 }

@@ -50,5 +50,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
             toReturn = toReturn + " msg is: " + msg + "to room Id: " + roomId;
             return toReturn;
         }
+
+       
     }
 }

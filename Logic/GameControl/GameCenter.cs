@@ -146,10 +146,8 @@ namespace TexasHoldem.Logic.Game_Control
 
         //create new game room
         //game type  policy, limit, no-limit, pot-limit
-        //אם הכסף של השחקן 0
-        //todo - YARDEN - for the player how create what is the starting chip mean?
-        //todo- add field player money? or starting chip is ok?
-        public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
+        //אם הכסף של השחקן 
+        public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
             lock (padlock)
             {
@@ -173,6 +171,12 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
+                if (minBet <= 0)
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to create room, min bet is invalid - less or equal to zero");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
                 if (maxPlayersInRoom <= 0)
                 {
                     ErrorLog log = new ErrorLog("Error while trying to create room, Max amount of player is invalid - less or equal to zero");
@@ -191,15 +195,18 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
-               
+               /*
                 if (startingChip == 0)
                 {
                     return toReturn;
-                }
+                }*/
+
+                //get next valid room id
                 int nextId = GetNextIdRoom();
+
                 List<Player> players = new List<Player>();
                
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);   //imposible like that
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);   
                 if (enterPayingMoney > 0)
                 {
                     int newMoney = user.Money - enterPayingMoney;
@@ -208,11 +215,13 @@ namespace TexasHoldem.Logic.Game_Control
                 if (startingChip == 0)
                 {
                     startingChip = user.Money;
+                    user.Money = 0;
                 }
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
-                ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney);
-               // Thread MyThread = new Thread(new ThreadStart(room.SomeFunc));
+                ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
+              //Todo - Yarden witch method should be inside?
+                // Thread MyThread = new Thread(new ThreadStart(room.SomeFunc));
                 toReturn = AddRoom(room);
                 return toReturn;
             }
@@ -338,7 +347,7 @@ namespace TexasHoldem.Logic.Game_Control
 
 
        //Add Player to room
-        public bool AddPlayerToRoom(int roomId, int userId, int playerChipToEnterRoom)
+        public bool AddPlayerToRoom(int roomId, int userId)
         {
             lock (padlock)
             {
@@ -355,9 +364,17 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
-                if(playerChipToEnterRoom < 0) 
+                int MoneyAferBuyIn = user.Money - room._enterPayingMoney;
+                int moneyAfterDecStartingChip = MoneyAferBuyIn - room._startingChip;
+                if(MoneyAferBuyIn < 0) 
                 {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - invalid input - the money the player wish to enter with is less tam zero (user with id: " + userId + " to room: " + roomId);
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with id: " + userId + " to room: " + roomId +"user dont have money to pay the buy in policey of this room");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (moneyAfterDecStartingChip < 0)
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with id: " + userId + " to room: " + roomId+" user dont have money to get sarting chip and buy in policey");
                     AddErrorLog(log);
                     return toReturn;
                 }
@@ -371,29 +388,28 @@ namespace TexasHoldem.Logic.Game_Control
                         numOfPlayerInRoom++;
                     }
                 }
-                
+                /*
                 if (playerChipToEnterRoom < sb) //todo - YARDEN - nned to be small blind or big blind?
                 {
                     ErrorLog log = new ErrorLog("???????????????");
                     AddErrorLog(log);
                     
                     return toReturn;
-                }
+                }*/
                 if (numOfPlayerInRoom == room._maxPlayersInRoom)
                 {
                     ErrorLog log = new ErrorLog("Error while trying to add player to room thaere is no place in the room - max amount of player tight now: "+ numOfPlayerInRoom+ "(user with id: " + userId + " to room: " + roomId);
                     AddErrorLog(log);
                     return toReturn;
-                } 
-                int newMoney = user.Money - buyIn;
+                }
+                int newMoney = moneyAfterDecStartingChip;
                 user.Money = newMoney;
-                if (playerChipToEnterRoom == 0)
+                /*if (playerChipToEnterRoom == 0)
                 {
                     playerChipToEnterRoom = user.Money;
                     user.Money = 0;
-                }
-                Player playerToAdd = new Player(playerChipToEnterRoom, 0, user.Id, user.Name, user.MemberName,
-                    user.Password, user.Points,
+                }*/
+                Player playerToAdd = new Player(room._startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, roomId);
                 try
                 {

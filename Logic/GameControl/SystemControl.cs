@@ -684,5 +684,68 @@ namespace TexasHoldem.Logic.Game_Control
             sort.OrderBy(p => p.Points);
             return sort;
         }
+
+        public bool MovePlayerBetweenLeague(int highestId, int userToMove, int newPoint)
+        {
+            lock (padlock)
+            {
+                bool toReturn = false;
+                //check to see is the higest user
+
+                if (!IsHigestRankUser(highestId))
+                {
+                    return toReturn;
+                }
+                try
+                {
+                    User highest = GetUserWithId(highestId);
+                    User toChange = GetUserWithId(userToMove);
+                    toChange.Points = newPoint;
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+
+                return toReturn;
+            }
+        }
+
+        public bool SetDefultLeauseToNewUsers(int highestId, int newPoint)
+        {
+            bool toReturn = false;
+            //check to see is the higest user
+            lock (padlock)
+            {
+                if (!IsHigestRankUser(highestId))
+                {
+                    return toReturn;
+                }
+                try
+                {
+                    List<User> newUser = new List<User>();
+                    foreach (User u in users)
+                    {
+                        if (u.Points == 0)
+                        {
+                            newUser.Add(u);
+                        }
+                    }
+                    for (int i = 0; i < newUser.Count; i++)
+                    {
+                        newUser[i].Points = newPoint;
+                    }
+
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+
+                return toReturn;
+            }
+        }
     }
 }
