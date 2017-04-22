@@ -10,6 +10,8 @@ namespace TexasHoldem.Logic.Game
     {
         Fold,
         Call,
-        Raise
+        Raise,
+        Bet,
+        Check
     }
 }

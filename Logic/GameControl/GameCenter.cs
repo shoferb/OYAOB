@@ -10,6 +10,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Logic.Game_Control
 {
@@ -951,6 +952,55 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 errorLog.Add(log);
             }
+        }
+
+      
+
+        public List<Action> AvailableMoves(Player toShow)
+        {
+            lock (padlock)
+            {
+                List<Action> toReturn = new List<Action>();
+                try
+                {
+
+
+                }
+                catch (Exception e)
+                {
+
+                }
+                return toReturn;
+            }
+        }
+
+        //retun Action Selected and the sum for bet - bet is valid is after check/ 
+        public List<Tuple<Action, int>> GetSelectedMoveFromPlayer(Action selected, int bet, int roomId, int playerId)
+        {
+            lock (padlock)
+            {
+                List<Tuple<Action, int>> toRetun = new List<Tuple<Action, int>>();
+
+                return toRetun;
+            }
+        }
+
+
+        //this method check that the bet is valid Bigger or Equal to Zero and thar its no fold and bet > 0 at the same time
+        private bool CheckSelectedMoveFromPlayer(Action selected, int bet, int room, int playerId)
+        {
+            bool toRetun = false;
+            if (bet < 0)
+            {
+                ErrorLog log = new ErrorLog("Error while try to select a move to play - bet is less than Zero");
+                GameCenter.Instance.AddErrorLog(log);
+                toRetun = false;
+            }
+            if ((selected == Action.Bet) && bet > 0)
+            {
+                toRetun = true;
+            }
+            return toRetun;
         }
     }
 

@@ -31,5 +31,7 @@ namespace TexasHoldem.Logic.Users
                 roomId = value;
             }
         }
+
+        
     }
 }

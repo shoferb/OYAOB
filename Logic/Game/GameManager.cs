@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
@@ -25,11 +26,18 @@ namespace TexasHoldem.Logic.Game
         private int buttonPos;
         private bool _backFromRaise;
         ConcreteGameRoom _state; //game
+
+
+        public int maxRaiseInThisRound{ get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
+        public int minRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיסוב הנוכחי
+        public int lastRaise { get; set; }  //change to maxCommit
+
+       
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
            this._state = state;
-
+            InitRaiseField();
         } 
 
         public void SetRoles()
@@ -163,9 +171,170 @@ namespace TexasHoldem.Logic.Game
         // return -2 if player selsct exit
         //return positive number bigger than 0 for call / raise 
         // return 0 for check
+        //return -3 error
         private int Play(Player _currentPlayer)
         {
+            int toReturn = -3;
+            int maxRaise = maxRaiseInThisRound;
+            int minRaise = minRaiseInThisRound;
+            int fold = -1;
+            GameMode gm;
+            List<Tuple<Action,int,int>> moveToSend = new List<Tuple<Action, int, int>>();
+            int callAmount = maxRaise - _currentPlayer._payInThisRound;
+            bool canCheck = false;
+            try
+            {
+                switch (_state._handStep)
+                {
+                    case (ConcreteGameRoom.HandStep.PreFlop):
+                        if (_currentPlayer == _sbPlayer && _currentPlayer._payInThisRound ==0)//start of game - small blind bet
+                        {
+                            toReturn = _state._sb;
+                            return toReturn;
+                        }
+                       
+                        if (_currentPlayer == _bbPlayer && _currentPlayer._payInThisRound == 0) // start game big blind bet
+                        {
+                            toReturn = _state._bb;
+                            return toReturn;
+                        }
+                        if (_state._gameMode == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
+                        {
+                            maxRaise = _state._bb;
+                            if (_currentPlayer == _sbPlayer && _currentPlayer._payInThisRound == _state._sb)
+                            {
+                                callAmount = _state._bb - _state._sb;
+                                maxRaise = callAmount + maxRaise;
+                            }
+                            if (_currentPlayer == _bbPlayer && _currentPlayer._payInThisRound == _state._bb)
+                            {
+                                maxRaise = _state._bb;
+                            }
+                            if (_currentPlayer._payInThisRound == 0)
+                            {
+                                callAmount = _state._bb;
+                                maxRaise = _state._bb + callAmount;
+                            }
+                            
+                        }
+                        else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        {
+                           
+                            minRaise = lastRaise;
+                        }
+                        else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        {
+                            //maxRaise = _state._potCount + whatNeedToCall;
+                        }
+                        break;
+                    case (ConcreteGameRoom.HandStep.Flop):
+                        canCheck = (_state._maxCommitted == 0);
+                        if (_state._gameMode == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
+                        {
+
+                        }
+                        else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        {
+
+                        }
+                        else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        {
+
+                        }
+                        break;
+                    case (ConcreteGameRoom.HandStep.Turn):
+                        if (_state._gameMode == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
+                        {
+
+                        }
+                        else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        {
+
+                        }
+                        else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        {
+
+                        }
+                        break;
+                    case (ConcreteGameRoom.HandStep.River):
+                        if (_state._gameMode == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
+                        {
+
+                        }
+                        else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        {
+
+                        }
+                        else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        {
+
+                        }
+                        break;
+                    default:
+                        ErrorLog log = new ErrorLog("error in roung in room: "+_state._id+ "the tound is not prefop / flop / turn / river");
+                        GameCenter.Instance.AddErrorLog(log);
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog log = new ErrorLog("error in play somthing went wrong");
+                GameCenter.Instance.AddErrorLog(log);
+            }
+
             return 0;
+        }
+
+
+       
+        private void InitRaiseField()
+        {
+
+            this.maxRaiseInThisRound = 0;
+            this.minRaiseInThisRound = 0;
+            this.lastRaise = 0;
+
+        }
+
+        //Todo - YARDEN  - add call at the biginning of each round
+        private void InitializePlayerRound()
+        {
+            foreach (Player player in _state._players)
+            {
+                player.InitPayInRound();
+            }
+        }
+
+        //Todo - YARDEN add call at the biginning of every Round - after change the enum of round
+        private void RaiseFieldAtEveryRound()
+        {
+
+            if (_state._gameMode == GameMode.Limit && (_state._handStep == ConcreteGameRoom.HandStep.Flop ||
+                                                       _state._handStep == ConcreteGameRoom.HandStep.PreFlop))
+            {
+                maxRaiseInThisRound = _state._bb;
+            }
+            if (_state._gameMode == GameMode.Limit && (_state._handStep == ConcreteGameRoom.HandStep.River ||
+                                                       _state._handStep == ConcreteGameRoom.HandStep.Turn))
+            {
+                maxRaiseInThisRound = _state._bb * 2;
+            }
+            if (_state._gameMode == GameMode.NoLimit)
+            {
+                minRaiseInThisRound = _state._maxCommitted;
+            }
+        }
+
+
+        //return the max limit for player
+        private int GetRaisePotLimit(Player p)
+        {
+            
+            int potSize = _state._potCount;
+            int lastRise= _state._maxCommitted;
+            int playerPayInRound = p._payInThisRound;
+            int toReturn = (lastRise - playerPayInRound) + potSize;
+            return toReturn;
         }
 
         public void PlayerDesicion(int move)
@@ -476,6 +645,7 @@ namespace TexasHoldem.Logic.Game
             Call(this._state.ToCall());
 
         }
+
 
        public void Raise(int additionalChips)
         {

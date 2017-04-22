@@ -17,7 +17,10 @@ namespace TexasHoldem.Logic.Users
         public int _gameChip { get; set; } //כמה התחיל את המשחק- כמה כרגע בזבז
         public string _lastAction { get; set; }
         public bool _isInRoom { get; set; }
-    
+
+        public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב הנוכחי
+        
+
 
 
         public Hand _hand;
@@ -39,8 +42,11 @@ namespace TexasHoldem.Logic.Users
             _hand = new Hand();
             this._winNum = 0;
             this._loseNum = 0;
+            this._payInThisRound = 0;
 
         }
+
+
 
         //getter setter
 
@@ -68,6 +74,10 @@ namespace TexasHoldem.Logic.Users
         }
 
 
+        public void InitPayInRound()
+        {
+            _payInThisRound = 0;
+        }
 
         public void AddCard(Card newCard)
         {
