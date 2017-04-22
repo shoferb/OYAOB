@@ -245,7 +245,7 @@ namespace TexasHoldem.Logic.Game
                             maxRaise = GetRaisePotLimit(_currentPlayer);
                             callAmount = lastRaise - this._currentPlayer._payInThisRound;
                         }
-                        Tuple<Action, bool, int, int>  RaisePreFlop = new Tuple<Action,bool, int, int>(Action.Raise,isLimit, minRaise,maxRaise);
+                        Tuple<Action, bool, int, int>  RaisePreFlop = new Tuple<Action,bool, int, int>(Action.Raise,isLimit,maxRaise, minRaise);
                         Tuple<Action, bool, int, int> CallPreFlop = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
                         Tuple<Action, bool, int, int> FoldPreFlop = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
                         moveToSend.Add(RaisePreFlop);
@@ -282,8 +282,8 @@ namespace TexasHoldem.Logic.Game
                                 new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
                             moveToSend.Add(CheckFlop);
                         }
-                        Tuple<Action, bool, int, int> RaiseFlop = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
-                        Tuple<Action, bool, int, int> BetFlop = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> RaiseFlop = new Tuple<Action, bool, int, int>(Action.Raise, isLimit,  maxRaise , minRaise);
+                        Tuple<Action, bool, int, int> BetFlop = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, maxRaise, minRaise);
                         Tuple<Action, bool, int, int> CallFlop = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
                         Tuple<Action, bool, int, int> FoldFlop = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
                         moveToSend.Add(RaiseFlop);
@@ -321,8 +321,8 @@ namespace TexasHoldem.Logic.Game
                                 new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
                             moveToSend.Add(CheckTurn);
                         }
-                        Tuple<Action, bool, int, int> RaiseTurn = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
-                        Tuple<Action, bool, int, int> BetTurn = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> RaiseTurn = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, maxRaise, minRaise);
+                        Tuple<Action, bool, int, int> BetTurn = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, maxRaise, minRaise);
                         Tuple<Action, bool, int, int> CallTurn = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
                         Tuple<Action, bool, int, int> FoldTurn = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
                         moveToSend.Add(RaiseTurn);
@@ -358,8 +358,8 @@ namespace TexasHoldem.Logic.Game
                                 new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
                             moveToSend.Add(CheckRiver);
                         }
-                        Tuple<Action, bool, int, int> RaiseRiver = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
-                        Tuple<Action, bool, int, int> BetRiver = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> RaiseRiver = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, maxRaise, minRaise);
+                        Tuple<Action, bool, int, int> BetRiver = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, maxRaise, minRaise);
                         Tuple<Action, bool, int, int> CallRiver = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
                         Tuple<Action, bool, int, int> FoldRiver = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
                         moveToSend.Add(RaiseRiver);

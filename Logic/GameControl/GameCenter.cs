@@ -955,98 +955,80 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public Tuple<Action, int> SendUserAAvailableMovesAndGetChoosen(List<Tuple<Action, bool, int, int>> moves,
-            int userId, int roomId)
+
+
+        public Tuple<Action, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Action, bool, int, int>> moves)
         {
             lock (padlock)
             {
                 
                 GameServiceHandler gsh = new GameServiceHandler();
-                bool happend = gsh.SendUserAvailableMovesAndGetChoosen( moves);
-                Tuple<Action, int> toReturn = null;
-                return toReturn;
+                Tuple<Action, int> happend = gsh.SendUserAvailableMovesAndGetChoosen( moves);
+                
+                return happend;
             }
             
         }
 
-        private Tuple<Action, int> SelectedMoveAndBet(Action action, int bet)
-        {
-            throw new NotImplementedException();
-        }
-
-        public  bool CanSelectedMoveAndBet(Action action, int bet)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public String Displaymoves(List<Tuple<Action, bool, int, int>> moves)
         {
-            string toReturn = "";
-            foreach (Tuple<Action, bool, int, int> t in moves)
-            {
-                String info = "";
-                if (t.Item2)
-                {
-                    if (t.Item1 == Action.Bet)
-                    {
-                        info = info + "move avilble is: " + t.Item1 +
-                               " the game is limit holdem, so the bet is  - 'small bet' and equal " +
-                               "to big blind: " + t.Item4;
-                    }
-                    else if (t.Item1 == Action.Raise)
-                    {
-                        info = info + "move avilble is: " + t.Item1 +
-                               " the game is limit holdem, so the Raise is  - 'small bet' and equal " +
-                               "to big blind: " + t.Item4;
-                    }
-                }
-                else
-                {
-                    if (t.Item1 == Action.Bet)
-                    {
-                        info = info + "move avilble is: " + t.Item1 +"Raise must be withIn: "+t.Item3 +" and: " + t.Item4;
-                    }
-                    else if (t.Item1 == Action.Bet)
-                    {
-                        info = info + "move avilble is: " + t.Item1 + "Bet must be withIn: " + t.Item3 + " and: " + t.Item4;
-                    }
-                    else if (t.Item1 == Action.Call)
-                    {
-                        info = info + "move avilble is: " + t.Item1 + "the amount need to call is: " + t.Item3;
-                    }
-                    else if (t.Item1 == Action.Check)
-                    {
-                        info = info + "move avilble is: " + t.Item1;
-                    }
-                    else if (t.Item1 == Action.Fold)
-                    {
-                        info = info + "move avilble is: " + t.Item1;
-                    }
-                }
-                Console.WriteLine(info);
-                toReturn = toReturn + "/n" + info;
-            }
-            return toReturn;
-        }
-
-        public List<Action> AvailableMoves(Player toShow)
-        {
             lock (padlock)
             {
-                List<Action> toReturn = new List<Action>();
-                try
+                string toReturn = "";
+                foreach (Tuple<Action, bool, int, int> t in moves)
                 {
-
-
-                }
-                catch (Exception e)
-                {
-
+                    String info = "";
+                    if (t.Item2)
+                    {
+                        if (t.Item1 == Action.Bet)
+                        {
+                            info = info + "move avilble is: " + t.Item1 +
+                                   " the game is limit holdem, so the bet is  - 'small bet' and equal " +
+                                   "to big blind: " + t.Item4;
+                        }
+                        else if (t.Item1 == Action.Raise)
+                        {
+                            info = info + "move avilble is: " + t.Item1 +
+                                   " the game is limit holdem, so the Raise is  - 'small bet' and equal " +
+                                   "to big blind: " + t.Item4;
+                        }
+                    }
+                    else
+                    {
+                        if (t.Item1 == Action.Bet)
+                        {
+                            info = info + "move avilble is: " + t.Item1 + "Raise must be withIn: " + t.Item3 +
+                                   " and: " + t.Item4;
+                        }
+                        else if (t.Item1 == Action.Bet)
+                        {
+                            info = info + "move avilble is: " + t.Item1 + "Bet must be withIn: " + t.Item3 + " and: " +
+                                   t.Item4;
+                        }
+                        else if (t.Item1 == Action.Call)
+                        {
+                            info = info + "move avilble is: " + t.Item1 + "the amount need to call is: " + t.Item3;
+                        }
+                        else if (t.Item1 == Action.Check)
+                        {
+                            info = info + "move avilble is: " + t.Item1;
+                        }
+                        else if (t.Item1 == Action.Fold)
+                        {
+                            info = info + "move avilble is: " + t.Item1;
+                        }
+                    }
+                    Console.WriteLine(info);
+                    toReturn = toReturn + "/n" + info;
                 }
                 return toReturn;
             }
         }
 
+       
+        /*
         //retun Action Selected and the sum for bet - bet is valid is after check/ 
         public List<Tuple<Action, int>> GetSelectedMoveFromPlayer(Action selected, int bet, int roomId, int playerId)
         {
@@ -1057,24 +1039,91 @@ namespace TexasHoldem.Logic.Game_Control
                 return toRetun;
             }
         }
+        */
 
 
-        //this method check that the bet is valid Bigger or Equal to Zero and thar its no fold and bet > 0 at the same time
-        private bool CheckSelectedMoveFromPlayer(Action selected, int bet, int room, int playerId)
+      
+
+        public bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
         {
-            bool toRetun = false;
-            if (bet < 0)
+            lock (padlock)
             {
-                ErrorLog log = new ErrorLog("Error while try to select a move to play - bet is less than Zero");
-                GameCenter.Instance.AddErrorLog(log);
-                toRetun = false;
+                bool toReturn = false;
+                Action toCheck = moveAndBet.Item1;
+                int betToCheck = moveAndBet.Item2;
+                int maxBet = 0;
+                int minBet = 0;
+                bool isLimitGame = false;
+
+                foreach (Tuple<Action, bool, int, int> tuple in moves)
+                {
+                    if (tuple.Item1 == toCheck)
+                    {
+                        isLimitGame = tuple.Item2;
+                        minBet = tuple.Item4;
+                        maxBet = tuple.Item3;
+                    }
+                }
+                if (toCheck == Action.Bet || toCheck == Action.Raise)
+                {
+                    if (isLimitGame)
+                    {
+                        toReturn = (betToCheck == maxBet);
+                        return toReturn;
+                    }
+                    else
+                    {
+                        toReturn = (betToCheck >= minBet) && (betToCheck <= maxBet);
+                        return toReturn;
+                    }
+                }
+                if (toCheck == Action.Call)
+                {
+                    toReturn = betToCheck == maxBet; //amount to call
+                    return toReturn;
+                }
+                if (toCheck == Action.Fold)
+                {
+                    toReturn = betToCheck == maxBet && maxBet == -1;
+                    return toReturn;
+                }
+                if (toCheck == Action.Check)
+                {
+                    toReturn = betToCheck == maxBet && maxBet == 0;
+                    return toReturn;
+                }
+                return toReturn;
             }
-            if ((selected == Action.Bet) && bet > 0)
-            {
-                toRetun = true;
-            }
-            return toRetun;
         }
+
+        public Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
+        {
+            lock (padlock)
+            {
+                int size = moves.Count;
+                int selectedMove = GetRandomNumber(0, size);
+                int bet = moves[selectedMove].Item3;
+                Action selectedAction = moves[selectedMove].Item1;
+                Tuple<Logic.Game.Action, int> toReturn = new Tuple<Action, int>(selectedAction, bet);
+                return toReturn;
+            }
+        }
+
+        private int GetRandomNumber(int minimum, int maximum)
+        {
+            lock (padlock)
+            {
+                Random random = new Random();
+                return random.Next() * (maximum - minimum) + minimum;
+            }
+        }
+
+        public Tuple<Action, int>  SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
+        {
+            return moveAndBet;
+        }
+
+        
     }
 
     

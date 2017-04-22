@@ -273,12 +273,7 @@ namespace TexasHoldem.Service
         }
 
 
-        //return true if bet send to game false if bet is not valid
-        private bool SelectedMoveAndBet(Logic.Game.Action action,int bet)
-        {
-            bool toReturn = true;
-            return GameCenter.Instance.CanSelectedMoveAndBet(action,bet);
-        }
+        
 
         public int GetBetFromUser(int bet)
         {
@@ -287,35 +282,41 @@ namespace TexasHoldem.Service
 
        
 
-        internal bool SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
+        internal Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
         {
-            bool ToReturn = false;
+            
             Displaymoves(moves);
             Tuple<Logic.Game.Action, int> moveAndBet = GetRandomMove(moves);
             bool isValidMove = IsValidMove(moves, moveAndBet);
+            while (!isValidMove)
+            {
+                moveAndBet = GetRandomMove(moves);
+                IsValidMove(moves, moveAndBet);
+            }
+
+            var ToReturn = SendMoveBackToPlayer(moveAndBet);
             return ToReturn;
+        }
+
+        private Tuple<Logic.Game.Action, int> SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
+        {
+            return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);
         }
 
         private bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
         {
-            throw new NotImplementedException();
+            return GameCenter.Instance.IsValidMove(moves, moveAndBet);
         }
 
-        private Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
-        {
-            
-            int size = moves.Count;
-            int selectedMove = GetRandomNumber(0, size);
-            int bet = moves[selectedMove].Item3;
-            Action selectedAction = moves[selectedMove].Item1;
-            Tuple<Logic.Game.Action, int> toReturn = new Tuple<Action, int>(selectedAction,bet);
-            return toReturn;
-        }
 
-        private int GetRandomNumber(int minimum, int maximum)
+
+
+
+
+
+        public Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
         {
-            Random random = new Random();
-            return random.Next() * (maximum - minimum) + minimum;
+            return GameCenter.Instance.GetRandomMove(moves);
         }
     }
 }
