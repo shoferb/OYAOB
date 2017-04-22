@@ -24,7 +24,7 @@ namespace TexasHoldem.Logic.Users
 
 
         public Hand _hand;
-        public enum playerMoves { Call, Check, Bet, Fold, Raise }
+
 
         private int _winNum;
         private int _loseNum;
@@ -101,7 +101,7 @@ namespace TexasHoldem.Logic.Users
         /// return -2 if player selsct exit
         /// return positive number bigger than 0 for call / raise 
         /// return 0 for check
-
+        /*
         public int Play(int amount, ConcreteGameRoom.HandStep h)
         {
             List<playerMoves> validMoves;
@@ -115,7 +115,7 @@ namespace TexasHoldem.Logic.Users
             }
 
             return 0;
-        }
+        }*/
 
         public void CommitChips(int chips)
         {
@@ -150,7 +150,9 @@ namespace TexasHoldem.Logic.Users
             }
             return toReturn;
         }
-        //todo - yarden - why static?? remove for now
+        
+
+
         public  bool Lose()
         {
             bool toReturn;
