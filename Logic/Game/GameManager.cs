@@ -178,12 +178,22 @@ namespace TexasHoldem.Logic.Game
             int maxRaise = maxRaiseInThisRound;
             int minRaise = minRaiseInThisRound;
             int fold = -1;
+            bool isLimit = (_state._gameMode == GameMode.Limit);
             GameMode gm;
-            List<Tuple<Action,int,int>> moveToSend = new List<Tuple<Action, int, int>>();
+            
+      
+            int playerMoney = _currentPlayer._totalChip - _currentPlayer._gameChip;
+            //raise - <Raise,bool is limit,maxRaise, minRaise> - if true must raise equal to max.
+            //bet - <Bet,bool is limit,maxRaise, minRaise> - if true must Bet equal to max.
+            //check <Check, false, 0, 0>
+            //fold - <Fold, false,-1,-1>
+            //call - <Call, false,call amount, 0>
+            List<Tuple<Action,bool,int,int>> moveToSend = new List<Tuple<Action,bool, int, int>>(); 
             int callAmount = maxRaise - _currentPlayer._payInThisRound;
             bool canCheck = false;
             try
             {
+                
                 switch (_state._handStep)
                 {
                     case (ConcreteGameRoom.HandStep.PreFlop):
@@ -206,41 +216,78 @@ namespace TexasHoldem.Logic.Game
                                 callAmount = _state._bb - _state._sb;
                                 maxRaise = callAmount + maxRaise;
                             }
-                            if (_currentPlayer == _bbPlayer && _currentPlayer._payInThisRound == _state._bb)
+                           else if (_currentPlayer == _bbPlayer && _currentPlayer._payInThisRound == _state._bb)
                             {
                                 maxRaise = _state._bb;
                             }
-                            if (_currentPlayer._payInThisRound == 0)
+                            else if (_currentPlayer._payInThisRound == 0)
                             {
                                 callAmount = _state._bb;
                                 maxRaise = _state._bb + callAmount;
                             }
-                            
+                            else if ((_currentPlayer != _bbPlayer || _currentPlayer != _sbPlayer) &&
+                                     _currentPlayer._payInThisRound != 0)
+                            {
+                                callAmount = maxRaise - _currentPlayer._payInThisRound;
+                                maxRaise = maxRaise - this._currentPlayer._payInThisRound;
+                            }
+                           
                         }
                         else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
-                           
+                            //todo - yarden - max money all in equal to this?
+                            maxRaise = _currentPlayer._totalChip - _currentPlayer._gameChip;
                             minRaise = lastRaise;
+                            callAmount = lastRaise - _currentPlayer._payInThisRound;
                         }
                         else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
-                            //maxRaise = _state._potCount + whatNeedToCall;
+                            maxRaise = GetRaisePotLimit(_currentPlayer);
+                            callAmount = lastRaise - this._currentPlayer._payInThisRound;
                         }
+                        Tuple<Action, bool, int, int>  RaisePreFlop = new Tuple<Action,bool, int, int>(Action.Raise,isLimit, minRaise,maxRaise);
+                        Tuple<Action, bool, int, int> CallPreFlop = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
+                        Tuple<Action, bool, int, int> FoldPreFlop = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        moveToSend.Add(RaisePreFlop);
+                        moveToSend.Add(CallPreFlop);
+                        moveToSend.Add(FoldPreFlop);
                         break;
+
+
                     case (ConcreteGameRoom.HandStep.Flop):
                         canCheck = (_state._maxCommitted == 0);
-                        if (_state._gameMode == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
-                        {
-
-                        }
+                       if (_state._gameMode == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
+                       {
+                           callAmount = lastRaise - _currentPlayer._payInThisRound;
+                           if (_currentPlayer._payInThisRound != 0)
+                           {
+                               maxRaise = maxRaise - _currentPlayer._payInThisRound;
+                           }
+                       }
                         else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
-
+                            //todo - yarden - max money all in equal to this?
+                            maxRaise = _currentPlayer._totalChip - _currentPlayer._gameChip;
+                            minRaise = lastRaise;
+                            callAmount = lastRaise - _currentPlayer._payInThisRound;
                         }
-                        else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                         else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                         {
+                             maxRaise = GetRaisePotLimit(_currentPlayer);
+                             callAmount = lastRaise - this._currentPlayer._payInThisRound;
+                        }
+                        if (canCheck)
                         {
-
+                            Tuple<Action, bool, int, int> CheckFlop =
+                                new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
                         }
+                        Tuple<Action, bool, int, int> RaiseFlop = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> BetFlop = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> CallFlop = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
+                        Tuple<Action, bool, int, int> FoldFlop = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        moveToSend.Add(RaiseFlop);
+                        moveToSend.Add(CallFlop);
+                        moveToSend.Add(FoldFlop);
                         break;
                     case (ConcreteGameRoom.HandStep.Turn):
                         if (_state._gameMode == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
