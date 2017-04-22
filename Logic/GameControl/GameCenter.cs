@@ -514,7 +514,9 @@ namespace TexasHoldem.Logic.Game_Control
                     // toAdd._players = allPlayers;
                     //games.Remove(room);
                     //games.Add(toAdd);
-
+                    int moneyToadd = playerToRemove._totalChip -playerToRemove._gameChip;
+                    int newMoney = moneyToadd + user.Money;
+                    user.Money = newMoney;
                     user.ActiveGameList.Remove(room);
                     //sc.ReplaceUser(user, newUser);
                     toReturn = true;
