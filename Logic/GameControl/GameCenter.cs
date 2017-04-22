@@ -222,8 +222,8 @@ namespace TexasHoldem.Logic.Game_Control
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
-              //Todo - Yarden witch method should be inside?
-                // Thread MyThread = new Thread(new ThreadStart(room.SomeFunc));
+              
+                Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
                 toReturn = AddRoom(room);
                 return toReturn;
             }

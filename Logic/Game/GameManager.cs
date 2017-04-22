@@ -38,8 +38,12 @@ namespace TexasHoldem.Logic.Game
         {
            this._state = state;
             InitRaiseField();
-        } 
+        }
 
+        public void Start()
+        {
+            Play();
+        }
         public void SetRoles()
         {
             this._state._handStep = ConcreteGameRoom.HandStep.PreFlop;
