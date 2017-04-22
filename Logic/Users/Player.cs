@@ -134,8 +134,14 @@ namespace TexasHoldem.Logic.Users
                 int newPoint = GetNewPoint();
                 Points = newPoint;
                 SystemControl sc = SystemControl.SystemControlInstance;
-                //int highestRank = sc.
-                //todo - need to chck if user is noe the hugest rank
+                //todo - Yarden - added the code missing check if this is what missing
+                int highestRank = GameCenter.Instance.HigherRank.Points;
+                if (this.Points > highestRank)
+                {
+                    GameCenter.Instance.HigherRank = this;
+                    this.IsHigherRank = true;
+                }
+                
                 toReturn = true;
             }
             catch (Exception e)
