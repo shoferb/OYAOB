@@ -4,10 +4,11 @@ using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
+using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Service
 {
-    public abstract class GameServiceHandler : ServiceHandler
+    public class GameServiceHandler : ServiceHandler
     {
         private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
         private readonly GameCenter _gameCenter;
@@ -36,8 +37,12 @@ namespace TexasHoldem.Service
         }
 
         //TODO: change to the one below
-        public abstract GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
-            string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum);
+
+        public GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
+            string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum)
+        {
+            throw new NotImplementedException();
+        }
 
 
         
@@ -177,7 +182,8 @@ namespace TexasHoldem.Service
         }
 
         //todo - why need this?
-        public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);
+        /*
+        public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);*/
 
         //public  List<ConcreteGameRoom> GetSpectateableGames()
         public List<GameRoom> GetSpectateableGames()
@@ -264,6 +270,52 @@ namespace TexasHoldem.Service
         public String Displaymoves(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
         {
             return GameCenter.Instance.Displaymoves(moves);
+        }
+
+
+        //return true if bet send to game false if bet is not valid
+        private bool SelectedMoveAndBet(Logic.Game.Action action,int bet)
+        {
+            bool toReturn = true;
+            return GameCenter.Instance.CanSelectedMoveAndBet(action,bet);
+        }
+
+        public int GetBetFromUser(int bet)
+        {
+            return bet;
+        }
+
+       
+
+        internal bool SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
+        {
+            bool ToReturn = false;
+            Displaymoves(moves);
+            Tuple<Logic.Game.Action, int> moveAndBet = GetRandomMove(moves);
+            bool isValidMove = IsValidMove(moves, moveAndBet);
+            return ToReturn;
+        }
+
+        private bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
+        {
+            throw new NotImplementedException();
+        }
+
+        private Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
+        {
+            
+            int size = moves.Count;
+            int selectedMove = GetRandomNumber(0, size);
+            int bet = moves[selectedMove].Item3;
+            Action selectedAction = moves[selectedMove].Item1;
+            Tuple<Logic.Game.Action, int> toReturn = new Tuple<Action, int>(selectedAction,bet);
+            return toReturn;
+        }
+
+        private int GetRandomNumber(int minimum, int maximum)
+        {
+            Random random = new Random();
+            return random.Next() * (maximum - minimum) + minimum;
         }
     }
 }

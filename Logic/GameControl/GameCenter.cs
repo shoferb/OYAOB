@@ -10,6 +10,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldem.Service;
 using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -954,16 +955,28 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public List<Tuple<Action, int>> SendUserAAvailableMovesAndGetChoosen(List<Tuple<Action, bool, int, int>> moves,
+        public Tuple<Action, int> SendUserAAvailableMovesAndGetChoosen(List<Tuple<Action, bool, int, int>> moves,
             int userId, int roomId)
         {
             lock (padlock)
             {
-                List<Tuple<Action, int>> toReturn = new List<Tuple<Action, int>>();
-                Displaymoves(moves);
+                
+                GameServiceHandler gsh = new GameServiceHandler();
+                bool happend = gsh.SendUserAvailableMovesAndGetChoosen( moves);
+                Tuple<Action, int> toReturn = null;
                 return toReturn;
             }
             
+        }
+
+        private Tuple<Action, int> SelectedMoveAndBet(Action action, int bet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public  bool CanSelectedMoveAndBet(Action action, int bet)
+        {
+            throw new NotImplementedException();
         }
 
         public String Displaymoves(List<Tuple<Action, bool, int, int>> moves)
