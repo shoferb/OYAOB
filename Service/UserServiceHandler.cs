@@ -94,15 +94,31 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
+        //return null if one of the field is not valid
         public User CreateNewUser(int id, string name, string memberName,
             string password, string email)
         {
-            User toReturn = new User(id, name, memberName, password, 0, 0, email);
+            User toReturn = null;
+            if (CanCreateNewUser(id , memberName, password, email))
+            {
+                toReturn = new User(id, name, memberName, password, 0, 0, email);
+            }
+            
             Console.WriteLine("User was created with info:" + toReturn.ToString());
             return toReturn;
         }
 
 
+
+        public bool CanCreateNewUser(int id , string memberName,
+            string password, string email)
+        {
+
+            bool toReturn = sc.IsUsernameFree(memberName) && sc.IsIdFree(id) && sc.IsValidPassword(password) &&
+                            sc.IsValidEmail(email);
+            return toReturn;
+        }
 
         //by name and password
         public bool DeleteUser(string name, string password)

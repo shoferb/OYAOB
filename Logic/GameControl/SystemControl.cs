@@ -265,7 +265,23 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        //return true - if user Id free, false otherwise 
+        //syncrinized - due to foreath
+        public bool IsIdFree(int ID)
+        {
+            lock (padlock)
+            {
+                bool toReturn = true;
+                foreach (User u in users)
+                {
+                    if (u.Id ==  ID)
+                    {
+                        toReturn = false;
+                    }
+                }
+                return toReturn;
+            }
+        }
         //return true if user with id exist 
         //syncronized - due to foreatch
         public bool IsUserWithId(int id)
@@ -306,7 +322,7 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //check if email valid according to .NET convention
-        private bool IsValidEmail(string email)
+        public bool IsValidEmail(string email)
         {
             try
             {
@@ -353,6 +369,18 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        public bool IsValidPassword(string password)
+        {
+            bool toReturn = false;
+            int len = password.Length;
+            if (len > 7 && len < 13)
+            {
+                toReturn = true;
+            }
+                return toReturn;
+        }
+
+        
       
         //use case allow to change password - syncronized
         public bool EditPassword(int id, string newPassword)
@@ -384,7 +412,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //todo - cange to try catch for logger
+       
         //not use leave only namy for future use
         public bool EditUserName(int id, string newUserName)
         {
@@ -434,17 +462,30 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //todo - check new user is not taken need to be uniq - add try catch for logger
+       
         //edit user id - syncronized
         public bool EditUserID(int id, int newId)
         {
             lock (padlock)
             {
-                User toEdit = GetUserWithId(id);
-                User changed = toEdit;
-                bool toReturn;
-                changed.Id = newId;
-                toReturn = ReplaceUser(toEdit, changed);
+                bool toReturn = false;
+                try
+                {
+                    bool isFree = IsIdFree(newId);
+                    if (isFree)
+                    {
+                        User toEdit = GetUserWithId(id);
+                        User changed = toEdit;
+                        changed.Id = newId;
+                        toReturn = ReplaceUser(toEdit, changed);
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = false;
+                }
+               
                 return toReturn;
             }
         }

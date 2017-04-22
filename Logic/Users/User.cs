@@ -37,15 +37,9 @@ namespace TexasHoldem.Logic.Users
             this.password = password;
             this.points = points;
             this.money = money;
-            if (IsValidEmail(email))
-            {
+            
                 this.email = email;
-            }
-            else
-            {
-                //insert to error log
-                //Console.WriteLine("this is not a valid email, please edit it");
-            }
+           
             this.WaitListNotification = new List<Notification>();
             this.isActive = false;
             this.IsHigherRank = false;
@@ -56,18 +50,7 @@ namespace TexasHoldem.Logic.Users
 
         }
 
-        public bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        
 
         //function to recive notificaion - return the notification.
         public bool SendNotification(Notification toSend)

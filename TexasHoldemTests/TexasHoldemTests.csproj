@@ -81,6 +81,7 @@
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
+    <Compile Include="Logic\GameControl\SystemControlTests.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\UserServiceHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TexasHoldem.csproj">

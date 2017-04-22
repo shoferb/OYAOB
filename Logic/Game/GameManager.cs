@@ -475,8 +475,9 @@ namespace TexasHoldem.Logic.Game
                 {
                     int move;
                     this._currentPlayer = this._state.NextToPlay();
-                    move = this._currentPlayer.Play(this._state._sb, this._state._handStep);
-                    PlayerDesicion(move);
+                    //todo - Yarden - change to new Play
+                    //move = this._currentPlayer.Play(this._state._sb, this._state._handStep);
+                    //PlayerDesicion(move);
 
                     this._state.UpdateGameState();
                 }
