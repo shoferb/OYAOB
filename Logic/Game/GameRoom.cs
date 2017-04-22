@@ -36,6 +36,7 @@ namespace TexasHoldem.Logic.Game
         public GameManager _gm;
         public ReplayManager _replayManager;
         public GameCenter _gameCenter;
+        public int _minBetInRoom { get; set; }
 
         public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int _minBetInRoom)
         {

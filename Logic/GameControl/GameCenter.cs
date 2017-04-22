@@ -775,7 +775,7 @@ namespace TexasHoldem.Logic.Game_Control
                 List<GameRoom> toReturn = new List<GameRoom>();
                 foreach (GameRoom room in games)
                 {
-                    if (room._minBetForRoom == minBet)
+                    if (room._minBetInRoom == minBet)
                     {
                         toReturn.Add(room);
                     }
