@@ -371,7 +371,8 @@ namespace TexasHoldem.Logic.Game
                         ErrorLog log = new ErrorLog("error in roung in room: "+_state._id+ "the tound is not prefop / flop / turn / river");
                         GameCenter.Instance.AddErrorLog(log);
                         break;
-                    
+                        Tuple<Action, int> getSelectedFromPlayer =  GameCenter.Instance.SendUserAvailableMovesAndGetChoosen(moveToSend);
+                        toReturn = getSelectedFromPlayer.Item2;
                 }
             }
             catch (Exception e)
@@ -380,10 +381,10 @@ namespace TexasHoldem.Logic.Game
                 GameCenter.Instance.AddErrorLog(log);
             }
 
-            return 0;
+            return toReturn;
         }
 
-
+        
        
         private void InitRaiseField()
         {

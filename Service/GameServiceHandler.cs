@@ -93,6 +93,11 @@ namespace TexasHoldem.Service
 	        }
             return false;
         }
+        //Todo - odded didnt ask for this - need to remove
+        public List<GameRoom> GetAvaiableGamesByUserRank(int userRank)
+        {
+            throw new NotImplementedException();
+        }
 
         //TODO: not sure about this one
         public bool MakeRoomActive(GameRoom room)
