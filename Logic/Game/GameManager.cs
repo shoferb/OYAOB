@@ -159,7 +159,10 @@ namespace TexasHoldem.Logic.Game
             
         }
 
-        //TODO: Orellie
+        // return -1 if player select fold
+        // return -2 if player selsct exit
+        //return positive number bigger than 0 for call / raise 
+        // return 0 for check
         private int Play(Player _currentPlayer)
         {
             return 0;
