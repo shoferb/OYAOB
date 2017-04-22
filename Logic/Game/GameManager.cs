@@ -371,11 +371,12 @@ namespace TexasHoldem.Logic.Game
                         ErrorLog log = new ErrorLog("error in roung in room: "+_state._id+ "the tound is not prefop / flop / turn / river");
                         GameCenter.Instance.AddErrorLog(log);
                         break;
+                    
                 }
             }
             catch (Exception e)
             {
-                ErrorLog log = new ErrorLog("error in play somthing went wrong");
+                ErrorLog log = new ErrorLog("error in play of player with id: "+_currentPlayer.Id + " somthing went wrong");
                 GameCenter.Instance.AddErrorLog(log);
             }
 

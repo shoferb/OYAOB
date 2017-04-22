@@ -954,7 +954,67 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-      
+        public List<Tuple<Action, int>> SendUserAAvailableMovesAndGetChoosen(List<Tuple<Action, bool, int, int>> moves,
+            int userId, int roomId)
+        {
+            lock (padlock)
+            {
+                List<Tuple<Action, int>> toReturn = new List<Tuple<Action, int>>();
+                Displaymoves(moves);
+                return toReturn;
+            }
+            
+        }
+
+        public String Displaymoves(List<Tuple<Action, bool, int, int>> moves)
+        {
+            string toReturn = "";
+            foreach (Tuple<Action, bool, int, int> t in moves)
+            {
+                String info = "";
+                if (t.Item2)
+                {
+                    if (t.Item1 == Action.Bet)
+                    {
+                        info = info + "move avilble is: " + t.Item1 +
+                               " the game is limit holdem, so the bet is  - 'small bet' and equal " +
+                               "to big blind: " + t.Item4;
+                    }
+                    else if (t.Item1 == Action.Raise)
+                    {
+                        info = info + "move avilble is: " + t.Item1 +
+                               " the game is limit holdem, so the Raise is  - 'small bet' and equal " +
+                               "to big blind: " + t.Item4;
+                    }
+                }
+                else
+                {
+                    if (t.Item1 == Action.Bet)
+                    {
+                        info = info + "move avilble is: " + t.Item1 +"Raise must be withIn: "+t.Item3 +" and: " + t.Item4;
+                    }
+                    else if (t.Item1 == Action.Bet)
+                    {
+                        info = info + "move avilble is: " + t.Item1 + "Bet must be withIn: " + t.Item3 + " and: " + t.Item4;
+                    }
+                    else if (t.Item1 == Action.Call)
+                    {
+                        info = info + "move avilble is: " + t.Item1 + "the amount need to call is: " + t.Item3;
+                    }
+                    else if (t.Item1 == Action.Check)
+                    {
+                        info = info + "move avilble is: " + t.Item1;
+                    }
+                    else if (t.Item1 == Action.Fold)
+                    {
+                        info = info + "move avilble is: " + t.Item1;
+                    }
+                }
+                Console.WriteLine(info);
+                toReturn = toReturn + "/n" + info;
+            }
+            return toReturn;
+        }
 
         public List<Action> AvailableMoves(Player toShow)
         {

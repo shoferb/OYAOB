@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
@@ -258,6 +259,11 @@ namespace TexasHoldem.Service
         {
             List<GameRoom> toReturn = GameCenter.Instance.GetGamesByMinPlayer(max);
             return toReturn;
+        }
+
+        public String Displaymoves(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
+        {
+            return GameCenter.Instance.Displaymoves(moves);
         }
     }
 }
