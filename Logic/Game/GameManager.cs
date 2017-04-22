@@ -190,7 +190,7 @@ namespace TexasHoldem.Logic.Game
             //call - <Call, false,call amount, 0>
             List<Tuple<Action,bool,int,int>> moveToSend = new List<Tuple<Action,bool, int, int>>(); 
             int callAmount = maxRaise - _currentPlayer._payInThisRound;
-            bool canCheck = false;
+            bool canCheck  = (_state._maxCommitted == 0);
             try
             {
                 
@@ -255,7 +255,7 @@ namespace TexasHoldem.Logic.Game
 
 
                     case (ConcreteGameRoom.HandStep.Flop):
-                        canCheck = (_state._maxCommitted == 0);
+                       
                        if (_state._gameMode == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
                        {
                            callAmount = lastRaise - _currentPlayer._payInThisRound;
@@ -280,6 +280,7 @@ namespace TexasHoldem.Logic.Game
                         {
                             Tuple<Action, bool, int, int> CheckFlop =
                                 new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
+                            moveToSend.Add(CheckFlop);
                         }
                         Tuple<Action, bool, int, int> RaiseFlop = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
                         Tuple<Action, bool, int, int> BetFlop = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
@@ -288,34 +289,83 @@ namespace TexasHoldem.Logic.Game
                         moveToSend.Add(RaiseFlop);
                         moveToSend.Add(CallFlop);
                         moveToSend.Add(FoldFlop);
+                        moveToSend.Add(BetFlop);
                         break;
+
+
                     case (ConcreteGameRoom.HandStep.Turn):
                         if (_state._gameMode == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
                         {
-
+                            callAmount = lastRaise - _currentPlayer._payInThisRound;
+                            if (_currentPlayer._payInThisRound != 0)
+                            {
+                                maxRaise = maxRaise - _currentPlayer._payInThisRound;
+                            }
+                           
                         }
                         else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
-
+                            //todo - yarden - max money all in equal to this?
+                            maxRaise = _currentPlayer._totalChip - _currentPlayer._gameChip;
+                            minRaise = lastRaise;
+                            callAmount = lastRaise - _currentPlayer._payInThisRound;
                         }
                         else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
-
+                            maxRaise = GetRaisePotLimit(_currentPlayer);
+                            callAmount = lastRaise - this._currentPlayer._payInThisRound;
                         }
+                        if (canCheck)
+                        {
+                            Tuple<Action, bool, int, int> CheckTurn =
+                                new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
+                            moveToSend.Add(CheckTurn);
+                        }
+                        Tuple<Action, bool, int, int> RaiseTurn = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> BetTurn = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> CallTurn = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
+                        Tuple<Action, bool, int, int> FoldTurn = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        moveToSend.Add(RaiseTurn);
+                        moveToSend.Add(CallTurn);
+                        moveToSend.Add(FoldTurn);
+                        moveToSend.Add(BetTurn);
+                        
                         break;
                     case (ConcreteGameRoom.HandStep.River):
                         if (_state._gameMode == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
                         {
-
+                            callAmount = lastRaise - _currentPlayer._payInThisRound;
+                            if (_currentPlayer._payInThisRound != 0)
+                            {
+                                maxRaise = maxRaise - _currentPlayer._payInThisRound;
+                            }
                         }
                         else if (_state._gameMode == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
-
+                            //todo - yarden - max money all in equal to this?
+                            maxRaise = _currentPlayer._totalChip - _currentPlayer._gameChip;
+                            minRaise = lastRaise;
+                            callAmount = lastRaise - _currentPlayer._payInThisRound;
                         }
                         else if (_state._gameMode == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
-
+                            maxRaise = GetRaisePotLimit(_currentPlayer);
+                            callAmount = lastRaise - this._currentPlayer._payInThisRound;
                         }
+                        if (canCheck)
+                        {
+                            Tuple<Action, bool, int, int> CheckRiver =
+                                new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
+                            moveToSend.Add(CheckRiver);
+                        }
+                        Tuple<Action, bool, int, int> RaiseRiver = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> BetRiver = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, minRaise, maxRaise);
+                        Tuple<Action, bool, int, int> CallRiver = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
+                        Tuple<Action, bool, int, int> FoldRiver = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        moveToSend.Add(RaiseRiver);
+                        moveToSend.Add(CallRiver);
+                        moveToSend.Add(FoldRiver);
+                        moveToSend.Add(BetRiver);
                         break;
                     default:
                         ErrorLog log = new ErrorLog("error in roung in room: "+_state._id+ "the tound is not prefop / flop / turn / river");
