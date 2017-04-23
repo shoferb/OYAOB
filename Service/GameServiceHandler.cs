@@ -45,7 +45,11 @@ namespace TexasHoldem.Service
         //}
 
 
-        
+        //TODO: Orelie fill this up Geveret
+        public bool CreateNewRoom(int roomId, int startingChip, int isSpectetor, bool gameModeChosen, GameMode minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet, int i)
+        {
+            throw new NotImplementedException();
+        }
 
         //create room and add to games list game center
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
@@ -328,5 +332,6 @@ namespace TexasHoldem.Service
         {
             return GameCenter.Instance.GetRandomMove(moves);
         }
+
     }
 }

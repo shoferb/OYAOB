@@ -12,22 +12,18 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
 
-        private readonly Random _rand;
-
         public GameBridge()
         {
             _gameService = new GameServiceHandler();
             _userService = new UserServiceHandler();
-            _rand = new Random();
         }
 
         private int MakeRoomHelper(int userId, int roomId)
         {
-            string name = _rand.Next().ToString();
             User user = _userService.GetUserFromId(userId);
             if (user != null)
             {
-                if (_gameService.AddPlayerToRoom(userId, roomId, user.Money))
+                if (_gameService.CreateNewRoom(roomId, userId, 100, false, GameMode.NoLimit, 2, 2, 0, 1))
                 {
                     return roomId;
                 }
@@ -61,7 +57,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool DoesRoomExist(int id)
         {
-            return _gameService.GetGameById(id) == null;
+            return _gameService.GetGameById(id) != null;
         }
 
         public bool IsUserInRoom(int userId, int roomId)
