@@ -157,12 +157,17 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return false;
         }
 
+
+        //toDo - ODED 
         public bool SetLeagueCriteria(int userId, int criteria)
         {
             if (_userService.GetUserFromId(userId).IsHigherRank)
             {
                 GameCenter center = GameCenter.Instance;
-                return center.LeagueChange(criteria);
+
+                return center.LeagueChangeAfterGapChange(criteria);
+                ;
+                //LeagueChange(criteria);
             }
             return false;
         }

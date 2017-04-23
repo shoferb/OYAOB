@@ -50,6 +50,16 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        /*
+        public Tuple<int, int> RankGapOfUser(int userID)
+        {
+            Tuple<int, int> toReturn;
+            User user = GetUserWithId(userID);
+
+            return toReturn;
+        */
+
+
         //add new user  - syncronized
         public bool AddNewUser(User newUser)
         {

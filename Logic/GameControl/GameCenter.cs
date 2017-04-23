@@ -120,6 +120,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
+        //TODO - ORElie - CrossAppDomainDelegate searchGameBYRANK
         //need to syncronzed?? 
         public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
@@ -221,8 +222,9 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
+
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
-              
+              //Todo - Yarden witch method should be inside?
                 Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
                 toReturn = AddRoom(room);
                 return toReturn;
@@ -230,6 +232,7 @@ namespace TexasHoldem.Logic.Game_Control
             
         }
 
+       
         public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
         {
             lock (padlock)
@@ -347,7 +350,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        //Todo add check that is rank is valid by nim max rank to room
        //Add Player to room
         public bool AddPlayerToRoom(int roomId, int userId)
         {
@@ -380,6 +383,8 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
+                 
+               
                 List<Player> players = room._players;
                 
                 int numOfPlayerInRoom = 0;
@@ -615,6 +620,33 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     flag = true;
                     toReturn = "" + i;
+                }
+                else
+                {
+                    min = max + 1;
+                    max = min + leagueGap;
+                }
+            }
+            return toReturn;
+        }
+
+
+        //Tuple<int, int> - <min,max>
+        public Tuple<int,int> UserLeageGapPoint(int userId)
+        {
+            User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+            Tuple<int, int> toReturn = new Tuple<int, int>(-1, -1);
+            int userRank = user.Points;
+            int i = 1;
+            int min = 0;
+            int max = leagueGap;
+            bool flag = ((userRank > min) && (userRank < max));
+            while (!flag)
+            {
+                if ((userRank > min) && (userRank < max))
+                {
+                    flag = true;
+                    toReturn   = new Tuple<int, int>(min, max);
                 }
                 else
                 {
@@ -971,8 +1003,20 @@ namespace TexasHoldem.Logic.Game_Control
             }
             
         }
+        /*
+        public Tuple<Action, int> SendUserAvailableMovesAndGetChoosenAcceptence(List<Tuple<Action, bool, int, int>> moves)
+        {
+            lock (padlock)
+            {
 
-        
+                GameServiceHandler gsh = new GameServiceHandler();
+                Tuple<Action, int> happend = gsh.SendUserAvailableMovesAndGetChoosen(moves);
+
+                return happend;
+            }
+
+        }*/
+
 
         public String Displaymoves(List<Tuple<Action, bool, int, int>> moves)
         {
@@ -1125,7 +1169,11 @@ namespace TexasHoldem.Logic.Game_Control
             return moveAndBet;
         }
 
-        
+
+        public Tuple<Action, int> GetMoveFromPlayer(Tuple<Action, int> moveAndBet)
+        {
+            return moveAndBet;
+        }
     }
 
     

@@ -286,8 +286,8 @@ namespace TexasHoldem.Service
         }
 
        
-
-        internal Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
+        //use only this
+        public Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
         {
             
             Displaymoves(moves);
@@ -303,6 +303,25 @@ namespace TexasHoldem.Service
             return ToReturn;
         }
 
+
+        //Todo - Oded for acceptence Test only!
+        public Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosenAcceptence(List<Tuple<Logic.Game.Action, bool, int, int>> moves,Action a,int bet)
+        {
+            Displaymoves(moves);
+            Tuple<Logic.Game.Action, int> moveAndBet = new Tuple<Action, int>(a,bet);
+            bool isValidMove = IsValidMove(moves, moveAndBet);
+            if (!isValidMove)
+            {
+                moveAndBet = new Tuple<Action, int>(Action.Null, -1);
+            }
+            var ToReturn = SendMoveBackToPlayer(moveAndBet);
+            return ToReturn;
+        }
+
+        public Tuple<Logic.Game.Action, int> GetMoveFromPlayer(Tuple<Action, int> moveAndBet)
+        {
+            return GameCenter.Instance.GetMoveFromPlayer(moveAndBet);
+        }
         private Tuple<Logic.Game.Action, int> SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
         {
             return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);

@@ -50,7 +50,7 @@ namespace TexasHoldem.Logic.Users
 
         }
 
-        
+       
 
         //function to recive notificaion - return the notification.
         public bool SendNotification(Notification toSend)

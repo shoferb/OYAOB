@@ -19,9 +19,8 @@ namespace TexasHoldem.Logic.Users
         public bool _isInRoom { get; set; }
 
         public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב הנוכחי
-        
-
-
+        public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
+      
 
         public Hand _hand;
 
@@ -43,7 +42,7 @@ namespace TexasHoldem.Logic.Users
             this._winNum = 0;
             this._loseNum = 0;
             this._payInThisRound = 0;
-
+            this.moveFotTest = 0;
         }
 
 

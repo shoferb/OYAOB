@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Game
         private int buttonPos;
         private bool _backFromRaise;
         ConcreteGameRoom _state; //game
-
+        public bool isTestMode { get; set; }
 
         public int maxRaiseInThisRound{ get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
         public int minRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיסוב הנוכחי
@@ -179,6 +179,10 @@ namespace TexasHoldem.Logic.Game
         private int Play(Player _currentPlayer)
         {
             int toReturn = -3;
+            if (!isTestMode)
+            {
+                
+            }
             int maxRaise = maxRaiseInThisRound;
             int minRaise = minRaiseInThisRound;
             int fold = -1;
@@ -375,8 +379,17 @@ namespace TexasHoldem.Logic.Game
                         ErrorLog log = new ErrorLog("error in roung in room: "+_state._id+ "the tound is not prefop / flop / turn / river");
                         GameCenter.Instance.AddErrorLog(log);
                         break;
-                        Tuple<Action, int> getSelectedFromPlayer =  GameCenter.Instance.SendUserAvailableMovesAndGetChoosen(moveToSend);
-                        toReturn = getSelectedFromPlayer.Item2;
+    
+                }
+                if (!isTestMode)
+                {
+                    Tuple<Action, int> getSelectedFromPlayer =
+                        GameCenter.Instance.SendUserAvailableMovesAndGetChoosen(moveToSend);
+                    toReturn = getSelectedFromPlayer.Item2;
+                }
+                else
+                {
+                    toReturn = _currentPlayer.moveForTest;
                 }
             }
             catch (Exception e)
