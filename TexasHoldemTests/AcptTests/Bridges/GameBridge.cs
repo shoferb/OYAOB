@@ -82,22 +82,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<int> GetPlayersInRoom(int roomId)
         {
-            var players = _gameService.GetGameById(roomId)._players;
-            List<int> toReturn = new List<int>();
-            players.ForEach(p =>
-            {
-                toReturn.Add(p.Id);
-            });
+            List<int> toReturn = _gameService.GetGameById(roomId)._players.ConvertAll(p => p.Id);
             return toReturn;
         }
 
         private List<int> GamesToIds(List<GameRoom> games)
         {
-            List<int> toReturn = new List<int>();
-            games.ForEach(game =>
-            {
-                toReturn.Add(game._id);
-            });
+            List<int> toReturn = games.ConvertAll(g => g._id);
             return toReturn;
         }
 

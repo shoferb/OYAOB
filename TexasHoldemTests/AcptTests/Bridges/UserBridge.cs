@@ -120,17 +120,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return gameIds;
         }
 
-        public List<string> GetUserNotificationMsgs(int userId)
-        {
-            var toReturn = new List<string>();
-            var notifications = _userService.GetUserNotifications(userId);
-            notifications.ForEach(noti =>
-            {
-                toReturn.Add(noti.Msg);
-            });
-            return toReturn;
-        }
-
         public int GetNextFreeUserId()
         {
             return _userService.GetNextUserId();
@@ -143,7 +132,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public void SetUserRank(int userId, int rank)
         {
-            _userService.GetUserFromId(userId).Points = rank;
+            _userService.EditUserPoints(userId, rank);
         }
 
         public bool SetUserRank(int userIdToChange, int rank, int changingUserId)

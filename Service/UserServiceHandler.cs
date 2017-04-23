@@ -184,6 +184,10 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        public bool EditUserPoints(int userId, int points)
+        {
+            return SystemControl.SystemControlInstance.EditUserPoints(userId, points);
+        }
 
         public List<Notification> GetUserNotifications(int userId)
         {

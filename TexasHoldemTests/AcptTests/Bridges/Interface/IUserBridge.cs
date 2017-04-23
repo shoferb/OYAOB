@@ -17,7 +17,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         int GetUserChips(int userId);
         int GetUserChips(int userId, int roomId);
         List<int> GetUsersGameRooms(int userId);
-        List<string> GetUserNotificationMsgs(int userId);
         int GetNextFreeUserId();
         int GetUserRank(int userId);
         void SetUserRank(int userId, int rank); //change user's rank BY SYSTEM

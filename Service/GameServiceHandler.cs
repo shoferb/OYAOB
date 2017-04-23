@@ -115,49 +115,49 @@ namespace TexasHoldem.Service
             return _gameCenter.RemoveRoom(gameId);
         }
 
-        public bool Fold(Player player, GameRoom room)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Fold();
-                return true;
-            }
-            return false;
-        }
+        //public bool Fold(Player player, GameRoom room)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Fold();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Check(Player player, GameRoom room)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Check();
-                return true;
-            }
-            return false;
-        }
+        //public bool Check(Player player, GameRoom room)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Check();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Call(Player player, GameRoom room)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Call();
-                return true;
-            }
-            return false;
-        }
+        //public bool Call(Player player, GameRoom room)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Call();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Raise(Player player, GameRoom room, int sum)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Raise(sum);
-                return true;
-            }
-            return false;
-        }
+        //public bool Raise(Player player, GameRoom room, int sum)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Raise(sum);
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public List<Player> FindWinner(int gameId)
         {
