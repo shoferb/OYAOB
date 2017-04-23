@@ -31,14 +31,10 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<int> GetWinner(int gameId);
 
         //game player oporations:
-        bool Fold(int userId, int roomId);
-        bool Check(int userId, int roomId);
-        bool Call(int userId, int roomId, int amount);
-        bool Raise(int userId, int roomId, int amount);
-
-        //game system actions:
-        bool DealFlop(int gameId); 
-        bool DealSingleCardToTable(int gameId); //Turn and River        
+        //bool Fold(int userId, int roomId);
+        //bool Check(int userId, int roomId);
+        //bool Call(int userId, int roomId, int amount);
+        //bool Raise(int userId, int roomId, int amount);
 
     }
 }
