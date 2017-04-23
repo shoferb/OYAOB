@@ -10,11 +10,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
     class UserBridge : IUserBridge
     {
         private readonly UserServiceHandler _userService;
-        private GameServiceHandler _gameService;
+        private readonly GameServiceHandler _gameService;
 
         public UserBridge()
         {
-            //TODO: init service here
+            _gameService = new GameServiceHandler();
             _userService = new UserServiceHandler();
         }
 
@@ -157,8 +157,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return false;
         }
 
-
-        //toDo - ODED 
         public bool SetLeagueCriteria(int userId, int criteria)
         {
             if (_userService.GetUserFromId(userId).IsHigherRank)
@@ -166,8 +164,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
                 GameCenter center = GameCenter.Instance;
 
                 return center.LeagueChangeAfterGapChange(criteria);
-                ;
-                //LeagueChange(criteria);
             }
             return false;
         }

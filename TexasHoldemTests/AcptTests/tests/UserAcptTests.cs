@@ -114,41 +114,45 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserRegisterTestGood()
         {
-            Assert.True(UserBridge.RegisterUser(_registerNameGood, User1Pw, User1Pw));
+            Assert.True(UserBridge.RegisterUser(_registerNameGood, User1Pw, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameGood, User1Pw);
         }
 
         [TestCase]
         public void UserRegisterTestSad()
         {
-            //pw do not match
-            Assert.True(UserBridge.RegisterUser(_registerNameGood, User1Pw, _userPwGood2));
-            UserBridge.DeleteUser(_registerNameGood, User1Pw);
-
             //user name already exists in system 
             Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, User1Pw));
             Assert.False(UserBridge.RegisterUser(User1Name, User1Pw, User1Pw));
             UserBridge.DeleteUser(_registerNameGood, User1Pw);
 
             //pw not good
-            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwSad, _userPwSad));
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwSad, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameGood, _userPwSad);
+
+            //email not good1:
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, User1Pw, _userEmailBad1));
+            UserBridge.DeleteUser(_registerNameGood, User1Pw);
+            
+            //email not good2:
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, User1Pw, _userEmailBad2));
+            UserBridge.DeleteUser(_registerNameGood, User1Pw);
         }
 
         [TestCase]
         public void UserRegisterTestBadNameBad()
         {
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, User1Pw));
+            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameBad, User1Pw);
 
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, User1Pw));
+            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameBad, User1Pw);
 
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, User1Pw));
+            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameBad, User1Pw);
             UserBridge.DeleteUser(_registerNameBad, _userPwBad);
 
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, _userPwBad));
+            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, UserEmailGood1));
         }
 
         [TestCase]
