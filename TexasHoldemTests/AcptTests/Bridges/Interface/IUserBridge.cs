@@ -41,6 +41,5 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool RemoveUserFromRoom(int userId, int roomId);
         bool ReduceUserMoney(int userId, int amount);
         bool AddUserMoney(int userId, int amount);
-        bool AddUserChips(int userId, int roomId, int amount);
     }
 }

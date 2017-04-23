@@ -262,8 +262,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserFromId(userId);
             if (user != null)
             {
-                user.Money += amount;
-                return true;
+                return SystemControl.SystemControlInstance.EditUserMoney(userId, user.Money + amount);
             }
             return false;
         }
@@ -278,15 +277,5 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return ChangeUserMoney(userId, amount);
         }
 
-        public bool AddUserChips(int userId, int roomId, int amount)
-        {
-            var player = _userService.GetPlayer(userId, roomId);
-            if (player != null)
-            {
-                player._totalChip += amount;
-                return true;
-            }
-            return false;
-        }
     }
 }

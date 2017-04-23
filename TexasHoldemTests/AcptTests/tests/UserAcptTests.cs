@@ -13,7 +13,6 @@ namespace TexasHoldemTests.AcptTests.tests
         private string _userPwBad;
         private string _userPwSad;
         private string _registerNameGood;
-        private string _registerNameBad;
         private string _userEmailGood2;
         private string _userEmailBad1;
         private string _userEmailBad2;
@@ -26,10 +25,9 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             _userPwGood2 = "goodPw5678";
             _userPwSad = "sadPw1234";
-            _userPwBad = "סיסמא";
+            _userPwBad = "short";
 
             _registerNameGood = "registerNameGood";
-            _registerNameBad = "שם משתמש רע לרישום";
 
             _userEmailGood2 = "gooduser2@gmail.com";
             _userEmailBad1 = "מייל בעברית";
@@ -57,7 +55,6 @@ namespace TexasHoldemTests.AcptTests.tests
             _userPwSad = null;
 
             _registerNameGood = null;
-            _registerNameBad = null;
 
             UserEmailGood1 = null;
             _userEmailGood2 = null;
@@ -140,22 +137,6 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void UserRegisterTestBadNameBad()
-        {
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, UserEmailGood1));
-            UserBridge.DeleteUser(_registerNameBad, User1Pw);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, UserEmailGood1));
-            UserBridge.DeleteUser(_registerNameBad, User1Pw);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, UserEmailGood1));
-            UserBridge.DeleteUser(_registerNameBad, User1Pw);
-            UserBridge.DeleteUser(_registerNameBad, _userPwBad);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, UserEmailGood1));
-        }
-
-        [TestCase]
         public void UserRegisterTestBadPwBad()
         {
             Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, _userPwBad));
@@ -164,8 +145,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, User1Pw));
             UserBridge.DeleteUser(_registerNameGood, _userPwBad);
             UserBridge.DeleteUser(_registerNameGood, User1Pw);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, User1Pw));
         }
 
         [TestCase]
@@ -465,20 +444,6 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void UserAddToRoomAsPlayerNegRoomTestBad()
-        {
-            CreateGameWithUser();
-
-            RegisterUser1();
-
-            //negtive room id
-            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, -1, 0));
-            Assert.False(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
-            Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
-        }
-
-        [TestCase]
         public void UserAddToRoomAsPlayerNegUserTestBad()
         {
             CreateGameWithUser();
@@ -613,29 +578,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.AreNotEqual(sbId, GameBridge.GetDealerId(RoomId));
 
-        }
-
-        [TestCase]
-        public void UserRemoveFromGamePlayerNotifiesTestGood()
-        {
-            CreateGameWithUser();
-
-            RegisterUser1();
-
-            //add user to Room as player
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
-
-            Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
-
-            //foreach player in the room, check that he got a notification that contains the word "left"
-            List<int> playersInRoom = GameBridge.GetPlayersInRoom(RoomId);
-            playersInRoom.ForEach(id =>
-            {
-                List<String> notificationMsgs = UserBridge.GetUserNotificationMsgs(id);
-                Assert.True(notificationMsgs.Exists(msg => msg.Contains("left")));
-            });
         }
 
         [TestCase]
