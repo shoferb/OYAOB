@@ -26,12 +26,12 @@ namespace TexasHoldem.Logic.Game
         public bool _isActiveGame { get; set; }
         public List<Tuple<int, List<Player>>> _sidePots { get; set; }
         public int _gameRoles { get; set; }
-         public GameMode _gameMode { get; }
-        public bool _isSpectetor { get; }
-        public int _minPlayersInRoom { get; }
-        public int _maxPlayersInRoom { get; }
-        public int _enterPayingMoney { get; }
-        public int _startingChip { get; }
+        public GameMode _gameMode { get; set; }
+        public bool _isSpectetor { get; set; }
+        public int _minPlayersInRoom { get; set; }
+        public int _maxPlayersInRoom { get; set; }
+        public int _enterPayingMoney { get; set; }
+        public int _startingChip { get; set; }
         public GameReplay _gameReplay { get; set; }
         public GameManager _gm;
         public ReplayManager _replayManager;

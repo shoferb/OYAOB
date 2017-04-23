@@ -42,7 +42,7 @@ namespace TexasHoldem.Logic.Users
             this._winNum = 0;
             this._loseNum = 0;
             this._payInThisRound = 0;
-            this.moveFotTest = 0;
+            this.moveForTest = 0;
         }
 
 

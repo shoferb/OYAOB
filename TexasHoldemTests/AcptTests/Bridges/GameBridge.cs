@@ -9,14 +9,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     class GameBridge : IGameBridge
     {
-        private GameServiceHandler _gameService;
-        private UserServiceHandler _userService;
+        private readonly GameServiceHandler _gameService;
+        private readonly UserServiceHandler _userService;
 
         private readonly Random _rand;
 
         public GameBridge()
         {
-            //TODO: init services here
+            _gameService = new GameServiceHandler();
+            _userService = new UserServiceHandler();
             _rand = new Random();
         }
 

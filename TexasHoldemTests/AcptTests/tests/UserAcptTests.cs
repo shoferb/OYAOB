@@ -9,13 +9,11 @@ namespace TexasHoldemTests.AcptTests.tests
     public class UserAcptTests : AcptTest
     {
         //private int _userId2;
-        private string _userNameBad;
         private string _userPwGood2;
         private string _userPwBad;
         private string _userPwSad;
         private string _registerNameGood;
         private string _registerNameBad;
-        private string _userEmailGood1;
         private string _userEmailGood2;
         private string _userEmailBad1;
         private string _userEmailBad2;
@@ -26,8 +24,6 @@ namespace TexasHoldemTests.AcptTests.tests
         //setup: (called from case)
         protected override void SubClassInit()
         {
-            _userNameBad = "שם משתמש";
-
             _userPwGood2 = "goodPw5678";
             _userPwSad = "sadPw1234";
             _userPwBad = "סיסמא";
@@ -35,7 +31,6 @@ namespace TexasHoldemTests.AcptTests.tests
             _registerNameGood = "registerNameGood";
             _registerNameBad = "שם משתמש רע לרישום";
 
-            _userEmailGood1 = "gooduser1@gmail.com";
             _userEmailGood2 = "gooduser2@gmail.com";
             _userEmailBad1 = "מייל בעברית";
             _userEmailBad2 = "baduser"; //no @ sign
@@ -51,14 +46,12 @@ namespace TexasHoldemTests.AcptTests.tests
             string[] pwArr = { _userPwGood2, _userPwBad, _userPwSad, User1Pw };
             foreach (var s in pwArr)
             {
-                UserBridge.DeleteUser(_userNameBad, s);
                 if (!s.Equals(User1Pw))
                 {
                     UserBridge.DeleteUser(User1Name, s);
                 }
             }
 
-            _userNameBad = null;
             _userPwGood2 = null;
             _userPwBad = null;
             _userPwSad = null;
@@ -66,10 +59,10 @@ namespace TexasHoldemTests.AcptTests.tests
             _registerNameGood = null;
             _registerNameBad = null;
 
-            _userEmailGood1 = null;
+            UserEmailGood1 = null;
             _userEmailGood2 = null;
 
-            _userEmailGood1 = null;
+            UserEmailGood1 = null;
             _userEmailGood2 = null;
             _userEmailBad1 = null;
             _userEmailBad2 = null;
@@ -84,7 +77,8 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLoginTestSad()
         {
-            Assert.False(UserBridge.LoginUser(_userNameBad, _userPwSad));
+            int rand = new Random().Next();
+            Assert.False(UserBridge.LoginUser(rand.ToString(), _userPwSad));
             Assert.False(UserBridge.LoginUser(User1Name, _userPwSad));
         }
 
@@ -228,9 +222,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.False(UserBridge.EditName(UserId, ""));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
-
-            Assert.False(UserBridge.EditName(UserId, _userNameBad));
-            Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
         }
 
         [TestCase]
@@ -297,23 +288,23 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            Assert.False(UserBridge.EditEmail(UserId, _userEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
         [TestCase]
         public void UserEditEmailTestBad()
         {
             //user is not logged in:
-            Assert.False(UserBridge.EditEmail(UserId, _userEmailGood1));
+            Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
 
             RegisterUser1();
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad2));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
         [TestCase]
@@ -325,8 +316,8 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserAvatar(UserId), _userAvatarGood);
 
             //set back
-            Assert.True(UserBridge.EditEmail(UserId, _userEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.True(UserBridge.EditEmail(UserId, UserEmailGood1));
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
         [TestCase]
@@ -337,7 +328,7 @@ namespace TexasHoldemTests.AcptTests.tests
             //make sure user1 is top user
             UserBridge.SetUserRank(UserId, 999999999);
 
-            int someUser = GetNextUserId();
+            int someUser = GetNextUser();
             Assert.True(UserBridge.SetUserRank(someUser, 10, UserId));
         }
 
@@ -346,7 +337,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            int someUser = GetNextUserId();
+            int someUser = GetNextUser();
 
             //make sure someUser is top user
             UserBridge.SetUserRank(someUser, 999999999);
@@ -391,7 +382,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            int someUser = GetNextUserId();
+            int someUser = GetNextUser();
 
             //make sure someUser is top user
             UserBridge.SetUserRank(someUser, 999999999);

@@ -38,11 +38,11 @@ namespace TexasHoldem.Service
 
         //TODO: change to the one below
 
-        public GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
-            string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum)
-        {
-            throw new NotImplementedException();
-        }
+        //public GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
+        //    string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
 
         
@@ -303,20 +303,6 @@ namespace TexasHoldem.Service
             return ToReturn;
         }
 
-
-        //Todo - Oded for acceptence Test only!
-        public Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosenAcceptence(List<Tuple<Logic.Game.Action, bool, int, int>> moves,Action a,int bet)
-        {
-            Displaymoves(moves);
-            Tuple<Logic.Game.Action, int> moveAndBet = new Tuple<Action, int>(a,bet);
-            bool isValidMove = IsValidMove(moves, moveAndBet);
-            if (!isValidMove)
-            {
-                moveAndBet = new Tuple<Action, int>(Action.Null, -1);
-            }
-            var ToReturn = SendMoveBackToPlayer(moveAndBet);
-            return ToReturn;
-        }
 
         public Tuple<Logic.Game.Action, int> GetMoveFromPlayer(Tuple<Action, int> moveAndBet)
         {

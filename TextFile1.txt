@@ -1,0 +1,11 @@
+2) fix create room
+
+4) change user register
+
+5) fix user name (can be hebrew and can be long)
+
+6) fix user edits in bridges
+
+7) remove neg room nums
+
+8) remove notification tests
