@@ -96,11 +96,8 @@ namespace TexasHoldemTests.AcptTests.tests
                 UserBridge.AddUserToGameRoomAsPlayer(userId2, newRoomId, money);
                 GameBridge.StartGame(newRoomId);
 
-                ////maybe not good?
-                //GameBridge.Call(UserId, newRoomId, 2);
-                //GameBridge.Call(userId2, newRoomId, 2);
-
                 UserBridge.RemoveUserFromRoom(userId2, newRoomId);
+
                 //now user1 is only player in room => user1 wins
                 //=> game is done => save replay
                 UserBridge.RemoveUserFromRoom(UserId, newRoomId);
@@ -167,7 +164,6 @@ namespace TexasHoldemTests.AcptTests.tests
                 GameBridge.RemoveGameRoom(room);
             });
 
-            //RegisterUser1();
         }
 
         //create a new game with user2 as only player, return user2's id

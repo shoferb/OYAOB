@@ -24,7 +24,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected override void SubClassInit()
         {
             _userPwGood2 = "goodPw5678";
-            _userPwSad = "sadPw1234";
+            _userPwSad = "I am a very very very long password so you should not accept me!";
             _userPwBad = "short";
 
             _registerNameGood = "registerNameGood";
@@ -65,9 +65,18 @@ namespace TexasHoldemTests.AcptTests.tests
             _userEmailBad2 = null;
         }
 
+        private bool RegisterAndLogoutUser1()
+        {
+            RegisterUser1();
+            Assert.True(UserBridge.LogoutUser(UserId));
+            return true;
+        }
+
         [TestCase]
         public void UserLoginTestGood()
         {
+            Assert.True(RegisterAndLogoutUser1());
+
             Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
         }
 
@@ -90,6 +99,8 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLogoutTestGood()
         {
+            RegisterUser1();
+
             Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
             Assert.True(UserBridge.LogoutUser(UserId));
         }
@@ -232,12 +243,6 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            Assert.False(UserBridge.EditPw(UserId, User1Pw));
-            Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
-
-            Assert.False(UserBridge.EditPw(UserId, _userPwGood2));
-            Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
-
             Assert.False(UserBridge.EditPw(UserId, _userPwSad));
             Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
         }
@@ -245,15 +250,9 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditPwTestBad()
         {
-            //user is not logged in
-            Assert.False(UserBridge.EditPw(UserId, _userPwGood2));
-
             RegisterUser1();
 
             Assert.False(UserBridge.EditPw(-1, _userPwGood2));
-            Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
-
-            Assert.False(UserBridge.EditPw(UserId, User1Pw));
             Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
 
             Assert.False(UserBridge.EditPw(UserId, _userPwBad));
