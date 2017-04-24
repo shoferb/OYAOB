@@ -41,6 +41,11 @@ namespace TexasHoldemTests.AcptTests.tests
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
 
+            if (!GameBridge.DoesRoomExist(RoomId))
+            {
+                CreateGameWithUser();
+            }
+
             SubClassInit();
         }
 

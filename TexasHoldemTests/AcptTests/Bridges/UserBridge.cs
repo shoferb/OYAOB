@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
@@ -195,7 +196,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool RegisterUser(string name, string pw1, string email)
         {
-            int id = _userService.GetNextUserId();
+            int id = new Random().Next();
             var user = _userService.CreateNewUser(id, name, name, pw1, email);
             return user != null;
         }
