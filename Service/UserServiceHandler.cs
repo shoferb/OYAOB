@@ -108,7 +108,13 @@ namespace TexasHoldem.Service
             //Console.WriteLine("User was created with info:" + toReturn.ToString());
             return toReturn;
         }
-       
+
+        //todo - oded - use this
+        //register to system - return bool that tell is success or fail - syncronized
+        public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
+        {
+            return RegisterToSystem(id, name, memberName, password, money, email);
+        }
 
         public User FindUser(string username)
         {
@@ -263,11 +269,6 @@ namespace TexasHoldem.Service
             return SystemControl.SystemControlInstance.GetAllUser();
         }
 
-        //todo - oded - use this
-        //register to system - return bool that tell is success or fail - syncronized
-        public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
-        {
-            return RegisterToSystem(id, name, memberName, password, money, email);
-        }
+        
     }
 }
