@@ -31,7 +31,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserFromId(id);
             if (user != null)
             {
-                return user.Name;
+                return user.MemberName;
             }
             return "";
         }

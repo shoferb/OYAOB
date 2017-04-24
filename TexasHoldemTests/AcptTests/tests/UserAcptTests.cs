@@ -205,9 +205,6 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditNameTestBad()
         {
-            //user is not logged in
-            Assert.False(UserBridge.EditName(UserId, "newName"));
-
             RegisterUser1();
 
             Assert.False(UserBridge.EditName(-1, User1Name));
