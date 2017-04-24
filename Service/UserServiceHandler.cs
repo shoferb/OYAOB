@@ -113,7 +113,7 @@ namespace TexasHoldem.Service
         //register to system - return bool that tell is success or fail - syncronized
         public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
         {
-            return RegisterToSystem(id, name, memberName, password, money, email);
+            return SystemControl.SystemControlInstance.RegisterToSystem(id, name, memberName, password, money, email);
         }
 
         public User FindUser(string username)
