@@ -599,7 +599,8 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                     User changed = toEdit;
 
-                    bool validname = IsUsernameFree(newUserName);
+                    bool validname = IsUsernameFree(newUserName) && 
+                        !newUserName.Equals("") && !newUserName.Equals(" ");
                     if (validname)
                     {
                         changed.MemberName = newUserName;
