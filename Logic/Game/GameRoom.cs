@@ -54,7 +54,8 @@ namespace TexasHoldem.Logic.Game
             _gameCenter = GameCenter.Instance;
             _replayManager = _gameCenter.GetReplayManager();
             _gameReplay = new GameReplay(ID, 0);
-      
+            _startingChip = startingChip;
+
         }
 
         public void AddNewPublicCard()

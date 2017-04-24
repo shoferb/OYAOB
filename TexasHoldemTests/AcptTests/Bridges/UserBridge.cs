@@ -84,7 +84,14 @@ namespace TexasHoldemTests.AcptTests.Bridges
             {
                 user.ActiveGameList.ForEach(game =>
                     {
-                        chips += _userService.GetPlayer(userId, game._id)._totalChip;
+                        if (game != null)
+                        {
+                            var players = game._players.FindAll(p => p.Id == userId);
+                            players.ForEach(p =>
+                            {
+                                chips += p._totalChip;
+                            });
+                        }
                     }); 
             }
             return chips;
@@ -249,7 +256,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
             User user = _userService.GetUserFromId(userId);
-            if (user == null)
+            if (user != null)
             {
                 return _gameService.AddPlayerToRoom(userId, roomId, chipAmount);
             }

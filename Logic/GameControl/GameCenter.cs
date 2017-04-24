@@ -390,7 +390,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 SystemControl sc = SystemControl.SystemControlInstance;
-                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -748,33 +748,22 @@ namespace TexasHoldem.Logic.Game_Control
         //Tuple<int, int> - <min,max>
         public Tuple<int,int> UserLeageGapPoint(int userId)
         {
-            Tuple<int, int> toReturn;
+            //Tuple<int, int> toReturn;
             User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
             if (user == null)
             {
-                 toReturn = new Tuple<int, int>(-1, -1);
-                return toReturn;
+                return new Tuple<int, int>(-1, -1);
+                //return toReturn;
             }
             
-            int userRank = user.Points;
-            int min = 0;
-            int max = leagueGap;
-            bool flag = ((userRank >= min) && (userRank <= max));
-            while (!flag)
+            int tempPoints = user.Points;
+            int count = 0;
+            while (tempPoints > 0)
             {
-                if ((userRank >= min) && (userRank <= max))
-                {
-                    flag = true;
-                    toReturn = new Tuple<int, int>(min, max);
-                    return toReturn;
-                }
-                min = max + 1;
-                max = min + leagueGap;
-                flag = ((userRank >= min) && (userRank <= max));
-
+                tempPoints -= leagueGap;
+                count++;
             }
-            toReturn = new Tuple<int, int>(-10,-10);
-            return toReturn ;
+            return new Tuple<int, int>(count * leagueGap, (count + 1) * leagueGap);
         }
 
         //get all active games - syncronized

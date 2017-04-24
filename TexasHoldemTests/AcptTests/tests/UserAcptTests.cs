@@ -406,8 +406,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, money));
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
-            Assert.AreEqual(money, UserBridge.GetUserMoney(UserId));
-            Assert.AreEqual(money, UserBridge.GetUserChips(UserId));
             Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
         }
 
