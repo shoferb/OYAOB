@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
@@ -61,11 +62,17 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //add new user  - syncronized
+
+
         public bool AddNewUser(User newUser)
         {
             lock (padlock)
             {
                 bool toReturn = false;
+                if (newUser == null)
+                {
+                    return toReturn;
+                }
                 try
                 {
                     users.Add(newUser);
@@ -87,6 +94,10 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 User original = GetUserWithId(id);
+                if (!IsValidInputNotSmallerEqualZero(id))
+                {
+                    return toReturn;
+                }
                 try
                 {
                     users.Remove(original);
@@ -137,6 +148,10 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
+                if (toRemove == null)
+                {
+                    return toReturn;
+                }
                 try
                 {
                     users.Remove(toRemove);
@@ -157,6 +172,10 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
+                if (oldUser == null || newUser == null)
+                {
+                    return toReturn;
+                }
                 for (int i = 0; i < users.Count; i++)
                 {
                     if (users[i] == oldUser)
@@ -171,18 +190,32 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //find user by user name - syncronized (due to foreatch)
+        //return null if not found or user name is "" || " "
         private User FindUser(string username)
         {
             lock (padlock)
             {
                 User toRerutn = null;
-                foreach (User u in users)
+                if (username.Equals("")|| username.Equals(" "))
                 {
-                    if (u.MemberName.Equals(username))
+                    return toRerutn;
+                }
+                try
+                {
+                    
+                    foreach (User u in users)
                     {
-                        toRerutn = u;
+                        if (u.MemberName.Equals(username))
+                        {
+                            toRerutn = u;
+                        }
                     }
                 }
+                catch (Exception e)
+                {
+                    return toRerutn;
+                }
+                
                 return toRerutn;
             }
         }
@@ -194,6 +227,10 @@ namespace TexasHoldem.Logic.Game_Control
         {
             bool toReturn = false;
             User original = FindUser(UserName);
+            if (UserName.Equals("") || UserName.Equals(" "))
+            {
+                return toReturn;
+            }
             if (original == null)
             {
                 return toReturn;
@@ -220,6 +257,10 @@ namespace TexasHoldem.Logic.Game_Control
         public bool Logout(int id)
         {
             bool toReturn = false;
+            if (!IsValidInputNotSmallerEqualZero(id))
+            {
+                return toReturn;
+            }
             User original = GetUserWithId(id);
             User changed = original;
             if (original == null)
@@ -242,6 +283,10 @@ namespace TexasHoldem.Logic.Game_Control
             bool toReturn = false;
             lock (padlock)
             {
+                if (!CanCreateNewUser(id, memberName, password, email))
+                {
+                    return toReturn;
+                }
                 foreach (User u in users)
                 {
                     if (u.MemberName.Equals(memberName))
@@ -256,7 +301,30 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        public bool CanCreateNewUser(int id, string memberName,
+            string password, string email)
+        {
+            //todo - add loger
+            bool toReturn = IsUsernameFree(memberName) && IsIdFree(id) &&
+                IsValidPassword(password) && IsValidEmail(email);
+            if (!IsUsernameFree(memberName))
+            {
+                
+            }
+            if (!IsIdFree(id))
+            {
+                
+            }
+            if (!IsValidPassword(password))
+            {
 
+            }
+            if (!IsValidEmail(email))
+            {
+                
+            }
+            return toReturn;
+        }
         //return true - if user name free, false otherwise 
         //syncrinized - due to foreath
         public bool IsUsernameFree(string username)
@@ -282,6 +350,11 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = true;
+                if (!IsValidInputNotSmallerEqualZero(ID))
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
                 foreach (User u in users)
                 {
                     if (u.Id ==  ID)
@@ -312,13 +385,18 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //get user by id
+        //get user by id - null if not exist / invalid id
         //syncronized - due to for
         public User GetUserWithId(int id)
         {
             lock (padlock)
             {
                 User toReturn = null;
+                if (!IsValidInputNotSmallerEqualZero(id))
+                {
+                    return toReturn;
+                }
+                
                 foreach (User u in users)
                 {
                     if (u.Id == id)
@@ -354,7 +432,15 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
+                    if (!IsValidInputNotSmallerEqualZero(id))
+                    {
+                        return toReturn;
+                    }
                     User toEdit = GetUserWithId(id);
+                    if (toEdit == null)
+                    {
+                        return toReturn;
+                    }
                     User changed = toEdit;
                     
                     bool valid = IsValidEmail(newEmail);
@@ -382,12 +468,21 @@ namespace TexasHoldem.Logic.Game_Control
         public bool IsValidPassword(string password)
         {
             bool toReturn = false;
-            int len = password.Length;
-            if (len > 7 && len < 13)
+            try
             {
-                toReturn = true;
+                int len = password.Length;
+                if (len > 7 && len < 13)
+                {
+                    toReturn = true;
+                }
             }
+            catch (Exception e)
+            {
+                toReturn = false;
                 return toReturn;
+            }
+
+            return toReturn;
         }
 
         
@@ -400,21 +495,29 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn= false;
                 try
                 {
-                    User toEdit = GetUserWithId(id);
-                   
-                    User changed = toEdit;
-                    int len = newPassword.Length;
-                    if (len > 7 && len < 13)
+                    if (!IsValidInputNotSmallerEqualZero(id))
                     {
-
-                        changed.Password = newPassword;
-                        //toReturn = ReplaceUser(toEdit, changed);
-                        toReturn = true;
+                        return toReturn;
                     }
+                    User toEdit = GetUserWithId(id);
+                    if (toEdit == null)
+                    {
+                        return toReturn;
+                    }
+                    User changed = toEdit;
+                    bool valid = IsValidPassword(newPassword);
+                    if (!valid)
+                    {
+                        return toReturn;
+                    }
+                    changed.Password = newPassword;
+                    //toReturn = ReplaceUser(toEdit, changed);
+                    toReturn = true;
                 }
                 catch (Exception e)
                 {
                     toReturn = false;
+                    return toReturn;
                 }
                 
                 return toReturn;
@@ -431,7 +534,15 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
+                    if (!IsValidInputNotSmallerEqualZero(id))
+                    {
+                        return toReturn;
+                    }
                     User toEdit = GetUserWithId(id);
+                    if (toEdit == null)
+                    {
+                        return toReturn;
+                    }
                     User changed = toEdit;
 
                     bool validname = IsUsernameFree(newUserName);
@@ -445,6 +556,7 @@ namespace TexasHoldem.Logic.Game_Control
                 catch (Exception e)
                 {
                     toReturn = false;
+                    return toReturn;
                 }
                 return toReturn;
             }
@@ -456,8 +568,16 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
+                bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(id))
+                {
+                    return toReturn;
+                }
                 User toEdit = GetUserWithId(id);
-                bool toReturn;
+                if (toEdit == null)
+                {
+                    return toReturn;
+                }
                 try
                 {
                     toEdit.Avatar = newAvatarPath;
@@ -466,6 +586,7 @@ namespace TexasHoldem.Logic.Game_Control
                 catch (Exception e)
                 {
                     toReturn = false;
+                    return toReturn;
                 }
                 return toReturn;
             }
@@ -479,12 +600,21 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(id) || !IsValidInputNotSmallerEqualZero(newId))
+                {
+                    return toReturn;
+                }
+                
                 try
                 {
                     bool isFree = IsIdFree(newId);
                     if (isFree)
                     {
                         User toEdit = GetUserWithId(id);
+                        if (toEdit == null)
+                        {
+                            return toReturn;
+                        }
                         User changed = toEdit;
                         changed.Id = newId;
                         toReturn = ReplaceUser(toEdit, changed);
@@ -494,6 +624,7 @@ namespace TexasHoldem.Logic.Game_Control
                 catch (Exception e)
                 {
                     toReturn = false;
+                    return toReturn;
                 }
                
                 return toReturn;
@@ -507,10 +638,23 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                bool toReturn;
+                bool toReturn = false;
                 try
                 {
+                    if (!IsValidInputNotSmallerEqualZero(id))
+                    {
+                        return toReturn;
+                    }
+                    if (!IsValidInputNotSmallerZero(newPoints))
+                    {
+                        return toReturn;
+                    }
                     User toEdit = GetUserWithId(id);
+                    if (toEdit == null)
+                    {
+                        return toReturn;
+                    }
+
                     User changed = toEdit;
 
                     changed.Points = newPoints;
@@ -533,10 +677,22 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                bool toReturn;
+                bool toReturn = false;
                 try
                 {
+                    if (!IsValidInputNotSmallerEqualZero(id))
+                    {
+                        return toReturn;
+                    }
+                    if (!IsValidInputNotSmallerZero(newMoney))
+                    {
+                        return toReturn;
+                    }
                     User toEdit = GetUserWithId(id);
+                    if (toEdit == null)
+                    {
+                        return toReturn;
+                    }
                     User changed = toEdit;
 
                     changed.Money = newMoney;
@@ -558,10 +714,19 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                bool toReturn;
+                bool toReturn = false;
                 try
                 {
+                    if (!IsValidInputNotSmallerEqualZero(id))
+                    {
+                        return toReturn;
+                    }
+                    
                     User toEdit = GetUserWithId(id);
+                    if (toEdit == null)
+                    {
+                        return toReturn;
+                    }
                     User changed = toEdit;
 
                     changed.IsActive = activemode;
@@ -582,11 +747,35 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                bool toReturn;
+                bool toReturn =false;
                 try
                 {
-                    GameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                    if (!IsValidInputNotSmallerEqualZero(userId))
+                    {
+                        return toReturn;
+                    }
+                    if (!IsValidInputNotSmallerZero(roomId))
+                    {
+                        return toReturn;
+                    }
+                    bool roomExist = GameCenter.Instance.IsRoomExist(roomId);
+                    if (!roomExist)
+                    {
+                        return toReturn;
+                    }
+                    
+                    
                     User user = GetUserWithId(userId);
+                    if (user == null)
+                    {
+                        return toReturn;
+                    }
+                    if (!HasThisActiveGame(roomId, userId))//user dont have this game
+                    {
+                        return toReturn;
+                    }
+                    GameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                    
                     user.ActiveGameList.Remove(toRemove);
                     toReturn = true;
                 }
@@ -602,13 +791,37 @@ namespace TexasHoldem.Logic.Game_Control
         //remove room from user specteted game list - sncromized
         public bool RemoveRoomFromSpectetRoom(int roomId, int userId)
         {
-            bool toReturn;
+            bool toReturn=false;
             lock (padlock)
             {
                 try
                 {
-                    GameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                    if (!IsValidInputNotSmallerEqualZero(userId))
+                    {
+                        return toReturn;
+                    }
+                    if (!IsValidInputNotSmallerZero(roomId))
+                    {
+                        return toReturn;
+                    }
+                    bool roomExist = GameCenter.Instance.IsRoomExist(roomId);
+                    if (!roomExist)
+                    {
+                        return toReturn;
+                    }
+
+
                     User user = GetUserWithId(userId);
+                    if (user == null)
+                    {
+                        return toReturn;
+                    }
+                    if (!HasThisSpectetorGame(roomId, userId))//user dont have this game
+                    {
+                        return toReturn;
+                    }
+                    GameRoom toRemove = GameCenter.Instance.GetRoomById(roomId);
+                   
                     user.SpectateGameList.Remove(toRemove);
                     toReturn = true;
                 }
@@ -621,12 +834,33 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //return if game is active game on is acrive game ist
+        //return if game is active game on is acrive game list
         public bool HasThisActiveGame(int roomId, int userId)
         {
-            bool toReturn;
+            bool toReturn=false;
+            if (!IsValidInputNotSmallerEqualZero(userId))
+            {
+                return toReturn;
+            }
+            if (!IsValidInputNotSmallerZero(roomId))
+            {
+                return toReturn;
+            }
+            if (!GameCenter.Instance.IsRoomExist(roomId))
+            {
+                return toReturn;
+            }
+            
             GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            if (toCheck == null)
+            {
+                return toReturn;
+            }
             User user = GetUserWithId(userId);
+            if (user == null)
+            {
+                return toReturn;
+            }
             toReturn = user.ActiveGameList.Contains(toCheck);
             return toReturn;
         }
@@ -636,8 +870,29 @@ namespace TexasHoldem.Logic.Game_Control
         public bool HasThisSpectetorGame(int roomId, int userId)
         {
             bool toReturn = false;
+            if (!IsValidInputNotSmallerEqualZero(userId))
+            {
+                return toReturn;
+            }
+            if (!IsValidInputNotSmallerZero(roomId))
+            {
+                return toReturn;
+            }
+            if (!GameCenter.Instance.IsRoomExist(roomId))
+            {
+                return toReturn;
+            }
+
             GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+            if (toCheck == null)
+            {
+                return toReturn;
+            }
             User user = GetUserWithId(userId);
+            if (user == null)
+            {
+                return toReturn;
+            }
             toReturn = user.SpectateGameList.Contains(toCheck);
             return toReturn;
         }
@@ -649,8 +904,18 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<GameRoom> toReturn = null;
+                if (userName.Equals("")||userName.Equals(" ")|| IsUsernameFree(userName))
+                {
+                    return toReturn;
+                }
+               
                 User user = FindUser(userName);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = new List<GameRoom>();
                 foreach (GameRoom room in user.ActiveGameList)
                 {
                     if (room._isActiveGame)
@@ -669,8 +934,18 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<GameRoom> toReturn = null;
+                if (userName.Equals("") || userName.Equals(" ") || IsUsernameFree(userName))
+                {
+                    return toReturn;
+                }
+
                 User user = FindUser(userName);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = new List<GameRoom>();
                 foreach (GameRoom room in user.ActiveGameList)
                 {
                     if (room._isSpectetor)
@@ -686,8 +961,28 @@ namespace TexasHoldem.Logic.Game_Control
         //return true if user is with the highest rank
         public bool IsHigestRankUser(int userId)
         {
-            User user = GetUserWithId(userId);
-            bool toReturn = user.IsHigherRank;
+            bool toReturn = false;
+            try
+            {
+               
+                if (!IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
+                
+                User user = GetUserWithId(userId);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = user.IsHigherRank;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+                return toReturn;
+            }
+            
             return toReturn;
         }
 
@@ -700,6 +995,10 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(userId) || IsIdFree(userId))
+                {
+                    return toReturn;
+                }
                 bool isHighest = IsHigestRankUser(userId);
                 if (!isHighest)
                 {
@@ -715,25 +1014,52 @@ namespace TexasHoldem.Logic.Game_Control
 
         public List<User> SortByRank()
         {
-            List<User> sort = new List<User>();
-            sort.OrderByDescending(r => r.rank);
-            return sort;
+            lock (padlock)
+            {
+                List<User> sort = new List<User>();
+                sort.OrderByDescending(r => r.rank);
+                return sort;
+            }
         }
 
+        //return -1 if error
         public int GetUserRank(int userId)
         {
-            List<User> sort = SortByRank();
-            User user = GetUserWithId(userId);
-            int toReturn = sort.IndexOf(user);
-            user.rank = toReturn;
-            return toReturn;
+            lock (padlock)
+            {
+                int toReturn;
+                try
+                {
+                    if (!IsValidInputNotSmallerEqualZero(userId))
+                    {
+                        return -1;
+                    }
+                    List<User> sort = SortByRank();
+                    User user = GetUserWithId(userId);
+                    if (user == null)
+                    {
+                        return -1;
+                    }
+                    toReturn = sort.IndexOf(user);
+                    user.rank = toReturn;
+                    
+                }
+                catch (Exception e)
+                {
+                    return -1;
+                }
+                return toReturn;
+            }
         }
 
         public List<User> SortUserByPoint()
         {
-            List<User> sort = new List<User>();
-            sort.OrderBy(p => p.Points);
-            return sort;
+            lock (padlock)
+            {
+                List<User> sort = new List<User>();
+                sort.OrderBy(p => p.Points);
+                return sort;
+            }
         }
 
         public bool MovePlayerBetweenLeague(int highestId, int userToMove, int newPoint)
@@ -742,7 +1068,18 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 //check to see is the higest user
-
+                if (!IsValidInputNotSmallerEqualZero(highestId))
+                {
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerEqualZero(userToMove))
+                {
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerZero(newPoint))
+                {
+                    return toReturn;
+                }
                 if (!IsHigestRankUser(highestId))
                 {
                     return toReturn;
@@ -750,7 +1087,15 @@ namespace TexasHoldem.Logic.Game_Control
                 try
                 {
                     User highest = GetUserWithId(highestId);
+                    if (highest == null)
+                    {
+                        return toReturn;
+                    }
                     User toChange = GetUserWithId(userToMove);
+                    if (toChange == null)
+                    {
+                        return toReturn;
+                    }
                     toChange.Points = newPoint;
                     toReturn = true;
                 }
@@ -769,6 +1114,14 @@ namespace TexasHoldem.Logic.Game_Control
             //check to see is the higest user
             lock (padlock)
             {
+                if (!IsValidInputNotSmallerEqualZero(highestId))
+                {
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerZero(newPoint))
+                {
+                    return toReturn;
+                }
                 if (!IsHigestRankUser(highestId))
                 {
                     return toReturn;
@@ -797,6 +1150,15 @@ namespace TexasHoldem.Logic.Game_Control
 
                 return toReturn;
             }
+        }
+        private bool IsValidInputNotSmallerEqualZero(int toCheck)
+        {
+            return toCheck > 0;
+        }
+
+        private bool IsValidInputNotSmallerZero(int toCheck)
+        {
+            return toCheck >= 0;
         }
     }
 }
