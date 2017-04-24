@@ -1,6 +1,7 @@
 ﻿ using System;
 using System.Collections.Generic;
-using TexasHoldem.Logic.Actions;
+ using System.Linq;
+ using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 
@@ -22,8 +23,9 @@ namespace TexasHoldem.Logic.Game
             this._sidePots = new List<Tuple<int, List<Player>>>();
             this._gm = new GameManager(this);
             //    this._minRank = _gameCenter.UserLeageGapPoint..
-            this._minRank = _gameCenter.UserLeageGapPoint(0).Item1;
-            this._maxRank = _gameCenter.UserLeageGapPoint(0).Item2;
+            Tuple<int,int> tup = _gameCenter.UserLeageGapPoint(players[0].Id);
+            this._minRank = tup.Item1;
+            this._maxRank = tup.Item2;
         }
 
 

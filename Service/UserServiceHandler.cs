@@ -50,16 +50,14 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        //TODO
+        //TODO - added
         public Player GetPlayer(int userId, int roomId)
         {
-            return null;
-            ;
+            return SystemControl.SystemControlInstance.GetPlayer(userId, roomId);
         }
 
 
-        //TODO
-        //? to renove?
+        //TODO - odded to remove
         public int GetNextUserId()
         {
             return 1;
@@ -96,20 +94,26 @@ namespace TexasHoldem.Service
 
 
         //return null if one of the field is not valid
+        //Todo - add filed of money - oded - use register not this one need to remove this
         public User CreateNewUser(int id, string name, string memberName,
             string password, string email)
         {
             User toReturn = null;
             if (CanCreateNewUser(id , memberName, password, email))
             {
-                toReturn = new User(id, name, memberName, password, 0, 0, email);
+                toReturn =
+                    SystemControl.SystemControlInstance.CreateNewUser(id, name, memberName, password, email, 0);
             }
             
             //Console.WriteLine("User was created with info:" + toReturn.ToString());
             return toReturn;
         }
+       
 
-
+        public User FindUser(string username)
+        {
+            return SystemControl.SystemControlInstance.FindUser(username);
+        }
 
         public bool CanCreateNewUser(int id , string memberName,
             string password, string email)
@@ -214,7 +218,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
+        
         public List<GameRoom> GetSpectetorGamesByUserName(string userName)
         {
             List<GameRoom> toReturn = sc.GetSpectetorGamesByUserName(userName);
@@ -246,6 +250,24 @@ namespace TexasHoldem.Service
         public bool MovePlayerBetweenLeague(int highestId, int userToMove, int newPoint)
         {
             return SystemControl.SystemControlInstance.MovePlayerBetweenLeague(highestId, userToMove, newPoint);
+        }
+
+        //Todo bar - add to class diagram
+        public bool ChangeGapByHighestUserAndCreateNewLeague(int userId, int newGap)
+        {
+            return SystemControl.SystemControlInstance.ChangeGapByHighestUserAndCreateNewLeague(userId, newGap);
+        }
+
+        public List<User> GetAllUser()
+        {
+            return SystemControl.SystemControlInstance.GetAllUser();
+        }
+
+        //todo - oded - use this
+        //register to system - return bool that tell is success or fail - syncronized
+        public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
+        {
+            return RegisterToSystem(id, name, memberName, password, money, email);
         }
     }
 }

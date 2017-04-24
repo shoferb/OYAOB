@@ -20,11 +20,11 @@ namespace TexasHoldem.Logic.Game_Control
         private List<League> leagueTable;
         private List<Log> logs;
         private User higherRank;
-        private int leagueGap;
+        public int leagueGap { get; set; }
         private List<GameRoom> games;
         public List<ErrorLog> errorLog { get; set; }
         public List<SystemLog> systemLog { get; set; }
-        private static int roomIdCounter = 0;
+        private static int roomIdCounter = 1;
         private static GameCenter singlton;
         private ReplayManager _replayManager;
 
@@ -38,6 +38,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             this.leagueTable = new List<League>();
             CreateFirstLeague(100);
+            this.higherRank = null;
             this.logs = new List<Log>();// - why need this ToString()?
             this.games = new List<GameRoom>();
             _replayManager = new ReplayManager();
@@ -151,6 +152,11 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        public int GetLastGameRoom()
+        {
+            return roomIdCounter;
+        }
+
         //create new game room
         //game type  policy, limit, no-limit, pot-limit
         //אם הכסף של השחקן 
@@ -230,6 +236,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
+                players.Add(player);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
                 Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
                 toReturn = AddRoom(room);
@@ -671,7 +678,7 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 int higherRank = HigherRank.Points;
-                leagueTable = null;
+                leagueTable = new List<League>();
                 int currpoint = 0;
                 int i = 1;
                 int to = 0;
@@ -681,6 +688,7 @@ namespace TexasHoldem.Logic.Game_Control
                     leaugeName = "" + i;
                     to = currpoint + leagueGap;
                     League toAdd = new League(leaugeName, currpoint, to);
+                    leagueTable.Add(toAdd);
                     i++;
                     currpoint = to;
                 }
@@ -699,8 +707,8 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 
-                leagueGap = initGap;
-                leagueTable = null;
+                LeagueGap = initGap;
+                leagueTable = new List<League>();
                 int currpoint = 0;
                 int i = 1;
                 int to = 0;
@@ -710,6 +718,7 @@ namespace TexasHoldem.Logic.Game_Control
                     leaugeName = "" + i;
                     to = currpoint + leagueGap;
                     League toAdd = new League(leaugeName, currpoint, to);
+                    leagueTable.Add(toAdd);
                     i++;
                     currpoint = to;
                 }
@@ -745,27 +754,33 @@ namespace TexasHoldem.Logic.Game_Control
         //Tuple<int, int> - <min,max>
         public Tuple<int,int> UserLeageGapPoint(int userId)
         {
+            Tuple<int, int> toReturn;
             User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-            Tuple<int, int> toReturn = new Tuple<int, int>(-1, -1);
+            if (user == null)
+            {
+                 toReturn = new Tuple<int, int>(-1, -1);
+                return toReturn;
+            }
+            
             int userRank = user.Points;
             int i = 1;
             int min = 0;
             int max = leagueGap;
-            bool flag = ((userRank > min) && (userRank < max));
+            bool flag = ((userRank >= min) && (userRank <= max));
             while (!flag)
             {
-                if ((userRank > min) && (userRank < max))
+                if ((userRank >= min) && (userRank <= max))
                 {
                     flag = true;
-                    toReturn   = new Tuple<int, int>(min, max);
+                    toReturn = new Tuple<int, int>(min, max);
+                    return toReturn;
                 }
-                else
-                {
-                    min = max + 1;
-                    max = min + leagueGap;
-                }
+                min = max + 1;
+                max = min + leagueGap;
+                flag = ((userRank >= min) && (userRank <= max));
             }
-            return toReturn;
+            toReturn = new Tuple<int, int>(-10,-10);
+            return toReturn ;
         }
 
         //get all active games - syncronized
@@ -1106,14 +1121,14 @@ namespace TexasHoldem.Logic.Game_Control
         {
             get
             {
-                return LeagueGap;
+                return leagueGap;
             }
 
             set
             {
                 lock (padlock)
                 {
-                    LeagueGap = value;
+                    leagueGap = value;
                 }
             }
         }

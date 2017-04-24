@@ -307,7 +307,6 @@ namespace TexasHoldem.Service
             return ToReturn;
         }
 
-       
         private Tuple<Logic.Game.Action, int> SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
         {
             return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);

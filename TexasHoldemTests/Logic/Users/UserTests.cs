@@ -62,17 +62,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.AreNotEqual(orelie.Email, "slafkjasp");
             Assert.AreNotEqual(orelie.Email, "orelie@gmail.com");
         }
-        /*
-        [TestMethod()]
-        public void IsValidEmailTest()
-        {
-            Assert.IsTrue(orelie.IsValidEmail("orelie@post.bgu.ac.il"));
-            Assert.IsTrue(orelie.IsValidEmail("orelie.shahar@gmail.com"));
-            Assert.IsTrue(orelie.IsValidEmail("orelie@walla.co.il"));
-            Assert.IsFalse(orelie.IsValidEmail("orelie.post.bgu.ac.il"));
-            Assert.IsFalse(orelie.IsValidEmail("wromgEmail"));
-            Assert.IsFalse(orelie.IsValidEmail("oreli2198#@%*_)(*&^%#!?@bgu.ac.il"));
-        }*/
+       
 
         [TestMethod()]
         public void SendNotificationTest()

@@ -137,7 +137,8 @@ namespace TexasHoldem.Logic.Users
                 int highestRank = GameCenter.Instance.HigherRank.Points;
                 if (this.Points > highestRank)
                 {
-                    GameCenter.Instance.HigherRank = this;
+                    GameCenter.Instance.HigherRank.IsHigherRank = false;
+                    GameCenter.Instance.HigherRank = SystemControl.SystemControlInstance.GetUserWithId(this.Id);
                     this.IsHigherRank = true;
                 }
                 
