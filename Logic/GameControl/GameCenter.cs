@@ -37,7 +37,7 @@ namespace TexasHoldem.Logic.Game_Control
         private GameCenter()
         {
             this.leagueTable = new List<League>();
-            //todo - add first league function 
+            CreateFirstLeague(100);
             this.logs = new List<Log>();// - why need this ToString()?
             this.games = new List<GameRoom>();
             _replayManager = new ReplayManager();
@@ -76,9 +76,13 @@ namespace TexasHoldem.Logic.Game_Control
         //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
         {
-            bool toReturn;
+            bool toReturn = false;
             lock (padlock)
             {
+                if (!IsValidInputNotSmallerEqualZero(newGap))
+                {
+                    return toReturn;
+                }
                 try
                 {
                     LeagueGap = newGap;
@@ -120,7 +124,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //TODO - ORElie - CrossAppDomainDelegate searchGameBYRANK
+        
         //need to syncronzed?? 
         public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
@@ -160,6 +164,10 @@ namespace TexasHoldem.Logic.Game_Control
                     //there is no such user
                     ErrorLog log = new ErrorLog("Error while trying to create room, there is no user with id: "+ userId);
                     AddErrorLog(log);
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerEqualZero(userId))
+                {
                     return toReturn;
                 }
                 if (startingChip < 0)
@@ -222,9 +230,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
-
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
-              //Todo - Yarden witch method should be inside?
                 Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
                 toReturn = AddRoom(room);
                 return toReturn;
@@ -244,11 +250,16 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //return room by room if - suncronized due to for
+        //return null if room id smaller than 0 or not found
         public GameRoom GetRoomById(int roomId)
         {
             lock (padlock)
             {
                 GameRoom toReturn = null;
+                if (!IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
                 foreach (GameRoom room in games)
                 {
                     if (room._id == roomId)
@@ -273,6 +284,10 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
+                if (!IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
                 foreach (GameRoom room in games)
                 {
                     if (room._id == roomId)
@@ -295,6 +310,10 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
+                {
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerZero(roomId))
                 {
                     return toReturn;
                 }
@@ -334,7 +353,11 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                bool toReturn;
+                bool toReturn = false;
+                if (roomToAdd == null)
+                {
+                    return toReturn;
+                }
                 try
                 {
                     this.games.Add(roomToAdd);
@@ -350,7 +373,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        //Todo add check that is rank is valid by nim max rank to room
+        
        //Add Player to room
         public bool AddPlayerToRoom(int roomId, int userId)
         {
@@ -369,6 +392,10 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
                 int MoneyAferBuyIn = user.Money - room._enterPayingMoney;
                 int moneyAfterDecStartingChip = MoneyAferBuyIn - room._startingChip;
                 if(MoneyAferBuyIn < 0) 
@@ -383,8 +410,13 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
-                 
-               
+                if (SystemControl.SystemControlInstance.HasThisSpectetorGame(roomId, userId)) //user is spectetor cant be also a player
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with id: " + userId + " to room: " + roomId + " user is a spectetor in this room need to leave first than join game");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+
                 List<Player> players = room._players;
                 
                 int numOfPlayerInRoom = 0;
@@ -396,7 +428,7 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                 }
                 /*
-                if (playerChipToEnterRoom < sb) //todo - YARDEN - nned to be small blind or big blind?
+                if (playerChipToEnterRoom < sb) //
                 {
                     ErrorLog log = new ErrorLog("???????????????");
                     AddErrorLog(log);
@@ -409,6 +441,12 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
+                if (!(user.Points <= room._maxRank && user.Points >= room._minRank))
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to add player, user with id: " + userId + " to room: " + roomId + "user point: " + user.Points + " are not in this game critiria (nimRank , maxRank: " + room._minRank + ", " + room._maxRank);
+                    AddErrorLog(log);
+                    return toReturn;
+                }
                 int newMoney = moneyAfterDecStartingChip;
                 user.Money = newMoney;
                 /*if (playerChipToEnterRoom == 0)
@@ -418,6 +456,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }*/
                 Player playerToAdd = new Player(room._startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, roomId);
+               
                 try
                 {
                     GameRoom toAdd = room;
@@ -449,10 +488,19 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
                 SystemControl sc = SystemControl.SystemControlInstance;
                 User user = sc.GetUserWithId(userId);
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
+                {
+                    return toReturn;
+                }
+                //if user is player in room cant be also spectetor
+                if (SystemControl.SystemControlInstance.HasThisActiveGame(roomId, userId))
                 {
                     return toReturn;
                 }
@@ -483,12 +531,16 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //remove player from room
-        //todo - if player exit in the middle dec money
+
         public bool RemovePlayerFromRoom(int roomId, int userId)
         {
             lock (padlock)
             {
                 bool toReturn = false;
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
                 {
@@ -510,7 +562,10 @@ namespace TexasHoldem.Logic.Game_Control
                         playerToRemove = p;
                     }
                 }
-
+                if (playerToRemove == null)//user is not in room
+                {
+                    return toReturn;
+                }
                 try
                 {
                     playerToRemove._isInRoom = false; //not in room - need to remove in end od round
@@ -545,6 +600,10 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 bool exist = IsRoomExist(roomId);
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
                 if (!exist)
                 {
                     return toReturn;
@@ -562,6 +621,10 @@ namespace TexasHoldem.Logic.Game_Control
                     {
                         sprctetorToRemove = s;
                     }
+                }
+                if (sprctetorToRemove == null)//spectetor not in room
+                {
+                    return toReturn;
                 }
                 try
                 {
@@ -586,7 +649,12 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
+
                 bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(leagugap))
+                {
+                    return toReturn;
+                }
                 int higherRank = HigherRank.Points;
                 leagueTable = null;
                 int currpoint = 0;
@@ -605,6 +673,34 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        //create new league whith new gap
+        public bool CreateFirstLeague(int initGap)
+        {
+            lock (padlock)
+            {
+                bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(initGap))
+                {
+                    return toReturn;
+                }
+                
+                leagueGap = initGap;
+                leagueTable = null;
+                int currpoint = 0;
+                int i = 1;
+                int to = 0;
+                String leaugeName;
+                while (i < 100)
+                {
+                    leaugeName = "" + i;
+                    to = currpoint + leagueGap;
+                    League toAdd = new League(leaugeName, currpoint, to);
+                    i++;
+                    currpoint = to;
+                }
+                return toReturn;
+            }
+        }
 
         public string UserLeageInfo(User user)
         {
@@ -707,20 +803,32 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //todo ??? potCount =? postsize
+        //todo ?????? potCount =? postsize
         //return list of games with pot size
         public List<GameRoom> GetAllGamesByPotSize(int potSize)
         {
             lock (padlock)
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                try
                 {
-                    if (room._potCount == potSize)
+                    if (!IsValidInputNotSmallerZero(potSize))
                     {
-                        toReturn.Add(room);
+                        toReturn = null;
+                        return toReturn;
                     }
+                    foreach (GameRoom room in games)
+                    {
+                        if (room._potCount == potSize)
+                        {
+                            toReturn.Add(room);
+                        }
 
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
                 }
                 return toReturn;
             }
@@ -751,14 +859,27 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                try
                 {
-                    if (room._enterPayingMoney == buyIn)
+                    if (!IsValidInputNotSmallerZero(buyIn))
                     {
-                        toReturn.Add(room);
+                        toReturn = null;
+                        return toReturn;
                     }
+                    foreach (GameRoom room in games)
+                    {
+                        if (room._enterPayingMoney == buyIn)
+                        {
+                            toReturn.Add(room);
+                        }
 
+                    }
                 }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+                
                 return toReturn;
             }
         }
@@ -769,14 +890,27 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                try
                 {
-                    if (room._minPlayersInRoom == min)
+                    if (!IsValidInputNotSmallerZero(min))
                     {
-                        toReturn.Add(room);
+                        toReturn = null;
+                        return toReturn;
                     }
+                    foreach (GameRoom room in games)
+                    {
+                        if (room._minPlayersInRoom == min)
+                        {
+                            toReturn.Add(room);
+                        }
 
+                    }
                 }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+                
                 return toReturn;
             }
         }
@@ -788,14 +922,27 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                try
                 {
-                    if (room._maxPlayersInRoom == max)
+                    if (!IsValidInputNotSmallerEqualZero(max))
                     {
-                        toReturn.Add(room);
+                        toReturn = null;
+                        return toReturn;
                     }
+                    foreach (GameRoom room in games)
+                    {
+                        if (room._maxPlayersInRoom == max)
+                        {
+                            toReturn.Add(room);
+                        }
 
+                    }
                 }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+               
                 return toReturn;
             }
         }
@@ -809,40 +956,69 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                try
                 {
-                    if (room._minBetInRoom == minBet)
+                    
+                    if (!IsValidInputNotSmallerZero(minBet))
                     {
-                        toReturn.Add(room);
+                        toReturn = null;
+                        return toReturn;
                     }
+                    foreach (GameRoom room in games)
+                    {
+                        if (room._minBetInRoom == minBet)
+                        {
+                            toReturn.Add(room);
+                        }
 
+                    }
                 }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+                
                 return toReturn;
             }
         }
 
 
         //return list of games by starting chip policy
+        //return null if startingChup <=0
         //syncronized - due to for
         public List<GameRoom> GetGamesByStartingChip(int startingChip)
         {
             lock (padlock)
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                if (!IsValidInputNotSmallerZero(startingChip))
                 {
-                    if (room._startingChip == startingChip)
+                    toReturn = null;
+                    return toReturn;
+                }
+                try
+                {
+                    
+                    foreach (GameRoom room in games)
                     {
-                        toReturn.Add(room);
-                    }
+                        if (room._startingChip == startingChip)
+                        {
+                            toReturn.Add(room);
+                        }
 
+                    }
+               
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
                 }
                 return toReturn;
             }
         }
 
         //chaeck if game is spectetable
-        //todo cahnge to game room
+       
         public bool IsGameCanSpectete(int roomId)
         {
             bool toReturn = false;
@@ -1169,11 +1345,16 @@ namespace TexasHoldem.Logic.Game_Control
             return moveAndBet;
         }
 
-
-        public Tuple<Action, int> GetMoveFromPlayer(Tuple<Action, int> moveAndBet)
+        private bool IsValidInputNotSmallerEqualZero(int toCheck)
         {
-            return moveAndBet;
+            return toCheck > 0;
         }
+
+        private bool IsValidInputNotSmallerZero(int toCheck)
+        {
+            return toCheck >= 0;
+        }
+
     }
 
     

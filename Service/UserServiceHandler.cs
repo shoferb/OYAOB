@@ -115,8 +115,7 @@ namespace TexasHoldem.Service
             string password, string email)
         {
 
-            bool toReturn = sc.IsUsernameFree(memberName) && sc.IsIdFree(id) && sc.IsValidPassword(password) &&
-                            sc.IsValidEmail(email);
+            bool toReturn = sc.CanCreateNewUser(id, memberName, password, email);
             return toReturn;
         }
 

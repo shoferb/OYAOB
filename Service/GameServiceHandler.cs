@@ -307,11 +307,7 @@ namespace TexasHoldem.Service
             return ToReturn;
         }
 
-
-        public Tuple<Logic.Game.Action, int> GetMoveFromPlayer(Tuple<Action, int> moveAndBet)
-        {
-            return GameCenter.Instance.GetMoveFromPlayer(moveAndBet);
-        }
+       
         private Tuple<Logic.Game.Action, int> SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
         {
             return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);
