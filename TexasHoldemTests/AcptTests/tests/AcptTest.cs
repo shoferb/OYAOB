@@ -18,7 +18,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected string User1Name;
         protected string User1Pw;
         protected const int RoomId = 0; //room1 must NOT exist when tests start.
-        protected List<int> OtherUsers; //list holding all user ids used for testing except UserId1
+        protected List<int> Users; //list holding all user ids used for testing
         protected string UserEmailGood1;
 
         protected AcptTest()
@@ -26,7 +26,7 @@ namespace TexasHoldemTests.AcptTests.tests
             UserBridge = new UserBridge();
             GameBridge = new GameBridge();
             ReplayBridge = new ReplayBridge();
-            OtherUsers = new List<int>();
+            Users = new List<int>();
 
             User1Name = "Oded";
             User1Pw = "goodPw1234";
@@ -53,44 +53,12 @@ namespace TexasHoldemTests.AcptTests.tests
         [TearDown]
         protected void Dispose()
         {
-            //logout user1
-            if (UserBridge.IsUserLoggedIn(UserId))
-            {
-                UserBridge.LogoutUser(UserId);
-            }
-
-            //remove user1 from all Rooms
-            if (UserBridge.GetUsersGameRooms(UserId).Count > 0)
-            {
-                UserBridge.GetUsersGameRooms(UserId).ForEach(gId =>
-                {
-                    UserBridge.RemoveUserFromRoom(UserId, gId);
-                });
-            }
-
-            //delete room1
-            if (GameBridge.DoesRoomExist(RoomId))
-            {
-                GameBridge.RemoveGameRoom(RoomId);
-            }
-
-            //delete all other users
-            OtherUsers.ForEach(uid =>
-            {
-                if (UserBridge.IsThereUser(uid))
-                {
-                    UserBridge.GetUsersGameRooms(uid).ForEach(gid =>
-                    {
-                        UserBridge.RemoveUserFromRoom(uid, gid);
-                    });
-                    UserBridge.DeleteUser(uid);
-                }
-            });
+            RestartSystem();
 
             SubClassDispose();
 
-            UserBridge = null;
-            GameBridge = null;
+            //UserBridge = null;
+            //GameBridge = null;
             User1Name = null;
             User1Pw = null;
         }
@@ -101,7 +69,7 @@ namespace TexasHoldemTests.AcptTests.tests
         //subclass' setup method
         protected abstract void SubClassDispose();
 
-        //create a new user, add to OtherUsers list and return the user's id
+        //create a new user, add to Users list and return the user's id
         protected int GetNextUser()
         {
             int randInt = new Random().Next();
@@ -109,7 +77,7 @@ namespace TexasHoldemTests.AcptTests.tests
             //int someUser = UserBridge.GetNextFreeUserId();
             UserBridge.RegisterUser(randInt.ToString(), User1Pw, UserEmailGood1);
 
-            OtherUsers.Add(randInt);
+            Users.Add(randInt);
 
             return randInt;
         }
@@ -138,7 +106,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 UserBridge.RemoveUserFromRoom(UserId, newRoomId);
 
                 UserBridge.DeleteUser(userId2);
-                OtherUsers.Remove(userId2);
+                Users.Remove(userId2);
             }
         }
 
@@ -147,6 +115,7 @@ namespace TexasHoldemTests.AcptTests.tests
             if (!UserBridge.IsThereUser(UserId))
             {
                 UserBridge.RegisterUser(UserId, User1Name, User1Pw, UserEmailGood1);
+                Users.Add(UserId);
             }
             else if (!UserBridge.IsUserLoggedIn(UserId))
             {
@@ -154,11 +123,33 @@ namespace TexasHoldemTests.AcptTests.tests
             }
         }
 
+        private void CleanUserAndHisGames(int userId)
+        {
+            if (UserBridge.IsUserLoggedIn(userId))
+            {
+                UserBridge.LogoutUser(UserId);
+            }
+
+            List<int> usersGames = UserBridge.GetUsersGameRooms(userId);
+            usersGames.ForEach(usersRoom =>
+            {
+                UserBridge.RemoveUserFromRoom(userId, usersRoom);
+            });
+            UserBridge.DeleteUser(userId);
+        }
+
         //delete all users and all games, then register user1
         protected void RestartSystem()
         {
             //delete all users:
             List<int> allUsers = UserBridge.GetAllUsers();
+            Users.ForEach(u =>
+            {
+                if (!allUsers.Contains(u))
+                {
+                    CleanUserAndHisGames(u);
+                }
+            });
             allUsers.ForEach(user =>
             {
                 List<int> usersGames = UserBridge.GetUsersGameRooms(user);
@@ -176,7 +167,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 GameBridge.RemoveGameRoom(room);
             });
 
-            RegisterUser1();
+            //RegisterUser1();
         }
 
         //create a new game with user2 as only player, return user2's id

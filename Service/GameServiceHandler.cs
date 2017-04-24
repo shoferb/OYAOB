@@ -100,7 +100,11 @@ namespace TexasHoldem.Service
         public bool MakeRoomActive(GameRoom room)
         {
             var manager = GetManagerForGame(room);
-            return manager.Play();
+            if (room._minPlayersInRoom < room._players.Count)
+            {
+                return manager.Play(); 
+            }
+            return false;
         }
 
         public bool RemoveRoom(int gameId)
