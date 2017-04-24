@@ -31,7 +31,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserFromId(id);
             if (user != null)
             {
-                return user.Name;
+                return user.MemberName;
             }
             return "";
         }
@@ -84,7 +84,14 @@ namespace TexasHoldemTests.AcptTests.Bridges
             {
                 user.ActiveGameList.ForEach(game =>
                     {
-                        chips += _userService.GetPlayer(userId, game._id)._totalChip;
+                        if (game != null)
+                        {
+                            var players = game._players.FindAll(p => p.Id == userId);
+                            players.ForEach(p =>
+                            {
+                                chips += p._totalChip;
+                            });
+                        }
                     }); 
             }
             return chips;
@@ -198,8 +205,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public int RegisterUser(string name, string pw1, string email)
         {
             int id = new Random().Next();
-            var user = _userService.RegisterToSystem(id, name, name, pw1, RegisterMoney, email);
-            if (user != null)
+            var success = _userService.RegisterToSystem(id, name, name, pw1, RegisterMoney, email);
+            if (success)
             {
                 return id;
             }
@@ -249,7 +256,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
             User user = _userService.GetUserFromId(userId);
-            if (user == null)
+            if (user != null)
             {
                 return _gameService.AddPlayerToRoom(userId, roomId, chipAmount);
             }
@@ -259,7 +266,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool AddUserToGameRoomAsSpectator(int userId, int roomId)
         {
             User user = _userService.GetUserFromId(userId);
-            if (user == null)
+            if (user != null)
             {
                 return _gameService.AddSpectatorToRoom(userId, roomId);
             }

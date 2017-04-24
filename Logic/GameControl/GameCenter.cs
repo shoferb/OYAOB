@@ -379,7 +379,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 SystemControl sc = SystemControl.SystemControlInstance;
-                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
