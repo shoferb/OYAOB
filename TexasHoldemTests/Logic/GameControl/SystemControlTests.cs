@@ -576,6 +576,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.AreEqual(sc.GetUserWithId(id).IsActive, false);
             Assert.IsTrue(sc.EditActiveGame(id, true));
             Assert.IsTrue(sc.EditUserPoints(id,50));
+            Assert.AreEqual(sc.GetUserWithId(id).Points, 50);
             bool CreateRoom = GameCenter.Instance.CreateNewRoom(id, 100, true, GameMode.Limit, 2, 8, 20, 5);
             Assert.IsTrue(CreateRoom);
             
@@ -585,8 +586,8 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             GameRoom room = rooms.First();
             Assert.AreNotEqual(room,null);
             Assert.AreEqual(GameCenter.Instance.LeagueGap,100);
-            Assert.AreEqual(room._minRank,0);
-            Assert.AreEqual(room._minRank, 100);
+            Assert.AreEqual(room._minRank,-1);
+            Assert.AreEqual(room._minRank, -1);
             Assert.AreEqual(GameCenter.Instance.GetLastGameRoom(),2);
 //            Assert.AreEqual(GameCenter.Instance.GetLastGameRoom(), 1);
   //          Assert.AreEqual(GameCenter.Instance.GetLastGameRoom(), 0);
@@ -715,6 +716,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.AreEqual(GameCenter.Instance.leagueGap, 100);
             Assert.IsFalse(sc.ChangeGapByHighestUserAndCreateNewLeague(id,50));
             Assert.AreEqual(orelie.IsHigherRank, false);
+         
             Assert.AreNotEqual(GameCenter.Instance.leagueGap ,50);
             Assert.AreEqual(michele.IsHigherRank, true);
             Assert.IsTrue(sc.ChangeGapByHighestUserAndCreateNewLeague(id2, 50));

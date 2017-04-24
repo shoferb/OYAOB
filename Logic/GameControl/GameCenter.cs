@@ -686,31 +686,31 @@ namespace TexasHoldem.Logic.Game_Control
         //create new league whith new gap
         public bool CreateFirstLeague(int initGap)
         {
-            ////lock (padlock)
-            ////{
-            //    bool toReturn = false;
-            //    if (!IsValidInputNotSmallerEqualZero(initGap))
-            //    {
-            //        return toReturn;
-            //    }
-                
-            //    LeagueGap = initGap;
-            //    leagueTable = new List<League>();
-            //    int currpoint = 0;
-            //    int i = 1;
-            //    int to = 0;
-            //    String leaugeName;
-            //    while (i < 100)
-            //    {
-            //        leaugeName = "" + i;
-            //        to = currpoint + leagueGap;
-            //        League toAdd = new League(leaugeName, currpoint, to);
-            //        leagueTable.Add(toAdd);
-            //        i++;
-            //        currpoint = to;
-            //    }
-            //    return toReturn;
-            ////}
+            //lock (padlock)
+            //{
+            bool toReturn = false;
+            if (!IsValidInputNotSmallerEqualZero(initGap))
+            {
+                return toReturn;
+            }
+
+            LeagueGap = initGap;
+            leagueTable = new List<League>();
+            int currpoint = 0;
+            int i = 1;
+            int to = 0;
+            String leaugeName;
+            while (i < 100)
+            {
+                leaugeName = "" + i;
+                to = currpoint + leagueGap;
+                League toAdd = new League(leaugeName, currpoint, to);
+                leagueTable.Add(toAdd);
+                i++;
+                currpoint = to;
+            }
+            return toReturn;
+            //}
             return true;
         }
 
