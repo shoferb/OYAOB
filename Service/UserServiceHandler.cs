@@ -92,23 +92,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
-        //return null if one of the field is not valid
-        //Todo - add filed of money - oded - use register not this one need to remove this
-        public User CreateNewUser(int id, string name, string memberName,
-            string password, string email)
-        {
-            User toReturn = null;
-            if (CanCreateNewUser(id , memberName, password, email))
-            {
-                toReturn =
-                    SystemControl.SystemControlInstance.CreateNewUser(id, name, memberName, password, email, 0);
-            }
-            
-            //Console.WriteLine("User was created with info:" + toReturn.ToString());
-            return toReturn;
-        }
-
         //todo - oded - use this
         //register to system - return bool that tell is success or fail - syncronized
         public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)

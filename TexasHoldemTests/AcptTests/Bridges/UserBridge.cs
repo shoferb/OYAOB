@@ -12,6 +12,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
     {
         private readonly UserServiceHandler _userService;
         private readonly GameServiceHandler _gameService;
+        private const int RegisterMoney = 1000;
 
         public UserBridge()
         {
@@ -197,7 +198,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public int RegisterUser(string name, string pw1, string email)
         {
             int id = new Random().Next();
-            var user = _userService.CreateNewUser(id, name, name, pw1, email);
+            var user = _userService.RegisterToSystem(id, name, name, pw1, RegisterMoney, email);
             if (user != null)
             {
                 return id;
@@ -207,8 +208,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         
         public bool RegisterUser(int id, string name, string pw1, string email)
         {
-            var user = _userService.CreateNewUser(id, name, name, pw1, email);
-            return user != null;
+            return _userService.RegisterToSystem(id, name, name, pw1, RegisterMoney, email);
         }
 
         public bool DeleteUser(string name, string pw)
