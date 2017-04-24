@@ -277,15 +277,6 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void UserEditEmailTestSad()
-        {
-            RegisterUser1();
-
-            Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
-        }
-
-        [TestCase]
         public void UserEditEmailTestBad()
         {
             //user is not logged in:
@@ -342,11 +333,13 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddUserMoneyTestGood()
         {
+            RegisterUser1();
+
             const int amountToChange = 100;
             int prevAmount = UserBridge.GetUserMoney(UserId);
             Assert.True(UserBridge.AddUserMoney(UserId, amountToChange));
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId) - amountToChange);
-            Assert.True(UserBridge.ReduceUserMoney(UserId, -1 * amountToChange));
+            Assert.True(UserBridge.ReduceUserMoney(UserId, amountToChange));
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId));
         }
 
