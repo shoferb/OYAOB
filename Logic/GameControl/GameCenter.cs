@@ -52,7 +52,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 lock (padlock)
                 {
-                if(instance == null)
+                    if(instance == null)
                     {
                         instance = new GameCenter();
                     }

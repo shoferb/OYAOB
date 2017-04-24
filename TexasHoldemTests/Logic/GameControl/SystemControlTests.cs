@@ -490,7 +490,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(sc.EditUserID(id2, id));//id2=305077901
             Assert.IsFalse(sc.EditUserID(id2, newId1));//fail
             Assert.IsTrue(sc.EditUserID(id, id2));//id=305077902
-            Assert.IsFalse(sc.EditUserID(id2, 0));//fail
+
             Assert.IsFalse(sc.EditUserID(id2, -1));//fail
             Assert.IsFalse(sc.EditUserID(id2, -111111));//fail
             Assert.IsTrue(sc.RemoveUserById(id));
@@ -716,7 +716,8 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsFalse(sc.ChangeGapByHighestUserAndCreateNewLeague(id,50));
             Assert.AreEqual(orelie.IsHigherRank, false);
             Assert.AreNotEqual(GameCenter.Instance.leagueGap ,50);
-            Assert.IsFalse(sc.ChangeGapByHighestUserAndCreateNewLeague(id2, 50));
+            Assert.AreEqual(michele.IsHigherRank, true);
+            Assert.IsTrue(sc.ChangeGapByHighestUserAndCreateNewLeague(id2, 50));
             Assert.AreEqual(michele.IsHigherRank, true);
             Assert.AreEqual(GameCenter.Instance.leagueGap, 50);
             higher = GameCenter.Instance.HigherRank;

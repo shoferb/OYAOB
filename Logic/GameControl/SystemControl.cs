@@ -1023,8 +1023,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             bool toReturn = false;
             try
-            {
-               
+            { 
                 if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
@@ -1044,25 +1043,28 @@ namespace TexasHoldem.Logic.Game_Control
                         GameCenter.Instance.HigherRank = user;
                         user.IsHigherRank = true;
                         toReturn = true;
+                        return toReturn;
                     }
-                    int userPoint = user.Points;
-                    int highPoint = GameCenter.Instance.HigherRank.Points;
-                    if (userPoint == highPoint)
-                    {
-                        return true;
-                    }
-                    else if(GameCenter.Instance.HigherRank != null)
+                    
+                    if(GameCenter.Instance.HigherRank != null)
                     {
 
                         if (user.Points > GameCenter.Instance.HigherRank.Points)
                         {
-
                             GameCenter.Instance.HigherRank.IsHigherRank = false;
                             GameCenter.Instance.HigherRank = user;
                             user.IsHigherRank = true;
                             toReturn = true;
+                            return toReturn;
+                        
                         }
-                    }
+                        int userPoint = user.Points;
+                        int highPoint = GameCenter.Instance.HigherRank.Points;
+                        if ((userPoint == highPoint) && (user.Id == GameCenter.Instance.HigherRank.Id))
+                        {
+                            return true;
+                        }
+                }
                 //}
   
             }
@@ -1094,15 +1096,16 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                bool isHighest = IsHigestRankUser(userId);
-                if (!isHighest)
+                User user = GetUserWithId(userId);
+                bool isHighest = user.IsHigherRank;
+                if (isHighest)
                 {
+                    toReturn = GameCenter.Instance.EditLeagueGap(newGap);
+                    bool change = GameCenter.Instance.LeagueChangeAfterGapChange(newGap);
+                    toReturn = (toReturn && change);
                     return toReturn;
-                    
                 }
-                toReturn = GameCenter.Instance.EditLeagueGap(newGap);
-                bool change = GameCenter.Instance.LeagueChangeAfterGapChange(newGap);
-                toReturn = (toReturn && change);
+                
                 return toReturn;
             }
         }
@@ -1171,14 +1174,16 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                if (!IsHigestRankUser(highestId))
-                {
-                    return toReturn;
-                }
+
+                
                 try
                 {
                     User highest = GetUserWithId(highestId);
                     if (highest == null)
+                    {
+                        return toReturn;
+                    }
+                    if (!highest.IsHigherRank)
                     {
                         return toReturn;
                     }
@@ -1214,7 +1219,8 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                if (!IsHigestRankUser(highestId))
+                User user = GetUserWithId(highestId);
+                if (!user.IsHigherRank)
                 {
                     return toReturn;
                 }
@@ -1224,8 +1230,7 @@ namespace TexasHoldem.Logic.Game_Control
                     foreach (User u in users)
                     {
                         if (u.Points == 0)
-                        {
-                            
+                        { 
                             newUser.Add(u);
                         }
                     }
