@@ -387,10 +387,17 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 SystemControl sc = SystemControl.SystemControlInstance;
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
                 User user = sc.GetUserWithId(userId);
-                GameRoom room = GetRoomById(roomId);
-                int sb = room._sb;
-                int buyIn = room._enterPayingMoney;
+
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
                 {
@@ -398,10 +405,12 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
-                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                GameRoom room = GetRoomById(roomId);
+                if (room == null)
                 {
                     return toReturn;
                 }
+                
                 int MoneyAferBuyIn = user.Money - room._enterPayingMoney;
                 int moneyAfterDecStartingChip = MoneyAferBuyIn - room._startingChip;
                 if(MoneyAferBuyIn < 0) 
