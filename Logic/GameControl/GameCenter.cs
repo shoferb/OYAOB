@@ -667,11 +667,9 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-
-                bool toReturn = false;
                 if (!IsValidInputNotSmallerEqualZero(leagugap))
                 {
-                    return toReturn;
+                    return false;
                 }
                 int higherRank = HigherRank.Points;
                 leagueTable = new List<League>();
@@ -688,7 +686,7 @@ namespace TexasHoldem.Logic.Game_Control
                     i++;
                     currpoint = to;
                 }
-                return toReturn;
+                return true;
             }
         }
 
