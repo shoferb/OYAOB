@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _players.Add(_player1);
             _players.Add(_player2);
             _players.Add(_player3);
-           _room = new ConcreteGameRoom(_players, 50, 0, new Replay.ReplayManager());
+           _room = new ConcreteGameRoom(_players, 100, 1, true, GameMode.NoLimit, 2, 8, 10, 10);
         }
 
         [TestMethod()]

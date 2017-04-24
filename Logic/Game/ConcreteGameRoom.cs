@@ -21,10 +21,13 @@ namespace TexasHoldem.Logic.Game
             this._bb = minBetInRoom;
             this._sidePots = new List<Tuple<int, List<Player>>>();
             this._gm = new GameManager(this);
-         }
+            //    this._minRank = _gameCenter.UserLeageGapPoint..
+            this._minRank = _gameCenter.UserLeageGapPoint(0).Item1;
+            this._maxRank = _gameCenter.UserLeageGapPoint(0).Item2;
+        }
 
 
-        
+
         public Player NextToPlay()
         {
             return _players[_actionPos];
@@ -153,6 +156,13 @@ namespace TexasHoldem.Logic.Game
                     this._players.Remove(p);
                 }
             }
+        }
+
+        public void moveBBnSBtoPot(Player bbPlayer, Player sbPlayer)
+        {
+            _potCount = _bb + _sb;
+            bbPlayer._gameChip = bbPlayer._gameChip - _bb;
+            sbPlayer._gameChip = sbPlayer._gameChip - _sb;
         }
     }
 }

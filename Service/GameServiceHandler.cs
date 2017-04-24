@@ -312,7 +312,7 @@ namespace TexasHoldem.Service
             bool isValidMove = IsValidMove(moves, moveAndBet);
             if (!isValidMove)
             {
-                moveAndBet = new Tuple<Action, int>(Action.Null, -1);
+               // moveAndBet = new Tuple<Action, int>(Action.Null, -1);
             }
             var ToReturn = SendMoveBackToPlayer(moveAndBet);
             return ToReturn;

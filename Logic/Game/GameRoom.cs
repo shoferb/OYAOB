@@ -37,7 +37,9 @@ namespace TexasHoldem.Logic.Game
         public ReplayManager _replayManager;
         public GameCenter _gameCenter;
         public int _minBetInRoom { get; set; }
+        public int _minRank { get; set; }
 
+        public int _maxRank { get; set; }
         public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int _minBetInRoom)
         {
             this._players = players;
@@ -51,6 +53,7 @@ namespace TexasHoldem.Logic.Game
             _gameCenter = GameCenter.Instance;
             _replayManager = _gameCenter.GetReplayManager();
             _gameReplay = new GameReplay(ID, 0);
+      
         }
 
         public void AddNewPublicCard()

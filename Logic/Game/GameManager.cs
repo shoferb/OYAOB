@@ -94,7 +94,7 @@ namespace TexasHoldem.Logic.Game
                 this._state._gameCenter.systemLog.Add(log);
             }
             this._state.UpdateMaxCommitted();
-            this._state.MoveChipsToPot();
+            this._state.moveBBnSBtoPot(this._bbPlayer, this._sbPlayer);
             switch (_state._players.Count)
             {
                 case 2:
