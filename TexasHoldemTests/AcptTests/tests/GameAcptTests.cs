@@ -45,8 +45,8 @@ namespace TexasHoldemTests.AcptTests.tests
         public void CreateGameTestBad()
         {
             //user1 is not logged in
-            Assert.False(GameBridge.CreateGameRoom(UserId, RoomId));
-            Assert.False(GameBridge.DoesRoomExist(RoomId));
+            Assert.False(GameBridge.CreateGameRoom(-1, RoomId));
+            Assert.False(GameBridge.DoesRoomExist(-1));
         }
 
         [TestCase]

@@ -205,8 +205,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public int RegisterUser(string name, string pw1, string email)
         {
             int id = new Random().Next();
-            var user = _userService.RegisterToSystem(id, name, name, pw1, RegisterMoney, email);
-            if (user != null)
+            var success = _userService.RegisterToSystem(id, name, name, pw1, RegisterMoney, email);
+            if (success)
             {
                 return id;
             }
