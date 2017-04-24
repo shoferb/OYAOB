@@ -105,7 +105,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 User original = GetUserWithId(id);
-                if (!IsValidInputNotSmallerEqualZero(id))
+                if (!IsValidInputNotSmallerZero(id))
                 {
                     return toReturn;
                 }
@@ -269,7 +269,7 @@ namespace TexasHoldem.Logic.Game_Control
         public bool Logout(int id)
         {
             bool toReturn = false;
-            if (!IsValidInputNotSmallerEqualZero(id))
+            if (!IsValidInputNotSmallerZero(id))
             {
                 return toReturn;
             }
@@ -320,7 +320,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 Player toReturn = null;
-                if (!IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -403,7 +403,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = true;
-                //TODO: oded changed this
+                
                 if (!IsValidInputNotSmallerZero(ID))
                 {
                     toReturn = false;
@@ -446,7 +446,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 User toReturn = null;
-                if (!IsValidInputNotSmallerEqualZero(id))
+                if (!IsValidInputNotSmallerZero(id))
                 {
                     return toReturn;
                 }
@@ -486,7 +486,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(id))
+                    if (!IsValidInputNotSmallerZero(id))
                     {
                         return toReturn;
                     }
@@ -549,7 +549,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn= false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(id))
+                    if (!IsValidInputNotSmallerZero(id))
                     {
                         return toReturn;
                     }
@@ -588,7 +588,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(id))
+                    if (!IsValidInputNotSmallerZero(id))
                     {
                         return toReturn;
                     }
@@ -623,7 +623,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(id))
+                if (!IsValidInputNotSmallerZero(id))
                 {
                     return toReturn;
                 }
@@ -654,7 +654,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(id) || !IsValidInputNotSmallerEqualZero(newId))
+                if (!IsValidInputNotSmallerZero(id) || !IsValidInputNotSmallerEqualZero(newId))
                 {
                     return toReturn;
                 }
@@ -695,7 +695,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(id))
+                    if (!IsValidInputNotSmallerZero(id))
                     {
                         return toReturn;
                     }
@@ -734,7 +734,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(id))
+                    if (!IsValidInputNotSmallerZero(id))
                     {
                         return toReturn;
                     }
@@ -771,7 +771,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(id))
+                    if (!IsValidInputNotSmallerZero(id))
                     {
                         return toReturn;
                     }
@@ -804,7 +804,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn =false;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(userId))
+                    if (!IsValidInputNotSmallerZero(userId))
                     {
                         return toReturn;
                     }
@@ -850,7 +850,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(userId))
+                    if (!IsValidInputNotSmallerZero(userId))
                     {
                         return toReturn;
                     }
@@ -894,7 +894,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -929,7 +929,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -1025,7 +1025,7 @@ namespace TexasHoldem.Logic.Game_Control
             try
             {
                
-                if (!IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -1036,7 +1036,9 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                if (user == GameCenter.Instance.HigherRank)
+                int userPoint = user.Points;
+                int highPoint = GameCenter.Instance.HigherRank.Points;
+                if (userPoint == highPoint)
                 {
                     return true;
                 }
@@ -1087,7 +1089,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(userId) || IsIdFree(userId))
+                if (!IsValidInputNotSmallerZero(userId) || IsIdFree(userId))
                 {
                     return toReturn;
                 }
@@ -1126,7 +1128,7 @@ namespace TexasHoldem.Logic.Game_Control
                 int toReturn;
                 try
                 {
-                    if (!IsValidInputNotSmallerEqualZero(userId))
+                    if (!IsValidInputNotSmallerZero(userId))
                     {
                         return -1;
                     }
@@ -1156,11 +1158,11 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 //check to see is the higest user
-                if (!IsValidInputNotSmallerEqualZero(highestId))
+                if (!IsValidInputNotSmallerZero(highestId))
                 {
                     return toReturn;
                 }
-                if (!IsValidInputNotSmallerEqualZero(userToMove))
+                if (!IsValidInputNotSmallerZero(userToMove))
                 {
                     return toReturn;
                 }
@@ -1203,7 +1205,7 @@ namespace TexasHoldem.Logic.Game_Control
             //check to see is the higest user
             lock (padlock)
             {
-                if (!IsValidInputNotSmallerEqualZero(highestId))
+                if (!IsValidInputNotSmallerZero(highestId))
                 {
                     return toReturn;
                 }

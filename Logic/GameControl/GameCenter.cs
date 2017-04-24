@@ -168,7 +168,7 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
-                if (!IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -506,7 +506,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -555,7 +555,7 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -618,7 +618,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 bool toReturn = false;
                 bool exist = IsRoomExist(roomId);
-                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerEqualZero(userId))
+                if (!IsValidInputNotSmallerZero(roomId) || !IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }
@@ -757,7 +757,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
             
             int userRank = user.Points;
-            int i = 1;
             int min = 0;
             int max = leagueGap;
             bool flag = ((userRank >= min) && (userRank <= max));
@@ -772,6 +771,7 @@ namespace TexasHoldem.Logic.Game_Control
                 min = max + 1;
                 max = min + leagueGap;
                 flag = ((userRank >= min) && (userRank <= max));
+
             }
             toReturn = new Tuple<int, int>(-10,-10);
             return toReturn ;
