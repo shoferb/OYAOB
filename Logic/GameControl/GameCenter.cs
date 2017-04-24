@@ -114,7 +114,7 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
-        
+        public bool saveActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
             GameReplay gr = GetGameReplay(roomID, gameID, userID);
             if (gr == null)
@@ -519,27 +519,20 @@ namespace TexasHoldem.Logic.Game_Control
                     newUser.SpectateGameList.Add(room);
                     if (toAdd._isSpectetor)
                     {
-                        Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password,
-                            user.Points,
+                        Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
                             user.Money, user.Email, roomId);
                         toAdd._spectatores.Add(spectetor);
+                        //  sc.ReplaceUser(user, newUser);
+                        // games.Remove(room);
+                        //games.Add(toAdd);
                         toReturn = true;
                     }
                 }
-                    Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                        user.Money, user.Email, roomId);
-                    toAdd._spectatores.Add(spectetor);
-                  //  sc.ReplaceUser(user, newUser);
-                   // games.Remove(room);
-                    //games.Add(toAdd);
-                    toReturn = true;
-                }
                 catch (Exception e)
                 {
-                    ErrorLog log = new ErrorLog("Error while trying to add spectetor, (user with id: "+userId+" to room: "+roomId);
+                    ErrorLog log = new ErrorLog("Error while trying to add spectetor, (user with id: " + userId + " to room: " + roomId);
                     AddErrorLog(log);
                     toReturn = false;
-                    
                 }
                 return toReturn;
             }

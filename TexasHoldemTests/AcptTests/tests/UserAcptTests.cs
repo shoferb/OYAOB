@@ -590,13 +590,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
         }
 
-        [TestCase]
-        public void UserRemoveFromGamePlayerGameIsSavedTestGood()
-        {
-            SetupUser1();
-            Assert.IsNotEmpty(ReplayBridge.ViewReplay(RoomId, 1));
-            Assert.AreEqual(2, ReplayBridge.ViewReplay(RoomId, 1).Count);
-        }
 
         [TestCase]
         public void UserRemoveFromRoomSpectatorTestGood()

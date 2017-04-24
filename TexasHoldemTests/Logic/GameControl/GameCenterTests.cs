@@ -50,7 +50,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         {
             _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
             Assert.IsTrue(_gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10));
-            Assert.IsTrue(_gameCenter.roomIdCounter==1);
+           // Assert.IsTrue(_gameCenter.roomIdCounter==1);
             Assert.IsTrue(_gameCenter.GetRoomById(1)._players.Count == 1);
         }
 

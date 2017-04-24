@@ -60,51 +60,51 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(ReplayBridge.SaveFavoriteMove(RoomId, 0, UserId, 1));
         }
 
-        [TestCase]
-        public void SaveFavoriteMoveNoReplayExistsBad()
-        {
+        //[TestCase]
+        //public void SaveFavoriteMoveNoReplayExistsBad()
+        //{
 
-            //no games to replay
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
-            //TODO: after service is done
-            //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 1));
-        }
+        //    //no games to replay
+        //    Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
+        //    //TODO: after service is done
+        //    //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 1));
+        //}
 
-        [TestCase]
-        public void SaveFavoriteMoveWrongMoveIndexBad()
-        {
-            //no games to replay
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
-            //TODO: after service is done
-            //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 100));
-        }
+        //[TestCase]
+        //public void SaveFavoriteMoveWrongMoveIndexBad()
+        //{
+        //    //no games to replay
+        //    Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
+        //    //TODO: after service is done
+        //    //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 100));
+        //}
 
-        [TestCase]
-        public void SaveFavoriteMoveNegMoveIndexBad()
-        {
-            //create a game to be replayd
-            SetupUser1();
+        //[TestCase]
+        //public void SaveFavoriteMoveNegMoveIndexBad()
+        //{
+        //    //create a game to be replayd
+        //    SetupUser1();
 
-            //no games to replay
-            Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
-            //TODO: after service is done
-            //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
-        }
+        //    //no games to replay
+        //    Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
+        //    //TODO: after service is done
+        //    //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
+        //}
 
-        [TestCase]
-        public void StopReplayTestGood()
-        {
-            //create a game to be replayd
-            SetupUser1();
+        //[TestCase]
+        //public void StopReplayTestGood()
+        //{
+        //    //create a game to be replayd
+        //    SetupUser1();
 
-            Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
-        }
+        //    Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
+        //}
 
-        [TestCase]
-        public void StopReplayTestBad()
-        {
-            //no games to replay
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
-        }
+        //[TestCase]
+        //public void StopReplayTestBad()
+        //{
+        //    //no games to replay
+        //    Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
+        //}
     }
 }
