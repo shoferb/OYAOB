@@ -42,6 +42,7 @@ namespace TexasHoldem.Logic.Game
         public int _maxRank { get; set; }
         public GameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int _minBetInRoom)
         {
+            _spectatores = new List<Spectetor>();
             this._players = players;
             this._bb = _minBetInRoom;
             this._id = ID;

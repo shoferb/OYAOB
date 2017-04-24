@@ -107,7 +107,7 @@ namespace TexasHoldemTests.AcptTests.tests
             int randInt = new Random().Next();
 
             //int someUser = UserBridge.GetNextFreeUserId();
-            UserBridge.RegisterUser(randInt.ToString(), User1Pw, User1Pw);
+            UserBridge.RegisterUser(randInt.ToString(), User1Pw, UserEmailGood1);
 
             OtherUsers.Add(randInt);
 

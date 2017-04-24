@@ -1401,7 +1401,8 @@ namespace TexasHoldem.Logic.Game_Control
                     AddErrorLog(log);
                     return toReturn;
                 }
-                if (!IsValidInputNotSmallerEqualZero(userId))
+                //TODO: Orelie Oded changed this
+                if (!IsValidInputNotSmallerZero(userId))
                 {
                     return toReturn;
                 }

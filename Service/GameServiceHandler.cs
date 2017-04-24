@@ -36,21 +36,6 @@ namespace TexasHoldem.Service
             return _gameCenter.GetRoomById(gameId);
         }
 
-        //TODO: change to the one below
-
-        //public GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
-        //    string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
-        //TODO: Orelie fill this up Geveret
-        public bool CreateNewRoom(int roomId, int startingChip, int isSpectetor, bool gameModeChosen, GameMode minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet, int i)
-        {
-            throw new NotImplementedException();
-        }
-
         //create room and add to games list game center
         public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
