@@ -1,108 +1,24 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TexasHoldem.Service;
+using TexasHoldem.Logic.Game_Control;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TexasHoldem.Service.Tests
+namespace TexasHoldem.Logic.Game_Control.Tests
 {
     [TestClass()]
-    public class UserServiceHandlerTests
+    public class GameCenterTests
     {
         [TestMethod()]
-        public void GetUserFromIdTest()
+        public void GetReplayManagerTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetAllUsersTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetMaxUserPointsTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetPlayerTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetNextUserIdTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void LoginUserTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void LogoutUserTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void CreateNewUserTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void CanCreateNewUserTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DeleteUserTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DeleteUserByIdTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void EditUserPasswordTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void EditUserEmailTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void EditUserNameTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetUserNotificationsTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void EditUserAvatarTest()
+        public void EditLeagueGapTest()
         {
             Assert.Fail();
         }
@@ -114,205 +30,247 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void GetActiveGamesByUserNameTest()
+        public void ShowGameReplayTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetSpectetorGamesByUserNameTest()
+        public void getActionFromGameReplayTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void IsHigestRankUserTest()
+        public void GetNextIdRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void SortUserByRankTest()
+        public void GetLastGameRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void SortUserByPointTest()
+        public void CreateNewRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void SetDefultLeauseToNewUsersTest()
+        public void GetGamesAvailableForReplayByUserTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void MovePlayerBetweenLeagueTest()
+        public void GetRoomByIdTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetUserFromIdTest1()
+        public void IsRoomExistTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetAllUsersTest1()
+        public void RemoveRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetMaxUserPointsTest1()
+        public void AddRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetPlayerTest1()
+        public void AddPlayerToRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetNextUserIdTest1()
+        public void AddSpectetorToRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void LoginUserTest1()
+        public void RemovePlayerFromRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void LogoutUserTest1()
+        public void RemoveSpectetorFromRoomTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void RegisterToSystemTest()
+        public void LeagueChangeAfterGapChangeTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void FindUserTest()
+        public void CreateFirstLeagueTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void CanCreateNewUserTest1()
+        public void UserLeageInfoTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void DeleteUserTest1()
+        public void UserLeageGapPointTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void DeleteUserByIdTest1()
+        public void GetAllActiveGameTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void EditUserPasswordTest1()
+        public void GetAllSpectetorGameTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void EditUserEmailTest1()
+        public void GetAllGamesTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void EditUserNameTest1()
+        public void GetAllGamesByPotSizeTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void EditUserPointsTest()
+        public void GetGamesByGameModeTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetUserNotificationsTest1()
+        public void GetGamesByBuyInPolicyTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void EditUserAvatarTest1()
+        public void GetGamesByMinPlayerTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetGameReplayTest1()
+        public void GetGamesByMaxPlayerTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetActiveGamesByUserNameTest1()
+        public void GetGamesByMinBetTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetSpectetorGamesByUserNameTest1()
+        public void GetGamesByStartingChipTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void IsHigestRankUserTest1()
+        public void IsGameCanSpecteteTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void SortUserByRankTest1()
+        public void IsGameActiveTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void SetDefultLeauseToNewUsersTest1()
+        public void SendNotificationTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void MovePlayerBetweenLeagueTest1()
+        public void FindLogTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void ChangeGapByHighestUserAndCreateNewLeagueTest()
+        public void AddSystemLogTest()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void GetAllUserTest()
+        public void AddErrorLogTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void SendUserAvailableMovesAndGetChoosenTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void DisplaymovesTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void IsValidMoveTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetRandomMoveTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void SendMoveBackToPlayerTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetGamesTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void CreateNewRoomWithRoomIdTest()
         {
             Assert.Fail();
         }

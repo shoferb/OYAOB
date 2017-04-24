@@ -81,16 +81,27 @@
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
+    <Compile Include="Logic\GameControl\GameCenterTests.cs" />
+    <Compile Include="Logic\GameControl\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Game\GameManagerTests.cs" />
     <Compile Include="Logic\Game\HandTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\ErrorLogTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\LogTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\NotificationTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\SystemLogTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
+    <Compile Include="Logic\Users\PlayerTests.cs" />
+    <Compile Include="Logic\Users\SpectetorTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\GameServiceHandlerTests.cs" />
+    <Compile Include="Service\LogServiceHandlerTests.cs" />
+    <Compile Include="Service\ReplayServiceHandlerTests.cs" />
     <Compile Include="Service\UserServiceHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
