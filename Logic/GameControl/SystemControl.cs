@@ -1109,11 +1109,15 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<User> sort = GetAllUser();
-                sort.OrderByDescending(r => r.rank);
+                sort.Sort(delegate(User x, User y)
+                {
+                    return y.Points.CompareTo(x.Points);
+                });
                 return sort;
             }
         }
 
+        
         //return -1 if error
         public int GetUserRank(int userId)
         {
@@ -1132,8 +1136,8 @@ namespace TexasHoldem.Logic.Game_Control
                     {
                         return -1;
                     }
-                    toReturn = sort.IndexOf(user);
-                    user.rank = toReturn;
+                    toReturn = sort.IndexOf(user)+1;
+                    user.rank = toReturn+1;
                     
                 }
                 catch (Exception e)
@@ -1144,15 +1148,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public List<User> SortUserByPoint()
-        {
-            lock (padlock)
-            {
-                List<User> sort = GetAllUser();
-                sort.OrderByDescending(p => p.Points);
-                return sort;
-            }
-        }
+       
 
         public bool MovePlayerBetweenLeague(int highestId, int userToMove, int newPoint)
         {
@@ -1188,8 +1184,9 @@ namespace TexasHoldem.Logic.Game_Control
                     {
                         return toReturn;
                     }
-                    toChange.Points = newPoint;
-                    toReturn = true;
+                    bool changedPoint = EditUserPoints(userToMove, newPoint);
+                    
+                    toReturn = changedPoint;
                 }
                 catch (Exception e)
                 {
@@ -1225,12 +1222,16 @@ namespace TexasHoldem.Logic.Game_Control
                     {
                         if (u.Points == 0)
                         {
+                            
                             newUser.Add(u);
                         }
                     }
+                    int id = 0;
                     for (int i = 0; i < newUser.Count; i++)
                     {
-                        newUser[i].Points = newPoint;
+                        
+                        EditUserPoints(newUser[i].Id, newPoint);
+                        
                     }
 
                     toReturn = true;

@@ -226,10 +226,7 @@ namespace TexasHoldem.Service
             return sc.SortByRank();
         }
 
-        public List<User> SortUserByPoint()
-        {
-            return sc.SortUserByPoint();
-        }
+       
 
         public bool SetDefultLeauseToNewUsers(int highestId, int newPoint)
         {

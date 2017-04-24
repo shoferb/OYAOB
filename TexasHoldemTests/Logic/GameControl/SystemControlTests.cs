@@ -678,37 +678,245 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void ChangeGapByHighestUserAndCreateNewLeagueTest()
         {
-            Assert.Fail();
+            SystemControl sc = SystemControl.SystemControlInstance;
+            int id = 305077901;
+            string name1 = "orelie";
+            String UserName = "orelie123456";
+            string password = "123456789";
+            string email1 = "orelie@post.bgu.ac.il";
+            int money = 1000;
+            int id2 = 305077902;
+            string name2 = "michele";
+            String UserName2 = "michele";
+            string password2 = "123456789";
+            string email2 = "michele@post.bgu.ac.il";
+            int money2 = 5000;
+           
+            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
+            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
+            User orelie = sc.GetUserWithId(id);
+            User michele = sc.GetUserWithId(id2);
+            List<User> all = sc.GetAllUser();
+            int size = all.Count;
+            Assert.IsTrue(size > 1);
+            User higher = GameCenter.Instance.HigherRank;
+            Assert.AreEqual(higher, null);
+            Assert.IsTrue(sc.EditUserPoints(id, 100));
+            Assert.AreEqual(orelie.Points, 100);
+            Assert.AreEqual(orelie.IsHigherRank, true);
+            Assert.AreEqual(michele.IsHigherRank, false);
+            higher = GameCenter.Instance.HigherRank;
+            Assert.AreEqual(higher, orelie);
+            Assert.IsTrue(sc.EditUserPoints(id2, 1000));
+            Assert.AreEqual(michele.Points, 1000);
+            Assert.AreEqual(GameCenter.Instance.leagueGap, 100);
+            Assert.IsFalse(sc.ChangeGapByHighestUserAndCreateNewLeague(id,50));
+            Assert.AreEqual(orelie.IsHigherRank, false);
+            Assert.AreNotEqual(GameCenter.Instance.leagueGap ,50);
+            Assert.IsFalse(sc.ChangeGapByHighestUserAndCreateNewLeague(id2, 50));
+            Assert.AreEqual(michele.IsHigherRank, true);
+            Assert.AreEqual(GameCenter.Instance.leagueGap, 50);
+            higher = GameCenter.Instance.HigherRank;
+            Assert.AreEqual(higher, michele);
+
+
+            Assert.IsTrue(sc.IsHigestRankUser(id2));
+            Assert.IsFalse(sc.IsHigestRankUser(id));
+            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.RemoveUserById(id2));
         }
 
         [TestMethod()]
         public void SortByRankTest()
         {
-            Assert.Fail();
+            SystemControl sc = SystemControl.SystemControlInstance;
+            int id = 305077901;
+            string name1 = "orelie";
+            String UserName = "orelie123456";
+            string password = "123456789";
+            string email1 = "orelie@post.bgu.ac.il";
+            int money = 1000;
+            int id2 = 305077902;
+            string name2 = "michele";
+            String UserName2 = "michele";
+            string password2 = "123456789";
+            string email2 = "michele@post.bgu.ac.il";
+            int money2 = 5000;
+            int id3 = 305077903;
+            string name3 = "Amir";
+            String UserName3 = "Amir29";
+            string password3 = "123456789";
+            string email3 = "Amirf@post.bgu.ac.il";
+            int money3 = 5000;
+            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
+            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
+            Assert.IsTrue(sc.CanCreateNewUser(id3, UserName3, password3, email3));
+            Assert.IsTrue(sc.RegisterToSystem(id3, name3, UserName3, password3, money3, email3));
+            User orelie = sc.GetUserWithId(id);
+            User michele = sc.GetUserWithId(id2);
+            User Amir = sc.GetUserWithId(id3);
+            Assert.IsTrue(sc.EditUserPoints(id2, 1000));
+            Assert.AreEqual(michele.Points, 1000);
+            Assert.IsTrue(sc.EditUserPoints(id, 10));
+            Assert.AreEqual(orelie.Points, 10);
+            Assert.IsTrue(sc.EditUserPoints(id3, 5000));
+            Assert.AreEqual(Amir.Points, 5000);
+            List<User> byRank = sc.SortByRank();
+            int orelieIndex = byRank.IndexOf(orelie);
+            int micheleIndex = byRank.IndexOf(michele);
+            int AmirIndex = byRank.IndexOf(Amir);
+            Assert.AreEqual(AmirIndex, 0);
+            Assert.AreEqual(micheleIndex, 1);
+            Assert.AreEqual(orelieIndex, 2);
+            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.RemoveUserById(id2));
+            Assert.IsTrue(sc.RemoveUserById(id3));
         }
 
         [TestMethod()]
         public void GetUserRankTest()
         {
-            Assert.Fail();
+            SystemControl sc = SystemControl.SystemControlInstance;
+            int id = 305077901;
+            string name1 = "orelie";
+            String UserName = "orelie123456";
+            string password = "123456789";
+            string email1 = "orelie@post.bgu.ac.il";
+            int money = 1000;
+            int id2 = 305077902;
+            string name2 = "michele";
+            String UserName2 = "michele";
+            string password2 = "123456789";
+            string email2 = "michele@post.bgu.ac.il";
+            int money2 = 5000;
+
+            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
+            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
+            User orelie = sc.GetUserWithId(id);
+            User michele = sc.GetUserWithId(id2);
+            List<User> all = sc.GetAllUser();
+            int size = all.Count;
+            Assert.IsTrue(size > 1);
+            Assert.IsTrue(sc.EditUserPoints(id, 50));
+            Assert.AreEqual(orelie.Points, 50);
+            Assert.IsTrue(sc.EditUserPoints(id2, 150));
+            Assert.AreEqual(michele.Points, 150);
+            Assert.IsTrue(sc.IsHigestRankUser(id2));
+            Assert.IsFalse(sc.IsHigestRankUser(id));
+            Assert.AreEqual(sc.GetUserRank(id),2);
+            Assert.AreEqual(sc.GetUserRank(id2), 1);
+
+           
+            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.RemoveUserById(id2));
         }
 
-        [TestMethod()]
-        public void SortUserByPointTest()
-        {
-            Assert.Fail();
-        }
+       
 
         [TestMethod()]
         public void MovePlayerBetweenLeagueTest()
         {
-            Assert.Fail();
+            SystemControl sc = SystemControl.SystemControlInstance;
+            int id = 305077901;
+            string name1 = "orelie";
+            String UserName = "orelie123456";
+            string password = "123456789";
+            string email1 = "orelie@post.bgu.ac.il";
+            int money = 1000;
+            int id2 = 305077902;
+            string name2 = "michele";
+            String UserName2 = "michele";
+            string password2 = "123456789";
+            string email2 = "michele@post.bgu.ac.il";
+            int money2 = 5000;
+
+            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
+            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
+            User orelie = sc.GetUserWithId(id);
+            User michele = sc.GetUserWithId(id2);
+            Assert.IsTrue(sc.EditUserPoints(id2, 1000));
+            Assert.AreEqual(michele.Points, 1000);
+            Assert.AreEqual(michele.IsHigherRank, true);
+            Assert.AreEqual(orelie.IsHigherRank, false);
+            Assert.AreEqual(orelie.Points, 0);
+            Assert.IsTrue(sc.MovePlayerBetweenLeague(id2,id,450));
+            Assert.AreEqual(michele.IsHigherRank, true);
+            Assert.AreEqual(orelie.IsHigherRank, false);
+            Assert.AreEqual(orelie.Points, 450);
+            Assert.IsTrue(sc.MovePlayerBetweenLeague(id2, id, 1500));
+            Assert.AreEqual(michele.Points, 1000);
+            Assert.AreEqual(michele.IsHigherRank, false);
+            Assert.AreEqual(orelie.IsHigherRank, true);
+            Assert.AreEqual(orelie.Points, 1500);
+            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.RemoveUserById(id2));
         }
 
         [TestMethod()]
         public void SetDefultLeauseToNewUsersTest()
         {
-            Assert.Fail();
+            SystemControl sc = SystemControl.SystemControlInstance;
+            int id = 305077901;
+            string name1 = "orelie";
+            String UserName = "orelie123456";
+            string password = "123456789";
+            string email1 = "orelie@post.bgu.ac.il";
+            int money = 1000;
+            int id2 = 305077902;
+            string name2 = "michele";
+            String UserName2 = "michele";
+            string password2 = "123456789";
+            string email2 = "michele@post.bgu.ac.il";
+            int money2 = 5000;
+            int id3 = 305077903;
+            string name3 = "Amir";
+            String UserName3 = "Amir29";
+            string password3 = "123456789";
+            string email3 = "Amirf@post.bgu.ac.il";
+            int money3 = 5000;
+            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
+            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
+            Assert.IsTrue(sc.CanCreateNewUser(id3, UserName3, password3, email3));
+            Assert.IsTrue(sc.RegisterToSystem(id3, name3, UserName3, password3, money3, email3));
+            User orelie = sc.GetUserWithId(id);
+            User michele = sc.GetUserWithId(id2);
+            User Amir = sc.GetUserWithId(id3);
+            Assert.IsTrue(sc.EditUserPoints(id2, 1000));
+            Assert.AreEqual(michele.Points, 1000);
+            Assert.AreEqual(michele.IsHigherRank, true);
+            Assert.AreEqual(orelie.IsHigherRank, false);
+            Assert.AreEqual(Amir.IsHigherRank, false);
+            Assert.AreEqual(orelie.Points, 0);
+            Assert.AreEqual(Amir.Points, 0);
+            Assert.IsTrue(sc.SetDefultLeauseToNewUsers(id2,500));
+            
+            Assert.AreEqual(orelie.Points, 500);
+            Assert.AreEqual(Amir.Points, 500);
+            
+            Assert.IsTrue(sc.EditUserPoints(id3, 0));
+            Assert.IsTrue(sc.SetDefultLeauseToNewUsers(id2, 2000));
+            Assert.AreEqual(Amir.Points, 2000);
+            Assert.AreEqual(michele.IsHigherRank, false);
+            Assert.AreEqual(orelie.IsHigherRank, false);
+            Assert.AreEqual(Amir.IsHigherRank, true);
+            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.RemoveUserById(id2));
+            Assert.IsTrue(sc.RemoveUserById(id3));
         }
     }
 }
