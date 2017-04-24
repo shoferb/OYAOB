@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using Action = TexasHoldem.Logic.Game.Action;
 
@@ -314,16 +315,36 @@ namespace TexasHoldem.Service
             return GameCenter.Instance.IsValidMove(moves, moveAndBet);
         }
 
-
-
-
-
-
-
         public Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
         {
             return GameCenter.Instance.GetRandomMove(moves);
         }
 
+        public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
+        {
+            return _gameCenter.GetGamesAvailableForReplayByUser(userID);
+        }
+
+        public List<string> GetGameReplay(int roomId, int gameNum, int userId)
+        {
+            GameReplay replay =_gameCenter.GetGameReplay(roomId, gameNum, userId);
+            List<string> replays = new List<string>();
+            if (replay == null)
+            {
+                return replays;
+            }
+            TexasHoldem.Logic.Actions.Action action = replay.GetNextAction();
+            while (action != null)
+            {
+                replays.Add(action.ToString());
+                action = replay.GetNextAction();
+            }
+            return replays;
+        }
+
+        public bool SaveFavoriteMove(int roomID, int gameID, int userID, int actionNum)
+        {
+            return _gameCenter.saveActionFromGameReplay(roomID, gameID, userID, actionNum);
+        }
     }
 }

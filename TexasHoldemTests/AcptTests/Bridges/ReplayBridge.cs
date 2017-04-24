@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.Service;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 
@@ -6,40 +7,27 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     class ReplayBridge : IReplayBridge
     {
-        private readonly ReplayServiceHandler _replayService;
+        private readonly GameServiceHandler _gameService;
 
         public ReplayBridge()
         {
-            _replayService = new ReplayServiceHandler();
+            _gameService = new GameServiceHandler();
         }
 
-        public List<int> GetReplayableGames(int userId)
+        public List<Tuple<int, int>> GetReplayableGames(int userId)
         {
-            var replays = _replayService.GetUserReplays(userId);
-            var gameIds = new List<int>();
-            replays.ForEach(replay =>
-            {
-                gameIds.Add(replay._gameRoomID);
-            });
-            return gameIds;
+            List<Tuple<int, int>> replays = _gameService.GetGamesAvailableForReplayByUser(userId);
+            return replays;
         }
 
-        public List<string> ViewReplay(int roomId, int gameNum)
+        public List<string> ViewReplay(int roomId, int gameNum, int userId)
         {
-            var replay = _replayService.GetGameReplay(roomId, gameNum);
-            var toReturn = new List<string>();
-            replay._actions.ForEach(action =>
-            {
-                toReturn.Add(action.ToString());
-            });
-            return toReturn;
+            return _gameService.GetGameReplay(roomId, gameNum, userId);
         }
 
-        //TODO: after service is complete
-        //public bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum)
-        //{
-        //    var replay = _replayService.GetGameReplay(roomId, gameNum);
-        //    return _replayService.SaveFavoriteMove(userId, roomId, gameNum, moveNum);
-        //}
+        public bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum)
+        {
+            return _gameService.SaveFavoriteMove(roomId, gameNum, userId, moveNum);
+        }
     }
 }

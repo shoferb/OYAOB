@@ -195,11 +195,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        public GameReplay GetGameReplay(int roomID, int gameID)
-        {
-            return gc.GetGameReplay(roomID, gameID);
-        }
-
 
         public List<GameRoom> GetActiveGamesByUserName(string userName)
         {

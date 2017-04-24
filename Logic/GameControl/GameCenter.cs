@@ -24,7 +24,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<GameRoom> games;
         public List<ErrorLog> errorLog { get; set; }
         public List<SystemLog> systemLog { get; set; }
-        public int roomIdCounter = 0;
+        private static int roomIdCounter = 1;
         private static GameCenter singlton;
         private ReplayManager _replayManager;
 
@@ -114,20 +114,24 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
-        //need to syncronzed?? 
-        public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
+        
         {
             GameReplay gr = GetGameReplay(roomID, gameID, userID);
             if (gr == null)
             {
-                return null;
+                return false;
             }
             TexasHoldem.Logic.Actions.Action action = gr.GetActionAt(actionNum);
             if (action == null)
             {
-                return null;
+                return false;
             }
-            return action.ToString();
+            User user = SystemControl.SystemControlInstance.GetUserWithId(userID);
+            if (user == null)
+            {
+                return false;
+            }
+            return user.AddActionToFavorite(action);
         }
 
         //return thr next room Id
@@ -270,13 +274,6 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 return toReturn;
             }          
-        }
-
-
-        //todo - aviv to impl or to remove?
-        internal GameReplay GetGameReplay(int roomID, int gameID)
-        {
-            throw new NotImplementedException();
         }
 
         //return true if there is a room with this id
@@ -529,6 +526,14 @@ namespace TexasHoldem.Logic.Game_Control
                         toReturn = true;
                     }
                 }
+                    Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                        user.Money, user.Email, roomId);
+                    toAdd._spectatores.Add(spectetor);
+                  //  sc.ReplaceUser(user, newUser);
+                   // games.Remove(room);
+                    //games.Add(toAdd);
+                    toReturn = true;
+                }
                 catch (Exception e)
                 {
                     ErrorLog log = new ErrorLog("Error while trying to add spectetor, (user with id: "+userId+" to room: "+roomId);
@@ -686,32 +691,31 @@ namespace TexasHoldem.Logic.Game_Control
         //create new league whith new gap
         public bool CreateFirstLeague(int initGap)
         {
-            //lock (padlock)
-            //{
-            bool toReturn = false;
-            if (!IsValidInputNotSmallerEqualZero(initGap))
+            lock (padlock)
             {
+                bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(initGap))
+                {
+                    return toReturn;
+                }
+                
+                LeagueGap = initGap;
+                leagueTable = new List<League>();
+                int currpoint = 0;
+                int i = 1;
+                int to = 0;
+                String leaugeName;
+                while (i < 100)
+                {
+                    leaugeName = "" + i;
+                    to = currpoint + leagueGap;
+                    League toAdd = new League(leaugeName, currpoint, to);
+                    leagueTable.Add(toAdd);
+                    i++;
+                    currpoint = to;
+                }
                 return toReturn;
             }
-
-            LeagueGap = initGap;
-            leagueTable = new List<League>();
-            int currpoint = 0;
-            int i = 1;
-            int to = 0;
-            String leaugeName;
-            while (i < 100)
-            {
-                leaugeName = "" + i;
-                to = currpoint + leagueGap;
-                League toAdd = new League(leaugeName, currpoint, to);
-                leagueTable.Add(toAdd);
-                i++;
-                currpoint = to;
-            }
-            return toReturn;
-            //}
-            return true;
         }
 
         public string UserLeageInfo(User user)
@@ -739,7 +743,8 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public Tuple<int, int> UserLeageGapPoint(int userId)
+        //Tuple<int, int> - <min,max>
+        public Tuple<int,int> UserLeageGapPoint(int userId)
         {
             //Tuple<int, int> toReturn;
             User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
