@@ -350,7 +350,8 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = true;
-                if (!IsValidInputNotSmallerEqualZero(ID))
+                //TODO: oded changed this
+                if (!IsValidInputNotSmallerZero(ID))
                 {
                     toReturn = false;
                     return toReturn;
@@ -1151,9 +1152,10 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
+
         private bool IsValidInputNotSmallerEqualZero(int toCheck)
         {
-            return toCheck > 0;
+            return toCheck >= 0;
         }
 
         private bool IsValidInputNotSmallerZero(int toCheck)

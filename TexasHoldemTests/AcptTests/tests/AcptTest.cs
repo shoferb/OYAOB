@@ -30,6 +30,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
             User1Name = "Oded";
             User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
 
             SetupUser1();
         }
@@ -105,12 +106,12 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             int randInt = new Random().Next();
 
-            int someUser = UserBridge.GetNextFreeUserId();
+            //int someUser = UserBridge.GetNextFreeUserId();
             UserBridge.RegisterUser(randInt.ToString(), User1Pw, User1Pw);
 
-            OtherUsers.Add(someUser);
+            OtherUsers.Add(randInt);
 
-            return someUser;
+            return randInt;
         }
 
         //make sure user1 exists and has at least 1 replayable game
@@ -145,7 +146,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             if (!UserBridge.IsThereUser(UserId))
             {
-                UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1);
+                UserBridge.RegisterUser(UserId, User1Name, User1Pw, UserEmailGood1);
             }
             else if (!UserBridge.IsUserLoggedIn(UserId))
             {

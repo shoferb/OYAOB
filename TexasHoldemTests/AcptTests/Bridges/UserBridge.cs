@@ -129,7 +129,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public int GetNextFreeUserId()
         {
-            return _userService.GetNextUserId();
+            return new Random().Next();
         }
 
         public int GetUserPoints(int userId)
@@ -194,9 +194,19 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _userService.LogoutUser(userId);
         }
 
-        public bool RegisterUser(string name, string pw1, string email)
+        public int RegisterUser(string name, string pw1, string email)
         {
             int id = new Random().Next();
+            var user = _userService.CreateNewUser(id, name, name, pw1, email);
+            if (user != null)
+            {
+                return id;
+            }
+            return -1;
+        }
+        
+        public bool RegisterUser(int id, string name, string pw1, string email)
+        {
             var user = _userService.CreateNewUser(id, name, name, pw1, email);
             return user != null;
         }
