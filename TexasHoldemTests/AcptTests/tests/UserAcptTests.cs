@@ -378,7 +378,7 @@ namespace TexasHoldemTests.AcptTests.tests
             int someUser = GetNextUser();
 
             //make sure someUser is top user
-            UserBridge.SetUserPoints(someUser, 999999999);
+            UserBridge.SetUserPoints(someUser, 99999999);
 
             Assert.False(UserBridge.SetLeagueCriteria(UserId, 10));
         }
