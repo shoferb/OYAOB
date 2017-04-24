@@ -78,10 +78,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             int chips = 0;
             User user = _userService.GetUserFromId(userId);
-            user.ActiveGameList.ForEach(game =>
+            if (user != null)
             {
-                chips += _userService.GetPlayer(userId, game._id)._totalChip;
-            });
+                user.ActiveGameList.ForEach(game =>
+                    {
+                        chips += _userService.GetPlayer(userId, game._id)._totalChip;
+                    }); 
+            }
             return chips;
         }
 
@@ -97,26 +100,29 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<int> GetUsersGameRooms(int userId)
         {
-            List<GameRoom> allGames = _gameService.GetAllGames();
             List<int> gameIds = new List<int>();
-            allGames.ForEach(game =>
+            List<GameRoom> allGames = _gameService.GetAllGames();
+            if (allGames != null)
             {
-                game._players.ForEach(p =>
-                {
-                    if (p.Id == userId)
+                allGames.ForEach(game =>
                     {
-                        gameIds.Add(game._id);
-                    }
-                });
-                game._spectatores.ForEach(s =>
-                {
-                    if (s.Id == userId)
-                    {
-                        gameIds.Add(game._id);
-                    }
-                });
+                        game._players.ForEach(p =>
+                        {
+                            if (p.Id == userId)
+                            {
+                                gameIds.Add(game._id);
+                            }
+                        });
+                        game._spectatores.ForEach(s =>
+                        {
+                            if (s.Id == userId)
+                            {
+                                gameIds.Add(game._id);
+                            }
+                        });
 
-            });
+                    }); 
+            }
             return gameIds;
         }
 
@@ -125,22 +131,27 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _userService.GetNextUserId();
         }
 
-        public int GetUserRank(int userId)
+        public int GetUserPoints(int userId)
         {
-            return _userService.GetUserFromId(userId).Points;
-        }
-
-        public void SetUserRank(int userId, int rank)
-        {
-            _userService.EditUserPoints(userId, rank);
-        }
-
-        public bool SetUserRank(int userIdToChange, int rank, int changingUserId)
-        {
-            int changingUserRank = _userService.GetUserFromId(changingUserId).Points;
-            if (changingUserRank == _userService.GetMaxUserPoints())
+            var user = _userService.GetUserFromId(userId);
+            if (user != null)
             {
-                SetUserRank(userIdToChange, rank);
+                return user.Points;
+            }
+            return -1;
+        }
+
+        public void SetUserPoints(int userId, int points)
+        {
+            _userService.EditUserPoints(userId, points);
+        }
+
+        public bool SetUserPoints(int userIdToChange, int points, int changingUserId)
+        {
+            var user = _userService.GetUserFromId(changingUserId);
+            if (user != null && user.Points == _userService.GetMaxUserPoints())
+            {
+                SetUserPoints(userIdToChange, points);
                 return true;
             }
             return false;
@@ -148,11 +159,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool SetLeagueCriteria(int userId, int criteria)
         {
-            if (_userService.GetUserFromId(userId).IsHigherRank)
+            var user = _userService.GetUserFromId(userId);
+            if (user != null && user.IsHigherRank)
             {
-                GameCenter center = GameCenter.Instance;
-
-                return center.LeagueChangeAfterGapChange(criteria);
+                return GameCenter.Instance.LeagueChangeAfterGapChange(criteria);
             }
             return false;
         }
@@ -198,7 +208,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool DeleteUser(int id)
         {
             var user = _userService.GetUserFromId(id);
-            return DeleteUser(user.Name, user.Password);
+            if (user != null)
+            {
+                return DeleteUser(user.Name, user.Password); 
+            }
+            return false;
         }
 
         public bool EditName(int id, string newName)

@@ -8,7 +8,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<string> ViewReplay(int roomId, int gameNum);
 
         //can be done while viewing replay
-        bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum);
-        bool StopReplay(int userId, int gameId);
+        //TODO: after service is done
+        //bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum);
     }
 }

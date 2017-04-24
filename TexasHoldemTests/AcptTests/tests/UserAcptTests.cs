@@ -309,10 +309,10 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
 
             //make sure user1 is top user
-            UserBridge.SetUserRank(UserId, 999999999);
+            UserBridge.SetUserPoints(UserId, 999999999);
 
             int someUser = GetNextUser();
-            Assert.True(UserBridge.SetUserRank(someUser, 10, UserId));
+            Assert.True(UserBridge.SetUserPoints(someUser, 10, UserId));
         }
 
         [TestCase]
@@ -323,10 +323,10 @@ namespace TexasHoldemTests.AcptTests.tests
             int someUser = GetNextUser();
 
             //make sure someUser is top user
-            UserBridge.SetUserRank(someUser, 999999999);
+            UserBridge.SetUserPoints(someUser, 999999999);
 
             //user1 is NOT top user
-            Assert.False(UserBridge.SetUserRank(someUser, 10, UserId));
+            Assert.False(UserBridge.SetUserPoints(someUser, 10, UserId));
         }
 
         [TestCase]
@@ -355,7 +355,7 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
 
             //make sure user1 is top user
-            UserBridge.SetUserRank(UserId, 999999999);
+            UserBridge.SetUserPoints(UserId, 999999999);
 
             Assert.True(UserBridge.SetLeagueCriteria(UserId, 10));
         }
@@ -368,7 +368,7 @@ namespace TexasHoldemTests.AcptTests.tests
             int someUser = GetNextUser();
 
             //make sure someUser is top user
-            UserBridge.SetUserRank(someUser, 999999999);
+            UserBridge.SetUserPoints(someUser, 999999999);
 
             Assert.False(UserBridge.SetLeagueCriteria(UserId, 10));
         }
@@ -379,7 +379,7 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
 
             //make sure user1 is top user
-            UserBridge.SetUserRank(UserId, 999999999);
+            UserBridge.SetUserPoints(UserId, 999999999);
 
             Assert.False(UserBridge.SetLeagueCriteria(UserId, -1));
             Assert.False(UserBridge.SetLeagueCriteria(UserId, 0));
@@ -474,10 +474,10 @@ namespace TexasHoldemTests.AcptTests.tests
             int someUser = CreateGameWithUser();
 
             RegisterUser1();
-            int rank = UserBridge.GetUserRank(someUser);
+            int rank = UserBridge.GetUserPoints(someUser);
 
             //make sure user1 and someUser are not in same league
-            UserBridge.SetUserRank(UserId, rank + 1000);
+            UserBridge.SetUserPoints(UserId, rank + 1000);
             Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 1));
         }
 
@@ -647,7 +647,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
             int money = UserBridge.GetUserMoney(UserId);
             int chips = UserBridge.GetUserChips(UserId);
-            int rank = UserBridge.GetUserRank(UserId);
+            int rank = UserBridge.GetUserPoints(UserId);
 
             //add user to Room as player
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
@@ -667,7 +667,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.Contains(RoomId, ReplayBridge.GetReplayableGames(UserId));
 
             //now rank <= prev rank
-            Assert.Greater(UserBridge.GetUserRank(UserId), rank);
+            Assert.Greater(UserBridge.GetUserPoints(UserId), rank);
         }
 
         [TestCase]

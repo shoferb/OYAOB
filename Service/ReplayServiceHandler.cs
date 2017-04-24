@@ -1,34 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Service
 {
-    public abstract class ReplayServiceHandler
+    public class ReplayServiceHandler
     {
-        public enum Actions
+        private readonly GameCenter _gameCenter = GameCenter.Instance;
+
+        public List<GameReplay> GetUserReplays(int userId)
         {
-            Check,
-            Call,
-            Raise,
-            Fold,
-
-            Join,
-            Leave,
-
-            Lose,
-            Win,
+            List<Tuple<int, int>> tuples = _gameCenter.GetGamesAvailableForReplayByUser(userId);
+            if (tuples != null)
+            {
+                return tuples.ConvertAll(tuple => _gameCenter.GetGameReplay(tuple.Item1, tuple.Item2, userId));
+            }
+            return new List<GameReplay>();
         }
 
-        public abstract List<GameReplay> GetUserReplays(int userId);
-        public abstract GameReplay GetGameReplay(int roomId, int gameNum);
-        public abstract Action CreateAction(ConcreteGameRoom room, Player player, Actions action);
-        public abstract bool AddActionToReplay(Action action, int roomId, int gameNum);
-        public abstract Action GetNextAction(int roomId, int gameNum);
-        public abstract bool StopReplay(int roomId, int gameNum); //TODO: ?
-        public abstract bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum);
+        public GameReplay GetGameReplay(int roomId, int gameNum)
+        {
+            return _gameCenter.GetReplayManager().GetGameReplay(roomId, gameNum);
+        }
+
+        //TODO: do this after Orelie make Save fav move
+        //public abstract bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum);
     }
 }

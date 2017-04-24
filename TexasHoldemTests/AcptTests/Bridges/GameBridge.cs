@@ -62,11 +62,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool IsUserInRoom(int userId, int roomId)
         {
-            var roomPlayers = _gameService.GetGameById(roomId)._players;
-            var roomSpect = _gameService.GetGameById(roomId)._spectatores;
-
-            return roomPlayers.Exists(p => p.Id == userId) ||
-                   roomSpect.Exists(s => s.Id == userId);
+            var game = _gameService.GetGameById(roomId);
+            if (game != null)
+            {
+                var roomPlayers = game._players;
+                var roomSpect = game._spectatores;
+                return roomPlayers.Exists(p => p.Id == userId) ||
+                       roomSpect.Exists(s => s.Id == userId); 
+            }
+            return false;
         }
 
         public bool IsRoomActive(int roomId)
@@ -82,14 +86,23 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<int> GetPlayersInRoom(int roomId)
         {
-            List<int> toReturn = _gameService.GetGameById(roomId)._players.ConvertAll(p => p.Id);
-            return toReturn;
+            var game = _gameService.GetGameById(roomId);
+            if (game != null)
+            {
+                List<int> toReturn = game._players.ConvertAll(p => p.Id);
+                return toReturn; 
+            }
+            return new List<int>();
         }
 
         private List<int> GamesToIds(List<GameRoom> games)
         {
-            List<int> toReturn = games.ConvertAll(g => g._id);
-            return toReturn;
+            if (games != null)
+            {
+                List<int> toReturn = games.ConvertAll(g => g._id);
+                return toReturn; 
+            }
+            return null;
         }
 
         public List<int> ListAvailableGamesByUserRank(int userRank)
@@ -113,48 +126,84 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public int GetDealerId(int roomId)
         {
             var game = _gameService.GetGameById(roomId);
-            return game._players[game._dealerPos].Id;
+            if (game != null)
+            {
+                return game._players[game._dealerPos].Id; 
+            }
+            return -1;
         }
 
         public int GetBbId(int roomId)
         {
             var game = _gameService.GetGameById(roomId);
-            int bbPos = (game._dealerPos + 2) % game._players.Count;
-            return game._players[bbPos].Id;
+            if (game != null)
+            {
+                int bbPos = (game._dealerPos + 2) % game._players.Count;
+                return game._players[bbPos].Id;
+            }
+            return -1;
         }
 
         public int GetSbId(int roomId)
         {
             var game = _gameService.GetGameById(roomId);
-            int sbPos = (game._dealerPos + 1) % game._players.Count;
-            return game._players[sbPos].Id;
+            if (game != null)
+            {
+                int sbPos = (game._dealerPos + 1) % game._players.Count;
+                return game._players[sbPos].Id;
+            }
+            return - 1;
         }
 
         public int GetDeckSize(int gameId)
         {
-            return _gameService.GetGameById(gameId)._deck.NumOfCards;
+            var game = _gameService.GetGameById(gameId);
+            if (game != null)
+            {
+                return game._deck.NumOfCards;
+            }
+            return -1;
         }
 
         public int GetCurrPlayer(int gameId)
         {
             var game = _gameService.GetGameById(gameId);
-            int pos = (game._actionPos) % game._players.Count;
-            return game._players[pos].Id;
+            if (game != null)
+            {
+                int pos = (game._actionPos) % game._players.Count;
+                return game._players[pos].Id;
+            }
+            return -1;
         }
 
         public int GetSbSize(int gameId)
         {
-            return _gameService.GetGameById(gameId)._sb;
+            var game = _gameService.GetGameById(gameId);
+            if (game != null)
+            {
+                return game._sb;
+            }
+            return -1;
         }
 
         public int GetPotSize(int gameId)
         {
-            return _gameService.GetGameById(gameId)._potCount;
+            var game = _gameService.GetGameById(gameId);
+            if (game != null)
+            {
+                return game._potCount;
+            }
+            return -1;
         }
 
         public List<int> GetWinner(int gameId)
         {
-            return _gameService.FindWinner(gameId).ConvertAll(p => p.Id);
+            var winners = _gameService.FindWinner(gameId);
+            if (winners != null)
+            {
+                return winners.ConvertAll(p => p.Id);
+            }
+            return new List<int>();
         }
 
         //public bool Fold(int userId, int roomId)

@@ -105,7 +105,7 @@ namespace TexasHoldem.Service
                 toReturn = new User(id, name, memberName, password, 0, 0, email);
             }
             
-            Console.WriteLine("User was created with info:" + toReturn.ToString());
+            //Console.WriteLine("User was created with info:" + toReturn.ToString());
             return toReturn;
         }
 

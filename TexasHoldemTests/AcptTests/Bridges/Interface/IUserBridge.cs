@@ -18,9 +18,9 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         int GetUserChips(int userId, int roomId);
         List<int> GetUsersGameRooms(int userId);
         int GetNextFreeUserId();
-        int GetUserRank(int userId);
-        void SetUserRank(int userId, int rank); //change user's rank BY SYSTEM
-        bool SetUserRank(int userIdToChange, int rank, int changingUserId); //change user's rank BY LEADING USER
+        int GetUserPoints(int userId);
+        void SetUserPoints(int userId, int points); //change user's rank BY SYSTEM
+        bool SetUserPoints(int userIdToChange, int points, int changingUserId); //change user's rank BY LEADING USER
         bool SetLeagueCriteria(int userId, int criteria); //change the rank diff between leagus, BY LEADING USER
 
         bool IsThereUser(int id);

@@ -237,8 +237,14 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userID); 
-                return user._gamesAvailableToReplay;
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userID);
+
+                if (user != null)
+                {
+
+                    return user._gamesAvailableToReplay;
+                }
+                return null;
             }
         }
 

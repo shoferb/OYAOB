@@ -6,11 +6,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     class ReplayBridge : IReplayBridge
     {
-        private ReplayServiceHandler _replayService;
+        private readonly ReplayServiceHandler _replayService;
 
         public ReplayBridge()
         {
-            //TODO: init service here
+            _replayService = new ReplayServiceHandler();
         }
 
         public List<int> GetReplayableGames(int userId)
@@ -35,15 +35,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return toReturn;
         }
 
-        public bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum)
-        {
-            var replay = _replayService.GetGameReplay(roomId, gameNum);
-            return _replayService.SaveFavoriteMove(userId, roomId, gameNum, moveNum);
-        }
-
-        public bool StopReplay(int userId, int gameId)
-        {
-            return _replayService.StopReplay(gameId, userId);
-        }
+        //TODO: after service is complete
+        //public bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum)
+        //{
+        //    var replay = _replayService.GetGameReplay(roomId, gameNum);
+        //    return _replayService.SaveFavoriteMove(userId, roomId, gameNum, moveNum);
+        //}
     }
 }

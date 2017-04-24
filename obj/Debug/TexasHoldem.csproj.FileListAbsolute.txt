@@ -19,13 +19,6 @@ C:\Users\orelie\Source\Repos\OYAOB\obj\Debug\TexasHoldem.pdb
 C:\Users\orelie\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csprojResolveAssemblyReference.cache
 C:\Users\orelie\Source\Repos\OYAOB\obj\Debug\TexasHoldem.Properties.Resources.resources
 C:\Users\orelie\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csproj.GenerateResource.Cache
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.Properties.Resources.resources
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.csproj.GenerateResource.Cache
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\bin\Debug\TexasHoldem.exe
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\bin\Debug\TexasHoldem.pdb
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.exe
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.pdb
-C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.csprojResolveAssemblyReference.cache
 C:\Users\ychen\Source\Repos\OYAOB\bin\Debug\TexasHoldem.exe
 C:\Users\ychen\Source\Repos\OYAOB\bin\Debug\TexasHoldem.pdb
 C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.Properties.Resources.resources
@@ -33,3 +26,10 @@ C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csproj.GenerateResource.
 C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.exe
 C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.pdb
 C:\Users\ychen\Source\Repos\OYAOB\obj\Debug\TexasHoldem.csprojResolveAssemblyReference.cache
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\bin\Debug\TexasHoldem.exe
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\bin\Debug\TexasHoldem.pdb
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.Properties.Resources.resources
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.csproj.GenerateResource.Cache
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.exe
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.pdb
+C:\Users\oded\documents\visual studio 2013\Projects\TexasHoldem\obj\Debug\TexasHoldem.csprojResolveAssemblyReference.cache

@@ -72,9 +72,9 @@ namespace TexasHoldemTests.AcptTests.tests
             //delete all users and games, register user1
             RestartSystem();
 
-            int rank = UserBridge.GetUserRank(UserId);
+            int rank = UserBridge.GetUserPoints(UserId);
             int someUser = GetNextUser();
-            UserBridge.SetUserRank(someUser, rank);
+            UserBridge.SetUserPoints(someUser, rank);
 
             Assert.True(GameBridge.CreateGameRoom(someUser, RoomId));
             Assert.Contains(RoomId, GameBridge.ListAvailableGamesByUserRank(rank));
@@ -86,9 +86,9 @@ namespace TexasHoldemTests.AcptTests.tests
             //delete all users and games, register user1
             RestartSystem();
 
-            int rank1 = UserBridge.GetUserRank(UserId);
+            int rank1 = UserBridge.GetUserPoints(UserId);
             int someUser = GetNextUser();
-            UserBridge.SetUserRank(someUser, rank1 + 10);
+            UserBridge.SetUserPoints(someUser, rank1 + 10);
 
             Assert.True(GameBridge.CreateGameRoom(someUser, RoomId));
             Assert.IsEmpty(GameBridge.ListAvailableGamesByUserRank(rank1));
