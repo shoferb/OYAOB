@@ -120,22 +120,25 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
-
         
-        //need to syncronzed?? 
-        public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
+        public bool saveActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
             GameReplay gr = GetGameReplay(roomID, gameID, userID);
             if (gr == null)
             {
-                return null;
+                return false;
             }
             TexasHoldem.Logic.Actions.Action action = gr.GetActionAt(actionNum);
             if (action == null)
             {
-                return null;
+                return false;
             }
-            return action.ToString();
+            User user = SystemControl.SystemControlInstance.GetUserWithId(userID);
+            if (user == null)
+            {
+                return false;
+            }
+            return user.AddActionToFavorite(action);
         }
 
         //return thr next room Id
@@ -278,13 +281,6 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 return toReturn;
             }          
-        }
-
-
-        //todo - aviv to impl or to remove?
-        internal GameReplay GetGameReplay(int roomID, int gameID)
-        {
-            throw new NotImplementedException();
         }
 
         //return true if there is a room with this id

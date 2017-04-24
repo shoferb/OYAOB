@@ -24,6 +24,7 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<GameRoom> activeGameList;
         private List<GameRoom> spectateGameList;
+        private List<Actions.Action> _favActions { get; set; }
         public bool IsHigherRank { get; set; }
         public int rank { get; set; }
     
@@ -37,7 +38,7 @@ namespace TexasHoldem.Logic.Users
             this.password = password;
             this.points = points;
             this.money = money;
-                this.email = email;
+            this.email = email;
             this.IsHigherRank = false;
             this.WaitListNotification = new List<Notification>();
             this.isActive = false;
@@ -46,7 +47,7 @@ namespace TexasHoldem.Logic.Users
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<GameRoom>();
             spectateGameList = new List<GameRoom>();
-
+            _favActions = new List<Actions.Action>();
         }
 
        
@@ -85,6 +86,11 @@ namespace TexasHoldem.Logic.Users
             return true;
         }
 
+        public bool AddActionToFavorite(Actions.Action action)
+        {
+            _favActions.Add(action);
+            return true;
+        }
 
         //getters setters
         public int Id
