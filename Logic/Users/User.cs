@@ -37,9 +37,8 @@ namespace TexasHoldem.Logic.Users
             this.password = password;
             this.points = points;
             this.money = money;
-            
                 this.email = email;
-           
+            this.IsHigherRank = false;
             this.WaitListNotification = new List<Notification>();
             this.isActive = false;
             this.IsHigherRank = false;

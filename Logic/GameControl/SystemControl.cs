@@ -62,8 +62,6 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //add new user  - syncronized
-
-
         public bool AddNewUser(User newUser)
         {
             lock (padlock)
@@ -86,6 +84,19 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        //return null if one of the field is not valid
+        public User CreateNewUser(int id, string name, string memberName,
+            string password, string email,int money)
+        {
+            User toReturn = null;
+            if (CanCreateNewUser(id, memberName, password, email) && IsValidInputNotSmallerZero(money))
+            {
+                toReturn = new User(id, name, memberName, password, 0, money, email);
+            }
+
+            
+            return toReturn;
+        }
 
         //remove user from user list byID - syncronized
         public bool RemoveUserById(int id)
@@ -167,7 +178,7 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //?to remove - change 2 user in list nade to swap chcnges of user into list - synctonized
-        public bool ReplaceUser(User oldUser, User newUser)
+       /* public bool ReplaceUser(User oldUser, User newUser)
         {
             lock (padlock)
             {
@@ -180,18 +191,19 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     if (users[i] == oldUser)
                     {
+                        Users[i] = null;
                         users[i] = newUser;
                         toReturn = true;
                     }
                 }
                 return toReturn;
             }
-        }
+        }*/
 
 
         //find user by user name - syncronized (due to foreatch)
         //return null if not found or user name is "" || " "
-        private User FindUser(string username)
+        public User FindUser(string username)
         {
             lock (padlock)
             {
@@ -271,7 +283,8 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 changed.IsActive = false;
-                toReturn = ReplaceUser(original, changed);
+                //toReturn = ReplaceUser(original, changed);
+                toReturn = true;
                 return toReturn;
             }
         }
@@ -287,16 +300,55 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                foreach (User u in users)
+                if (name.Equals(" ") || name.Equals(""))
                 {
-                    if (u.MemberName.Equals(memberName))
-                    {
-                        //was string toReturn = "Registration failed - this user name is taken!";
-                        return toReturn; // fail username taken
-                    }
+                    return toReturn;
                 }
+                if (!IsValidInputNotSmallerZero(money))
+                {
+                    return toReturn;
+                }
+                
                 User newUser = new User(id, name, memberName, password, 0, money, email);
                 toReturn = AddNewUser(newUser);
+                return toReturn;
+            }
+        }
+
+        public Player GetPlayer(int userId, int roomId)
+        {
+            lock (padlock)
+            {
+                Player toReturn = null;
+                if (!IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
+                if (IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
+                bool roomExist = GameCenter.Instance.IsRoomExist(roomId);
+                if (!roomExist)
+                {
+                    return toReturn;
+                }
+                GameRoom room = GameCenter.Instance.GetRoomById(roomId);
+                if (room == null)
+                {
+                    return toReturn;
+                }
+                if (!HasThisActiveGame(roomId, userId))
+                {
+                    return toReturn;
+                }
+                foreach (Player player in room._players)
+                {
+                    if (player.Id == userId)
+                    {
+                        toReturn = player;
+                    }
+                }
                 return toReturn;
             }
         }
@@ -305,8 +357,9 @@ namespace TexasHoldem.Logic.Game_Control
             string password, string email)
         {
             //todo - add loger
+
             bool toReturn = IsUsernameFree(memberName) && IsIdFree(id) &&
-                IsValidPassword(password) && IsValidEmail(email);
+                IsValidPassword(password) && IsValidEmail(email) && !memberName.Equals("") && !memberName.Equals(" ");
             if (!IsUsernameFree(memberName))
             {
                 
@@ -618,8 +671,8 @@ namespace TexasHoldem.Logic.Game_Control
                         }
                         User changed = toEdit;
                         changed.Id = newId;
-                        toReturn = ReplaceUser(toEdit, changed);
-
+                        //toReturn = ReplaceUser(toEdit, changed);
+                        toReturn = true;
                     }
                 }
                 catch (Exception e)
@@ -656,9 +709,9 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    User changed = toEdit;
-
-                    changed.Points = newPoints;
+                    toEdit.Points = newPoints;
+                    IsHigestRankUser(id);
+                    
                     //toReturn = ReplaceUser(toEdit, changed);
                     toReturn = true;
                 }
@@ -838,64 +891,70 @@ namespace TexasHoldem.Logic.Game_Control
         //return if game is active game on is acrive game list
         public bool HasThisActiveGame(int roomId, int userId)
         {
-            bool toReturn=false;
-            if (!IsValidInputNotSmallerEqualZero(userId))
+            lock (padlock)
             {
+                bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
+                if (!GameCenter.Instance.IsRoomExist(roomId))
+                {
+                    return toReturn;
+                }
+
+                GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+                if (toCheck == null)
+                {
+                    return toReturn;
+                }
+                User user = GetUserWithId(userId);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = user.ActiveGameList.Contains(toCheck);
                 return toReturn;
             }
-            if (!IsValidInputNotSmallerZero(roomId))
-            {
-                return toReturn;
-            }
-            if (!GameCenter.Instance.IsRoomExist(roomId))
-            {
-                return toReturn;
-            }
-            
-            GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
-            if (toCheck == null)
-            {
-                return toReturn;
-            }
-            User user = GetUserWithId(userId);
-            if (user == null)
-            {
-                return toReturn;
-            }
-            toReturn = user.ActiveGameList.Contains(toCheck);
-            return toReturn;
         }
 
 
         //return if game is spectetable game on is spectet game ist
         public bool HasThisSpectetorGame(int roomId, int userId)
         {
-            bool toReturn = false;
-            if (!IsValidInputNotSmallerEqualZero(userId))
+            lock (padlock)
             {
-                return toReturn;
-            }
-            if (!IsValidInputNotSmallerZero(roomId))
-            {
-                return toReturn;
-            }
-            if (!GameCenter.Instance.IsRoomExist(roomId))
-            {
-                return toReturn;
-            }
+                bool toReturn = false;
+                if (!IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
+                if (!GameCenter.Instance.IsRoomExist(roomId))
+                {
+                    return toReturn;
+                }
 
-            GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
-            if (toCheck == null)
-            {
+                GameRoom toCheck = GameCenter.Instance.GetRoomById(roomId);
+                if (toCheck == null)
+                {
+                    return toReturn;
+                }
+                User user = GetUserWithId(userId);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = user.SpectateGameList.Contains(toCheck);
                 return toReturn;
             }
-            User user = GetUserWithId(userId);
-            if (user == null)
-            {
-                return toReturn;
-            }
-            toReturn = user.SpectateGameList.Contains(toCheck);
-            return toReturn;
         }
 
 
@@ -972,11 +1031,37 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 
                 User user = GetUserWithId(userId);
+                
                 if (user == null)
                 {
                     return toReturn;
                 }
-                toReturn = user.IsHigherRank;
+                if (user == GameCenter.Instance.HigherRank)
+                {
+                    return true;
+                }
+                //List<User> byPoint = SortUserByPoint();
+                //if (byPoint[0] == user)
+                //{
+                    if (GameCenter.Instance.HigherRank == null)
+                    {
+                        GameCenter.Instance.HigherRank = user;
+                        user.IsHigherRank = true;
+                        toReturn = true;
+                    }
+                    else if(GameCenter.Instance.HigherRank != null)
+                    {
+                        if (user.Points > GameCenter.Instance.HigherRank.Points)
+                        {
+
+                            GameCenter.Instance.HigherRank.IsHigherRank = false;
+                            GameCenter.Instance.HigherRank = user;
+                            user.IsHigherRank = true;
+                            toReturn = true;
+                        }
+                    }
+                //}
+  
             }
             catch (Exception e)
             {
@@ -987,7 +1072,13 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-
+        public List<User> GetAllUser()
+        {
+            lock (padlock)
+            {
+                return users;
+            }
+        }
 
         //change the gap and change league table
         //syncronized
@@ -1017,7 +1108,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                List<User> sort = new List<User>();
+                List<User> sort = GetAllUser();
                 sort.OrderByDescending(r => r.rank);
                 return sort;
             }
@@ -1057,8 +1148,8 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                List<User> sort = new List<User>();
-                sort.OrderBy(p => p.Points);
+                List<User> sort = GetAllUser();
+                sort.OrderByDescending(p => p.Points);
                 return sort;
             }
         }
