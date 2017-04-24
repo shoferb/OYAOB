@@ -10,11 +10,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
     class UserBridge : IUserBridge
     {
         private readonly UserServiceHandler _userService;
-        private GameServiceHandler _gameService;
+        private readonly GameServiceHandler _gameService;
 
         public UserBridge()
         {
-            //TODO: init service here
+            _gameService = new GameServiceHandler();
             _userService = new UserServiceHandler();
         }
 
@@ -120,17 +120,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return gameIds;
         }
 
-        public List<string> GetUserNotificationMsgs(int userId)
-        {
-            var toReturn = new List<string>();
-            var notifications = _userService.GetUserNotifications(userId);
-            notifications.ForEach(noti =>
-            {
-                toReturn.Add(noti.Msg);
-            });
-            return toReturn;
-        }
-
         public int GetNextFreeUserId()
         {
             return _userService.GetNextUserId();
@@ -143,7 +132,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public void SetUserRank(int userId, int rank)
         {
-            _userService.GetUserFromId(userId).Points = rank;
+            _userService.EditUserPoints(userId, rank);
         }
 
         public bool SetUserRank(int userIdToChange, int rank, int changingUserId)
@@ -157,8 +146,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return false;
         }
 
-
-        //toDo - ODED 
         public bool SetLeagueCriteria(int userId, int criteria)
         {
             if (_userService.GetUserFromId(userId).IsHigherRank)
@@ -166,8 +153,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
                 GameCenter center = GameCenter.Instance;
 
                 return center.LeagueChangeAfterGapChange(criteria);
-                ;
-                //LeagueChange(criteria);
             }
             return false;
         }
@@ -266,8 +251,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserFromId(userId);
             if (user != null)
             {
-                user.Money += amount;
-                return true;
+                return SystemControl.SystemControlInstance.EditUserMoney(userId, user.Money + amount);
             }
             return false;
         }
@@ -282,15 +266,5 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return ChangeUserMoney(userId, amount);
         }
 
-        public bool AddUserChips(int userId, int roomId, int amount)
-        {
-            var player = _userService.GetPlayer(userId, roomId);
-            if (player != null)
-            {
-                player._totalChip += amount;
-                return true;
-            }
-            return false;
-        }
     }
 }

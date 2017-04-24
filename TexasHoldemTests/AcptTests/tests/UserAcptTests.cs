@@ -9,13 +9,10 @@ namespace TexasHoldemTests.AcptTests.tests
     public class UserAcptTests : AcptTest
     {
         //private int _userId2;
-        private string _userNameBad;
         private string _userPwGood2;
         private string _userPwBad;
         private string _userPwSad;
         private string _registerNameGood;
-        private string _registerNameBad;
-        private string _userEmailGood1;
         private string _userEmailGood2;
         private string _userEmailBad1;
         private string _userEmailBad2;
@@ -26,16 +23,12 @@ namespace TexasHoldemTests.AcptTests.tests
         //setup: (called from case)
         protected override void SubClassInit()
         {
-            _userNameBad = "שם משתמש";
-
             _userPwGood2 = "goodPw5678";
             _userPwSad = "sadPw1234";
-            _userPwBad = "סיסמא";
+            _userPwBad = "short";
 
             _registerNameGood = "registerNameGood";
-            _registerNameBad = "שם משתמש רע לרישום";
 
-            _userEmailGood1 = "gooduser1@gmail.com";
             _userEmailGood2 = "gooduser2@gmail.com";
             _userEmailBad1 = "מייל בעברית";
             _userEmailBad2 = "baduser"; //no @ sign
@@ -51,25 +44,22 @@ namespace TexasHoldemTests.AcptTests.tests
             string[] pwArr = { _userPwGood2, _userPwBad, _userPwSad, User1Pw };
             foreach (var s in pwArr)
             {
-                UserBridge.DeleteUser(_userNameBad, s);
                 if (!s.Equals(User1Pw))
                 {
                     UserBridge.DeleteUser(User1Name, s);
                 }
             }
 
-            _userNameBad = null;
             _userPwGood2 = null;
             _userPwBad = null;
             _userPwSad = null;
 
             _registerNameGood = null;
-            _registerNameBad = null;
 
-            _userEmailGood1 = null;
+            UserEmailGood1 = null;
             _userEmailGood2 = null;
 
-            _userEmailGood1 = null;
+            UserEmailGood1 = null;
             _userEmailGood2 = null;
             _userEmailBad1 = null;
             _userEmailBad2 = null;
@@ -84,7 +74,8 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLoginTestSad()
         {
-            Assert.False(UserBridge.LoginUser(_userNameBad, _userPwSad));
+            int rand = new Random().Next();
+            Assert.False(UserBridge.LoginUser(rand.ToString(), _userPwSad));
             Assert.False(UserBridge.LoginUser(User1Name, _userPwSad));
         }
 
@@ -120,41 +111,29 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserRegisterTestGood()
         {
-            Assert.True(UserBridge.RegisterUser(_registerNameGood, User1Pw, User1Pw));
+            Assert.True(UserBridge.RegisterUser(_registerNameGood, User1Pw, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameGood, User1Pw);
         }
 
         [TestCase]
         public void UserRegisterTestSad()
         {
-            //pw do not match
-            Assert.True(UserBridge.RegisterUser(_registerNameGood, User1Pw, _userPwGood2));
-            UserBridge.DeleteUser(_registerNameGood, User1Pw);
-
             //user name already exists in system 
             Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, User1Pw));
             Assert.False(UserBridge.RegisterUser(User1Name, User1Pw, User1Pw));
             UserBridge.DeleteUser(_registerNameGood, User1Pw);
 
             //pw not good
-            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwSad, _userPwSad));
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwSad, UserEmailGood1));
             UserBridge.DeleteUser(_registerNameGood, _userPwSad);
-        }
 
-        [TestCase]
-        public void UserRegisterTestBadNameBad()
-        {
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, User1Pw));
-            UserBridge.DeleteUser(_registerNameBad, User1Pw);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, User1Pw, User1Pw));
-            UserBridge.DeleteUser(_registerNameBad, User1Pw);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, User1Pw));
-            UserBridge.DeleteUser(_registerNameBad, User1Pw);
-            UserBridge.DeleteUser(_registerNameBad, _userPwBad);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, _userPwBad));
+            //email not good1:
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, User1Pw, _userEmailBad1));
+            UserBridge.DeleteUser(_registerNameGood, User1Pw);
+            
+            //email not good2:
+            Assert.False(UserBridge.RegisterUser(_registerNameGood, User1Pw, _userEmailBad2));
+            UserBridge.DeleteUser(_registerNameGood, User1Pw);
         }
 
         [TestCase]
@@ -166,8 +145,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.False(UserBridge.RegisterUser(_registerNameGood, _userPwBad, User1Pw));
             UserBridge.DeleteUser(_registerNameGood, _userPwBad);
             UserBridge.DeleteUser(_registerNameGood, User1Pw);
-
-            Assert.False(UserBridge.RegisterUser(_registerNameBad, _userPwBad, User1Pw));
         }
 
         [TestCase]
@@ -227,9 +204,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
 
             Assert.False(UserBridge.EditName(UserId, ""));
-            Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
-
-            Assert.False(UserBridge.EditName(UserId, _userNameBad));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
         }
 
@@ -297,23 +271,23 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            Assert.False(UserBridge.EditEmail(UserId, _userEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
         [TestCase]
         public void UserEditEmailTestBad()
         {
             //user is not logged in:
-            Assert.False(UserBridge.EditEmail(UserId, _userEmailGood1));
+            Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
 
             RegisterUser1();
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad2));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
         [TestCase]
@@ -325,8 +299,8 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.AreEqual(UserBridge.GetUserAvatar(UserId), _userAvatarGood);
 
             //set back
-            Assert.True(UserBridge.EditEmail(UserId, _userEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), _userEmailGood1);
+            Assert.True(UserBridge.EditEmail(UserId, UserEmailGood1));
+            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
         [TestCase]
@@ -337,7 +311,7 @@ namespace TexasHoldemTests.AcptTests.tests
             //make sure user1 is top user
             UserBridge.SetUserRank(UserId, 999999999);
 
-            int someUser = GetNextUserId();
+            int someUser = GetNextUser();
             Assert.True(UserBridge.SetUserRank(someUser, 10, UserId));
         }
 
@@ -346,7 +320,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            int someUser = GetNextUserId();
+            int someUser = GetNextUser();
 
             //make sure someUser is top user
             UserBridge.SetUserRank(someUser, 999999999);
@@ -391,7 +365,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
-            int someUser = GetNextUserId();
+            int someUser = GetNextUser();
 
             //make sure someUser is top user
             UserBridge.SetUserRank(someUser, 999999999);
@@ -464,20 +438,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //negative amount of money
             Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, -1));
-            Assert.False(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
-            Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
-        }
-
-        [TestCase]
-        public void UserAddToRoomAsPlayerNegRoomTestBad()
-        {
-            CreateGameWithUser();
-
-            RegisterUser1();
-
-            //negtive room id
-            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, -1, 0));
             Assert.False(GameBridge.IsUserInRoom(UserId, RoomId));
             Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
             Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
@@ -618,29 +578,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.AreNotEqual(sbId, GameBridge.GetDealerId(RoomId));
 
-        }
-
-        [TestCase]
-        public void UserRemoveFromGamePlayerNotifiesTestGood()
-        {
-            CreateGameWithUser();
-
-            RegisterUser1();
-
-            //add user to Room as player
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
-
-            Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
-
-            //foreach player in the room, check that he got a notification that contains the word "left"
-            List<int> playersInRoom = GameBridge.GetPlayersInRoom(RoomId);
-            playersInRoom.ForEach(id =>
-            {
-                List<String> notificationMsgs = UserBridge.GetUserNotificationMsgs(id);
-                Assert.True(notificationMsgs.Exists(msg => msg.Contains("left")));
-            });
         }
 
         [TestCase]

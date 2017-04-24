@@ -17,7 +17,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         int GetUserChips(int userId);
         int GetUserChips(int userId, int roomId);
         List<int> GetUsersGameRooms(int userId);
-        List<string> GetUserNotificationMsgs(int userId);
         int GetNextFreeUserId();
         int GetUserRank(int userId);
         void SetUserRank(int userId, int rank); //change user's rank BY SYSTEM
@@ -41,6 +40,5 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool RemoveUserFromRoom(int userId, int roomId);
         bool ReduceUserMoney(int userId, int amount);
         bool AddUserMoney(int userId, int amount);
-        bool AddUserChips(int userId, int roomId, int amount);
     }
 }

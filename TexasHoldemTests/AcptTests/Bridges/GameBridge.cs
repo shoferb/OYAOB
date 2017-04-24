@@ -9,24 +9,21 @@ namespace TexasHoldemTests.AcptTests.Bridges
 {
     class GameBridge : IGameBridge
     {
-        private GameServiceHandler _gameService;
-        private UserServiceHandler _userService;
-
-        private readonly Random _rand;
+        private readonly GameServiceHandler _gameService;
+        private readonly UserServiceHandler _userService;
 
         public GameBridge()
         {
-            //TODO: init services here
-            _rand = new Random();
+            _gameService = new GameServiceHandler();
+            _userService = new UserServiceHandler();
         }
 
         private int MakeRoomHelper(int userId, int roomId)
         {
-            string name = _rand.Next().ToString();
             User user = _userService.GetUserFromId(userId);
             if (user != null)
             {
-                if (_gameService.AddPlayerToRoom(userId, roomId, user.Money))
+                if (_gameService.CreateNewRoom(roomId, userId, 100, false, GameMode.NoLimit, 2, 2, 0, 1))
                 {
                     return roomId;
                 }
@@ -60,7 +57,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool DoesRoomExist(int id)
         {
-            return _gameService.GetGameById(id) == null;
+            return _gameService.GetGameById(id) != null;
         }
 
         public bool IsUserInRoom(int userId, int roomId)
@@ -85,22 +82,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<int> GetPlayersInRoom(int roomId)
         {
-            var players = _gameService.GetGameById(roomId)._players;
-            List<int> toReturn = new List<int>();
-            players.ForEach(p =>
-            {
-                toReturn.Add(p.Id);
-            });
+            List<int> toReturn = _gameService.GetGameById(roomId)._players.ConvertAll(p => p.Id);
             return toReturn;
         }
 
         private List<int> GamesToIds(List<GameRoom> games)
         {
-            List<int> toReturn = new List<int>();
-            games.ForEach(game =>
-            {
-                toReturn.Add(game._id);
-            });
+            List<int> toReturn = games.ConvertAll(g => g._id);
             return toReturn;
         }
 
@@ -169,94 +157,78 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.FindWinner(gameId).ConvertAll(p => p.Id);
         }
 
-        public bool Fold(int userId, int roomId)
-        {
-            //var player = FindPlayerInGame(userId, roomId);
-            //if (player != null)
-            //{
-            //    player.Fold();
-            //    return true;
-            //}
-            //return false;
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                new GameManager((ConcreteGameRoom) game).Fold();
-                return true;
-            }
-            return false;
-        }
+        //public bool Fold(int userId, int roomId)
+        //{
+        //    //var player = FindPlayerInGame(userId, roomId);
+        //    //if (player != null)
+        //    //{
+        //    //    player.Fold();
+        //    //    return true;
+        //    //}
+        //    //return false;
+        //    var game = _gameService.GetGameById(roomId);
+        //    if (game != null)
+        //    {
+        //        new GameManager((ConcreteGameRoom) game).Fold();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Check(int userId, int roomId)
-        {
-            //var player = FindPlayerInGame(userId, roomId);
-            //if (player != null)
-            //{
-            //    player.Check();
-            //    return true;
-            //}
-            //return false;
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                new GameManager((ConcreteGameRoom) game).Check();
-                return true;
-            }
-            return false;
-        }
+        //public bool Check(int userId, int roomId)
+        //{
+        //    //var player = FindPlayerInGame(userId, roomId);
+        //    //if (player != null)
+        //    //{
+        //    //    player.Check();
+        //    //    return true;
+        //    //}
+        //    //return false;
+        //    var game = _gameService.GetGameById(roomId);
+        //    if (game != null)
+        //    {
+        //        new GameManager((ConcreteGameRoom) game).Check();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Call(int userId, int roomId, int amount)
-        {
-            //var player = FindPlayerInGame(userId, roomId);
-            //if (player != null)
-            //{
-            //    player.Call(amount);
-            //    return true;
-            //}
-            //return false;
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                new GameManager((ConcreteGameRoom) game).Call(amount);
-                return true;
-            }
-            return false;
-        }
+        //public bool Call(int userId, int roomId, int amount)
+        //{
+        //    //var player = FindPlayerInGame(userId, roomId);
+        //    //if (player != null)
+        //    //{
+        //    //    player.Call(amount);
+        //    //    return true;
+        //    //}
+        //    //return false;
+        //    var game = _gameService.GetGameById(roomId);
+        //    if (game != null)
+        //    {
+        //        new GameManager((ConcreteGameRoom) game).Call(amount);
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Raise(int userId, int roomId, int amount)
-        {
-            //var game = _gameService.GetGameById(roomId);
-            //var player = _userService.GetPlayer(userId, roomId);
-            //if (CheckCurrPlayerIsPlayer(userId, game))
-            //{
-            //    player.Raise(amount, game);
-            //    return true;
-            //}
-            //return false;
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                new GameManager((ConcreteGameRoom) game).Raise(amount);
-                return true;
-            }
-            return false;
-        }
+        //public bool Raise(int userId, int roomId, int amount)
+        //{
+        //    //var game = _gameService.GetGameById(roomId);
+        //    //var player = _userService.GetPlayer(userId, roomId);
+        //    //if (CheckCurrPlayerIsPlayer(userId, game))
+        //    //{
+        //    //    player.Raise(amount, game);
+        //    //    return true;
+        //    //}
+        //    //return false;
+        //    var game = _gameService.GetGameById(roomId);
+        //    if (game != null)
+        //    {
+        //        new GameManager((ConcreteGameRoom) game).Raise(amount);
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool DealFlop(int gameId)
-        {
-            const int numOfCardsToDeal = 3;
-            for (int i = 0; i < numOfCardsToDeal; i++)
-            {
-                DealSingleCardToTable(gameId);
-            }
-            return true;
-        }
-
-        public bool DealSingleCardToTable(int gameId)
-        {
-            var game = _gameService.GetGameById(gameId);
-            game.AddNewPublicCard();
-            return true;
-        }
     }
 }

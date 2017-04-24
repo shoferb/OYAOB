@@ -19,6 +19,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected string User1Pw;
         protected const int RoomId = 0; //room1 must NOT exist when tests start.
         protected List<int> OtherUsers; //list holding all user ids used for testing except UserId1
+        protected string UserEmailGood1;
 
         protected AcptTest()
         {
@@ -38,6 +39,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             User1Name = "Oded";
             User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
 
             SubClassInit();
         }
@@ -94,7 +96,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected abstract void SubClassDispose();
 
         //create a new user, add to OtherUsers list and return the user's id
-        protected int GetNextUserId()
+        protected int GetNextUser()
         {
             int randInt = new Random().Next();
 
@@ -115,14 +117,14 @@ namespace TexasHoldemTests.AcptTests.tests
             if (ReplayBridge.GetReplayableGames(UserId).Count == 0)
             {
                 int newRoomId = GameBridge.CreateGameRoom(UserId);
-                int userId2 = GetNextUserId();
+                int userId2 = GetNextUser();
                 int money = UserBridge.GetUserMoney(userId2);
                 UserBridge.AddUserToGameRoomAsPlayer(userId2, newRoomId, money);
                 GameBridge.StartGame(newRoomId);
 
-                //maybe not good?
-                GameBridge.Call(UserId, newRoomId, 2);
-                GameBridge.Call(userId2, newRoomId, 2);
+                ////maybe not good?
+                //GameBridge.Call(UserId, newRoomId, 2);
+                //GameBridge.Call(userId2, newRoomId, 2);
 
                 UserBridge.RemoveUserFromRoom(userId2, newRoomId);
                 //now user1 is only player in room => user1 wins
@@ -138,7 +140,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             if (!UserBridge.IsThereUser(UserId))
             {
-                UserBridge.RegisterUser(User1Name, User1Pw, User1Name);
+                UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1);
             }
             else if (!UserBridge.IsUserLoggedIn(UserId))
             {
@@ -184,7 +186,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 GameBridge.RemoveGameRoom(RoomId);
             }
 
-            int userId2 = GetNextUserId();
+            int userId2 = GetNextUser();
             Assert.True(GameBridge.CreateGameRoom(userId2, RoomId));
 
             return userId2;

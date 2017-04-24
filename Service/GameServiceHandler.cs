@@ -38,14 +38,18 @@ namespace TexasHoldem.Service
 
         //TODO: change to the one below
 
-        public GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
-            string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum)
+        //public GameRoom CreateGameRoom(int userId, int chipsInGame, int roomId,
+        //    string roomName, int sb, int bb, int minMoney, int maxMoney, int gameNum)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
+        //TODO: Orelie fill this up Geveret
+        public bool CreateNewRoom(int roomId, int startingChip, int isSpectetor, bool gameModeChosen, GameMode minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet, int i)
         {
             throw new NotImplementedException();
         }
-
-
-        
 
         //create room and add to games list game center
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
@@ -111,49 +115,49 @@ namespace TexasHoldem.Service
             return _gameCenter.RemoveRoom(gameId);
         }
 
-        public bool Fold(Player player, GameRoom room)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Fold();
-                return true;
-            }
-            return false;
-        }
+        //public bool Fold(Player player, GameRoom room)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Fold();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Check(Player player, GameRoom room)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Check();
-                return true;
-            }
-            return false;
-        }
+        //public bool Check(Player player, GameRoom room)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Check();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Call(Player player, GameRoom room)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Call();
-                return true;
-            }
-            return false;
-        }
+        //public bool Call(Player player, GameRoom room)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Call();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool Raise(Player player, GameRoom room, int sum)
-        {
-            var manager = GetManagerForGame(room);
-            if (player.Equals(manager._currentPlayer))
-            {
-                manager.Raise(sum);
-                return true;
-            }
-            return false;
-        }
+        //public bool Raise(Player player, GameRoom room, int sum)
+        //{
+        //    var manager = GetManagerForGame(room);
+        //    if (player.Equals(manager._currentPlayer))
+        //    {
+        //        manager.Raise(sum);
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         public List<Player> FindWinner(int gameId)
         {
@@ -304,20 +308,6 @@ namespace TexasHoldem.Service
         }
 
 
-        //Todo - Oded for acceptence Test only!
-        public Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosenAcceptence(List<Tuple<Logic.Game.Action, bool, int, int>> moves,Action a,int bet)
-        {
-            Displaymoves(moves);
-            Tuple<Logic.Game.Action, int> moveAndBet = new Tuple<Action, int>(a,bet);
-            bool isValidMove = IsValidMove(moves, moveAndBet);
-            if (!isValidMove)
-            {
-               // moveAndBet = new Tuple<Action, int>(Action.Null, -1);
-            }
-            var ToReturn = SendMoveBackToPlayer(moveAndBet);
-            return ToReturn;
-        }
-
         public Tuple<Logic.Game.Action, int> GetMoveFromPlayer(Tuple<Action, int> moveAndBet)
         {
             return GameCenter.Instance.GetMoveFromPlayer(moveAndBet);
@@ -342,5 +332,6 @@ namespace TexasHoldem.Service
         {
             return GameCenter.Instance.GetRandomMove(moves);
         }
+
     }
 }
