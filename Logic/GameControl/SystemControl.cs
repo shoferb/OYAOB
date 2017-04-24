@@ -1036,12 +1036,6 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                int userPoint = user.Points;
-                int highPoint = GameCenter.Instance.HigherRank.Points;
-                if (userPoint == highPoint)
-                {
-                    return true;
-                }
                 //List<User> byPoint = SortUserByPoint();
                 //if (byPoint[0] == user)
                 //{
@@ -1051,8 +1045,15 @@ namespace TexasHoldem.Logic.Game_Control
                         user.IsHigherRank = true;
                         toReturn = true;
                     }
+                    int userPoint = user.Points;
+                    int highPoint = GameCenter.Instance.HigherRank.Points;
+                    if (userPoint == highPoint)
+                    {
+                        return true;
+                    }
                     else if(GameCenter.Instance.HigherRank != null)
                     {
+
                         if (user.Points > GameCenter.Instance.HigherRank.Points)
                         {
 
