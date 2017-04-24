@@ -39,7 +39,7 @@ namespace TexasHoldem.Logic.Game_Control
             this.leagueTable = new List<League>();
             CreateFirstLeague(100);
             this.higherRank = null;
-            this.logs = new List<Log>();// - why need this ToString()?
+            this.logs = new List<Log>();
             this.games = new List<GameRoom>();
             _replayManager = new ReplayManager();
             errorLog = new List<ErrorLog>();
@@ -68,11 +68,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //return all games in the system 0 active and non active
-        public List<GameRoom> GetGames()
-        {
-            return games;
-        }
+       
        
         //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
@@ -1384,7 +1380,105 @@ namespace TexasHoldem.Logic.Game_Control
         {
             return toCheck >= 0;
         }
+        //return all games in the system 0 active and non active
+        public List<GameRoom> GetGames()
+        {
+            return games;
+        }
 
+
+        public bool CreateNewRoomWithRoomId(int roomId, int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+            lock (padlock)
+            {
+                bool toReturn = false;
+                if (SystemControl.SystemControlInstance.GetUserWithId(userId) == null)
+                {
+                    //there is no such user
+                    ErrorLog log =
+                        new ErrorLog("Error while trying to create room, there is no user with id: " + userId);
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (!IsValidInputNotSmallerEqualZero(userId))
+                {
+                    return toReturn;
+                }
+                if (startingChip < 0)
+                {
+                    //not valid value
+
+                    return toReturn;
+                }
+                if (minPlayersInRoom <= 0)
+                {
+                    ErrorLog log = new ErrorLog(
+                        "Error while trying to create room, mim amount of player is invalid - less or equal to zero");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (minBet <= 0)
+                {
+                    ErrorLog log = new ErrorLog(
+                        "Error while trying to create room, min bet is invalid - less or equal to zero");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (maxPlayersInRoom <= 0)
+                {
+                    ErrorLog log = new ErrorLog(
+                        "Error while trying to create room, Max amount of player is invalid - less or equal to zero");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (minPlayersInRoom > maxPlayersInRoom)
+                {
+                    ErrorLog log = new ErrorLog(
+                        "Error while trying to create room, invalid input - min player in room is bigger than max player in room");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                if (enterPayingMoney < 0)
+                {
+                    ErrorLog log = new ErrorLog(
+                        "Error while trying to create room, invalid input - the entering money of the player is a negative number");
+                    AddErrorLog(log);
+                    return toReturn;
+                }
+                /*
+                 if (startingChip == 0)
+                 {
+                     return toReturn;
+                 }*/
+
+                //get next valid room id
+                int nextId = roomId;
+
+                List<Player> players = new List<Player>();
+
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+                if (enterPayingMoney > 0)
+                {
+                    int newMoney = user.Money - enterPayingMoney;
+                    user.Money = newMoney;
+                }
+                if (startingChip == 0)
+                {
+                    startingChip = user.Money;
+                    user.Money = 0;
+                }
+                Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password,
+                    user.Points,
+                    user.Money, user.Email, nextId);
+                players.Add(player);
+                ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen,
+                    minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+                Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
+                toReturn = AddRoom(room);
+                return toReturn;
+            }
+        }
     }
 
     

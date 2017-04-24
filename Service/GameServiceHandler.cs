@@ -52,6 +52,14 @@ namespace TexasHoldem.Service
         }
 
         //create room and add to games list game center
+        public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+            return GameCenter.Instance.CreateNewRoomWithRoomId(roomId,userId, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+        }
+
+        //create room and add to games list game center
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
