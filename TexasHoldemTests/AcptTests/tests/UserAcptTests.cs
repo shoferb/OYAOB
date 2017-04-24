@@ -416,11 +416,12 @@ namespace TexasHoldemTests.AcptTests.tests
 
             RegisterUser1();
 
+            int money = UserBridge.GetUserMoney(UserId);
+
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
-            Assert.AreEqual(0, UserBridge.GetUserMoney(UserId));
-            Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
+            Assert.GreaterOrEqual(money, UserBridge.GetUserMoney(UserId));
             Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
         }
 
@@ -434,20 +435,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, nonExistantRoomId, 0));
             Assert.False(GameBridge.IsUserInRoom(UserId, nonExistantRoomId));
             Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(nonExistantRoomId));
-            Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
-        }
-
-        [TestCase]
-        public void UserAddToRoomAsPlayerNegMoneyTestBad()
-        {
-            CreateGameWithUser();
-
-            RegisterUser1();
-
-            //negative amount of money
-            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, -1));
-            Assert.False(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
             Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
         }
 
@@ -497,10 +484,12 @@ namespace TexasHoldemTests.AcptTests.tests
 
             RegisterUser1();
 
+            int money = UserBridge.GetUserMoney(UserId);
+
             Assert.True(UserBridge.AddUserToGameRoomAsSpectator(UserId, RoomId));
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.AreEqual(0, UserBridge.GetUserMoney(UserId));
+            Assert.AreEqual(money, UserBridge.GetUserMoney(UserId));
             Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
         }
 

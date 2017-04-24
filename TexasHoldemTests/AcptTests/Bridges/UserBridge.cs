@@ -266,7 +266,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool AddUserToGameRoomAsSpectator(int userId, int roomId)
         {
             User user = _userService.GetUserFromId(userId);
-            if (user == null)
+            if (user != null)
             {
                 return _gameService.AddSpectatorToRoom(userId, roomId);
             }
