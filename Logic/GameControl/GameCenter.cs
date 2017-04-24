@@ -24,12 +24,12 @@ namespace TexasHoldem.Logic.Game_Control
         private List<GameRoom> games;
         public List<ErrorLog> errorLog { get; set; }
         public List<SystemLog> systemLog { get; set; }
-        private static int roomIdCounter = 1;
+        public int roomIdCounter = 0;
         private static GameCenter singlton;
         private ReplayManager _replayManager;
 
-       
-        private static GameCenter instance = null;
+
+        private static GameCenter instance;
 
 
         private static readonly object padlock = new object();
@@ -67,9 +67,6 @@ namespace TexasHoldem.Logic.Game_Control
             return _replayManager;
         }
 
-
-       
-       
         //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
         {
@@ -95,9 +92,6 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
        
-      
-
-       
         public GameReplay GetGameReplay(int roomID, int gameID, int userID)
         {
             Tuple<int, int> tuple = new Tuple<int, int>(roomID, gameID);
@@ -120,8 +114,6 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
-
-        
         //need to syncronzed?? 
         public string getActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
         {
@@ -528,13 +520,14 @@ namespace TexasHoldem.Logic.Game_Control
                     GameRoom toAdd = room;
                     User newUser = user; // add room to user list
                     newUser.SpectateGameList.Add(room);
-                    Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                        user.Money, user.Email, roomId);
-                    toAdd._spectatores.Add(spectetor);
-                  //  sc.ReplaceUser(user, newUser);
-                   // games.Remove(room);
-                    //games.Add(toAdd);
-                    toReturn = true;
+                    if (toAdd._isSpectetor)
+                    {
+                        Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password,
+                            user.Points,
+                            user.Money, user.Email, roomId);
+                        toAdd._spectatores.Add(spectetor);
+                        toReturn = true;
+                    }
                 }
                 catch (Exception e)
                 {
@@ -693,31 +686,32 @@ namespace TexasHoldem.Logic.Game_Control
         //create new league whith new gap
         public bool CreateFirstLeague(int initGap)
         {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(initGap))
-                {
-                    return toReturn;
-                }
+            ////lock (padlock)
+            ////{
+            //    bool toReturn = false;
+            //    if (!IsValidInputNotSmallerEqualZero(initGap))
+            //    {
+            //        return toReturn;
+            //    }
                 
-                LeagueGap = initGap;
-                leagueTable = new List<League>();
-                int currpoint = 0;
-                int i = 1;
-                int to = 0;
-                String leaugeName;
-                while (i < 100)
-                {
-                    leaugeName = "" + i;
-                    to = currpoint + leagueGap;
-                    League toAdd = new League(leaugeName, currpoint, to);
-                    leagueTable.Add(toAdd);
-                    i++;
-                    currpoint = to;
-                }
-                return toReturn;
-            }
+            //    LeagueGap = initGap;
+            //    leagueTable = new List<League>();
+            //    int currpoint = 0;
+            //    int i = 1;
+            //    int to = 0;
+            //    String leaugeName;
+            //    while (i < 100)
+            //    {
+            //        leaugeName = "" + i;
+            //        to = currpoint + leagueGap;
+            //        League toAdd = new League(leaugeName, currpoint, to);
+            //        leagueTable.Add(toAdd);
+            //        i++;
+            //        currpoint = to;
+            //    }
+            //    return toReturn;
+            ////}
+            return true;
         }
 
         public string UserLeageInfo(User user)
@@ -745,36 +739,24 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //Tuple<int, int> - <min,max>
-        public Tuple<int,int> UserLeageGapPoint(int userId)
+        public Tuple<int, int> UserLeageGapPoint(int userId)
         {
-            Tuple<int, int> toReturn;
+            //Tuple<int, int> toReturn;
             User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
             if (user == null)
             {
-                 toReturn = new Tuple<int, int>(-1, -1);
-                return toReturn;
+                return new Tuple<int, int>(-1, -1);
+                //return toReturn;
             }
-            
-            int userRank = user.Points;
-            int min = 0;
-            int max = leagueGap;
-            bool flag = ((userRank >= min) && (userRank <= max));
-            while (!flag)
-            {
-                if ((userRank >= min) && (userRank <= max))
-                {
-                    flag = true;
-                    toReturn = new Tuple<int, int>(min, max);
-                    return toReturn;
-                }
-                min = max + 1;
-                max = min + leagueGap;
-                flag = ((userRank >= min) && (userRank <= max));
 
+            int tempPoints = user.Points;
+            int count = 0;
+            while (tempPoints > 0)
+            {
+                tempPoints -= leagueGap;
+                count++;
             }
-            toReturn = new Tuple<int, int>(-10,-10);
-            return toReturn ;
+            return new Tuple<int, int>(count * leagueGap, (count + 1) * leagueGap);
         }
 
         //get all active games - syncronized

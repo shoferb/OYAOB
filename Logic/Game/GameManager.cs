@@ -80,7 +80,7 @@ namespace TexasHoldem.Logic.Game
 
             StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
             SystemLog log = new SystemLog(this._state._id, startAction.ToString());
-            this._state._gameCenter.systemLog.Add(log);
+            this._state._gameCenter.AddSystemLog(log);
             _state._gameReplay.AddAction(startAction);
 
             foreach (Player player in this._state._players)
@@ -91,7 +91,7 @@ namespace TexasHoldem.Logic.Game
                     player._hand._seconedCard);
                 _state._gameReplay.AddAction(hand);
                 log = new SystemLog(this._state._id, hand.ToString());
-                this._state._gameCenter.systemLog.Add(log);
+                this._state._gameCenter.AddSystemLog(log);
             }
             this._state.UpdateMaxCommitted();
             this._state.moveBBnSBtoPot(this._bbPlayer, this._sbPlayer);
@@ -502,7 +502,7 @@ namespace TexasHoldem.Logic.Game
         {
             _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
             SystemLog log = new SystemLog(this._state._id, _state._gameReplay.ToString());
-            this._state._gameCenter.systemLog.Add(log);
+            this._state._gameCenter.AddSystemLog(log);
 
             this._state._dealerPos = 0;
             SetRoles();
@@ -594,7 +594,7 @@ namespace TexasHoldem.Logic.Game
                 this._state.ClearPublicCards();
                 _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
                 SystemLog log = new SystemLog(this._state._id, _state._gameReplay.ToString());
-                this._state._gameCenter.systemLog.Add(log);
+                this._state._gameCenter.AddSystemLog(log);
                 SetRoles();
             }
             else
@@ -641,8 +641,7 @@ namespace TexasHoldem.Logic.Game
                     _state._potCount, table, winners[0]._relevantCards);
                 _state._gameReplay.AddAction(win);
                  SystemLog log = new SystemLog(this._state._id, win.ToString());
-                this._state._gameCenter.systemLog.Add(log);
-
+                this._state._gameCenter.AddSystemLog(log);
 
                 return winners;
             }
@@ -693,8 +692,7 @@ namespace TexasHoldem.Logic.Game
                      (int)_state._potCount/winners.Count, table, h._relevantCards);
                      _state._gameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this._state._id, win.ToString());
-                this._state._gameCenter.systemLog.Add(log);
-
+                this._state._gameCenter.AddSystemLog(log);
             }
             return winners;
         }
@@ -728,8 +726,7 @@ namespace TexasHoldem.Logic.Game
             FoldAction fold = new FoldAction(_currentPlayer, _currentPlayer._hand._firstCard,
                 _currentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this._state._id, fold.ToString());
-            this._state._gameCenter.systemLog.Add(log);
-
+            this._state._gameCenter.AddSystemLog(log);
             _state._gameReplay.AddAction(fold);
         }
 
@@ -739,8 +736,7 @@ namespace TexasHoldem.Logic.Game
             CheckAction check = new CheckAction(_currentPlayer, _currentPlayer._hand._firstCard,
                  _currentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this._state._id, check.ToString());
-            this._state._gameCenter.systemLog.Add(log);
-
+            this._state._gameCenter.AddSystemLog(log);
             _state._gameReplay.AddAction(check);
         }
 
@@ -753,8 +749,7 @@ namespace TexasHoldem.Logic.Game
                 _currentPlayer._hand._seconedCard, additionalChips);
             _state._gameReplay.AddAction(call);
             SystemLog log = new SystemLog(this._state._id, call.ToString());
-            this._state._gameCenter.systemLog.Add(log);
-
+            this._state._gameCenter.AddSystemLog(log);
         }
 
         public void Call()
@@ -773,8 +768,7 @@ namespace TexasHoldem.Logic.Game
                  _currentPlayer._hand._seconedCard, additionalChips);
             _state._gameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this._state._id, raise.ToString());
-            this._state._gameCenter.systemLog.Add(log);
-
+            this._state._gameCenter.AddSystemLog(log);
         }
 
 
