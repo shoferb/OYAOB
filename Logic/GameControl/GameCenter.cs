@@ -605,7 +605,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 if (playerToRemove == null)//user is not in room
                 {
-                    return toReturn;
+                    return false;
                 }
                 try
                 {
