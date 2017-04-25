@@ -32,7 +32,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void GetReplayableGamesTestSad()
         {
-            //user1 has not replayable games
+            RegisterUser1();
             Assert.IsEmpty(ReplayBridge.GetReplayableGames(UserId));
         }
 
@@ -48,8 +48,8 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void ViewReplayTestBad()
         {
-            //no games to replay
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId,0, UserId));
+            RegisterUser1();
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }
 
         [TestCase]
@@ -62,15 +62,13 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(ReplayBridge.SaveFavoriteMove(RoomId, 0, UserId, 1));
         }
 
-        //[TestCase]
-        //public void SaveFavoriteMoveNoReplayExistsBad()
-        //{
+        [TestCase]
+        public void SaveFavoriteMoveNoReplayExistsBad()
+        {
 
-        //    //no games to replay
-        //    Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
-        //    //TODO: after service is done
-        //    //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 1));
-        //}
+            //no games to replay
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
+        }
 
         //[TestCase]
         //public void SaveFavoriteMoveWrongMoveIndexBad()
