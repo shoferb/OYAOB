@@ -26,6 +26,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.IsNotEmpty(ReplayBridge.GetReplayableGames(UserId));
         }
 
+
         [TestCase]
         public void GetReplayableGamesTestSad()
         {
