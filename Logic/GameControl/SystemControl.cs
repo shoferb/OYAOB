@@ -310,6 +310,11 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 
                 User newUser = new User(id, name, memberName, password, 0, money, email);
+                if (GameCenter.Instance.HigherRank == null)
+                {
+                    GameCenter.Instance.HigherRank = newUser;
+                    newUser.IsHigherRank = true;
+                }
                 toReturn = AddNewUser(newUser);
                 return toReturn;
             }

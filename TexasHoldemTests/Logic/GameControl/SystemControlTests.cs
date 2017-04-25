@@ -655,7 +655,6 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int size = all.Count;
             Assert.IsTrue(size>1);
             User higher = GameCenter.Instance.HigherRank;
-            Assert.AreEqual(higher, null);
             Assert.IsTrue(sc.EditUserPoints(id,100));
             Assert.AreEqual(orelie.Points, 100);
             Assert.AreEqual(orelie.IsHigherRank, true);
@@ -704,7 +703,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int size = all.Count;
             Assert.IsTrue(size > 1);
             User higher = GameCenter.Instance.HigherRank;
-            Assert.AreEqual(higher, null);
+            Assert.AreEqual(higher, orelie);
             Assert.IsTrue(sc.EditUserPoints(id, 100));
             Assert.AreEqual(orelie.Points, 100);
             Assert.AreEqual(orelie.IsHigherRank, true);

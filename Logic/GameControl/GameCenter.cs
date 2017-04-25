@@ -1128,14 +1128,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             get
             {
-                int max = 0;
-                List<User> _user = _systemControl.GetAllUser();
-                foreach (User u in _user)
-                {
-                    if (max < u.Points)
-                        max = u.Points;
-                    this.HigherRank = u;
-                }
+               
                 return higherRank;
             }
 
