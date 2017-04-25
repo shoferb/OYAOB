@@ -123,6 +123,11 @@ namespace TexasHoldem.Logic.Game
 
         }
 
+        public void ThreadPlay()
+        {
+            Play();
+        }
+
         public bool Play() 
         {
 
