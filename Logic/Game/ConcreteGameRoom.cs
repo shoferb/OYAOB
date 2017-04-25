@@ -151,12 +151,17 @@ namespace TexasHoldem.Logic.Game
 
         public void CheckIfPlayerWantToLeave()
         {
+            List<Player> players = new List<Player>();
             foreach (Player p in this._players)
             {
-                if (p._isInRoom == false)
+                if (p._isInRoom == true)
                 {
-                    this._players.Remove(p);
+                    players.Add(p);
                 }
+            }
+            if (players.Count < _players.Count)
+            {
+                _players = players;
             }
         }
 
