@@ -40,15 +40,15 @@ namespace TexasHoldemTests.AcptTests.tests
         //tear down: (called from case)
         protected override void SubClassDispose()
         {
-            //delete registered users (except user1)
-            string[] pwArr = { _userPwGood2, _userPwBad, _userPwSad, User1Pw };
-            foreach (var s in pwArr)
-            {
-                if (!s.Equals(User1Pw))
-                {
-                    UserBridge.DeleteUser(User1Name, s);
-                }
-            }
+            ////delete registered users (except user1)
+            //string[] pwArr = { _userPwGood2, _userPwBad, _userPwSad, User1Pw };
+            //foreach (var s in pwArr)
+            //{
+            //    if (!s.Equals(User1Pw))
+            //    {
+            //        UserBridge.DeleteUser(User1Name, s);
+            //    }
+            //}
 
             _userPwGood2 = null;
             _userPwBad = null;
@@ -356,7 +356,9 @@ namespace TexasHoldemTests.AcptTests.tests
             //make sure user1 is top user
             UserBridge.SetUserPoints(UserId, 999999999);
 
-            Assert.True(UserBridge.SetLeagueCriteria(UserId, 10));
+            Assert.True(UserBridge.SetLeagueCriteria(UserId, 100));
+
+            Assert.True(UserBridge.SetLeagueCriteria(UserId, 1));
         }
 
         [TestCase]
@@ -370,6 +372,7 @@ namespace TexasHoldemTests.AcptTests.tests
             UserBridge.SetUserPoints(someUser, 99999999);
 
             Assert.False(UserBridge.SetLeagueCriteria(UserId, 10));
+            Assert.False(UserBridge.SetLeagueCriteria(UserId, 1));
         }
 
         [TestCase]

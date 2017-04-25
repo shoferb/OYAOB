@@ -136,12 +136,22 @@ namespace TexasHoldem.Logic.Game_Control
                     if ((u.Password.Equals(password)) && (u.MemberName.Equals(username)))
                     {
                         toRemove = u;
-                        found = true;
+                        found = true; 
                     }
                 }
                 try
                 {
                     users.Remove(toRemove);
+                    if (toRemove != null && toRemove.IsHigherRank)
+                    {
+                        var sortedByRank = SortByRank();
+                        if (sortedByRank.Count > 0)
+                        {
+                            var highestUser = sortedByRank[0];
+                            highestUser.IsHigherRank = true;
+                        }
+
+                    }
                     toReturn = true;
                 }
                 catch (Exception e)
