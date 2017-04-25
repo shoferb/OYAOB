@@ -63,21 +63,17 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
            
-            //Assert.True(GameBridge.StartGame(RoomId));
-            
-            //var allGames = GameBridge.GetAllGames();
-            //Assert.True(GameBridge.IsRoomActive(RoomId));
-
             Assert.True(UserBridge.RemoveUserFromRoom(_userId2, RoomId));
             Assert.False(GameBridge.IsRoomActive(RoomId));
-            Assert.False(GameBridge.StartGame(RoomId));
         }
 
         [TestCase]
         public void ListGamesByRankTestGood()
         {
-            //delete all users and games, register user1
+            //delete all users and games
             RestartSystem();
+
+            RegisterUser1();
 
             int rank = UserBridge.GetUserPoints(UserId);
             int someUser = GetNextUser();
