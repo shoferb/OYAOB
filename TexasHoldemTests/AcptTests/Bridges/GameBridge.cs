@@ -201,15 +201,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return -1;
         }
 
-        public List<int> GetWinner(int gameId)
-        {
-            var winners = _gameService.FindWinner(gameId);
-            if (winners != null)
-            {
-                return winners.ConvertAll(p => p.Id);
-            }
-            return new List<int>();
-        }
+        //public List<int> GetWinner(int gameId)
+        //{
+        //    var winners = _gameService.FindWinner(gameId);
+        //    if (winners != null)
+        //    {
+        //        return winners.ConvertAll(p => p.Id);
+        //    }
+        //    return new List<int>();
+        //}
 
         //public bool Fold(int userId, int roomId)
         //{

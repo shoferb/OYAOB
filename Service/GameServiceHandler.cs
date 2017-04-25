@@ -157,22 +157,22 @@ namespace TexasHoldem.Service
         //    return false;
         //}
 
-        public List<Player> FindWinner(int gameId)
-        {
-            List<Player> winningPlayers = new List<Player>();
-            var room = _gameCenter.GetRoomById(gameId);
-            var manager = GetManagerForGame(room);
-            if (room != null && manager != null && manager._gameOver)
-            {
-                List<Player> activePlayers = room._players.FindAll(p => p.isPlayerActive);
-                var winners = manager.FindWinner(room._publicCards, activePlayers);
-                winners.ForEach(handEval =>
-                {
-                    winningPlayers.Add(handEval._player);
-                });
-            }
-            return winningPlayers;
-        }
+        //public List<Player> FindWinner(int gameId)
+        //{
+        //    List<Player> winningPlayers = new List<Player>();
+        //    var room = _gameCenter.GetRoomById(gameId);
+        //    var manager = GetManagerForGame(room);
+        //    if (room != null && manager != null && manager._gameOver)
+        //    {
+        //        List<Player> activePlayers = room._players.FindAll(p => p.isPlayerActive);
+        //        var winners = manager.FindWinner(room._publicCards, activePlayers);
+        //        winners.ForEach(handEval =>
+        //        {
+        //            winningPlayers.Add(handEval._player);
+        //        });
+        //    }
+        //    return winningPlayers;
+        //}
 
         //public List<ConcreteGameRoom> GetAllActiveGames()
         public List<GameRoom> GetAllActiveGames()
