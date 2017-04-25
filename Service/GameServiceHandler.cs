@@ -91,7 +91,7 @@ namespace TexasHoldem.Service
 	        }
             return false;
         }
-        //Todo - odded didnt ask for this - need to remove
+        //Todo - Need to be done
         public List<GameRoom> GetAvaiableGamesByUserRank(int userRank)
         {
             throw new NotImplementedException();
@@ -100,9 +100,10 @@ namespace TexasHoldem.Service
         public bool MakeRoomActive(GameRoom room)
         {
             var manager = GetManagerForGame(room);
-            if (room._minPlayersInRoom <= room._players.Count)
+            if (room._minPlayersInRoom <= room.PlayersInGame() && !room._isActiveGame)
             {
-                return manager.Play(); 
+                manager.Start();
+                return true;
             }
             return false;
         }

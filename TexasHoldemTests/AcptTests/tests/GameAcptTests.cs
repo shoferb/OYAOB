@@ -62,7 +62,9 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
-            Assert.True(GameBridge.StartGame(RoomId));
+           
+            //Assert.True(GameBridge.StartGame(RoomId));
+            
             //var allGames = GameBridge.GetAllGames();
             //Assert.True(GameBridge.IsRoomActive(RoomId));
 
@@ -110,7 +112,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.True(GameBridge.CreateGameRoom(someUser1, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(someUser2, RoomId, 0));
-            Assert.True(GameBridge.StartGame(RoomId));
 
             Assert.Contains(RoomId, GameBridge.ListSpectateableRooms());
         }
