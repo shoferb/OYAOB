@@ -566,17 +566,19 @@ namespace TexasHoldem.Logic.Game
         public void EndHand()
         {
             this._state._gameNumber++;
-            List<Player> playersLeftInGame = new List<Player>();        
+            List<Player> playersLeftInGame = new List<Player>();
             foreach (Player player in this._state._players)
+            {
+                player.AddGameAvailableToReplay(_state._id, _state._gameNumber);
                 if (player._totalChip != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
-                   // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
+                    // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
                     player.isPlayerActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
-
+            }
             this._state.EndTurn();
             _winners= FindWinner(this._state._publicCards, playersLeftInGame);
             _state._replayManager.AddGameReplay(_state._gameReplay);
