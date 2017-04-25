@@ -231,6 +231,7 @@ namespace TexasHoldem.Logic.Game_Control
                 players.Add(player);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
                 Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
+                player.ActiveGameList.Add(room);
                 toReturn = AddRoom(room);
                 return toReturn;
             }
@@ -1472,6 +1473,7 @@ namespace TexasHoldem.Logic.Game_Control
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen,
                     minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
                 Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
+                player.ActiveGameList.Add(room);
                 toReturn = AddRoom(room);
                 return toReturn;
             }
