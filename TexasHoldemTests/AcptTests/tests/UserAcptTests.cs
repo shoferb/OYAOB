@@ -506,66 +506,66 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         //remove from game
-        [TestCase]
-        public void UserRemoveFromGamePlayerDealerMovesTestGood()
-        {
-            CreateGameWithUser();
+        //[TestCase]
+        //public void UserRemoveFromGamePlayerDealerMovesTestGood()
+        //{
+        //    CreateGameWithUser();
 
-            RegisterUser1();
+        //    RegisterUser1();
 
-            //add user to Room as player
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
+        //    //add user to Room as player
+        //    Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
+        //    Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
+        //    Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
 
-            int dealerId = GameBridge.GetDealerId(RoomId);
+        //    int dealerId = GameBridge.GetDealerId(RoomId);
 
-            Assert.True(UserBridge.RemoveUserFromRoom(dealerId, RoomId));
+        //    Assert.True(UserBridge.RemoveUserFromRoom(dealerId, RoomId));
 
-            Assert.AreNotEqual(dealerId, GameBridge.GetDealerId(RoomId));
 
-        }
+        //    Assert.AreNotEqual(dealerId, GameBridge.GetDealerId(RoomId));
 
-        [TestCase]
-        public void UserRemoveFromGamePlayerBbMovesTestGood()
-        {
-            CreateGameWithUser();
+        //}
 
-            RegisterUser1();
+        //[TestCase]
+        //public void UserRemoveFromGamePlayerBbMovesTestGood()
+        //{
+        //    CreateGameWithUser();
 
-            //add user to Room as player
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
+        //    RegisterUser1();
 
-            int bbId = GameBridge.GetBbId(RoomId);
+        //    //add user to Room as player
+        //    Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
+        //    Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
+        //    Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
 
-            Assert.True(UserBridge.RemoveUserFromRoom(bbId, RoomId));
+        //    int bbId = GameBridge.GetBbId(RoomId);
 
-            Assert.AreNotEqual(bbId, GameBridge.GetBbId(RoomId));
+        //    Assert.True(UserBridge.RemoveUserFromRoom(bbId, RoomId));
 
-        }
+        //    Assert.AreNotEqual(bbId, GameBridge.GetBbId(RoomId));
 
-        [TestCase]
-        public void UserRemoveFromGamePlayerSbMovesTestGood()
-        {
-            CreateGameWithUser();
+        //}
 
-            RegisterUser1();
+        //[TestCase]
+        //public void UserRemoveFromGamePlayerSbMovesTestGood()
+        //{
+        //    CreateGameWithUser();
 
-            //add user to Room as player
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
+        //    RegisterUser1();
 
-            int sbId = GameBridge.GetSbId(RoomId);
+        //    //add user to Room as player
+        //    Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
+        //    Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
+        //    Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
 
-            Assert.True(UserBridge.RemoveUserFromRoom(sbId, RoomId));
+        //    int sbId = GameBridge.GetSbId(RoomId);
 
-            Assert.AreNotEqual(sbId, GameBridge.GetSbId(RoomId));
+        //    Assert.True(UserBridge.RemoveUserFromRoom(sbId, RoomId));
 
-        }
+        //    Assert.AreNotEqual(sbId, GameBridge.GetSbId(RoomId));
 
+        //}
 
         [TestCase]
         public void UserRemoveFromRoomSpectatorTestGood()
