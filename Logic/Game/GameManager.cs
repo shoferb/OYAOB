@@ -525,18 +525,18 @@ namespace TexasHoldem.Logic.Game
             switch (previousStep)
             {
                 case ConcreteGameRoom.HandStep.PreFlop:
-                    InitRaiseField();
+                    RaiseFieldAtEveryRound();
                     InitializePlayerRound();
                     for (int i = 0; i <= 2; i++)
                         this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.Flop:
-                    InitRaiseField();
+                    RaiseFieldAtEveryRound();
                     InitializePlayerRound();
                     this._state.AddNewPublicCard();
                   break;
                 case ConcreteGameRoom.HandStep.Turn:
-                    InitRaiseField();
+                    RaiseFieldAtEveryRound();
                     InitializePlayerRound();
                     this._state.AddNewPublicCard();
                     break;
