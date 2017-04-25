@@ -982,6 +982,44 @@ namespace TexasHoldem.Logic.Game_Control.Tests
 
 
 
+        [TestMethod()]
+        public void HasThisActiveGameTest()
+        {
+            SystemControl sc = SystemControl.SystemControlInstance;
+            int size2 = sc.Users.Count;
+            Assert.AreEqual(size2, 0);
+            int id = 305077901;
+            string name1 = "orelie";
+            String UserName = "orelie123456";
+            string password = "123456789";
+            string email1 = "orelie@post.bgu.ac.il";
+            int money = 1000;
+            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            Assert.IsTrue(GameCenter.Instance.CreateNewRoom(id, 50, true, GameMode.Limit, 2, 8, 10, 10));
+            int roomId = GameCenter.Instance.GetNextIdRoom() - 1;
+            GameRoom room = GameCenter.Instance.GetRoomById(roomId);
+            Assert.AreEqual(room._isActiveGame,false);
+            //Assert.IsTrue(room.);
+        }
+
+        [TestMethod()]
+        public void HasThisSpectetorGameTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetActiveGamesByUserNameTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetSpectetorGamesByUserNameTest()
+        {
+            Assert.Fail();
+        }
 
 
 
