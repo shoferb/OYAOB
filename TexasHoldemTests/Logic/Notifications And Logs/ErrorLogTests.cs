@@ -14,12 +14,14 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         [TestMethod()]
         public void ErrorLogTest()
         {
+            int logId1 = Log.getNextId();
             ErrorLog errorLog = new ErrorLog("error log test");
+            int logId2 = Log.getNextId();
             ErrorLog errorLog2 = new ErrorLog("error log test2");
             Assert.AreEqual(errorLog.Msg, "error log test");
             Assert.AreNotEqual(errorLog.LogId,errorLog2.LogId);
-            Assert.AreEqual(errorLog.LogId, 1);
-            Assert.AreEqual(errorLog2.LogId, 2);
+            Assert.AreEqual(errorLog.LogId, logId1);
+            Assert.AreEqual(errorLog2.LogId, logId2);
             Assert.AreEqual(errorLog2.LogId, errorLog.LogId+1);
             Assert.IsInstanceOfType(errorLog2,typeof(ErrorLog));
             Assert.IsInstanceOfType(errorLog2, typeof(Log));
