@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         {
             SystemControl s1 = SystemControl.SystemControlInstance;
             SystemControl s2 = SystemControl.SystemControlInstance;
-            Assert.AreEqual(s1,s2);
+            Assert.AreEqual(s1, s2);
         }
 
         [TestMethod()]
@@ -982,6 +982,70 @@ namespace TexasHoldem.Logic.Game_Control.Tests
 
 
 
+
+
+
+        /*
+                
+                [TestMethod()]
+                public void RemoveRoomFromActiveRoomTest()
+                {
+                    SystemControl sc = SystemControl.SystemControlInstance;
+                    int id = 305077901;
+                    string name1 = "orelie";
+                    String UserName = "orelie123456";
+                    string password = "123456789";
+                    string email1 = "orelie@post.bgu.ac.il";
+                    int money = 1000;
+                    Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
+                    Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+                    Assert.AreEqual(sc.GetUserWithId(id).IsActive, false);
+                    Assert.IsTrue(sc.EditActiveGame(id, true));
+                    Assert.IsTrue(sc.EditUserPoints(id,50));
+                    Assert.AreEqual(sc.GetUserWithId(id).Points, 50);
+                    bool CreateRoom = GameCenter.Instance.CreateNewRoom(id, 100, true, GameMode.Limit, 2, 8, 20, 5);
+                    Assert.IsTrue(CreateRoom);
+                    int size = GameCenter.Instance.GetAllGames().Count;
+                    Assert.AreEqual(size,1);
+                   List<GameRoom> rooms= GameCenter.Instance.GetAllGames();
+                    GameRoom room = rooms.First();
+                    Assert.AreNotEqual(room,null);
+                    Assert.AreEqual(GameCenter.Instance.LeagueGap,100);
+                    Assert.AreEqual(room._minRank,-1);
+                    Assert.AreEqual(room._minRank, -1);
+                    Assert.AreEqual(GameCenter.Instance.GetLastGameRoom(),2);
+        //            Assert.AreEqual(GameCenter.Instance.GetLastGameRoom(), 1);
+          //          Assert.AreEqual(GameCenter.Instance.GetLastGameRoom(), 0);
+                    Assert.AreEqual(room._id,2);
+                    Assert.IsTrue(GameCenter.Instance.RemoveRoom(2));
+                    Assert.IsTrue(sc.RemoveUserById(id));
+                }
+                [TestMethod()]
+                public void RemoveRoomFromSpectetRoomTest()
+                {
+                    Assert.Fail();
+                }
+                [TestMethod()]
+                public void HasThisActiveGameTest()
+                {
+                    Assert.Fail();
+                }
+                [TestMethod()]
+                public void HasThisSpectetorGameTest()
+                {
+                    Assert.Fail();
+                }
+                [TestMethod()]
+                public void GetActiveGamesByUserNameTest()
+                {
+                    Assert.Fail();
+                }
+                [TestMethod()]
+                public void GetSpectetorGamesByUserNameTest()
+                {
+                    Assert.Fail();
+                }
+        */
 
 
 
