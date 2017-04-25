@@ -40,8 +40,8 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(GameBridge.DoesRoomExist(RoomId));
-            Assert.Equals(1, GameBridge.GetPlayersInRoom(RoomId).Count);
-            Assert.Equals(UserId, GameBridge.GetPlayersInRoom(RoomId).First());
+            Assert.AreEqual(1, GameBridge.GetPlayersInRoom(RoomId).Count);
+            Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First());
         }
 
         [TestCase]
@@ -55,14 +55,17 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void GameBecomesInactiveGood()
         {
-            _userId2 = UserBridge.GetNextFreeUserId();
+            _userId2 = GetNextUser();
 
             RegisterUser1();
+
+            GameBridge.RemoveGameRoom(RoomId);
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
             Assert.True(GameBridge.StartGame(RoomId));
-            Assert.True(GameBridge.IsRoomActive(RoomId));
+            //var allGames = GameBridge.GetAllGames();
+            //Assert.True(GameBridge.IsRoomActive(RoomId));
 
             Assert.True(UserBridge.RemoveUserFromRoom(_userId2, RoomId));
             Assert.False(GameBridge.IsRoomActive(RoomId));
@@ -366,8 +369,8 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(GameBridge.DoesRoomExist(RoomId));
-            Assert.AreEqual(1, GameBridge.GetPlayersInRoom(RoomId).Count);
-            Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First());
+            Assert.Equals(1, GameBridge.GetPlayersInRoom(RoomId).Count);
+            Assert.Equals(UserId, GameBridge.GetPlayersInRoom(RoomId).First());
         }
 
         [TestCase]
@@ -381,17 +384,14 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void GameBecomesInactiveGood()
         {
-            _userId2 = GetNextUser();
+            _userId2 = UserBridge.GetNextFreeUserId();
 
             RegisterUser1();
-
-            GameBridge.RemoveGameRoom(RoomId);
 
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
             Assert.True(GameBridge.StartGame(RoomId));
-            //var allGames = GameBridge.GetAllGames();
-            //Assert.True(GameBridge.IsRoomActive(RoomId));
+            Assert.True(GameBridge.IsRoomActive(RoomId));
 
             Assert.True(UserBridge.RemoveUserFromRoom(_userId2, RoomId));
             Assert.False(GameBridge.IsRoomActive(RoomId));
@@ -653,4 +653,4 @@ namespace TexasHoldemTests.AcptTests.tests
         //}
     }
 }
->>>>>>> anotherOdedBranch
+>>>>>>> 7788f1fe877e81fb78e61fdf05e6e7ff0aad600f
