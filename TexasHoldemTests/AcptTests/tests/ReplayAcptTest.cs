@@ -48,8 +48,8 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void ViewReplayTestBad()
         {
-            //no games to replay
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId,0, UserId));
+            RegisterUser1();
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }
 
         [TestCase]
