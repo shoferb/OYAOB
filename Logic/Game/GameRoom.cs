@@ -47,6 +47,7 @@ namespace TexasHoldem.Logic.Game
             _spectatores = new List<Spectetor>();
             this._players = players;
             this._bb = _minBetInRoom;
+            this._sb = (int)_bb / 2;
             this._id = ID;
             this._isSpectetor = isSpectetor;
             this._gameMode = gameModeChosen;
