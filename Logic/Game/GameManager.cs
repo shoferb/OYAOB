@@ -554,7 +554,7 @@ namespace TexasHoldem.Logic.Game
                     this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.River:
-                    InitRaiseField();
+                    RaiseFieldAtEveryRound();
                     InitializePlayerRound();
                     return true;
 
