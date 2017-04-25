@@ -181,6 +181,12 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        public List<GameRoom> GetAllActiveGamesAUserCanJoin(int userId)
+        {
+
+            return _gameCenter.GetAllActiveGamesAUserCanJoin(userId);
+        }
+
         //public List<ConcreteGameRoom> GetAllGames()
         public List<GameRoom> GetAllGames()
         {

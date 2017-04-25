@@ -229,6 +229,7 @@ namespace TexasHoldem.Logic.Game_Control
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
                     user.Money, user.Email, nextId);
                 players.Add(player);
+                player._isInRoom = false;
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
                 room.SetThread(new Thread(room._gm.ThreadPlay));
                 user.ActiveGameList.Add(room);
@@ -238,7 +239,26 @@ namespace TexasHoldem.Logic.Game_Control
             
         }
 
-        
+        public List<GameRoom> GetAllActiveGamesAUserCanJoin(int userId)
+        {
+            lock (padlock)
+            {
+                List<GameRoom> toReturn = new List<GameRoom>();
+                List<GameRoom> tempList = GetAllActiveGame();
+                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+                foreach (GameRoom room in games)
+                {
+                    if (room._maxRank <= user.Points && room._minRank >= user.Points)
+                    {
+                        toReturn.Add(room);
+                    }
+                }
+                return toReturn;
+            }
+
+        }
+
+
         public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
         {
             lock (padlock)
@@ -482,8 +502,9 @@ namespace TexasHoldem.Logic.Game_Control
                     newUser.ActiveGameList.Add(room);
 
                     room._players.Add(playerToAdd);
+                    playerToAdd._isInRoom = false;
 
-                   // sc.ReplaceUser(user, newUser);
+                    // sc.ReplaceUser(user, newUser);
                     //games.Remove(room);
                     //games.Add(toAdd);
                     toReturn = true;
@@ -588,8 +609,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    playerToRemove._isInRoom = false; //not in room - need to remove in end od round
-                    playerToRemove.IsActive = false;
+                    playerToRemove._isInRoom = true; //not in room - need to remove in end od round
+                    //playerToRemove.IsActive = false;
                     //allPlayers.Remove(playerToRemove);
                     // toAdd._players = allPlayers;
                     //games.Remove(room);
@@ -1458,10 +1479,12 @@ namespace TexasHoldem.Logic.Game_Control
                     user.Points,
                     user.Money, user.Email, nextId);
                 players.Add(player);
+                player._isInRoom = false;
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen,
                     minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
                 room.SetThread(new Thread(room._gm.ThreadPlay));
-                player.ActiveGameList.Add(room);
+                user.ActiveGameList.Add(room);
+
                 toReturn = AddRoom(room);
                 return toReturn;
             }
