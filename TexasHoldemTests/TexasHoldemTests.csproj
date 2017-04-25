@@ -95,14 +95,9 @@
     <Compile Include="Logic\Notifications And Logs\SystemLogTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
-    <Compile Include="Logic\Users\PlayerTests.cs" />
     <Compile Include="Logic\Users\SpectetorTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\GameServiceHandlerTests.cs" />
-    <Compile Include="Service\LogServiceHandlerTests.cs" />
-    <Compile Include="Service\ReplayServiceHandlerTests.cs" />
-    <Compile Include="Service\UserServiceHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TexasHoldem.csproj">
