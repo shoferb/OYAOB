@@ -46,9 +46,17 @@ namespace TexasHoldem.Logic.Game
         public void Start()
         {
             //Play();
-            if (RoomThread != null)
+            if (RoomThread != null && !_state._isActiveGame)
             {
-                RoomThread.Start();
+                try
+                {
+                    RoomThread.Start();
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Room number " + _state._id + " was attempted to start but has allready been started.");
+                    _state._gameCenter.errorLog.Add(log);
+                }
             }
         }
         public void SetRoles()

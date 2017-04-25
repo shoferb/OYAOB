@@ -230,7 +230,7 @@ namespace TexasHoldem.Logic.Game_Control
                     user.Money, user.Email, nextId);
                 players.Add(player);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
-                room.SetThread(new Thread(room._gm.Start));               
+                room.SetThread(new Thread(room._gm.Start));
                 user.ActiveGameList.Add(room);
                 toReturn = AddRoom(room);
                 return toReturn;
