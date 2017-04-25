@@ -1,6 +1,7 @@
 ﻿ using System;
 using System.Collections.Generic;
  using System.Linq;
+ using System.Threading;
  using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
@@ -11,7 +12,11 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int _gameNumber=0;
-        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor, GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBetInRoom) : base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBetInRoom)
+        public ConcreteGameRoom(List<Player> players, int startingChip, int ID, bool isSpectetor,
+            GameMode gameModeChosen, int minPlayersInRoom, int maxPlayersInRoom,
+            int enterPayingMoney, int minBetInRoom) : 
+            base(players, startingChip, ID, isSpectetor, gameModeChosen, minPlayersInRoom, 
+            maxPlayersInRoom, enterPayingMoney, minBetInRoom)
         {
             this._isActiveGame = false;
             this._potCount = 0;          
@@ -28,7 +33,11 @@ namespace TexasHoldem.Logic.Game
             this._maxRank = tup.Item2;
         }
 
-
+        //set the room's thread
+        public void SetThread(Thread thread)
+        {
+            _gm.RoomThread = thread;
+        }
 
         public Player NextToPlay()
         {

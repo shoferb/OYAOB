@@ -26,7 +26,7 @@ namespace TexasHoldem.Service
             {
                 return _roomToManagerDictionary[room];
             }
-            GameManager manager = new GameManager((ConcreteGameRoom)room);
+            GameManager manager = ((ConcreteGameRoom) room)._gm;
             _roomToManagerDictionary.Add(room, manager);
             return manager;
         }
@@ -97,7 +97,6 @@ namespace TexasHoldem.Service
             throw new NotImplementedException();
         }
 
-        //TODO: not sure about this one
         public bool MakeRoomActive(GameRoom room)
         {
             var manager = GetManagerForGame(room);
