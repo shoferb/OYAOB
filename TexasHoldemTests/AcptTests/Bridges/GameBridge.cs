@@ -23,7 +23,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             User user = _userService.GetUserFromId(userId);
             if (user != null)
             {
-                if (_gameService.CreateNewRoomWithRoomId(roomId, userId, 100, false, GameMode.NoLimit, 2, 2, 0, 1))
+                if (_gameService.CreateNewRoomWithRoomId(roomId, userId, 100, true, GameMode.NoLimit, 2, 2, 0, 1))
                 {
                     return roomId;
                 }
