@@ -27,7 +27,7 @@ namespace TexasHoldem.Logic.Game_Control
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
         private ReplayManager _replayManager;
-
+        private SystemControl _systemControl = SystemControl.SystemControlInstance;
 
         private static GameCenter instance;
 
@@ -677,6 +677,7 @@ namespace TexasHoldem.Logic.Game_Control
                     i++;
                     currpoint = to;
                 }
+                this.LeagueTable = leagueTable;
                 return true;
             }
         }
@@ -692,21 +693,37 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 
-                LeagueGap = initGap;
                 leagueTable = new List<League>();
                 int currpoint = 0;
                 int i = 1;
                 int to = 0;
-                String leaugeName;
-                while (i < 100)
+                String leaugeName=null;
+                int gap = 0;
+                League l = null;
+                while (i < this.LeagueTable.Count)
                 {
+                    gap= this.LeagueTable[i].getMaxRank() - this.LeagueTable[i].getMinRank();
+                    l = this.LeagueTable[i];
+                    if (gap > initGap)
+                    {
+                        i++;
+                    }
                     leaugeName = "" + i;
-                    to = currpoint + leagueGap;
-                    League toAdd = new League(leaugeName, currpoint, to);
-                    leagueTable.Add(toAdd);
-                    i++;
-                    currpoint = to;
                 }
+                League toAdd =null ;
+                if (l != null)
+                {
+                     toAdd = new League(leaugeName, l.getMaxRank(), l.getMaxRank() + initGap);
+                }
+                else
+                {
+                     toAdd = new League(leaugeName, 0, initGap);
+                }
+                leagueTable.Add(toAdd);
+                this.LeagueTable = leagueTable;
+                this.leagueGap = initGap;
+                
+            
                 return toReturn;
             }
         }
@@ -718,10 +735,10 @@ namespace TexasHoldem.Logic.Game_Control
             int i = 1;
             int min = 0;
             int max = leagueGap;
-            bool flag = ((userRank > min) && (userRank < max));
+            bool flag = ((userRank >= min) && (userRank < max));
             while (!flag)
             {
-                if ((userRank > min) && (userRank < max))
+                if ((userRank >= min) && (userRank < max))
                 {
                     flag = true;
                     toReturn = "" + i;
@@ -1111,6 +1128,14 @@ namespace TexasHoldem.Logic.Game_Control
         {
             get
             {
+                int max = 0;
+                List<User> _user = _systemControl.GetAllUser();
+                foreach (User u in _user)
+                {
+                    if (max < u.Points)
+                        max = u.Points;
+                    this.HigherRank = u;
+                }
                 return higherRank;
             }
 
