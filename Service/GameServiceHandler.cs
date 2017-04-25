@@ -101,7 +101,7 @@ namespace TexasHoldem.Service
         public bool MakeRoomActive(GameRoom room)
         {
             var manager = GetManagerForGame(room);
-            if (room._minPlayersInRoom < room._players.Count)
+            if (room._minPlayersInRoom <= room._players.Count)
             {
                 return manager.Play(); 
             }

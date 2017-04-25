@@ -111,7 +111,7 @@ namespace TexasHoldem.Logic.Game
         public bool Play() 
         {
             
-            if (this._state._players.Count < 2) return false;
+            if (this._state._players.Count < this._state._minPlayersInRoom) return false;
             else
             {
                 //add to users list of available game to replay
