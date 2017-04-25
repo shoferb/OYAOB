@@ -35,6 +35,8 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
 
+            GameBridge.RemoveGameRoom(RoomId);
+
             Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
             Assert.True(GameBridge.DoesRoomExist(RoomId));
             Assert.Equals(1, GameBridge.GetPlayersInRoom(RoomId).Count);
