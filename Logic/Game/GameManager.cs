@@ -124,12 +124,6 @@ namespace TexasHoldem.Logic.Game
             }
             else
             {
-                //add to users list of available game to replay
-                foreach (Player p in _state._players)
-                {
-                    p.AddGameAvailableToReplay(_state._id, _state._gameNumber);
-                }
-
                 if (_firstEnter)
                 {
                     StartTheGame();
