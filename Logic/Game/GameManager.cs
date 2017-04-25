@@ -597,15 +597,18 @@ namespace TexasHoldem.Logic.Game
                 this._state._gameCenter.AddSystemLog(log);
                 SetRoles();
             }
-            else
+            else if (_state._players.Count == 1)
             {
                 this._state._isActiveGame = false;
                 _firstEnter = true;
                 if (!_currentPlayer.OutOfMoney())
                     this._state._players[0].isPlayerActive = false; 
             }
-
-
+            else //no players at all
+            {
+                this._state._isActiveGame = false;
+                _firstEnter = true;
+            }
         }
 
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
