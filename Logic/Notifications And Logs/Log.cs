@@ -16,6 +16,10 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
             this.logId = System.Threading.Interlocked.Increment(ref counter);
         }
 
+        public static int getNextId()
+        {
+            return counter + 1;
+        }
 
         //getter Setter
         public int LogId
