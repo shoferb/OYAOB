@@ -92,61 +92,7 @@ namespace TexasHoldem.Logic.Users
             return true;
         }
 
-        public bool AddToActiveGameList(GameRoom toAdd)
-        {
-            try
-            {
-                ActiveGameList.Add(toAdd);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-        }
-
-        public bool AddToSpectetorGameList(GameRoom toAdd)
-        {
-            try
-            {
-                SpectateGameList.Add(toAdd);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-        }
-
-        public bool RemoveFromSpectetorGameList(GameRoom toRemove)
-        {
-            try
-            {
-                SpectateGameList.Remove(toRemove);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-        }
-
-        public bool RemoveFromActiveGameList(GameRoom toRemove)
-        {
-            try
-            {
-                ActiveGameList.Remove(toRemove);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-
-        }
+       
 
         //getters setters
         public int Id
