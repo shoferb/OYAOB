@@ -608,11 +608,10 @@ namespace TexasHoldemTests.AcptTests.tests
             //remove user from Room
             Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
 //            Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
-            Assert.Equals(money, UserBridge.GetUserMoney(UserId));
-            Assert.Equals(chips, UserBridge.GetUserChips(UserId));
+            Assert.AreEqual(money, UserBridge.GetUserMoney(UserId));
+            Assert.AreEqual(chips, UserBridge.GetUserChips(UserId));
 
             Assert.True(GameBridge.IsUserInRoom(userId2, RoomId)); //user2 should still be in Room
-            Assert.Contains(RoomId, ReplayBridge.GetReplayableGames(UserId));
         }
 
         [TestCase]
