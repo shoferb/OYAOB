@@ -143,6 +143,8 @@ namespace TexasHoldem.Logic.Game
                 }
                 while (!this._state.AllDoneWithTurn())
                 {
+                    RaiseFieldAtEveryRound();
+                    InitializePlayerRound();
                     int move;
                     this._currentPlayer = this._state.NextToPlay();
                     //move = this.playTurn(player)
@@ -525,6 +527,11 @@ namespace TexasHoldem.Logic.Game
             SetRoles();
             _firstEnter = false;
             _state._isActiveGame = true;
+
+            foreach (Player p in _state._players)
+            {
+                p.isPlayerActive = true;
+            }
         }
 
 
@@ -538,24 +545,20 @@ namespace TexasHoldem.Logic.Game
             switch (previousStep)
             {
                 case ConcreteGameRoom.HandStep.PreFlop:
-                    RaiseFieldAtEveryRound();
-                    InitializePlayerRound();
+                   
                     for (int i = 0; i <= 2; i++)
                         this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.Flop:
-                    RaiseFieldAtEveryRound();
-                    InitializePlayerRound();
+                 
                     this._state.AddNewPublicCard();
                   break;
                 case ConcreteGameRoom.HandStep.Turn:
-                    RaiseFieldAtEveryRound();
-                    InitializePlayerRound();
+                    
                     this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.River:
-                    InitRaiseField();
-                    InitializePlayerRound();
+                 
                     return true;
 
                 default:
