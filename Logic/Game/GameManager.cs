@@ -124,12 +124,6 @@ namespace TexasHoldem.Logic.Game
             }
             else
             {
-                //add to users list of available game to replay
-                foreach (Player p in _state._players)
-                {
-                    p.AddGameAvailableToReplay(_state._id, _state._gameNumber);
-                }
-
                 if (_firstEnter)
                 {
                     StartTheGame();
@@ -531,17 +525,25 @@ namespace TexasHoldem.Logic.Game
             switch (previousStep)
             {
                 case ConcreteGameRoom.HandStep.PreFlop:
+                    RaiseFieldAtEveryRound();
+                    InitializePlayerRound();
                     for (int i = 0; i <= 2; i++)
                         this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.Flop:
+                    RaiseFieldAtEveryRound();
+                    InitializePlayerRound();
                     this._state.AddNewPublicCard();
                   break;
                 case ConcreteGameRoom.HandStep.Turn:
+                    RaiseFieldAtEveryRound();
+                    InitializePlayerRound();
                     this._state.AddNewPublicCard();
                     break;
                 case ConcreteGameRoom.HandStep.River:
-                   return true;
+                    InitRaiseField();
+                    InitializePlayerRound();
+                    return true;
 
                 default:
                     break;
@@ -566,17 +568,19 @@ namespace TexasHoldem.Logic.Game
         public void EndHand()
         {
             this._state._gameNumber++;
-            List<Player> playersLeftInGame = new List<Player>();        
+            List<Player> playersLeftInGame = new List<Player>();
             foreach (Player player in this._state._players)
+            {
+                player.AddGameAvailableToReplay(_state._id, _state._gameNumber);
                 if (player._totalChip != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
-                   // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
+                    // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
                     player.isPlayerActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
-
+            }
             this._state.EndTurn();
             _winners= FindWinner(this._state._publicCards, playersLeftInGame);
             _state._replayManager.AddGameReplay(_state._gameReplay);

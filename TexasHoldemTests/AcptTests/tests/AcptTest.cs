@@ -107,6 +107,21 @@ namespace TexasHoldemTests.AcptTests.tests
             }
         }
 
+        protected void Setup2Users1Game()
+        {
+            RegisterUser1();
+
+            //create a new game and run it 1 move, then leave it
+            if (ReplayBridge.GetReplayableGames(UserId).Count == 0)
+            {
+                int newRoomId = GameBridge.CreateGameRoom(UserId);
+                int userId2 = GetNextUser();
+                int money = UserBridge.GetUserMoney(userId2);
+                UserBridge.AddUserToGameRoomAsPlayer(userId2, newRoomId, money);
+                GameBridge.StartGame(newRoomId);
+            }
+        }
+
         protected void RegisterUser1()
         {
             if (!UserBridge.IsThereUser(UserId))
