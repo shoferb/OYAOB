@@ -22,7 +22,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void GetReplayableGamesTestGood()
         {
             //create a game to be replayd
-            SetupUser1();
+            Setup2Users1Game();
 
             Assert.IsNotEmpty(ReplayBridge.GetReplayableGames(UserId));
         }
