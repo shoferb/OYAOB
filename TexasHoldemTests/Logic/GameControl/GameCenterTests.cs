@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
@@ -119,7 +120,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom()-1;
-            Assert.IsTrue(_gameCenter.AddSpectetorToRoom(id,1));
+            Assert.IsTrue(_gameCenter.AddSpectetorToRoom(id,2));
         }
 
         [TestMethod()]
@@ -151,8 +152,11 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
-            _gameCenter.AddSpectetorToRoom(id, 1);
+            _systemControl.GetUserWithId(1).IsActive = false;
+            _gameCenter.AddSpectetorToRoom(id, 2);
             Assert.IsTrue(_gameCenter.GetRoomById(id)._spectatores.Count == 1);
+            _gameCenter.RemoveSpectetorFromRoom(id, 2);
+            Assert.IsTrue(_gameCenter.GetRoomById(id)._spectatores.Count == 0);
         }
 
         [TestMethod()]
@@ -180,91 +184,151 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void UserLeageGapPointTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            Tuple<int, int> res = _gameCenter.UserLeageGapPoint(1);
+            Assert.IsTrue(res!= null);
+            Assert.IsTrue(res.Item1==0 && res.Item2 > 0);
         }
 
         [TestMethod()]
         public void GetAllActiveGameTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom()-1;
+            GameRoom room = _gameCenter.GetRoomById(id);
+            room._isActiveGame = true;
+            Assert.IsTrue(_gameCenter.GetAllActiveGame().Count==1);
         }
 
         [TestMethod()]
         public void GetAllSpectetorGameTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            _systemControl.GetUserWithId(1).IsActive = false;
+            _gameCenter.AddSpectetorToRoom(id, 2);
+            Assert.IsTrue(_gameCenter.GetRoomById(id)._spectatores.Count == 1);
+            Assert.IsTrue(_gameCenter.GetAllSpectetorGame().Count==1);
         }
 
         [TestMethod()]
         public void GetAllGamesTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetAllGames().Count==2);
         }
 
         [TestMethod()]
         public void GetAllGamesByPotSizeTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            GameRoom room = _gameCenter.GetRoomById(id);
+            room._potCount = 12345;
+            Assert.IsTrue(_gameCenter.GetAllGamesByPotSize(1).Count==0);
         }
 
         [TestMethod()]
         public void GetGamesByGameModeTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGamesByGameMode(GameMode.Limit).Count==1);
         }
 
         [TestMethod()]
         public void GetGamesByBuyInPolicyTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGamesByBuyInPolicy(10).Count==2);
         }
 
         [TestMethod()]
         public void GetGamesByMinPlayerTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGamesByMinPlayer(2).Count == 2);
+
         }
 
         [TestMethod()]
         public void GetGamesByMaxPlayerTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGamesByMaxPlayer(9).Count == 0);
+
         }
 
         [TestMethod()]
         public void GetGamesByMinBetTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGamesByMinBet(1).Count == 0);
+
         }
 
         [TestMethod()]
         public void GetGamesByStartingChipTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
+            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGamesByStartingChip(2).Count == 0);
+
         }
 
         [TestMethod()]
         public void IsGameCanSpecteteTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            Assert.IsTrue(_gameCenter.IsGameCanSpectete(id)==true);
         }
 
         [TestMethod()]
         public void IsGameActiveTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            Assert.IsTrue(!_gameCenter.IsGameActive(id) == true);
+
         }
 
-        [TestMethod()]
-        public void SendNotificationTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
+       [TestMethod()]
         public void FindLogTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            GameRoom room = _gameCenter.GetRoomById(id);
+            SystemLog log = new SystemLog(id, room._gameReplay.ToString());
+            room._gameCenter.AddSystemLog(log);
+            Assert.IsTrue(_gameCenter.FindLog(log.LogId)!= null);
+
         }
 
         [TestMethod()]
