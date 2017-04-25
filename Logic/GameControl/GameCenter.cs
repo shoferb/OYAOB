@@ -230,9 +230,8 @@ namespace TexasHoldem.Logic.Game_Control
                     user.Money, user.Email, nextId);
                 players.Add(player);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
-                Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
-                player.AddToActiveGameList(room);
-                
+                room.SetThread(new Thread(room._gm.Start));               
+                user.ActiveGameList.Add(room);
                 toReturn = AddRoom(room);
                 return toReturn;
             }
@@ -825,12 +824,7 @@ namespace TexasHoldem.Logic.Game_Control
         public List<GameRoom> GetAllGames()
         {
             lock (padlock)
-            {/*
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
-                {
-                    toReturn.Add(room);
-                }*/
+            {
                 return games;
             }
         }
