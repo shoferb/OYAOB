@@ -32,7 +32,7 @@ namespace TexasHoldemTests.AcptTests.tests
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
 
-            SetupUser1();
+            //SetupUser1();
         }
 
         [SetUp]
