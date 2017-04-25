@@ -270,6 +270,7 @@ namespace TexasHoldem.Logic.Game_Control
                     if (room._id == roomId)
                     {
                         toReturn = room;
+                        break;
                     }
                 }
                 return toReturn;
