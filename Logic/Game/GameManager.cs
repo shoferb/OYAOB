@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using TexasHoldem.Logic.Actions;
@@ -29,9 +30,10 @@ namespace TexasHoldem.Logic.Game
         public bool isTestMode { get; set; }
 
         public int maxRaiseInThisRound{ get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
-        public int minRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיסוב הנוכחי
+        public int minRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
         public int lastRaise { get; set; }  //change to maxCommit
 
+        public Thread RoomThread { get; set; }
        
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
@@ -40,9 +42,14 @@ namespace TexasHoldem.Logic.Game
             InitRaiseField();
         }
 
+        //starts the game in RoomThread!
         public void Start()
         {
-            Play();
+            //Play();
+            if (RoomThread != null)
+            {
+                RoomThread.Start();
+            }
         }
         public void SetRoles()
         {
@@ -110,18 +117,21 @@ namespace TexasHoldem.Logic.Game
 
         public bool Play() 
         {
-            
-            if (this._state._players.Count < this._state._minPlayersInRoom) return false;
+
+            if (this._state._players.Count < this._state._minPlayersInRoom)
+            {
+                return false;
+            }
             else
             {
                 if (_firstEnter)
                 {
                     StartTheGame();
-                }       
+                }
                 while (!this._state.AllDoneWithTurn())
                 {
-                   int move;
-                   this._currentPlayer = this._state.NextToPlay();
+                    int move;
+                    this._currentPlayer = this._state.NextToPlay();
                     //move = this.playTurn(player)
                     move = Play(this._currentPlayer);
                     PlayerDesicion(move);
@@ -130,7 +140,7 @@ namespace TexasHoldem.Logic.Game
                         _backFromRaise = false;
                         break;
                     }
-                   this._state.UpdateGameState();
+                    this._state.UpdateGameState();
                     this._state.CheckIfPlayerWantToLeave();
                 }
                 this._state.MoveChipsToPot();
@@ -157,9 +167,9 @@ namespace TexasHoldem.Logic.Game
                                 (this._state._players.IndexOf(_bbPlayer) + 1) % this._state._players.Count];
                         return Play();
                     }
-                       
+
                 }
-               
+
             }
             return true;
             
