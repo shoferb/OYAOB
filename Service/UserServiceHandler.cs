@@ -50,14 +50,12 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        //TODO - added
         public Player GetPlayer(int userId, int roomId)
         {
             return SystemControl.SystemControlInstance.GetPlayer(userId, roomId);
         }
 
 
-        //TODO - odded to remove
         public int GetNextUserId()
         {
             return 1;
@@ -233,7 +231,6 @@ namespace TexasHoldem.Service
             return SystemControl.SystemControlInstance.MovePlayerBetweenLeague(highestId, userToMove, newPoint);
         }
 
-        //Todo bar - add to class diagram
         public bool ChangeGapByHighestUserAndCreateNewLeague(int userId, int newGap)
         {
             return SystemControl.SystemControlInstance.ChangeGapByHighestUserAndCreateNewLeague(userId, newGap);
