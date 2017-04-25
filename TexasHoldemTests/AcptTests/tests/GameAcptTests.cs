@@ -112,7 +112,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.True(GameBridge.CreateGameRoom(someUser1, RoomId));
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(someUser2, RoomId, 0));
-            Assert.True(GameBridge.StartGame(RoomId));
 
             Assert.Contains(RoomId, GameBridge.ListSpectateableRooms());
         }

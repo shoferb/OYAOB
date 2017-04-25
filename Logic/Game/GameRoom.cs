@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    public class GameRoom
+    public abstract class GameRoom
     {
         public List<Player> _players { get; set; }
         public int _id { get;  set; }
@@ -47,6 +47,7 @@ namespace TexasHoldem.Logic.Game
             _spectatores = new List<Spectetor>();
             this._players = players;
             this._bb = _minBetInRoom;
+            this._sb = (int) _bb / 2;
             this._id = ID;
             this._isSpectetor = isSpectetor;
             this._gameMode = gameModeChosen;
@@ -64,32 +65,17 @@ namespace TexasHoldem.Logic.Game
         {
         }
 
-        public Player NextToPlay()
-        {
-            return null;
-        }
-        public int ToCall()
-        {
-            return 0;
-        }
-        public void UpdateGameState() { }
-        public void ClearPublicCards() { }
-        public void UpdateMaxCommitted() { }
-        public void EndTurn() { }
-        public void MoveChipsToPot() { }
-        public int PlayersInGame()
-        {
-            return 0;
-        }
-        public int PlayersAllIn()
-        {
-            return 0;
-        }
-        public bool AllDoneWithTurn()
-        {
-            return true;
-        }
-        public bool newSplitPot(Player allInPlayer) { return true;}
-        public void CheckIfPlayerWantToLeave() { }
+        public abstract Player NextToPlay();
+        public abstract int ToCall();
+        public abstract void UpdateGameState();
+        public abstract void ClearPublicCards();
+        public abstract void UpdateMaxCommitted();
+        public abstract void EndTurn();
+        public abstract void MoveChipsToPot();
+        public abstract int PlayersInGame();
+        public abstract int PlayersAllIn();
+        public abstract bool AllDoneWithTurn();
+        public abstract bool newSplitPot(Player allInPlayer);
+        public abstract void CheckIfPlayerWantToLeave();
     }
 }

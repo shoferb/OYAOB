@@ -39,12 +39,12 @@ namespace TexasHoldem.Logic.Game
             _gm.RoomThread = thread;
         }
 
-        public Player NextToPlay()
+        public override Player NextToPlay()
         {
             return _players[_actionPos];
         }
 
-        public int ToCall()
+        public override int ToCall()
         {
             return _maxCommitted - _players[_actionPos]._gameChip;
 
@@ -62,7 +62,7 @@ namespace TexasHoldem.Logic.Game
             _gameReplay.AddAction(draw);
         }
 
-        public void UpdateGameState()
+        public override void UpdateGameState()
         {
             // next player picked
 
@@ -72,18 +72,18 @@ namespace TexasHoldem.Logic.Game
             UpdateMaxCommitted();
         }
 
-        public void ClearPublicCards()
+        public override void ClearPublicCards()
         {
             _publicCards.Clear();
         }
 
-        public void UpdateMaxCommitted()
+        public override void UpdateMaxCommitted()
         {
             foreach (Player player in _players)
                 if (player._gameChip > _maxCommitted)
                     _maxCommitted = player._gameChip;
         }
-        public void EndTurn()
+        public override void EndTurn()
         {
             MoveChipsToPot();
 
@@ -94,24 +94,28 @@ namespace TexasHoldem.Logic.Game
 
         }
         
-        public void MoveChipsToPot()
+        public override void MoveChipsToPot()
         {
             foreach (Player player in _players)
             {
                 _potCount += player._gameChip;
             }
         }
-        public int PlayersInGame()
+        public override int PlayersInGame()
         {
             int playersInGame = 0;
             foreach (Player player in _players)
+            {
                 if (player.isPlayerActive)
+                {
                     playersInGame++;
+                }
+            }
             return playersInGame;
 
         }
 
-        public int PlayersAllIn()
+        public override int PlayersAllIn()
         {
             int playersAllIn = 0;
             foreach (Player player in _players)
@@ -120,7 +124,7 @@ namespace TexasHoldem.Logic.Game
             return playersAllIn;
         }
 
-        public bool AllDoneWithTurn()
+        public override bool AllDoneWithTurn()
         {
             bool allDone = true;
             foreach (Player player in _players)
@@ -132,7 +136,7 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        public bool newSplitPot(Player allInPlayer)
+        public override bool newSplitPot(Player allInPlayer)
         {
             List<Player> eligiblePlayers = new List<Player>();
             int sidePotCount = 0;
@@ -158,7 +162,7 @@ namespace TexasHoldem.Logic.Game
         }
 
 
-        public void CheckIfPlayerWantToLeave()
+        public override void CheckIfPlayerWantToLeave()
         {
             List<Player> players = new List<Player>();
             foreach (Player p in this._players)
