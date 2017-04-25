@@ -996,10 +996,14 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int money = 1000;
             Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
             Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
+            
+           // Assert.IsFalse(sc.HasThisActiveGame(roomId, id));
             Assert.IsTrue(GameCenter.Instance.CreateNewRoom(id, 50, true, GameMode.Limit, 2, 8, 10, 10));
-            int roomId = GameCenter.Instance.GetNextIdRoom() - 1;
+            int roomId = GameCenter.Instance.CurrRoomId();
             GameRoom room = GameCenter.Instance.GetRoomById(roomId);
-            Assert.AreEqual(room._isActiveGame,false);
+            Assert.IsTrue(sc.HasThisActiveGame(roomId,id));
+            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(GameCenter.Instance.RemoveRoom(roomId));
             //Assert.IsTrue(room.);
         }
 

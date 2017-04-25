@@ -231,7 +231,8 @@ namespace TexasHoldem.Logic.Game_Control
                 players.Add(player);
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
                 Thread MyThread = new Thread(new ThreadStart(room._gm.Start));
-                player.ActiveGameList.Add(room);
+                player.AddToActiveGameList(room);
+                
                 toReturn = AddRoom(room);
                 return toReturn;
             }
@@ -271,12 +272,17 @@ namespace TexasHoldem.Logic.Game_Control
                     if (room._id == roomId)
                     {
                         toReturn = room;
+                        return toReturn;
                     }
                 }
                 return toReturn;
             }          
         }
 
+        public int CurrRoomId()
+        {
+            return roomIdCounter;
+        }
         //return true if there is a room with this id
         public bool IsRoomExist(int roomId)
         {
@@ -287,13 +293,18 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
+                GameRoom room = GetRoomById(roomId);
+                List<GameRoom> all = GetAllGames();
+                toReturn = all.Contains(room);
+                /*
                 foreach (GameRoom room in games)
                 {
+                    
                     if (room._id == roomId)
                     {
                         toReturn = true;
                     }
-                }
+                }*/
                 return toReturn;
             }
         }
@@ -814,13 +825,13 @@ namespace TexasHoldem.Logic.Game_Control
         public List<GameRoom> GetAllGames()
         {
             lock (padlock)
-            {
+            {/*
                 List<GameRoom> toReturn = new List<GameRoom>();
                 foreach (GameRoom room in games)
                 {
                     toReturn.Add(room);
-                }
-                return toReturn;
+                }*/
+                return games;
             }
         }
 
