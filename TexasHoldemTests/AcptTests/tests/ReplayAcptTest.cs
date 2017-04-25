@@ -68,8 +68,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //no games to replay
             Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
-            //TODO: after service is done
-            //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 1));
         }
 
         //[TestCase]
