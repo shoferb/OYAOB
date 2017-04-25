@@ -91,10 +91,12 @@ namespace TexasHoldem.Service
 	        }
             return false;
         }
-        //Todo - Need to be done
-        public List<GameRoom> GetAvaiableGamesByUserRank(int userRank)
+
+        public List<GameRoom> GetAvaiableGamesByUserRank(int userPoints)
         {
-            throw new NotImplementedException();
+            var allGames = _gameCenter.Games;
+            return allGames.FindAll(game => 
+                game._minRank <= userPoints && game._maxRank >= userPoints);
         }
 
         public bool MakeRoomActive(GameRoom room)
@@ -193,10 +195,6 @@ namespace TexasHoldem.Service
             List<GameRoom> toReturn = GameCenter.Instance.GetAllGames();
             return toReturn;
         }
-
-        //todo - why need this?
-        /*
-        public abstract List<GameRoom> GetAvaiableGamesByUserRank(int rank);*/
 
         //public  List<ConcreteGameRoom> GetSpectateableGames()
         public List<GameRoom> GetSpectateableGames()
