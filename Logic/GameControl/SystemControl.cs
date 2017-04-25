@@ -460,7 +460,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     if (u.Id == id)
                     {
-                        toReturn = u;
+                        return u;
                     }
                 }
                 return toReturn;
