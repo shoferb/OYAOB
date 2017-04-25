@@ -238,7 +238,7 @@ namespace TexasHoldem.Logic.Game_Control
             
         }
 
-       
+        
         public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
         {
             lock (padlock)
@@ -1147,7 +1147,22 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        
+        public List<GameRoom> Games
+        {
+            get
+            {
+
+                return games;
+            }
+
+            set
+            {
+                lock (padlock)
+                {
+                    games = value;
+                }
+            }
+        }
         public Log FindLog(int logId)
         {
             lock (padlock)
