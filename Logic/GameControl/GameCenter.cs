@@ -1207,21 +1207,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
             
         }
-        /*
-        public Tuple<Action, int> SendUserAvailableMovesAndGetChoosenAcceptence(List<Tuple<Action, bool, int, int>> moves)
-        {
-            lock (padlock)
-            {
-
-                GameServiceHandler gsh = new GameServiceHandler();
-                Tuple<Action, int> happend = gsh.SendUserAvailableMovesAndGetChoosen(moves);
-
-                return happend;
-            }
-
-        }*/
-
-
+       
         public String Displaymoves(List<Tuple<Action, bool, int, int>> moves)
         {
             lock (padlock)
@@ -1277,24 +1263,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-       
-        /*
-        //retun Action Selected and the sum for bet - bet is valid is after check/ 
-        public List<Tuple<Action, int>> GetSelectedMoveFromPlayer(Action selected, int bet, int roomId, int playerId)
-        {
-            lock (padlock)
-            {
-                List<Tuple<Action, int>> toRetun = new List<Tuple<Action, int>>();
-
-                return toRetun;
-            }
-        }
-        */
-
-
-      
-
-        public bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
+      public bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
         {
             lock (padlock)
             {

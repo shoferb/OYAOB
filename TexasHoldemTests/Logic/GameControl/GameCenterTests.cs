@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
+using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
 {
@@ -334,31 +335,33 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void AddSystemLogTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            GameRoom room = _gameCenter.GetRoomById(id);
+            SystemLog log = new SystemLog(id, room._gameReplay.ToString());
+            room._gameCenter.AddSystemLog(log);
+            Assert.IsTrue(_gameCenter.FindLog(log.LogId) != null);
         }
 
         [TestMethod()]
         public void AddErrorLogTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            int id = _gameCenter.GetNextIdRoom() - 1;
+            GameRoom room = _gameCenter.GetRoomById(id);
+            ErrorLog log = new ErrorLog("hello world");
+            room._gameCenter.AddErrorLog(log);
+            Assert.IsTrue(_gameCenter.errorLog.Count==1);
         }
-
-        [TestMethod()]
-        public void SendUserAvailableMovesAndGetChoosenTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DisplaymovesTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
+        //TODO
+       [TestMethod()]
         public void IsValidMoveTest()
         {
-            Assert.Fail();
+            List<Tuple<Action, bool, int, int>> moves = new List<Tuple<Action, bool, int, int>>();
+           
+           
         }
 
         [TestMethod()]
@@ -368,21 +371,22 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         }
 
         [TestMethod()]
-        public void SendMoveBackToPlayerTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
         public void GetGamesTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGames().Count==1);
+
         }
 
         [TestMethod()]
         public void CreateNewRoomWithRoomIdTest()
         {
-            Assert.Fail();
+            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
+            int id = _gameCenter.GetNextIdRoom();
+            _gameCenter.CreateNewRoomWithRoomId(id, 1, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            Assert.IsTrue(_gameCenter.GetGames().Count == 1);
+
         }
     }
 }
