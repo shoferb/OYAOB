@@ -826,6 +826,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {/*
+            {
                 List<GameRoom> toReturn = new List<GameRoom>();
                 foreach (GameRoom room in games)
                 {

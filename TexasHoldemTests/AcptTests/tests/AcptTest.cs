@@ -107,28 +107,6 @@ namespace TexasHoldemTests.AcptTests.tests
             }
         }
 
-        protected void Setup2User1Game()
-        {
-            RegisterUser1();
-
-            //create a new game and run it 1 move, then leave it
-            if (ReplayBridge.GetReplayableGames(UserId).Count == 0)
-            {
-                int newRoomId = GameBridge.CreateGameRoom(UserId);
-                int userId2 = GetNextUser();
-                int money = UserBridge.GetUserMoney(userId2);
-                UserBridge.AddUserToGameRoomAsPlayer(userId2, newRoomId, money);
-                GameBridge.StartGame(newRoomId);
-
-                UserBridge.RemoveUserFromRoom(userId2, newRoomId);
-
-                //now user1 is only player in room => user1 wins
-                //=> game is done => save replay
-                UserBridge.DeleteUser(userId2);
-                Users.Remove(userId2);
-            }
-        }
-
         protected void RegisterUser1()
         {
             if (!UserBridge.IsThereUser(UserId))

@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         {
             SystemControl s1 = SystemControl.SystemControlInstance;
             SystemControl s2 = SystemControl.SystemControlInstance;
-            Assert.AreEqual(s1,s2);
+            Assert.AreEqual(s1, s2);
         }
 
         [TestMethod()]
@@ -979,6 +979,8 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             GameCenter.Instance.HigherRank = null;
             Assert.AreEqual(size2, 0);
         }
+
+
 
 
 
