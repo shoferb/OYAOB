@@ -55,7 +55,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TearDown]
         protected void Dispose()
         {
-            //RestartSystem();
+            RestartSystem();
 
             SubClassDispose();
             User1Name = null;
