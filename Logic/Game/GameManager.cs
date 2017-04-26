@@ -64,7 +64,6 @@ namespace TexasHoldem.Logic.Game
             this._state._handStep = ConcreteGameRoom.HandStep.PreFlop;
             Deck deck = new Deck();
             this._state._deck = deck;
-            this._state._players = this._state._players;
             this.buttonPos = this._state._dealerPos;
 
             if (this._state._players.Count > 2)
