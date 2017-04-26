@@ -17,7 +17,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //nothing to do here
         }
-
+        /*
         [TestCase]
         public void GetReplayableGamesTestGood()
         {
@@ -27,7 +27,7 @@ namespace TexasHoldemTests.AcptTests.tests
             UserBridge.RemoveUserFromRoom(User2Id, NewRoomId);
             Assert.IsNotEmpty(ReplayBridge.GetReplayableGames(UserId));
         }
-
+        */
 
         [TestCase]
         public void GetReplayableGamesTestSad()
@@ -51,7 +51,7 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
             Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }
-
+        /*
         [TestCase]
         public void SaveFavoriteMoveGood()
         {
@@ -60,7 +60,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
             Assert.True(ReplayBridge.SaveFavoriteMove(RoomId, 0, UserId, 1));
-        }
+        }*/
 
         [TestCase]
         public void SaveFavoriteMoveNoReplayExistsBad()

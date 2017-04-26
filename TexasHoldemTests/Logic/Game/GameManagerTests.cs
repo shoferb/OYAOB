@@ -47,7 +47,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _room._gm.SetRoles();
             Assert.IsTrue(_room._gm._dealerPlayer != _room._gm._bbPlayer && _room._gm._dealerPlayer == _room._gm._sbPlayer);
         }
-
+        /*
         [TestMethod()]
         public void PlayerDesicionFoldTest()
         {
@@ -63,7 +63,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _room._gm.PlayerDesicion(0);
             Assert.IsTrue(_player1._lastAction == "check");
         }
-
+        
         [TestMethod()]
         public void PlayerDesicionFoldRaise()
         {
@@ -75,7 +75,7 @@ namespace TexasHoldem.Logic.Game.Tests
             _room._gm.PlayerDesicion(100);
             Assert.IsTrue(_room._maxCommitted >= 100);
         }
-
+        */
         [TestMethod()]
         public void ProgressHandTest()
         {
