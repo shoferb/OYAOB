@@ -66,7 +66,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void SaveFavoriteMoveNoReplayExistsBad()
         {
 
-            //no games to replay
+            RegisterUser1();
             Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }
 
