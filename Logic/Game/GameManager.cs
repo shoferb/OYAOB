@@ -521,6 +521,7 @@ namespace TexasHoldem.Logic.Game
         {
             _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
             SystemLog log = new SystemLog(this._state._id, _state._gameReplay.ToString());
+
             this._state._gameCenter.AddSystemLog(log);
 
             this._state._dealerPos = 0;
