@@ -73,22 +73,18 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void SaveFavoriteMoveWrongMoveIndexBad()
         {
-            //no games to replay
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 5, UserId));
+            RegisterUser1();
+            Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, 5, UserId));
             Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 5, 100));
         }
 
-        //[TestCase]
-        //public void SaveFavoriteMoveNegMoveIndexBad()
-        //{
-        //    //create a game to be replayd
-        //    SetupUser1();
-
-        //    //no games to replay
-        //    Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
-        //    //TODO: after service is done
-        //    //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
-        //}
+        [TestCase]
+        public void SaveFavoriteMoveNegMoveIndexBad()
+        {
+            RegisterUser1();
+            Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, -5, UserId));
+            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
+        }
 
         //[TestCase]
         //public void StopReplayTestGood()
