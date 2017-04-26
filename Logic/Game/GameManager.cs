@@ -438,7 +438,6 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        //Todo - YARDEN add call at the biginning of every Round - after change the enum of round
         private void RaiseFieldAtEveryRound()
         {
 
