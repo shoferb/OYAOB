@@ -70,14 +70,13 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }
 
-        //[TestCase]
-        //public void SaveFavoriteMoveWrongMoveIndexBad()
-        //{
-        //    //no games to replay
-        //    Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
-        //    //TODO: after service is done
-        //    //Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, 100));
-        //}
+        [TestCase]
+        public void SaveFavoriteMoveWrongMoveIndexBad()
+        {
+            //no games to replay
+            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 5, UserId));
+            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 5, 100));
+        }
 
         //[TestCase]
         //public void SaveFavoriteMoveNegMoveIndexBad()
