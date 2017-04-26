@@ -49,7 +49,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void ViewReplayTestBad()
         {
             RegisterUser1();
-            Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 0, UserId));
+            Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }
 
         [TestCase]
