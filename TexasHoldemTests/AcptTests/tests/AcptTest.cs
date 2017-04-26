@@ -58,9 +58,6 @@ namespace TexasHoldemTests.AcptTests.tests
             RestartSystem();
 
             SubClassDispose();
-
-            //UserBridge = null;
-            //GameBridge = null;
             User1Name = null;
             User1Pw = null;
         }
