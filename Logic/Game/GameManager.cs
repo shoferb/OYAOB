@@ -529,6 +529,7 @@ namespace TexasHoldem.Logic.Game
             foreach (Player p in _state._players)
             {
                 p.isPlayerActive = true;
+                player.AddGameAvailableToReplay(_state._id, _state._gameNumber);
             }
         }
 
