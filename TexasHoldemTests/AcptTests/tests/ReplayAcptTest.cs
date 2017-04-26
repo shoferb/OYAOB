@@ -86,20 +86,5 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
         }
 
-        //[TestCase]
-        //public void StopReplayTestGood()
-        //{
-        //    //create a game to be replayd
-        //    SetupUser1();
-
-        //    Assert.IsNotNull(ReplayBridge.ViewReplay(RoomId, 1));
-        //}
-
-        //[TestCase]
-        //public void StopReplayTestBad()
-        //{
-        //    //no games to replay
-        //    Assert.IsNull(ReplayBridge.ViewReplay(RoomId, 1));
-        //}
     }
 }
