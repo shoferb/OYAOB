@@ -430,7 +430,6 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        //Todo - YARDEN  - add call at the biginning of each round
         private void InitializePlayerRound()
         {
             foreach (Player player in _state._players)
