@@ -27,6 +27,8 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.LeagueGap = 100;
             _systemControl.Users = new List<User>();
             _gameCenter.Games = new List<GameRoom>();
+            _gameCenter.errorLog = new List<ErrorLog>();
+            _gameCenter.systemLog = new List<SystemLog>();
         }
         private Player _A;
         private Player _B; public void Initialize()
@@ -413,8 +415,9 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             GameRoom room = _gameCenter.GetRoomById(id);
             ErrorLog log = new ErrorLog("hello world");
             room._gameCenter.AddErrorLog(log);
-            initForAllTest();
+            
             Assert.IsTrue(_gameCenter.errorLog.Count==1);
+            initForAllTest();
         }
         //TODO
        [TestMethod()]
@@ -425,13 +428,14 @@ namespace TexasHoldem.Logic.Game_Control.Tests
 
             initForAllTest();
         }
-
+        //todo
+        /*
         [TestMethod()]
         public void GetRandomMoveTest()
         {
             Assert.Fail();
         }
-
+        */
         [TestMethod()]
         public void GetGamesTest()
         {
