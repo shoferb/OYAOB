@@ -23,7 +23,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //create a game to be replayd
             Setup2Users1Game();
-            System.Threading.Thread.Sleep(5000);
+            System.Threading.Thread.Sleep(6000);
             UserBridge.RemoveUserFromRoom(User2Id, NewRoomId);
             Assert.IsNotEmpty(ReplayBridge.GetReplayableGames(UserId));
         }
