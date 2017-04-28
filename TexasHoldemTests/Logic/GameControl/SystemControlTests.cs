@@ -345,14 +345,14 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
             Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
             Assert.IsFalse(sc.IsIdFree(id2));
-            Assert.IsTrue(sc.IsUserWithId(id));
-            Assert.IsTrue(sc.IsUserWithId(id2));
-            Assert.IsFalse(sc.IsUserWithId(-500));
-            Assert.IsFalse(sc.IsUserWithId(0));
+            Assert.IsTrue(sc.IsUserExist(id));
+            Assert.IsTrue(sc.IsUserExist(id2));
+            Assert.IsFalse(sc.IsUserExist(-500));
+            Assert.IsFalse(sc.IsUserExist(0));
             Assert.IsTrue(sc.RemoveUserById(id));
             Assert.IsTrue(sc.RemoveUserById(id2));
-            Assert.IsFalse(sc.IsUserWithId(id));
-            Assert.IsFalse(sc.IsUserWithId(id2));
+            Assert.IsFalse(sc.IsUserExist(id));
+            Assert.IsFalse(sc.IsUserExist(id2));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
         }
@@ -371,7 +371,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int money = 1000;
             Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
             Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsTrue(sc.IsUserWithId(id));
+            Assert.IsTrue(sc.IsUserExist(id));
             User user = sc.GetUserWithId(id);
             Assert.AreEqual(user.Id, 305077901);
             Assert.AreEqual(user.Name, "orelie");

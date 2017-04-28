@@ -436,7 +436,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
         //return true if user with id exist 
         //syncronized - due to foreatch
-        public bool IsUserWithId(int id)
+        public bool IsUserExist(int id)
         {
             lock (padlock)
             {

@@ -23,7 +23,7 @@ namespace TexasHoldem.Service
         public User GetUserFromId(int userId)
         {
             User toReturn = null;
-            bool isThereUser = sc.IsUserWithId(userId);
+            bool isThereUser = sc.IsUserExist(userId);
             if (!isThereUser)
             {
                 Console.WriteLine("There is no user with id: " + userId);

@@ -25,8 +25,6 @@ namespace TexasHoldem.Logic.Users
         public Hand _hand;
 
 
-        private int _winNum;
-        private int _loseNum;
 
         public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int roomId) : base(id, name, memberName, password, points, money, email, roomId)
@@ -39,8 +37,7 @@ namespace TexasHoldem.Logic.Users
             this._totalChip = totalChip;
             isPlayerActive = false;
             _hand = new Hand();
-            this._winNum = 0;
-            this._loseNum = 0;
+            
             this._payInThisRound = 0;
             this.moveForTest = 0;
         }
@@ -129,7 +126,7 @@ namespace TexasHoldem.Logic.Users
             bool toReturn;
             try
             {
-                WinNum = WinNum + 1;
+                winNum = winNum + 1;
                 int newPoint = GetNewPoint();
                 Points = newPoint;
                 SystemControl sc = SystemControl.SystemControlInstance;
@@ -153,54 +150,15 @@ namespace TexasHoldem.Logic.Users
         
 
 
-        public  bool Lose()
-        {
-            bool toReturn;
-            try
-            {
-                LoseNum = LoseNum + 1;
-                int newPoint = GetNewPoint();
-                Points = newPoint;
-                toReturn = true;
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-            }
-            return toReturn;
-        }
+
 
         public int GetNewPoint()
         {
             int calc = (int)(Money / 100);
-            int newPoint = (20 * ((5 * WinNum))) + calc;
+            int newPoint = (20 * ((5 * winNum))) + calc;
             return newPoint;
         }
-        public int WinNum
-        {
-            get
-            {
-                return _winNum;
-            }
-
-            set
-            {
-                _winNum = value;
-            }
-        }
-
-        public int LoseNum
-        {
-            get
-            {
-                return _loseNum;
-            }
-
-            set
-            {
-                _loseNum = value;
-            }
-        }
+       
     }
 
 }

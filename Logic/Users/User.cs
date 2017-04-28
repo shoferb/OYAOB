@@ -27,9 +27,11 @@ namespace TexasHoldem.Logic.Users
         private List<Actions.Action> _favActions { get; set; }
         public bool IsHigherRank { get; set; }
         public int rank { get; set; }
-    
-        //להוסיף שדות מספר נצחונות והפסדים
-        //todo create toString
+
+        public int winNum { get; set; }
+       
+     
+
         public User(int id, string name, string memberName, string password, int points, int money, string email)
         {
             this.id = id;
@@ -48,6 +50,8 @@ namespace TexasHoldem.Logic.Users
             activeGameList = new List<GameRoom>();
             spectateGameList = new List<GameRoom>();
             _favActions = new List<Actions.Action>();
+            this.winNum = 0;
+            
         }
 
        
