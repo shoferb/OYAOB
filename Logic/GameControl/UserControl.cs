@@ -16,13 +16,13 @@ namespace TexasHoldem.Logic.GameControl
         private static readonly object padlock = new object();
 
         //getter for Singelton
-        public static UserControl SystemControlInstance
+        public static UserControl UserServiceInstance
         {
             get
             {
                 lock (padlock)
                 {
-                    if (instance == null)
+                    if(instance == null)
                     {
                         instance = new UserControl();
                     }

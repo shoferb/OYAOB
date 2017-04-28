@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game_Control;
@@ -22,8 +23,8 @@ namespace TexasHoldem.Logic.Users
         private string email;
         private bool isActive;
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
-        private List<GameRoom> activeGameList;
-        private List<GameRoom> spectateGameList;
+        private List<IGame> activeGameList;
+        private List<IGame> spectateGameList;
         private List<Actions.Action> _favActions { get; set; }
         public bool IsHigherRank { get; set; }
         public int rank { get; set; }
@@ -47,8 +48,8 @@ namespace TexasHoldem.Logic.Users
             this.IsHigherRank = false;
             this.avatar = "path?";
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
-            activeGameList = new List<GameRoom>();
-            spectateGameList = new List<GameRoom>();
+            activeGameList = new List<IGame>();
+            spectateGameList = new List<IGame>();
             _favActions = new List<Actions.Action>();
             this.winNum = 0;
             
@@ -187,7 +188,7 @@ namespace TexasHoldem.Logic.Users
             
         }
 
-        public List<GameRoom> SpectateGameList
+        public List<IGame> SpectateGameList
         {
             get
             {
@@ -196,7 +197,7 @@ namespace TexasHoldem.Logic.Users
 
         }
 
-        public List<GameRoom> ActiveGameList
+        public List<IGame> ActiveGameList
         {
             get
             {
@@ -214,7 +215,7 @@ namespace TexasHoldem.Logic.Users
                 toReturn = true;
                 return toReturn;
             }
-            catch (Exception e)
+            catch
             {
                 toReturn = false;
                 return toReturn;
@@ -235,7 +236,7 @@ namespace TexasHoldem.Logic.Users
                 }
                 return toReturn;
             }
-            catch (Exception e)
+            catch
             {
                 toReturn = false;
                 return toReturn;
@@ -243,64 +244,331 @@ namespace TexasHoldem.Logic.Users
             
         }
 
+        
         public bool EditEmail(string email)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if(IsValidEmail(email))
+                {
+                    this.email = email;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool EditPassword(string password)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (IsValidPassword(password))
+                {
+                    this.password = password;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool EditUserName(string username)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (IsValidString(username))
+                {
+                    this.memberName = username;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
+        }
+
+        public bool EditName(string name)
+        {
+            bool toReturn = false;
+            try
+            {
+                if (IsValidString(name))
+                {
+                    this.memberName = name;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool EditAvatar(string path)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (IsValidString(path))
+                {
+                    this.avatar = path;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool EditUserPoint(int point)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (IsValidInputNotSmallerZero(point))
+                {
+                    this.points = point;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool EditUserMoney(int money)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (IsValidInputNotSmallerZero(money))
+                {
+                    this.points = money;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool RemoveRoomFromActiveGameList(IGame game)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (game != null && activeGameList.Contains(game))
+                {
+                    this.ActiveGameList.Remove(game);
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool RemoveRoomFromSpectetorGameList(IGame game)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (game != null && spectateGameList.Contains(game))
+                {
+                    this.spectateGameList.Remove(game);
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool HasThisActiveGame(IGame game)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (game != null && activeGameList.Contains(game))
+                {
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool HasThisSpectetorGame(IGame game)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (game != null && spectateGameList.Contains(game))
+                {
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool AddRoomFromActiveGameList(IGame game)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (game != null && !activeGameList.Contains(game))
+                {
+                    this.ActiveGameList.Add(game);
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public bool AddRoomFromSpectetorGameList(IGame game)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            try
+            {
+                if (game != null && !spectateGameList.Contains(game))
+                {
+                    this.spectateGameList.Add(game);
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
+        }
+
+        public bool IsLogin()
+        {
+            return isActive;
+        }
+
+        //check if email valid according to .NET convention
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool IsValidPassword(string password)
+        {
+            bool toReturn = false;
+            try
+            {
+                int len = password.Length;
+                if (len > 7 && len < 13)
+                {
+                    toReturn = true;
+                }
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
+
+            return toReturn;
+        }
+
+        private bool IsValidString(string s)
+        {
+            bool toReturn = false;
+            try
+            {
+                bool valid = !s.Equals("") && !s.Equals(" ");
+                if (valid)
+                {
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidInputNotSmallerEqualZero(int toCheck)
+        {
+            return toCheck >= 0;
+        }
+
+        private bool IsValidInputNotSmallerZero(int toCheck)
+        {
+            return toCheck >= 0;
         }
     }
 }

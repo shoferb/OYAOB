@@ -19,6 +19,8 @@ namespace TexasHoldem.Logic.Users
 
         bool  EditUserName(string username);
 
+        bool EditName(string name);
+
         bool EditAvatar(string path);
 
         bool EditUserPoint(int point);
@@ -37,5 +39,6 @@ namespace TexasHoldem.Logic.Users
 
         bool AddRoomFromSpectetorGameList(IGame game);
 
+        bool IsLogin();
     }
 }
