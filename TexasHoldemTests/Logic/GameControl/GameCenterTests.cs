@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 using Action = TexasHoldem.Logic.Game.Action;
@@ -27,8 +28,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.LeagueGap = 100;
             _systemControl.Users = new List<User>();
             _gameCenter.Games = new List<GameRoom>();
-            _gameCenter.errorLog = new List<ErrorLog>();
-            _gameCenter.systemLog = new List<SystemLog>();
+           
         }
         private Player _A;
         private Player _B; public void Initialize()
@@ -376,18 +376,21 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(!_gameCenter.IsGameActive(id) == true);
             initForAllTest();
         }
-
+        //todo - move to log control log
        [TestMethod()]
         public void FindLogTest()
         {
             initForAllTest();
+            LogControl logControl = LogControl.Instance;
+            
             _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             GameRoom room = _gameCenter.GetRoomById(id);
             SystemLog log = new SystemLog(id, room._gameReplay.ToString());
-            room._gameCenter.AddSystemLog(log);
-            Assert.IsTrue(_gameCenter.FindLog(log.LogId)!= null);
+            logControl.AddSystemLog(log);
+            Assert.IsTrue(logControl.FindLog(log.LogId)!= null);
+            logControl.RemoveSystenLog(log);
             initForAllTest();
         }
 
@@ -395,13 +398,15 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         public void AddSystemLogTest()
         {
             initForAllTest();
+            LogControl logControl = LogControl.Instance;
             _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             GameRoom room = _gameCenter.GetRoomById(id);
             SystemLog log = new SystemLog(id, room._gameReplay.ToString());
-            room._gameCenter.AddSystemLog(log);
-            Assert.IsTrue(_gameCenter.FindLog(log.LogId) != null);
+            logControl.AddSystemLog(log);
+            Assert.IsTrue(logControl.FindLog(log.LogId) != null);
+            logControl.RemoveSystenLog(log);
             initForAllTest();
         }
 
@@ -409,14 +414,16 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         public void AddErrorLogTest()
         {
             initForAllTest();
+            LogControl logControl = LogControl.Instance;
             _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             GameRoom room = _gameCenter.GetRoomById(id);
             ErrorLog log = new ErrorLog("hello world");
-            room._gameCenter.AddErrorLog(log);
+            logControl.AddErrorLog(log);
             
-            Assert.IsTrue(_gameCenter.errorLog.Count==1);
+            Assert.IsTrue(logControl.FindLog(log.LogId) != null);
+            logControl.RemoveErrorLog(log);
             initForAllTest();
         }
         //TODO

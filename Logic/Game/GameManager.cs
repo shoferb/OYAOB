@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
@@ -35,6 +36,8 @@ namespace TexasHoldem.Logic.Game
 
         public Thread RoomThread { get; set; }
        
+        //new after log control change
+        private LogControl logControl = LogControl.Instance;
         //change to gameroom
         public GameManager(ConcreteGameRoom state)
         {
@@ -55,7 +58,8 @@ namespace TexasHoldem.Logic.Game
                 catch (Exception e)
                 {
                     ErrorLog log = new ErrorLog("Room number " + _state._id + " was attempted to start but has allready been started.");
-                    _state._gameCenter.errorLog.Add(log);
+                    // _state._gameCenter.errorLog.Add(log);
+                    logControl.AddErrorLog(log);
                 }
             }
         }
@@ -94,7 +98,8 @@ namespace TexasHoldem.Logic.Game
 
             StartGame startAction = new StartGame(_state._players, _dealerPlayer, _sbPlayer, _bbPlayer);
             SystemLog log = new SystemLog(this._state._id, startAction.ToString());
-            this._state._gameCenter.AddSystemLog(log);
+            //this._state._gameCenter.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             _state._gameReplay.AddAction(startAction);
 
             foreach (Player player in this._state._players)
@@ -105,7 +110,8 @@ namespace TexasHoldem.Logic.Game
                     player._hand._seconedCard);
                 _state._gameReplay.AddAction(hand);
                 log = new SystemLog(this._state._id, hand.ToString());
-                this._state._gameCenter.AddSystemLog(log);
+                // this._state._gameCenter.AddSystemLog(log);
+                logControl.AddSystemLog(log);
             }
             this._state.UpdateMaxCommitted();
             this._state.moveBBnSBtoPot(this._bbPlayer, this._sbPlayer);
@@ -395,7 +401,8 @@ namespace TexasHoldem.Logic.Game
                         break;
                     default:
                         ErrorLog log = new ErrorLog("error in roung in room: "+_state._id+ "the tound is not prefop / flop / turn / river");
-                        GameCenter.Instance.AddErrorLog(log);
+                        //GameCenter.Instance.AddErrorLog(log);
+                        logControl.AddErrorLog(log);
                         break;
     
                 }
@@ -413,7 +420,8 @@ namespace TexasHoldem.Logic.Game
             catch (Exception e)
             {
                 ErrorLog log = new ErrorLog("error in play of player with id: "+_currentPlayer.Id + " somthing went wrong");
-                GameCenter.Instance.AddErrorLog(log);
+                // GameCenter.Instance.AddErrorLog(log);
+                logControl.AddErrorLog(log);
             }
 
             return toReturn;
@@ -519,8 +527,8 @@ namespace TexasHoldem.Logic.Game
             _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
             SystemLog log = new SystemLog(this._state._id, _state._gameReplay.ToString());
 
-            this._state._gameCenter.AddSystemLog(log);
-
+            //this._state._gameCenter.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             this._state._dealerPos = 0;
             SetRoles();
             _firstEnter = false;
@@ -623,7 +631,8 @@ namespace TexasHoldem.Logic.Game
                 this._state.ClearPublicCards();
                 _state._gameReplay = new GameReplay(_state._id, _state._gameNumber);
                 SystemLog log = new SystemLog(this._state._id, _state._gameReplay.ToString());
-                this._state._gameCenter.AddSystemLog(log);
+                // this._state._gameCenter.AddSystemLog(log);
+                logControl.AddSystemLog(log);
                 SetRoles();
             }
             else if (_state._players.Count == 1)
@@ -673,8 +682,8 @@ namespace TexasHoldem.Logic.Game
                     _state._potCount, table, winners[0]._relevantCards);
                 _state._gameReplay.AddAction(win);
                  SystemLog log = new SystemLog(this._state._id, win.ToString());
-                this._state._gameCenter.AddSystemLog(log);
-
+                // this._state._gameCenter.AddSystemLog(log);
+                logControl.AddSystemLog(log);
                 return winners;
             }
             return EvalTies(winners, table);
@@ -724,7 +733,8 @@ namespace TexasHoldem.Logic.Game
                      (int)_state._potCount/winners.Count, table, h._relevantCards);
                      _state._gameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this._state._id, win.ToString());
-                this._state._gameCenter.AddSystemLog(log);
+                // this._state._gameCenter.AddSystemLog(log);
+                logControl.AddSystemLog(log);
             }
             return winners;
         }
@@ -758,7 +768,8 @@ namespace TexasHoldem.Logic.Game
             FoldAction fold = new FoldAction(_currentPlayer, _currentPlayer._hand._firstCard,
                 _currentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this._state._id, fold.ToString());
-            this._state._gameCenter.AddSystemLog(log);
+            //this._state._gameCenter.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             _state._gameReplay.AddAction(fold);
         }
 
@@ -768,7 +779,8 @@ namespace TexasHoldem.Logic.Game
             CheckAction check = new CheckAction(_currentPlayer, _currentPlayer._hand._firstCard,
                  _currentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this._state._id, check.ToString());
-            this._state._gameCenter.AddSystemLog(log);
+            //this._state._gameCenter.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             _state._gameReplay.AddAction(check);
         }
 
@@ -781,7 +793,8 @@ namespace TexasHoldem.Logic.Game
                 _currentPlayer._hand._seconedCard, additionalChips);
             _state._gameReplay.AddAction(call);
             SystemLog log = new SystemLog(this._state._id, call.ToString());
-            this._state._gameCenter.AddSystemLog(log);
+            //this._state._gameCenter.AddSystemLog(log);
+            logControl.AddSystemLog(log);
         }
 
         public void Call()
@@ -800,7 +813,8 @@ namespace TexasHoldem.Logic.Game
                  _currentPlayer._hand._seconedCard, additionalChips);
             _state._gameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this._state._id, raise.ToString());
-            this._state._gameCenter.AddSystemLog(log);
+            //this._state._gameCenter.AddSystemLog(log);
+            logControl.AddSystemLog(log);
         }
 
 
