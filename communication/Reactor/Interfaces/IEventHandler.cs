@@ -2,7 +2,7 @@
 
 namespace TexasHoldem.communication.Reactor.Interfaces
 {
-    interface IEventHandler
+    public interface IEventHandler
     {
         void HandleEvent(byte[] data);
         TcpListener GetHandler();

@@ -4,6 +4,7 @@
     {
         void RegisterHandler(IEventHandler eventHandler);
         void RemoveHandler(IEventHandler eventHandler);
-        void HandleEvents();
+        void AcceptClients();
+        void HandleConnections();
     }
 }

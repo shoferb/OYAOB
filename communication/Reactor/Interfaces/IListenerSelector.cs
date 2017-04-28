@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.communication.Reactor.Interfaces
 {
-    interface IListenerSelector
+    public interface IListenerSelector
     {
         IList<TcpListener> Select(ICollection<TcpListener> listeners);
     }
