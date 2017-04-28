@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Users
 {
-    public class User
+    public class User : IUser
     {
         private int id;
         private String name;
@@ -106,10 +106,6 @@ namespace TexasHoldem.Logic.Users
                 return id;
             }
 
-            set
-            {
-                id = value;
-            }
         }
         public string Name
         {
@@ -118,10 +114,6 @@ namespace TexasHoldem.Logic.Users
                 return name;
             }
 
-            set
-            {
-                name = value;
-            }
         }
         public string MemberName
         {
@@ -130,10 +122,6 @@ namespace TexasHoldem.Logic.Users
                 return memberName;
             }
 
-            set
-            {
-                memberName = value;
-            }
         }
         public string Password
         {
@@ -142,10 +130,7 @@ namespace TexasHoldem.Logic.Users
                 return password;
             }
 
-            set
-            {
-                password = value;
-            }
+            
         }
         public int Points
         {
@@ -153,11 +138,7 @@ namespace TexasHoldem.Logic.Users
             {
                 return points;
             }
-
-            set
-            {
-                points = value;
-            }
+            
         }
         public int Money
         {
@@ -165,11 +146,7 @@ namespace TexasHoldem.Logic.Users
             {
                 return money;
             }
-
-            set
-            {
-                money = value;
-            }
+            
         }
         public string Email
         {
@@ -177,11 +154,7 @@ namespace TexasHoldem.Logic.Users
             {
                 return email;
             }
-
-            set
-            {
-                email = value;
-            }
+            
         }
         public bool IsActive
         {
@@ -189,11 +162,7 @@ namespace TexasHoldem.Logic.Users
             {
                 return isActive;
             }
-
-            set
-            {
-                isActive = value;
-            }
+            
         }
 
         public List<Notification> WaitListNotification
@@ -215,11 +184,7 @@ namespace TexasHoldem.Logic.Users
             {
                 return avatar;
             }
-
-            set
-            {
-                avatar = value;
-            }
+            
         }
 
         public List<GameRoom> SpectateGameList
@@ -229,10 +194,6 @@ namespace TexasHoldem.Logic.Users
                 return spectateGameList;
             }
 
-            set
-            {
-                spectateGameList = value;
-            }
         }
 
         public List<GameRoom> ActiveGameList
@@ -242,11 +203,104 @@ namespace TexasHoldem.Logic.Users
                 return activeGameList;
             }
 
-            set
-            {
-                activeGameList = value;
-            }
         }
-        
+
+        public bool Login()
+        {
+            bool toReturn = false;
+            try
+            {
+                this.isActive = true;
+                toReturn = true;
+                return toReturn;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+                return toReturn;
+            }
+            return toReturn;
+        }
+
+        public bool Logout()
+        {
+            bool toReturn = false;
+            try
+            {
+                if (isActive == true)
+                {
+                    this.isActive = false;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch (Exception e)
+            {
+                toReturn = false;
+                return toReturn;
+            }
+            
+        }
+
+        public bool EditEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditPassword(string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditUserName(string username)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditAvatar(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditUserPoint(int point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool EditUserMoney(int money)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveRoomFromActiveGameList(IGame game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveRoomFromSpectetorGameList(IGame game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasThisActiveGame(IGame game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasThisSpectetorGame(IGame game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddRoomFromActiveGameList(IGame game)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool AddRoomFromSpectetorGameList(IGame game)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
