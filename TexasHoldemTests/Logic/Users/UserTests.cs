@@ -20,47 +20,47 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void UserIdTest()
         {
-            Assert.AreEqual(orelie.Id,305077901);
-            Assert.AreNotEqual(orelie.Id,305077902);
+            Assert.AreEqual(orelie.Id(),305077901);
+            Assert.AreNotEqual(orelie.Id(), 305077902);
         }
 
         [TestMethod()]
         public void UserNameTest()
         {
-            Assert.AreEqual(orelie.Name,"orelie");
-            Assert.AreNotEqual(orelie.Name, "odsdf");
+            Assert.AreEqual(orelie.Name(), "orelie");
+            Assert.AreNotEqual(orelie.Name(), "odsdf");
         }
         [TestMethod()]
         public void UserUserNameTest()
         {
-            Assert.AreEqual(orelie.MemberName,"orelie26");
-            Assert.AreNotEqual(orelie.MemberName, "odsdf");
+            Assert.AreEqual(orelie.MemberName(), "orelie26");
+            Assert.AreNotEqual(orelie.MemberName(), "odsdf");
         }
         [TestMethod()]
         public void UserPasswordTest()
         {
-            Assert.AreEqual(orelie.Password,"123456");
-            Assert.AreNotEqual(orelie.Password, "slafkjasp");
-            Assert.AreNotEqual(orelie.Password, "654321");
+            Assert.AreEqual(orelie.Password(), "123456");
+            Assert.AreNotEqual(orelie.Password(), "slafkjasp");
+            Assert.AreNotEqual(orelie.Password(), "654321");
         }
         [TestMethod()]
         public void UserPointTest()
         {
-            Assert.AreEqual(orelie.Points,0);
-            Assert.AreNotEqual(orelie.Points,5);
+            Assert.AreEqual(orelie.Points(), 0);
+            Assert.AreNotEqual(orelie.Points(), 5);
         }
         [TestMethod()]
         public void UserMoneyTest()
         {
-            Assert.AreEqual(orelie.Money,500);
-            Assert.AreNotEqual(orelie.Money,-500);
+            Assert.AreEqual(orelie.Money(), 500);
+            Assert.AreNotEqual(orelie.Money(), -500);
         }
         [TestMethod()]
         public void UserEmailTest()
         {
-            Assert.AreEqual(orelie.Email,"orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(orelie.Email, "slafkjasp");
-            Assert.AreNotEqual(orelie.Email, "orelie@gmail.com");
+            Assert.AreEqual(orelie.Email(), "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(orelie.Email(), "slafkjasp");
+            Assert.AreNotEqual(orelie.Email(), "orelie@gmail.com");
         }
        
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
+using Action = TexasHoldem.Logic.Actions.Action;
 
 namespace TexasHoldem.Logic.Users
 {
@@ -43,7 +44,7 @@ namespace TexasHoldem.Logic.Users
             this.money = money;
             this.email = email;
             this.IsHigherRank = false;
-            this.WaitListNotification = new List<Notification>();
+            this.waitListNotification = new List<Notification>();
             this.isActive = false;
             this.IsHigherRank = false;
             this.avatar = "path?";
@@ -76,7 +77,7 @@ namespace TexasHoldem.Logic.Users
         //private method - add the notification to list so can print when not in game
         public bool AddNotificationToList(Notification toAdd)
         {
-            this.WaitListNotification.Add(toAdd);
+            this.waitListNotification.Add(toAdd);
             return true;
         }
 
@@ -100,7 +101,7 @@ namespace TexasHoldem.Logic.Users
        
 
         //getters setters
-        public int Id
+       /* public int Id
         {
             get
             {
@@ -204,6 +205,76 @@ namespace TexasHoldem.Logic.Users
                 return activeGameList;
             }
 
+        }*/
+
+        public int Id()
+        {
+            return id;
+        }
+
+        public string Name()
+        {
+            return name;
+        }
+
+        public string MemberName()
+        {
+            return memberName;
+        }
+
+        public string Password()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Avatar()
+        {
+            return avatar;
+        }
+
+        public int Points()
+        {
+            return points;
+        }
+
+        public int Money()
+        {
+            return money;
+        }
+
+        public List<Notification> WaitListNotification()
+        {
+            return waitListNotification;
+        }
+
+        public string Email()
+        {
+            return email;
+        }
+
+        public List<Tuple<int, int>> GamesAvailableToReplay()
+        {
+            return _gamesAvailableToReplay;
+        }
+
+        public List<IGame> ActiveGameList()
+        {
+            return activeGameList;
+        }
+
+        public List<IGame> SpectateGameList()
+        {
+            return spectateGameList;
+        }
+
+        public List<Action> FavActions()
+        {
+            return _favActions;
+        }
+
+        public int Rank()
+        {
+            return rank;
         }
 
         public bool Login()
@@ -244,7 +315,27 @@ namespace TexasHoldem.Logic.Users
             
         }
 
-        
+        public bool EditId(int Id)
+        {
+            bool toReturn = false;
+            try
+            {
+                if (IsValidInputNotSmallerZero(Id))
+                {
+                    this.id = Id;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
+        }
+
+
         public bool EditEmail(string email)
         {
             bool toReturn = false;
@@ -345,7 +436,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public bool EditUserPoint(int point)
+        public bool EditUserPoints(int point)
         {
             bool toReturn = false;
             try
@@ -372,7 +463,27 @@ namespace TexasHoldem.Logic.Users
             {
                 if (IsValidInputNotSmallerZero(money))
                 {
-                    this.points = money;
+                    this.money = money;
+                    toReturn = true;
+                    return toReturn;
+                }
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
+        }
+
+        public bool EditUserRank(int Rank)
+        {
+            bool toReturn = false;
+            try
+            {
+                if (IsValidInputNotSmallerZero(Rank))
+                {
+                    this.rank = Rank;
                     toReturn = true;
                     return toReturn;
                 }
@@ -392,7 +503,7 @@ namespace TexasHoldem.Logic.Users
             {
                 if (game != null && activeGameList.Contains(game))
                 {
-                    this.ActiveGameList.Remove(game);
+                    this.activeGameList.Remove(game);
                     toReturn = true;
                     return toReturn;
                 }
@@ -470,7 +581,7 @@ namespace TexasHoldem.Logic.Users
             {
                 if (game != null && !activeGameList.Contains(game))
                 {
-                    this.ActiveGameList.Add(game);
+                    this.activeGameList.Add(game);
                     toReturn = true;
                     return toReturn;
                 }
