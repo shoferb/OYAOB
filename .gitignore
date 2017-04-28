@@ -1,4 +1,4 @@
-packages/NUnit.3.6.1/lib/net45/nunit.framework.xml
+﻿packages/NUnit.3.6.1/lib/net45/nunit.framework.xml
 workshop/UMLs/Visios/class diagram bl only.vsdx
 workshop/UMLs/Visios/class diagram.vsdx
 workshop/UMLs/Visios/mine/create new game uc.vsdx
@@ -56,3 +56,6 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
+obj
+bin
+.vs
