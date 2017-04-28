@@ -84,7 +84,7 @@ namespace TexasHoldem.Service
         public bool SendNotificationByUserId(int userId, int roomId, string msg)
         {
             Notification toSend = CreateNotification(roomId, msg);
-            User user = sc.GetUserWithId(userId);
+            IUser user = sc.GetUserWithId(userId);
             bool toReturn = user.SendNotification(toSend);
             return toReturn;
         }

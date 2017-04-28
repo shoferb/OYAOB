@@ -26,12 +26,11 @@ namespace TexasHoldem.Logic.Actions
         {
             return ToString();
         }
-
         public override String ToString()
         {
             return String.Format("Game Started, participants: {0}\n" +
                 "Dealer: {1}, Small Blind: {2}, Big Blind: {3}\n",
-                PrintPlayers(), _dealer.MemberName, _sb.MemberName, _bb.MemberName);
+                PrintPlayers(), _dealer.user.MemberName(), _sb.user.MemberName(), _bb.user.MemberName());
         }
 
         public String PrintPlayers()
@@ -39,7 +38,7 @@ namespace TexasHoldem.Logic.Actions
             String str = "";
             foreach (Player p in _players)
             {
-                str += p.MemberName + " ";
+                str += p.user.MemberName() + " ";
             }
             return str;
         }

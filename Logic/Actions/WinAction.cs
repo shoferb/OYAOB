@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.Actions
         {
             return String.Format("PlayerName: {0}, Holding cards: {1} and {2}, Won the game and got {3} jetons\n" +
                 "Cards on table: {4},   Winning _hand: {5}\n",
-                _player.MemberName, _card1.ToString(), _card2.ToString(), _amount, _cardsOnTable, _winningHand);
+                _player.user.MemberName(), _card1.ToString(), _card2.ToString(), _amount, _cardsOnTable, _winningHand);
         }
 
         public String PrintCards()

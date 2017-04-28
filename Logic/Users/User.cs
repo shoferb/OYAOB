@@ -224,7 +224,7 @@ namespace TexasHoldem.Logic.Users
 
         public string Password()
         {
-            throw new NotImplementedException();
+            return this.password;
         }
 
         public string Avatar()
@@ -270,6 +270,27 @@ namespace TexasHoldem.Logic.Users
         public List<Action> FavActions()
         {
             return _favActions;
+        }
+
+        public int WinNum()
+        {
+            return this.winNum;
+        }
+
+        public bool IncWinNum()
+        {
+            bool toReturn = false;
+            try
+            {
+                this.winNum++;
+                toReturn = true;
+                return toReturn;
+            }
+            catch
+            {
+                toReturn = false;
+                return toReturn;
+            }
         }
 
         public int Rank()
@@ -574,7 +595,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public bool AddRoomFromActiveGameList(IGame game)
+        public bool AddRoomToActiveGameList(IGame game)
         {
             bool toReturn = false;
             try
@@ -594,7 +615,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public bool AddRoomFromSpectetorGameList(IGame game)
+        public bool AddRoomToSpectetorGameList(IGame game)
         {
             bool toReturn = false;
             try

@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Actions
         public override String ToString()
         {
             return String.Format("PlayerName: {0}, joined position number {1} in the game\n",
-                        _player.MemberName, _position);
+                        _player.user.MemberName(), _position);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace TexasHoldem.Logic.Game
             this._sidePots = new List<Tuple<int, List<Player>>>();
             this._gm = new GameManager(this);
             //    this._minRank = _gameCenter.UserLeageGapPoint..
-            Tuple<int,int> tup = _gameCenter.UserLeageGapPoint(players[0].Id);
+            Tuple<int,int> tup = _gameCenter.UserLeageGapPoint(players[0].user.Id());
             this._minRank = tup.Item1;
             this._maxRank = tup.Item2;
         }

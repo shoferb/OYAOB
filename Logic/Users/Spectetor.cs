@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Users
 {
-    public class Spectetor : User
+    public class Spectetor 
     {
-        private int roomId;
+        public int roomId { get; }
+        public IUser user;
+
+        public Spectetor(IUser User, int RoomId)
+        {
+            this.user = User;
+            this.roomId = RoomId;
+        }
 
         public Spectetor(int id, string name, string memberName, string password, int points, int money,String email,int roomId) :
             base(id, name, memberName, password, points, money, email)
@@ -26,10 +33,7 @@ namespace TexasHoldem.Logic.Users
                 return roomId;
             }
 
-            set
-            {
-                roomId = value;
-            }
+           
         }
 
         

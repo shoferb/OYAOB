@@ -24,7 +24,7 @@ namespace TexasHoldem.Logic.Actions
         public override String ToString()
         {
             return String.Format("PlayerName: {0}, left the game\n",
-                        _player.MemberName);
+                        _player.user.MemberName());
         }
     }
 }

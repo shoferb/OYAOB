@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Actions
         public override String ToString()
         {
             return String.Format("PlayerName: {0}, Holding cards: {1} and {2}, Performed Raise with {3} jetons\n",
-                        _player.MemberName, _card1.ToString(), _card2.ToString(), _amount);
+                _player.user.MemberName(), _card1.ToString(), _card2.ToString(), _amount);
         }
     }
 }

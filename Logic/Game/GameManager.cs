@@ -419,7 +419,7 @@ namespace TexasHoldem.Logic.Game
             }
             catch (Exception e)
             {
-                ErrorLog log = new ErrorLog("error in play of player with id: "+_currentPlayer.Id + " somthing went wrong");
+                ErrorLog log = new ErrorLog("error in play of player with id: "+_currentPlayer.user.Id() + " somthing went wrong");
                 // GameCenter.Instance.AddErrorLog(log);
                 logControl.AddErrorLog(log);
             }
@@ -537,7 +537,7 @@ namespace TexasHoldem.Logic.Game
             foreach (Player p in _state._players)
             {
                 p.isPlayerActive = true;
-                p.AddGameAvailableToReplay(_state._id, _state._gameNumber);
+                p.user.AddGameAvailableToReplay(_state._id, _state._gameNumber);
             }
         }
 
@@ -594,7 +594,7 @@ namespace TexasHoldem.Logic.Game
             List<Player> playersLeftInGame = new List<Player>();
             foreach (Player player in this._state._players)
             {
-                player.AddGameAvailableToReplay(_state._id, _state._gameNumber);
+                player.user.AddGameAvailableToReplay(_state._id, _state._gameNumber);
                 if (player._totalChip != 0)
                     playersLeftInGame.Add(player);
                 else

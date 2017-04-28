@@ -38,6 +38,10 @@ namespace TexasHoldem.Logic.Users
 
         List<Actions.Action> FavActions();
 
+        int WinNum();
+
+        bool IncWinNum();
+
         int Rank();
 
         bool Login();
@@ -70,10 +74,22 @@ namespace TexasHoldem.Logic.Users
 
         bool HasThisSpectetorGame(IGame game);
 
-        bool AddRoomFromActiveGameList(IGame game);
+        bool AddRoomToActiveGameList(IGame game);
 
-        bool AddRoomFromSpectetorGameList(IGame game);
+        bool AddRoomToSpectetorGameList(IGame game);
 
         bool IsLogin();
+
+
+        bool SendNotification(Notification toSend);
+
+
+        bool AddNotificationToList(Notification toAdd);
+
+
+        bool AddGameAvailableToReplay(int roomID, int gameID);
+
+        bool AddActionToFavorite(Actions.Action action);
+
     }
 }

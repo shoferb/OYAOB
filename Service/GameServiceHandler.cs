@@ -80,11 +80,11 @@ namespace TexasHoldem.Service
             GameRoom room = _gameCenter.GetRoomById(roomId);
             if (room != null)
 	        {
-		        if (room._players.Exists(p => p.Id == userId))
+		        if (room._players.Exists(p => p.user.Id() == userId))
                 {
                     return _gameCenter.RemovePlayerFromRoom(roomId, userId);
                 }
-	            if (room._spectatores.Exists(s => s.Id == userId))
+	            if (room._spectatores.Exists(s => s.user.Id() == userId))
 	            {
 	                return _gameCenter.RemoveSpectetorFromRoom(roomId, userId);
 	            }

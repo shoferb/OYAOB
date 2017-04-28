@@ -125,7 +125,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return false;
             }
-            User user = SystemControl.SystemControlInstance.GetUserWithId(userID);
+            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userID);
             if (user == null)
             {
                 return false;
@@ -214,19 +214,20 @@ namespace TexasHoldem.Logic.Game_Control
 
                 List<Player> players = new List<Player>();
                
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);   
+                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);   
                 if (enterPayingMoney > 0)
                 {
-                    int newMoney = user.Money - enterPayingMoney;
-                    user.Money = newMoney;
+                    int newMoney = user.Money() - enterPayingMoney;
+                    user.EditUserMoney(newMoney);
                 }
                 if (startingChip == 0)
                 {
-                    startingChip = user.Money;
-                    user.Money = 0;
+                    startingChip = user.Money();
+                    user.EditUserMoney(0);
                 }
-                Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                    user.Money, user.Email, nextId);
+                Player player = new Player(startingChip, 0, user.Id(), user.Name(), user.MemberName(), user.Password(), user.Points(),
+                    user.Money(), user.Email(), nextId);
+               
                 players.Add(player);
                 player._isInRoom = false;
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney,minBet);
@@ -244,10 +245,10 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 List<GameRoom> toReturn = new List<GameRoom>();
                 List<GameRoom> tempList = GetAllActiveGame();
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
                 foreach (GameRoom room in games)
                 {
-                    if (room._maxRank <= user.Points && room._minRank >= user.Points)
+                    if (room._maxRank <= user.Points() && room._minRank >= user.Points())
                     {
                         toReturn.Add(room);
                     }
@@ -262,12 +263,12 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userID);
+                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userID);
 
                 if (user != null)
                 {
 
-                    return user._gamesAvailableToReplay;
+                    return user.GamesAvailableToReplay();
                 }
                 return null;
             }
@@ -352,7 +353,7 @@ namespace TexasHoldem.Logic.Game_Control
                     SystemControl sc = SystemControl.SystemControlInstance;
                     foreach (Player p in toRemove._players)
                     {
-                        userId = p.Id;
+                        userId = p.user.Id();
                         if (sc.HasThisActiveGame(roomId, userId))
                         {
                             sc.RemoveRoomFromActiveRoom(roomId, userId);
@@ -413,7 +414,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                User user = sc.GetUserWithId(userId);
+                IUser user = sc.GetUserWithId(userId);
 
                 if (user == null)
                 {
@@ -433,7 +434,7 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 
-                int MoneyAferBuyIn = user.Money - room._enterPayingMoney;
+                int MoneyAferBuyIn = user.Money() - room._enterPayingMoney;
                 int moneyAfterDecStartingChip = MoneyAferBuyIn - room._startingChip;
                 if(MoneyAferBuyIn < 0) 
                 {
@@ -478,14 +479,14 @@ namespace TexasHoldem.Logic.Game_Control
                     logControl.AddErrorLog(log);
                     return toReturn;
                 }
-                if (!(user.Points <= room._maxRank && user.Points >= room._minRank))
+                if (!(user.Points() <= room._maxRank && user.Points() >= room._minRank))
                 {
-                    ErrorLog log = new ErrorLog("Error while trying to add player, user with id: " + userId + " to room: " + roomId + "user point: " + user.Points + " are not in this game critiria (nimRank , maxRank: " + room._minRank + ", " + room._maxRank);
+                    ErrorLog log = new ErrorLog("Error while trying to add player, user with id: " + userId + " to room: " + roomId + "user point: " + user.Points() + " are not in this game critiria (nimRank , maxRank: " + room._minRank + ", " + room._maxRank);
                     logControl.AddErrorLog(log);
                     return toReturn;
                 }
                 int newMoney = moneyAfterDecStartingChip;
-                user.Money = newMoney;
+                user.EditUserMoney(newMoney);
                 /*if (playerChipToEnterRoom == 0)
                 {
                     playerChipToEnterRoom = user.Money;
@@ -497,8 +498,10 @@ namespace TexasHoldem.Logic.Game_Control
                 try
                 {
                     GameRoom toAdd = room;
-                    User newUser = user; // add room to user list
-                    newUser.ActiveGameList.Add(room);
+                    IUser newUser = user; // add room to user list
+                    //todo new call will work after IGame change
+                    newUser.AddRoomToActiveGameList(toAdd);
+                    //newUser.ActiveGameList.Add(room);
 
                     room._players.Add(playerToAdd);
                     playerToAdd._isInRoom = false;
@@ -531,7 +534,7 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 SystemControl sc = SystemControl.SystemControlInstance;
-                User user = sc.GetUserWithId(userId);
+                IUser user = sc.GetUserWithId(userId);
                 bool exist = IsRoomExist(roomId);
                 if (!exist)
                 {
@@ -546,12 +549,16 @@ namespace TexasHoldem.Logic.Game_Control
                 try
                 {
                     GameRoom toAdd = room;
-                    User newUser = user; // add room to user list
-                    newUser.SpectateGameList.Add(room);
+                    
+                    //todo - new call will work after IGame Change
+                    user.AddRoomToSpectetorGameList(room);
+                    //newUser.SpectateGameList.Add(room);
                     if (toAdd._isSpectetor)
                     {
-                        Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
-                            user.Money, user.Email, roomId);
+                       // Spectetor spectetor = new Spectetor(user.Id, user.Name, user.MemberName, user.Password, user.Points,
+                           // user.Money, user.Email, roomId);
+                           
+                        Spectetor spectetor = new Spectetor(user,roomId);
                         toAdd._spectatores.Add(spectetor);
                         //  sc.ReplaceUser(user, newUser);
                         // games.Remove(room);
@@ -593,11 +600,11 @@ namespace TexasHoldem.Logic.Game_Control
                 GameRoom toAdd = room;
                 List<Player> allPlayers = room._players;
                 Player playerToRemove = null;
-                User user = sc.GetUserWithId(userId);
+                IUser user = sc.GetUserWithId(userId);
 
                 foreach (Player p in allPlayers)
                 {
-                    if ((p.Id == userId) && (p.RoomId == roomId))
+                    if ((p.user.Id() == userId) && (p.roomId == roomId))
                     {
                         playerToRemove = p;
                     }
@@ -615,9 +622,11 @@ namespace TexasHoldem.Logic.Game_Control
                     //games.Remove(room);
                     //games.Add(toAdd);
                     int moneyToadd = playerToRemove._totalChip -playerToRemove._gameChip;
-                    int newMoney = moneyToadd + user.Money;
-                    user.Money = newMoney;
-                    user.ActiveGameList.Remove(room);
+                    int newMoney = moneyToadd + user.Money();
+                    user.EditUserMoney(newMoney);
+                    //todo - change this will work after IGame
+                    user.RemoveRoomFromActiveGameList(room);
+                    //user.ActiveGameList.Remove(room);
                     //sc.ReplaceUser(user, newUser);
                     toReturn = true;
                 }
@@ -653,11 +662,11 @@ namespace TexasHoldem.Logic.Game_Control
                 GameRoom toAdd = room;
                 List<Spectetor> allSpectetors = room._spectatores;
                 Spectetor sprctetorToRemove = null;
-                User user = sc.GetUserWithId(userId);
-                User newUser = user;
+                IUser user = sc.GetUserWithId(userId);
+                
                 foreach (Spectetor s in allSpectetors)
                 {
-                    if ((s.Id == userId) && (s.RoomId == roomId))
+                    if ((s.user.Id() == userId) && (s.RoomId == roomId))
                     {
                         sprctetorToRemove = s;
                     }
@@ -671,7 +680,9 @@ namespace TexasHoldem.Logic.Game_Control
                     allSpectetors.Remove(sprctetorToRemove);
                     toAdd._spectatores = allSpectetors;
                    // games.Remove(room);
-                    newUser.SpectateGameList.Remove(room);
+                   //todo - changed this will work after IGame change
+                    user.RemoveRoomFromSpectetorGameList(room);
+                    //user.SpectateGameList.Remove(room);
                     //sc.ReplaceUser(user, newUser);
                    // games.Add(toAdd);
                     toReturn = true;
@@ -683,8 +694,9 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
+        //todo - need to remove this not needed to ass 2
         //create new league whith new gap
+        /*
         public bool LeagueChangeAfterGapChange(int leagugap)
         {
             lock (padlock)
@@ -712,7 +724,7 @@ namespace TexasHoldem.Logic.Game_Control
                 return true;
             }
         }
-
+        */
         //create new league whith new gap
         public bool CreateFirstLeague(int initGap)
         {
@@ -762,7 +774,7 @@ namespace TexasHoldem.Logic.Game_Control
         public string UserLeageInfo(User user)
         {
             string toReturn = "";
-            int userRank = user.Points;
+            int userRank = user.Points();
             int i = 1;
             int min = 0;
             int max = leagueGap;
@@ -788,14 +800,14 @@ namespace TexasHoldem.Logic.Game_Control
         public Tuple<int,int> UserLeageGapPoint(int userId)
         {
             //Tuple<int, int> toReturn;
-            User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
             if (user == null)
             {
                 return new Tuple<int, int>(-1, -1);
                 //return toReturn;
             }
 
-            int tempPoints = user.Points;
+            int tempPoints = user.Points();
             int count = 0;
             while (tempPoints > 0)
             {
@@ -1118,21 +1130,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
             }
         }
-        public List<Log> Logs
-        {
-            get
-            {
-                return logs;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    logs = value;
-                }
-            }
-        }
+       
 
         public int LeagueGap
         {
@@ -1418,16 +1416,16 @@ namespace TexasHoldem.Logic.Game_Control
 
                 List<Player> players = new List<Player>();
 
-                User user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
                 if (enterPayingMoney > 0)
                 {
-                    int newMoney = user.Money - enterPayingMoney;
-                    user.Money = newMoney;
+                    int newMoney = user.Money() - enterPayingMoney;
+                    user.EditUserMoney(newMoney);
                 }
                 if (startingChip == 0)
                 {
-                    startingChip = user.Money;
-                    user.Money = 0;
+                    startingChip = user.Money();
+                    user.EditUserMoney(0);
                 }
                 Player player = new Player(startingChip, 0, user.Id, user.Name, user.MemberName, user.Password,
                     user.Points,
@@ -1437,8 +1435,8 @@ namespace TexasHoldem.Logic.Game_Control
                 ConcreteGameRoom room = new ConcreteGameRoom(players, startingChip, nextId, isSpectetor, gameModeChosen,
                     minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
                 room.SetThread(new Thread(room._gm.ThreadPlay));
-                user.ActiveGameList.Add(room);
-
+               // user.ActiveGameList.Add(room);
+                user.AddRoomToActiveGameList(room);
                 toReturn = AddRoom(room);
                 return toReturn;
             }

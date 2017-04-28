@@ -8,7 +8,7 @@ using TexasHoldem.Logic.Game_Control;
 
 namespace TexasHoldem.Logic.Users
 {
-    public class Player : Spectetor
+    public class Player 
     {
 
         public bool isPlayerActive { get; set; }
@@ -24,8 +24,26 @@ namespace TexasHoldem.Logic.Users
 
         public Hand _hand;
 
+        //new Fields
+        public IUser user { get; }
+        public int roomId { get; }
 
+        public Player(IUser User, int totalChip, int gameChipComitted, int RoomId)
+        {
+            this.user = User;
+            this.roomId = RoomId;
+            this._totalChip = totalChip;
+            this._gameChip = gameChipComitted;
+          
+            this._gameChip = _gameChip;
+            this._totalChip = totalChip;
+            isPlayerActive = false;
+            _hand = new Hand();
 
+            this._payInThisRound = 0;
+            this.moveForTest = 0;
+        }
+        
         public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int roomId) : base(id, name, memberName, password, points, money, email, roomId)
         {
@@ -126,18 +144,17 @@ namespace TexasHoldem.Logic.Users
             bool toReturn;
             try
             {
-                winNum = winNum + 1;
+                user.IncWinNum();
                 int newPoint = GetNewPoint();
-                Points = newPoint;
-                SystemControl sc = SystemControl.SystemControlInstance;
-                //todo - Yarden - added the code missing check if this is what missing
-                int highestRank = GameCenter.Instance.HigherRank.Points;
+                user.EditUserPoints(newPoint) ;
+             //   SystemControl sc = SystemControl.SystemControlInstance;
+               /* int highestRank = GameCenter.Instance.HigherRank.Points;
                 if (this.Points > highestRank)
                 {
                     GameCenter.Instance.HigherRank.IsHigherRank = false;
                     GameCenter.Instance.HigherRank = SystemControl.SystemControlInstance.GetUserWithId(this.Id);
                     this.IsHigherRank = true;
-                }
+                }*/
                 
                 toReturn = true;
             }
@@ -154,8 +171,8 @@ namespace TexasHoldem.Logic.Users
 
         public int GetNewPoint()
         {
-            int calc = (int)(Money / 100);
-            int newPoint = (20 * ((5 * winNum))) + calc;
+            int calc = (int)(user.Money() / 100);
+            int newPoint = (20 * ((5 * user.WinNum()))) + calc;
             return newPoint;
         }
        
