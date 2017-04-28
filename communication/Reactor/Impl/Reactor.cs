@@ -11,21 +11,26 @@ namespace TexasHoldem.communication.Reactor.Impl
     public class Reactor : IReactor
     {
         private const int PollMicroSecs = 100;
+
         private readonly IListenerSelector _selector;
-        private readonly IDictionary<TcpListener, IEventHandler> _handlers;
+        private readonly IDictionary<Socket, IEventHandler> _handlers;
         private readonly ConcurrentQueue<Socket> _socketsQueue;
         private readonly ConcurrentQueue<string> _receivedMsgQueue;
         private readonly ConcurrentDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
         private readonly ConcurrentDictionary<Socket, int> _socketToUserId; //sockets to user ids
+        private readonly TcpListener _listener;
 
         public Reactor(IListenerSelector selector)
         {
             _selector = selector;
-            _handlers = new Dictionary<TcpListener, IEventHandler>();
+            _handlers = new Dictionary<Socket, IEventHandler>();
             _socketsQueue = new ConcurrentQueue<Socket>();
             _receivedMsgQueue = new ConcurrentQueue<string>();
             _userIdToMsgQueue = new ConcurrentDictionary<int, ConcurrentQueue<string>>();
             _socketToUserId = new ConcurrentDictionary<Socket, int>();
+
+            //TODO: init listener ad event handlers
+
         }
 
         public void RegisterHandler(IEventHandler eventHandler)
@@ -43,16 +48,18 @@ namespace TexasHoldem.communication.Reactor.Impl
         {
             while (true)
             {
-                IList<TcpListener> listeners = _selector.Select(_handlers.Keys);
+                //IList<TcpListener> listeners = _selector.Select(_handlers.Keys);
 
-                foreach (TcpListener listener in listeners)
-                {
-                    Socket socket = listener.AcceptSocket();
+                //foreach (TcpListener listener in listeners)
+                //{
+                //    Socket socket = listener.AcceptSocket();
 
-                    //socket.Close();
+                //    //socket.Close();
 
-                    //_handlers[listener].HandleEvent(data.ToArray());
-                }
+                //    //_handlers[listener].HandleEvent(data.ToArray());
+                //}
+
+
             }
         }
 

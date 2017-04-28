@@ -1,17 +1,17 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using TexasHoldem.communication.Reactor.Interfaces;
 
 namespace TexasHoldem.communication.Reactor.Impl
 {
     public class MessageEventHandler : IEventHandler
     {
-        private readonly TcpListener _listener;
+        private readonly Socket _socket;
 
-        public MessageEventHandler(IPAddress ipAddress, int port)
+        public MessageEventHandler(/*IPAddress ipAddress, int port*/ Socket socket)
         {
-            _listener = new TcpListener(ipAddress, port);
+            //_socket = new Socket(ipAddress, port);
+            _socket = socket;
         }
 
         public void HandleEvent(byte[] data)
@@ -20,9 +20,9 @@ namespace TexasHoldem.communication.Reactor.Impl
             //TODO: fill this up
         }
 
-        public TcpListener GetHandler()
+        public Socket GetHandler()
         {
-            return _listener;
+            return _socket;
         }
     }
 }
