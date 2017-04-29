@@ -7,11 +7,19 @@ namespace TexasHoldem.communication.Reactor.Impl
 {
     public class ListenerSelector : IListenerSelector
     {
-        public IList<TcpClient> SelectForReading(ICollection<TcpClient> tcpClients)
+        public IList<TcpClient> SelectForReading(IEnumerable<TcpClient> tcpClients)
         {
-            var readyLst = new List<TcpClient>(from client in tcpClients
-                                                     where client.Connected && client.Available > 0
+            var readyLst = new List<TcpClient>(from client in tcpClients 
+                                               where client.Connected && client.Available > 0
                                                      select client);
+            return readyLst;
+        }
+
+        public IList<TcpClient> SelectForWriting(IEnumerable<TcpClient> tcpClients)
+        {
+            var readyLst = new List<TcpClient>(from client in tcpClients 
+                                               where client.Connected && client.GetStream().CanWrite
+                                               select client);
             return readyLst;
         }
     }

@@ -61,76 +61,69 @@ namespace TexasHoldem.communication.Reactor.Impl
                 TcpClient tcpClient = _listener.AcceptTcpClient();
                 _handlers.Add(tcpClient, new MessageEventHandler(tcpClient));
                 _socketsQueue.Enqueue(tcpClient);
-                //foreach (TcpListener listener in listeners)
-                //{
-                //    Socket socket = listener.AcceptSocket();
-
-                //    //socket.Close();
-
-                //    //_handlers[listener].HandleEvent(data.ToArray());
-                //}
-
-
             }
             _listener.Stop();
         }
 
-        //TODO: this
-        public void HandleConnections()
+        private void RemoveUnconnectedClients()
+        {
+            //TODO
+        }
+
+        private void HandleReading()
         {
             int dataReceived = 0;
             byte[] buffer = new byte[1];
             IList<byte> data = new List<byte>();
 
-            foreach (Socket socket in _socketsQueue)
+            IList<TcpClient> readyToRead = _selector.SelectForReading(_socketsQueue);
+            foreach (var tcpClient in readyToRead)
             {
-                //check if socket can be read:
-                if (socket.Connected && socket.Poll(PollMicroSecs, SelectMode.SelectRead))
+                NetworkStream stream = tcpClient.GetStream();
+                do
                 {
-                    do{
-                        dataReceived = socket.Receive(buffer);
+                    dataReceived = stream.Read(buffer, 0, 1);
+                    if (dataReceived > 0)
+                    {
+                        data.Add(buffer[0]);
+                    }
 
-                        if (dataReceived > 0)
-                        {
-                            data.Add(buffer[0]);
-                        }
+                } while (dataReceived > 0);
 
-                    } while (dataReceived > 0);
+                //add msg string to queue
+                _receivedMsgQueue.Enqueue(buffer.ToArray().ToString());
+            }
+        }
 
-                    //add msg string to queue
-                    _receivedMsgQueue.Enqueue(buffer.ToArray().ToString());
-                }
-
-                if (CanSendMsg(socket))
+        private void HandleWriting()
+        {
+            IList<TcpClient> readyToWrite = _selector.SelectForWriting(_socketsQueue);
+            foreach (var tcpClient in readyToWrite)
+            {
+                if (CanSendMsg(tcpClient))
                 {
-                    var msgQueue = _userIdToMsgQueue[_socketToUserId[socket]]; //get msg queue
-                    while (!msgQueue.IsEmpty && socket.Poll(PollMicroSecs, SelectMode.SelectWrite))
+                    var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
+                    while (!msgQueue.IsEmpty)
                     {
                         string msg;
                         msgQueue.TryDequeue(out msg);
                         byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
-                        socket.Send(bytesToSend); //TODO: maybe need to do this in while (if not all bytes are sent)
+                        tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
                     }
                 }
-
-                if (!socket.Connected)
-                {
-                    //TODO: disconnect socket and remove things from maps
-                    continue;
-                }
-                _socketsQueue.Enqueue(socket);
             }
         }
 
-        private bool CanSendMsg(Socket socket)
+
+        private bool CanSendMsg(TcpClient client)
         {
-            if (_socketToUserId.ContainsKey(socket))
+            if (_socketToUserId.ContainsKey(client))
             {
-                int id = _socketToUserId[socket];
+                int id = _socketToUserId[client];
                 if (_userIdToMsgQueue.ContainsKey(id))
                 {
-                    return socket.Connected && _socketToUserId.ContainsKey(socket) &&
-                           !_userIdToMsgQueue[id].IsEmpty && socket.Poll(PollMicroSecs, SelectMode.SelectWrite);
+                    return client.Connected && _socketToUserId.ContainsKey(client) &&
+                           !_userIdToMsgQueue[id].IsEmpty;
                 }
             }
             return false;
