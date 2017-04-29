@@ -10,29 +10,38 @@ namespace TexasHoldem.communication.Reactor.Impl
 {
     public class Reactor : IReactor
     {
-        private const int PollMicroSecs = 100;
+        private const int PollMicroSecs = 100; //time to wait for answer from polling sockets
+        private readonly int _localPort;
+        private bool _shouldClose = false;
 
         private readonly IListenerSelector _selector;
-        private readonly IDictionary<Socket, IEventHandler> _handlers;
-        private readonly ConcurrentQueue<Socket> _socketsQueue;
-        private readonly ConcurrentQueue<string> _receivedMsgQueue;
-        private readonly ConcurrentDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
-        private readonly ConcurrentDictionary<Socket, int> _socketToUserId; //sockets to user ids
+        private readonly IDictionary<TcpClient, IEventHandler> _handlers;
         private readonly TcpListener _listener;
+        private readonly ConcurrentQueue<TcpClient> _socketsQueue;
+        private readonly ConcurrentQueue<string> _receivedMsgQueue;
+        private readonly IDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
+        private readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids //TODO: maybe no need for this one
 
-        public Reactor(IListenerSelector selector)
+        public Reactor(IListenerSelector selector, int port)
         {
             _selector = selector;
-            _handlers = new Dictionary<Socket, IEventHandler>();
-            _socketsQueue = new ConcurrentQueue<Socket>();
+            _localPort = port;
+            _handlers = new Dictionary<TcpClient, IEventHandler>();
+            _socketsQueue = new ConcurrentQueue<TcpClient>();
             _receivedMsgQueue = new ConcurrentQueue<string>();
             _userIdToMsgQueue = new ConcurrentDictionary<int, ConcurrentQueue<string>>();
-            _socketToUserId = new ConcurrentDictionary<Socket, int>();
+            _socketToUserId = new ConcurrentDictionary<TcpClient, int>();
 
-            //TODO: init listener ad event handlers
+            _listener = new TcpListener(IPAddress.Any, _localPort);
 
         }
 
+        public int Port
+        {
+            get { return _localPort; }
+        }
+
+        //TODO: change this
         public void RegisterHandler(IEventHandler eventHandler)
         {
             _handlers.Add(eventHandler.GetHandler(), eventHandler);
@@ -46,10 +55,12 @@ namespace TexasHoldem.communication.Reactor.Impl
         //TODO: change this
         public void AcceptClients()
         {
-            while (true)
+            _listener.Start();
+            while (!_shouldClose)
             {
-                //IList<TcpListener> listeners = _selector.Select(_handlers.Keys);
-
+                TcpClient tcpClient = _listener.AcceptTcpClient();
+                _handlers.Add(tcpClient, new MessageEventHandler(tcpClient));
+                _socketsQueue.Enqueue(tcpClient);
                 //foreach (TcpListener listener in listeners)
                 //{
                 //    Socket socket = listener.AcceptSocket();
@@ -61,6 +72,7 @@ namespace TexasHoldem.communication.Reactor.Impl
 
 
             }
+            _listener.Stop();
         }
 
         //TODO: this
@@ -69,7 +81,6 @@ namespace TexasHoldem.communication.Reactor.Impl
             int dataReceived = 0;
             byte[] buffer = new byte[1];
             IList<byte> data = new List<byte>();
-
 
             foreach (Socket socket in _socketsQueue)
             {
@@ -105,7 +116,9 @@ namespace TexasHoldem.communication.Reactor.Impl
                 if (!socket.Connected)
                 {
                     //TODO: disconnect socket and remove things from maps
+                    continue;
                 }
+                _socketsQueue.Enqueue(socket);
             }
         }
 
@@ -121,6 +134,13 @@ namespace TexasHoldem.communication.Reactor.Impl
                 }
             }
             return false;
+        }
+
+        //TODO
+        public bool Close()
+        {
+            _shouldClose = true;
+            throw new System.NotImplementedException();
         }
     }
 }

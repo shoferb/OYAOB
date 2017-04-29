@@ -5,6 +5,6 @@ namespace TexasHoldem.communication.Reactor.Interfaces
     public interface IEventHandler
     {
         void HandleEvent(byte[] data);
-        Socket GetHandler();
+        TcpClient GetHandler();
     }
 }

@@ -6,5 +6,6 @@
         void RemoveHandler(IEventHandler eventHandler);
         void AcceptClients();
         void HandleConnections();
+        bool Close();
     }
 }

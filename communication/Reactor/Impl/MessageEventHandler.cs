@@ -6,9 +6,9 @@ namespace TexasHoldem.communication.Reactor.Impl
 {
     public class MessageEventHandler : IEventHandler
     {
-        private readonly Socket _socket;
+        private readonly TcpClient _socket;
 
-        public MessageEventHandler(/*IPAddress ipAddress, int port*/ Socket socket)
+        public MessageEventHandler(/*IPAddress ipAddress, int port*/ TcpClient socket)
         {
             //_socket = new Socket(ipAddress, port);
             _socket = socket;
@@ -20,7 +20,7 @@ namespace TexasHoldem.communication.Reactor.Impl
             //TODO: fill this up
         }
 
-        public Socket GetHandler()
+        public TcpClient GetHandler()
         {
             return _socket;
         }

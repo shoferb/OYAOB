@@ -9,6 +9,6 @@ namespace TexasHoldem.communication.Reactor.Interfaces
 {
     public interface IListenerSelector
     {
-        IList<TcpListener> Select(ICollection<TcpListener> listeners);
+        IList<TcpClient> SelectForReading(ICollection<TcpClient> tcpClients);
     }
 }

@@ -7,12 +7,12 @@ namespace TexasHoldem.communication.Reactor.Impl
 {
     public class ListenerSelector : IListenerSelector
     {
-        public IList<TcpListener> Select(ICollection<TcpListener> listeners)
+        public IList<TcpClient> SelectForReading(ICollection<TcpClient> tcpClients)
         {
-            var tcpListeners = new List<TcpListener>(from listener in listeners
-                                                     where listener.Pending()
-                                                     select listener);
-            return tcpListeners;
+            var readyLst = new List<TcpClient>(from client in tcpClients
+                                                     where client.Connected && client.Available > 0
+                                                     select client);
+            return readyLst;
         }
     }
 }
