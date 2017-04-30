@@ -1,18 +1,20 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using TexasHoldem.communication.Reactor.Interfaces;
 
 namespace TexasHoldem.communication.Reactor.Impl
 {
     public class Reactor : IReactor
     {
-        private const int PollMicroSecs = 100; //time to wait for answer from polling sockets
         private readonly int _localPort;
         private bool _shouldClose = false;
+        private static readonly object padlock = new object();
 
         private readonly IListenerSelector _selector;
         private readonly IDictionary<TcpClient, IEventHandler> _handlers;
@@ -20,7 +22,9 @@ namespace TexasHoldem.communication.Reactor.Impl
         private readonly ConcurrentQueue<TcpClient> _socketsQueue;
         private readonly ConcurrentQueue<string> _receivedMsgQueue;
         private readonly IDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
-        private readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids //TODO: maybe no need for this one
+        private readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids
+        private readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
+        private readonly IList<ManualResetEvent> _shutdownMreList;
 
         public Reactor(IListenerSelector selector, int port)
         {
@@ -32,8 +36,19 @@ namespace TexasHoldem.communication.Reactor.Impl
             _userIdToMsgQueue = new ConcurrentDictionary<int, ConcurrentQueue<string>>();
             _socketToUserId = new ConcurrentDictionary<TcpClient, int>();
 
+            _shutdownMreList = new List<ManualResetEvent> {_connectionCleanerMre};
             _listener = new TcpListener(IPAddress.Any, _localPort);
+        }
 
+        //start all threads:
+        public void Start()
+        {
+            ThreadPool.QueueUserWorkItem(HandleReading);
+            ThreadPool.QueueUserWorkItem(HandleWriting);
+            ThreadPool.QueueUserWorkItem(RemoveUnconnectedClients); //starts and sleeps
+
+            //main thread does this:
+            AcceptClients();
         }
 
         public int Port
@@ -52,69 +67,102 @@ namespace TexasHoldem.communication.Reactor.Impl
             _handlers.Remove(eventHandler.GetHandler());
         }
 
-        //TODO: change this
+        //main thread:
         public void AcceptClients()
         {
+            //main thread so no need to signal it started
             _listener.Start();
             while (!_shouldClose)
             {
                 TcpClient tcpClient = _listener.AcceptTcpClient();
                 _handlers.Add(tcpClient, new MessageEventHandler(tcpClient));
                 _socketsQueue.Enqueue(tcpClient);
+
+                _connectionCleanerMre.Set(); //wake the thread removing unconnected clients
             }
             _listener.Stop();
         }
 
-        private void RemoveUnconnectedClients()
+        private void RemoveUnconnectedClients(Object threadContext)
         {
-            //TODO
+            while (!_shouldClose)
+            {
+                //allready got MRE
+                _connectionCleanerMre.Reset(); //sleep until main thread wakes it up
+                List<TcpClient> tempHolder = new List<TcpClient>();
+                while (!_socketsQueue.IsEmpty)
+                {
+                    TcpClient client;
+                    _socketsQueue.TryDequeue(out client);
+                    if (client != null && client.Connected)
+                    {
+                        tempHolder.Add(client);
+                    }
+                }
+                tempHolder.ForEach(client => _socketsQueue.Enqueue(client));  
+            }
+            _connectionCleanerMre.Set(); //signal thread is done
         }
 
-        private void HandleReading()
+        private void HandleReading(Object threadContext)
         {
-            int dataReceived = 0;
+            ManualResetEvent readingMre = new ManualResetEvent(false);
+            _shutdownMreList.Add(readingMre);
             byte[] buffer = new byte[1];
             IList<byte> data = new List<byte>();
 
-            IList<TcpClient> readyToRead = _selector.SelectForReading(_socketsQueue);
-            foreach (var tcpClient in readyToRead)
+            while (!_shouldClose)
             {
-                NetworkStream stream = tcpClient.GetStream();
-                do
+                IList<TcpClient> readyToRead = _selector.SelectForReading(_socketsQueue);
+                foreach (var tcpClient in readyToRead)
                 {
-                    dataReceived = stream.Read(buffer, 0, 1);
-                    if (dataReceived > 0)
+                    NetworkStream stream = tcpClient.GetStream();
+                    var dataReceived = 0;
+                    do
                     {
-                        data.Add(buffer[0]);
-                    }
+                        dataReceived = stream.Read(buffer, 0, 1);
+                        if (dataReceived > 0)
+                        {
+                            data.Add(buffer[0]);
+                        }
 
-                } while (dataReceived > 0);
+                    } while (dataReceived > 0);
 
-                //add msg string to queue
-                _receivedMsgQueue.Enqueue(buffer.ToArray().ToString());
+                    //add msg string to queue
+                    _receivedMsgQueue.Enqueue(buffer.ToArray().ToString());
+                } 
             }
+            readingMre.Set(); //signal thread is done
         }
 
-        private void HandleWriting()
+        private void HandleWriting(Object threadContext)
         {
-            IList<TcpClient> readyToWrite = _selector.SelectForWriting(_socketsQueue);
-            foreach (var tcpClient in readyToWrite)
+            ManualResetEvent writingMre = new ManualResetEvent(false);
+            _shutdownMreList.Add(writingMre);
+            while (!_shouldClose)
             {
-                if (CanSendMsg(tcpClient))
+                IList<TcpClient> readyToWrite = _selector.SelectForWriting(_socketsQueue);
+                foreach (var tcpClient in readyToWrite)
                 {
-                    var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
-                    while (!msgQueue.IsEmpty)
+                    if (CanSendMsg(tcpClient))
                     {
-                        string msg;
-                        msgQueue.TryDequeue(out msg);
-                        byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
-                        tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+                        var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
+                        while (!msgQueue.IsEmpty)
+                        {
+                            string msg;
+                            msgQueue.TryDequeue(out msg);
+                            byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
+                            tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+                        }
                     }
-                }
+                } 
             }
+            //TODO: send remaining messages from all queues
+
+            writingMre.Set(); //signal thread is done
         }
 
-
+        //true if socket and user id exist, msgQueue isn't empty and socket connected
         private bool CanSendMsg(TcpClient client)
         {
             if (_socketToUserId.ContainsKey(client))
@@ -129,11 +177,26 @@ namespace TexasHoldem.communication.Reactor.Impl
             return false;
         }
 
-        //TODO
-        public bool Close()
+        private void ShutDown()
         {
-            _shouldClose = true;
-            throw new System.NotImplementedException();
+            WaitHandle.WaitAll(_shutdownMreList.ToArray()); //wait for all threadpool threads to be done
+
+            //delete all sockets and connections:
+            //TODO: maybe send shoutdown msg to all clients
+            foreach (var tcpClient in _socketsQueue)
+            {
+                tcpClient.Close();
+            }
+        }
+
+        //called from outside to stop reactor
+        public void Close()
+        {
+            lock (padlock)
+            {
+                _shouldClose = true;
+                _connectionCleanerMre.Set(); //wake the cleaner up;
+            }
         }
     }
 }
