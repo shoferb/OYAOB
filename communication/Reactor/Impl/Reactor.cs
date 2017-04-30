@@ -147,19 +147,32 @@ namespace TexasHoldem.communication.Reactor.Impl
                     if (CanSendMsg(tcpClient))
                     {
                         var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
-                        while (!msgQueue.IsEmpty)
-                        {
-                            string msg;
-                            msgQueue.TryDequeue(out msg);
-                            byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
-                            tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
-                        }
+                        SendAllMsgFromQueue(msgQueue, tcpClient);
                     }
                 } 
             }
-            //TODO: send remaining messages from all queues
+
+            //send all remaining messages from all msg queues
+            foreach (var socketToIdPair in _socketToUserId)
+            {
+                int userId = socketToIdPair.Value;
+                var tcpClient = socketToIdPair.Key;
+                var queue = _userIdToMsgQueue[userId];
+                SendAllMsgFromQueue(queue, tcpClient);
+            }
 
             writingMre.Set(); //signal thread is done
+        }
+
+        private void SendAllMsgFromQueue(ConcurrentQueue<String> msgQueue, TcpClient tcpClient)
+        {
+            while (!msgQueue.IsEmpty)
+            {
+                string msg;
+                msgQueue.TryDequeue(out msg);
+                byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
+                tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+            }
         }
 
         //true if socket and user id exist, msgQueue isn't empty and socket connected
@@ -181,8 +194,8 @@ namespace TexasHoldem.communication.Reactor.Impl
         {
             WaitHandle.WaitAll(_shutdownMreList.ToArray()); //wait for all threadpool threads to be done
 
-            //delete all sockets and connections:
             //TODO: maybe send shoutdown msg to all clients
+            //delete all sockets and connections:
             foreach (var tcpClient in _socketsQueue)
             {
                 tcpClient.Close();
