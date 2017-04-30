@@ -10,6 +10,7 @@ using TexasHoldem.communication.Reactor.Interfaces;
 
 namespace TexasHoldem.communication.Reactor.Impl
 {
+
     public class Reactor : IReactor
     {
         private readonly int _localPort;
@@ -17,7 +18,7 @@ namespace TexasHoldem.communication.Reactor.Impl
         private static readonly object padlock = new object();
 
         private readonly IListenerSelector _selector;
-        private readonly IDictionary<TcpClient, IEventHandler> _handlers;
+        //private readonly IDictionary<TcpClient, IEventHandler> _handlers; //TODO: maybe no need for this
         private readonly TcpListener _listener;
         private readonly ConcurrentQueue<TcpClient> _socketsQueue;
         private readonly ConcurrentQueue<string> _receivedMsgQueue;
@@ -30,7 +31,7 @@ namespace TexasHoldem.communication.Reactor.Impl
         {
             _selector = selector;
             _localPort = port;
-            _handlers = new Dictionary<TcpClient, IEventHandler>();
+            //_handlers = new Dictionary<TcpClient, IEventHandler>();
             _socketsQueue = new ConcurrentQueue<TcpClient>();
             _receivedMsgQueue = new ConcurrentQueue<string>();
             _userIdToMsgQueue = new ConcurrentDictionary<int, ConcurrentQueue<string>>();
@@ -56,15 +57,9 @@ namespace TexasHoldem.communication.Reactor.Impl
             get { return _localPort; }
         }
 
-        //TODO: change this
-        public void RegisterHandler(IEventHandler eventHandler)
+        public ConcurrentQueue<string> ReceivedMsgQueue
         {
-            _handlers.Add(eventHandler.GetHandler(), eventHandler);
-        }
-
-        public void RemoveHandler(IEventHandler eventHandler)
-        {
-            _handlers.Remove(eventHandler.GetHandler());
+            get { return _receivedMsgQueue; }
         }
 
         //main thread:
@@ -75,35 +70,16 @@ namespace TexasHoldem.communication.Reactor.Impl
             while (!_shouldClose)
             {
                 TcpClient tcpClient = _listener.AcceptTcpClient();
-                _handlers.Add(tcpClient, new MessageEventHandler(tcpClient));
+                //_handlers.Add(tcpClient, new MessageEventHandler());
                 _socketsQueue.Enqueue(tcpClient);
 
                 _connectionCleanerMre.Set(); //wake the thread removing unconnected clients
             }
             _listener.Stop();
+            ShutDown();
         }
 
-        private void RemoveUnconnectedClients(Object threadContext)
-        {
-            while (!_shouldClose)
-            {
-                //allready got MRE
-                _connectionCleanerMre.Reset(); //sleep until main thread wakes it up
-                List<TcpClient> tempHolder = new List<TcpClient>();
-                while (!_socketsQueue.IsEmpty)
-                {
-                    TcpClient client;
-                    _socketsQueue.TryDequeue(out client);
-                    if (client != null && client.Connected)
-                    {
-                        tempHolder.Add(client);
-                    }
-                }
-                tempHolder.ForEach(client => _socketsQueue.Enqueue(client));  
-            }
-            _connectionCleanerMre.Set(); //signal thread is done
-        }
-
+        //thread 1
         private void HandleReading(Object threadContext)
         {
             ManualResetEvent readingMre = new ManualResetEvent(false);
@@ -135,6 +111,7 @@ namespace TexasHoldem.communication.Reactor.Impl
             readingMre.Set(); //signal thread is done
         }
 
+        //thread 2
         private void HandleWriting(Object threadContext)
         {
             ManualResetEvent writingMre = new ManualResetEvent(false);
@@ -173,6 +150,28 @@ namespace TexasHoldem.communication.Reactor.Impl
                 byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
                 tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
             }
+        }
+
+        //thread 3
+        private void RemoveUnconnectedClients(Object threadContext)
+        {
+            while (!_shouldClose)
+            {
+                //allready got MRE
+                _connectionCleanerMre.Reset(); //sleep until main thread wakes it up
+                List<TcpClient> tempHolder = new List<TcpClient>();
+                while (!_socketsQueue.IsEmpty)
+                {
+                    TcpClient client;
+                    _socketsQueue.TryDequeue(out client);
+                    if (client != null && client.Connected)
+                    {
+                        tempHolder.Add(client);
+                    }
+                }
+                tempHolder.ForEach(client => _socketsQueue.Enqueue(client));
+            }
+            _connectionCleanerMre.Set(); //signal thread is done
         }
 
         //true if socket and user id exist, msgQueue isn't empty and socket connected
