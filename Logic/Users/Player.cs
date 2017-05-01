@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.Users
         public string name { get; set; }
         public int TotalChip { get; set; }
         public int RoundChipBet { get; set; } // the number of chips player have each round
-        public bool PlayingAnAction { get; set; }
+        public bool PlayedAnActionInTheRound { get; set; }
         public bool _isInRoom { get; set; }
         public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב 
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch

@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.Game
     public class GameRoom : IGame
     {
         public List<Player> Players { get; set; }
-        public enum HandStep {FirstRound, PreFlop, Flop, Turn, River }
+        public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
         public List<Spectetor> Spectatores { get; set;}
         public int DealerPos { get; set; }
@@ -104,7 +104,7 @@ namespace TexasHoldem.Logic.Game
 
         private void SetRoles()
         {
-            this.Hand_Step = HandStep.FirstRound;
+            this.Hand_Step = HandStep.PreFlop;
             if (this.DealerPlayer == null)
             {
                 this.DealerPos = 0;
@@ -165,7 +165,7 @@ namespace TexasHoldem.Logic.Game
         {
             if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
             {
-                if (!Hand_Step.Equals(Hand_Step == HandStep.FirstRound))
+                if (!Hand_Step.Equals(Hand_Step == HandStep.PreFlop))
                 {
                     EndHand();
                 }
@@ -177,7 +177,7 @@ namespace TexasHoldem.Logic.Game
             }
             else
             {
-                if (Hand_Step.Equals(Hand_Step == HandStep.FirstRound))
+                if (Hand_Step.Equals(Hand_Step == HandStep.PreFlop))
                 {
                     this.GameReplay = new GameReplay(this.Id, this.GameNumber);
                     SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
@@ -203,7 +203,7 @@ namespace TexasHoldem.Logic.Game
                 RaiseFieldAtEveryRound();
                 this.MoveChipsToPot();
 
-                if (this.PlayersInGame() > 2)
+                if (this.PlayersInGame() >= 2)
                 {
                     if (!ProgressHand(this.Hand_Step))
                     {
@@ -212,7 +212,7 @@ namespace TexasHoldem.Logic.Game
                     }
                     else
                     {
-                        this.ActionPos = this._currLoaction + 1;
+                        this.ActionPos = this._currLoaction;
                         this.CurrentPlayer = this.NextToPlay();
                         //TODO ONLY After game
                   
@@ -284,13 +284,13 @@ namespace TexasHoldem.Logic.Game
                 if (player.RoundChipBet > MaxCommitted)
                     MaxCommitted = player.RoundChipBet;
         }
-        private void EndTurn()
-        {//TODO check if nesessary from EndHand
+        private void AfterFinishedRound()
+        {
             MoveChipsToPot();
 
            foreach (Player player in Players)
                 if (player.isPlayerActive)
-                    player.PlayingAnAction = false;
+                    player.PlayedAnActionInTheRound = false;
         }
 
         private void MoveChipsToPot()
@@ -328,7 +328,7 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in Players)
-                if (player.isPlayerActive != false && (player.PlayingAnAction) && player.RoundChipBet == MaxCommitted)
+                if (player.isPlayerActive != false && (player.PlayedAnActionInTheRound) && player.RoundChipBet == MaxCommitted)
                     allDone = false;
             return allDone;
         }
@@ -637,7 +637,7 @@ namespace TexasHoldem.Logic.Game
 
         private void Fold()
         {
-            this.CurrentPlayer.PlayingAnAction = true;
+            this.CurrentPlayer.PlayedAnActionInTheRound = true;
             this.CurrentPlayer.isPlayerActive = false;
             FoldAction fold = new FoldAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                 this.CurrentPlayer._hand._seconedCard);
@@ -649,7 +649,7 @@ namespace TexasHoldem.Logic.Game
 
         private void Check()
         {
-            this.CurrentPlayer.PlayingAnAction = true;
+            this.CurrentPlayer.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                  this.CurrentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
@@ -660,7 +660,7 @@ namespace TexasHoldem.Logic.Game
 
         private void Call(int additionalChips)
         {
-            this.CurrentPlayer.PlayingAnAction = true;
+            this.CurrentPlayer.PlayedAnActionInTheRound = true;
             additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
             this.CurrentPlayer.CommitChips(additionalChips);
             CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
@@ -674,7 +674,7 @@ namespace TexasHoldem.Logic.Game
        private void Raise(int additionalChips)
         {
             this.MaxCommitted += additionalChips;
-            this.CurrentPlayer.PlayingAnAction = true;
+            this.CurrentPlayer.PlayedAnActionInTheRound = true;
             this.CurrentPlayer.CommitChips(additionalChips);
             RaiseAction raise = new RaiseAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                  this.CurrentPlayer._hand._seconedCard, additionalChips);
@@ -690,16 +690,17 @@ namespace TexasHoldem.Logic.Game
            switch (previousStep)
             {
                 case GameRoom.HandStep.PreFlop:
-                    for (int i = 0; i <= 2; i++)
-                        this.AddNewPublicCard();
+                   
                     break;
                 case GameRoom.HandStep.Flop:
-                    this.AddNewPublicCard();
+                    for (int i = 0; i <= 2; i++)
+                        this.AddNewPublicCard();
                     break;
                 case GameRoom.HandStep.Turn:
                     this.AddNewPublicCard();
                     break;
                 case GameRoom.HandStep.River:
+                    this.AddNewPublicCard();
 
                     return false;
 
@@ -717,7 +718,7 @@ namespace TexasHoldem.Logic.Game
             }
             else
             {
-                this.EndTurn();
+                this.AfterFinishedRound();
             }
 
             return true;
@@ -731,7 +732,7 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in this.Players)
             {
                 player.user.AddGameAvailableToReplay(this.Id, this.GameNumber);
-                if (player.TotalChip != 0)
+                if (player.isPlayerActive)
                     playersLeftInGame.Add(player);
                 else
                 {
@@ -739,7 +740,7 @@ namespace TexasHoldem.Logic.Game
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
             }
-            this.EndTurn();
+            this.AfterFinishedRound();
             this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
             //TODO : by AvivG
             this.ReplayManager.AddGameReplay(this.GameReplay);

@@ -95,7 +95,7 @@ namespace TexasHoldem.Logic.Game.Tests
             foreach (Player p in _gameRoom.players)
             {
                 if (p.isPlayerActive)
-                Assert.IsTrue(p.PlayingAnAction.Equals(""));
+                Assert.IsTrue(p.PlayedAnActionInTheRound.Equals(""));
             }
             
         }
