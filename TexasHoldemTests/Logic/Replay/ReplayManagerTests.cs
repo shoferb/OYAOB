@@ -51,12 +51,12 @@ namespace TexasHoldem.Logic.Replay.Tests
         public void IsExistTest()
         {
             GameReplay gr1 = new GameReplay(1, 1);
-            Assert.IsTrue(_testRM.IsExist(gr1));
+            Assert.IsTrue(_testRM.IsExist(gr1._gameRoomID, gr1._gameNumber));
             gr1._gameNumber = 2;
-            Assert.IsFalse(_testRM.IsExist(gr1));
+            Assert.IsFalse(_testRM.IsExist(gr1._gameRoomID, gr1._gameNumber));
             gr1._gameNumber = 1;
             gr1._gameRoomID = 2;
-            Assert.IsFalse(_testRM.IsExist(gr1));
+            Assert.IsFalse(_testRM.IsExist(gr1._gameRoomID, gr1._gameNumber));
         }
 
         [TestMethod()]
