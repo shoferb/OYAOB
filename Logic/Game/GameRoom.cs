@@ -761,7 +761,7 @@ namespace TexasHoldem.Logic.Game
             if (this.Players.Count > 1)
             {
                 // sets next DealerPos - if we want to "run" for a new game immediantly
-                this.DealerPos++;
+                this.DealerPos = this.DealerPos+1 % this.Players.Count;
                 // put new turns for the next round
                 this.ClearPublicCards();
                 this.GameReplay = new GameReplay(this.Id, this.GameNumber);
