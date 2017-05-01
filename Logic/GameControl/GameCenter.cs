@@ -41,7 +41,7 @@ namespace TexasHoldem.Logic.Game_Control
             this.higherRank = null;
             this.logs = new List<Log>();
             this.games = new List<GameRoom>();
-            _replayManager = new ReplayManager();
+            _replayManager = ReplayManager.ReplayManagerInstance;
             
         }
 
@@ -58,12 +58,6 @@ namespace TexasHoldem.Logic.Game_Control
                     return instance;
                 }
             }
-        }
-
-
-        public ReplayManager GetReplayManager()
-        {
-            return _replayManager;
         }
 
         //edit the gap field - syncronized 
