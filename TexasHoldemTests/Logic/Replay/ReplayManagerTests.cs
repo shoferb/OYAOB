@@ -31,6 +31,12 @@ namespace TexasHoldem.Logic.Replay.Tests
             _testRM.AddGameReplay(_testGR, ids);
         }
 
+        [TestCleanup()]
+        public void Cleanup()
+        {
+            _testRM.DeleteGameReplay(1, 1);
+        }
+
         [TestMethod()]
         public void AddGameReplayTest()
         {
