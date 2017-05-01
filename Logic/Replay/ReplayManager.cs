@@ -62,14 +62,14 @@ namespace TexasHoldem.Logic.Replay
             return null;
         }
 
-        public Action GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
-        {
-            GameReplay gr = GetGameReplayForUser(gameRoomID, gameNumber);
-            if (gr == null)
-            {
-                return null;
-            }
-            return gr.GetActionAt(actionNumber);
-        }
+        //public Action GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
+        //{
+        //    GameReplay gr = GetGameReplayForUser(gameRoomID, gameNumber);
+        //    if (gr == null)
+        //    {
+        //        return null;
+        //    }
+        //    return gr.GetActionAt(actionNumber);
+        //}
     }
 }
