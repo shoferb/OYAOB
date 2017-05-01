@@ -36,8 +36,6 @@ namespace TexasHoldem.Logic.Users
 
         List<IGame> SpectateGameList();
 
-        List<Actions.Action> FavActions();
-
         int WinNum();
 
         bool IncWinNum();
