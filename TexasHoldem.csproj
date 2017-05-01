@@ -72,11 +72,9 @@
     <Compile Include="Logic\GameControl\UserControl.cs" />
     <Compile Include="Logic\Game\Action.cs" />
     <Compile Include="Logic\Game\Card.cs" />
-    <Compile Include="Logic\Game\ConcreteGamePrefDecorator.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoom.cs" />
     <Compile Include="Logic\Game\Deck.cs" />
     <Compile Include="Logic\Game\GameMode.cs" />
-    <Compile Include="Logic\Game\GamePrefDecorator.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluator.cs" />
     <Compile Include="Logic\Game\Evaluator\HandRank.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />

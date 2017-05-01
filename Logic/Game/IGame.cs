@@ -8,5 +8,6 @@ namespace TexasHoldem.Logic.Game
 {
     public interface IGame
     {
+
     }
 }
