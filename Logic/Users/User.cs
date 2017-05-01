@@ -26,7 +26,6 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<IGame> activeGameList;
         private List<IGame> spectateGameList;
-        private List<Actions.Action> _favActions { get; set; }
         public bool IsHigherRank { get; set; }
         public int rank { get; set; }
 

@@ -33,7 +33,6 @@ namespace TexasHoldem.Logic.Users
 
         List<IGame> ActiveGameList();
 
-
         List<IGame> SpectateGameList();
 
         int WinNum();
