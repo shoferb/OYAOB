@@ -22,8 +22,11 @@ namespace TexasHoldem.Logic.Replay
             {
                 return false;
             }
-            if ()
-            _gamesActions.Add(gr);
+            if (ids == null || ids.Count == 0)
+            {
+                return false;
+            }
+            _gamesActions.Add(gr, ids);
             return true;
         }
 
