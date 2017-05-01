@@ -60,7 +60,7 @@ namespace TexasHoldem.Logic.Replay.Tests
         }
 
         [TestMethod()]
-        public void ReplayGameTest()
+        public void GetGameReplayForUserTest()
         {
             Assert.IsNotNull(_testRM.GetGameReplayForUser(1, 1, 1));
             Assert.IsNull(_testRM.GetGameReplayForUser(3, 3, 1));
@@ -79,12 +79,16 @@ namespace TexasHoldem.Logic.Replay.Tests
         }
 
         [TestMethod()]
-        public void ReplayGameTest()
+        public void DeleteGameReplayTest()
         {
             Assert.IsNotNull(_testRM.GetGameReplayForUser(1, 1, 1));
-            Assert.IsNull(_testRM.GetGameReplayForUser(3, 3, 1));
-            Assert.IsNull(_testRM.GetGameReplayForUser(1, 3, 1));
-            Assert.IsNull(_testRM.GetGameReplayForUser(3, 1, 1));
+            _testRM.DeleteGameReplay(1, 1);
+            Assert.IsNull(_testRM.GetGameReplayForUser(1, 1, 1));
+            _testGR = new GameReplay(1, 1);
+            _testGR.AddAction(_testAction);
+            List<int> ids = new List<int>();
+            ids.Add(1);
+            Assert.IsTrue(_testRM.AddGameReplay(_testGR, ids));
         }
 
     }
