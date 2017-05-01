@@ -55,7 +55,8 @@ namespace TexasHoldem.Logic.Replay
                     if (entry.Value.Contains(userID))
                     {
                         return entry.Key;
-                    }               
+                    }
+                    break;
                 }
             }
             return null;
