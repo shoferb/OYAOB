@@ -12,7 +12,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-     interface IGame
+     public interface IGame
     {
          List<Player> Players { get; set; }
          int Id { get; set; }
@@ -30,7 +30,6 @@ namespace TexasHoldem.Logic.Game
          List<Tuple<int, List<Player>>> SidePots { get; set; }
          GameReplay GameReplay { get; set; }     
          int VerifyAction { get; set; }       
-         bool FirstEnter { get; set; }     
          bool IsTestMode { get; set; }     
          int MaxRaiseInThisRound { get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
          int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי

@@ -9,7 +9,6 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
-using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
 {
@@ -431,7 +430,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         public void IsValidMoveTest()
         {
             initForAllTest();
-            List<Tuple<Action, bool, int, int>> moves = new List<Tuple<Action, bool, int, int>>();
+            List<Tuple<GameMove, bool, int, int>> moves = new List<Tuple<GameMove, bool, int, int>>();
 
             initForAllTest();
         }

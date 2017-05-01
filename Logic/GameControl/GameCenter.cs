@@ -11,7 +11,6 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
-using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Logic.Game_Control
 {
@@ -552,7 +551,7 @@ namespace TexasHoldem.Logic.Game_Control
                     // toAdd.players = allPlayers;
                     //games.Remove(room);
                     //games.Add(toAdd);
-                    int moneyToadd = playerToRemove._totalChip -playerToRemove._gameChip;
+                    int moneyToadd = playerToRemove.TotalChip -playerToRemove.RoundChipBet;
                     int newMoney = moneyToadd + user.Money();
                     user.EditUserMoney(newMoney);
                     //todo - change this will work after IGame
@@ -1114,36 +1113,36 @@ namespace TexasHoldem.Logic.Game_Control
         }
         
 
-        public Tuple<Action, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Action, bool, int, int>> moves)
+        public Tuple<GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<GameMove, bool, int, int>> moves)
         {
             lock (padlock)
             {
                 
                 GameServiceHandler gsh = new GameServiceHandler();
-                Tuple<Action, int> happend = gsh.SendUserAvailableMovesAndGetChoosen( moves);
+                Tuple<GameMove, int> happend = gsh.SendUserAvailableMovesAndGetChoosen( moves);
                 
                 return happend;
             }
             
         }
        
-        public String Displaymoves(List<Tuple<Action, bool, int, int>> moves)
+        public String Displaymoves(List<Tuple<GameMove, bool, int, int>> moves)
         {
             lock (padlock)
             {
                 string toReturn = "";
-                foreach (Tuple<Action, bool, int, int> t in moves)
+                foreach (Tuple<GameMove, bool, int, int> t in moves)
                 {
                     String info = "";
                     if (t.Item2)
                     {
-                        if (t.Item1 == Action.Bet)
+                        if (t.Item1 == GameMove.Bet)
                         {
                             info = info + "move avilble is: " + t.Item1 +
                                    " the game is limit holdem, so the bet is  - 'small bet' and equal " +
                                    "to big blind: " + t.Item4;
                         }
-                        else if (t.Item1 == Action.Raise)
+                        else if (t.Item1 == GameMove.Raise)
                         {
                             info = info + "move avilble is: " + t.Item1 +
                                    " the game is limit holdem, so the Raise is  - 'small bet' and equal " +
@@ -1152,25 +1151,25 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                     else
                     {
-                        if (t.Item1 == Action.Bet)
+                        if (t.Item1 == GameMove.Bet)
                         {
                             info = info + "move avilble is: " + t.Item1 + "Raise must be withIn: " + t.Item3 +
                                    " and: " + t.Item4;
                         }
-                        else if (t.Item1 == Action.Bet)
+                        else if (t.Item1 == GameMove.Bet)
                         {
                             info = info + "move avilble is: " + t.Item1 + "Bet must be withIn: " + t.Item3 + " and: " +
                                    t.Item4;
                         }
-                        else if (t.Item1 == Action.Call)
+                        else if (t.Item1 == GameMove.Call)
                         {
                             info = info + "move avilble is: " + t.Item1 + "the amount need to call is: " + t.Item3;
                         }
-                        else if (t.Item1 == Action.Check)
+                        else if (t.Item1 == GameMove.Check)
                         {
                             info = info + "move avilble is: " + t.Item1;
                         }
-                        else if (t.Item1 == Action.Fold)
+                        else if (t.Item1 == GameMove.Fold)
                         {
                             info = info + "move avilble is: " + t.Item1;
                         }
@@ -1182,18 +1181,18 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-      public bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
+      public bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
         {
             lock (padlock)
             {
                 bool toReturn = false;
-                Action toCheck = moveAndBet.Item1;
+                GameMove toCheck = moveAndBet.Item1;
                 int betToCheck = moveAndBet.Item2;
                 int maxBet = 0;
                 int minBet = 0;
                 bool isLimitGame = false;
 
-                foreach (Tuple<Action, bool, int, int> tuple in moves)
+                foreach (Tuple<GameMove, bool, int, int> tuple in moves)
                 {
                     if (tuple.Item1 == toCheck)
                     {
@@ -1202,7 +1201,7 @@ namespace TexasHoldem.Logic.Game_Control
                         maxBet = tuple.Item3;
                     }
                 }
-                if (toCheck == Action.Bet || toCheck == Action.Raise)
+                if (toCheck == GameMove.Bet || toCheck == GameMove.Raise)
                 {
                     if (isLimitGame)
                     {
@@ -1215,17 +1214,17 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
                 }
-                if (toCheck == Action.Call)
+                if (toCheck == GameMove.Call)
                 {
                     toReturn = betToCheck == maxBet; //amount to call
                     return toReturn;
                 }
-                if (toCheck == Action.Fold)
+                if (toCheck == GameMove.Fold)
                 {
                     toReturn = betToCheck == maxBet && maxBet == -1;
                     return toReturn;
                 }
-                if (toCheck == Action.Check)
+                if (toCheck == GameMove.Check)
                 {
                     toReturn = betToCheck == maxBet && maxBet == 0;
                     return toReturn;
@@ -1234,15 +1233,15 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
+        public Tuple<Logic.Game.GameMove, int> GetRandomMove(List<Tuple<GameMove, bool, int, int>> moves)
         {
             lock (padlock)
             {
                 int size = moves.Count;
                 int selectedMove = GetRandomNumber(0, size);
                 int bet = moves[selectedMove].Item3;
-                Action selectedAction = moves[selectedMove].Item1;
-                Tuple<Logic.Game.Action, int> toReturn = new Tuple<Action, int>(selectedAction, bet);
+                GameMove selectedGameMove = moves[selectedMove].Item1;
+                Tuple<Logic.Game.GameMove, int> toReturn = new Tuple<GameMove, int>(selectedGameMove, bet);
                 return toReturn;
             }
         }
@@ -1256,7 +1255,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public Tuple<Action, int>  SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
+        public Tuple<GameMove, int>  SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
         {
             return moveAndBet;
         }

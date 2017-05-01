@@ -5,7 +5,6 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
-using Action = TexasHoldem.Logic.Game.Action;
 
 namespace TexasHoldem.Service
 {
@@ -278,7 +277,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        public String Displaymoves(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
+        public String Displaymoves(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
         {
             return GameCenter.Instance.Displaymoves(moves);
         }
@@ -293,11 +292,11 @@ namespace TexasHoldem.Service
 
        
         //use only this
-        public Tuple<Logic.Game.Action, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.Action, bool, int, int>> moves)
+        public Tuple<Logic.Game.GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
         {
             
             Displaymoves(moves);
-            Tuple<Logic.Game.Action, int> moveAndBet = GetRandomMove(moves);
+            Tuple<Logic.Game.GameMove, int> moveAndBet = GetRandomMove(moves);
             bool isValidMove = IsValidMove(moves, moveAndBet);
             while (!isValidMove)
             {
@@ -309,17 +308,17 @@ namespace TexasHoldem.Service
             return ToReturn;
         }
 
-        private Tuple<Logic.Game.Action, int> SendMoveBackToPlayer(Tuple<Action, int> moveAndBet)
+        private Tuple<Logic.Game.GameMove, int> SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
         {
             return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);
         }
 
-        private bool IsValidMove(List<Tuple<Action, bool, int, int>> moves, Tuple<Action, int> moveAndBet)
+        private bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
         {
             return GameCenter.Instance.IsValidMove(moves, moveAndBet);
         }
 
-        public Tuple<Logic.Game.Action, int> GetRandomMove(List<Tuple<Action, bool, int, int>> moves)
+        public Tuple<Logic.Game.GameMove, int> GetRandomMove(List<Tuple<GameMove, bool, int, int>> moves)
         {
             return GameCenter.Instance.GetRandomMove(moves);
         }

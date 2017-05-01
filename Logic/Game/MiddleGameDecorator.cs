@@ -18,31 +18,31 @@ namespace TexasHoldem.Logic
             this.GameMode = gameModeChosen;
         }
 
-        public bool CanRaise()
+        public bool CanStartTheGame(int numOfPlayers)
         {
-           //TODO
             return false;
         }
 
-        public void Check()
+        public bool CanRaise()
         {
-            //TODO
-           
+            return false;
         }
 
-        public void Fold()
+        public bool CanCheck()
         {
-           //TODO
+            return false;
         }
 
-        public int GetMinPlayersInRoom()
+        public bool CanFold()
         {
-            //TODO
-            return 0;
+            return false;
         }
-        public GameMode? GetGameMode()
+
+        public bool CanSpectatble()
         {
-            return this.GameMode;
+            return false;
         }
+
+
     }
 }

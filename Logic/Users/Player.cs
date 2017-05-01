@@ -13,12 +13,11 @@ namespace TexasHoldem.Logic.Users
 
         public bool isPlayerActive { get; set; }
         public string name { get; set; }
-        public int _totalChip { get; set; } // וכמה נשאר כמה נכנס לחדר
-        public int _gameChip { get; set; } //כמה התחיל את המשחק- כמה כרגע בזבז
-        public string _lastAction { get; set; }
+        public int TotalChip { get; set; }
+        public int RoundChipBet { get; set; } // the number of chips player have each round
+        public bool PlayingAnAction { get; set; }
         public bool _isInRoom { get; set; }
-
-        public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב הנוכחי
+        public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב 
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
       
 
@@ -28,15 +27,15 @@ namespace TexasHoldem.Logic.Users
         public IUser user { get; }
         public int roomId { get; }
 
-        public Player(IUser User, int totalChip, int gameChipComitted, int RoomId)
+        public Player(IUser User, int totalChip, int roundChipBetComitted, int RoomId)
         {
             this.user = User;
             this.roomId = RoomId;
-            this._totalChip = totalChip;
-            this._gameChip = gameChipComitted;
+            this.TotalChip = totalChip;
+            this.RoundChipBet = roundChipBetComitted;
           
-            this._gameChip = _gameChip;
-            this._totalChip = totalChip;
+            this.RoundChipBet = RoundChipBet;
+            this.TotalChip = totalChip;
             isPlayerActive = false;
             _hand = new Hand();
 
@@ -44,15 +43,15 @@ namespace TexasHoldem.Logic.Users
             this.moveForTest = 0;
         }
         
-        public Player(int totalChip, int gameChipComitted, int id, string name, string memberName, string password, int points, int money, String email,
+        public Player(int totalChip, int roundChipBetComitted, int id, string name, string memberName, string password, int points, int money, String email,
             int roomId) : base(id, name, memberName, password, points, money, email, roomId)
         {
             
-            this._totalChip = totalChip;
-            this._gameChip = gameChipComitted;
+            this.TotalChip = totalChip;
+            this.RoundChipBet = roundChipBetComitted;
             this.name = name;
-            this._gameChip = _gameChip;
-            this._totalChip = totalChip;
+            this.RoundChipBet = RoundChipBet;
+            this.TotalChip = totalChip;
             isPlayerActive = false;
             _hand = new Hand();
             
@@ -66,8 +65,10 @@ namespace TexasHoldem.Logic.Users
 
         public bool IsAllIn()
         {
-            if (_totalChip == 0 && isPlayerActive)
+            if (TotalChip == 0 && isPlayerActive)
+            {
                 return true;
+            }
             return false;
         }
 
@@ -82,7 +83,7 @@ namespace TexasHoldem.Logic.Users
         }
         public bool OutOfMoney()
         {
-            if (_totalChip == 0)
+            if (TotalChip == 0)
                 return true;
             return false;
         }
@@ -99,7 +100,7 @@ namespace TexasHoldem.Logic.Users
         }
         public bool CanCheck(GameRoom state)
         {
-            if (state.MaxCommitted == _gameChip)
+            if (state.MaxCommitted == RoundChipBet)
                 return true;
             return false;
         }
@@ -133,8 +134,8 @@ namespace TexasHoldem.Logic.Users
 
         public void CommitChips(int chips)
         {
-            this._totalChip -= chips;
-            this._gameChip += chips;
+            this.TotalChip -= chips;
+            this.RoundChipBet += chips;
         }
 
 

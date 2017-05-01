@@ -9,21 +9,14 @@ namespace TexasHoldem.Logic
 {
     public abstract class Decorator
     {
-        public enum DecState
-        {
-            Before,
-            Middle,
-            After
-        };
-
-        internal Decorator NextDecorator;
+       internal Decorator NextDecorator;
 
         public Decorator(Decorator d)
         {
             this.NextDecorator = d;
         }
 
-        public bool CanStartTheGame()
+        public bool CanStartTheGame(int numOfPlayers)
         {
             return false;
         }
@@ -33,24 +26,21 @@ namespace TexasHoldem.Logic
             return false;
         }
 
-        public void Check() { }
-
-        public void Fold() { }
-
-        public int GetMinPlayersInRoom()
-        {
-            return 0;
-        }
-
-        public bool CanBeSpectatble()
+        public bool CanCheck()
         {
             return false;
         }
 
-        public GameMode? GetGameMode()
+        public bool CanFold()
         {
-            return null;
+            return false;
         }
 
+       public bool CanSpectatble()
+        {
+            return false;
+        }
+
+     
     }
 }

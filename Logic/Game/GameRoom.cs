@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.Game
     public class GameRoom : IGame
     {
         public List<Player> Players { get; set; }
-        public enum HandStep { PreFlop, Flop, Turn, River }
+        public enum HandStep {FirstRound, PreFlop, Flop, Turn, River }
         public int Id { get; set; }
         public List<Spectetor> Spectatores { get; set;}
         public int DealerPos { get; set; }
@@ -40,7 +40,6 @@ namespace TexasHoldem.Logic.Game
         public Player BbPlayer;
         public Player SbPlayer;
         public List<HandEvaluator> Winners;
-        public bool FirstEnter { get; set; }
         private int _buttonPos;
         private bool _backFromRaise;
         public bool IsTestMode { get; set; }
@@ -50,12 +49,12 @@ namespace TexasHoldem.Logic.Game
         public int LastRaise { get; set; }  //change to maxCommit
         public Thread RoomThread { get; set; }
         //new after log control change
-        private LogControl logControl = LogControl.Instance;
+        private LogControl _logControl = LogControl.Instance;
         public int MaxRank { get; set; }
         public int MinRank { get; set; }
         public int GameNumber=0;
         public int MinBetInRoom { get; set; }
-
+        private int _currLoaction { get; set; }
         public GameRoom(List<Player> players, int ID, int minBetInRoom)
         {
             this.Id = ID;
@@ -70,6 +69,7 @@ namespace TexasHoldem.Logic.Game
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
             this.MinRank = tup.Item1;
             this.MaxRank = tup.Item2;
+            this.DealerPlayer = null;
         }
 
         public void AddDecorator(Decorator d)
@@ -85,25 +85,26 @@ namespace TexasHoldem.Logic.Game
 
         public void Start()
         {
-            //Play();
             if (RoomThread != null && !this.IsActiveGame)
             {
                 try
                 {
                     RoomThread.Start();
+                    Play();
+
                 }
                 catch (Exception e)
                 {
                     ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
                     // this._gameCenter.errorLog.Add(log);
-                    logControl.AddErrorLog(log);
+                    _logControl.AddErrorLog(log);
                 }
             }
         }
 
         private void SetRoles()
         {
-            this.Hand_Step = GameRoom.HandStep.PreFlop;
+            if (this.DealerPlayer == null) this.DealerPos = 0;
             Deck deck = new Deck();
             this.Deck = deck;
             this._buttonPos = this.DealerPos;
@@ -137,20 +138,8 @@ namespace TexasHoldem.Logic.Game
             StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
             SystemLog log = new SystemLog(this.Id, startAction.ToString());
             //this.this._gameCenter.AddSystemLog(log);
-            logControl.AddSystemLog(log);
-            this.GameReplay.AddAction(startAction);
-
-            foreach (Player player in this.Players)
-            {
-                player.isPlayerActive = true;
-                player.AddHoleCards(deck.Draw(), deck.Draw());
-                HandCards hand = new HandCards(player, player._hand._firstCard,
-                    player._hand._seconedCard);
-                this.GameReplay.AddAction(hand);
-                log = new SystemLog(this.Id, hand.ToString());
-                // this.this._gameCenter.AddSystemLog(log);
-                logControl.AddSystemLog(log);
-            }
+            _logControl.AddSystemLog(log);
+            this.GameReplay.AddAction(startAction);     
             this.UpdateMaxCommitted();
             this.MoveBbnSBtoPot(this.BbPlayer, this.SbPlayer);
             switch (this.Players.Count)
@@ -158,9 +147,11 @@ namespace TexasHoldem.Logic.Game
                 case 2:
                 case 3:
                     this.CurrentPlayer = this.BbPlayer;
+                    this._currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
                     break;
                 default:
                     this.CurrentPlayer = this.Players[this.ActionPos];
+                    this._currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
                     break;
             }
 
@@ -168,25 +159,34 @@ namespace TexasHoldem.Logic.Game
 
        public bool Play()
         {
-
-            if (this.Players.Count < this.MyDecorator.GetMinPlayersInRoom())
+            if (this.MyDecorator.CanStartTheGame(this.Players.Count))
             {
-                return false;
+                if (!Hand_Step.Equals(Hand_Step == HandStep.FirstRound))
+                {
+                    EndHand();
+                }
+                else
+                {
+                    return false;
+                }
+
             }
             else
             {
-                if (this.FirstEnter)
+                if (Hand_Step.Equals(Hand_Step == HandStep.FirstRound))
                 {
-                    StartTheGame();
+                    this.GameReplay = new GameReplay(this.Id, this.GameNumber);
+                    SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
+                    _logControl.AddSystemLog(log);
+                    SetRoles();
+                    HandCards();
+                    this.IsActiveGame = true;
                 }
-                while (!this.AllDoneWithTurn())
+                while (!this.AllDoneWithTurn()) //TODO switch last action to bool
                 {
                     RaiseFieldAtEveryRound();
-                    InitializePlayerRound();
-                    int move;
                     this.CurrentPlayer = NextToPlay();
-                    //move = this.playTurn(player)
-                    move = PlayerPlay();
+                    int move = PlayerPlay();
                     PlayerDesicion(move);
                     if (_backFromRaise)
                     {
@@ -196,31 +196,36 @@ namespace TexasHoldem.Logic.Game
                     this.UpdateGameState();
                     this.CheckIfPlayerWantToLeave();
                 }
+                InitializePlayerRound();
                 this.MoveChipsToPot();
-
-                if (this.AllDoneWithTurn() || this.PlayersInGame() < 2)
+                if (this.PlayersInGame() > 2)
                 {
-                    if (ProgressHand(this.Hand_Step))
+                    if (!ProgressHand(this.Hand_Step))
                     {
-                        // progresses _hand and returns whether _hand is over (the last Hand_Step was river)
                         EndHand();
                         return true;
                     }
                     else
                     {
+                        this.ActionPos = this._currLoaction + 1;
                         this.CurrentPlayer = this.NextToPlay();
-                        this.DealerPlayer =
+                        //TODO ONLY After game
+                     /*   this.DealerPlayer =
                             this.Players[
-                                (this.Players.IndexOf(this.DealerPlayer) + 1) % this.Players.Count];
+                                (this.Players.IndexOf(this.DealerPlayer) + 1)%this.Players.Count];
                         this.SbPlayer =
                             this.Players[
-                                (this.Players.IndexOf(this.SbPlayer) + 1) % this.Players.Count];
+                                (this.Players.IndexOf(this.SbPlayer) + 1)%this.Players.Count];
                         this.BbPlayer =
                             this.Players[
-                                (this.Players.IndexOf(this.BbPlayer) + 1) % this.Players.Count];
+                                (this.Players.IndexOf(this.BbPlayer) + 1)%this.Players.Count];*/
                         return Play();
                     }
 
+                }
+                else
+                {
+                    EndHand();
                 }
 
             }
@@ -228,37 +233,28 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        private void StartTheGame()
+        private void HandCards()
         {
-            this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-            SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
-
-            //this.this._gameCenter.AddSystemLog(log);
-            logControl.AddSystemLog(log);
-            this.DealerPos = 0;
-            SetRoles();
-            this.FirstEnter = false;
-            this.IsActiveGame = true;
-
-            foreach (Player p in this.Players)
+            foreach (Player player in this.Players)
             {
-                p.isPlayerActive = true;
-                p.user.AddGameAvailableToReplay(this.Id, this.GameNumber);
+                player.isPlayerActive = true;
+                player.AddHoleCards(this.Deck.Draw(), this.Deck.Draw());
+                HandCards hand = new HandCards(player, player._hand._firstCard,
+                    player._hand._seconedCard);
+                this.GameReplay.AddAction(hand);
+                SystemLog log = new SystemLog(this.Id, hand.ToString());
+                _logControl.AddSystemLog(log);
+                player.user.AddGameAvailableToReplay(this.Id, this.GameNumber);
+
             }
         }
-
+        
         private Player NextToPlay()
         {
             return Players[ActionPos];
         }
 
-        private int ToCall()
-        {
-            return MaxCommitted - Players[ActionPos]._gameChip;
-
-        }
-
-        private void AddNewPublicCard()
+       private void AddNewPublicCard()
         {
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
@@ -288,23 +284,24 @@ namespace TexasHoldem.Logic.Game
         private void UpdateMaxCommitted()
         {
             foreach (Player player in Players)
-                if (player._gameChip > MaxCommitted)
-                    MaxCommitted = player._gameChip;
+                if (player.RoundChipBet > MaxCommitted)
+                    MaxCommitted = player.RoundChipBet;
         }
         private void EndTurn()
-        {
+        {//TODO check if nesessary from EndHand
             MoveChipsToPot();
 
            foreach (Player player in Players)
                 if (player.isPlayerActive)
-                    player._lastAction = "";
+                    player.PlayingAnAction = false;
         }
 
         private void MoveChipsToPot()
         {
             foreach (Player player in Players)
             {
-                PotCount += player._gameChip;
+                PotCount += player.RoundChipBet;
+                player.RoundChipBet = 0;
             }
         }
         private int PlayersInGame()
@@ -334,36 +331,12 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in Players)
-                if (!(player.isPlayerActive == false || (player._lastAction == "call" || player._lastAction == "check" || player._lastAction == "bet" || player._lastAction == "raise") && player._gameChip == MaxCommitted))
+                if (player.isPlayerActive != false && (player.PlayingAnAction) && player.RoundChipBet == MaxCommitted)
                     allDone = false;
             return allDone;
         }
 
-        private bool newSplitPot(Player allInPlayer)
-        {
-            List<Player> eligiblePlayers = new List<Player>();
-            int sidePotCount = 0;
-            int chipsToMatch = allInPlayer._gameChip;
-            foreach (Player player in Players)
-            {
-                if (player.isPlayerActive && player._gameChip > 0)
-                {
-                    player._gameChip -= chipsToMatch;
-                    sidePotCount += chipsToMatch;
-                    eligiblePlayers.Add(player);
-                }
-            }
-            sidePotCount += PotCount;
-            PotCount = 0;
-
-            if (sidePotCount > 0)
-            {
-                SidePots.Add(new Tuple<int, List<Player>>(sidePotCount, eligiblePlayers));
-            }
-            return true;
-
-        }
-
+     
         private void CheckIfPlayerWantToLeave()
         {
             List<Player> players = new List<Player>();
@@ -374,6 +347,7 @@ namespace TexasHoldem.Logic.Game
                     players.Add(p);
                 }
             }
+            //TODO AvivG Leave action 
             if (players.Count < this.Players.Count)
             {
                 this.Players = players;
@@ -383,8 +357,8 @@ namespace TexasHoldem.Logic.Game
         private void MoveBbnSBtoPot(Player bbPlayer, Player sbPlayer)
         {
             PotCount = Bb + Sb;
-            bbPlayer._gameChip = bbPlayer._gameChip - Bb;
-            sbPlayer._gameChip = sbPlayer._gameChip - Sb;
+            bbPlayer.RoundChipBet = bbPlayer.RoundChipBet - Bb;
+            sbPlayer.RoundChipBet = sbPlayer.RoundChipBet - Sb;
         }
 
         private void RaiseFieldAtEveryRound()
@@ -428,13 +402,13 @@ namespace TexasHoldem.Logic.Game
             GameMode gm;
 
 
-            int playerMoney = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
+            int playerMoney = this.CurrentPlayer.TotalChip - this.CurrentPlayer.RoundChipBet;
             //raise - <Raise,bool is limit,maxRaise, minRaise> - if true must raise equal to max.
             //bet - <Bet,bool is limit,maxRaise, minRaise> - if true must Bet equal to max.
             //check <Check, false, 0, 0>
             //fold - <Fold, false,-1,-1>
             //call - <Call, false,call amount, 0>
-            List<Tuple<Action, bool, int, int>> moveToSend = new List<Tuple<Action, bool, int, int>>();
+            List<Tuple<GameMove, bool, int, int>> moveToSend = new List<Tuple<GameMove, bool, int, int>>();
             int callAmount = maxRaise - this.CurrentPlayer._payInThisRound;
             bool canCheck = (this.MaxCommitted == 0);
             try
@@ -482,7 +456,7 @@ namespace TexasHoldem.Logic.Game
                         else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
-                            maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
+                            maxRaise = this.CurrentPlayer.TotalChip - this.CurrentPlayer.RoundChipBet;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
@@ -491,9 +465,9 @@ namespace TexasHoldem.Logic.Game
                             maxRaise = GetRaisePotLimit(this.CurrentPlayer);
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
-                        Tuple<Action, bool, int, int> RaisePreFlop = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> CallPreFlop = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
-                        Tuple<Action, bool, int, int> FoldPreFlop = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        Tuple<GameMove, bool, int, int> RaisePreFlop = new Tuple<GameMove, bool, int, int>(GameMove.Raise, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> CallPreFlop = new Tuple<GameMove, bool, int, int>(GameMove.Call, false, callAmount, 0);
+                        Tuple<GameMove, bool, int, int> FoldPreFlop = new Tuple<GameMove, bool, int, int>(GameMove.Fold, false, -1, -1);
                         moveToSend.Add(RaisePreFlop);
                         moveToSend.Add(CallPreFlop);
                         moveToSend.Add(FoldPreFlop);
@@ -513,7 +487,7 @@ namespace TexasHoldem.Logic.Game
                         else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
-                            maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
+                            maxRaise = this.CurrentPlayer.TotalChip - this.CurrentPlayer.RoundChipBet;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
@@ -524,14 +498,14 @@ namespace TexasHoldem.Logic.Game
                         }
                         if (canCheck)
                         {
-                            Tuple<Action, bool, int, int> CheckFlop =
-                                new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
+                            Tuple<GameMove, bool, int, int> CheckFlop =
+                                new Tuple<GameMove, bool, int, int>(GameMove.Check, false, 0, 0);
                             moveToSend.Add(CheckFlop);
                         }
-                        Tuple<Action, bool, int, int> RaiseFlop = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> BetFlop = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> CallFlop = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
-                        Tuple<Action, bool, int, int> FoldFlop = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        Tuple<GameMove, bool, int, int> RaiseFlop = new Tuple<GameMove, bool, int, int>(GameMove.Raise, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> BetFlop = new Tuple<GameMove, bool, int, int>(GameMove.Bet, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> CallFlop = new Tuple<GameMove, bool, int, int>(GameMove.Call, false, callAmount, 0);
+                        Tuple<GameMove, bool, int, int> FoldFlop = new Tuple<GameMove, bool, int, int>(GameMove.Fold, false, -1, -1);
                         moveToSend.Add(RaiseFlop);
                         moveToSend.Add(CallFlop);
                         moveToSend.Add(FoldFlop);
@@ -552,7 +526,7 @@ namespace TexasHoldem.Logic.Game
                         else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
-                            maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
+                            maxRaise = this.CurrentPlayer.TotalChip - this.CurrentPlayer.RoundChipBet;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
@@ -563,14 +537,14 @@ namespace TexasHoldem.Logic.Game
                         }
                         if (canCheck)
                         {
-                            Tuple<Action, bool, int, int> CheckTurn =
-                                new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
+                            Tuple<GameMove, bool, int, int> CheckTurn =
+                                new Tuple<GameMove, bool, int, int>(GameMove.Check, false, 0, 0);
                             moveToSend.Add(CheckTurn);
                         }
-                        Tuple<Action, bool, int, int> RaiseTurn = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> BetTurn = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> CallTurn = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
-                        Tuple<Action, bool, int, int> FoldTurn = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        Tuple<GameMove, bool, int, int> RaiseTurn = new Tuple<GameMove, bool, int, int>(GameMove.Raise, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> BetTurn = new Tuple<GameMove, bool, int, int>(GameMove.Bet, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> CallTurn = new Tuple<GameMove, bool, int, int>(GameMove.Call, false, callAmount, 0);
+                        Tuple<GameMove, bool, int, int> FoldTurn = new Tuple<GameMove, bool, int, int>(GameMove.Fold, false, -1, -1);
                         moveToSend.Add(RaiseTurn);
                         moveToSend.Add(CallTurn);
                         moveToSend.Add(FoldTurn);
@@ -589,7 +563,7 @@ namespace TexasHoldem.Logic.Game
                         else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
-                            maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
+                            maxRaise = this.CurrentPlayer.TotalChip - this.CurrentPlayer.RoundChipBet;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
@@ -600,14 +574,14 @@ namespace TexasHoldem.Logic.Game
                         }
                         if (canCheck)
                         {
-                            Tuple<Action, bool, int, int> CheckRiver =
-                                new Tuple<Action, bool, int, int>(Action.Check, false, 0, 0);
+                            Tuple<GameMove, bool, int, int> CheckRiver =
+                                new Tuple<GameMove, bool, int, int>(GameMove.Check, false, 0, 0);
                             moveToSend.Add(CheckRiver);
                         }
-                        Tuple<Action, bool, int, int> RaiseRiver = new Tuple<Action, bool, int, int>(Action.Raise, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> BetRiver = new Tuple<Action, bool, int, int>(Action.Bet, isLimit, maxRaise, minRaise);
-                        Tuple<Action, bool, int, int> CallRiver = new Tuple<Action, bool, int, int>(Action.Call, false, callAmount, 0);
-                        Tuple<Action, bool, int, int> FoldRiver = new Tuple<Action, bool, int, int>(Action.Fold, false, -1, -1);
+                        Tuple<GameMove, bool, int, int> RaiseRiver = new Tuple<GameMove, bool, int, int>(GameMove.Raise, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> BetRiver = new Tuple<GameMove, bool, int, int>(GameMove.Bet, isLimit, maxRaise, minRaise);
+                        Tuple<GameMove, bool, int, int> CallRiver = new Tuple<GameMove, bool, int, int>(GameMove.Call, false, callAmount, 0);
+                        Tuple<GameMove, bool, int, int> FoldRiver = new Tuple<GameMove, bool, int, int>(GameMove.Fold, false, -1, -1);
                         moveToSend.Add(RaiseRiver);
                         moveToSend.Add(CallRiver);
                         moveToSend.Add(FoldRiver);
@@ -616,13 +590,13 @@ namespace TexasHoldem.Logic.Game
                     default:
                         ErrorLog log = new ErrorLog("error in roung in room: " + this.Id + "the tound is not prefop / flop / turn / river");
                         //GameCenter.Instance.AddErrorLog(log);
-                        logControl.AddErrorLog(log);
+                        _logControl.AddErrorLog(log);
                         break;
 
                 }
                 if (!IsTestMode)
                 {
-                    Tuple<Action, int> getSelectedFromPlayer =
+                    Tuple<GameMove, int> getSelectedFromPlayer =
                         GameCenter.Instance.SendUserAvailableMovesAndGetChoosen(moveToSend);
                     toReturn = getSelectedFromPlayer.Item2;
                 }
@@ -635,7 +609,7 @@ namespace TexasHoldem.Logic.Game
             {
                 ErrorLog log = new ErrorLog("error in play of player with Id: " + this.CurrentPlayer.user.Id() + " somthing went wrong");
                 // GameCenter.Instance.AddErrorLog(log);
-                logControl.AddErrorLog(log);
+                _logControl.AddErrorLog(log);
             }
 
             return toReturn;
@@ -666,78 +640,71 @@ namespace TexasHoldem.Logic.Game
 
         private void Fold()
         {
-            this.CurrentPlayer._lastAction = "fold";
+            this.CurrentPlayer.PlayingAnAction = true;
             this.CurrentPlayer.isPlayerActive = false;
             FoldAction fold = new FoldAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                 this.CurrentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             //this.this._gameCenter.AddSystemLog(log);
-            logControl.AddSystemLog(log);
+            _logControl.AddSystemLog(log);
             this.GameReplay.AddAction(fold);
         }
 
         private void Check()
         {
-            this.CurrentPlayer._lastAction = "check";
+            this.CurrentPlayer.PlayingAnAction = true;
             CheckAction check = new CheckAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                  this.CurrentPlayer._hand._seconedCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
             //this.this._gameCenter.AddSystemLog(log);
-            logControl.AddSystemLog(log);
+            _logControl.AddSystemLog(log);
             this.GameReplay.AddAction(check);
         }
 
         private void Call(int additionalChips)
         {
-            this.CurrentPlayer._lastAction = "call";
-            additionalChips = Math.Min(additionalChips, this.CurrentPlayer._totalChip); // if can't afford that many chips in a call, go all in           
+            this.CurrentPlayer.PlayingAnAction = true;
+            additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
             this.CurrentPlayer.CommitChips(additionalChips);
             CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                 this.CurrentPlayer._hand._seconedCard, additionalChips);
             this.GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             //this.this._gameCenter.AddSystemLog(log);
-            logControl.AddSystemLog(log);
+            _logControl.AddSystemLog(log);
         }
 
        private void Raise(int additionalChips)
         {
             this.MaxCommitted += additionalChips;
-            this.CurrentPlayer._lastAction = "raise";
+            this.CurrentPlayer.PlayingAnAction = true;
             this.CurrentPlayer.CommitChips(additionalChips);
             RaiseAction raise = new RaiseAction(this.CurrentPlayer, this.CurrentPlayer._hand._firstCard,
                  this.CurrentPlayer._hand._seconedCard, additionalChips);
             this.GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             //this.this._gameCenter.AddSystemLog(log);
-            logControl.AddSystemLog(log);
+            _logControl.AddSystemLog(log);
         }
-
+        //TODO : add new step to the enum 
         private bool ProgressHand(GameRoom.HandStep previousStep)
         {
 
-
-            if (this.PlayersInGame() < 2)
-                return true;
-
-            switch (previousStep)
+           switch (previousStep)
             {
                 case GameRoom.HandStep.PreFlop:
-
                     for (int i = 0; i <= 2; i++)
                         this.AddNewPublicCard();
                     break;
                 case GameRoom.HandStep.Flop:
-
                     this.AddNewPublicCard();
                     break;
                 case GameRoom.HandStep.Turn:
-
                     this.AddNewPublicCard();
                     break;
                 case GameRoom.HandStep.River:
 
-                    return true;
+                    return false;
 
                 default:
                     break;
@@ -749,13 +716,14 @@ namespace TexasHoldem.Logic.Game
 
             if (this.PlayersInGame() - this.PlayersAllIn() < 2)
             {
-                ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
-                return true;
+                return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
             }
             else
+            {
                 this.EndTurn();
+            }
 
-            return false;
+            return true;
 
         }
 
@@ -766,11 +734,10 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in this.Players)
             {
                 player.user.AddGameAvailableToReplay(this.Id, this.GameNumber);
-                if (player._totalChip != 0)
+                if (player.TotalChip != 0)
                     playersLeftInGame.Add(player);
                 else
                 {
-                    // RulesAndMethods.AddToLog("Player " + player.name + " was eliminated.");
                     player.isPlayerActive = false;
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
@@ -778,11 +745,10 @@ namespace TexasHoldem.Logic.Game
             this.EndTurn();
             this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
             //TODO : by AvivG
-           // this.ReplayManager.AddGameReplay(this.GameReplay);
-            int amount;
+            this.ReplayManager.AddGameReplay(this.GameReplay);
             if (this.Winners.Count > 0) // so there are winners at the end of the game
             {
-                amount = this.PotCount / this.Winners.Count;
+                var amount = this.PotCount / this.Winners.Count;
 
                 foreach (HandEvaluator h in this.Winners)
                 {
@@ -799,26 +765,19 @@ namespace TexasHoldem.Logic.Game
 
                 this.DealerPos++;
                 this.DealerPos = this.DealerPos % this.Players.Count;
-
                 this.ClearPublicCards();
                 this.GameReplay = new GameReplay(this.Id, this.GameNumber);
                 SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
-                // this.this._gameCenter.AddSystemLog(log);
-                logControl.AddSystemLog(log);
+                _logControl.AddSystemLog(log);
                 SetRoles();
             }
-            else if (this.Players.Count == 1)
+            else
             {
                 this.IsActiveGame = false;
-                this.FirstEnter = true;
                 if (!this.CurrentPlayer.OutOfMoney())
                     this.Players[0].isPlayerActive = false;
             }
-            else //no players at all
-            {
-                this.IsActiveGame = false;
-                this.FirstEnter = true;
-            }
+            
         }
 
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
@@ -855,7 +814,7 @@ namespace TexasHoldem.Logic.Game
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
                 // this.this._gameCenter.AddSystemLog(log);
-                logControl.AddSystemLog(log);
+                _logControl.AddSystemLog(log);
                 return winners;
             }
             return EvalTies(winners, table);
@@ -903,7 +862,7 @@ namespace TexasHoldem.Logic.Game
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
                 // this.this._gameCenter.AddSystemLog(log);
-                logControl.AddSystemLog(log);
+                _logControl.AddSystemLog(log);
             }
             return winners;
         }
@@ -933,18 +892,26 @@ namespace TexasHoldem.Logic.Game
         private void StartNewRoundAfterRaise()
         {
             if (this.PlayersInGame() < 2)
-                EndHand();
-
-            Player tempPlayer = this.CurrentPlayer;
-            foreach (Player p in this.Players)
             {
-                if (p != tempPlayer)
+                EndHand();
+            }
+
+            UpdateGameState();
+            Player playerWhoRaise = this.CurrentPlayer;
+            Player nextPlayer = NextToPlay();
+            while (nextPlayer != null && nextPlayer != playerWhoRaise)
+            {
+                int move = PlayerPlay();
+                if (move > this.MaxCommitted)
                 {
-                    int move;
+                    StartNewRoundAfterRaise();
+                    break;
+                }
+                    PlayerDesicion(move);
                     this.CurrentPlayer = this.NextToPlay();
                      UpdateGameState();
-                }
-            }
+             }
+            
             _backFromRaise = true;
         }
 

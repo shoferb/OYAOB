@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Logic.Game
 {
-    public enum Action
+    public enum GameMove
     {
         Fold,
         Call,

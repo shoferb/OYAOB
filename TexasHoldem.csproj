@@ -79,7 +79,7 @@
     <Compile Include="Logic\GameControl\LogControl.cs" />
     <Compile Include="Logic\GameControl\SystemControl.cs" />
     <Compile Include="Logic\GameControl\UserControl.cs" />
-    <Compile Include="Logic\Game\Action.cs" />
+    <Compile Include="Logic\Game\GameMove.cs" />
     <Compile Include="Logic\Game\Card.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />
     <Compile Include="Logic\Game\Deck.cs" />

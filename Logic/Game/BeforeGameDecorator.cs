@@ -31,33 +31,26 @@ namespace TexasHoldem.Logic
             return IsSpectetor;
         }
 
-        public bool CanStartTheGame()
+        public bool CanStartTheGame(int numOfPlayers)
         {
-            return false;
+            return numOfPlayers >= this.MinPlayersInRoom ?  true : false;
         }
 
         public bool CanRaise()
         {
-            NextDecorator.CanRaise();
+            return NextDecorator.CanRaise();
         }
 
-        public void Check()
+        public bool CanCheck()
         {
-            NextDecorator.Check();
+            return NextDecorator.CanCheck();
         }
 
-        public void Fold()
+        public bool CanFold()
         {
-            NextDecorator.Fold();
+            return NextDecorator.CanFold();
         }
 
-        public int GetMinPlayersInRoom()
-        {
-            return 0;
-        }
-        public GameMode? GetGameMode()
-        {
-            NextDecorator.GetGameMode();
-        }
+
     }
 }

@@ -109,7 +109,7 @@ namespace TexasHoldem.Logic.Replay
                 _gamesActions.Remove(item.Key);
             }
          }
-        //public Action GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
+        //public GameMove GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
         //{
         //    GameReplay gr = GetGameReplayForUser(gameRoomID, gameNumber);
         //    if (gr == null)
