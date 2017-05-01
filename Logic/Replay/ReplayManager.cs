@@ -35,16 +35,20 @@ namespace TexasHoldem.Logic.Replay
 
         public bool AddGameReplay(GameReplay gr, List<int> ids)
         {
-            if (gr == null || gr._gameNumber < 0 || gr._gameRoomID < 0 ||
+            lock (padlock)
+            {
+
+                if (gr == null || gr._gameNumber < 0 || gr._gameRoomID < 0 ||
                 IsExist(gr._gameRoomID, gr._gameNumber))
-            {
-                return false;
+                {
+                    return false;
+                }
+                if (ids == null || ids.Count == 0)
+                {
+                    return false;
+                }
+                _gamesActions.Add(gr, ids);
             }
-            if (ids == null || ids.Count == 0)
-            {
-                return false;
-            }
-            _gamesActions.Add(gr, ids);
             return true;
         }
 
