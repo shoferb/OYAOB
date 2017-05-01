@@ -100,6 +100,15 @@ namespace TexasHoldem.Logic.Replay
             return "";
         }
 
+        public void DeleteGameReplay(int gameRoomID, int gameNumber)
+        {
+            lock (padlock)
+            {
+                var item = _gamesActions.First(e => e.Key._gameRoomID == gameRoomID &&
+                e.Key._gameNumber == gameNumber);
+                _gamesActions.Remove(item.Key);
+            }
+         }
         //public Action GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
         //{
         //    GameReplay gr = GetGameReplayForUser(gameRoomID, gameNumber);
