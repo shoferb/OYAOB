@@ -104,7 +104,11 @@ namespace TexasHoldem.Logic.Game
 
         private void SetRoles()
         {
-            if (this.DealerPlayer == null) this.DealerPos = 0;
+            this.Hand_Step = HandStep.FirstRound;
+            if (this.DealerPlayer == null)
+            {
+                this.DealerPos = 0;
+            }
             Deck deck = new Deck();
             this.Deck = deck;
             this._buttonPos = this.DealerPos;
@@ -159,7 +163,7 @@ namespace TexasHoldem.Logic.Game
 
        public bool Play()
         {
-            if (this.MyDecorator.CanStartTheGame(this.Players.Count))
+            if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
             {
                 if (!Hand_Step.Equals(Hand_Step == HandStep.FirstRound))
                 {
@@ -894,16 +898,17 @@ namespace TexasHoldem.Logic.Game
             Player nextPlayer = NextToPlay();
             while (nextPlayer != null && nextPlayer != playerWhoRaise)
             {
+                this.CurrentPlayer = nextPlayer;
                 int move = PlayerPlay();
                 if (move > this.MaxCommitted)
                 {
                     StartNewRoundAfterRaise();
                     break;
                 }
-                    PlayerDesicion(move);
-                    this.CurrentPlayer = this.NextToPlay();
+                    PlayerDesicion(move);                  
                      UpdateGameState();
-             }
+                     nextPlayer = this.NextToPlay();
+            }
             
             _backFromRaise = true;
         }
