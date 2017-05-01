@@ -54,11 +54,15 @@ namespace TexasHoldem.Logic.Replay
 
         public bool IsExist(int gameRoomID, int gameNumber)
         {
-            foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
+            lock (padlock)
             {
-                if (entry.Key.RightGame(gameRoomID, gameNumber))
+
+                foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
                 {
-                    return true;
+                    if (entry.Key.RightGame(gameRoomID, gameNumber))
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
