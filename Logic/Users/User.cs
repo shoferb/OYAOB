@@ -259,11 +259,6 @@ namespace TexasHoldem.Logic.Users
             return spectateGameList;
         }
 
-        public List<Action> FavActions()
-        {
-            return _favActions;
-        }
-
         public int WinNum()
         {
             return this.winNum;

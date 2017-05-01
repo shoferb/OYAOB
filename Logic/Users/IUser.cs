@@ -86,7 +86,5 @@ namespace TexasHoldem.Logic.Users
 
         bool AddGameAvailableToReplay(int roomID, int gameID);
 
-        bool AddActionToFavorite(Actions.Action action);
-
     }
 }
