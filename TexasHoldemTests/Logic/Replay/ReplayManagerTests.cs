@@ -34,12 +34,17 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestMethod()]
         public void AddGameReplayTest()
         {
+            List<int> ids = new List<int>();
+            ids.Add(1);
+            List<int> ids2 = new List<int>();
+            ids.Add(2);
             GameReplay gr1 = new GameReplay(1, 1);
-            Assert.IsFalse(_testRM.AddGameReplay(gr1)); //same room&game
-            gr1._gameNumber = 2;
-            Assert.IsTrue(_testRM.AddGameReplay(gr1)); //diffrent game same room
-            GameReplay gr2 = new GameReplay(2, 1);
-            Assert.IsTrue(_testRM.AddGameReplay(gr2)); //diffrent room same game number
+            Assert.IsFalse(_testRM.AddGameReplay(gr1, ids)); //same room&game
+            Assert.IsFalse(_testRM.AddGameReplay(gr1, ids2)); //same room&game
+            GameReplay gr2 = new GameReplay(1, 2);
+            Assert.IsTrue(_testRM.AddGameReplay(gr2, ids)); //diffrent game same room
+            GameReplay gr3 = new GameReplay(2, 1);
+            Assert.IsTrue(_testRM.AddGameReplay(gr3, ids)); //diffrent room same game number
         }
 
         [TestMethod()]
