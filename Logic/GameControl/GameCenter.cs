@@ -233,22 +233,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
-        {
-            lock (padlock)
-            {
-                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userID);
-
-                if (user != null)
-                {
-
-                    return user.GamesAvailableToReplay();
-                }
-                return null;
-            }
-        }
-
-
         //return room by room if - suncronized due to for
         //return null if room id smaller than 0 or not found
         public GameRoom GetRoomById(int roomId)
