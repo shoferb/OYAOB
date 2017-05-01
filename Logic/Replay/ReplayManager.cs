@@ -44,12 +44,18 @@ namespace TexasHoldem.Logic.Replay
         }
 
         public GameReplay GetGameReplayForUser(int gameRoomID, int gameNumber, int userID) {
-
+            if (!IsExist(gameRoomID, gameNumber))
+            {
+                return null;
+            }
             foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
             {
-                if (gr.RightGame(gameRoomID, gameNumber))
+                if (entry.Key.RightGame(gameRoomID, gameNumber))
                 {
-                    return gr;               
+                    if (entry.Value.Contains(userID))
+                    {
+                        return entry.Key;
+                    }               
                 }
             }
             return null;
