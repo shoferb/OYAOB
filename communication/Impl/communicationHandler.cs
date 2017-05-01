@@ -90,7 +90,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //thread 1
-        private void HandleReading(Object threadContext)
+        protected void HandleReading(Object threadContext)
         {
             ManualResetEvent readingMre = new ManualResetEvent(false);
             _shutdownMreList.Add(readingMre);
@@ -122,7 +122,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //thread 2
-        private void HandleWriting(Object threadContext)
+        protected void HandleWriting(Object threadContext)
         {
             ManualResetEvent writingMre = new ManualResetEvent(false);
             _shutdownMreList.Add(writingMre);
@@ -152,7 +152,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //true if socket and user id exist, msgQueue isn't empty and socket connected
-        private bool CanSendMsg(TcpClient client)
+        protected bool CanSendMsg(TcpClient client)
         {
             if (_socketToUserId.ContainsKey(client))
             {
@@ -166,7 +166,7 @@ namespace TexasHoldem.communication.Impl
             return false;
         }
 
-        private void SendAllMsgFromQueue(ConcurrentQueue<String> msgQueue, TcpClient tcpClient)
+        protected void SendAllMsgFromQueue(ConcurrentQueue<String> msgQueue, TcpClient tcpClient)
         {
             while (!msgQueue.IsEmpty)
             {
@@ -178,7 +178,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //thread 3
-        private void RemoveUnconnectedClients(Object threadContext)
+        protected void RemoveUnconnectedClients(Object threadContext)
         {
             while (!_shouldClose)
             {
@@ -199,7 +199,7 @@ namespace TexasHoldem.communication.Impl
             _connectionCleanerMre.Set(); //signal thread is done
         }
 
-        private void ShutDown()
+        protected void ShutDown()
         {
             WaitHandle.WaitAll(_shutdownMreList.ToArray()); //wait for all threadpool threads to be done
 
