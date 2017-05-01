@@ -95,13 +95,13 @@ namespace TexasHoldem.communication.Impl
             ManualResetEvent readingMre = new ManualResetEvent(false);
             _shutdownMreList.Add(readingMre);
             byte[] buffer = new byte[1];
-            IList<byte> data = new List<byte>();
 
             while (!_shouldClose)
             {
                 IList<TcpClient> readyToRead = Selector.SelectForReading(_socketsQueue);
                 foreach (var tcpClient in readyToRead)
                 {
+                    IList<byte> data = new List<byte>();
                     NetworkStream stream = tcpClient.GetStream();
                     var dataReceived = 0;
                     do
@@ -115,7 +115,11 @@ namespace TexasHoldem.communication.Impl
                     } while (dataReceived > 0);
 
                     //add msg string to queue
-                    _receivedMsgQueue.Enqueue(buffer.ToArray().ToString());
+                    if (data.Count != 0)
+                    {
+                        _receivedMsgQueue.Enqueue(data.ToArray().ToString());
+                        Console.WriteLine("enqueued: " + _receivedMsgQueue.Count); 
+                    }
                 } 
             }
             readingMre.Set(); //signal thread is done

@@ -17,41 +17,55 @@ namespace TexasHoldemTests.communication
         {
         }
 
-        protected TcpListener Listener
+        public TcpListener Listener
         {
             get { return _listener; }
         }
 
-        protected ConcurrentQueue<TcpClient> SocketsQueue
+        public ConcurrentQueue<TcpClient> SocketsQueue
         {
             get { return _socketsQueue; }
         }
 
-        protected ConcurrentQueue<string> ReceivedMsgQueue
+        public ConcurrentQueue<string> ReceivedMsgQueue
         {
             get { return _receivedMsgQueue; }
         }
 
-        protected IDictionary<int, ConcurrentQueue<string>> UserIdToMsgQueue
+        public IDictionary<int, ConcurrentQueue<string>> UserIdToMsgQueue
         {
             get { return _userIdToMsgQueue; }
         }
 
-        protected IDictionary<TcpClient, int> SocketToUserId
+        public IDictionary<TcpClient, int> SocketToUserId
         {
             get { return _socketToUserId; }
         }
 
-        protected ManualResetEvent ConnectionCleanerMre
+        public ManualResetEvent ConnectionCleanerMre
         {
             get { return _connectionCleanerMre; }
         }
 
-        protected IList<ManualResetEvent> ShutdownMreList
+        public IList<ManualResetEvent> ShutdownMreList
         {
             get { return _shutdownMreList; }
         }
 
+        public Task<bool> Alldone()
+        {
+            int maxWorkers = -1;
+            int maxIo = -1;
+            int avWorkers = 0;
+            int avIo = 0;
 
+            while (maxWorkers - avWorkers != 1)
+            {
+                ThreadPool.GetMaxThreads(out maxWorkers, out maxIo);
+                ThreadPool.GetMaxThreads(out avWorkers, out avIo);
+            }
+
+            return new Task<bool>(null);
+        }
     }
 }

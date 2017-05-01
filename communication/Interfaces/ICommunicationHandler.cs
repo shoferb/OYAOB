@@ -6,7 +6,7 @@ namespace TexasHoldem.communication.Interfaces
     {
         List<string> GetReceivedMessages();
         bool AddMsgToSend(string msg, int userId);
-        void AcceptClients();
+        //void AcceptClients();
         void Start();
         void Close();
     }
