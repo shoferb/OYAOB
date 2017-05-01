@@ -85,17 +85,6 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
        
-        public GameReplay GetGameReplay(int roomID, int gameID, int userID)
-        {
-            Tuple<int, int> tuple = new Tuple<int, int>(roomID, gameID);
-            List<Tuple<int, int>> userGames = GetGamesAvailableForReplayByUser(userID);
-            if (!userGames.Contains(tuple))
-            {
-                return null;
-            }
-            return _replayManager.GetGameReplayForUser(roomID, gameID);
-        }
-
 
         public string ShowGameReplay(int roomID, int gameID, int userID)
         {
@@ -231,7 +220,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
 
         }
-
 
         //return room by room if - suncronized due to for
         //return null if room id smaller than 0 or not found
