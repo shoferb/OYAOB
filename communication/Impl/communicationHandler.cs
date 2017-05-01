@@ -18,18 +18,18 @@ namespace TexasHoldem.communication.Impl
         private bool _shouldClose = false;
         private static readonly object Padlock = new object();
 
-        private readonly IListenerSelector _selector;
-        private readonly TcpListener _listener;
-        private readonly ConcurrentQueue<TcpClient> _socketsQueue;
-        private readonly ConcurrentQueue<string> _receivedMsgQueue;
-        private readonly IDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
-        private readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids
-        private readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
-        private readonly IList<ManualResetEvent> _shutdownMreList;
+        protected readonly IListenerSelector Selector;
+        protected readonly TcpListener _listener;
+        protected readonly ConcurrentQueue<TcpClient> _socketsQueue;
+        protected readonly ConcurrentQueue<string> _receivedMsgQueue;
+        protected readonly IDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
+        protected readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids
+        protected readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
+        protected readonly IList<ManualResetEvent> _shutdownMreList;
 
         public CommunicationHandler(IListenerSelector selector, int port)
         {
-            _selector = selector;
+            Selector = selector;
             _localPort = port;
             _socketsQueue = new ConcurrentQueue<TcpClient>();
             _receivedMsgQueue = new ConcurrentQueue<string>();
@@ -99,7 +99,7 @@ namespace TexasHoldem.communication.Impl
 
             while (!_shouldClose)
             {
-                IList<TcpClient> readyToRead = _selector.SelectForReading(_socketsQueue);
+                IList<TcpClient> readyToRead = Selector.SelectForReading(_socketsQueue);
                 foreach (var tcpClient in readyToRead)
                 {
                     NetworkStream stream = tcpClient.GetStream();
@@ -128,7 +128,7 @@ namespace TexasHoldem.communication.Impl
             _shutdownMreList.Add(writingMre);
             while (!_shouldClose)
             {
-                IList<TcpClient> readyToWrite = _selector.SelectForWriting(_socketsQueue);
+                IList<TcpClient> readyToWrite = Selector.SelectForWriting(_socketsQueue);
                 foreach (var tcpClient in readyToWrite)
                 {
                     if (CanSendMsg(tcpClient))
@@ -217,6 +217,7 @@ namespace TexasHoldem.communication.Impl
             lock (Padlock)
             {
                 _shouldClose = true;
+                _listener.Stop();
                 _connectionCleanerMre.Set(); //wake the cleaner up;
             }
         }

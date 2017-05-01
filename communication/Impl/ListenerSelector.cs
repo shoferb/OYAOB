@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net.Sockets;
 using TexasHoldem.communication.Reactor.Interfaces;
 
-namespace TexasHoldem.communication.Reactor.Impl
+namespace TexasHoldem.communication.Impl
 {
     public class ListenerSelector : IListenerSelector
     {
