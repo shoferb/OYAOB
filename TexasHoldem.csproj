@@ -108,6 +108,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Service\GameServiceHandler.cs" />
     <Compile Include="Service\LogServiceHandler.cs" />

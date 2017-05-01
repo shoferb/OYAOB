@@ -31,36 +31,71 @@ namespace TexasHoldem.Logic.Replay.Tests
             _testRM.AddGameReplay(_testGR, ids);
         }
 
+        [TestCleanup()]
+        public void Cleanup()
+        {
+            _testRM.DeleteGameReplay(1, 1);
+        }
+
         [TestMethod()]
         public void AddGameReplayTest()
         {
+            List<int> ids = new List<int>();
+            ids.Add(1);
+            List<int> ids2 = new List<int>();
+            ids.Add(2);
             GameReplay gr1 = new GameReplay(1, 1);
-            Assert.IsFalse(_testRM.AddGameReplay(gr1)); //same room&game
-            gr1._gameNumber = 2;
-            Assert.IsTrue(_testRM.AddGameReplay(gr1)); //diffrent game same room
-            GameReplay gr2 = new GameReplay(2, 1);
-            Assert.IsTrue(_testRM.AddGameReplay(gr2)); //diffrent room same game number
+            Assert.IsFalse(_testRM.AddGameReplay(gr1, ids)); //same room&game
+            Assert.IsFalse(_testRM.AddGameReplay(gr1, ids2)); //same room&game
+            GameReplay gr2 = new GameReplay(1, 2);
+            Assert.IsTrue(_testRM.AddGameReplay(gr2, ids)); //diffrent game same room
+            GameReplay gr3 = new GameReplay(2, 1);
+            Assert.IsTrue(_testRM.AddGameReplay(gr3, ids)); //diffrent room same game number
         }
 
         [TestMethod()]
         public void IsExistTest()
         {
             GameReplay gr1 = new GameReplay(1, 1);
-            Assert.IsTrue(_testRM.IsExist(gr1));
+            Assert.IsTrue(_testRM.IsExist(gr1._gameRoomID, gr1._gameNumber));
             gr1._gameNumber = 2;
-            Assert.IsFalse(_testRM.IsExist(gr1));
+            Assert.IsFalse(_testRM.IsExist(gr1._gameRoomID, gr1._gameNumber));
             gr1._gameNumber = 1;
             gr1._gameRoomID = 2;
-            Assert.IsFalse(_testRM.IsExist(gr1));
+            Assert.IsFalse(_testRM.IsExist(gr1._gameRoomID, gr1._gameNumber));
         }
 
         [TestMethod()]
-        public void ReplayGameTest()
+        public void GetGameReplayForUserTest()
         {
-            Assert.IsNotNull(_testRM.GetGameReplayForUser(1, 1));
-            Assert.IsNull(_testRM.GetGameReplayForUser(3, 3));
-            Assert.IsNull(_testRM.GetGameReplayForUser(1, 3));
-            Assert.IsNull(_testRM.GetGameReplayForUser(3, 1));
+            Assert.IsNotNull(_testRM.GetGameReplayForUser(1, 1, 1));
+            Assert.IsNull(_testRM.GetGameReplayForUser(3, 3, 1));
+            Assert.IsNull(_testRM.GetGameReplayForUser(1, 3, 1));
+            Assert.IsNull(_testRM.GetGameReplayForUser(3, 1, 1));
         }
+
+        [TestMethod()]
+        public void ShowGameReplayTest()
+        {
+            Assert.IsNotNull(_testRM.ShowGameReplay(1, 1, 1));
+            Assert.IsTrue(_testRM.ShowGameReplay(1, 1, 1) != "");
+            Assert.IsTrue(_testRM.ShowGameReplay(3, 3, 1) == "");
+            Assert.IsTrue(_testRM.ShowGameReplay(1, 3, 1) == "");
+            Assert.IsTrue(_testRM.ShowGameReplay(3, 1, 1) == "");
+        }
+
+        [TestMethod()]
+        public void DeleteGameReplayTest()
+        {
+            Assert.IsNotNull(_testRM.GetGameReplayForUser(1, 1, 1));
+            _testRM.DeleteGameReplay(1, 1);
+            Assert.IsNull(_testRM.GetGameReplayForUser(1, 1, 1));
+            _testGR = new GameReplay(1, 1);
+            _testGR.AddAction(_testAction);
+            List<int> ids = new List<int>();
+            ids.Add(1);
+            Assert.IsTrue(_testRM.AddGameReplay(_testGR, ids));
+        }
+
     }
 }
