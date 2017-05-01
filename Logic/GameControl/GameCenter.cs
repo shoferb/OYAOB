@@ -107,26 +107,6 @@ namespace TexasHoldem.Logic.Game_Control
             return gr.ToString();
         }
 
-        public bool saveActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
-        {
-            GameReplay gr = GetGameReplay(roomID, gameID, userID);
-            if (gr == null)
-            {
-                return false;
-            }
-            TexasHoldem.Logic.Actions.Action action = gr.GetActionAt(actionNum);
-            if (action == null)
-            {
-                return false;
-            }
-            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userID);
-            if (user == null)
-            {
-                return false;
-            }
-            return user.AddActionToFavorite(action);
-        }
-
         //return thr next room Id
         public int GetNextIdRoom()
         {
