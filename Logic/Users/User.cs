@@ -97,7 +97,7 @@ namespace TexasHoldem.Logic.Users
         {
             get
             {
-                return id;
+                return Id;
             }
 
         }

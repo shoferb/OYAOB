@@ -97,9 +97,9 @@ namespace TexasHoldem.Logic.Users
         {
             _hand.AddPublicCardToPlayer(newCard);
         }
-        public bool CanCheck(ConcreteGameRoom state)
+        public bool CanCheck(GameRoom state)
         {
-            if (state._maxCommitted == _gameChip)
+            if (state.MaxCommitted == _gameChip)
                 return true;
             return false;
         }
@@ -116,14 +116,14 @@ namespace TexasHoldem.Logic.Users
         /// return positive number bigger than 0 for call / raise 
         /// return 0 for check
         /*
-        public int Play(int amount, ConcreteGameRoom.HandStep h)
+        public int Play(int amount, GameRoom.HandStep h)
         {
             List<playerMoves> validMoves;
-            if (h == ConcreteGameRoom.HandStep.PreFlop) //first round - can call/fold/raise
+            if (h == GameRoom.HandStep.PreFlop) //first round - can call/fold/raise
             {
 
             }
-            else if ((h == ConcreteGameRoom.HandStep.Flop) || (h == ConcreteGameRoom.HandStep.Turn) || (h == ConcreteGameRoom.HandStep.River)) //round 2 to 4 - can check/bet/fold
+            else if ((h == GameRoom.HandStep.Flop) || (h == GameRoom.HandStep.Turn) || (h == GameRoom.HandStep.River)) //round 2 to 4 - can check/bet/fold
             {
 
             }

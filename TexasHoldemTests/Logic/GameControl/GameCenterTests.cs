@@ -19,7 +19,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         private GameCenter _gameCenter = GameCenter.Instance;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
         private List<League> _leagueTable;
-        private ConcreteGameRoom _gameRoom;
+        private GameRoom _gameRoom;
         private static List<Player> _players;
 
         private void initForAllTest()
@@ -66,7 +66,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             initForAllTest();
             _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
             Assert.IsTrue(_gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10));
-            Assert.IsTrue(_gameCenter.GetRoomById(_gameCenter.GetNextIdRoom() - 1)._players.Count == 1);
+            Assert.IsTrue(_gameCenter.GetRoomById(_gameCenter.GetNextIdRoom() - 1).Players.Count == 1);
             initForAllTest();
         }
 
@@ -134,7 +134,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             _gameCenter.AddPlayerToRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id)._players.Count==2);
+            Assert.IsTrue(_gameCenter.GetRoomById(id).Players.Count==2);
             initForAllTest();
         }
 
@@ -170,7 +170,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoom(1, 50, false, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             _gameCenter.RemovePlayerFromRoom( id, 1);
-            Assert.IsTrue(_gameCenter.GetRoomById(id)._players.Count == 1);
+            Assert.IsTrue(_gameCenter.GetRoomById(id).Players.Count == 1);
 
             initForAllTest();
         }
@@ -185,9 +185,9 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int id = _gameCenter.GetNextIdRoom() - 1;
             _systemControl.GetUserWithId(1).IsActive = false;
             _gameCenter.AddSpectetorToRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id)._spectatores.Count == 1);
+            Assert.IsTrue(_gameCenter.GetRoomById(id).Spectatores.Count == 1);
             _gameCenter.RemoveSpectetorFromRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id)._spectatores.Count == 0);
+            Assert.IsTrue(_gameCenter.GetRoomById(id).Spectatores.Count == 0);
             initForAllTest();
         }
 
@@ -238,7 +238,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom()-1;
             GameRoom room = _gameCenter.GetRoomById(id);
-            room._isActiveGame = true;
+            room.IsActiveGame = true;
             Assert.IsTrue(_gameCenter.GetAllActiveGame().Count==1);
             initForAllTest();
         }
@@ -253,7 +253,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int id = _gameCenter.GetNextIdRoom() - 1;
             _systemControl.GetUserWithId(1).IsActive = false;
             _gameCenter.AddSpectetorToRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id)._spectatores.Count == 1);
+            Assert.IsTrue(_gameCenter.GetRoomById(id).Spectatores.Count == 1);
             Assert.IsTrue(_gameCenter.GetAllSpectetorGame().Count==1);
             initForAllTest();
         }
@@ -278,7 +278,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             GameRoom room = _gameCenter.GetRoomById(id);
-            room._potCount = 12345;
+            room.PotCount = 12345;
             Assert.IsTrue(_gameCenter.GetAllGamesByPotSize(1).Count==0);
             initForAllTest();
         }
@@ -387,7 +387,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             GameRoom room = _gameCenter.GetRoomById(id);
-            SystemLog log = new SystemLog(id, room._gameReplay.ToString());
+            SystemLog log = new SystemLog(id, room.GameReplay.ToString());
             logControl.AddSystemLog(log);
             Assert.IsTrue(logControl.FindLog(log.LogId)!= null);
             logControl.RemoveSystenLog(log);
@@ -403,7 +403,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             int id = _gameCenter.GetNextIdRoom() - 1;
             GameRoom room = _gameCenter.GetRoomById(id);
-            SystemLog log = new SystemLog(id, room._gameReplay.ToString());
+            SystemLog log = new SystemLog(id, room.GameReplay.ToString());
             logControl.AddSystemLog(log);
             Assert.IsTrue(logControl.FindLog(log.LogId) != null);
             logControl.RemoveSystenLog(log);

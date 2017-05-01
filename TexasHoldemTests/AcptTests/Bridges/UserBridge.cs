@@ -115,18 +115,18 @@ namespace TexasHoldemTests.AcptTests.Bridges
             {
                 allGames.ForEach(game =>
                     {
-                        game._players.ForEach(p =>
+                        game.Players.ForEach(p =>
                         {
                             if (p.Id == userId)
                             {
-                                gameIds.Add(game._id);
+                                gameIds.Add(game.Id);
                             }
                         });
-                        game._spectatores.ForEach(s =>
+                        game.Spectatores.ForEach(s =>
                         {
                             if (s.Id == userId)
                             {
-                                gameIds.Add(game._id);
+                                gameIds.Add(game.Id);
                             }
                         });
 

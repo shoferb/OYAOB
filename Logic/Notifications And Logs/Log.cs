@@ -37,7 +37,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
 
         public string ToString()
         {
-            string toReturn = "Log id is: " + logId;
+            string toReturn = "Log Id is: " + logId;
             return toReturn;
         }
 

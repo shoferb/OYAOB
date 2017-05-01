@@ -18,21 +18,21 @@ namespace TexasHoldem.Service
         public Log CreateNewLog()
         {
             Log toReturn = new Log();
-            Console.WriteLine("new log was created, log id is: "+ toReturn.LogId);
+            Console.WriteLine("new log was created, log Id is: "+ toReturn.LogId);
             return toReturn;
         }
 
         public ErrorLog CreateNewErrorLog(string erroeMsg)
         {
             ErrorLog toReturn = new ErrorLog(erroeMsg);
-            Console.WriteLine("new error log was created, log id is: " + toReturn.LogId);
+            Console.WriteLine("new error log was created, log Id is: " + toReturn.LogId);
             return toReturn;
         }
 
         public SystemLog CreateNewSystemLog(int roomId, string errorMsg)
         {
             SystemLog toReturn = new SystemLog(roomId,errorMsg);
-            Console.WriteLine("new error log was created, log id is: " + toReturn.LogId);
+            Console.WriteLine("new error log was created, log Id is: " + toReturn.LogId);
             return toReturn;
         }
 
@@ -46,7 +46,7 @@ namespace TexasHoldem.Service
         {
 
             string toReturn = log.Msg;
-            Console.WriteLine("The massage of errir log with id: " + log.LogId + "is: " + toReturn);
+            Console.WriteLine("The massage of errir log with Id: " + log.LogId + "is: " + toReturn);
             
         }
 
@@ -59,7 +59,7 @@ namespace TexasHoldem.Service
         public void PrintMsgSystemLog(SystemLog log)
         {
             string toReturn = log.Msg;
-            Console.WriteLine("The massage of system log with id: " + log.LogId + "is: " + toReturn);
+            Console.WriteLine("The massage of system log with Id: " + log.LogId + "is: " + toReturn);
 
         }
 
@@ -90,7 +90,7 @@ namespace TexasHoldem.Service
         }
 
 
-        //todo - get priority - stuck until get log by id complete
+        //todo - get priority - stuck until get log by Id complete
         public Log.LogPriority GetLofPriority(int logId)
         {
             //Log getLog = GameCenter.Instance.FindLog(logId);

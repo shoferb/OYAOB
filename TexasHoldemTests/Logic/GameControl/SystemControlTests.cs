@@ -61,7 +61,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             string badEmail = "orelie.bgu.ac.il";
             int money = 1000;
             int badMoney = -100;
-            //bad id
+            //bad Id
             Assert.IsFalse(sc.CanCreateNewUser(badId, UserName, password, email));
             Assert.IsFalse(sc.RegisterToSystem(badId, name, UserName, password, money, email));
             //bad username
@@ -107,7 +107,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsFalse(sc.IsUsernameFree(UserName));
             IUser user = sc.GetUserWithId(id);
             Assert.IsTrue(sc.GetAllUser().Contains(user));
-            //create user with same id
+            //create user with same Id
             Assert.IsFalse(sc.IsIdFree(id));
             Assert.IsTrue(sc.IsUsernameFree(userName2));
             Assert.IsTrue((sc.IsUsernameFree(userName2)));
@@ -407,21 +407,21 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size = sc.Users.Count;
             Assert.AreEqual(size, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
             string email1 = "orelie@post.bgu.ac.il";
             int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsTrue(user.EditEmail(id, "orelie@post.bgu.ac.il"));
-            Assert.IsTrue(sc.EditEmail(id, "orelie.shahar@gmail.com"));
-            Assert.IsTrue(sc.EditEmail(id, "orelie@walla.co.il"));
-            Assert.IsFalse(sc.EditEmail(id, "orelie.post.bgu.ac.il"));
-            Assert.IsFalse(sc.EditEmail(id, "wromgEmail"));
-            Assert.IsFalse(sc.EditEmail(id, "oreli2198#@%*_)(*&^%#!?@bgu.ac.il"));
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.IsTrue(user.EditEmail(Id, "orelie@post.bgu.ac.il"));
+            Assert.IsTrue(sc.EditEmail(Id, "orelie.shahar@gmail.com"));
+            Assert.IsTrue(sc.EditEmail(Id, "orelie@walla.co.il"));
+            Assert.IsFalse(sc.EditEmail(Id, "orelie.post.bgu.ac.il"));
+            Assert.IsFalse(sc.EditEmail(Id, "wromgEmail"));
+            Assert.IsFalse(sc.EditEmail(Id, "oreli2198#@%*_)(*&^%#!?@bgu.ac.il"));
+            Assert.IsTrue(sc.RemoveUserById(Id));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
 
@@ -453,24 +453,24 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size = sc.Users.Count;
             Assert.AreEqual(size, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
             string email1 = "orelie@post.bgu.ac.il";
             int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.EditPassword(id, ""));
-            Assert.IsFalse(sc.EditPassword(id, "  "));
-            Assert.IsFalse(sc.EditPassword(id, "1234!@"));
-            Assert.IsFalse(sc.EditPassword(id, "12345678912346"));
-            Assert.IsTrue(sc.EditPassword(id, "12345678"));
-            Assert.IsTrue(sc.EditPassword(id, "orelie123"));
-            Assert.IsTrue(sc.EditPassword(id, "1234567891"));
-            Assert.IsTrue(sc.EditPassword(id, "12345678912"));
-            Assert.IsTrue(sc.EditPassword(id, "123456789123"));
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.EditPassword(Id, ""));
+            Assert.IsFalse(sc.EditPassword(Id, "  "));
+            Assert.IsFalse(sc.EditPassword(Id, "1234!@"));
+            Assert.IsFalse(sc.EditPassword(Id, "12345678912346"));
+            Assert.IsTrue(sc.EditPassword(Id, "12345678"));
+            Assert.IsTrue(sc.EditPassword(Id, "orelie123"));
+            Assert.IsTrue(sc.EditPassword(Id, "1234567891"));
+            Assert.IsTrue(sc.EditPassword(Id, "12345678912"));
+            Assert.IsTrue(sc.EditPassword(Id, "123456789123"));
+            Assert.IsTrue(sc.RemoveUserById(Id));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
         }
@@ -483,7 +483,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size = sc.Users.Count;
             Assert.AreEqual(size, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
@@ -497,21 +497,21 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int money2 = 5000;
             string newUserName1 = "try1";
             string newUserName2 = "try2";
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(Id));
             Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
             Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            Assert.IsFalse(sc.EditUserName(id, UserName2));
+            Assert.IsFalse(sc.EditUserName(Id, UserName2));
             Assert.IsFalse(sc.EditUserName(id2, UserName));
-            Assert.IsTrue(sc.EditUserName(id, newUserName1));
+            Assert.IsTrue(sc.EditUserName(Id, newUserName1));
             Assert.IsTrue(sc.EditUserName(id2, UserName));
             Assert.IsTrue(sc.EditUserName(id2, UserName2));
             Assert.IsFalse(sc.EditUserName(id2, newUserName1));
             Assert.IsTrue(sc.EditUserName(id2, newUserName2));
-            Assert.IsTrue(sc.EditUserName(id, UserName2));
-            Assert.IsFalse(sc.EditUserName(id, newUserName2));
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.EditUserName(Id, UserName2));
+            Assert.IsFalse(sc.EditUserName(Id, newUserName2));
+            Assert.IsTrue(sc.RemoveUserById(Id));
             Assert.IsTrue(sc.RemoveUserById(id2));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
@@ -521,17 +521,17 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         public void EditAvatarTest()
         {
             SystemControl sc = SystemControl.SystemControlInstance;
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
             string email1 = "orelie@post.bgu.ac.il";
             int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsTrue(sc.EditAvatar(id, "newPath"));
-            Assert.AreEqual(sc.GetUserWithId(id).Avatar, "newPath");
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.IsTrue(sc.EditAvatar(Id, "newPath"));
+            Assert.AreEqual(sc.GetUserWithId(Id).Avatar, "newPath");
+            Assert.IsTrue(sc.RemoveUserById(Id));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
         }
@@ -541,7 +541,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         public void EditUserIDTest()
         {
             SystemControl sc = SystemControl.SystemControlInstance;
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
@@ -555,17 +555,17 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int money2 = 5000;
             int newId1 = 11111;
             int newId2 = 2222;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(Id));
             Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
             Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            Assert.IsFalse(sc.EditUserID(id, id2));
-            Assert.IsFalse(sc.EditUserID(id2, id));
-            Assert.IsTrue(sc.EditUserID(id, newId1));//id=1111
-            Assert.IsTrue(sc.EditUserID(id2, id));//id2=305077901
+            Assert.IsFalse(sc.EditUserID(Id, id2));
+            Assert.IsFalse(sc.EditUserID(id2, Id));
+            Assert.IsTrue(sc.EditUserID(Id, newId1));//Id=1111
+            Assert.IsTrue(sc.EditUserID(id2, Id));//id2=305077901
             Assert.IsFalse(sc.EditUserID(id2, newId1));//fail
-            Assert.IsTrue(sc.EditUserID(id, id2));//id=305077902
+            Assert.IsTrue(sc.EditUserID(Id, id2));//Id=305077902
 
             Assert.IsFalse(sc.EditUserID(id2, -1));//fail
             Assert.IsFalse(sc.EditUserID(id2, -111111));//fail
@@ -581,7 +581,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size1 = sc.Users.Count;
             Assert.AreEqual(size1, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
@@ -589,16 +589,16 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int money = 1000;
             int size = sc.Users.Count;
             Assert.AreEqual(size, 0);
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.AreEqual(sc.GetUserWithId(id).Points, 0);
-            Assert.IsTrue(sc.EditUserPoints(id, 500));
-            Assert.AreEqual(sc.GetUserWithId(id).Points, 500);
-            Assert.IsTrue(sc.EditUserPoints(id, 0));
-            Assert.AreEqual(sc.GetUserWithId(id).Points, 0);
-            Assert.IsFalse(sc.EditUserPoints(id, -100));
-            Assert.AreEqual(sc.GetUserWithId(id).Points, 0); ;
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.AreEqual(sc.GetUserWithId(Id).Points, 0);
+            Assert.IsTrue(sc.EditUserPoints(Id, 500));
+            Assert.AreEqual(sc.GetUserWithId(Id).Points, 500);
+            Assert.IsTrue(sc.EditUserPoints(Id, 0));
+            Assert.AreEqual(sc.GetUserWithId(Id).Points, 0);
+            Assert.IsFalse(sc.EditUserPoints(Id, -100));
+            Assert.AreEqual(sc.GetUserWithId(Id).Points, 0); ;
+            Assert.IsTrue(sc.RemoveUserById(Id));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
         }
@@ -609,22 +609,22 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
             string email1 = "orelie@post.bgu.ac.il";
             int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.AreEqual(sc.GetUserWithId(id).Money, 1000);
-            Assert.IsTrue(sc.EditUserMoney(id, 500));
-            Assert.AreEqual(sc.GetUserWithId(id).Money, 500);
-            Assert.IsTrue(sc.EditUserMoney(id, 0));
-            Assert.AreEqual(sc.GetUserWithId(id).Money, 0);
-            Assert.IsFalse(sc.EditUserMoney(id, -100));
-            Assert.AreEqual(sc.GetUserWithId(id).Money, 0); ;
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.AreEqual(sc.GetUserWithId(Id).Money, 1000);
+            Assert.IsTrue(sc.EditUserMoney(Id, 500));
+            Assert.AreEqual(sc.GetUserWithId(Id).Money, 500);
+            Assert.IsTrue(sc.EditUserMoney(Id, 0));
+            Assert.AreEqual(sc.GetUserWithId(Id).Money, 0);
+            Assert.IsFalse(sc.EditUserMoney(Id, -100));
+            Assert.AreEqual(sc.GetUserWithId(Id).Money, 0); ;
+            Assert.IsTrue(sc.RemoveUserById(Id));
             int size1 = sc.Users.Count;
             Assert.AreEqual(size1, 0);
         }
@@ -635,18 +635,18 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
             string email1 = "orelie@post.bgu.ac.il";
             int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.AreEqual(sc.GetUserWithId(id).IsActive, false);
-            Assert.IsTrue(sc.EditActiveGame(id, true));
-            Assert.AreEqual(sc.GetUserWithId(id).IsActive, true);
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.AreEqual(sc.GetUserWithId(Id).IsActive, false);
+            Assert.IsTrue(sc.EditActiveGame(Id, true));
+            Assert.AreEqual(sc.GetUserWithId(Id).IsActive, true);
+            Assert.IsTrue(sc.RemoveUserById(Id));
             int size1 = sc.Users.Count;
             Assert.AreEqual(size1, 0);
         }
@@ -657,7 +657,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size1 = sc.Users.Count;
             Assert.AreEqual(size1, 0);
-            int id = 305077901;
+            int Id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
             string password = "123456789";
@@ -671,18 +671,18 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             int money2 = 5000;
             int newId1 = 11111;
             int newId2 = 2222;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
+            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
+            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
+            Assert.IsFalse(sc.IsIdFree(Id));
             Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
             Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            User orelie = sc.GetUserWithId(id);
+            User orelie = sc.GetUserWithId(Id);
             User michele = sc.GetUserWithId(id2);
             List<User> all = sc.GetAllUser();
             int size = all.Count;
             Assert.IsTrue(size > 1);
             User higher = GameCenter.Instance.HigherRank;
-            Assert.IsTrue(sc.EditUserPoints(id, 100));
+            Assert.IsTrue(sc.EditUserPoints(Id, 100));
             Assert.AreEqual(orelie.Points, 100);
             Assert.AreEqual(orelie.IsHigherRank, true);
             Assert.AreEqual(michele.IsHigherRank, false);
@@ -697,8 +697,8 @@ namespace TexasHoldem.Logic.Game_Control.Tests
 
 
             Assert.IsTrue(sc.IsHigestRankUser(id2));
-            Assert.IsFalse(sc.IsHigestRankUser(id));
-            Assert.IsTrue(sc.RemoveUserById(id));
+            Assert.IsFalse(sc.IsHigestRankUser(Id));
+            Assert.IsTrue(sc.RemoveUserById(Id));
             Assert.IsTrue(sc.RemoveUserById(id2));
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
@@ -799,7 +799,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(michele.EditUserPoints( 150));
             Assert.AreEqual(michele.Points(), 150);
         //    Assert.IsTrue(sc.IsHigestRankUser(id2));
-          //  Assert.IsFalse(sc.IsHigestRankUser(id));
+          //  Assert.IsFalse(sc.IsHigestRankUser(Id));
             Assert.AreEqual(sc.GetUserRank(id), 2);
             Assert.AreEqual(sc.GetUserRank(id2), 1);
 

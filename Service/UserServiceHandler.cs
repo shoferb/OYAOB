@@ -16,14 +16,14 @@ namespace TexasHoldem.Service
 
 
 /*
-        //return user with id, if doesn't exist return null
+        //return user with Id, if doesn't exist return null
         public User GetUserFromId(int userId)
         {
             User toReturn = null;
             bool isThereUser = sc.IsUserExist(userId);
             if (!isThereUser)
             {
-                Console.WriteLine("There is no user with id: " + userId);
+                Console.WriteLine("There is no user with Id: " + userId);
             }
             else
             {
@@ -108,11 +108,11 @@ namespace TexasHoldem.Service
         }
 
         
-        public bool CanCreateNewUser(int id , string memberName,
+        public bool CanCreateNewUser(int Id , string memberName,
             string password, string email)
         {
 
-            bool toReturn = sc.CanCreateNewUser(id, memberName, password, email);
+            bool toReturn = sc.CanCreateNewUser(Id, memberName, password, email);
             return toReturn;
         }*/
 
@@ -137,7 +137,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        //by id 
+        //by Id 
         public bool DeleteUserById(int id)
         {
             

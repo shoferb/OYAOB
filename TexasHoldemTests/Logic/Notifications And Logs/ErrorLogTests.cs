@@ -33,8 +33,8 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         {
             ErrorLog errorLog = new ErrorLog("error log test");
             ErrorLog errorLog2 = new ErrorLog("error log test2");
-            string toCheck1 = "Log id is: " + errorLog.LogId + " msg is: " + errorLog.Msg;
-            string toCheck2 = "Log id is: " + errorLog2.LogId + " msg is: " + errorLog2.Msg;
+            string toCheck1 = "Log Id is: " + errorLog.LogId + " msg is: " + errorLog.Msg;
+            string toCheck2 = "Log Id is: " + errorLog2.LogId + " msg is: " + errorLog2.Msg;
             Assert.AreEqual(errorLog.ToString(),toCheck1);
             Assert.AreEqual(errorLog2.ToString(), toCheck2);
         }

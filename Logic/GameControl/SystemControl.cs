@@ -77,13 +77,13 @@ namespace TexasHoldem.Logic.Game_Control
         }*/
 
         //return null if one of the field is not valid
-     /*   public IUser CreateNewUser(int id, string name, string memberName,
+     /*   public IUser CreateNewUser(int Id, string name, string memberName,
             string password, string email,int money)
         {
             IUser toReturn = null;
-            if (CanCreateNewUser(id, memberName, password, email) && IsValidInputNotSmallerZero(money))
+            if (CanCreateNewUser(Id, memberName, password, email) && IsValidInputNotSmallerZero(money))
             {
-                toReturn = new User(id, name, memberName, password, 0, money, email);
+                toReturn = new User(Id, name, memberName, password, 0, money, email);
             }
 
             
@@ -273,7 +273,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                foreach (Player player in room._players)
+                foreach (Player player in room.players)
                 {
                     if (player.Id == userId)
                     {
@@ -358,7 +358,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        //return true if user with id exist 
+        //return true if user with Id exist 
         //syncronized - due to foreatch
         public bool IsUserExist(int id)
         {
@@ -379,7 +379,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        //get user by id - null if not exist / invalid id
+        //get user by Id - null if not exist / invalid Id
         //syncronized - due to for
         public IUser GetUserWithId(int id)
         {

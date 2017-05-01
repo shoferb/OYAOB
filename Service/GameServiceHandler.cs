@@ -26,12 +26,12 @@ namespace TexasHoldem.Service
             {
                 return _roomToManagerDictionary[room];
             }
-            GameManager manager = ((ConcreteGameRoom) room)._gm;
+            GameManager manager = ((GameRoom) room)._gm;
             _roomToManagerDictionary.Add(room, manager);
             return manager;
         }
 
-        // public ConcreteGameRoom GetGameFromId(int gameId)
+        // public GameRoom GetGameFromId(int gameId)
         public GameRoom GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
@@ -59,7 +59,7 @@ namespace TexasHoldem.Service
         }
 
 
-        //public ConcreteGameRoom GetGameById(int id)
+        //public GameRoom GetGameById(int Id)
         public GameRoom GetGameById(int id)
         {
             return _gameCenter.GetRoomById(id);
@@ -80,11 +80,11 @@ namespace TexasHoldem.Service
             GameRoom room = _gameCenter.GetRoomById(roomId);
             if (room != null)
 	        {
-		        if (room._players.Exists(p => p.user.Id() == userId))
+		        if (room.Players.Exists(p => p.user.Id() == userId))
                 {
                     return _gameCenter.RemovePlayerFromRoom(roomId, userId);
                 }
-	            if (room._spectatores.Exists(s => s.user.Id() == userId))
+	            if (room.Spectatores.Exists(s => s.user.Id() == userId))
 	            {
 	                return _gameCenter.RemoveSpectetorFromRoom(roomId, userId);
 	            }
@@ -96,13 +96,13 @@ namespace TexasHoldem.Service
         {
             var allGames = _gameCenter.Games;
             return allGames.FindAll(game => 
-                game._minRank <= userPoints && game._maxRank >= userPoints);
+                game.MinRank <= userPoints && game.MaxRank >= userPoints);
         }
 
         public bool MakeRoomActive(GameRoom room)
         {
             GameManager manager = GetManagerForGame(room);
-            if (room._minPlayersInRoom <= room._players.Count && !room._isActiveGame)
+            if (room.MinPlayersInRoom <= room.Players.Count && !room.IsActiveGame)
             {
                 manager.Start();
                 return true;
@@ -166,8 +166,8 @@ namespace TexasHoldem.Service
         //    var manager = GetManagerForGame(room);
         //    if (room != null && manager != null && manager._gameOver)
         //    {
-        //        List<Player> activePlayers = room._players.FindAll(p => p.isPlayerActive);
-        //        var winners = manager.FindWinner(room._publicCards, activePlayers);
+        //        List<Player> activePlayers = room.players.FindAll(p => p.isPlayerActive);
+        //        var winners = manager.FindWinner(room.PublicCards, activePlayers);
         //        winners.ForEach(handEval =>
         //        {
         //            winningPlayers.Add(handEval._player);
@@ -176,7 +176,7 @@ namespace TexasHoldem.Service
         //    return winningPlayers;
         //}
 
-        //public List<ConcreteGameRoom> GetAllActiveGames()
+        //public List<GameRoom> GetAllActiveGames()
         public List<GameRoom> GetAllActiveGames()
         {
             List<GameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
@@ -189,21 +189,21 @@ namespace TexasHoldem.Service
             return _gameCenter.GetAllActiveGamesAUserCanJoin(userId);
         }
 
-        //public List<ConcreteGameRoom> GetAllGames()
+        //public List<GameRoom> GetAllGames()
         public List<GameRoom> GetAllGames()
         {
             List<GameRoom> toReturn = GameCenter.Instance.GetAllGames();
             return toReturn;
         }
 
-        //public  List<ConcreteGameRoom> GetSpectateableGames()
+        //public  List<GameRoom> GetSpectateableGames()
         public List<GameRoom> GetSpectateableGames()
         {
             List<GameRoom>  toReturn = GameCenter.Instance.GetAllSpectetorGame();
             return toReturn;
         }
 
-        //public List<ConcreteGameRoom> GetGamesByPotSize(int potSize)
+        //public List<GameRoom> GetGamesByPotSize(int potSize)
         public List<GameRoom> GetGamesByPotSize(int potSize)
         {
             List<GameRoom> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);

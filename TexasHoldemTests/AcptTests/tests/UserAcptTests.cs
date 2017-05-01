@@ -437,7 +437,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
             RegisterUser1();
 
-            //negtive user id
+            //negtive user Id
             Assert.False(UserBridge.AddUserToGameRoomAsPlayer(-1, RoomId, 0));
             Assert.False(GameBridge.IsUserInRoom(UserId, RoomId));
             Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));

@@ -68,7 +68,7 @@ namespace TexasHoldemTests.AcptTests.tests
         //subclass' setup method
         protected abstract void SubClassDispose();
 
-        //create a new user, add to Users list and return the user's id
+        //create a new user, add to Users list and return the user's Id
         protected int GetNextUser()
         {
             int randInt = new Random().Next();
@@ -180,7 +180,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
         }
 
-        //create a new game with user2 as only player, return user2's id
+        //create a new game with user2 as only player, return user2's Id
         protected int CreateGameWithUser()
         {
             //delete room1 if exists

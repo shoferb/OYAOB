@@ -65,8 +65,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                var roomPlayers = game._players;
-                var roomSpect = game._spectatores;
+                var roomPlayers = game.Players;
+                var roomSpect = game.Spectatores;
                 return roomPlayers.Exists(p => p.Id == userId) ||
                        roomSpect.Exists(s => s.Id == userId); 
             }
@@ -76,7 +76,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool IsRoomActive(int roomId)
         {
             var room = _gameService.GetGameById(roomId);
-            return room != null && room._isActiveGame;
+            return room != null && room.IsActiveGame;
         }
 
         public bool StartGame(int roomId)
@@ -94,7 +94,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                List<int> toReturn = game._players.ConvertAll(p => p.Id);
+                List<int> toReturn = game.Players.ConvertAll(p => p.Id);
                 return toReturn; 
             }
             return new List<int>();
@@ -104,7 +104,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             if (games != null)
             {
-                List<int> toReturn = games.ConvertAll(g => g._id);
+                List<int> toReturn = games.ConvertAll(g => g.Id);
                 return toReturn; 
             }
             return null;
@@ -133,7 +133,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                return game._players[game._dealerPos].Id; 
+                return game.Players[game.DealerPos].Id; 
             }
             return -1;
         }
@@ -143,8 +143,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                int bbPos = (game._dealerPos + 2) % game._players.Count;
-                return game._players[bbPos].Id;
+                int bbPos = (game.DealerPos + 2) % game.Players.Count;
+                return game.Players[bbPos].Id;
             }
             return -1;
         }
@@ -154,8 +154,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                int sbPos = (game._dealerPos + 1) % game._players.Count;
-                return game._players[sbPos].Id;
+                int sbPos = (game.DealerPos + 1) % game.Players.Count;
+                return game.Players[sbPos].Id;
             }
             return - 1;
         }
@@ -165,7 +165,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(gameId);
             if (game != null)
             {
-                return game._deck.NumOfCards;
+                return game.Deck.NumOfCards;
             }
             return -1;
         }
@@ -175,8 +175,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(gameId);
             if (game != null)
             {
-                int pos = (game._actionPos) % game._players.Count;
-                return game._players[pos].Id;
+                int pos = (game.ActionPos) % game.Players.Count;
+                return game.Players[pos].Id;
             }
             return -1;
         }
@@ -186,7 +186,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(gameId);
             if (game != null)
             {
-                return game._sb;
+                return game.Sb;
             }
             return -1;
         }
@@ -196,7 +196,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(gameId);
             if (game != null)
             {
-                return game._potCount;
+                return game.PotCount;
             }
             return -1;
         }
@@ -223,7 +223,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //    var game = _gameService.GetGameById(roomId);
         //    if (game != null)
         //    {
-        //        new GameManager((ConcreteGameRoom) game).Fold();
+        //        new GameManager((GameRoom) game).Fold();
         //        return true;
         //    }
         //    return false;
@@ -241,7 +241,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //    var game = _gameService.GetGameById(roomId);
         //    if (game != null)
         //    {
-        //        new GameManager((ConcreteGameRoom) game).Check();
+        //        new GameManager((GameRoom) game).Check();
         //        return true;
         //    }
         //    return false;
@@ -259,7 +259,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //    var game = _gameService.GetGameById(roomId);
         //    if (game != null)
         //    {
-        //        new GameManager((ConcreteGameRoom) game).Call(amount);
+        //        new GameManager((GameRoom) game).Call(amount);
         //        return true;
         //    }
         //    return false;
@@ -278,7 +278,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //    var game = _gameService.GetGameById(roomId);
         //    if (game != null)
         //    {
-        //        new GameManager((ConcreteGameRoom) game).Raise(amount);
+        //        new GameManager((GameRoom) game).Raise(amount);
         //        return true;
         //    }
         //    return false;

@@ -6,7 +6,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
     {
 
         bool CreateGameRoom(int userId, int roomId);
-        int CreateGameRoom(int userId); //create game room and return it's id 
+        int CreateGameRoom(int userId); //create game room and return it's Id 
         bool RemoveGameRoom(int id);
         int GetNextFreeRoomId();
         bool DoesRoomExist(int id);
@@ -18,7 +18,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<int> ListSpectateableRooms();
         List<int> GetAllGames();
 
-        //(if only 1 player in room, return he's id)
+        //(if only 1 player in room, return he's Id)
         int GetDealerId(int roomId);
         int GetBbId(int roomId);
         int GetSbId(int roomId);

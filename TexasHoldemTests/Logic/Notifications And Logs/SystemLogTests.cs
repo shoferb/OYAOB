@@ -39,8 +39,8 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         {
             SystemLog sysLog = new SystemLog(1, "system log to test");
             SystemLog sysLog2 = new SystemLog(1, "system log to test2");
-            string toCheck1 = "Log id is: " + sysLog.LogId + " msg is: " + sysLog.Msg +"to room Id: "+sysLog.RoomId;
-            string toCheck2 = "Log id is: " + sysLog2.LogId + " msg is: " + sysLog2.Msg  +"to room Id: " + sysLog.RoomId;
+            string toCheck1 = "Log Id is: " + sysLog.LogId + " msg is: " + sysLog.Msg +"to room Id: "+sysLog.RoomId;
+            string toCheck2 = "Log Id is: " + sysLog2.LogId + " msg is: " + sysLog2.Msg  +"to room Id: " + sysLog.RoomId;
             Assert.AreEqual(sysLog.ToString(), toCheck1);
             Assert.AreEqual(sysLog2.ToString(), toCheck2);
             
