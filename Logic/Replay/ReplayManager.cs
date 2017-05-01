@@ -73,15 +73,18 @@ namespace TexasHoldem.Logic.Replay
             {
                 return null;
             }
-            foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
+            lock (padlock)
             {
-                if (entry.Key.RightGame(gameRoomID, gameNumber))
+                foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
                 {
-                    if (entry.Value.Contains(userID))
+                    if (entry.Key.RightGame(gameRoomID, gameNumber))
                     {
-                        return entry.Key;
+                        if (entry.Value.Contains(userID))
+                        {
+                            return entry.Key;
+                        }
+                        break;
                     }
-                    break;
                 }
             }
             return null;
