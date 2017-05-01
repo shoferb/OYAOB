@@ -9,7 +9,6 @@ using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
-using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using Action = TexasHoldem.Logic.Game.Action;
@@ -26,7 +25,6 @@ namespace TexasHoldem.Logic.Game_Control
         
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
-        private ReplayManager _replayManager;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
 
         private static GameCenter instance;
@@ -40,9 +38,7 @@ namespace TexasHoldem.Logic.Game_Control
             CreateFirstLeague(100);
             this.higherRank = null;
             this.logs = new List<Log>();
-            this.games = new List<GameRoom>();
-            _replayManager = ReplayManager.ReplayManagerInstance;
-            
+            this.games = new List<GameRoom>();            
         }
 
         public static GameCenter Instance
@@ -85,7 +81,6 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
        
-
         //return thr next room Id
         public int GetNextIdRoom()
         {
