@@ -12,7 +12,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-    public class GameRoom
+    public class GameRoom : IGame
     {
         public List<Player> Players { get; set; }
         public enum HandStep { PreFlop, Flop, Turn, River }
@@ -26,6 +26,7 @@ namespace TexasHoldem.Logic.Game
         public int Sb { get; set; }
         public Deck Deck { get; set; }
         public GameRoom.HandStep Hand_Step { get; set; }
+        public List<Card> Cards { get; set; }
         public List<Card> PublicCards { get; set; }
         public bool IsActiveGame { get; set; }
         public List<Tuple<int, List<Player>>> SidePots { get; set; }
@@ -359,8 +360,7 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-
-        public void CheckIfPlayerWantToLeave()
+        private void CheckIfPlayerWantToLeave()
         {
             List<Player> players = new List<Player>();
             foreach (Player p in this.Players)
@@ -410,7 +410,7 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        private int PlayerPlay()
+        public int PlayerPlay()
         {
             int toReturn = -3;
             if (!IsTestMode)
