@@ -52,6 +52,12 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="communication\Impl\ListenerSelector.cs" />
+    <Compile Include="communication\Impl\MessageEventHandler.cs" />
+    <Compile Include="communication\Impl\communicationHandler.cs" />
+    <Compile Include="communication\Interfaces\IEventHandler.cs" />
+    <Compile Include="communication\Interfaces\IListenerSelector.cs" />
+    <Compile Include="communication\Interfaces\ICommunicationHandler.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\DrawCard.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
