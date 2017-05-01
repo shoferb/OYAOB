@@ -44,7 +44,7 @@ namespace TexasHoldem.Logic.Game
         private int _buttonPos;
         private bool _backFromRaise;
         public bool IsTestMode { get; set; }
-        public List<Decorator> MyDecorators;
+        public Decorator MyDecorator;
         public int MaxRaiseInThisRound { get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
         public int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
         public int LastRaise { get; set; }  //change to maxCommit
@@ -56,7 +56,7 @@ namespace TexasHoldem.Logic.Game
         public int GameNumber=0;
         public int MinBetInRoom { get; set; }
 
-        public GameRoom(List<Player> players, int ID, int minBetInRoom, List<Decorator> decorators )
+        public GameRoom(List<Player> players, int ID, int minBetInRoom)
         {
             this.Id = ID;
             this.IsActiveGame = false;
@@ -66,11 +66,15 @@ namespace TexasHoldem.Logic.Game
             this.PublicCards = new List<Card>();
             this.Sb = (int) Bb / 2;
             this.Bb = minBetInRoom;
-            this.MyDecorators = decorators;
             this.SidePots = new List<Tuple<int, List<Player>>>();
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
             this.MinRank = tup.Item1;
             this.MaxRank = tup.Item2;
+        }
+
+        public void AddDecorator(Decorator d)
+        {
+            this.MyDecorator = d;
         }
 
         //set the room's thread
@@ -165,7 +169,7 @@ namespace TexasHoldem.Logic.Game
        public bool Play()
         {
 
-            if (this.Players.Count < this.MyDecorators[0].GetMinPlayersInRoom())
+            if (this.Players.Count < this.MyDecorator.GetMinPlayersInRoom())
             {
                 return false;
             }
@@ -386,17 +390,17 @@ namespace TexasHoldem.Logic.Game
         private void RaiseFieldAtEveryRound()
         {
 
-            if (this.MyDecorators[0].GetGameMode() == GameMode.Limit && (this.Hand_Step == GameRoom.HandStep.Flop ||
+            if (this.MyDecorator.GetGameMode() == GameMode.Limit && (this.Hand_Step == GameRoom.HandStep.Flop ||
                                                        this.Hand_Step == GameRoom.HandStep.PreFlop))
             {
                 MaxRaiseInThisRound = this.Bb;
             }
-            if (this.MyDecorators[0].GetGameMode() == GameMode.Limit && (this.Hand_Step == GameRoom.HandStep.River ||
+            if (this.MyDecorator.GetGameMode() == GameMode.Limit && (this.Hand_Step == GameRoom.HandStep.River ||
                                                        this.Hand_Step == GameRoom.HandStep.Turn))
             {
                 MaxRaiseInThisRound = this.Bb * 2;
             }
-            if (this.MyDecorators[0].GetGameMode() == GameMode.NoLimit)
+            if (this.MyDecorator.GetGameMode() == GameMode.NoLimit)
             {
                 MinRaiseInThisRound = this.MaxCommitted;
             }
@@ -420,7 +424,7 @@ namespace TexasHoldem.Logic.Game
             int maxRaise = MaxRaiseInThisRound;
             int minRaise = MinRaiseInThisRound;
             int fold = -1;
-            bool isLimit = (this.MyDecorators[0].GetGameMode() == GameMode.Limit);
+            bool isLimit = (this.MyDecorator.GetGameMode() == GameMode.Limit);
             GameMode gm;
 
 
@@ -450,7 +454,7 @@ namespace TexasHoldem.Logic.Game
                             toReturn = this.Bb;
                             return toReturn;
                         }
-                        if (this.MyDecorators[0].GetGameMode() == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
+                        if (this.MyDecorator.GetGameMode() == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
                         {
                             maxRaise = this.Bb;
                             if (this.CurrentPlayer == this.SbPlayer && this.CurrentPlayer._payInThisRound == this.Sb)
@@ -475,14 +479,14 @@ namespace TexasHoldem.Logic.Game
                             }
 
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
                             maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        else if (this.MyDecorator.GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
                             maxRaise = GetRaisePotLimit(this.CurrentPlayer);
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
@@ -498,7 +502,7 @@ namespace TexasHoldem.Logic.Game
 
                     case (GameRoom.HandStep.Flop):
 
-                        if (this.MyDecorators[0].GetGameMode() == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
+                        if (this.MyDecorator.GetGameMode() == GameMode.Limit)// raise/Be must be "small bet" - equal to big blind
                         {
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                             if (this.CurrentPlayer._payInThisRound != 0)
@@ -506,14 +510,14 @@ namespace TexasHoldem.Logic.Game
                                 maxRaise = maxRaise - this.CurrentPlayer._payInThisRound;
                             }
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
                             maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        else if (this.MyDecorator.GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
                             maxRaise = GetRaisePotLimit(this.CurrentPlayer);
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
@@ -536,7 +540,7 @@ namespace TexasHoldem.Logic.Game
 
 
                     case (GameRoom.HandStep.Turn):
-                        if (this.MyDecorators[0].GetGameMode() == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
+                        if (this.MyDecorator.GetGameMode() == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
                         {
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                             if (this.CurrentPlayer._payInThisRound != 0)
@@ -545,14 +549,14 @@ namespace TexasHoldem.Logic.Game
                             }
 
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
                             maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        else if (this.MyDecorator.GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
                             maxRaise = GetRaisePotLimit(this.CurrentPlayer);
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
@@ -574,7 +578,7 @@ namespace TexasHoldem.Logic.Game
 
                         break;
                     case (GameRoom.HandStep.River):
-                        if (this.MyDecorators[0].GetGameMode() == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
+                        if (this.MyDecorator.GetGameMode() == GameMode.Limit)// raise/Be must be "big bet" - equal to big blind times 2
                         {
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                             if (this.CurrentPlayer._payInThisRound != 0)
@@ -582,14 +586,14 @@ namespace TexasHoldem.Logic.Game
                                 maxRaise = maxRaise - this.CurrentPlayer._payInThisRound;
                             }
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
+                        else if (this.MyDecorator.GetGameMode() == GameMode.NoLimit) //can do all in, min raise / bet must be equal to priveus raise
                         {
                             //todo - yarden - max money all in equal to this?
                             maxRaise = this.CurrentPlayer._totalChip - this.CurrentPlayer._gameChip;
                             minRaise = LastRaise;
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
                         }
-                        else if (this.MyDecorators[0].GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
+                        else if (this.MyDecorator.GetGameMode() == GameMode.PotLimit)//Max raise is equal to the size of the pot include the sum need to call.
                         {
                             maxRaise = GetRaisePotLimit(this.CurrentPlayer);
                             callAmount = LastRaise - this.CurrentPlayer._payInThisRound;
