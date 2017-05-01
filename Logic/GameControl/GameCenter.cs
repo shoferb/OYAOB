@@ -9,7 +9,6 @@ using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
-using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using Action = TexasHoldem.Logic.Game.Action;
@@ -26,7 +25,6 @@ namespace TexasHoldem.Logic.Game_Control
         
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
-        private ReplayManager _replayManager;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
 
         private static GameCenter instance;
@@ -40,9 +38,7 @@ namespace TexasHoldem.Logic.Game_Control
             CreateFirstLeague(100);
             this.higherRank = null;
             this.logs = new List<Log>();
-            this.games = new List<GameRoom>();
-            _replayManager = new ReplayManager();
-            
+            this.games = new List<GameRoom>();            
         }
 
         public static GameCenter Instance
@@ -58,12 +54,6 @@ namespace TexasHoldem.Logic.Game_Control
                     return instance;
                 }
             }
-        }
-
-
-        public ReplayManager GetReplayManager()
-        {
-            return _replayManager;
         }
 
         //edit the gap field - syncronized 
@@ -91,48 +81,6 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
        
-        public GameReplay GetGameReplay(int roomID, int gameID, int userID)
-        {
-            Tuple<int, int> tuple = new Tuple<int, int>(roomID, gameID);
-            List<Tuple<int, int>> userGames = GetGamesAvailableForReplayByUser(userID);
-            if (!userGames.Contains(tuple))
-            {
-                return null;
-            }
-            return _replayManager.GetGameReplay(roomID, gameID);
-        }
-
-
-        public string ShowGameReplay(int roomID, int gameID, int userID)
-        {
-            GameReplay gr = GetGameReplay(roomID, gameID, userID);
-            if (gr == null)
-            {
-                return null;
-            }
-            return gr.ToString();
-        }
-
-        public bool saveActionFromGameReplay(int roomID, int gameID, int userID, int actionNum)
-        {
-            GameReplay gr = GetGameReplay(roomID, gameID, userID);
-            if (gr == null)
-            {
-                return false;
-            }
-            TexasHoldem.Logic.Actions.Action action = gr.GetActionAt(actionNum);
-            if (action == null)
-            {
-                return false;
-            }
-            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userID);
-            if (user == null)
-            {
-                return false;
-            }
-            return user.AddActionToFavorite(action);
-        }
-
         //return thr next room Id
         public int GetNextIdRoom()
         {
@@ -257,23 +205,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
 
         }
-
-
-        public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
-        {
-            lock (padlock)
-            {
-                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userID);
-
-                if (user != null)
-                {
-
-                    return user.GamesAvailableToReplay();
-                }
-                return null;
-            }
-        }
-
 
         //return room by room if - suncronized due to for
         //return null if room id smaller than 0 or not found

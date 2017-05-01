@@ -33,10 +33,7 @@ namespace TexasHoldem.Logic.Users
 
         List<IGame> ActiveGameList();
 
-
         List<IGame> SpectateGameList();
-
-        List<Actions.Action> FavActions();
 
         int WinNum();
 
@@ -88,8 +85,6 @@ namespace TexasHoldem.Logic.Users
 
 
         bool AddGameAvailableToReplay(int roomID, int gameID);
-
-        bool AddActionToFavorite(Actions.Action action);
 
     }
 }

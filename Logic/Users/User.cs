@@ -26,7 +26,6 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<IGame> activeGameList;
         private List<IGame> spectateGameList;
-        private List<Actions.Action> _favActions { get; set; }
         public bool IsHigherRank { get; set; }
         public int rank { get; set; }
 
@@ -51,9 +50,8 @@ namespace TexasHoldem.Logic.Users
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
-            _favActions = new List<Actions.Action>();
             this.winNum = 0;
-            
+          
         }
 
        
@@ -89,12 +87,6 @@ namespace TexasHoldem.Logic.Users
                 return false;
             }
             _gamesAvailableToReplay.Add(tup);
-            return true;
-        }
-
-        public bool AddActionToFavorite(Actions.Action action)
-        {
-            _favActions.Add(action);
             return true;
         }
 
@@ -265,11 +257,6 @@ namespace TexasHoldem.Logic.Users
         public List<IGame> SpectateGameList()
         {
             return spectateGameList;
-        }
-
-        public List<Action> FavActions()
-        {
-            return _favActions;
         }
 
         public int WinNum()

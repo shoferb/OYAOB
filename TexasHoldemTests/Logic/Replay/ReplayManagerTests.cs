@@ -21,12 +21,14 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            _testRM = new ReplayManager();
+            List<int> ids = new List<int>();
+            ids.Add(1);
+            _testRM = ReplayManager.ReplayManagerInstance;
             _testGR = new GameReplay(1, 1);
             _testAction = new CallAction(new Player(1000, 500, 1, "test1", "mem", "123", 10, 100, "email@gmail.com", 1),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
             _testGR.AddAction(_testAction);
-            _testRM.AddGameReplay(_testGR);
+            _testRM.AddGameReplay(_testGR, ids);
         }
 
         [TestMethod()]
@@ -55,10 +57,10 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestMethod()]
         public void ReplayGameTest()
         {
-            Assert.IsNotNull(_testRM.GetGameReplay(1, 1));
-            Assert.IsNull(_testRM.GetGameReplay(3, 3));
-            Assert.IsNull(_testRM.GetGameReplay(1, 3));
-            Assert.IsNull(_testRM.GetGameReplay(3, 1));
+            Assert.IsNotNull(_testRM.GetGameReplayForUser(1, 1));
+            Assert.IsNull(_testRM.GetGameReplayForUser(3, 3));
+            Assert.IsNull(_testRM.GetGameReplayForUser(1, 3));
+            Assert.IsNull(_testRM.GetGameReplayForUser(3, 1));
         }
     }
 }
