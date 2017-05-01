@@ -18,7 +18,8 @@ namespace TexasHoldem.Logic.Replay
 
         public bool AddGameReplay(GameReplay gr, List<int> ids)
         {
-            if (gr._gameNumber < 0 || gr._gameRoomID < 0 || IsExist(gr))
+            if (gr == null || gr._gameNumber < 0 || gr._gameRoomID < 0 ||
+                IsExist(gr._gameRoomID, gr._gameNumber))
             {
                 return false;
             }
@@ -30,11 +31,11 @@ namespace TexasHoldem.Logic.Replay
             return true;
         }
 
-        public bool IsExist(GameReplay gr)
+        public bool IsExist(int gameRoomID, int gameNumber)
         {
             foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
             {
-                if (entry.Key.RightGame(gr._gameRoomID, gr._gameNumber))
+                if (entry.Key.RightGame(gameRoomID, gameNumber))
                 {
                     return true;
                 }
@@ -42,9 +43,9 @@ namespace TexasHoldem.Logic.Replay
             return false;
         }
 
-        public GameReplay GetGameReplay(int gameRoomID, int gameNumber) {
+        public GameReplay GetGameReplayForUser(int gameRoomID, int gameNumber, int userID) {
 
-            foreach (GameReplay gr in _gamesActions)
+            foreach (KeyValuePair<GameReplay, List<int>> entry in _gamesActions)
             {
                 if (gr.RightGame(gameRoomID, gameNumber))
                 {
@@ -56,7 +57,7 @@ namespace TexasHoldem.Logic.Replay
 
         public Action GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
         {
-            GameReplay gr = GetGameReplay(gameRoomID, gameNumber);
+            GameReplay gr = GetGameReplayForUser(gameRoomID, gameNumber);
             if (gr == null)
             {
                 return null;

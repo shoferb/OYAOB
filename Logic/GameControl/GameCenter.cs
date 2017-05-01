@@ -99,7 +99,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return null;
             }
-            return _replayManager.GetGameReplay(roomID, gameID);
+            return _replayManager.GetGameReplayForUser(roomID, gameID);
         }
 
 
