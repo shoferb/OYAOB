@@ -182,9 +182,8 @@ namespace TexasHoldem.Logic.Game
                     HandCards();
                     this.IsActiveGame = true;
                 }
-                while (!this.AllDoneWithTurn()) //TODO switch last action to bool
+                while (!this.AllDoneWithTurn()) 
                 {
-                    RaiseFieldAtEveryRound();
                     this.CurrentPlayer = NextToPlay();
                     int move = PlayerPlay();
                     PlayerDesicion(move);
@@ -197,7 +196,9 @@ namespace TexasHoldem.Logic.Game
                     this.CheckIfPlayerWantToLeave();
                 }
                 InitializePlayerRound();
+                RaiseFieldAtEveryRound();
                 this.MoveChipsToPot();
+
                 if (this.PlayersInGame() > 2)
                 {
                     if (!ProgressHand(this.Hand_Step))
@@ -210,15 +211,7 @@ namespace TexasHoldem.Logic.Game
                         this.ActionPos = this._currLoaction + 1;
                         this.CurrentPlayer = this.NextToPlay();
                         //TODO ONLY After game
-                     /*   this.DealerPlayer =
-                            this.Players[
-                                (this.Players.IndexOf(this.DealerPlayer) + 1)%this.Players.Count];
-                        this.SbPlayer =
-                            this.Players[
-                                (this.Players.IndexOf(this.SbPlayer) + 1)%this.Players.Count];
-                        this.BbPlayer =
-                            this.Players[
-                                (this.Players.IndexOf(this.BbPlayer) + 1)%this.Players.Count];*/
+                  
                         return Play();
                     }
 
@@ -755,16 +748,16 @@ namespace TexasHoldem.Logic.Game
                     h._player.Win(amount);
                 }
             }
-            foreach (Player player in this.Players)
+            foreach (Player player in playersLeftInGame)
             {
                 player.ClearCards(); // gets rid of cards of players still alive
             }
+            this.IsActiveGame = false;
             if (this.Players.Count > 1)
             {
                 // sets next DealerPos - if we want to "run" for a new game immediantly
-
                 this.DealerPos++;
-                this.DealerPos = this.DealerPos % this.Players.Count;
+                // put new turns for the next round
                 this.ClearPublicCards();
                 this.GameReplay = new GameReplay(this.Id, this.GameNumber);
                 SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
@@ -773,7 +766,7 @@ namespace TexasHoldem.Logic.Game
             }
             else
             {
-                this.IsActiveGame = false;
+                
                 if (!this.CurrentPlayer.OutOfMoney())
                     this.Players[0].isPlayerActive = false;
             }
