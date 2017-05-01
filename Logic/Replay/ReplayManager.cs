@@ -9,12 +9,29 @@ namespace TexasHoldem.Logic.Replay
     public class ReplayManager
     {
         public SortedDictionary<GameReplay, List<int>> _gamesActions { set; get; }
+        private static ReplayManager replayInstance = null;
+        private static readonly object padlock = new object();
 
-        public ReplayManager()
+
+        public static ReplayManager ReplayManagerInstance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (replayInstance == null)
+                    {
+                        replayInstance = new ReplayManager();
+                    }
+                    return replayInstance;
+                }
+            }
+        }
+
+        private ReplayManager()
         {
             _gamesActions = new SortedDictionary<GameReplay, List<int>>();
         }
-
 
         public bool AddGameReplay(GameReplay gr, List<int> ids)
         {
