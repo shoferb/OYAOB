@@ -86,16 +86,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
        
 
-        public string ShowGameReplay(int roomID, int gameID, int userID)
-        {
-            GameReplay gr = GetGameReplay(roomID, gameID, userID);
-            if (gr == null)
-            {
-                return null;
-            }
-            return gr.ToString();
-        }
-
         //return thr next room Id
         public int GetNextIdRoom()
         {
