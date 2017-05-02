@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
@@ -16,6 +19,7 @@ namespace TexasHoldemTests.communication
     public class CommunicationHandlerTest
     {
         private const int Port = 2000;
+        private const int UserId = 1;
 
         private const string ShortMsg = "short";
 
@@ -138,6 +142,74 @@ namespace TexasHoldemTests.communication
             Assert.GreaterOrEqual(1, queue.Count);
             Assert.AreEqual(bytesCount, numOfMsgs * ShortMsg.Length);
             Assert.True(task.IsCompleted);
+        }
+
+        [TestCase]
+        public void SendingOneShortMsgTest()
+        {
+            var task = Task.Factory.StartNew(() => _commHandler.Start());
+            _client = ConnectSocketLoopback();
+
+            TcpClient socketAtServer; 
+            _commHandler.SocketsQueue.TryPeek(out socketAtServer);
+
+            Assert.IsNotNull(socketAtServer);
+            _commHandler.SetUserIdToSocket(UserId, socketAtServer);
+
+            bool sent = _commHandler.AddMsgToSend(ShortMsg, UserId);
+            Assert.True(sent);
+
+            var msgQueue = _commHandler.UserIdToMsgQueue[UserId];
+            Assert.IsNotNull(msgQueue);
+
+            //wait for server to take the msg from the queue:
+            while (!msgQueue.IsEmpty)
+            {
+                Thread.Sleep(200);
+            }
+
+            string msg = ClientRead(2000);
+
+            Assert.AreEqual(ShortMsg, msg);
+
+            CloseHandlerAndClient();
+
+            task.Wait();
+            Assert.True(task.IsCompleted);
+        }
+
+        private string ClientRead(int timeOutMili)
+        {
+            _client.ReceiveTimeout = timeOutMili;
+            byte[] buffer = new byte[1];
+            IList<byte> data = new List<byte>();
+            NetworkStream stream = _client.GetStream();
+
+            try
+            {
+                var dataReceived = 0;
+                do
+                {
+                    dataReceived = stream.Read(buffer, 0, 1);
+                    if (dataReceived > 0)
+                    {
+                        data.Add(buffer[0]);
+                    }
+
+                } while (dataReceived > 0);
+            }
+            catch (IOException e)
+            {
+                
+                //_client timeout was reached
+            }
+
+            if (data.Count > 0)
+            {
+                return Encoding.UTF8.GetString(data.ToArray());
+            }
+
+            throw new Exception("no data was read by _client");
         }
     }
 }

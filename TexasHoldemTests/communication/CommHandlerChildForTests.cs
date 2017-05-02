@@ -51,5 +51,10 @@ namespace TexasHoldemTests.communication
         {
             return ShouldClose && WasShutDown;
         }
+
+        public void SetUserIdToSocket(int userId, TcpClient client)
+        {
+            _socketToUserId.Add(client, userId);
+        }
     }
 }
