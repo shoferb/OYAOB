@@ -167,7 +167,24 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-       public bool Play()
+        public bool WorkingPlay()
+        {
+            if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
+            {
+                return false;
+            }
+            this.Hand_Step = HandStep.PreFlop;
+            this.GameReplay = new GameReplay(this.Id, this.GameNumber);
+            SystemLog log = new SystemLog(this.Id, "Game Started");
+            _logControl.AddSystemLog(log);
+            SetRoles();
+            HandCards();
+            this.IsActiveGame = true;
+            this._roundCounter = 1;
+
+        }
+
+        public bool Play()
         {
             //we arrive here only at the very begging so we need to check min players 
             if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
@@ -360,8 +377,8 @@ namespace TexasHoldem.Logic.Game
         private void MoveBbnSBtoPot(Player bbPlayer, Player sbPlayer)
         {
             PotCount = Bb + Sb;
-            bbPlayer.RoundChipBet = bbPlayer.RoundChipBet - Bb;
-            sbPlayer.RoundChipBet = sbPlayer.RoundChipBet - Sb;
+            bbPlayer.RoundChipBet = bbPlayer.RoundChipBet + Bb;
+            sbPlayer.RoundChipBet = sbPlayer.RoundChipBet + Sb;
         }
 
         private void RaiseFieldAtEveryRound()
@@ -394,10 +411,6 @@ namespace TexasHoldem.Logic.Game
         public int PlayerPlay()
         {
             int toReturn = -3;
-            if (!IsTestMode)
-            {
-
-            }
             int maxRaise = MaxRaiseInThisRound;
             int minRaise = MinRaiseInThisRound;
             int fold = -1;
