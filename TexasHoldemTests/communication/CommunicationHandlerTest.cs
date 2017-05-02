@@ -150,8 +150,13 @@ namespace TexasHoldemTests.communication
             var task = Task.Factory.StartNew(() => _commHandler.Start());
             _client = ConnectSocketLoopback();
 
-            TcpClient socketAtServer; 
-            _commHandler.SocketsQueue.TryPeek(out socketAtServer);
+            TcpClient socketAtServer = null;
+
+            //wait for server to connet to client
+            while (socketAtServer == null)
+            {
+                _commHandler.SocketsQueue.TryPeek(out socketAtServer); 
+            }
 
             Assert.IsNotNull(socketAtServer);
             _commHandler.SetUserIdToSocket(UserId, socketAtServer);
@@ -171,6 +176,59 @@ namespace TexasHoldemTests.communication
             string msg = ClientRead(2000);
 
             Assert.AreEqual(ShortMsg, msg);
+
+            CloseHandlerAndClient();
+
+            task.Wait();
+            Assert.True(task.IsCompleted);
+        }
+        
+        [TestCase]
+        public void SendingManyShortMsgTest()
+        {
+            const int numOfMsgs = 5;
+
+            var task = Task.Factory.StartNew(() => _commHandler.Start());
+            _client = ConnectSocketLoopback();
+
+            TcpClient socketAtServer; 
+            _commHandler.SocketsQueue.TryPeek(out socketAtServer);
+
+            Assert.IsNotNull(socketAtServer);
+            _commHandler.SetUserIdToSocket(UserId, socketAtServer);
+
+            for (int i = 0; i < numOfMsgs; i++)
+            {
+                bool sent = _commHandler.AddMsgToSend(ShortMsg, UserId);
+                Assert.True(sent); 
+            }
+
+            var msgQueue = _commHandler.UserIdToMsgQueue[UserId];
+            Assert.IsNotNull(msgQueue);
+
+
+            //wait for server to take the msg from the queue:
+            while (!msgQueue.IsEmpty)
+            {
+                Thread.Sleep(200);
+            }
+
+            int bytesRead = 0;
+            bool stillGotMsgs = true;
+            while (stillGotMsgs)
+            {
+                try
+                {
+                    string msg = ClientRead(2000);
+                    bytesRead += msg.Length;
+                }
+                catch (Exception)
+                {
+                    stillGotMsgs = false;
+                }
+            }
+
+            Assert.AreEqual(bytesRead, numOfMsgs * ShortMsg.Length);
 
             CloseHandlerAndClient();
 
