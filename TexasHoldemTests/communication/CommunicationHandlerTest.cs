@@ -18,40 +18,35 @@ namespace TexasHoldemTests.communication
 
         private const string ShortMsg = "short";
 
-        private readonly CommHandlerChildForTests _commHandler;
+        private CommHandlerChildForTests _commHandler;
         private TcpClient _client;
         private Thread _serverThread;
-
-        public CommunicationHandlerTest()
-        {
-            _commHandler = new CommHandlerChildForTests(new ListenerSelector(), Port);
-        }
 
         [SetUp]
         public void SetUp()
         {
-            //int worker;
-            //int io;
-            //ThreadPool.GetMaxThreads(out worker, out io);
-            //int activeWorker;
-            //int activeIo;
-            //ThreadPool.GetAvailableThreads(out activeWorker, out activeIo);
-            //Console.WriteLine(worker - activeWorker);
-
-            //_serverThread = new Thread(_commHandler.Start);
-            //_serverThread.Start();
-
-            //Thread.Sleep(2000);
-            //_client = ConnectSocketLoopback();
-
+            _commHandler = new CommHandlerChildForTests(new ListenerSelector(), Port);
         }
 
         [TearDown]
         public void TearDown()
         {
-            _client.Close();
-            _commHandler.Close();
-            //_serverThread.Join();
+            if (_commHandler != null && _commHandler.GetWasShutdown())
+            {
+                _commHandler.Close();
+            }
+            _commHandler = null;
+
+            if (_client != null )
+            {
+                if (_client.Client != null && _client.Connected)
+                {
+                    _client.Close(); 
+                }
+                _client = null;
+            }
+
+                
         }
 
         private TcpClient ConnectSocketLoopback()
@@ -64,13 +59,14 @@ namespace TexasHoldemTests.communication
         public void AcceptClientsTest()
         {
             var task = Task.Factory.StartNew(() => _commHandler.Start());
-            //task.Start();
-
             _client = ConnectSocketLoopback();
-
-            //Thread.Sleep(1000);
-
             Assert.True(_client.Connected);
+
+            _commHandler.Close();
+            _client.Close();
+
+            task.Wait();
+            Assert.True(task.IsCompleted);
         }
         
         [TestCase]
@@ -87,10 +83,12 @@ namespace TexasHoldemTests.communication
             stream.Write(bytes, 0, bytes.Length);
 
             _commHandler.Close();
-            //Thread.Sleep(10000);
+            _client.Close();
+
             task.Wait();
-            //Assert.True(await task.Result);
+
             Assert.AreEqual(1, _commHandler.ReceivedMsgQueue.Count);
+            Assert.True(task.IsCompleted);
         }
     }
 }

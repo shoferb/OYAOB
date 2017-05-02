@@ -47,25 +47,9 @@ namespace TexasHoldemTests.communication
             get { return _connectionCleanerMre; }
         }
 
-        public IList<ManualResetEvent> ShutdownMreList
+        public bool GetWasShutdown()
         {
-            get { return _shutdownMreList; }
+            return ShouldClose && WasShutDown;
         }
-
-        //public Task<bool> Alldone()
-        //{
-        //    int maxWorkers = -1;
-        //    int maxIo = -1;
-        //    int avWorkers = 0;
-        //    int avIo = 0;
-
-        //    while (maxWorkers - avWorkers != 1)
-        //    {
-        //        ThreadPool.GetMaxThreads(out maxWorkers, out maxIo);
-        //        ThreadPool.GetMaxThreads(out avWorkers, out avIo);
-        //    }
-
-        //    return new Task<bool>(null);
-        //}
     }
 }
