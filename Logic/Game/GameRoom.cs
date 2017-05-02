@@ -811,6 +811,10 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in this.Players)
             {
                 player.ClearCards(); // gets rid of cards of all players
+                if (player.OutOfMoney())
+                {
+                    //@TODO Yarden - kick players with 0 totalChip from the room
+                }
             }
             this.IsActiveGame = false;
             if (this.Players.Count > 1)
@@ -821,7 +825,7 @@ namespace TexasHoldem.Logic.Game
                 this.ClearPublicCards();
                 this.GameReplay = new GameReplay(this.Id, this.GameNumber);
                 SetRoles();
-            }
+            }            
         }
 
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
