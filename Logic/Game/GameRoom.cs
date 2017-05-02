@@ -162,7 +162,7 @@ namespace TexasHoldem.Logic.Game
 
         }
 
-        public bool WorkingPlay()
+        public bool Play()
         {
             if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
             {
@@ -208,59 +208,6 @@ namespace TexasHoldem.Logic.Game
                 else
                 {
                     EndHand();
-                }
-
-            }
-            return true;
-
-        }
-
-
-        public bool Play()
-        {
-            //we arrive here only at the very begging so we need to check min players 
-            if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
-            {
-                return false;              
-            }
-            else
-            {
-                //need to do before we starting a new game
-                this.Hand_Step = HandStep.PreFlop;
-                this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-                SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
-                _logControl.AddSystemLog(log);
-                SetRoles();
-                HandCards();
-                this.IsActiveGame = true;
-                this._roundCounter = 1;
-                while (this._roundCounter<=4)
-                {
-                    DoRound();
-                    //Orellie functions
-                    InitializePlayerRound();
-                    RaiseFieldAtEveryRound();
-
-                    this.MoveChipsToPot();
-                    if (this.ActivePlayersInGame() >= 2)
-                    {
-                        if (!ProgressHand(this.Hand_Step))
-                        {
-                            EndHand();
-                            return true;
-                        }
-                        else
-                        {
-                            this.ActionPos = this._currLoaction;
-                            this.CurrentPlayer = this.NextToPlay();
-                         }
-
-                    }
-                    else
-                    {
-                        EndHand();
-                    }
-
                 }
 
             }
