@@ -182,10 +182,11 @@ namespace TexasHoldem.Logic.Game
             this._roundCounter = 1;
             while (this._roundCounter <= 4)
             {
-                DoRound();
                 //Orellie functions
                 InitializePlayerRound();
                 RaiseFieldAtEveryRound();
+
+                DoRound();
 
                 this.MoveChipsToPot();
                 if (this.PlayersInGame() >= 2)
@@ -378,8 +379,12 @@ namespace TexasHoldem.Logic.Game
         {
             bool allDone = true;
             foreach (Player player in Players)
-                if (player.isPlayerActive != false && (player.PlayedAnActionInTheRound) && player.RoundChipBet == MaxCommitted)
+            {
+                if (player.isPlayerActive && player.PlayedAnActionInTheRound)
+                {
                     allDone = false;
+                }
+            }
             return allDone;
         }
 
