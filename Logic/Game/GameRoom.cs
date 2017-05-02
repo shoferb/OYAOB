@@ -55,6 +55,7 @@ namespace TexasHoldem.Logic.Game
         public int GameNumber=0;
         public int MinBetInRoom { get; set; }
         private int _currLoaction { get; set; }
+        private int _roundCounter { get; set; }
         public GameRoom(List<Player> players, int ID, int minBetInRoom)
         {
             this.Id = ID;
@@ -104,7 +105,6 @@ namespace TexasHoldem.Logic.Game
 
         private void SetRoles()
         {
-            this.Hand_Step = HandStep.PreFlop;
             if (this.DealerPlayer == null)
             {
                 this.DealerPos = 0;
@@ -163,71 +163,71 @@ namespace TexasHoldem.Logic.Game
 
        public bool Play()
         {
+            //we arrive here only at the very begging so we need to check min players 
             if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
             {
-                if (!Hand_Step.Equals(Hand_Step == HandStep.PreFlop))
-                {
-                    EndHand();
-                }
-                else
-                {
-                    return false;
-                }
-
+                return false;              
             }
             else
             {
-                if (Hand_Step.Equals(Hand_Step == HandStep.PreFlop))
+                //need to do before we starting a new game
+                this.Hand_Step = HandStep.PreFlop;
+                this.GameReplay = new GameReplay(this.Id, this.GameNumber);
+                SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
+                _logControl.AddSystemLog(log);
+                SetRoles();
+                HandCards();
+                this.IsActiveGame = true;
+                this._roundCounter = 1;
+                while (this._roundCounter<=4)
                 {
-                    this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-                    SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
-                    _logControl.AddSystemLog(log);
-                    SetRoles();
-                    HandCards();
-                    this.IsActiveGame = true;
-                }
-                while (!this.AllDoneWithTurn()) 
-                {
-                    this.CurrentPlayer = NextToPlay();
-                    int move = PlayerPlay();
-                    PlayerDesicion(move);
-                    if (_backFromRaise)
-                    {
-                        _backFromRaise = false;
-                        break;
-                    }
-                    this.UpdateGameState();
-                    this.CheckIfPlayerWantToLeave();
-                }
-                InitializePlayerRound();
-                RaiseFieldAtEveryRound();
-                this.MoveChipsToPot();
+                    DoRound();
+                    //Orellie functions
+                    InitializePlayerRound();
+                    RaiseFieldAtEveryRound();
 
-                if (this.PlayersInGame() >= 2)
-                {
-                    if (!ProgressHand(this.Hand_Step))
+                    this.MoveChipsToPot();
+                    if (this.PlayersInGame() >= 2)
                     {
-                        EndHand();
-                        return true;
+                        if (!ProgressHand(this.Hand_Step))
+                        {
+                            EndHand();
+                            return true;
+                        }
+                        else
+                        {
+                            this.ActionPos = this._currLoaction;
+                            this.CurrentPlayer = this.NextToPlay();
+                         }
+
                     }
                     else
                     {
-                        this.ActionPos = this._currLoaction;
-                        this.CurrentPlayer = this.NextToPlay();
-                        //TODO ONLY After game
-                  
-                        return Play();
+                        EndHand();
                     }
 
-                }
-                else
-                {
-                    EndHand();
                 }
 
             }
             return true;
 
+        }
+
+        private void DoRound()
+        {
+            while (!this.AllDoneWithTurn())
+            {
+                this.CurrentPlayer = NextToPlay();
+                int move = PlayerPlay();
+                PlayerDesicion(move);
+                if (_backFromRaise)
+                {
+                    _backFromRaise = false;
+                    break;
+                }
+                this.UpdateGameState();
+                this.CheckIfPlayerWantToLeave();
+            }
         }
 
         private void HandCards()
@@ -683,28 +683,31 @@ namespace TexasHoldem.Logic.Game
             //this.this._gameCenter.AddSystemLog(log);
             _logControl.AddSystemLog(log);
         }
-        //TODO : add new step to the enum 
         private bool ProgressHand(GameRoom.HandStep previousStep)
         {
 
            switch (previousStep)
-            {
-                case GameRoom.HandStep.PreFlop:
-                   
+            {   //never spouse to be in the "pre flop" case
+                case HandStep.PreFlop:               
                     break;
-                case GameRoom.HandStep.Flop:
+                case HandStep.Flop:
                     for (int i = 0; i <= 2; i++)
+                    {
                         this.AddNewPublicCard();
+                    }
+                    this._roundCounter++;
                     break;
-                case GameRoom.HandStep.Turn:
+                case HandStep.Turn:
                     this.AddNewPublicCard();
+                    this._roundCounter++;
                     break;
-                case GameRoom.HandStep.River:
+                case HandStep.River:
                     this.AddNewPublicCard();
-
-                    return false;
-
+                    this._roundCounter++;
+                    break;
+                
                 default:
+                    return false;
                     break;
             }
 
