@@ -808,29 +808,20 @@ namespace TexasHoldem.Logic.Game
                     h._player.Win(amount);
                 }
             }
-            foreach (Player player in playersLeftInGame)
+            foreach (Player player in this.Players)
             {
-                player.ClearCards(); // gets rid of cards of players still alive
+                player.ClearCards(); // gets rid of cards of all players
             }
             this.IsActiveGame = false;
             if (this.Players.Count > 1)
             {
-                // sets next DealerPos - if we want to "run" for a new game immediantly
+                // sets next DealerPos - for the next run 
                 this.DealerPos = this.DealerPos+1 % this.Players.Count;
                 // put new turns for the next round
                 this.ClearPublicCards();
                 this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-                SystemLog log = new SystemLog(this.Id, this.GameReplay.ToString());
-                _logControl.AddSystemLog(log);
                 SetRoles();
             }
-            else
-            {
-                
-                if (!this.CurrentPlayer.OutOfMoney())
-                    this.Players[0].isPlayerActive = false;
-            }
-            
         }
 
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
