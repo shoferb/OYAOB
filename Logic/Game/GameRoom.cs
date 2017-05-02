@@ -664,7 +664,6 @@ namespace TexasHoldem.Logic.Game
 
         private void PlayerDesicion(int move)
         {
-            int max = this.MaxCommitted;
             switch (move)
             {
                 case -1:
@@ -674,8 +673,8 @@ namespace TexasHoldem.Logic.Game
                     Check();
                     break;
                 default:
-                    if (move == max)
-                        Call(max);
+                    if (move == MaxCommitted)
+                        Call(MaxCommitted);
                     else
                     {
                         Raise(move);
