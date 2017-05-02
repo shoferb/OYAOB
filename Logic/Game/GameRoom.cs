@@ -103,7 +103,6 @@ namespace TexasHoldem.Logic.Game
                 catch (Exception e)
                 {
                     ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
-                    // this._gameCenter.errorLog.Add(log);
                     _logControl.AddErrorLog(log);
                 }
             }
@@ -760,7 +759,8 @@ namespace TexasHoldem.Logic.Game
                 player.ClearCards(); // gets rid of cards of all players
                 if (player.OutOfMoney())
                 {
-                    //@TODO Yarden - kick players with 0 totalChip from the room
+                    player.isPlayerActive = false;
+                    this.Players.Remove(player);
                 }
             }
             this.IsActiveGame = false;
