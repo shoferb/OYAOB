@@ -188,7 +188,8 @@ namespace TexasHoldem.Logic.Game
 
                 DoRound();
 
-                this.MoveChipsToPot();
+                MoveChipsToPot();
+
                 if (this.PlayersInGame() >= 2)
                 {
                     if (!ProgressHand(this.Hand_Step))
@@ -349,9 +350,11 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in Players)
             {
                 PotCount += player.RoundChipBet;
-                player.RoundChipBet = 0;
+                player.TotalChip -= player.RoundChipBet;
+                player.RoundChipBet = 0;               
             }
         }
+
         private int PlayersInGame()
         {
             int playersInGame = 0;
@@ -380,7 +383,7 @@ namespace TexasHoldem.Logic.Game
             bool allDone = true;
             foreach (Player player in Players)
             {
-                if (player.isPlayerActive && player.PlayedAnActionInTheRound)
+                if (player.isPlayerActive && !player.PlayedAnActionInTheRound)
                 {
                     allDone = false;
                 }
