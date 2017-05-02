@@ -145,11 +145,6 @@ namespace TexasHoldem.Logic.Game
                 this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(this.Bb);
             }
 
-            StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
-            SystemLog log = new SystemLog(this.Id, startAction.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-            this.GameReplay.AddAction(startAction);     
             this.UpdateMaxCommitted();
             this.MoveBbnSBtoPot(this.BbPlayer, this.SbPlayer);
             switch (this.Players.Count)
@@ -178,11 +173,45 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(this.Id, "Game Started");
             _logControl.AddSystemLog(log);
             SetRoles();
+            StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
+            this.GameReplay.AddAction(startAction);
+            SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
+            _logControl.AddSystemLog(log2);
             HandCards();
             this.IsActiveGame = true;
             this._roundCounter = 1;
+            while (this._roundCounter <= 4)
+            {
+                DoRound();
+                //Orellie functions
+                InitializePlayerRound();
+                RaiseFieldAtEveryRound();
+
+                this.MoveChipsToPot();
+                if (this.PlayersInGame() >= 2)
+                {
+                    if (!ProgressHand(this.Hand_Step))
+                    {
+                        EndHand();
+                        return true;
+                    }
+                    else
+                    {
+                        this.ActionPos = this._currLoaction;
+                        this.CurrentPlayer = this.NextToPlay();
+                    }
+
+                }
+                else
+                {
+                    EndHand();
+                }
+
+            }
+            return true;
 
         }
+
 
         public bool Play()
         {
@@ -264,8 +293,6 @@ namespace TexasHoldem.Logic.Game
                 this.GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 _logControl.AddSystemLog(log);
-                player.user.AddGameAvailableToReplay(this.Id, this.GameNumber);
-
             }
         }
         
@@ -366,8 +393,12 @@ namespace TexasHoldem.Logic.Game
                 {
                     players.Add(p);
                 }
+                else
+                {
+                    LeaveAction leave = new LeaveAction(p);
+                    GameReplay.AddAction(leave);
+                }
             }
-            //TODO AvivG Leave action 
             if (players.Count < this.Players.Count)
             {
                 this.Players = players;
