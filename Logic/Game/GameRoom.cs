@@ -188,9 +188,9 @@ namespace TexasHoldem.Logic.Game
 
                 DoRound();
 
-                MoveChipsToPot();
+                MoveChipsToPot(); 
 
-                if (this.PlayersInGame() >= 2)
+                if (this.ActivePlayersInGame() >= 2)
                 {
                     if (!ProgressHand(this.Hand_Step))
                     {
@@ -241,7 +241,7 @@ namespace TexasHoldem.Logic.Game
                     RaiseFieldAtEveryRound();
 
                     this.MoveChipsToPot();
-                    if (this.PlayersInGame() >= 2)
+                    if (this.ActivePlayersInGame() >= 2)
                     {
                         if (!ProgressHand(this.Hand_Step))
                         {
@@ -355,7 +355,7 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        private int PlayersInGame()
+        private int ActivePlayersInGame()
         {
             int playersInGame = 0;
             foreach (Player player in Players)
@@ -772,7 +772,7 @@ namespace TexasHoldem.Logic.Game
             int numNextStep = (int)previousStep + 1;
             this.Hand_Step = (GameRoom.HandStep)numNextStep;
 
-            if (this.PlayersInGame() - this.PlayersAllIn() < 2)
+            if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
             {
                 return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
             }
@@ -949,7 +949,7 @@ namespace TexasHoldem.Logic.Game
 
         private void StartNewRoundAfterRaise()
         {
-            if (this.PlayersInGame() < 2)
+            if (this.ActivePlayersInGame() < 2)
             {
                 EndHand();
             }
