@@ -786,19 +786,19 @@ namespace TexasHoldem.Logic.Game
             List<Player> playersLeftInGame = new List<Player>();
             foreach (Player player in this.Players)
             {
-                player.user.AddGameAvailableToReplay(this.Id, this.GameNumber);
                 if (player.isPlayerActive)
-                    playersLeftInGame.Add(player);
-                else
                 {
-                    player.isPlayerActive = false;
-                    player.ClearCards(); // gets rid of cards for people who are eliminated
+                    playersLeftInGame.Add(player);
                 }
             }
             this.InitPlayersLastAction();
             this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
-            //TODO : by AvivG
-            this.ReplayManager.AddGameReplay(this.GameReplay);
+            List<int> ids = new List<int>();
+            foreach (Player player in playersLeftInGame)
+            {
+                ids.Add(player.user.Id());
+            }
+            this.ReplayManager.AddGameReplay(this.GameReplay, ids);
             if (this.Winners.Count > 0) // so there are winners at the end of the game
             {
                 var amount = this.PotCount / this.Winners.Count;
