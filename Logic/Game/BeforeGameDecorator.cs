@@ -15,7 +15,8 @@ namespace TexasHoldem.Logic
         public int MaxPlayersInRoom { get; set; }
         public int EnterPayingMoney { get; set; }
         public int StartingChip { get; set; }
-        public BeforeGameDecorator(int startingChip, bool isSpectetor,
+        public int MinBetInRoom { get; set; }
+        public BeforeGameDecorator( int minBetInRoom, int startingChip, bool isSpectetor,
              int minPlayersInRoom, int maxPlayersInRoom,
             int enterPayingMoney, Decorator d) : base(d)
         {
@@ -24,6 +25,7 @@ namespace TexasHoldem.Logic
             this.MaxPlayersInRoom = maxPlayersInRoom;
             this.MinPlayersInRoom = minPlayersInRoom;
             this.EnterPayingMoney = enterPayingMoney;
+            this.MinBetInRoom = minBetInRoom;
         }
 
         public bool CanBeSpectatble()
@@ -51,6 +53,9 @@ namespace TexasHoldem.Logic
             return NextDecorator.CanFold();
         }
 
-
+        public int GetMinBetInRoom()
+        {
+            return this.MinBetInRoom;
+        }
     }
 }

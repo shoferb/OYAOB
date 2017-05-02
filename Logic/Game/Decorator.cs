@@ -41,6 +41,9 @@ namespace TexasHoldem.Logic
             return false;
         }
 
-     
+        public int GetMinBetInRoom()
+        {
+            return 0;
+        }
     }
 }

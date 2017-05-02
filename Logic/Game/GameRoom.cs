@@ -56,7 +56,7 @@ namespace TexasHoldem.Logic.Game
         public int MinBetInRoom { get; set; }
         private int _currLoaction { get; set; }
         private int _roundCounter { get; set; }
-        public GameRoom(List<Player> players, int ID, int minBetInRoom)
+        public GameRoom(List<Player> players, int ID)
         {
             this.Id = ID;
             this.IsActiveGame = false;
@@ -64,13 +64,19 @@ namespace TexasHoldem.Logic.Game
             this.Players = players;
             this.MaxCommitted = 0;
             this.PublicCards = new List<Card>();
-            this.Sb = (int) Bb / 2;
-            this.Bb = minBetInRoom;
+            SetTheBlinds();
             this.SidePots = new List<Tuple<int, List<Player>>>();
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
             this.MinRank = tup.Item1;
             this.MaxRank = tup.Item2;
             this.DealerPlayer = null;
+        }
+
+        private void SetTheBlinds()
+        {
+            this.Bb = MyDecorator.GetMinBetInRoom();
+            this.Sb = (int)Bb / 2;
+            
         }
 
         public void AddDecorator(Decorator d)
