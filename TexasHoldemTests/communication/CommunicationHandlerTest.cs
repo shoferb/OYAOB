@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Net.Sockets;
@@ -62,32 +63,80 @@ namespace TexasHoldemTests.communication
             _client = ConnectSocketLoopback();
             Assert.True(_client.Connected);
 
-            _commHandler.Close();
-            _client.Close();
+            CloseHandlerAndClient();
 
             task.Wait();
             Assert.True(task.IsCompleted);
         }
-        
+
+        private void SendMsgs(List<string> msgs)
+        {
+            Assert.IsNotNull(_client);
+            Assert.True(_client.Connected);
+
+            var stream = _client.GetStream();
+            Assert.True(stream.CanWrite);
+
+            msgs.ForEach(m =>
+            {
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(m);
+                stream.Write(bytes, 0, bytes.Length);
+            });
+        }
+
+        private void CloseHandlerAndClient()
+        {
+            _commHandler.Close();
+            _client.Close();
+        }
+
         [TestCase]
         public void ReadingOneShortMsgTest()
         {
             var task = Task.Factory.StartNew(() => _commHandler.Start());
             _client = ConnectSocketLoopback();
-            
-            Assert.True(_client.Connected);
 
-            var stream =_client.GetStream();
-            Assert.True(stream.CanWrite);
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(ShortMsg); 
-            stream.Write(bytes, 0, bytes.Length);
+            SendMsgs(new List<string> { ShortMsg });
 
-            _commHandler.Close();
-            _client.Close();
+            CloseHandlerAndClient();
 
             task.Wait();
 
             Assert.AreEqual(1, _commHandler.ReceivedMsgQueue.Count);
+            string inQueue;
+            _commHandler.ReceivedMsgQueue.TryDequeue(out inQueue);
+            Assert.AreEqual(ShortMsg, inQueue);
+            Assert.True(task.IsCompleted);
+        }
+        
+        [TestCase]
+        public void ReadingManyShortMsgTest()
+        {
+            const int numOfMsgs = 5;
+            var task = Task.Factory.StartNew(() => _commHandler.Start());
+            _client = ConnectSocketLoopback();
+
+            List<string> msgs = new List<string>();
+            for (int i = 0; i < numOfMsgs; i++)
+            {
+                msgs.Add(ShortMsg);
+            }
+            SendMsgs(msgs);
+
+            Thread.Sleep(2000);
+
+            CloseHandlerAndClient();
+
+            task.Wait();
+
+            int bytesCount = 0;
+            var queue = _commHandler.ReceivedMsgQueue;
+            foreach (string s in queue)
+            {
+                bytesCount += s.Length;
+            }
+            Assert.GreaterOrEqual(1, queue.Count);
+            Assert.AreEqual(bytesCount, numOfMsgs * ShortMsg.Length);
             Assert.True(task.IsCompleted);
         }
     }

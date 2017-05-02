@@ -127,7 +127,8 @@ namespace TexasHoldem.communication.Impl
                     //add msg string to queue
                     if (data.Count > 0)
                     {
-                        _receivedMsgQueue.Enqueue(data.ToArray().ToString());
+                        Console.WriteLine("got msg, count: " + data.Count);
+                        _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
                     }
                 } 
             }
