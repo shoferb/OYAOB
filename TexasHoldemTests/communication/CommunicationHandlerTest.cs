@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Moq;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.communication.Reactor.Impl;
@@ -37,11 +38,11 @@ namespace TexasHoldemTests.communication
             //ThreadPool.GetAvailableThreads(out activeWorker, out activeIo);
             //Console.WriteLine(worker - activeWorker);
 
-            _serverThread = new Thread(_commHandler.Start);
-            _serverThread.Start();
+            //_serverThread = new Thread(_commHandler.Start);
+            //_serverThread.Start();
 
             //Thread.Sleep(2000);
-            _client = ConnectSocketLoopback();
+            //_client = ConnectSocketLoopback();
 
         }
 
@@ -50,7 +51,7 @@ namespace TexasHoldemTests.communication
         {
             _client.Close();
             _commHandler.Close();
-            _serverThread.Join();
+            //_serverThread.Join();
         }
 
         private TcpClient ConnectSocketLoopback()
@@ -62,24 +63,34 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void AcceptClientsTest()
         {
+            var task = Task.Factory.StartNew(() => _commHandler.Start());
+            //task.Start();
+
+            _client = ConnectSocketLoopback();
+
+            //Thread.Sleep(1000);
+
             Assert.True(_client.Connected);
         }
         
         [TestCase]
-        public async Task<bool> ReadingOneShortMsgTest()
+        public void ReadingOneShortMsgTest()
         {
+            var task = Task.Factory.StartNew(() => _commHandler.Start());
+            _client = ConnectSocketLoopback();
+            
             Assert.True(_client.Connected);
 
             var stream =_client.GetStream();
             Assert.True(stream.CanWrite);
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(ShortMsg); 
             stream.Write(bytes, 0, bytes.Length);
-            _commHandler.Close();
-            await _commHandler.Alldone();
-            //Thread.Sleep(10000);
 
+            _commHandler.Close();
+            //Thread.Sleep(10000);
+            task.Wait();
+            //Assert.True(await task.Result);
             Assert.AreEqual(1, _commHandler.ReceivedMsgQueue.Count);
-            return true;
         }
     }
 }

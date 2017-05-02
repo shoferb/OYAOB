@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldem.communication.Reactor.Interfaces;
 
@@ -41,14 +42,14 @@ namespace TexasHoldem.communication.Impl
         }
 
         //start all threads:
-        public void Start()
+        public Task<bool> Start()
         {
             ThreadPool.QueueUserWorkItem(HandleReading);
             ThreadPool.QueueUserWorkItem(HandleWriting);
             ThreadPool.QueueUserWorkItem(RemoveUnconnectedClients); //starts and sleeps
 
             //main thread does this:
-            AcceptClients();
+            return AcceptClients();
         }
 
         public int Port
@@ -73,7 +74,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //main thread:
-        public void AcceptClients()
+        public async Task<bool> AcceptClients()
         {
             //main thread so no need to signal it started
             _listener.Start();
@@ -87,6 +88,7 @@ namespace TexasHoldem.communication.Impl
             }
             _listener.Stop();
             ShutDown();
+            return true;
         }
 
         //thread 1

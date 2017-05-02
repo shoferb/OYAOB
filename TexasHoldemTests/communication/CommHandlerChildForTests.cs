@@ -52,20 +52,20 @@ namespace TexasHoldemTests.communication
             get { return _shutdownMreList; }
         }
 
-        public Task<bool> Alldone()
-        {
-            int maxWorkers = -1;
-            int maxIo = -1;
-            int avWorkers = 0;
-            int avIo = 0;
+        //public Task<bool> Alldone()
+        //{
+        //    int maxWorkers = -1;
+        //    int maxIo = -1;
+        //    int avWorkers = 0;
+        //    int avIo = 0;
 
-            while (maxWorkers - avWorkers != 1)
-            {
-                ThreadPool.GetMaxThreads(out maxWorkers, out maxIo);
-                ThreadPool.GetMaxThreads(out avWorkers, out avIo);
-            }
+        //    while (maxWorkers - avWorkers != 1)
+        //    {
+        //        ThreadPool.GetMaxThreads(out maxWorkers, out maxIo);
+        //        ThreadPool.GetMaxThreads(out avWorkers, out avIo);
+        //    }
 
-            return new Task<bool>(null);
-        }
+        //    return new Task<bool>(null);
+        //}
     }
 }
