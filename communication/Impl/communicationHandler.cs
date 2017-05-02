@@ -47,9 +47,9 @@ namespace TexasHoldem.communication.Impl
 
             taskList = new List<Task>
             {
-                new Task(() => HandleReading(null)),
-                new Task(() => HandleWriting(null)),
-                new Task(() => RemoveUnconnectedClients(null))
+                new Task(HandleReading),
+                new Task(HandleWriting),
+                new Task(RemoveUnconnectedClients)
             };
             taskList.ForEach(task => task.Start());
 
@@ -102,7 +102,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //thread 1
-        protected void HandleReading(Object threadContext)
+        protected void HandleReading()
         {
             byte[] buffer = new byte[1];
 
@@ -134,7 +134,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //thread 2
-        protected void HandleWriting(Object threadContext)
+        protected void HandleWriting()
         {
             while (!ShouldClose)
             {
@@ -186,7 +186,7 @@ namespace TexasHoldem.communication.Impl
         }
 
         //thread 3
-        protected void RemoveUnconnectedClients(Object threadContext)
+        protected void RemoveUnconnectedClients()
         {
             while (!ShouldClose)
             {
