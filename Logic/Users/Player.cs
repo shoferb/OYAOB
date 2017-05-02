@@ -146,6 +146,7 @@ namespace TexasHoldem.Logic.Users
             try
             {
                 user.IncWinNum();
+                TotalChip += amount;
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
              //   SystemControl sc = SystemControl.SystemControlInstance;

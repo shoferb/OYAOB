@@ -866,7 +866,6 @@ namespace TexasHoldem.Logic.Game
                     this.PotCount, table, winners[0]._relevantCards);
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
-                // this.this._gameCenter.AddSystemLog(log);
                 _logControl.AddSystemLog(log);
                 return winners;
             }
