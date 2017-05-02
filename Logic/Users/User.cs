@@ -78,18 +78,6 @@ namespace TexasHoldem.Logic.Users
             this.waitListNotification.Add(toAdd);
             return true;
         }
-
-        public bool AddGameAvailableToReplay(int roomID, int gameID)
-        {
-            Tuple<int, int> tup = new Tuple<int,int>(roomID, gameID);
-            if (_gamesAvailableToReplay.Contains(tup))
-            {
-                return false;
-            }
-            _gamesAvailableToReplay.Add(tup);
-            return true;
-        }
-
        
 
         //getters setters

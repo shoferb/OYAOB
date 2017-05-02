@@ -83,8 +83,5 @@ namespace TexasHoldem.Logic.Users
 
         bool AddNotificationToList(Notification toAdd);
 
-
-        bool AddGameAvailableToReplay(int roomID, int gameID);
-
     }
 }
