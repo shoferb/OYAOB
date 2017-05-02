@@ -18,7 +18,7 @@
         //TODO: add fields here
         public int UserId;
 
-        public CommunicationMessage(int id)
+        protected CommunicationMessage(int id)
         {
             UserId = id;
         }

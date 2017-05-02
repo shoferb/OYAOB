@@ -1,5 +1,6 @@
 ﻿namespace TexasHoldemShared.CommMessages
 {
+    //sent from client to server and represents a user's wish to login / logout
     class LoginCommMesage : CommunicationMessage
     {
         public bool IsLogin; //true = login, false = logout

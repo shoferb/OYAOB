@@ -45,6 +45,7 @@
     <Compile Include="CommMessages\GameDataCommMessage.cs" />
     <Compile Include="CommMessages\LoginCommMesage.cs" />
     <Compile Include="CommMessages\MoveOptionsCommMessage.cs" />
+    <Compile Include="CommMessages\RegisterCommMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
