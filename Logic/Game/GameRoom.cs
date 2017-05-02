@@ -199,6 +199,7 @@ namespace TexasHoldem.Logic.Game
                     }
                     else
                     {
+                        this.InitPlayersLastAction();
                         this.ActionPos = this._currLoaction;
                         this.CurrentPlayer = this.NextToPlay();
                     }
@@ -336,13 +337,16 @@ namespace TexasHoldem.Logic.Game
                 if (player.RoundChipBet > MaxCommitted)
                     MaxCommitted = player.RoundChipBet;
         }
-        private void AfterFinishedRound()
-        {
-            MoveChipsToPot();
 
-           foreach (Player player in Players)
+        private void InitPlayersLastAction()
+        {
+            foreach (Player player in Players)
+            {
                 if (player.isPlayerActive)
+                {
                     player.PlayedAnActionInTheRound = false;
+                }
+            }
         }
 
         private void MoveChipsToPot()
@@ -742,8 +746,10 @@ namespace TexasHoldem.Logic.Game
         }
         private bool ProgressHand(GameRoom.HandStep previousStep)
         {
+            int numNextStep = (int)previousStep + 1;
+            this.Hand_Step = (GameRoom.HandStep)numNextStep;
 
-           switch (previousStep)
+            switch (previousStep)
             {   //never spouse to be in the "pre flop" case
                 case HandStep.PreFlop:               
                     break;
@@ -765,24 +771,13 @@ namespace TexasHoldem.Logic.Game
                 
                 default:
                     return false;
-                    break;
             }
-
-
-            int numNextStep = (int)previousStep + 1;
-            this.Hand_Step = (GameRoom.HandStep)numNextStep;
 
             if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
             {
                 return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
             }
-            else
-            {
-                this.AfterFinishedRound();
-            }
-
             return true;
-
         }
 
         private void EndHand()
@@ -800,7 +795,7 @@ namespace TexasHoldem.Logic.Game
                     player.ClearCards(); // gets rid of cards for people who are eliminated
                 }
             }
-            this.AfterFinishedRound();
+            this.InitPlayersLastAction();
             this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
             //TODO : by AvivG
             this.ReplayManager.AddGameReplay(this.GameReplay);
