@@ -14,7 +14,8 @@ namespace TexasHoldem.communication.Impl
 
     public class CommunicationHandler : ICommunicationHandler
     {
-        private readonly int _localPort;
+        private static CommunicationHandler _instance;
+        private const int LocalPort = 2000;
         protected bool ShouldClose = false;
         protected bool WasShutDown = false; //used only for testing
         private static readonly object Padlock = new object();
@@ -28,16 +29,24 @@ namespace TexasHoldem.communication.Impl
         protected readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
         protected List<Task> taskList;
 
-        public CommunicationHandler(IListenerSelector selector, int port)
+        public static CommunicationHandler GetInstance()
         {
-            Selector = selector;
-            _localPort = port;
+            if (_instance != null)
+            {
+                return _instance;
+            }
+            return new CommunicationHandler();
+        }
+
+        protected CommunicationHandler()
+        {
+            Selector = new ListenerSelector();
             _socketsQueue = new ConcurrentQueue<TcpClient>();
             _receivedMsgQueue = new ConcurrentQueue<string>();
             _userIdToMsgQueue = new ConcurrentDictionary<int, ConcurrentQueue<string>>();
             _socketToUserId = new ConcurrentDictionary<TcpClient, int>();
 
-            _listener = new TcpListener(IPAddress.Any, _localPort);
+            _listener = new TcpListener(IPAddress.Any, LocalPort);
         }
 
         //start all threads:
@@ -57,12 +66,15 @@ namespace TexasHoldem.communication.Impl
 
         public int Port
         {
-            get { return _localPort; }
+            get { return LocalPort; }
         }
 
         public List<string> GetReceivedMessages()
         {
-            return new List<string>(_receivedMsgQueue.ToArray());
+            lock (_receivedMsgQueue)
+            {
+                return new List<string>(_receivedMsgQueue.ToArray()); 
+            }
         }
 
         public bool AddMsgToSend(string msg, int userId)

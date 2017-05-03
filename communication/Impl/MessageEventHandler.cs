@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
@@ -24,13 +25,23 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleIncomingMsgs()
         {
-            while (!_shouldStop)
+            CommunicationHandler commHandler = CommunicationHandler.GetInstance();
+
+            while (!_shouldStop)//TODO: busy wait maybe change this
             {
-                //take msg from queue and handle it
+                var allMsgs = commHandler.GetReceivedMessages();
+                if (allMsgs.Count == 0)
+                {
+                    Thread.Sleep(250);
+                }
+                else
+                {
+                    allMsgs.ForEach(HandleSingleRawMsg); 
+                }
             }
         }
 
-        private void HandleRawMsg(string data)
+        private void HandleSingleRawMsg(string data)
         {
             CommunicationMessage parsedMsg = _parser.ParseString(data);
             int userId = parsedMsg.UserId;

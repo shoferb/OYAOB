@@ -11,12 +11,8 @@ using TexasHoldem.communication.Interfaces;
 
 namespace TexasHoldemTests.communication
 {
-    class CommHandlerChildForTests : CommunicationHandler
+    internal class CommHandlerChildForTests : CommunicationHandler
     {
-        public CommHandlerChildForTests(IListenerSelector selector, int port) : base(selector, port)
-        {
-        }
-
         public TcpListener Listener
         {
             get { return _listener; }
