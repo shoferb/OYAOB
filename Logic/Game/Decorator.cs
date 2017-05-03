@@ -45,5 +45,15 @@ namespace TexasHoldem.Logic
         {
             return 0;
         }
+
+        internal int GetMaxAllowedRaise(int p1, int p2)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal int GetMinAllowedRaise(int p1, int p2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -183,6 +183,8 @@ namespace TexasHoldem.Logic.Game
             {
                 //Orellie functions
                 InitializePlayerRound();
+                MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.MaxCommitted);
+                MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.MaxCommitted);
                 RaiseFieldAtEveryRound();
 
                 DoRound();
