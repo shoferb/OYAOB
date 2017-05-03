@@ -13,5 +13,11 @@
             FieldToEdit = field;
             NewValue = value;
         }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
+        }
     }
 }

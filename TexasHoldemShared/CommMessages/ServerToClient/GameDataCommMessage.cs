@@ -56,5 +56,11 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             BbName = bbName;
             SbName = sbName;
         }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
+        }
     }
 }

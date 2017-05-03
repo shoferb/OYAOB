@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
-using TexasHoldem.communication.Reactor.Interfaces;
+using TexasHoldem.communication.Interfaces;
 
 namespace TexasHoldem.communication.Impl
 {

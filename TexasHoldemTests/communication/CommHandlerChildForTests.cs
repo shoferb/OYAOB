@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Impl;
-using TexasHoldem.communication.Reactor.Interfaces;
+using TexasHoldem.communication.Interfaces;
 
 namespace TexasHoldemTests.communication
 {

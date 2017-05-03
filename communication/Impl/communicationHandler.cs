@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Interfaces;
-using TexasHoldem.communication.Reactor.Interfaces;
 
 namespace TexasHoldem.communication.Impl
 {

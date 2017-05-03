@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using TexasHoldem.communication.Interfaces;
+using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
+using TexasHoldemShared.Parser;
 
 //takes msgs from msgQueue in CommHandler and deals with them using EventHandlers
 namespace TexasHoldem.communication.Impl
@@ -7,11 +11,42 @@ namespace TexasHoldem.communication.Impl
     public class MessageEventHandler
     {
         //TODO: fill this class up
+        private ICommMsgXmlParser _parser; //TODO: init
+        private readonly ConcurrentDictionary<int, IEventHandler> _userIdToEventHandlerMap;
+        private bool _shouldStop = false;
 
-        private List<IEventHandler> _eventHandlers;
 
-        public void HandleRawMsg(string data)
+        public MessageEventHandler()
         {
+            //_parser = ;
+            _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
+        }
+
+        public void HandleIncomingMsgs()
+        {
+            while (!_shouldStop)
+            {
+                //take msg from queue and handle it
+            }
+        }
+
+        private void HandleRawMsg(string data)
+        {
+            CommunicationMessage parsedMsg = _parser.ParseString(data);
+            int userId = parsedMsg.UserId;
+            if (_userIdToEventHandlerMap.ContainsKey(userId))
+            {
+                //call to visitor pattern
+                parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
+            }
+            else
+            {
+                ServerEventHandler handler = new ServerEventHandler();
+                _userIdToEventHandlerMap.TryAdd(userId, handler);
+
+                //call to visitor
+                parsedMsg.Handle(handler);
+            }
         }
     }
 }
