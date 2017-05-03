@@ -97,7 +97,6 @@
     <Compile Include="Logic\Game\GameMode.cs" />
     <Compile Include="Logic\Game\GameMove.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />
-    <Compile Include="Logic\Game\Hand.cs" />
     <Compile Include="Logic\Game\IGame.cs" />
     <Compile Include="Logic\Game\MiddleGameDecorator.cs" />
     <Compile Include="Logic\Game\Suits.cs" />

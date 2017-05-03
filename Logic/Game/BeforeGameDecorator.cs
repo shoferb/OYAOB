@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
 
 namespace TexasHoldem.Logic
 {
@@ -16,6 +17,9 @@ namespace TexasHoldem.Logic
         public int EnterPayingMoney { get; set; }
         public int StartingChip { get; set; }
         public int MinBetInRoom { get; set; }
+      
+        private GameCenter GameCenter;
+
         public BeforeGameDecorator( int minBetInRoom, int startingChip, bool isSpectetor,
              int minPlayersInRoom, int maxPlayersInRoom,
             int enterPayingMoney, Decorator d) : base(d)
@@ -26,6 +30,7 @@ namespace TexasHoldem.Logic
             this.MinPlayersInRoom = minPlayersInRoom;
             this.EnterPayingMoney = enterPayingMoney;
             this.MinBetInRoom = minBetInRoom;
+            
         }
 
         public bool CanBeSpectatble()
@@ -57,5 +62,22 @@ namespace TexasHoldem.Logic
         {
             return this.MinBetInRoom;
         }
+
+        public int GetEnterPayingMoney()
+        {
+            return this.EnterPayingMoney;
+        }
+
+        public int GetStartingChip()
+        {
+            return this.StartingChip;
+        }
+
+        public bool CanAddMorePlayer(int currNumOfPlayers)
+        {
+            return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;
+        }
+
+       
     }
 }

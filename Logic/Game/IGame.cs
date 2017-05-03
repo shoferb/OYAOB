@@ -35,15 +35,15 @@ namespace TexasHoldem.Logic.Game
          int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
          int LastRaise { get; set; }  //change to maxCommit
          Thread RoomThread { get; set; }    
-         int MaxRank { get; set; }
-         int MinRank { get; set; }
-         int MinBetInRoom { get; set; }
-
-        void SetThread(Thread thread);
-        void Start();
-        bool Play();
+         void SetThread(Thread thread);
+         void Start();
+         bool Play();
         int PlayerPlay();
         List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand);
+        bool AddPlayerToRoom(int userId);
+        bool AddSpectetorToRoom(int userId);
+        bool RemovePlayerFromRoom(int userId);
+        bool RemoveSpectetorFromRoom(int userId);
 
     }
 }

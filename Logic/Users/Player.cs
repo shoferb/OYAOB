@@ -19,8 +19,6 @@ namespace TexasHoldem.Logic.Users
         public bool _isInRoom { get; set; }
         public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב 
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
-
-
         public Card _firstCard;
         public Card _seconedCard;
         public List<Card> _publicCards = new List<Card>();
@@ -43,28 +41,11 @@ namespace TexasHoldem.Logic.Users
             this._seconedCard = null;
             this._payInThisRound = 0;
             this.moveForTest = 0;
+            this.isPlayerActive = false;
+            this.PlayedAnActionInTheRound = false;
         }
         
-        //TODO: no base here
-        public Player(int totalChip, int roundChipBetComitted, int id, string name, string memberName, 
-            string password, int points, int money, String email,int roomId) 
-            : base(id, name, memberName, password, points, money, email, roomId)
-        {
-            
-            this.TotalChip = totalChip;
-            this.RoundChipBet = roundChipBetComitted;
-            this.name = name;
-            this.RoundChipBet = RoundChipBet;
-            this.TotalChip = totalChip;
-            isPlayerActive = false;
-            
-            this._payInThisRound = 0;
-            this.moveForTest = 0;
-        }
-
-
-
-        //getter setter
+       //getter setter
 
         public bool IsAllIn()
         {
