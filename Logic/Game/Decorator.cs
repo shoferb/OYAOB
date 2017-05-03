@@ -46,14 +46,8 @@ namespace TexasHoldem.Logic
             return 0;
         }
 
-        public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
-        {
-            return 0;
-        }
+        public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
 
-        public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
-        {
-            return 0;
-        }
+        public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
     }
 }
