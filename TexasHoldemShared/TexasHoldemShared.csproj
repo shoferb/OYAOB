@@ -47,6 +47,7 @@
     <Compile Include="CommMessages\ServerToClient\MoveOptionsCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\RegisterCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
+    <Compile Include="Parser\ICommMsgXmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
