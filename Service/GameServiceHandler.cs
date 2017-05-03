@@ -10,6 +10,7 @@ namespace TexasHoldem.Service
 {
     public class GameServiceHandler : ServiceHandler
     {
+        //TODO: fix this class
         private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
         private readonly GameCenter _gameCenter;
 

@@ -26,8 +26,8 @@ namespace TexasHoldem.Logic.Users
         public List<Card> _publicCards = new List<Card>();
 
         //new Fields
-        public IUser user { get; }
-        public int roomId { get; }
+        public IUser user { get; set; }
+        public int roomId { get; set; }
 
         public Player(IUser User, int totalChip, int roundChipBetComitted, int RoomId)
         {
@@ -45,8 +45,10 @@ namespace TexasHoldem.Logic.Users
             this.moveForTest = 0;
         }
         
-        public Player(int totalChip, int roundChipBetComitted, int id, string name, string memberName, string password, int points, int money, String email,
-            int roomId) : base(id, name, memberName, password, points, money, email, roomId)
+        //TODO: no base here
+        public Player(int totalChip, int roundChipBetComitted, int id, string name, string memberName, 
+            string password, int points, int money, String email,int roomId) 
+            : base(id, name, memberName, password, points, money, email, roomId)
         {
             
             this.TotalChip = totalChip;
