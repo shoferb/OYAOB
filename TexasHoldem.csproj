@@ -86,7 +86,6 @@
     <Compile Include="Logic\Game\GameMode.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluator.cs" />
     <Compile Include="Logic\Game\Evaluator\HandRank.cs" />
-    <Compile Include="Logic\Game\Hand.cs" />
     <Compile Include="Logic\Game\IGame.cs" />
     <Compile Include="Logic\Game\Suits.cs" />
     <Compile Include="Logic\Game\MiddleGameDecorator.cs" />
