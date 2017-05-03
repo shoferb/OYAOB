@@ -19,7 +19,7 @@ namespace TexasHoldem.Logic.Game
         public int Id { get; set; }
         public List<Spectetor> Spectatores { get; set;}
         public int DealerPos { get; set; }
-        public int MaxCommitted { get; set; }
+        public int MaxCommitted { get; set; } //TODO: should move to decorator
         public int ActionPos { get; set; }
         public int PotCount { get; set; }
         public int Bb { get; set; }
@@ -42,7 +42,7 @@ namespace TexasHoldem.Logic.Game
         public List<HandEvaluator> Winners;
         private int _buttonPos;
         private bool _backFromRaise;
-        public bool IsTestMode { get; set; }
+        public bool IsTestMode { get; set; } //TODO: maybe not relevant anymore?
         public Decorator MyDecorator;
         public int MaxRaiseInThisRound { get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
         public int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
@@ -56,6 +56,7 @@ namespace TexasHoldem.Logic.Game
         public int MinBetInRoom { get; set; }
         private int _currLoaction { get; set; }
         private int _roundCounter { get; set; }
+
         public GameRoom(List<Player> players, int ID)
         {
             this.Id = ID;
@@ -161,6 +162,7 @@ namespace TexasHoldem.Logic.Game
 
         }
 
+        //TODO: restart deck between rounds
         public bool Play()
         {
             if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
