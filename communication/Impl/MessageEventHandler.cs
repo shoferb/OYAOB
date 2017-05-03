@@ -1,15 +1,17 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using TexasHoldem.communication.Reactor.Interfaces;
+﻿using System.Collections.Generic;
+using TexasHoldem.communication.Interfaces;
 
-namespace TexasHoldem.communication.Reactor.Impl
+//takes msgs from msgQueue in CommHandler and deals with them using EventHandlers
+namespace TexasHoldem.communication.Impl
 {
-    public class MessageEventHandler : IEventHandler
+    public class MessageEventHandler
     {
+        //TODO: fill this class up
 
-        public void HandleEvent(string data)
+        private List<IEventHandler> _eventHandlers;
+
+        public void HandleRawMsg(string data)
         {
-            //TODO: fill this up
         }
     }
 }

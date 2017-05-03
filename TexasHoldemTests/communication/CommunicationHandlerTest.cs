@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
-using TexasHoldem.communication.Reactor.Impl;
 
 namespace TexasHoldemTests.communication
 {
