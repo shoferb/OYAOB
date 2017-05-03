@@ -37,6 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.7.9\lib\net45\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.core">
       <HintPath>..\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.core.dll</HintPath>
       <Private>False</Private>
@@ -75,12 +81,18 @@
     <Compile Include="AcptTests\Bridges\Interface\IGameBridge.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\GameBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\ReplayBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\UserBridge.cs" />
     <Compile Include="AcptTests\Bridges\ReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\UserBridge.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
+    <Compile Include="communication\CommHandlerChildForTests.cs" />
+    <Compile Include="communication\CommunicationHandlerTest.cs" />
+    <Compile Include="Logic\Game Control\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
     <Compile Include="Logic\GameControl\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
@@ -105,6 +117,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="AcptTests\tests\GameAcptTests.cs.orig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TexasHoldem.communication.Interfaces
 {
@@ -6,7 +7,7 @@ namespace TexasHoldem.communication.Interfaces
     {
         List<string> GetReceivedMessages();
         bool AddMsgToSend(string msg, int userId);
-        void AcceptClients();
+        //void AcceptClients();
         void Start();
         void Close();
     }
