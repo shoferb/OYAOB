@@ -439,6 +439,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
     
+        //TODO: fix this
         //get all active games of user 
         //syncronizef due to for
         public List<IGame> GetActiveGamesByUserName(string userName)

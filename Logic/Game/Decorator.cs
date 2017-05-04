@@ -9,6 +9,7 @@ namespace TexasHoldem.Logic
 {
     public abstract class Decorator
     {
+        //TODO: methods should not be implemented!
        internal Decorator NextDecorator;
 
         public Decorator(Decorator d)
