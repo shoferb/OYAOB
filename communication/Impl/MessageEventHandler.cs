@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
-using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.Parser;
