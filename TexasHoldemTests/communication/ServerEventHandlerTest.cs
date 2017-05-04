@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Core;
+using NUnit.Framework;
 
 namespace TexasHoldemTests.communication
 {
     //TODO this test class
-    [TestClass]
+    [TestFixture]
     public class ServerEventHandlerTest
     {
-        [TestMethod]
+        [TestCase]
         public void TestMethod1()
         {
         }
