@@ -1,4 +1,5 @@
 ﻿using TexasHoldem.Service;
+using TexasHoldem.ServiceInterfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -9,10 +10,10 @@ namespace TexasHoldem.communication.Impl
     //TODO: this class
     class ServerEventHandler : IEventHandler
     {
-        private readonly UserServiceHandler _userService = new UserServiceHandler();
+        private readonly IUserService _userService; //TODO init // = new UserServiceHandler();
         private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser; //TODO: init
-        private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
+        //private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
 
         public void HandleEvent(ActionCommMessage msg)
         {
@@ -37,8 +38,8 @@ namespace TexasHoldem.communication.Impl
                     success = _userService.EditUserEmail(msg.UserId, msg.NewValue);
                     break;
                 default:
-                    _logService.CreateNewErrorLog(
-                        "an unidentified EditCommMessage was received by ServerEventHandler.");
+                   // _logService.CreateNewErrorLog(
+                    //    "an unidentified EditCommMessage was received by ServerEventHandler.");
                     return;
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
