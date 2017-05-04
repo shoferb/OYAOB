@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.communication.Interfaces
 {
-    interface ICommunicationHandler
+    internal interface ICommunicationHandler
     {
         List<string> GetReceivedMessages();
         bool AddMsgToSend(string msg, int userId);

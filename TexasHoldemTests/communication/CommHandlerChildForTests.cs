@@ -7,16 +7,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Impl;
-using TexasHoldem.communication.Reactor.Interfaces;
+using TexasHoldem.communication.Interfaces;
 
 namespace TexasHoldemTests.communication
 {
-    class CommHandlerChildForTests : CommunicationHandler
+    internal class CommHandlerChildForTests : CommunicationHandler
     {
-        public CommHandlerChildForTests(IListenerSelector selector, int port) : base(selector, port)
-        {
-        }
-
         public TcpListener Listener
         {
             get { return _listener; }

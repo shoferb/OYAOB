@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Sockets;
 
-namespace TexasHoldem.communication.Reactor.Interfaces
+namespace TexasHoldem.communication.Interfaces
 {
     public interface IListenerSelector
     {

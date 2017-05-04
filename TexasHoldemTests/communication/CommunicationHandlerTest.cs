@@ -29,7 +29,7 @@ namespace TexasHoldemTests.communication
         [SetUp]
         public void SetUp()
         {
-            _commHandler = new CommHandlerChildForTests(new ListenerSelector(), Port);
+            _commHandler = new CommHandlerChildForTests();
         }
 
         [TearDown]

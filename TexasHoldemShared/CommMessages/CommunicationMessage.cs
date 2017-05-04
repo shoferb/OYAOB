@@ -22,5 +22,7 @@
         {
             UserId = id;
         }
+
+        public abstract void Handle(IEventHandler handler);
     }
 }

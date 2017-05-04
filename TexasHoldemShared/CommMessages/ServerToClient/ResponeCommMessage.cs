@@ -1,6 +1,6 @@
 ﻿namespace TexasHoldemShared.CommMessages.ServerToClient
 {
-    class ResponeCommMessage : CommunicationMessage
+    public class ResponeCommMessage : CommunicationMessage
     {
         public bool Success;
         public CommunicationMessage OriginalMsg; //TODO: maybe not needed
@@ -9,6 +9,12 @@
         {
             Success = success;
             OriginalMsg = originalMsg;
+        }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
         }
     }
 }
