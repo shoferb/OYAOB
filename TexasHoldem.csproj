@@ -63,6 +63,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="communication\Converters\ClientAction.cs" />
     <Compile Include="communication\Impl\ListenerSelector.cs" />
     <Compile Include="communication\Impl\MessageEventHandler.cs" />
     <Compile Include="communication\Impl\communicationHandler.cs" />
