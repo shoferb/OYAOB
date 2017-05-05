@@ -133,6 +133,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             _logControl.AddSystemLog(log);
+            IsGameOver(); //check if number of active players > 2 and it's not the final round 
         }
 
         //@TODO send a message to user saying he is not part of the game and cant do action
