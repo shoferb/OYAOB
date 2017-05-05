@@ -147,8 +147,7 @@ namespace TexasHoldem.Logic.Game
             }
 
             Hand_Step = HandStep.PreFlop;
-            Deck deck = new Deck();
-            this.Deck = deck;
+            Deck = new Deck();
             GameReplay = new GameReplay(Id, GameNumber);
             SystemLog log = new SystemLog(Id, "Game Started");
             _logControl.AddSystemLog(log);
@@ -160,25 +159,11 @@ namespace TexasHoldem.Logic.Game
 
             MoveBbnSBtoPot();
             maxBetInRound = Bb;
-            switch (Players.Count)
-            {
-                case 2:
-                    CurrentPlayer = SbPlayer;
-                    break;
-                case 3:
-                    CurrentPlayer = this.BbPlayer;
-                    _currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
-                    break;
-                default:
-                    CurrentPlayer = this.Players[this.ActionPos];
-                    _currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
-                    break;
-            }
 
             HandCards();
-            this.IsActiveGame = true;
-            this._roundCounter = 1;
-
+            IsActiveGame = true;
+            _roundCounter = 1;
+            return true;
         }
 
         private bool CallOrRaise(Player player, int bet)
@@ -313,7 +298,6 @@ namespace TexasHoldem.Logic.Game
             BbPlayer = Players[(DealerPos + 2) % Players.Count];
             FirstPlayerInRound = Players[(DealerPos + 3) % Players.Count];
             CurrentPlayer = FirstPlayerInRound;
-
         }
 
         //TODO: restart deck between rounds
@@ -392,10 +376,10 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in this.Players)
             {
                 player.isPlayerActive = true;
-                player.Add2Cards(this.Deck.Draw(), this.Deck.Draw());
+                player.Add2Cards(Deck.Draw(), Deck.Draw());
                 HandCards hand = new HandCards(player, player._firstCard,
                     player._secondCard);
-                this.GameReplay.AddAction(hand);
+                GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 _logControl.AddSystemLog(log);
             }
