@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Users
         public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב 
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
         public Card _firstCard;
-        public Card _seconedCard;
+        public Card _secondCard;
         public List<Card> _publicCards = new List<Card>();
 
         //new Fields
@@ -38,7 +38,7 @@ namespace TexasHoldem.Logic.Users
             this.TotalChip = totalChip;
             isPlayerActive = false;
             this._firstCard = null;
-            this._seconedCard = null;
+            this._secondCard = null;
             this._payInThisRound = 0;
             this.moveForTest = 0;
             this.isPlayerActive = false;
@@ -146,7 +146,7 @@ namespace TexasHoldem.Logic.Users
         {
             List<Card> holeCards = new List<Card>()
                 {_firstCard,
-                 _seconedCard,
+                 _secondCard,
                 };
             return holeCards;
 
@@ -155,17 +155,17 @@ namespace TexasHoldem.Logic.Users
         public void ClearCards()
         {
             _firstCard = null;
-            _seconedCard = null;
+            _secondCard = null;
             _publicCards.Clear();
 
         }
 
         public void Add2Cards(Card newCardA, Card newCardB)
         {
-            if (_firstCard == null && _seconedCard == null)
+            if (_firstCard == null && _secondCard == null)
             {
                 _firstCard = newCardA;
-                _seconedCard = newCardB;
+                _secondCard = newCardB;
             }
             else
                 throw new System.ArgumentException("Player cards already determined.", "newCard");

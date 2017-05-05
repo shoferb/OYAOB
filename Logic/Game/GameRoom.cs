@@ -1,16 +1,17 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
- using System.Linq;
- using System.Threading;
- using TexasHoldem.Logic.Actions;
- using TexasHoldem.Logic.Game.Evaluator;
- using TexasHoldem.Logic.GameControl;
- using TexasHoldem.Logic.Game_Control;
- using TexasHoldem.Logic.Notifications_And_Logs;
- using TexasHoldem.Logic.Replay;
+using System.Linq;
+using System.Threading;
+using TexasHoldem.Logic.Actions;
+using TexasHoldem.Logic.Game.Evaluator;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.communication.Converters;
 using static TexasHoldemShared.CommMessages.CommunicationMessage;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Logic.Game
 {
@@ -92,15 +93,11 @@ namespace TexasHoldem.Logic.Game
             RoomThread = thread;
         }
 
-        public bool NewAction(IUser user, ActionType action, int bet)
+        public bool DoAction(IUser user, ActionType action, int bet)
         {
             if (action == ActionType.Join)
             {
                 return Join(user);
-            }
-            if (action == ActionType.Leave)
-            {
-                return Leave(user);
             }
             if (!IsUserInGame(user))
             {
@@ -108,16 +105,45 @@ namespace TexasHoldem.Logic.Game
             }
 
             Player player = GetInGamePlayerFromUser(user);
+            if (action == ActionType.Leave)
+            {
+                return Leave(player);
+            }
             if (player != CurrentPlayer)
             {
                 return IrellevantUser(user, action);
             }
-
+            if (action == ActionType.Fold)
+            {
+                Fold(player);
+            }
             if (bet == 0)
             {
                 return Check(player);
             }
             return CallOrRaise(player, bet);
+        }
+
+        private void Fold(Player player)
+        {
+            player.PlayedAnActionInTheRound = true;
+            player.isPlayerActive = false;
+            FoldAction fold = new FoldAction(player, player._firstCard,
+                player._secondCard);
+            GameReplay.AddAction(fold);
+            SystemLog log = new SystemLog(this.Id, fold.ToString());
+            _logControl.AddSystemLog(log);
+        }
+
+        //@TODO send a message to user saying he is not part of the game and cant do action
+        private bool IrellevantUser(IUser user, ActionType action)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool IsUserInGame(IUser user)
+        {
+            return (GetInGamePlayerFromUser(user) != null);
         }
 
         private Player GetInGamePlayerFromUser(IUser user)
@@ -281,7 +307,7 @@ namespace TexasHoldem.Logic.Game
                 player.isPlayerActive = true;
                 player.Add2Cards(this.Deck.Draw(), this.Deck.Draw());
                 HandCards hand = new HandCards(player, player._firstCard,
-                    player._seconedCard);
+                    player._secondCard);
                 this.GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 _logControl.AddSystemLog(log);
@@ -671,7 +697,7 @@ namespace TexasHoldem.Logic.Game
             this.CurrentPlayer.PlayedAnActionInTheRound = true;
             this.CurrentPlayer.isPlayerActive = false;
             FoldAction fold = new FoldAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._seconedCard);
+                this.CurrentPlayer._secondCard);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             //this.this._gameCenter.AddSystemLog(log);
             _logControl.AddSystemLog(log);
@@ -682,7 +708,7 @@ namespace TexasHoldem.Logic.Game
         {
             this.CurrentPlayer.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                 this.CurrentPlayer._seconedCard);
+                 this.CurrentPlayer._secondCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
             //this.this._gameCenter.AddSystemLog(log);
             _logControl.AddSystemLog(log);
@@ -695,7 +721,7 @@ namespace TexasHoldem.Logic.Game
             additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
             this.CurrentPlayer.CommitChips(additionalChips);
             CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._seconedCard, additionalChips);
+                this.CurrentPlayer._secondCard, additionalChips);
             this.GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             //this.this._gameCenter.AddSystemLog(log);
@@ -708,7 +734,7 @@ namespace TexasHoldem.Logic.Game
             this.CurrentPlayer.PlayedAnActionInTheRound = true;
             this.CurrentPlayer.CommitChips(additionalChips);
             RaiseAction raise = new RaiseAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                 this.CurrentPlayer._seconedCard, additionalChips);
+                 this.CurrentPlayer._secondCard, additionalChips);
             this.GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             //this.this._gameCenter.AddSystemLog(log);
@@ -828,7 +854,7 @@ namespace TexasHoldem.Logic.Game
             if (winners.Count() == 1)
             {
                 WinAction win = new WinAction(winners[0]._player,
-                    winners[0]._player._firstCard, winners[0]._player._seconedCard,
+                    winners[0]._player._firstCard, winners[0]._player._secondCard,
                     this.PotCount, table, winners[0]._relevantCards);
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
@@ -875,7 +901,7 @@ namespace TexasHoldem.Logic.Game
             foreach (HandEvaluator h in winners)
             {
                 WinAction win = new WinAction(h._player,
-                     h._player._firstCard, h._player._seconedCard,
+                     h._player._firstCard, h._player._secondCard,
                      (int)this.PotCount / winners.Count, table, h._relevantCards);
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
