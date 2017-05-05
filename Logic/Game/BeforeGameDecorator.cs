@@ -38,6 +38,11 @@ namespace TexasHoldem.Logic
             return IsSpectetor;
         }
 
+        public override bool CanRaise(int currentPlayerBet, int maxBetInRound)
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool CanStartTheGame(int numOfPlayers)
         {
             return numOfPlayers >= this.MinPlayersInRoom ?  true : false;
@@ -83,12 +88,12 @@ namespace TexasHoldem.Logic
             return this.EnterPayingMoney;
         }
 
-        public int GetStartingChip()
+        public override int GetStartingChip()
         {
             return this.StartingChip;
         }
         
-        public bool CanAddMorePlayer(int currNumOfPlayers)
+        public override bool CanAddMorePlayer(int currNumOfPlayers)
         {
             return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;
         }

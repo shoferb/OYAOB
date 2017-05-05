@@ -18,6 +18,7 @@ namespace TexasHoldem.Logic
 
         public abstract bool CanStartTheGame(int numOfPlayers);
         public abstract bool CanCheck();
+        public abstract bool CanRaise();
         public abstract bool CanFold();
         public abstract bool CanSpectatble();
         public abstract int GetMinBetInRoom();

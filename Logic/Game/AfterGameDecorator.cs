@@ -70,6 +70,11 @@ namespace TexasHoldem.Logic.Game
         {
             throw new NotImplementedException();
         }
+
+        public override bool CanRaise(int currentPlayerBet, int maxBetInRound)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
