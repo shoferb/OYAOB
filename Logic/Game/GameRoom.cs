@@ -135,6 +135,28 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
+        private bool Leave(Player player)
+        {
+            List<Player> relevantPlayers = new List<Player>();
+            LeaveAction leave = new LeaveAction(player);
+            GameReplay.AddAction(leave);
+            foreach (Player p in this.Players)
+            {
+                if (p.user.Id() != player.user.Id())
+                {
+                    relevantPlayers.Add(p);
+                }
+            }
+            Players = relevantPlayers;
+            return true;
+        }
+
+        //TODO create player and add to game 
+        private bool Join(IUser user)
+        {
+            throw new NotImplementedException();
+        }
+
         private bool StartGame(Player player)
         {
             if (!MyDecorator.CanStartTheGame(Players.Count))
