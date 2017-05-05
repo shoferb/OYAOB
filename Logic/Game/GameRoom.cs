@@ -10,6 +10,7 @@ using System.Collections.Generic;
  using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.communication.Converters;
+using static TexasHoldemShared.CommMessages.CommunicationMessage;
 
 namespace TexasHoldem.Logic.Game
 {
@@ -91,22 +92,26 @@ namespace TexasHoldem.Logic.Game
             RoomThread = thread;
         }
 
-        public bool NewAction(IUser user, ClientAction action, int bet)
+        public bool NewAction(IUser user, ActionType action, int bet)
         {
-            if (action == ClientAction.Join)
+            if (action == ActionType.Join)
             {
                 return Join(user);
             }
-            if (action == ClientAction.Leave)
+            if (action == ActionType.Leave)
             {
                 return Leave(user);
             }
             if (!IsUserInGame(user))
             {
-                return SendClientMessage(user, action);
+                return IrellevantUser(user, action);
             }
 
             Player player = GetInGamePlayerFromUser(user);
+            if (player != CurrentPlayer)
+            {
+                return IrellevantUser(user, action);
+            }
 
             if (bet == 0)
             {

@@ -5,9 +5,7 @@
         public enum ActionType
         {
             Fold,
-            Call,
-            Raise,
-            Check,
+            Bet,
 
             Join,
             Leave,
