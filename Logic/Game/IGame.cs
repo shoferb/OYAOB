@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game
          int Id { get; set; }
          List<Spectetor> Spectatores { get; set; }
          int DealerPos { get; set; }
-         int MaxCommitted { get; set; }
+         int maxBetInRound { get; set; }
          int ActionPos { get; set; }
          int PotCount { get; set; }
          int Bb { get; set; }

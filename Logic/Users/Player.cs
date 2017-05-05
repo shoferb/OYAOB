@@ -72,7 +72,7 @@ namespace TexasHoldem.Logic.Users
 
         public bool CanCheck(GameRoom state)
         {
-            if (state.MaxCommitted == RoundChipBet)
+            if (state.maxBetInRound == RoundChipBet)
                 return true;
             return false;
         }

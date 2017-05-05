@@ -57,13 +57,13 @@ namespace TexasHoldem.Logic
             return this.NextDecorator.GetStartingChip();
         }
 
-        public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
+        public abstract int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
 
-        public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
-        internal abstract bool CanRaise(int currentPlayerBet, int maxCommitted);
-    }
+        public abstract int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
+
+        public abstract bool CanRaise(int PlayerBet, int maxBetInRound);
         
-	public bool CanAddMorePlayer(int currNumOfPlayers)
+	    public bool CanAddMorePlayer(int currNumOfPlayers)
         {
             return this.NextDecorator.CanAddMorePlayer(currNumOfPlayers);
         }

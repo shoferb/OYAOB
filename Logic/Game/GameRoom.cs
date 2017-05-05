@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Game
         public int Id { get; set; }
         public List<Spectetor> Spectatores { get; set;}
         public int DealerPos { get; set; }
-        public int MaxCommitted { get; set; } //TODO: should move to decorator
+        public int maxBetInRound { get; set; } //TODO: should move to decorator
         public int ActionPos { get; set; }
         public int PotCount { get; set; }
         public int Bb { get; set; }
@@ -65,7 +65,7 @@ namespace TexasHoldem.Logic.Game
             this.IsActiveGame = false;
             this.PotCount = 0;          
             this.Players = players;
-            this.MaxCommitted = 0;
+            this.maxBetInRound = 0;
             this.PublicCards = new List<Card>();
             SetTheBlinds();
             this.SidePots = new List<Tuple<int, List<Player>>>();
@@ -134,7 +134,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool CallOrRaise(Player player, int bet)
         {
-            if (player.RoundChipBet + bet == MaxCommitted)
+            if (player.RoundChipBet + bet == maxBetInRound)
             {
                 return Call(player, bet);
             }
@@ -144,7 +144,7 @@ namespace TexasHoldem.Logic.Game
         private bool Raise(Player player, int bet)
         {
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(currentPlayerBet, MaxCommitted))
+            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound))
             {
                 return false;
             }
@@ -152,7 +152,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return false;  
             }
-            MaxCommitted = currentPlayerBet;
+            maxBetInRound = currentPlayerBet;
             player.PlayedAnActionInTheRound = true;
             player.CommitChips(bet);
             RaiseAction raise = new RaiseAction(player, player._firstCard,
@@ -322,8 +322,8 @@ namespace TexasHoldem.Logic.Game
             while (this._roundCounter <= 4)
             {
                 InitializePlayerRound();
-                MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.MaxCommitted, this.Hand_Step);
-                MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.MaxCommitted, this.Hand_Step);
+                MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+                MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
 
                 DoRound();
 
@@ -420,8 +420,8 @@ namespace TexasHoldem.Logic.Game
         private void UpdateMaxCommitted()
         {
             foreach (Player player in Players)
-                if (player.RoundChipBet > MaxCommitted)
-                    MaxCommitted = player.RoundChipBet;
+                if (player.RoundChipBet > maxBetInRound)
+                    maxBetInRound = player.RoundChipBet;
         }
 
         private void InitPlayersLastAction()
@@ -536,7 +536,7 @@ namespace TexasHoldem.Logic.Game
             //call - <Call, false,call amount, 0>
             List<Tuple<GameMove, bool, int, int>> moveToSend = new List<Tuple<GameMove, bool, int, int>>();
             int callAmount = maxRaise - this.CurrentPlayer._payInThisRound;
-            bool canCheck = (this.MaxCommitted == 0);
+            bool canCheck = (this.maxBetInRound == 0);
             try
             {
 
@@ -752,8 +752,8 @@ namespace TexasHoldem.Logic.Game
                     Check();
                     break;
                 default:
-                    if (move == MaxCommitted)
-                        Call(MaxCommitted);
+                    if (move == maxBetInRound)
+                        Call(maxBetInRound);
                     else
                     {
                         Raise(move);
@@ -766,7 +766,7 @@ namespace TexasHoldem.Logic.Game
 
        private void Raise(int additionalChips)
         {
-            this.MaxCommitted += additionalChips;
+            this.maxBetInRound += additionalChips;
             this.CurrentPlayer.PlayedAnActionInTheRound = true;
             this.CurrentPlayer.CommitChips(additionalChips);
             RaiseAction raise = new RaiseAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
@@ -983,7 +983,7 @@ namespace TexasHoldem.Logic.Game
             {
                 this.CurrentPlayer = nextPlayer;
                 int move = PlayerPlay();
-                if (move > this.MaxCommitted)
+                if (move > this.maxBetInRound)
                 {
                     StartNewRoundAfterRaise();
                     break;
@@ -1000,7 +1000,7 @@ namespace TexasHoldem.Logic.Game
         {
 
             int potSize = this.PotCount;
-            int lastRise = this.MaxCommitted;
+            int lastRise = this.maxBetInRound;
             int playerPayInRound = p._payInThisRound;
             int toReturn = (lastRise - playerPayInRound) + potSize;
             return toReturn;
