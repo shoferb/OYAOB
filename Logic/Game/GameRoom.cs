@@ -132,6 +132,28 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
+        private bool CallOrRaise(Player player, int bet)
+        {
+            if (bet == MaxCommitted)
+            {
+                return Call(player, bet);
+            }
+            return Raise(player, bet);
+        }
+
+        private bool Call(Player player, int bet)
+        {
+            CurrentPlayer.PlayedAnActionInTheRound = true;
+            additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
+            this.CurrentPlayer.CommitChips(additionalChips);
+            CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
+                this.CurrentPlayer._secondCard, additionalChips);
+            this.GameReplay.AddAction(call);
+            SystemLog log = new SystemLog(this.Id, call.ToString());
+            //this.this._gameCenter.AddSystemLog(log);
+            _logControl.AddSystemLog(log);
+        }
+
         private bool Check(Player player)
         {
             if (!MyDecorator.CanCheck())
@@ -716,29 +738,6 @@ namespace TexasHoldem.Logic.Game
                     }
                     break;
             }
-        }
-
-        private void Fold()
-        {
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            this.CurrentPlayer.isPlayerActive = false;
-            FoldAction fold = new FoldAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._secondCard);
-            SystemLog log = new SystemLog(this.Id, fold.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-            this.GameReplay.AddAction(fold);
-        }
-
-        private void Check()
-        {
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            CheckAction check = new CheckAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                 this.CurrentPlayer._secondCard);
-            SystemLog log = new SystemLog(this.Id, check.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-            this.GameReplay.AddAction(check);
         }
 
         private void Call(int additionalChips)
