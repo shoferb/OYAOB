@@ -286,10 +286,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool NextRound()
         {
-            if (Hand_Step == HandStep.River) 
-            {
-                return EndGame(); 
-            }
             MoveChipsToPot();
 
             lastPlayerRaisedInRound = null;
@@ -298,6 +294,11 @@ namespace TexasHoldem.Logic.Game
             //TODO: check that
             MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
             MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+
+            if (Hand_Step == HandStep.River) 
+            {
+                return EndGame(); 
+            }
 
             ProgressHand();
             return true;
@@ -314,7 +315,7 @@ namespace TexasHoldem.Logic.Game
                     playersLeftInGame.Add(player);
                 }
             }
-            this.InitPlayersLastAction();
+            InitPlayersLastAction();
             this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
             List<int> ids = new List<int>();
             foreach (Player player in playersLeftInGame)
