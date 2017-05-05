@@ -17,7 +17,6 @@ namespace TexasHoldem.Logic
         }
 
         public abstract bool CanStartTheGame(int numOfPlayers);
-        public abstract bool CanRaise();
         public abstract bool CanCheck();
         public abstract bool CanFold();
         public abstract bool CanSpectatble();
@@ -28,6 +27,6 @@ namespace TexasHoldem.Logic
         public abstract int GetMaxAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
         public abstract int GetMinAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
         public abstract bool CanBeSpectatble();
-
+        public abstract bool CanRaise(int currentPlayerBet, int maxBetInRound);
     }
 }
