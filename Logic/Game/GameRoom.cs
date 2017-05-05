@@ -119,16 +119,35 @@ namespace TexasHoldem.Logic.Game
             }
             if (action == ActionType.Fold)
             {
-                Fold(player);
+                return Fold(player);
             }
             if (bet == 0)
             {
                 return Check(player);
             }
-            return CallOrRaise(player, bet);
+            if (bet > 0)
+            {
+                return CallOrRaise(player, bet);
+            }
+            return false;
         }
 
-        private void Fold(Player player)
+        private bool Check(Player player)
+        {
+            if (!MyDecorator.CanCheck())
+            {
+                return false;
+            }
+            player.PlayedAnActionInTheRound = true;
+            CheckAction check = new CheckAction(player, player._firstCard,
+                 player._secondCard);
+            SystemLog log = new SystemLog(this.Id, check.ToString());
+            _logControl.AddSystemLog(log);
+            GameReplay.AddAction(check);
+            return true;
+        }
+
+        private bool Fold(Player player)
         {
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
@@ -137,7 +156,9 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             _logControl.AddSystemLog(log);
-            IsGameOver(); //check if number of active players > 2 and it's not the final round 
+            if (IsGameOver()) //check if number of active players > 2 and it's not the final round
+            {  
+            }
         }
 
         //@TODO send a message to user saying he is not part of the game and cant do action
