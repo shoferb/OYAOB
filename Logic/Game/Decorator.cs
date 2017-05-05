@@ -60,7 +60,8 @@ namespace TexasHoldem.Logic
         public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
 
         public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
-        }
+        internal abstract bool CanRaise(int currentPlayerBet, int maxCommitted);
+    }
         
 	public bool CanAddMorePlayer(int currNumOfPlayers)
         {

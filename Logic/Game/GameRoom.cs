@@ -134,11 +134,33 @@ namespace TexasHoldem.Logic.Game
 
         private bool CallOrRaise(Player player, int bet)
         {
-            if (bet == MaxCommitted)
+            if (player.RoundChipBet + bet == MaxCommitted)
             {
                 return Call(player, bet);
             }
             return Raise(player, bet);
+        }
+
+        private bool Raise(Player player, int bet)
+        {
+            int currentPlayerBet = player.RoundChipBet + bet;
+            if (!MyDecorator.CanRaise(currentPlayerBet, MaxCommitted))
+            {
+                return false;
+            }
+            if (player.TotalChip < bet) //not enough chips for bet
+            {
+                return false;  
+            }
+            MaxCommitted = currentPlayerBet;
+            player.PlayedAnActionInTheRound = true;
+            player.CommitChips(bet);
+            RaiseAction raise = new RaiseAction(player, player._firstCard,
+                 player._secondCard, currentPlayerBet);
+            GameReplay.AddAction(raise);
+            SystemLog log = new SystemLog(this.Id, raise.ToString());
+            _logControl.AddSystemLog(log);
+            return true;
         }
 
         private bool Call(Player player, int bet)
@@ -181,6 +203,7 @@ namespace TexasHoldem.Logic.Game
             if (IsGameOver()) //check if number of active players > 2 and it's not the final round
             {  
             }
+            return true;
         }
 
         //@TODO send a message to user saying he is not part of the game and cant do action
@@ -740,18 +763,6 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        private void Call(int additionalChips)
-        {
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
-            this.CurrentPlayer.CommitChips(additionalChips);
-            CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._secondCard, additionalChips);
-            this.GameReplay.AddAction(call);
-            SystemLog log = new SystemLog(this.Id, call.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-        }
 
        private void Raise(int additionalChips)
         {
