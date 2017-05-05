@@ -54,6 +54,8 @@ namespace TexasHoldem.Logic.Game
         //new after log control change
         private LogControl _logControl = LogControl.Instance;
         public int GameNumber=0;
+        private Player lastPlayerRaisedInRound;
+
         public int MinBetInRoom { get; set; }
         private int _currLoaction { get; set; }
         private int _roundCounter { get; set; }
@@ -132,6 +134,31 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
+        private bool StartGame(Player player)
+        {
+            if (!MyDecorator.CanStartTheGame(Players.Count))
+            {
+                return false;
+            }
+            if (IsActiveGame == true) //can't start an already active game
+            {
+                return false;
+            }
+            Hand_Step = HandStep.PreFlop;
+            GameReplay = new GameReplay(Id, GameNumber);
+            SystemLog log = new SystemLog(this.Id, "Game Started");
+            _logControl.AddSystemLog(log);
+            SetRoles();
+            StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
+            this.GameReplay.AddAction(startAction);
+            SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
+            _logControl.AddSystemLog(log2);
+            HandCards();
+            this.IsActiveGame = true;
+            this._roundCounter = 1;
+
+        }
+
         private bool CallOrRaise(Player player, int bet)
         {
             if (player.RoundChipBet + bet == maxBetInRound)
@@ -160,6 +187,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             _logControl.AddSystemLog(log);
+            lastPlayerRaisedInRound = player;
             return true;
         }
 
@@ -249,24 +277,24 @@ namespace TexasHoldem.Logic.Game
 
         private void SetRoles()
         {
-            if (this.DealerPlayer == null)
+            if (DealerPlayer == null)
             {
-                this.DealerPos = 0;
+                DealerPos = 0;
             }
             Deck deck = new Deck();
             this.Deck = deck;
-            this._buttonPos = this.DealerPos;
+            _buttonPos = DealerPos;
 
-            if (this.Players.Count > 2)
+            if (Players.Count > 2)
             {
-                //delaer
+                //dealer
                 this.DealerPlayer = this.Players[this._buttonPos];
                 // small blind
                 this.SbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
-                this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(this.Bb / 2);
+                this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(Sb);
                 // big blind
                 this.BbPlayer = this.Players[(this._buttonPos + 2) % this.Players.Count];
-                this.Players[(this._buttonPos + 2) % this.Players.Count].CommitChips(this.Bb);
+                this.Players[(this._buttonPos + 2) % this.Players.Count].CommitChips(Bb);
                 //actionPos will keep track on the curr player.
                 this.ActionPos = (this._buttonPos + 3) % this.Players.Count;
 
@@ -277,7 +305,7 @@ namespace TexasHoldem.Logic.Game
                 // small blind
                 this.DealerPlayer = this.Players[(this._buttonPos) % this.Players.Count];
                 this.SbPlayer = this.Players[(this._buttonPos) % this.Players.Count];
-                this.Players[(this._buttonPos) % this.Players.Count].CommitChips(this.Bb / 2);
+                this.Players[(this._buttonPos) % this.Players.Count].CommitChips(this.Sb);
                 // big blind
                 this.BbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
                 this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(this.Bb);
