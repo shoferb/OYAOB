@@ -126,7 +126,7 @@ namespace TexasHoldem.Logic.Users
                 TotalChip += amount;
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
-             //   SystemControl sc = SystemControl.SystemControlInstance;
+             // SystemControl sc = SystemControl.SystemControlInstance;
                /* int highestRank = GameCenter.Instance.HigherRank.Points;
                 if (this.Points > highestRank)
                 {

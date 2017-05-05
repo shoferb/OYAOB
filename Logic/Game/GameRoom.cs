@@ -315,42 +315,37 @@ namespace TexasHoldem.Logic.Game
                     playersLeftInGame.Add(player);
                 }
             }
-            InitPlayersLastAction();
-            this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
+            Winners = FindWinner(PublicCards, playersLeftInGame);
             List<int> ids = new List<int>();
-            foreach (Player player in playersLeftInGame)
+            foreach (Player player in Players)
             {
                 ids.Add(player.user.Id());
             }
-            this.ReplayManager.AddGameReplay(this.GameReplay, ids);
+            ReplayManager.AddGameReplay(GameReplay, ids);
             if (this.Winners.Count > 0) // so there are winners at the end of the game
             {
-                var amount = this.PotCount / this.Winners.Count;
+                int amount = this.PotCount / this.Winners.Count;
 
                 foreach (HandEvaluator h in this.Winners)
                 {
                     h._player.Win(amount);
                 }
             }
+            playersLeftInGame = new List<Player>();
             foreach (Player player in this.Players)
             {
                 player.ClearCards(); // gets rid of cards of all players
-                if (player.OutOfMoney())
+                player.isPlayerActive = false;
+                if (!player.OutOfMoney())
                 {
-                    player.isPlayerActive = false;
-                    this.Players.Remove(player);
+                    playersLeftInGame.Add(player);
                 }
             }
-            this.IsActiveGame = false;
-            if (this.Players.Count > 1)
-            {
-                // sets next DealerPos - for the next run 
-                this.DealerPos = this.DealerPos + 1 % this.Players.Count;
-                // put new turns for the next round
-                this.ClearPublicCards();
-                this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-                SetRoles();
-            }
+            Players = playersLeftInGame;
+            IsActiveGame = false;
+            ClearPublicCards();
+            GameReplay = new GameReplay(Id, GameNumber);
+            return true;
         }
 
         private void ProgressHand()
@@ -918,29 +913,6 @@ namespace TexasHoldem.Logic.Game
 
             return toReturn;
         }
-
-        private void PlayerDesicion(int move)
-        {
-            switch (move)
-            {
-                case -1:
-                    Fold();
-                    break;
-                case 0:
-                    Check();
-                    break;
-                default:
-                    if (move == maxBetInRound)
-                        Call(maxBetInRound);
-                    else
-                    {
-                        Raise(move);
-                        StartNewRoundAfterRaise();
-                    }
-                    break;
-            }
-        }
-
 
        private void Raise(int additionalChips)
         {
