@@ -10,27 +10,17 @@ namespace TexasHoldem.Service
 {
     public class GameServiceHandler : ServiceHandler
     {
-        private readonly Dictionary<GameRoom, GameManager> _roomToManagerDictionary;
         private readonly GameCenter _gameCenter;
+        private readonly SystemControl _systemControl;
 
         public GameServiceHandler()
         {
-            _roomToManagerDictionary = new Dictionary<GameRoom, GameManager>();
             _gameCenter = GameCenter.Instance;
+            _systemControl = SystemControl.SystemControlInstance;
         }
 
-        private GameManager GetManagerForGame(GameRoom room)
-        {
-            if (_roomToManagerDictionary.ContainsKey(room))
-            {
-                return _roomToManagerDictionary[room];
-            }
-            GameManager manager = ((GameRoom) room)._gm;
-            _roomToManagerDictionary.Add(room, manager);
-            return manager;
-        }
 
-        // public GameRoom GetGameFromId(int gameId)
+       // public GameRoom GetGameFromId(int gameId)
         public GameRoom GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
@@ -40,15 +30,16 @@ namespace TexasHoldem.Service
         public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
-            return GameCenter.Instance.CreateNewRoomWithRoomId(roomId,userId, startingChip, isSpectetor, gameModeChosen,
+            return _gameCenter.CreateNewRoomWithRoomId(roomId,userId, startingChip, isSpectetor, gameModeChosen,
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
+        //TODO: fix this
         //create room and add to games list game center
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
-            return GameCenter.Instance.CreateNewRoom(userId, startingChip, isSpectetor, gameModeChosen,
+            return _gameCenter.CreateNewRoom(userId, startingChip, isSpectetor, gameModeChosen,
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
@@ -64,31 +55,48 @@ namespace TexasHoldem.Service
             return _gameCenter.GetRoomById(id);
         }
 
-        public bool AddPlayerToRoom(int userId, int roomId, int amountOfChips)
+        public bool AddPlayerToRoom(int userId, int roomId)
         {
-            return _gameCenter.AddPlayerToRoom(roomId, userId);
+            IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            if (gameRoom != null && user != null)
+            {
+                return gameRoom.AddPlayerToRoom(userId);
+            }
+            else return false;
         }
 
         public bool AddSpectatorToRoom(int userId, int roomId)
         {
-            return _gameCenter.AddSpectetorToRoom(roomId, userId);
+            IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            if (gameRoom != null && user != null)
+            {
+                return gameRoom.AddSpectetorToRoom(userId);
+            }
+            else return false;
         }
 
-        public bool RemoveUserFromRoom(int userId, int roomId)
+        public bool RemovePlayerFromRoom(int userId, int roomId)
         {
-            GameRoom room = _gameCenter.GetRoomById(roomId);
-            if (room != null)
-	        {
-		        if (room.Players.Exists(p => p.user.Id() == userId))
-                {
-                    return _gameCenter.RemovePlayerFromRoom(roomId, userId);
-                }
-	            if (room.Spectatores.Exists(s => s.user.Id() == userId))
-	            {
-	                return _gameCenter.RemoveSpectetorFromRoom(roomId, userId);
-	            }
-	        }
-            return false;
+            IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            if (gameRoom != null && user != null)
+            {
+                return gameRoom.RemovePlayerFromRoom(userId);
+            }
+            else return false;
+        }
+
+        public bool RemoveSpectatorFromRoom(int userId, int roomId)
+        {
+            IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            if (gameRoom != null && user != null)
+            {
+                return gameRoom.RemoveSpectetorFromRoom(userId);
+            }
+            else return false;
         }
 
         public List<GameRoom> GetAvaiableGamesByUserRank(int userPoints)
@@ -100,12 +108,7 @@ namespace TexasHoldem.Service
 
         public bool MakeRoomActive(GameRoom room)
         {
-            GameManager manager = GetManagerForGame(room);
-            if (room.MinPlayersInRoom <= room.Players.Count && !room.IsActiveGame)
-            {
-                manager.Start();
-                return true;
-            }
+            //TODO
             return false;
         }
 
@@ -270,6 +273,8 @@ namespace TexasHoldem.Service
             List<GameRoom> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip);
             return toRetun;
         }
+
+        //TODO: rename this. the name is opposite to what it does
         //return list of games by min player in room
         public List<GameRoom> GetGamesByMaxPlayer(int max)
         {
@@ -277,6 +282,8 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        
+        //TODO: probably not needed
         public String Displaymoves(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
         {
             return GameCenter.Instance.Displaymoves(moves);
@@ -284,7 +291,7 @@ namespace TexasHoldem.Service
 
 
         
-
+        //TODO: probably not needed
         public int GetBetFromUser(int bet)
         {
             return bet;
@@ -292,6 +299,7 @@ namespace TexasHoldem.Service
 
        
         //use only this
+        //TODO: replace random with method that waits until a responce from client was accepted (with some flag / value)
         public Tuple<Logic.Game.GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
         {
             

@@ -19,13 +19,13 @@ namespace TexasHoldem.Logic.Users
         public bool _isInRoom { get; set; }
         public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב 
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
-      
-
-        public Hand _hand;
+        public Card _firstCard;
+        public Card _seconedCard;
+        public List<Card> _publicCards = new List<Card>();
 
         //new Fields
-        public IUser user { get; }
-        public int roomId { get; }
+        public IUser user { get; set; }
+        public int roomId { get; set; }
 
         public Player(IUser User, int totalChip, int roundChipBetComitted, int RoomId)
         {
@@ -33,35 +33,19 @@ namespace TexasHoldem.Logic.Users
             this.roomId = RoomId;
             this.TotalChip = totalChip;
             this.RoundChipBet = roundChipBetComitted;
-          
+       
             this.RoundChipBet = RoundChipBet;
             this.TotalChip = totalChip;
             isPlayerActive = false;
-            _hand = new Hand();
-
+            this._firstCard = null;
+            this._seconedCard = null;
             this._payInThisRound = 0;
             this.moveForTest = 0;
+            this.isPlayerActive = false;
+            this.PlayedAnActionInTheRound = false;
         }
         
-        public Player(int totalChip, int roundChipBetComitted, int id, string name, string memberName, string password, int points, int money, String email,
-            int roomId) : base(id, name, memberName, password, points, money, email, roomId)
-        {
-            
-            this.TotalChip = totalChip;
-            this.RoundChipBet = roundChipBetComitted;
-            this.name = name;
-            this.RoundChipBet = RoundChipBet;
-            this.TotalChip = totalChip;
-            isPlayerActive = false;
-            _hand = new Hand();
-            
-            this._payInThisRound = 0;
-            this.moveForTest = 0;
-        }
-
-
-
-        //getter setter
+       //getter setter
 
         public bool IsAllIn()
         {
@@ -72,16 +56,8 @@ namespace TexasHoldem.Logic.Users
             return false;
         }
 
-        public void ClearCards()
-        {
-            _hand.ClearCards();
-        }
-        public List<Card> GetHoleCards()
-        {
-            return _hand.GetCards();
-
-        }
-        public bool OutOfMoney()
+       
+       public bool OutOfMoney()
         {
             if (TotalChip == 0)
                 return true;
@@ -94,19 +70,18 @@ namespace TexasHoldem.Logic.Users
             _payInThisRound = 0;
         }
 
-        public void AddCard(Card newCard)
-        {
-            _hand.AddPublicCardToPlayer(newCard);
-        }
         public bool CanCheck(GameRoom state)
         {
             if (state.MaxCommitted == RoundChipBet)
                 return true;
             return false;
         }
-        public void AddHoleCards(Card newCardA, Card newCardB)
+        public void AddPublicCardToPlayer(Card newCard)
         {
-            _hand.Add2Cards(newCardA, newCardB);
+            if (_publicCards.Count < 5)
+                _publicCards.Add(newCard);
+            else
+                throw new System.ArgumentException("Too many cards.", "newCard");
         }
 
 
@@ -166,8 +141,35 @@ namespace TexasHoldem.Logic.Users
             }
             return toReturn;
         }
-        
 
+        public List<Card> GetCards()
+        {
+            List<Card> holeCards = new List<Card>()
+                {_firstCard,
+                 _seconedCard,
+                };
+            return holeCards;
+
+        }
+
+        public void ClearCards()
+        {
+            _firstCard = null;
+            _seconedCard = null;
+            _publicCards.Clear();
+
+        }
+
+        public void Add2Cards(Card newCardA, Card newCardB)
+        {
+            if (_firstCard == null && _seconedCard == null)
+            {
+                _firstCard = newCardA;
+                _seconedCard = newCardB;
+            }
+            else
+                throw new System.ArgumentException("Player cards already determined.", "newCard");
+        }
 
 
 

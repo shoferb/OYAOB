@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TexasHoldemShared.CommMessages
+namespace TexasHoldemShared.CommMessages.ServerToClient
 {
     //This class is used to pass game data / table updates to the client
     public class GameDataCommMessage : CommunicationMessage
@@ -55,6 +55,12 @@ namespace TexasHoldemShared.CommMessages
             DealerName = dealerName;
             BbName = bbName;
             SbName = sbName;
+        }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
         }
     }
 }

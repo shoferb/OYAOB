@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    public abstract class LogServiceHandler : ServiceHandler
+    public class LogServiceHandler : ServiceHandler
     {
 
         private SystemControl sc = SystemControl.SystemControlInstance;
@@ -81,6 +81,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        //TODO: add checking if user != null
         public bool SendNotificationByUserId(int userId, int roomId, string msg)
         {
             Notification toSend = CreateNotification(roomId, msg);
@@ -91,7 +92,7 @@ namespace TexasHoldem.Service
 
 
         //todo - get priority - stuck until get log by Id complete
-        public Log.LogPriority GetLofPriority(int logId)
+        public Log.LogPriority GetLogPriority(int logId)
         {
             //Log getLog = GameCenter.Instance.FindLog(logId);
             throw new NotImplementedException();

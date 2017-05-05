@@ -39,13 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommMessages\ActionCommMessage.cs" />
+    <Compile Include="CommMessages\ClientToServer\ActionCommMessage.cs" />
     <Compile Include="CommMessages\CommunicationMessage.cs" />
-    <Compile Include="CommMessages\EditCommMessage.cs" />
-    <Compile Include="CommMessages\GameDataCommMessage.cs" />
-    <Compile Include="CommMessages\LoginCommMesage.cs" />
-    <Compile Include="CommMessages\MoveOptionsCommMessage.cs" />
-    <Compile Include="CommMessages\RegisterCommMessage.cs" />
+    <Compile Include="CommMessages\ClientToServer\EditCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\GameDataCommMessage.cs" />
+    <Compile Include="CommMessages\ClientToServer\LoginCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\MoveOptionsCommMessage.cs" />
+    <Compile Include="CommMessages\ClientToServer\RegisterCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
+    <Compile Include="IEventHandler.cs" />
+    <Compile Include="Parser\ICommMsgXmlParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

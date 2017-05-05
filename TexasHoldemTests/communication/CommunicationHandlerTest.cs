@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
-using TexasHoldem.communication.Reactor.Impl;
 
 namespace TexasHoldemTests.communication
 {
@@ -30,7 +29,7 @@ namespace TexasHoldemTests.communication
         [SetUp]
         public void SetUp()
         {
-            _commHandler = new CommHandlerChildForTests(new ListenerSelector(), Port);
+            _commHandler = new CommHandlerChildForTests();
         }
 
         [TearDown]

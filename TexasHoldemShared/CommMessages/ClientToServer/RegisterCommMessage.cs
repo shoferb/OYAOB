@@ -1,5 +1,5 @@
 ﻿
-namespace TexasHoldemShared.CommMessages
+namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     //Sent from client to server and represents a user's wish to register to the system
     public class RegisterCommMessage : CommunicationMessage
@@ -17,6 +17,12 @@ namespace TexasHoldemShared.CommMessages
             Password = password;
             Money = money;
             Email = email;
+        }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
         }
     }
 }

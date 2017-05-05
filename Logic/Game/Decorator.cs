@@ -9,6 +9,7 @@ namespace TexasHoldem.Logic
 {
     public abstract class Decorator
     {
+        //TODO: methods should not be implemented!
        internal Decorator NextDecorator;
 
         public Decorator(Decorator d)
@@ -18,36 +19,53 @@ namespace TexasHoldem.Logic
 
         public bool CanStartTheGame(int numOfPlayers)
         {
-            return false;
+            return this.NextDecorator.CanStartTheGame(numOfPlayers);
         }
 
         public bool CanRaise()
         {
-            return false;
+            return this.NextDecorator.CanRaise();
         }
 
         public bool CanCheck()
         {
-            return false;
+            return  this.NextDecorator.CanCheck();
         }
 
         public bool CanFold()
         {
-            return false;
+            return this.NextDecorator.CanFold();
         }
 
        public bool CanSpectatble()
         {
-            return false;
+            return this.NextDecorator.CanSpectatble();
         }
 
         public int GetMinBetInRoom()
         {
-            return 0;
+            return this.NextDecorator.GetMinBetInRoom();
+        }
+
+        public int GetEnterPayingMoney()
+        {
+            return this.NextDecorator.GetEnterPayingMoney();
+        }
+
+        public int GetStartingChip()
+        {
+            return this.NextDecorator.GetStartingChip();
         }
 
         public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
 
         public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step);
+        }
+        
+	public bool CanAddMorePlayer(int currNumOfPlayers)
+        {
+            return this.NextDecorator.CanAddMorePlayer(currNumOfPlayers);
+        }
+    
     }
 }

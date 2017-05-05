@@ -1,7 +1,7 @@
-﻿namespace TexasHoldemShared.CommMessages
+﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     //Sent from Client to Server and represents a player's action, as in Fold, Raise, Join a game, etc.
-    class ActionCommMessage : CommunicationMessage
+    public class ActionCommMessage : CommunicationMessage
     {
         //TODO: consider spliting this class up
 
@@ -14,6 +14,12 @@
             MoveType = moveType;
             Amount = amount;
             RoomId = roomId;
+        }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
         }
     }
 }

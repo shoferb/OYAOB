@@ -45,6 +45,9 @@
     <Reference Include="Moq">
       <HintPath>packages\Moq.4.7.9\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -63,7 +66,7 @@
     <Compile Include="communication\Impl\ListenerSelector.cs" />
     <Compile Include="communication\Impl\MessageEventHandler.cs" />
     <Compile Include="communication\Impl\communicationHandler.cs" />
-    <Compile Include="communication\Interfaces\IEventHandler.cs" />
+    <Compile Include="communication\Impl\ServerEventHandler.cs" />
     <Compile Include="communication\Interfaces\IListenerSelector.cs" />
     <Compile Include="communication\Interfaces\ICommunicationHandler.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
@@ -94,7 +97,6 @@
     <Compile Include="Logic\Game\GameMode.cs" />
     <Compile Include="Logic\Game\GameMove.cs" />
     <Compile Include="Logic\Game\GameRoom.cs" />
-    <Compile Include="Logic\Game\Hand.cs" />
     <Compile Include="Logic\Game\IGame.cs" />
     <Compile Include="Logic\Game\MiddleGameDecorator.cs" />
     <Compile Include="Logic\Game\Suits.cs" />
@@ -137,6 +139,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="TexasHoldemShared\TexasHoldemShared.csproj">
+      <Project>{22888c95-40ac-4271-8d39-ec1ff358afbd}</Project>
+      <Name>TexasHoldemShared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

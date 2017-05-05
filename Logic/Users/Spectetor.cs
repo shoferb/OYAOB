@@ -8,7 +8,7 @@ namespace TexasHoldem.Logic.Users
 {
     public class Spectetor 
     {
-        public int roomId { get; }
+        public int roomId { get; set; }
         public IUser user;
 
         public Spectetor(IUser User, int RoomId)
@@ -17,7 +17,9 @@ namespace TexasHoldem.Logic.Users
             this.roomId = RoomId;
         }
 
-        public Spectetor(int id, string name, string memberName, string password, int points, int money,String email,int roomId) :
+        //TODO: no base here
+        //TODO: some of the fields in constructor are not needed
+        public Spectetor(int id, string name, string memberName, string password, int points, int money, string email,int roomId) :
             base(id, name, memberName, password, points, money, email)
         {
             
