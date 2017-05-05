@@ -314,14 +314,14 @@ namespace TexasHoldem.Logic.Game
                 case HandStep.Flop:
                     for (int i = 0; i <= 2; i++)
                     {
-                        AddNewPublicCard();
+                       AddNewPublicCard();
                     }
                     break;
                 case HandStep.Turn:
-                    this.AddNewPublicCard();
+                    AddNewPublicCard();
                     break;
                 case HandStep.River:
-                    this.AddNewPublicCard();
+                    AddNewPublicCard();
                     break;
 
                 default:
@@ -330,9 +330,8 @@ namespace TexasHoldem.Logic.Game
 
             if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
             {
-                return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
+                ProgressHand(); // recursive, runs until we'll hit the river
             }
-            return true;
         }
 
     private bool NextCurrentPlayer()
@@ -587,8 +586,12 @@ namespace TexasHoldem.Logic.Game
         {
             int playersAllIn = 0;
             foreach (Player player in Players)
+            {
                 if (player.IsAllIn())
+                {
                     playersAllIn++;
+                }
+            }
             return playersAllIn;
         }
 
