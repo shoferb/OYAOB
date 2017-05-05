@@ -68,6 +68,8 @@ namespace TexasHoldem.Logic.Users
         public void InitPayInRound()
         {
             _payInThisRound = 0;
+            RoundChipBet = 0;
+            PlayedAnActionInTheRound = false;
         }
 
         public bool CanCheck(GameRoom state)

@@ -284,7 +284,58 @@ namespace TexasHoldem.Logic.Game
             return NextCurrentPlayer();
         }
 
-        private bool NextCurrentPlayer()
+        private bool NextRound()
+        {
+            if (Hand_Step == HandStep.River) 
+            {
+                // game over go to find winners then clean game 
+            }
+            MoveChipsToPot();
+
+            lastPlayerRaisedInRound = null;
+            LastRaise = 0;
+            InitializePlayerRound();
+            //TODO: check that
+            MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+            MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+
+            ProgressHand();
+        }
+
+        private void ProgressHand()
+        {
+            int nextStep = (int)Hand_Step + 1;
+            Hand_Step = (GameRoom.HandStep)nextStep;
+
+            switch (Hand_Step)
+            {   //wont get to "pre flop" case
+                case HandStep.PreFlop:
+                    break;
+                case HandStep.Flop:
+                    for (int i = 0; i <= 2; i++)
+                    {
+                        AddNewPublicCard();
+                    }
+                    break;
+                case HandStep.Turn:
+                    this.AddNewPublicCard();
+                    break;
+                case HandStep.River:
+                    this.AddNewPublicCard();
+                    break;
+
+                default:
+                    return;
+            }
+
+            if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
+            {
+                return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
+            }
+            return true;
+        }
+
+    private bool NextCurrentPlayer()
         {
             int i = 1;
             while(i <= Players.Count)
@@ -310,7 +361,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return true;
             }
-
+            //TODO last round finished?
         }
 
         //@TODO send a message to user saying he is not part of the game and cant do action
