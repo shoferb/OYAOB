@@ -16,51 +16,16 @@ namespace TexasHoldem.Logic
             this.NextDecorator = d;
         }
 
-        public bool CanStartTheGame(int numOfPlayers)
-        {
-            return this.NextDecorator.CanStartTheGame(numOfPlayers);
-        }
+        public abstract bool CanStartTheGame(int numOfPlayers);
+        public abstract bool CanRaise();
+        public abstract bool CanCheck();
+        public abstract bool CanFold();
+        public abstract bool CanSpectatble();
+        public abstract int GetMinBetInRoom();
+        public abstract int GetEnterPayingMoney();
+        public abstract int GetStartingChip();
+        public abstract bool CanAddMorePlayer(int currNumOfPlayers);
 
-        public bool CanRaise()
-        {
-            return this.NextDecorator.CanRaise();
-        }
 
-        public bool CanCheck()
-        {
-            return  this.NextDecorator.CanCheck();
-        }
-
-        public bool CanFold()
-        {
-            return this.NextDecorator.CanFold();
-        }
-
-       public bool CanSpectatble()
-        {
-            return this.NextDecorator.CanSpectatble();
-        }
-
-        public int GetMinBetInRoom()
-        {
-            return this.NextDecorator.GetMinBetInRoom();
-        }
-
-        public int GetEnterPayingMoney()
-        {
-            return this.NextDecorator.GetEnterPayingMoney();
-        }
-
-        public int GetStartingChip()
-        {
-            return this.NextDecorator.GetStartingChip();
-        }
-
-        public bool CanAddMorePlayer(int currNumOfPlayers)
-        {
-            return this.NextDecorator.CanAddMorePlayer(currNumOfPlayers);
-        }
-
-    
     }
 }

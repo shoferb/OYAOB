@@ -10,6 +10,11 @@ namespace TexasHoldem.Service
 {
     public class GameServiceHandler : ServiceHandler
     {
+        //TODO Search/ filter active games by: player name/ pot size/ game preference.
+        //TODO Join existing games. i Get the User 
+        //TODO Spectate active game.
+        //TODO Leave a game.
+        //TODO Find all active games which the user can join.
         private readonly GameCenter _gameCenter;
         private readonly SystemControl _systemControl;
 
@@ -19,14 +24,11 @@ namespace TexasHoldem.Service
             _systemControl = SystemControl.SystemControlInstance;
         }
 
-
-       // public GameRoom GetGameFromId(int gameId)
         public GameRoom GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
         }
-
-        //create room and add to games list game center
+        //TODO +Game center to fix 
         public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
@@ -116,68 +118,7 @@ namespace TexasHoldem.Service
             return _gameCenter.RemoveRoom(gameId);
         }
 
-        //public bool Fold(Player player, GameRoom room)
-        //{
-        //    var manager = GetManagerForGame(room);
-        //    if (player.Equals(manager._currentPlayer))
-        //    {
-        //        manager.Fold();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public bool Check(Player player, GameRoom room)
-        //{
-        //    var manager = GetManagerForGame(room);
-        //    if (player.Equals(manager._currentPlayer))
-        //    {
-        //        manager.Check();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public bool Call(Player player, GameRoom room)
-        //{
-        //    var manager = GetManagerForGame(room);
-        //    if (player.Equals(manager._currentPlayer))
-        //    {
-        //        manager.Call();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public bool Raise(Player player, GameRoom room, int sum)
-        //{
-        //    var manager = GetManagerForGame(room);
-        //    if (player.Equals(manager._currentPlayer))
-        //    {
-        //        manager.Raise(sum);
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public List<Player> FindWinner(int gameId)
-        //{
-        //    List<Player> winningPlayers = new List<Player>();
-        //    var room = _gameCenter.GetRoomById(gameId);
-        //    var manager = GetManagerForGame(room);
-        //    if (room != null && manager != null && manager._gameOver)
-        //    {
-        //        List<Player> activePlayers = room.players.FindAll(p => p.isPlayerActive);
-        //        var winners = manager.FindWinner(room.PublicCards, activePlayers);
-        //        winners.ForEach(handEval =>
-        //        {
-        //            winningPlayers.Add(handEval._player);
-        //        });
-        //    }
-        //    return winningPlayers;
-        //}
-
-        //public List<GameRoom> GetAllActiveGames()
+        //TODO This is Use case
         public List<GameRoom> GetAllActiveGames()
         {
             List<GameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
