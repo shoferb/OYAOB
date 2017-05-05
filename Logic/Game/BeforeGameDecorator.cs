@@ -63,7 +63,17 @@ namespace TexasHoldem.Logic
             return this.MinBetInRoom;
         }
 
-        public int GetEnterPayingMoney()
+        public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        {
+            return NextDecorator.GetMaxAllowedRaise(BB, maxCommited, step);
+        }
+
+        public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        {
+            return NextDecorator.GetMinAllowedRaise(BB, maxCommited, step);
+        }
+
+         public int GetEnterPayingMoney()
         {
             return this.EnterPayingMoney;
         }
@@ -72,7 +82,7 @@ namespace TexasHoldem.Logic
         {
             return this.StartingChip;
         }
-
+        
         public bool CanAddMorePlayer(int currNumOfPlayers)
         {
             return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;

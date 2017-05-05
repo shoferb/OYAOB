@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    public abstract class LogServiceHandler : ServiceHandler
+    public class LogServiceHandler : ServiceHandler
     {
 
         private SystemControl sc = SystemControl.SystemControlInstance;

@@ -15,5 +15,11 @@
             Amount = amount;
             RoomId = roomId;
         }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
+        }
     }
 }

@@ -15,5 +15,11 @@
             UserName = name;
             Password = passWord;
         }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
+        }
     }
 }

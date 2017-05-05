@@ -36,6 +36,7 @@ namespace TexasHoldem.Service
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
+        //TODO: fix this
         //create room and add to games list game center
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
@@ -213,6 +214,8 @@ namespace TexasHoldem.Service
             List<GameRoom> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip);
             return toRetun;
         }
+
+        //TODO: rename this. the name is opposite to what it does
         //return list of games by min player in room
         public List<GameRoom> GetGamesByMaxPlayer(int max)
         {
@@ -220,6 +223,8 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        
+        //TODO: probably not needed
         public String Displaymoves(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
         {
             return GameCenter.Instance.Displaymoves(moves);
@@ -227,7 +232,7 @@ namespace TexasHoldem.Service
 
 
         
-
+        //TODO: probably not needed
         public int GetBetFromUser(int bet)
         {
             return bet;
@@ -235,6 +240,7 @@ namespace TexasHoldem.Service
 
        
         //use only this
+        //TODO: replace random with method that waits until a responce from client was accepted (with some flag / value)
         public Tuple<Logic.Game.GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
         {
             

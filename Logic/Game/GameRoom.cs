@@ -182,9 +182,9 @@ namespace TexasHoldem.Logic.Game
             this._roundCounter = 1;
             while (this._roundCounter <= 4)
             {
-                //Orellie functions
                 InitializePlayerRound();
-                RaiseFieldAtEveryRound();
+                MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.MaxCommitted, this.Hand_Step);
+                MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.MaxCommitted, this.Hand_Step);
 
                 DoRound();
 
@@ -369,25 +369,6 @@ namespace TexasHoldem.Logic.Game
             PotCount = Bb + Sb;
             bbPlayer.RoundChipBet = bbPlayer.RoundChipBet + Bb;
             sbPlayer.RoundChipBet = sbPlayer.RoundChipBet + Sb;
-        }
-
-        private void RaiseFieldAtEveryRound()
-        {
-
-            if (this.MyDecorator.GetGameMode() == GameMode.Limit && (this.Hand_Step == GameRoom.HandStep.Flop ||
-                                                       this.Hand_Step == GameRoom.HandStep.PreFlop))
-            {
-                MaxRaiseInThisRound = this.Bb;
-            }
-            if (this.MyDecorator.GetGameMode() == GameMode.Limit && (this.Hand_Step == GameRoom.HandStep.River ||
-                                                       this.Hand_Step == GameRoom.HandStep.Turn))
-            {
-                MaxRaiseInThisRound = this.Bb * 2;
-            }
-            if (this.MyDecorator.GetGameMode() == GameMode.NoLimit)
-            {
-                MinRaiseInThisRound = this.MaxCommitted;
-            }
         }
 
         private void InitializePlayerRound()

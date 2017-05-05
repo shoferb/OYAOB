@@ -18,5 +18,11 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             Money = money;
             Email = email;
         }
+
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
+        }
     }
 }
