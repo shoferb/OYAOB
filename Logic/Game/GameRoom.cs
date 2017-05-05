@@ -284,6 +284,22 @@ namespace TexasHoldem.Logic.Game
             return NextCurrentPlayer();
         }
 
+        private bool NextCurrentPlayer()
+        {
+            int i = 1;
+            while(i <= Players.Count)
+            {
+                int newPosition = (currentPlayerPos + i) % Players.Count;
+                if (Players[newPosition].isPlayerActive)
+                {
+                    currentPlayerPos = newPosition;
+                    CurrentPlayer = Players[newPosition];
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private bool IsGameOver()
         {
             if (!IsActiveGame)
