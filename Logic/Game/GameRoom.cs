@@ -144,15 +144,34 @@ namespace TexasHoldem.Logic.Game
             {
                 return false;
             }
+
             Hand_Step = HandStep.PreFlop;
             GameReplay = new GameReplay(Id, GameNumber);
-            SystemLog log = new SystemLog(this.Id, "Game Started");
+            SystemLog log = new SystemLog(Id, "Game Started");
             _logControl.AddSystemLog(log);
             SetRoles();
             StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             _logControl.AddSystemLog(log2);
+
+            MoveBbnSBtoPot();
+            maxBetInRound = Bb;
+            switch (Players.Count)
+            {
+                case 2:
+                    CurrentPlayer = SbPlayer;
+                    break;
+                case 3:
+                    CurrentPlayer = this.BbPlayer;
+                    _currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
+                    break;
+                default:
+                    CurrentPlayer = this.Players[this.ActionPos];
+                    _currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
+                    break;
+            }
+
             HandCards();
             this.IsActiveGame = true;
             this._roundCounter = 1;
@@ -291,10 +310,8 @@ namespace TexasHoldem.Logic.Game
                 this.DealerPlayer = this.Players[this._buttonPos];
                 // small blind
                 this.SbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
-                this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(Sb);
                 // big blind
                 this.BbPlayer = this.Players[(this._buttonPos + 2) % this.Players.Count];
-                this.Players[(this._buttonPos + 2) % this.Players.Count].CommitChips(Bb);
                 //actionPos will keep track on the curr player.
                 this.ActionPos = (this._buttonPos + 3) % this.Players.Count;
 
@@ -305,27 +322,9 @@ namespace TexasHoldem.Logic.Game
                 // small blind
                 this.DealerPlayer = this.Players[(this._buttonPos) % this.Players.Count];
                 this.SbPlayer = this.Players[(this._buttonPos) % this.Players.Count];
-                this.Players[(this._buttonPos) % this.Players.Count].CommitChips(this.Sb);
                 // big blind
                 this.BbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
-                this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(this.Bb);
             }
-
-            this.UpdateMaxCommitted();
-            this.MoveBbnSBtoPot(this.BbPlayer, this.SbPlayer);
-            switch (this.Players.Count)
-            {
-                case 2:
-                case 3:
-                    this.CurrentPlayer = this.BbPlayer;
-                    this._currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
-                    break;
-                default:
-                    this.CurrentPlayer = this.Players[this.ActionPos];
-                    this._currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
-                    break;
-            }
-
         }
 
         //TODO: restart deck between rounds
@@ -531,11 +530,11 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        private void MoveBbnSBtoPot(Player bbPlayer, Player sbPlayer)
+        private void MoveBbnSBtoPot()
         {
             PotCount = Bb + Sb;
-            bbPlayer.RoundChipBet = bbPlayer.RoundChipBet + Bb;
-            sbPlayer.RoundChipBet = sbPlayer.RoundChipBet + Sb;
+            SbPlayer.CommitChips(Sb);
+            BbPlayer.CommitChips(Bb);
         }
 
         private void InitializePlayerRound()
