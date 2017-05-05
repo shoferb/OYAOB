@@ -268,17 +268,20 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             _logControl.AddSystemLog(log);
-            AfterAction();
-            return true;
+            return AfterAction();
         }
 
-        private void AfterAction()
+        private bool AfterAction()
         {
-            if (AllDoneWithTurn() && CurrentPlayer == FirstPlayerInRound)
+            if (IsGameOver())
             {
 
             }
-            currentPlayerPos = 
+            if (AllDoneWithTurn() )
+            {
+                return NextRound();
+            }
+            return NextCurrentPlayer();
         }
 
         private bool IsGameOver()
