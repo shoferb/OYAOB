@@ -288,7 +288,7 @@ namespace TexasHoldem.Logic.Game
         {
             if (Hand_Step == HandStep.River) 
             {
-                // game over go to find winners then clean game 
+                return EndGame(); 
             }
             MoveChipsToPot();
 
@@ -300,6 +300,56 @@ namespace TexasHoldem.Logic.Game
             MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
 
             ProgressHand();
+            return true;
+        }
+
+        private bool EndGame()
+        {
+            this.GameNumber++;
+            List<Player> playersLeftInGame = new List<Player>();
+            foreach (Player player in this.Players)
+            {
+                if (player.isPlayerActive)
+                {
+                    playersLeftInGame.Add(player);
+                }
+            }
+            this.InitPlayersLastAction();
+            this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
+            List<int> ids = new List<int>();
+            foreach (Player player in playersLeftInGame)
+            {
+                ids.Add(player.user.Id());
+            }
+            this.ReplayManager.AddGameReplay(this.GameReplay, ids);
+            if (this.Winners.Count > 0) // so there are winners at the end of the game
+            {
+                var amount = this.PotCount / this.Winners.Count;
+
+                foreach (HandEvaluator h in this.Winners)
+                {
+                    h._player.Win(amount);
+                }
+            }
+            foreach (Player player in this.Players)
+            {
+                player.ClearCards(); // gets rid of cards of all players
+                if (player.OutOfMoney())
+                {
+                    player.isPlayerActive = false;
+                    this.Players.Remove(player);
+                }
+            }
+            this.IsActiveGame = false;
+            if (this.Players.Count > 1)
+            {
+                // sets next DealerPos - for the next run 
+                this.DealerPos = this.DealerPos + 1 % this.Players.Count;
+                // put new turns for the next round
+                this.ClearPublicCards();
+                this.GameReplay = new GameReplay(this.Id, this.GameNumber);
+                SetRoles();
+            }
         }
 
         private void ProgressHand()
