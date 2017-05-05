@@ -105,6 +105,10 @@ namespace TexasHoldem.Logic.Game
             }
 
             Player player = GetInGamePlayerFromUser(user);
+            if(action == ActionType.StartGame)
+            {
+                return StartGame(player);
+            }
             if (action == ActionType.Leave)
             {
                 return Leave(player);
