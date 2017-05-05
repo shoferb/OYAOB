@@ -9,6 +9,7 @@ using System.Collections.Generic;
  using TexasHoldem.Logic.Notifications_And_Logs;
  using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldem.communication.Converters;
 
 namespace TexasHoldem.Logic.Game
 {
@@ -90,7 +91,42 @@ namespace TexasHoldem.Logic.Game
             RoomThread = thread;
         }
 
-        public void NewAction(IUser user, Actions.Action action)
+        public bool NewAction(IUser user, ClientAction action, int bet)
+        {
+            if (action == ClientAction.Join)
+            {
+                return Join(user);
+            }
+            if (action == ClientAction.Leave)
+            {
+                return Leave(user);
+            }
+            if (!IsUserInGame(user))
+            {
+                return SendClientMessage(user, action);
+            }
+
+            Player player = GetInGamePlayerFromUser(user);
+
+            if (bet == 0)
+            {
+                return Check(player);
+            }
+            return CallOrRaise(player, bet);
+        }
+
+        private Player GetInGamePlayerFromUser(IUser user)
+        {
+            foreach(Player player in Players)
+            {
+                if (player.user.Id() == user.Id())
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
+
         public void Start()
         {
             if (RoomThread != null && !this.IsActiveGame)
