@@ -55,6 +55,7 @@ namespace TexasHoldem.Logic.Game
         private LogControl _logControl = LogControl.Instance;
         public int GameNumber=0;
         private Player lastPlayerRaisedInRound;
+        private Player FirstPlayerInRound;
 
         public int MinBetInRoom { get; set; }
         private int _currLoaction { get; set; }
@@ -146,6 +147,8 @@ namespace TexasHoldem.Logic.Game
             }
 
             Hand_Step = HandStep.PreFlop;
+            Deck deck = new Deck();
+            this.Deck = deck;
             GameReplay = new GameReplay(Id, GameNumber);
             SystemLog log = new SystemLog(Id, "Game Started");
             _logControl.AddSystemLog(log);
@@ -300,31 +303,17 @@ namespace TexasHoldem.Logic.Game
             {
                 DealerPos = 0;
             }
-            Deck deck = new Deck();
-            this.Deck = deck;
-            _buttonPos = DealerPos;
-
-            if (Players.Count > 2)
-            {
-                //dealer
-                this.DealerPlayer = this.Players[this._buttonPos];
-                // small blind
-                this.SbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
-                // big blind
-                this.BbPlayer = this.Players[(this._buttonPos + 2) % this.Players.Count];
-                //actionPos will keep track on the curr player.
-                this.ActionPos = (this._buttonPos + 3) % this.Players.Count;
-
-            }
             else
             {
-                this.ActionPos = (this._buttonPos) % this.Players.Count;
-                // small blind
-                this.DealerPlayer = this.Players[(this._buttonPos) % this.Players.Count];
-                this.SbPlayer = this.Players[(this._buttonPos) % this.Players.Count];
-                // big blind
-                this.BbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
+                DealerPos = (DealerPos + 1) % Players.Count;
             }
+
+            DealerPlayer = Players[DealerPos];
+            SbPlayer = Players[(DealerPos + 1) % Players.Count];
+            BbPlayer = Players[(DealerPos + 2) % Players.Count];
+            FirstPlayerInRound = Players[(DealerPos + 3) % Players.Count];
+            CurrentPlayer = FirstPlayerInRound;
+
         }
 
         //TODO: restart deck between rounds
