@@ -150,7 +150,7 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             Players = relevantPlayers;
-            return true;
+            return AfterAction();
         }
 
         //TODO create player and add to game 
@@ -228,7 +228,7 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
-            return true;
+            return AfterAction();
         }
 
         private bool Call(Player player, int bet)
@@ -241,7 +241,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             _logControl.AddSystemLog(log);
-            return true;
+            return AfterAction();
         }
 
         private bool Check(Player player)
@@ -256,7 +256,7 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(this.Id, check.ToString());
             _logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
-            return true;
+            return AfterAction();
         }
 
         private bool Fold(Player player)
@@ -275,7 +275,7 @@ namespace TexasHoldem.Logic.Game
         {
             if (IsGameOver())
             {
-
+                EndGame();
             }
             if (AllDoneWithTurn() )
             {
@@ -406,7 +406,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return true;
             }
-            //TODO last round finished?
+            return false;
         }
 
         //@TODO send a message to user saying he is not part of the game and cant do action
@@ -432,23 +432,23 @@ namespace TexasHoldem.Logic.Game
             return null;
         }
 
-        public void Start()
-        {
-            if (RoomThread != null && !this.IsActiveGame)
-            {
-                try
-                {
-                    RoomThread.Start();
-                    Play();
+        //public void Start()
+        //{
+        //    if (RoomThread != null && !this.IsActiveGame)
+        //    {
+        //        try
+        //        {
+        //            RoomThread.Start();
+        //            Play();
 
-                }
-                catch (Exception e)
-                {
-                    ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
-                    _logControl.AddErrorLog(log);
-                }
-            }
-        }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
+        //            _logControl.AddErrorLog(log);
+        //        }
+        //    }
+        //}
 
         private void SetRoles()
         {
@@ -469,77 +469,6 @@ namespace TexasHoldem.Logic.Game
             CurrentPlayer = FirstPlayerInRound;
         }
 
-        //TODO: restart deck between rounds
-        public bool Play()
-        {
-            if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
-            {
-                return false;
-            }
-            this.Hand_Step = HandStep.PreFlop;
-            this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-            SystemLog log = new SystemLog(this.Id, "Game Started");
-            _logControl.AddSystemLog(log);
-            SetRoles();
-            StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
-            this.GameReplay.AddAction(startAction);
-            SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
-            _logControl.AddSystemLog(log2);
-            HandCards();
-            this.IsActiveGame = true;
-            this._roundCounter = 1;
-            while (this._roundCounter <= 4)
-            {
-                InitializePlayerRound();
-                MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
-                MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
-
-                DoRound();
-
-                MoveChipsToPot(); 
-
-                if (this.ActivePlayersInGame() >= 2)
-                {
-                    if (!ProgressHand(this.Hand_Step))
-                    {
-                        EndHand();
-                        return true;
-                    }
-                    else
-                    {
-                        this.InitPlayersLastAction();
-                        this.ActionPos = this._currLoaction;
-                        this.CurrentPlayer = this.NextToPlay();
-                    }
-
-                }
-                else
-                {
-                    EndHand();
-                }
-
-            }
-            return true;
-
-        }
-
-        private void DoRound()
-        {
-            while (!this.AllDoneWithTurn())
-            {
-                this.CurrentPlayer = NextToPlay();
-                int move = PlayerPlay();
-                PlayerDesicion(move);
-                if (_backFromRaise)
-                {
-                    _backFromRaise = false;
-                    break;
-                }
-                this.UpdateGameState();
-                this.CheckIfPlayerWantToLeave();
-            }
-        }
-
         private void HandCards()
         {
             foreach (Player player in this.Players)
@@ -554,11 +483,6 @@ namespace TexasHoldem.Logic.Game
             }
         }
         
-        private Player NextToPlay()
-        {
-            return Players[ActionPos];
-        }
-
        private void AddNewPublicCard()
         {
             Card c = Deck.ShowCard();
@@ -569,16 +493,6 @@ namespace TexasHoldem.Logic.Game
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
             GameReplay.AddAction(draw);
-        }
-
-        private void UpdateGameState()
-        {
-            // next player picked
-
-            do { ActionPos = (ActionPos + 1) % Players.Count; }
-            while (!Players[ActionPos].isPlayerActive);
-
-            UpdateMaxCommitted();
         }
 
         private void ClearPublicCards()
@@ -655,27 +569,6 @@ namespace TexasHoldem.Logic.Game
         }
 
      
-        private void CheckIfPlayerWantToLeave()
-        {
-            List<Player> players = new List<Player>();
-            foreach (Player p in this.Players)
-            {
-                if (p._isInRoom == true)
-                {
-                    players.Add(p);
-                }
-                else
-                {
-                    LeaveAction leave = new LeaveAction(p);
-                    GameReplay.AddAction(leave);
-                }
-            }
-            if (players.Count < this.Players.Count)
-            {
-                this.Players = players;
-            }
-        }
-
         private void MoveBbnSBtoPot()
         {
             PotCount = Bb + Sb;
@@ -914,103 +807,6 @@ namespace TexasHoldem.Logic.Game
             return toReturn;
         }
 
-       private void Raise(int additionalChips)
-        {
-            this.maxBetInRound += additionalChips;
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            this.CurrentPlayer.CommitChips(additionalChips);
-            RaiseAction raise = new RaiseAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                 this.CurrentPlayer._secondCard, additionalChips);
-            this.GameReplay.AddAction(raise);
-            SystemLog log = new SystemLog(this.Id, raise.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-        }
-        private bool ProgressHand(GameRoom.HandStep previousStep)
-        {
-            int numNextStep = (int)previousStep + 1;
-            this.Hand_Step = (GameRoom.HandStep)numNextStep;
-
-            switch (previousStep)
-            {   //never spouse to be in the "pre flop" case
-                case HandStep.PreFlop:               
-                    break;
-                case HandStep.Flop:
-                    for (int i = 0; i <= 2; i++)
-                    {
-                        this.AddNewPublicCard();
-                    }
-                    this._roundCounter++;
-                    break;
-                case HandStep.Turn:
-                    this.AddNewPublicCard();
-                    this._roundCounter++;
-                    break;
-                case HandStep.River:
-                    this.AddNewPublicCard();
-                    this._roundCounter++;
-                    break;
-                
-                default:
-                    return false;
-            }
-
-            if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
-            {
-                return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
-            }
-            return true;
-        }
-
-        private void EndHand()
-        {
-            this.GameNumber++;
-            List<Player> playersLeftInGame = new List<Player>();
-            foreach (Player player in this.Players)
-            {
-                if (player.isPlayerActive)
-                {
-                    playersLeftInGame.Add(player);
-                }
-            }
-            this.InitPlayersLastAction();
-            this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
-            List<int> ids = new List<int>();
-            foreach (Player player in playersLeftInGame)
-            {
-                ids.Add(player.user.Id());
-            }
-            this.ReplayManager.AddGameReplay(this.GameReplay, ids);
-            if (this.Winners.Count > 0) // so there are winners at the end of the game
-            {
-                var amount = this.PotCount / this.Winners.Count;
-
-                foreach (HandEvaluator h in this.Winners)
-                {
-                    h._player.Win(amount);
-                }
-            }
-            foreach (Player player in this.Players)
-            {
-                player.ClearCards(); // gets rid of cards of all players
-                if (player.OutOfMoney())
-                {
-                    player.isPlayerActive = false;
-                    this.Players.Remove(player);
-                }
-            }
-            this.IsActiveGame = false;
-            if (this.Players.Count > 1)
-            {
-                // sets next DealerPos - for the next run 
-                this.DealerPos = this.DealerPos+1 % this.Players.Count;
-                // put new turns for the next round
-                this.ClearPublicCards();
-                this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-                SetRoles();
-            }            
-        }
-
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
         {
             List<HandEvaluator> winners = new List<HandEvaluator>();
@@ -1117,33 +913,6 @@ namespace TexasHoldem.Logic.Game
                     c._value = 1;
                 }
             }
-        }
-
-        private void StartNewRoundAfterRaise()
-        {
-            if (this.ActivePlayersInGame() < 2)
-            {
-                EndHand();
-            }
-
-            UpdateGameState();
-            Player playerWhoRaise = this.CurrentPlayer;
-            Player nextPlayer = NextToPlay();
-            while (nextPlayer != null && nextPlayer != playerWhoRaise)
-            {
-                this.CurrentPlayer = nextPlayer;
-                int move = PlayerPlay();
-                if (move > this.maxBetInRound)
-                {
-                    StartNewRoundAfterRaise();
-                    break;
-                }
-                    PlayerDesicion(move);                  
-                     UpdateGameState();
-                     nextPlayer = this.NextToPlay();
-            }
-            
-            _backFromRaise = true;
         }
 
         private int GetRaisePotLimit(Player p)
