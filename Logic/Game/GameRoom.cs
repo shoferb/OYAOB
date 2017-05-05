@@ -143,15 +143,15 @@ namespace TexasHoldem.Logic.Game
 
         private bool Call(Player player, int bet)
         {
-            CurrentPlayer.PlayedAnActionInTheRound = true;
-            additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
-            this.CurrentPlayer.CommitChips(additionalChips);
-            CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._secondCard, additionalChips);
-            this.GameReplay.AddAction(call);
+            player.PlayedAnActionInTheRound = true;
+            bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
+            player.CommitChips(bet);
+            CallAction call = new CallAction(player, player._firstCard,
+                player._secondCard, bet);
+            GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
             _logControl.AddSystemLog(log);
+            return true;
         }
 
         private bool Check(Player player)

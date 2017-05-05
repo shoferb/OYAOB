@@ -109,8 +109,8 @@ namespace TexasHoldem.Logic.Users
 
         public void CommitChips(int chips)
         {
-            this.TotalChip -= chips;
-            this.RoundChipBet += chips;
+            TotalChip -= chips;
+            RoundChipBet += chips;
         }
 
 
