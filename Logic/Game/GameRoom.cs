@@ -44,8 +44,8 @@ namespace TexasHoldem.Logic.Game
         private bool _backFromRaise;
         public bool IsTestMode { get; set; } //TODO: maybe not relevant anymore?
         public Decorator MyDecorator;
-        public int MaxRaiseInThisRound { get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
-        public int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
+        public int MaxRaiseInThisRound { get; set; }  
+        public int MinRaiseInThisRound { get; set; } 
         public int LastRaise { get; set; }  //change to maxCommit
         public Thread RoomThread { get; set; }
         //new after log control change
@@ -90,6 +90,7 @@ namespace TexasHoldem.Logic.Game
             RoomThread = thread;
         }
 
+        public void NewAction(IUser user, Actions.Action action)
         public void Start()
         {
             if (RoomThread != null && !this.IsActiveGame)
