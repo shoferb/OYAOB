@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Game_Control;
 
 namespace TexasHoldem.Logic
 {
-    class BeforeGameDecorator : Decorator
+   public class BeforeGameDecorator : Decorator
     {
         public bool IsSpectetor { get; set; }
         public int MinPlayersInRoom { get; set; }
@@ -33,47 +33,52 @@ namespace TexasHoldem.Logic
             
         }
 
-        public bool CanBeSpectatble()
+        public override bool CanBeSpectatble()
         {
             return IsSpectetor;
         }
 
-        public bool CanStartTheGame(int numOfPlayers)
+        public override bool CanStartTheGame(int numOfPlayers)
         {
             return numOfPlayers >= this.MinPlayersInRoom ?  true : false;
         }
 
-        public bool CanRaise()
+        public override bool CanRaise()
         {
             return NextDecorator.CanRaise();
         }
 
-        public bool CanCheck()
+        public override bool CanCheck()
         {
             return NextDecorator.CanCheck();
         }
 
-        public bool CanFold()
+        public override bool CanFold()
         {
             return NextDecorator.CanFold();
         }
 
-        public int GetMinBetInRoom()
+        public override bool CanSpectatble()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetMinBetInRoom()
         {
             return this.MinBetInRoom;
         }
 
-        public int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        public override int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
         {
             return NextDecorator.GetMaxAllowedRaise(BB, maxCommited, step);
         }
 
-        public int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        public override int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
         {
             return NextDecorator.GetMinAllowedRaise(BB, maxCommited, step);
         }
 
-         public int GetEnterPayingMoney()
+         public override int GetEnterPayingMoney()
         {
             return this.EnterPayingMoney;
         }

@@ -25,7 +25,9 @@ namespace TexasHoldem.Logic
         public abstract int GetEnterPayingMoney();
         public abstract int GetStartingChip();
         public abstract bool CanAddMorePlayer(int currNumOfPlayers);
-
+        public abstract int GetMaxAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
+        public abstract int GetMinAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
+        public abstract bool CanBeSpectatble();
 
     }
 }
