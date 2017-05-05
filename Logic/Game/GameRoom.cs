@@ -56,6 +56,8 @@ namespace TexasHoldem.Logic.Game
         public int GameNumber=0;
         private Player lastPlayerRaisedInRound;
         private Player FirstPlayerInRound;
+        private int currentPlayerPos;
+        private bool someOneRaised;
 
         public int MinBetInRoom { get; set; }
         private int _currLoaction { get; set; }
@@ -185,6 +187,7 @@ namespace TexasHoldem.Logic.Game
             HandCards();
             IsActiveGame = true;
             _roundCounter = 1;
+            someOneRaised = false;
             return true;
         }
 
@@ -217,6 +220,14 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             _logControl.AddSystemLog(log);
             lastPlayerRaisedInRound = player;
+            someOneRaised = true;
+            foreach (Player p in Players) //they all need to make another action in this round
+            {
+                if (p != player)
+                {
+                    p.PlayedAnActionInTheRound = false;
+                }
+            }
             return true;
         }
 
@@ -257,10 +268,30 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             _logControl.AddSystemLog(log);
-            if (IsGameOver()) //check if number of active players > 2 and it's not the final round
-            {  
-            }
+            AfterAction();
             return true;
+        }
+
+        private void AfterAction()
+        {
+            if (AllDoneWithTurn() && CurrentPlayer == FirstPlayerInRound)
+            {
+
+            }
+            currentPlayerPos = 
+        }
+
+        private bool IsGameOver()
+        {
+            if (!IsActiveGame)
+            {
+                return false;
+            }
+            if (ActivePlayersInGame() < 2)
+            {
+                return true;
+            }
+
         }
 
         //@TODO send a message to user saying he is not part of the game and cant do action
@@ -318,7 +349,8 @@ namespace TexasHoldem.Logic.Game
             DealerPlayer = Players[DealerPos];
             SbPlayer = Players[(DealerPos + 1) % Players.Count];
             BbPlayer = Players[(DealerPos + 2) % Players.Count];
-            FirstPlayerInRound = Players[(DealerPos + 3) % Players.Count];
+            currentPlayerPos = (DealerPos + 3) % Players.Count;
+            FirstPlayerInRound = Players[currentPlayerPos];
             CurrentPlayer = FirstPlayerInRound;
         }
 
