@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
 
         public int leagueGap { get; set; }
-        private List<GameRoom> games;
+        private List<IGame> games;
         
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
