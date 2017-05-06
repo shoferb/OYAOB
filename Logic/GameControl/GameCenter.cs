@@ -444,15 +444,16 @@ namespace TexasHoldem.Logic.Game_Control
             return new Tuple<int, int>(count * leagueGap, (count + 1) * leagueGap);
         }
 
+
         //get all active games - syncronized
-        public List<GameRoom> GetAllActiveGame()
+        public List<IGame> GetAllActiveGame()
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                List<IGame> toReturn = new List<IGame>();
+                foreach (IGame room in games)
                 {
-                    if (room.IsActiveGame)
+                    if (room.IsActiveGame())
                     {
                         toReturn.Add(room);
                     }
