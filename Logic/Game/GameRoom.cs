@@ -233,14 +233,6 @@ namespace TexasHoldem.Logic.Game
                 }      
             }
 
-            if (!this.MyDecorator.CanAddMorePlayer(Players.Count))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
-                  " to the room: " + Id +" - room is full");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-
             if (!IsBetweenRanks(user.Points()))
             {
                 ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
