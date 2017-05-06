@@ -637,11 +637,11 @@ namespace TexasHoldem.Logic.Game_Control
 
         //return list of games by min bet in room
         //syncronized - due to for
-        public List<GameRoom> GetGamesByMinBet(int minBet)
+        public List<IGame> GetGamesByMinBet(int minBet)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<IGame> toReturn = new List<IGame>();
                 try
                 {
                     
@@ -650,9 +650,9 @@ namespace TexasHoldem.Logic.Game_Control
                         toReturn = null;
                         return toReturn;
                     }
-                    foreach (GameRoom room in games)
+                    foreach (IGame room in games)
                     {
-                        if (room.MinBetInRoom == minBet)
+                        if (room.IsGameMinBetEqual(minBet))
                         {
                             toReturn.Add(room);
                         }
