@@ -721,8 +721,8 @@ namespace TexasHoldem.Logic.Game_Control
         public bool IsGameActive(int roomId)
         {
             bool toReturn = false;
-            GameRoom room = GetRoomById(roomId);
-            if (room.IsActiveGame)
+            IGame room = GetRoomById(roomId);
+            if (room.IsActiveGame())
             {
                 toReturn = true;
             }
