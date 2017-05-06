@@ -672,11 +672,11 @@ namespace TexasHoldem.Logic.Game_Control
         //return list of games by starting chip policy
         //return null if startingChup <=0
         //syncronized - due to for
-        public List<GameRoom> GetGamesByStartingChip(int startingChip)
+        public List<IGame> GetGamesByStartingChip(int startingChip)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<IGame> toReturn = new List<IGame>();
                 if (!IsValidInputNotSmallerZero(startingChip))
                 {
                     toReturn = null;
@@ -685,9 +685,9 @@ namespace TexasHoldem.Logic.Game_Control
                 try
                 {
                     
-                    foreach (GameRoom room in games)
+                    foreach (IGame room in games)
                     {
-                        if (room.StartingChip == startingChip)
+                        if (room.IsGameStartingChipEqual(startingChip))
                         {
                             toReturn.Add(room);
                         }

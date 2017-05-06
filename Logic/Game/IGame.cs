@@ -42,5 +42,8 @@ namespace TexasHoldem.Logic.Game
 
         //return true the min bet in room is the same
         bool IsGameMinBetEqual(int nimBet);
+
+        //return true the stsrtingchip of room is the same
+        bool IsGameStartingChipEqual(int startingChip);
     }
 }
