@@ -30,8 +30,9 @@ namespace TexasHoldem.Logic.Users
         public int rank { get; set; }
 
         public int winNum { get; set; }
-       
-     
+        //for syncronize
+        private static readonly object padlock = new object();
+
 
         public User(int id, string name, string memberName, string password, int points, int money, string email)
         {
@@ -54,29 +55,33 @@ namespace TexasHoldem.Logic.Users
           
         }
 
-       
-
         //function to recive notificaion - return the notification.
         public bool SendNotification(Notification toSend)
         {
-            bool toReturn = false;
-            if (AddNotificationToList(toSend))
+            lock (padlock)
             {
-                toReturn = true;
-            }
-            else
-            {
+                bool toReturn = false;
+                if (AddNotificationToList(toSend))
+                {
+                    toReturn = true;
+                }
+                else
+                {
+                    return toReturn;
+                }
                 return toReturn;
             }
-            return toReturn;
         }
 
 
         //private method - add the notification to list so can print when not in game
         public bool AddNotificationToList(Notification toAdd)
         {
-            this.waitListNotification.Add(toAdd);
-            return true;
+            lock (padlock)
+            {
+                this.waitListNotification.Add(toAdd);
+                return true;
+            }
         }
 
         public int Id()
