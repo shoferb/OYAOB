@@ -58,10 +58,10 @@ namespace TexasHoldem.Logic.Game
             GameNumber = 0;
             IsActiveGame = false;
             PotCount = 0;          
-            Players = players;
-            Spectatores = new List<Spectetor>();
             maxBetInRound = 0;
             PublicCards = new List<Card>();
+            Players = players;
+            Spectatores = new List<Spectetor>();
             SetTheBlinds();
             SidePots = new List<Tuple<int, List<Player>>>();
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
