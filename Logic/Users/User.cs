@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<IGame> activeGameList;
         private List<IGame> spectateGameList;
-        public bool IsHigherRank { get; set; }
+
         public int rank { get; set; }
 
         public int winNum { get; set; }
@@ -43,10 +43,8 @@ namespace TexasHoldem.Logic.Users
             this.points = points;
             this.money = money;
             this.email = email;
-            this.IsHigherRank = false;
             this.waitListNotification = new List<Notification>();
             this.isActive = false;
-            this.IsHigherRank = false;
             this.avatar = "path?";
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<IGame>();
