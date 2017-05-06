@@ -101,7 +101,7 @@ namespace TexasHoldem.Logic
 
         public override bool IsGameModeEqual(GameMode gm)
         {
-            throw new NotImplementedException();
+            return this.GameMode == gm;
         }
 
         public override bool IsGameBuyInPolicyEqual(int buyIn)

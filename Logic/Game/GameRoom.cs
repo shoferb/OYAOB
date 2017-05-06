@@ -1094,7 +1094,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsGameModeEqual(GameMode gm)
         {
-            throw new NotImplementedException();
+            return MyDecorator.IsGameModeEqual(gm);
         }
 
         public bool IsGameBuyInPolicyEqual(int buyIn)
