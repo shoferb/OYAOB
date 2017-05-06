@@ -84,11 +84,11 @@ namespace TexasHoldem.Logic.Game
         }
 
 
-        public bool DoAction(IUser user, ActionType action, int bet)
+        public bool DoAction(IUser user, ActionType action, int amount)
         {
             if (action == ActionType.Join)
             {
-                return Join(user);
+                return Join(user, amount);
             }
             if (!IsUserInGame(user))
             {
@@ -112,13 +112,13 @@ namespace TexasHoldem.Logic.Game
             {
                 return Fold(player);
             }
-            if (bet == 0)
+            if (amount == 0)
             {
                 return Check(player);
             }
-            if (bet > 0)
+            if (amount > 0)
             {
-                return CallOrRaise(player, bet);
+                return CallOrRaise(player, amount);
             }
             return false;
         }
@@ -145,9 +145,9 @@ namespace TexasHoldem.Logic.Game
         }
 
         //TODO create player and add to game 
-        private bool Join(IUser user)
+        private bool Join(IUser user, int amount)
         {
-            if (CanJoinGameAsPlayer(user))
+            if (CanJoinGameAsPlayer(user, amount))
             {
                 int fee = MyDecorator.GetEnterPayingMoney();
                 int EntrancePayingMoney = user.Money() - MyDecorator.GetEnterPayingMoney();
@@ -160,7 +160,7 @@ namespace TexasHoldem.Logic.Game
         }
 
         //TODO: checking before calling to this function that this user&room ID are exist
-        public bool CanJoinGameAsPlayer(IUser user)
+        public bool CanJoinGameAsPlayer(IUser user, int amount)
         {
             if (user == null)
             {
@@ -169,23 +169,20 @@ namespace TexasHoldem.Logic.Game
                 _logControl.AddErrorLog(log);
                 return false;
             }
+            if (!MyDecorator.CanJoin(Players.Count , amount)) //check if the amount is in the range
+            {
+                return false;
+            }
 
-            int EntrancePayingMoney = user.Money() - MyDecorator.GetEnterPayingMoney();
-            int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
-            if (EntrancePayingMoney < 0)
+            int userMneyAfterFeeAndEnter = user.Money() - MyDecorator.GetEnterPayingMoney() - amount;
+            if (userMneyAfterFeeAndEnter < 0)
             {
                 ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
-                    + user.Id() + " to room: " + Id + "user dont have money to pay the buy in policey of this room");
+                    + user.Id() + " to room: " + Id + "insufficient money");
                 _logControl.AddErrorLog(log);
                 return false;
             }
-            if (AfterReduceTheStartingChip < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
-                    + user.Id() + " to room: " + this.Id + " user dont have money to get sarting chip and buy in policy");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
+
             //User cant be spectator & player in the same room
             foreach (Spectetor s in Spectatores)
             {
