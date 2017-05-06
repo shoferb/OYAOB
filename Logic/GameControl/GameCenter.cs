@@ -12,7 +12,6 @@ using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared.CommMessages;
-using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Logic.Game_Control
 {
@@ -20,10 +19,10 @@ namespace TexasHoldem.Logic.Game_Control
     {
         private List<League> leagueTable;
         private List<Log> logs;
-        private User higherRank;
-        public int leagueGap { get; set; }
-        private List<GameRoom> games;
 
+        public int leagueGap { get; set; }
+        private List<IGame> games;
+        
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
@@ -37,9 +36,8 @@ namespace TexasHoldem.Logic.Game_Control
         {
             this.leagueTable = new List<League>();
             CreateFirstLeague(100);
-            this.higherRank = null;
             this.logs = new List<Log>();
-            this.games = new List<GameRoom>();            
+            this.games = new List<IGame>();            
         }
 
         public static GameCenter Instance
@@ -60,36 +58,14 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {
-            GameRoom gm = GetRoomById(roomId);
+            IGame gm = GetRoomById(roomId);
 
             return gm.DoAction(user, action, amount);
         }
 
-        public void SendMessageToClient(Player player, int roomId, GameData gmData, CommunicationMessage.ActionType action, bool isSucceed)
+        public void SendMessageToClient(IUser player, int roomId, CommunicationMessage.ActionType action, bool isSucceed, string msg)
         {
-            GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
-                        player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
-                        gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
-                        gmData.GetSbPlayer(), isSucceed); ;
-            switch (action)
-            {
-                case CommunicationMessage.ActionType.HandCard:
-                case CommunicationMessage.ActionType.Join:
-                case CommunicationMessage.ActionType.Leave:
-                case CommunicationMessage.ActionType.StartGame:
-                       GameServiceHandler.SendMessageToClientGameData(gameDataMes);
-                    break;
-
-                case CommunicationMessage.ActionType.Fold:
-                case CommunicationMessage.ActionType.Bet:
-              // we need to send game message also
-                   GameServiceHandler.SendMessageToClientGameData(gameDataMes);
-                    ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
-                    GameServiceHandler.SendMessageToClientResponse(resp);
-                    break;        
-            }
-
-           
+            GameServiceHandler.sendMessageToClient(player, roomId, action, isSucceed, msg);
         }
 
 
@@ -183,6 +159,8 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+
+        
         //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
         {
@@ -224,77 +202,12 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public List<GameRoom> GetAllActiveGamesAUserCanJoin(int userId)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                List<GameRoom> tempList = GetAllActiveGame();
-                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-                foreach (GameRoom room in games)
-                {
-                    if (room.MaxRank <= user.Points() && room.MinRank >= user.Points())
-                    {
-                        toReturn.Add(room);
-                    }
-                }
-                return toReturn;
-            }
-
-        }
-
-        //return room by room if - suncronized due to for
-        //return null if room Id smaller than 0 or not found
-        public GameRoom GetRoomById(int roomId)
-        {
-            lock (padlock)
-            {
-                GameRoom toReturn = null;
-                if (!IsValidInputNotSmallerZero(roomId))
-                {
-                    return toReturn;
-                }
-                foreach (GameRoom room in games)
-                {
-                    if (room.Id == roomId)
-                    {
-                        toReturn = room;
-                        return toReturn;
-                    }
-                }
-                return toReturn;
-            }          
-        }
-
+      
         public int CurrRoomId()
         {
             return roomIdCounter;
         }
-        //return true if there is a room with this Id
-        public bool IsRoomExist(int roomId)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                if (!IsValidInputNotSmallerZero(roomId))
-                {
-                    return toReturn;
-                }
-                GameRoom room = GetRoomById(roomId);
-                List<GameRoom> all = GetAllGames();
-                toReturn = all.Contains(room);
-                /*
-                foreach (GameRoom room in games)
-                {
-                    
-                    if (room.Id == roomId)
-                    {
-                        toReturn = true;
-                    }
-                }*/
-                return toReturn;
-            }
-        }
+     
 
 
 
@@ -314,7 +227,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                GameRoom toRemove = GetRoomById(roomId);
+                IGame toRemove = GetRoomById(roomId);
                 try
                 {
                     int userId;
@@ -371,10 +284,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         
-       
-    
-
-
       //create new league whith new gap
         public bool CreateFirstLeague(int initGap)
         {
@@ -467,292 +376,8 @@ namespace TexasHoldem.Logic.Game_Control
             return new Tuple<int, int>(count * leagueGap, (count + 1) * leagueGap);
         }
 
-        //get all active games - syncronized
-        public List<GameRoom> GetAllActiveGame()
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
-                {
-                    if (room.IsActiveGame)
-                    {
-                        toReturn.Add(room);
-                    }
-                }
-                return toReturn;
-            }
-        }
 
-
-        public List<GameRoom> GetAllSpectetorGame()
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
-                {
-                    if (room.IsSpectetor)
-                    {
-                        toReturn.Add(room);
-                    }
-                }
-                return toReturn;
-            }
-        }
-
-
-
-        public List<GameRoom> GetAllGames()
-        {
-            lock (padlock)
-            {
-                return games;
-            }
-        }
-
-
-        //todo ?????? potCount =? postsize
-        //return list of games with pot size
-        public List<GameRoom> GetAllGamesByPotSize(int potSize)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(potSize))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (GameRoom room in games)
-                    {
-                        if (room.PotCount == potSize)
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                return toReturn;
-            }
-        }
-
-        //return list of games with game mode:
-        //limit / no - limit / pot limit
-        public List<GameRoom> GetGamesByGameMode(GameMode gm)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
-                {
-                    if (room.GameMode == gm)
-                    {
-                        toReturn.Add(room);
-                    }
-
-                }
-                return toReturn;
-            }
-        }
-
-        //return list of games by buy in policy
-        public List<GameRoom> GetGamesByBuyInPolicy(int buyIn)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(buyIn))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (GameRoom room in games)
-                    {
-                        if (room.EnterPayingMoney == buyIn)
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                
-                return toReturn;
-            }
-        }
-
-        //return list of games by min player in room
-        public List<GameRoom> GetGamesByMinPlayer(int min)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(min))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (GameRoom room in games)
-                    {
-                        if (room.MinPlayersInRoom == min)
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                
-                return toReturn;
-            }
-        }
-
-
-        //return list of games by max player in room
-        public List<GameRoom> GetGamesByMaxPlayer(int max)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                try
-                {
-                    if (!IsValidInputNotSmallerEqualZero(max))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (GameRoom room in games)
-                    {
-                        if (room.MaxPlayersInRoom == max)
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-               
-                return toReturn;
-            }
-        }
-
-
-
-        //return list of games by min bet in room
-        //syncronized - due to for
-        public List<GameRoom> GetGamesByMinBet(int minBet)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                try
-                {
-                    
-                    if (!IsValidInputNotSmallerZero(minBet))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (GameRoom room in games)
-                    {
-                        if (room.MinBetInRoom == minBet)
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                
-                return toReturn;
-            }
-        }
-
-
-        //return list of games by starting chip policy
-        //return null if startingChup <=0
-        //syncronized - due to for
-        public List<GameRoom> GetGamesByStartingChip(int startingChip)
-        {
-            lock (padlock)
-            {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                if (!IsValidInputNotSmallerZero(startingChip))
-                {
-                    toReturn = null;
-                    return toReturn;
-                }
-                try
-                {
-                    
-                    foreach (GameRoom room in games)
-                    {
-                        if (room.StartingChip == startingChip)
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-               
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                return toReturn;
-            }
-        }
-
-        //chaeck if game is spectetable
-       
-        public bool IsGameCanSpectete(int roomId)
-        {
-            bool toReturn = false;
-            GameRoom room = GetRoomById(roomId);
-            if (room.IsSpectetor)
-            {
-                toReturn = true;
-            }
-            return toReturn;
-        }
-
-
-        //check if game is active game
-        public bool IsGameActive(int roomId)
-        {
-            bool toReturn = false;
-            GameRoom room = GetRoomById(roomId);
-            if (room.IsActiveGame)
-            {
-                toReturn = true;
-            }
-            return toReturn;
-        }
-
-
+     
         //seand notification to user
         public bool SendNotification(User reciver, Notification toSend)
         {
@@ -798,24 +423,9 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public User HigherRank
-        {
-            get
-            {
-               
-                return higherRank;
-            }
+      
 
-            set
-            {
-                lock (padlock)
-                {
-                    higherRank = value;
-                }
-            }
-        }
-
-        public List<GameRoom> Games
+        public List<IGame> Games
         {
             get
             {
@@ -969,6 +579,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        //todo - remove this was for test only
         private int GetRandomNumber(int minimum, int maximum)
         {
             lock (padlock)
@@ -993,14 +604,366 @@ namespace TexasHoldem.Logic.Game_Control
         {
             return toCheck >= 0;
         }
+
+
+
+
+
+
+
+
+        //Todo - ! From here all method are after fix
+
+
+        public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            lock (padlock)
+            {
+                int userMoney = user.Money();
+                int userPoints = user.Points();
+                bool isUnKnow = user.IsUnKnow();
+                foreach (IGame room in games)
+                {
+                    if (room.CanUserJoinGame(userMoney, userPoints,isUnKnow))
+                    {
+                        toReturn.Add(room);
+                    }
+                }
+            }
+            return toReturn;
+        }
+
+        //return room by room if - suncronized due to for
+        //return null if room Id smaller than 0 or not found
+        public IGame GetRoomById(int roomId)
+        {
+            lock (padlock)
+            {
+                IGame toReturn = null;
+                if (!IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
+                foreach (IGame room in games)
+                {
+                    if (room.Id == roomId)
+                    {
+                        toReturn = room;
+                        return toReturn;
+                    }
+                }
+                return toReturn;
+            }
+        }
+
+        //return true if there is a room with this Id
+        public bool IsRoomExist(int roomId)
+        {
+            lock (padlock)
+            {
+                bool toReturn = false;
+                if (!IsValidInputNotSmallerZero(roomId))
+                {
+                    return toReturn;
+                }
+                IGame room = GetRoomById(roomId);
+                List<IGame> all = GetAllGames();
+                toReturn = all.Contains(room);
+                return toReturn;
+            }
+        }
+
         //return all games in the system 0 active and non active
-        public List<GameRoom> GetGames()
+        public List<IGame> GetGames()
         {
             return games;
         }
 
-     
+
+        //get all active games - syncronized
+        public List<IGame> GetAllActiveGame()
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                foreach (IGame room in games)
+                {
+                    if (room.IsActiveGame())
+                    {
+                        toReturn.Add(room);
+                    }
+                }
+                return toReturn;
+            }
+        }
+
+
+        public List<IGame> GetAllSpectetorGame()
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                foreach (IGame room in games)
+                {
+                    if (room.IsSpectetorGame())
+                    {
+                        toReturn.Add(room);
+                    }
+                }
+                return toReturn;
+            }
+        }
+
+        //return list of games with pot size
+        public List<IGame> GetAllGamesByPotSize(int potSize)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try
+                {
+                    if (!IsValidInputNotSmallerZero(potSize))
+                    {
+                        toReturn = null;
+                        return toReturn;
+                    }
+                    foreach (IGame room in games)
+                    {
+                        if (room.IsPotSizEqual(potSize))
+                        {
+                            toReturn.Add(room);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+                return toReturn;
+            }
+        }
+
+        //return list of games with game mode:
+        //limit / no - limit / pot limit
+        public List<IGame> GetGamesByGameMode(GameMode gm)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                foreach (IGame room in games)
+                {
+                    if (room.IsGameModeEqual(gm))
+                    {
+                        toReturn.Add(room);
+                    }
+
+                }
+                return toReturn;
+            }
+        }
+
+        //return list of games by buy in policy
+        public List<IGame> GetGamesByBuyInPolicy(int buyIn)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try
+                {
+                    if (!IsValidInputNotSmallerZero(buyIn))
+                    {
+                        toReturn = null;
+                        return toReturn;
+                    }
+                    foreach (IGame room in games)
+                    {
+                        if (room.IsGameBuyInPolicyEqual(buyIn))
+                        {
+                            toReturn.Add(room);
+                        }
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+
+                return toReturn;
+            }
+        }
+
+        //return list of games by min player in room
+        public List<IGame> GetGamesByMinPlayer(int min)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try
+                {
+                    if (!IsValidInputNotSmallerZero(min))
+                    {
+                        toReturn = null;
+                        return toReturn;
+                    }
+                    foreach (IGame room in games)
+                    {
+                        if (room.IsGameMinPlayerEqual(min))
+                        {
+                            toReturn.Add(room);
+                        }
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+
+                return toReturn;
+            }
+        }
+
+
+        //return list of games by max player in room
+        public List<IGame> GetGamesByMaxPlayer(int max)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try
+                {
+                    if (!IsValidInputNotSmallerEqualZero(max))
+                    {
+                        toReturn = null;
+                        return toReturn;
+                    }
+                    foreach (IGame room in games)
+                    {
+                        if (room.IsGameMaxPlayerEqual(max))
+                        {
+                            toReturn.Add(room);
+                        }
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+
+                return toReturn;
+            }
+        }
+
+
+
+        //return list of games by min bet in room
+        //syncronized - due to for
+        public List<IGame> GetGamesByMinBet(int minBet)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try
+                {
+
+                    if (!IsValidInputNotSmallerZero(minBet))
+                    {
+                        toReturn = null;
+                        return toReturn;
+                    }
+                    foreach (IGame room in games)
+                    {
+                        if (room.IsGameMinBetEqual(minBet))
+                        {
+                            toReturn.Add(room);
+                        }
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+
+                return toReturn;
+            }
+        }
+
+
+        //return list of games by starting chip policy
+        //return null if startingChup <=0
+        //syncronized - due to for
+        public List<IGame> GetGamesByStartingChip(int startingChip)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                if (!IsValidInputNotSmallerZero(startingChip))
+                {
+                    toReturn = null;
+                    return toReturn;
+                }
+                try
+                {
+
+                    foreach (IGame room in games)
+                    {
+                        if (room.IsGameStartingChipEqual(startingChip))
+                        {
+                            toReturn.Add(room);
+                        }
+
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    toReturn = null;
+                }
+                return toReturn;
+            }
+        }
+
+        //chaeck if game is spectetable
+
+        public bool IsGameCanSpectete(int roomId)
+        {
+            bool toReturn = false;
+            IGame room = GetRoomById(roomId);
+            if (room.IsSpectetorGame())
+            {
+                toReturn = true;
+            }
+            return toReturn;
+        }
+
+
+        //check if game is active game
+        public bool IsGameActive(int roomId)
+        {
+            bool toReturn = false;
+            IGame room = GetRoomById(roomId);
+            if (room.IsActiveGame())
+            {
+                toReturn = true;
+            }
+            return toReturn;
+        }
+
+
+
+        public List<IGame> GetAllGames()
+        {
+            lock (padlock)
+            {
+                return games;
+            }
+        }
+
     }
 
-    
+
 }

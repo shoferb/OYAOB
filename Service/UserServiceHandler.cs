@@ -14,45 +14,8 @@ namespace TexasHoldem.Service
         private SystemControl sc = SystemControl.SystemControlInstance;
         private GameCenter gc = GameCenter.Instance;
 
-
-/*
-        //return user with Id, if doesn't exist return null
-        public User GetUserFromId(int userId)
-        {
-            User toReturn = null;
-            bool isThereUser = sc.IsUserExist(userId);
-            if (!isThereUser)
-            {
-                Console.WriteLine("There is no user with Id: " + userId);
-            }
-            else
-            {
-                toReturn = sc.GetUserWithId(userId);
-            }
-            return toReturn;
-
-        }
-
-        //return all the users
-        public List<User> GetAllUsers()
-        {
-            List<User> toReturn = sc.Users;
-            return toReturn;
-        }
-
-        public int GetMaxUserPoints()
-        {
-            User higher = gc.HigherRank;
-            int toReturn = higher.Points;
-            return toReturn;
-        }*/
-
-       
-
-
-       
-
         
+        //Use-Case: user can login to system
         public bool LoginUser(string username, string password)
         {
             bool toReturn = false;
@@ -62,17 +25,11 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.Login();
-            /*if (toReturn)
-            {
-                Console.WriteLine("User with username: " + username + " is now loged in");
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + username + " was NOT loged in");
-            }*/
             return toReturn;
         }
 
+
+        //Use-Case: user can logput from system
         public bool LogoutUser(int userId)
         {
             bool toReturn = false;
@@ -82,15 +39,6 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.Logout();
-            /*
-            if (toReturn)
-            {
-                Console.WriteLine("User with userId: " + userId + " is now Logout");
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + userId + " was NOT logout in");
-            }*/
             return toReturn;
         }
 
@@ -101,20 +49,6 @@ namespace TexasHoldem.Service
             return sc.RegisterToSystem(id, name, memberName, password, money, email);
         }
 
-        /*
-        public User FindUser(string username)
-        {
-            return SystemControl.SystemControlInstance.GetIUSerByUsername(username);
-        }
-
-        
-        public bool CanCreateNewUser(int Id , string memberName,
-            string password, string email)
-        {
-
-            bool toReturn = sc.CanCreateNewUser(Id, memberName, password, email);
-            return toReturn;
-        }*/
 
         //by name and password
         public bool DeleteUser(string name, string password)
@@ -126,14 +60,6 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = sc.RemoveUserByUserNameAndPassword(name, password);
-            /*if (toReturn)
-            {
-                Console.WriteLine("User with userName " + name + " was succesfuly deleted");
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + name + " was NOT deleted");
-            }*/
             return toReturn;
         }
 
@@ -145,6 +71,8 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
+        //use-case: user can edit is password
         public bool EditUserPassword(int userId, string newPassword)
         {
             bool toReturn = false;
@@ -154,18 +82,11 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditPassword(newPassword);
-            /*
-            if (toReturn)
-            {
-                Console.WriteLine("User with userId " + userId + " was succesfuly changed password");
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + userId + " was NOT able to change password");
-            }*/
             return toReturn;
         }
 
+
+        //use-case: user can edit is email
         public bool EditUserEmail(int userId, string newEmail)
         {
             bool toReturn = false;
@@ -175,18 +96,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditEmail(newEmail);
-            /*
-            if (toReturn)
-            {
-                Console.WriteLine("User with userId " + userId + " was succesfuly changed email");
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + userId + " was NOT able to change email");
-            }*/
             return toReturn;
         }
 
+        //use-case: user can edit is userName
         public bool EditUserName(int userId, string newName)
         {
             bool toReturn = false;
@@ -196,19 +109,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditUserName(newName);
-            /*
-            if (toReturn)
-            {
-                Console.WriteLine("User with userId " + userId + " was succesfuly changed username to: " + newName);
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + userId + " was NOT able to change username to: " + newName);
-            }*/
             return toReturn;
         }
 
-
+        //use-case: user can edit is name
         public bool EditName(int userId, string newName)
         {
             bool toReturn = false;
@@ -218,18 +122,11 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditName(newName);
-            /*
-            if (toReturn)
-            {
-                Console.WriteLine("User with userId " + userId + " was succesfuly changed username to: " + newName);
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + userId + " was NOT able to change username to: " + newName);
-            }*/
             return toReturn;
         }
 
+
+        //use-case: user can edit is Id
         public bool EditId(int userId, int newId)
         {
             bool toReturn = false;
@@ -239,29 +136,18 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditId(newId);
-            /*
-            if (toReturn)
-            {
-                Console.WriteLine("User with userId " + userId + " was succesfuly changed username to: " + newName);
-            }
-            else
-            {
-                Console.WriteLine("User with username: " + userId + " was NOT able to change username to: " + newName);
-            }*/
             return toReturn;
         }
 
+
+        //use-case: user can get his rank
         public int GetUserRank(int userId)
         {
             int toReturn = -1;
             toReturn = sc.GetUserRank(userId);
             return toReturn;
         }
-        /*
-        public bool EditUserPoints(int userId, int points)
-        {
-            return SystemControl.SystemControlInstance.EditUserPoints(userId, points);
-        }*/
+
 
         public List<Notification> GetUserNotifications(int userId)
         {
@@ -276,7 +162,7 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
+        //use-case: user can edit is avatar
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
             bool toReturn = false;
@@ -303,34 +189,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
-     /*   public bool IsHigestRankUser(int userId)
-        {
-            bool toReturn = sc.IsHigestRankUser(userId);
-            return toReturn;
-        }*/
-/*
-        public List<IUser> SortUserByRank()
-        {
-            return sc.SortByRank();
-        }*/
-
-       
-/*
-        public bool SetDefultLeauseToNewUsers(int highestId, int newPoint)
-        {
-            return SystemControl.SystemControlInstance.SetDefultLeauseToNewUsers(highestId, newPoint);
-        }
-
-        public bool MovePlayerBetweenLeague(int highestId, int userToMove, int newPoint)
-        {
-            return SystemControl.SystemControlInstance.MovePlayerBetweenLeague(highestId, userToMove, newPoint);
-        }
-
-        public bool ChangeGapByHighestUserAndCreateNewLeague(int userId, int newGap)
-        {
-            return SystemControl.SystemControlInstance.ChangeGapByHighestUserAndCreateNewLeague(userId, newGap);
-        }*/
 
         public List<IUser> GetAllUser()
         {

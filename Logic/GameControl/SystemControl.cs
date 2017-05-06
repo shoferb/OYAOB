@@ -51,44 +51,10 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        
 
 
-       /* //add new user  - syncronized
-        public bool AddNewUser(IUser newUser)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                if (newUser == null)
-                {
-                    return toReturn;
-                }
-                try
-                {
-                    users.Add(newUser);
-                    toReturn = true;
-                }
-                catch (Exception e)
-                {
-                    toReturn = false;
-                }
-                return toReturn;
-            }
-        }*/
 
-        //return null if one of the field is not valid
-     /*   public IUser CreateNewUser(int Id, string name, string memberName,
-            string password, string email,int money)
-        {
-            IUser toReturn = null;
-            if (CanCreateNewUser(Id, memberName, password, email) && IsValidInputNotSmallerZero(money))
-            {
-                toReturn = new User(Id, name, memberName, password, 0, money, email);
-            }
-
-            
-            return toReturn;
-        }*/
 
         //remove user from user list byID - syncronized
         public bool RemoveUserById(int id)
@@ -134,16 +100,6 @@ namespace TexasHoldem.Logic.Game_Control
                 try
                 {
                     users.Remove(toRemove);
-                  /*  if (toRemove != null && toRemove.IsHigherRank)
-                    {
-                        var sortedByRank = SortByRank();
-                        if (sortedByRank.Count > 0)
-                        {
-                            var highestUser = sortedByRank[0];
-                            highestUser.IsHigherRank = true;
-                        }
-
-                    }*/
                     toReturn = true;
                 }
                 catch (Exception e)
@@ -211,10 +167,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
-       
-
-
         //register to system - return bool that tell is success or fail - syncronized
         public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
         {
@@ -235,54 +187,13 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 
                 User newUser = new User(id, name, memberName, password, 0, money, email);
-               /* if (GameCenter.Instance.HigherRank == null)
-                {
-                    GameCenter.Instance.HigherRank = newUser;
-                    newUser.IsHigherRank = true;
-                }*/
                 users.Add(newUser);
                 toReturn = true;
                 return toReturn;
             }
         }
 
-        /*public Player GetPlayer(int userId, int roomId)
-        {
-            lock (padlock)
-            {
-                Player toReturn = null;
-                if (!IsValidInputNotSmallerZero(userId))
-                {
-                    return toReturn;
-                }
-                if (IsValidInputNotSmallerZero(roomId))
-                {
-                    return toReturn;
-                }
-                bool roomExist = GameCenter.Instance.IsRoomExist(roomId);
-                if (!roomExist)
-                {
-                    return toReturn;
-                }
-                GameRoom room = GameCenter.Instance.GetRoomById(roomId);
-                if (room == null)
-                {
-                    return toReturn;
-                }
-                if (!HasThisActiveGame(roomId, userId))
-                {
-                    return toReturn;
-                }
-                foreach (Player player in room.players)
-                {
-                    if (player.Id == userId)
-                    {
-                        toReturn = player;
-                    }
-                }
-                return toReturn;
-            }
-        }*/
+
 
         public bool CanCreateNewUser(int id, string memberName,
             string password, string email)
@@ -439,7 +350,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
     
-        //TODO: fix this
         //get all active games of user 
         //syncronizef due to for
         public List<IGame> GetActiveGamesByUserName(string userName)
@@ -460,7 +370,7 @@ namespace TexasHoldem.Logic.Game_Control
                 toReturn = new List<IGame>();
                 foreach (IGame room in user.ActiveGameList())
                 {
-                    if (room._isActiveGame)
+                    if (room.IsActiveGame())
                     {
                         toReturn.Add(room);
                     }
@@ -490,7 +400,7 @@ namespace TexasHoldem.Logic.Game_Control
                 toReturn = new List<IGame>();
                 foreach (IGame room in user.SpectateGameList())
                 {
-                    if (room._isSpectetor)
+                    if (room.IsSpectetorGame())
                     {
                         toReturn.Add(room);
                     }
@@ -499,65 +409,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        /*
-        //return true if user is with the highest rank
-        public bool IsHigestRankUser(int userId)
-        {
-            bool toReturn = false;
-            try
-            { 
-                if (!IsValidInputNotSmallerZero(userId))
-                {
-                    return toReturn;
-                }
-                
-                User user = GetUserWithId(userId);
-                
-                if (user == null)
-                {
-                    return toReturn;
-                }
-                //List<User> byPoint = SortUserByPoint();
-                //if (byPoint[0] == user)
-                //{
-                    if (GameCenter.Instance.HigherRank == null)
-                    {
-                        GameCenter.Instance.HigherRank = user;
-                        user.IsHigherRank = true;
-                        toReturn = true;
-                        return toReturn;
-                    }
-                    
-                    if(GameCenter.Instance.HigherRank != null)
-                    {
-
-                        if (user.Points() > GameCenter.Instance.HigherRank.Points())
-                        {
-                            GameCenter.Instance.HigherRank.IsHigherRank = false;
-                            GameCenter.Instance.HigherRank = user;
-                            user.IsHigherRank = true;
-                            toReturn = true;
-                            return toReturn;
-                        
-                        }
-                        int userPoint = user.Points;
-                        int highPoint = GameCenter.Instance.HigherRank.Points;
-                        if ((userPoint == highPoint) && (user.Id == GameCenter.Instance.HigherRank.Id))
-                        {
-                            return true;
-                        }
-                }
-                //}
-  
-            }
-            catch (Exception e)
-            {
-                toReturn = false;
-                return toReturn;
-            }
-            
-            return toReturn;
-        }*/
+      
 
         public List<IUser> GetAllUser()
         {
@@ -613,7 +465,22 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-      
+        public List<IUser> GetAllUnKnowUsers()
+        {
+            List<IUser> toReturn = new List<IUser>();
+            lock (padlock)
+            {
+                
+                foreach (IUser u in users)
+                {
+                    if (u.IsUnKnow())
+                    {
+                        toReturn.Add(u);
+                    }   
+                }
+            }
+            return toReturn;
+        }
 
         private bool IsValidInputNotSmallerZero(int toCheck)
         {

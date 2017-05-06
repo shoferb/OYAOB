@@ -247,14 +247,6 @@ namespace TexasHoldem.Logic.Game
                 }      
             }
 
-            if (!this.MyDecorator.CanAddMorePlayer(Players.Count))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
-                  " to the room: " + Id +" - room is full");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-
             if (!IsBetweenRanks(user.Points()))
             {
                 ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
@@ -319,7 +311,7 @@ namespace TexasHoldem.Logic.Game
                  BbPlayer.name, SbPlayer.name);
 
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound))
+            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
@@ -418,8 +410,8 @@ namespace TexasHoldem.Logic.Game
             LastRaise = 0;
             InitializePlayerRound();
             //TODO: check that
-            MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
-            MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+           // MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+          //  MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
 
             if (Hand_Step == HandStep.River) 
             {

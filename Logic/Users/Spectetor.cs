@@ -17,27 +17,5 @@ namespace TexasHoldem.Logic.Users
             this.roomId = RoomId;
         }
 
-        //TODO: no base here
-        //TODO: some of the fields in constructor are not needed
-        public Spectetor(int id, string name, string memberName, string password, int points, int money, string email,int roomId) :
-            base(id, name, memberName, password, points, money, email)
-        {
-            
-            this.roomId = roomId;
-            
-        }
-
-        //getter setter
-        public int RoomId
-        {
-            get
-            {
-                return roomId;
-            }
-
-           
-        }
-
-        
     }
 }
