@@ -1076,6 +1076,56 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
+        public bool IsActiveGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsSpectetorGame()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsPotSizEqual(int potSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsGameModeEqual(GameMode gm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsGameMinPlayerEqual(int min)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsGameMaxPlayerEqual(int max)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsGameMinBetEqual(int nimBet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsGameStartingChipEqual(int startingChip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsBetweenRanks(int playerRank)
         {
             return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank);

@@ -27,8 +27,7 @@ namespace TexasHoldem.Logic
         public abstract bool CanJoin(int count, int amount);
 
 
-        //return true if this is an active game
-        public abstract bool IsActiveGame();
+     
 
         //return true the pot size is equal 
         public abstract bool IsPotSizEqual(int potSize);
