@@ -111,17 +111,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\OYAOB2\TexasHoldem.csproj">
-      <Project>{ad9d0b82-a9eb-4fb7-a021-ad6af46414a5}</Project>
-      <Name>TexasHoldem</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\OYAOB2\TexasHoldemShared\TexasHoldemShared.csproj">
       <Project>{22888c95-40ac-4271-8d39-ec1ff358afbd}</Project>
       <Name>TexasHoldemShared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\OYAOB2\TexasHoldemTests\TexasHoldemTests.csproj">
-      <Project>{b529547d-5982-4c96-904a-7e12163af759}</Project>
-      <Name>TexasHoldemTests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
