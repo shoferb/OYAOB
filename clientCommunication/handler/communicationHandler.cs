@@ -106,7 +106,7 @@ namespace clientCommunication.handler
                  _receivedMsgQueue.TryDequeue(out msg);
                 //parse msg
                 //handle msg
-                //put response in queue
+                
             }
 
         }

@@ -7,6 +7,7 @@ using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
+using TexasHoldemShared.CommMessages.CommunicationMessage;
 
 namespace clientCommunication.handler
 {
@@ -46,7 +47,20 @@ namespace clientCommunication.handler
 
         public void HandleEvent(MoveOptionsCommMessage msg)
         {
-            throw new NotImplementedException();
+          if(msg.UserId==this._userId)
+            {
+               TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] Options = msg.Options;
+               //TODO: show to GUI the options
+               TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] ChosenOption;//TODO: get shosen from GUI
+               int amount;////TODO: get shosen from GUI
+             
+             //  ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount);
+
+            }
+            else
+            {
+                Console.WriteLine("got message that lost it's way");
+            }
         }
 
         public void HandleEvent(ResponeCommMessage msg)
