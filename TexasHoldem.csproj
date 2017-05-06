@@ -125,7 +125,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Service\GameServiceHandler.cs" />
-    <Compile Include="Service\LogServiceHandler.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\ServiceHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />

@@ -83,7 +83,6 @@ namespace TexasHoldem.Logic.Users
 
         bool SendNotification(Notification toSend);
 
-
         bool AddNotificationToList(Notification toAdd);
 
     }
