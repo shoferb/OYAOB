@@ -25,7 +25,7 @@ namespace TexasHoldem.Service
             _systemControl = SystemControl.SystemControlInstance;
         }
 
-        public GameRoom GetGameFromId(int gameId)
+        public IGame GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
         }
@@ -59,11 +59,12 @@ namespace TexasHoldem.Service
 
 
         //public GameRoom GetGameById(int Id)
-        public GameRoom GetGameById(int id)
+        public IGame GetGameById(int id)
         {
             return _gameCenter.GetRoomById(id);
         }
 
+        //todo - fix this need to send Iuser to room not use id
         public bool AddPlayerToRoom(int userId, int roomId)
         {
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
@@ -75,6 +76,8 @@ namespace TexasHoldem.Service
             else return false;
         }
 
+
+        //todo - fix this need to send Iuser to room not use id
         public bool AddSpectatorToRoom(int userId, int roomId)
         {
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
@@ -83,9 +86,14 @@ namespace TexasHoldem.Service
             {
                 return gameRoom.AddSpectetorToRoom(userId);
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
+
+        //todo - fix this need to send Iuser to room not use id
         public bool RemovePlayerFromRoom(int userId, int roomId)
         {
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
@@ -94,9 +102,14 @@ namespace TexasHoldem.Service
             {
                 return gameRoom.RemovePlayerFromRoom(userId);
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
+
+        //todo - fix this need to send Iuser to room not use id
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
@@ -105,7 +118,10 @@ namespace TexasHoldem.Service
             {
                 return gameRoom.RemoveSpectetorFromRoom(userId);
             }
-            else return false;
+            else
+            {
+                return false;
+            }
         }
 
         public List<GameRoom> GetAvaiableGamesByUserRank(int userPoints)
@@ -126,109 +142,10 @@ namespace TexasHoldem.Service
             return _gameCenter.RemoveRoom(gameId);
         }
 
-        //TODO This is Use case
-        public List<GameRoom> GetAllActiveGames()
-        {
-            List<GameRoom>  toReturn = GameCenter.Instance.GetAllActiveGame();
-            return toReturn;
-        }
-
-        public List<GameRoom> GetAllActiveGamesAUserCanJoin(int userId)
-        {
-
-            return _gameCenter.GetAllActiveGamesAUserCanJoin(userId);
-        }
-
-        //public List<GameRoom> GetAllGames()
-        public List<GameRoom> GetAllGames()
-        {
-            List<GameRoom> toReturn = GameCenter.Instance.GetAllGames();
-            return toReturn;
-        }
-
-        //public  List<GameRoom> GetSpectateableGames()
-        public List<GameRoom> GetSpectateableGames()
-        {
-            List<GameRoom>  toReturn = GameCenter.Instance.GetAllSpectetorGame();
-            return toReturn;
-        }
-
-        //public List<GameRoom> GetGamesByPotSize(int potSize)
-        public List<GameRoom> GetGamesByPotSize(int potSize)
-        {
-            List<GameRoom> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
-            return toReturn;
-        }
-
-        public bool IsGameExist(int roomId)
-        {
-            bool toReturn = GameCenter.Instance.IsRoomExist(roomId);
-            return toReturn;
-        }
-
-        public bool IsGameCanSpectete(int roomId)
-        {
-            bool toReturn = GameCenter.Instance.IsGameCanSpectete(roomId);
-            return toReturn;
-        }
+       
 
 
-        //return if game is active game
-        public bool IsGameActive(int roomId)
-        {
-            bool toReturn = GameCenter.Instance.IsGameActive(roomId);
-            return toReturn;
-        }
-
-
-        //return list of games with game mode:
-        //limit / no - limit / pot limit
-        public List<GameRoom> GetGamesByGameMode(GameMode gm)
-        {
-            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByGameMode(gm);
-            return toReturn;
-        }
-
-        //return list of games by buy in policy
-        public List<GameRoom> GetGamesByBuyInPolicy(int buyIn)
-        {
-            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByBuyInPolicy(buyIn);
-            return toReturn;
-        }
-
-
-        //return list of games by min player in room
-        public List<GameRoom> GetGamesByMinPlayer(int min)
-        {
-            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByMinPlayer(min);
-            return toReturn;
-        }
-
-
-
-        //return list of games by min bet in room
-        public List<GameRoom> GetGamesByMinBet(int minBet)
-        {
-            List<GameRoom> toRetun = GameCenter.Instance.GetGamesByMinBet(minBet);
-            return toRetun;
-        }
-
-
-
-        //return list of games by starting chip policy
-        public List<GameRoom> GetGamesByStartingChip(int startingChip)
-        {
-            List<GameRoom> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip);
-            return toRetun;
-        }
-
-        //TODO: rename this. the name is opposite to what it does
-        //return list of games by min player in room
-        public List<GameRoom> GetGamesByMaxPlayer(int max)
-        {
-            List<GameRoom> toReturn = GameCenter.Instance.GetGamesByMinPlayer(max);
-            return toReturn;
-        }
+       
 
         
         //TODO: probably not needed
@@ -306,6 +223,110 @@ namespace TexasHoldem.Service
             return _gameCenter.saveActionFromGameReplay(roomID, gameID, userID, actionNum);
         }
 
-      
+
+
+        //todo - from here method are fix
+
+
+        public List<IGame> GetAllActiveGames()
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetAllActiveGame();
+            return toReturn;
+        }
+
+        public List<IGame> GetAllActiveGamesAUserCanJoin(int userId)
+        {
+
+            return _gameCenter.GetAllActiveGamesAUserCanJoin(userId);
+        }
+
+        //public List<GameRoom> GetAllGames()
+        public List<IGame> GetAllGames()
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetAllGames();
+            return toReturn;
+        }
+
+        //public  List<GameRoom> GetSpectateableGames()
+        public List<IGame> GetSpectateableGames()
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetAllSpectetorGame();
+            return toReturn;
+        }
+
+        //public List<GameRoom> GetGamesByPotSize(int potSize)
+        public List<IGame> GetGamesByPotSize(int potSize)
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
+            return toReturn;
+        }
+
+        public bool IsGameExist(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsRoomExist(roomId);
+            return toReturn;
+        }
+
+        public bool IsGameCanSpectete(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsGameCanSpectete(roomId);
+            return toReturn;
+        }
+
+        //return if game is active game
+        public bool IsGameActive(int roomId)
+        {
+            bool toReturn = GameCenter.Instance.IsGameActive(roomId);
+            return toReturn;
+        }
+
+
+        //return list of games with game mode:
+        //limit / no - limit / pot limit
+        public List<IGame> GetGamesByGameMode(GameMode gm)
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetGamesByGameMode(gm);
+            return toReturn;
+        }
+
+        //return list of games by buy in policy
+        public List<IGame> GetGamesByBuyInPolicy(int buyIn)
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetGamesByBuyInPolicy(buyIn);
+            return toReturn;
+        }
+
+
+        //return list of games by min player in room
+        public List<IGame> GetGamesByMinPlayer(int min)
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetGamesByMinPlayer(min);
+            return toReturn;
+        }
+
+
+
+        //return list of games by min bet in room
+        public List<IGame> GetGamesByMinBet(int minBet)
+        {
+            List<IGame> toRetun = GameCenter.Instance.GetGamesByMinBet(minBet);
+            return toRetun;
+        }
+
+
+
+        //return list of games by starting chip policy
+        public List<IGame> GetGamesByStartingChip(int startingChip)
+        {
+            List<IGame> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip);
+            return toRetun;
+        }
+
+        //return list of games by max player in room
+        public List<IGame> GetGamesByMaxPlayer(int max)
+        {
+            List<IGame> toReturn = GameCenter.Instance.GetGamesByMaxPlayer(max);
+            return toReturn;
+        }
     }
 }

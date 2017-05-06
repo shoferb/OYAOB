@@ -606,14 +606,14 @@ namespace TexasHoldem.Logic.Game_Control
         }
       
 
-        public List<GameRoom> GetAllActiveGamesAUserCanJoin(int userId)
+        public List<IGame> GetAllActiveGamesAUserCanJoin(int userId)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                List<GameRoom> tempList = GetAllActiveGame();
+                List<IGame> toReturn = new List<IGame>();
+                List<IGame> tempList = GetAllActiveGame();
                 IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-                foreach (GameRoom room in games)
+                foreach (IGame room in games)
                 {
                     if (room.MaxRank <= user.Points() && room.MinRank >= user.Points())
                     {
