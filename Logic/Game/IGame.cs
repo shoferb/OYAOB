@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game
         bool RemoveSpectetorFromRoom(IUser user);
 
         //return true if this is an active game
-        bool IsActiveGame();
+        bool IsGameActive();
 
         //return true if this is a game that can hold spectetors.
         bool IsSpectetorGame();
@@ -41,7 +41,7 @@ namespace TexasHoldem.Logic.Game
         bool IsGameMaxPlayerEqual(int max);
 
         //return true the min bet in room is the same
-        bool IsGameMinBetEqual(int nimBet);
+        bool IsGameMinBetEqual(int minBet);
 
         //return true the stsrtingchip of room is the same
         bool IsGameStartingChipEqual(int startingChip);

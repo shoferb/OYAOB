@@ -96,5 +96,47 @@ namespace TexasHoldem.Logic
         {
             throw new NotImplementedException();
         }
+
+     
+
+        public override bool IsGameModeEqual(GameMode gm)
+        {
+            return this.GameMode == gm;
+        }
+
+        public override bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMinPlayerEqual(int min)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMaxPlayerEqual(int max)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMinBetEqual(int nimBet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameStartingChipEqual(int startingChip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanUserJoinGameWithMoney(int userMoney)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

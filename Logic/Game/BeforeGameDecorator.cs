@@ -54,6 +54,47 @@ namespace TexasHoldem.Logic
             return false;
         }
 
+
+        public override bool IsGameModeEqual(GameMode gm)
+        {
+            return this.NextDecorator.IsGameModeEqual(gm);
+        }
+
+        public override bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            return this.EnterPayingMoney == buyIn;
+        }
+
+        public override bool IsGameMinPlayerEqual(int min)
+        {
+            return this.MinPlayersInRoom == min;
+        }
+
+        public override bool IsGameMaxPlayerEqual(int max)
+        {
+            return  this.MaxPlayersInRoom == max;
+        }
+
+        public override bool IsGameMinBetEqual(int minBet)
+        {
+            return this.MinBetInRoom == minBet;
+        }
+
+        public override bool IsGameStartingChipEqual(int startingChip)
+        {
+            return this.StartingChip == startingChip;
+        }
+
+        public override bool CanUserJoinGameWithMoney(int userMoney)
+        {
+            return userMoney - (this.EnterPayingMoney + this.StartingChip) > 0;
+        }
+
+        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
+        {
+            return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
+        }
+
         public override bool CanStartTheGame(int numOfPlayers)
         {
             return numOfPlayers >= this.MinPlayersInRoom ?  true : false;
@@ -88,6 +129,7 @@ namespace TexasHoldem.Logic
         {
             return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;
         }
+
 
        
     }
