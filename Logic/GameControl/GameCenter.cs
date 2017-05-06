@@ -72,17 +72,18 @@ namespace TexasHoldem.Logic.Game_Control
                         gmData.GetSbPlayer(), isSucceed); ;
             switch (action)
             {
-                case CommunicationMessage.ActionType.HandCard:
-                case CommunicationMessage.ActionType.Join:
-                case CommunicationMessage.ActionType.Leave:
+                case CommunicationMessage.ActionType.HandCard:           
                 case CommunicationMessage.ActionType.StartGame:
                        GameServiceHandler.SendMessageToClientGameData(gameDataMes);
                     break;
 
                 case CommunicationMessage.ActionType.Fold:
                 case CommunicationMessage.ActionType.Bet:
-              // we need to send game message also
-                   GameServiceHandler.SendMessageToClientGameData(gameDataMes);
+                case CommunicationMessage.ActionType.Join:
+                case CommunicationMessage.ActionType.Leave:
+
+                    // we need to send game message also
+                    GameServiceHandler.SendMessageToClientGameData(gameDataMes);
                     ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
                     GameServiceHandler.SendMessageToClientResponse(resp);
                     break;        
