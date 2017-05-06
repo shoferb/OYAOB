@@ -54,10 +54,6 @@ namespace TexasHoldem.Logic
             return false;
         }
 
-        public override bool IsPotSizEqual(int potSize)
-        {
-            throw new NotImplementedException();
-        }
 
         public override bool IsGameModeEqual(GameMode gm)
         {

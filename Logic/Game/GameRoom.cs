@@ -1089,7 +1089,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsPotSizEqual(int potSize)
         {
-            throw new NotImplementedException();
+            return this.PotCount == potSize;
         }
 
         public bool IsGameModeEqual(GameMode gm)
