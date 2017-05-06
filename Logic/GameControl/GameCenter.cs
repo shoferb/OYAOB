@@ -12,6 +12,7 @@ using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared.CommMessages;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Logic.Game_Control
 {
@@ -21,7 +22,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
 
         public int leagueGap { get; set; }
-        private List<IGame> games;
+        private List<GameRoom> games;
         
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
@@ -63,9 +64,31 @@ namespace TexasHoldem.Logic.Game_Control
             return gm.DoAction(user, action, amount);
         }
 
-        public void SendMessageToClient(IUser player, int roomId, CommunicationMessage.ActionType action, bool isSucceed, string msg)
+        public void SendMessageToClient(Player player, int roomId, GameData gmData, CommunicationMessage.ActionType action, bool isSucceed)
         {
-            GameServiceHandler.sendMessageToClient(player, roomId, action, isSucceed, msg);
+            GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
+                        player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
+                        gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
+                        gmData.GetSbPlayer(), isSucceed); ;
+            switch (action)
+            {
+                case CommunicationMessage.ActionType.HandCard:
+                case CommunicationMessage.ActionType.Join:
+                case CommunicationMessage.ActionType.Leave:
+                case CommunicationMessage.ActionType.StartGame:
+                       GameServiceHandler.SendMessageToClientGameData(gameDataMes);
+                    break;
+
+                case CommunicationMessage.ActionType.Fold:
+                case CommunicationMessage.ActionType.Bet:
+              // we need to send game message also
+                   GameServiceHandler.SendMessageToClientGameData(gameDataMes);
+                    ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
+                    GameServiceHandler.SendMessageToClientResponse(resp);
+                    break;        
+            }
+
+           
         }
 
 
