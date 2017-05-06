@@ -160,6 +160,8 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+
+        
         //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
         {
@@ -219,6 +221,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
 
         }
+
 
         //return room by room if - suncronized due to for
         //return null if room Id smaller than 0 or not found
