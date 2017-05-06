@@ -30,5 +30,12 @@ namespace TexasHoldem.Logic
         public abstract bool CanBeSpectatble();
         public abstract bool CanRaise(int currentPlayerBet, int maxBetInRound);
         public abstract bool CanJoin(int count, int amount);
+
+
+        //return true if this is an active game
+        public abstract bool IsActiveGame();
+
+        
+
     }
 }
