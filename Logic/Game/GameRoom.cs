@@ -142,15 +142,19 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             Players = relevantPlayers;
-            if (Players.Count < 2 && IsActiveGame)
+            if (IsGameOver())
             {
-                return EndGame();
+                EndGame();
             }
             FixRoles(player);
-            return AfterAction();
+            if (AllDoneWithTurn())
+            {
+                return NextRound();
+            }
+            return true; ;
         }
 
-        private void FixRoles(Player playerLeaved)
+        private bool FixRoles(Player playerLeaved)
         {
             if (playerLeaved == DealerPlayer)
             {
@@ -167,12 +171,15 @@ namespace TexasHoldem.Logic.Game
             }
             if (playerLeaved == CurrentPlayer)
             {
-                if (!NextCurrentPlayer(0))
-                {
-                    EndGame();
-                }
+                return NextCurrentPlayer(0);
             }
-
+            if (playerLeaved == FirstPlayerInRound)
+            {
+                firstPlayerInRoundPoistion = (firstPlayerInRoundPoistion) % Players.Count;
+                FirstPlayerInRound = Players[firstPlayerInRoundPoistion];              
+            }
+  
+            return true;
         }
 
         private bool Join(IUser user, int amount)
@@ -331,10 +338,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Check(Player player)
         {
-            if (!MyDecorator.CanCheck())
-            {
-                return false;
-            }
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
