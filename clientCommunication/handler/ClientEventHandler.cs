@@ -7,7 +7,7 @@ using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
-using TexasHoldemShared.CommMessages.CommunicationMessage;
+
 
 namespace clientCommunication.handler
 {
@@ -54,9 +54,9 @@ namespace clientCommunication.handler
                //TODO: show to GUI the options
                TexasHoldemShared.CommMessages.CommunicationMessage.ActionType ChosenOption;//TODO: get shosen from GUI
                int amount=0;////TODO: get chosen from GUI
-              int roomId = msg.roomId;
+           //   int roomId = msg.roomId;
              
-               ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount,roomId );
+           //    ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount,roomId );
               //add msg to queue to send
 
             }
