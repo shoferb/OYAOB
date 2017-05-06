@@ -87,7 +87,6 @@
     <Compile Include="Logic\GameControl\League.cs" />
     <Compile Include="Logic\GameControl\LogControl.cs" />
     <Compile Include="Logic\GameControl\SystemControl.cs" />
-    <Compile Include="Logic\GameControl\UserControl.cs" />
     <Compile Include="Logic\Game\AfterGameDecorator.cs" />
     <Compile Include="Logic\Game\BeforeGameDecorator.cs" />
     <Compile Include="Logic\Game\Card.cs" />
@@ -126,7 +125,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Service\GameServiceHandler.cs" />
-    <Compile Include="Service\LogServiceHandler.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\ServiceHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />

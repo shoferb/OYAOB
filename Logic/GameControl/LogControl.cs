@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.GameControl
 {
@@ -99,6 +100,31 @@ namespace TexasHoldem.Logic.GameControl
             {
                 systemLog.Remove(log);
             }
+        }
+
+        public Notification CreateNotification(int roomId, string msg)
+        {
+            Notification toReturn = new Notification(roomId, msg);
+            return toReturn;
+        }
+
+        public bool SendNotification(IUser user, int roomId, string msg)
+        {
+            Notification toSend = CreateNotification(roomId, msg);
+            bool toReturn = user.SendNotification(toSend);
+            return toReturn;
+        }
+
+
+        public bool SendNotificationByUserId(IUser user, int roomId, string msg)
+        {
+            Notification toSend = CreateNotification(roomId, msg);
+            if (user == null)
+            {
+                return false;
+            }
+            bool toReturn = user.SendNotification(toSend);
+            return toReturn;
         }
 
     }

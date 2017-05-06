@@ -78,27 +78,6 @@ namespace TexasHoldem.Logic.Users
         }
 
 
-        //for test propuse only !!!'
-
-        /// return -1 if player select fold
-        /// return -2 if player selsct exit
-        /// return positive number bigger than 0 for call / raise 
-        /// return 0 for check
-        /*
-        public int Play(int amount, GameRoom.HandStep h)
-        {
-            List<playerMoves> validMoves;
-            if (h == GameRoom.HandStep.PreFlop) //first round - can call/fold/raise
-            {
-
-            }
-            else if ((h == GameRoom.HandStep.Flop) || (h == GameRoom.HandStep.Turn) || (h == GameRoom.HandStep.River)) //round 2 to 4 - can check/bet/fold
-            {
-
-            }
-
-            return 0;
-        }*/
 
         public void CommitChips(int chips)
         {
@@ -117,15 +96,6 @@ namespace TexasHoldem.Logic.Users
                 TotalChip += amount;
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
-             // SystemControl sc = SystemControl.SystemControlInstance;
-               /* int highestRank = GameCenter.Instance.HigherRank.Points;
-                if (this.Points > highestRank)
-                {
-                    GameCenter.Instance.HigherRank.IsHigherRank = false;
-                    GameCenter.Instance.HigherRank = SystemControl.SystemControlInstance.GetUserWithId(this.Id);
-                    this.IsHigherRank = true;
-                }*/
-                
                 toReturn = true;
             }
             catch (Exception e)
