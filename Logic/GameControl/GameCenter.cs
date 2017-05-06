@@ -708,8 +708,8 @@ namespace TexasHoldem.Logic.Game_Control
         public bool IsGameCanSpectete(int roomId)
         {
             bool toReturn = false;
-            GameRoom room = GetRoomById(roomId);
-            if (room.IsSpectetor)
+            IGame room = GetRoomById(roomId);
+            if (room.IsSpectetorGame())
             {
                 toReturn = true;
             }
