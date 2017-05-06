@@ -57,79 +57,7 @@ namespace TexasHoldem.Service
             return _gameCenter.GetNextIdRoom();
         }
 
-
-        //public GameRoom GetGameById(int Id)
-        public IGame GetGameById(int id)
-        {
-            return _gameCenter.GetRoomById(id);
-        }
-
-        //todo - fix this need to send Iuser to room not use id
-        public bool AddPlayerToRoom(int userId, int roomId)
-        {
-            IGame gameRoom = _gameCenter.GetRoomById(roomId);
-            IUser user = _systemControl.GetUserWithId(userId);
-            if (gameRoom != null && user != null)
-            {
-                return gameRoom.AddPlayerToRoom(userId);
-            }
-            else return false;
-        }
-
-
-        //todo - fix this need to send Iuser to room not use id
-        public bool AddSpectatorToRoom(int userId, int roomId)
-        {
-            IGame gameRoom = _gameCenter.GetRoomById(roomId);
-            IUser user = _systemControl.GetUserWithId(userId);
-            if (gameRoom != null && user != null)
-            {
-                return gameRoom.AddSpectetorToRoom(userId);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-        //todo - fix this need to send Iuser to room not use id
-        public bool RemovePlayerFromRoom(int userId, int roomId)
-        {
-            IGame gameRoom = _gameCenter.GetRoomById(roomId);
-            IUser user = _systemControl.GetUserWithId(userId);
-            if (gameRoom != null && user != null)
-            {
-                return gameRoom.RemovePlayerFromRoom(userId);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
-        //todo - fix this need to send Iuser to room not use id
-        public bool RemoveSpectatorFromRoom(int userId, int roomId)
-        {
-            IGame gameRoom = _gameCenter.GetRoomById(roomId);
-            IUser user = _systemControl.GetUserWithId(userId);
-            if (gameRoom != null && user != null)
-            {
-                return gameRoom.RemoveSpectetorFromRoom(userId);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public List<GameRoom> GetAvaiableGamesByUserRank(int userPoints)
-        {
-            var allGames = _gameCenter.Games;
-            return allGames.FindAll(game => 
-                game.MinRank <= userPoints && game.MaxRank >= userPoints);
-        }
+        
 
         public bool MakeRoomActive(GameRoom room)
         {
@@ -137,19 +65,7 @@ namespace TexasHoldem.Service
             return false;
         }
 
-        public bool RemoveRoom(int gameId)
-        {
-            bool toReturn = false;
-            IGame toRemove = GameCenter.Instance.GetRoomById(gameId);
-
-            return _gameCenter.RemoveRoom(gameId);
-        }
-
-       
-
-
-       
-
+      
         
         //TODO: probably not needed
         public String Displaymoves(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
@@ -158,13 +74,7 @@ namespace TexasHoldem.Service
         }
 
 
-        
-        //TODO: probably not needed
-        public int GetBetFromUser(int bet)
-        {
-            return bet;
-        }
-
+  
        
         //use only this
         //TODO: replace random with method that waits until a responce from client was accepted (with some flag / value)
@@ -228,9 +138,80 @@ namespace TexasHoldem.Service
             return _gameCenter.saveActionFromGameReplay(roomID, gameID, userID, actionNum);
         }
 
+        // todo fixed - but why need this??
+        public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
+        {
+            return GameCenter.Instance.GetAvaiableGamesByUserRank(userPoints);
+        }
+
+        //todo - !!!!!!!!!!from here method are fix!!!!!!
 
 
-        //todo - from here method are fix
+        public bool RemoveSpectatorFromRoom(int userId, int roomId)
+        {
+            IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            if (gameRoom != null && user != null)
+            {
+                return gameRoom.RemoveSpectetorFromRoom(user);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool AddSpectatorToRoom(int userId, int roomId)
+        {
+            IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            if (gameRoom != null && user != null)
+            {
+                return gameRoom.AddSpectetorToRoom(user);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+        //public GameRoom GetGameById(int Id)
+        public IGame GetGameById(int id)
+        {
+            return _gameCenter.GetRoomById(id);
+        }
+
+        public bool RemoveRoom(int gameId)
+        {
+            bool toReturn = false;
+            bool exist = GameCenter.Instance.IsRoomExist(gameId);
+            if (!exist)
+            {
+                return toReturn;
+            }
+            if (gameId < 0)
+            {
+                return toReturn;
+            }
+            IGame toRemove = GameCenter.Instance.GetRoomById(gameId);
+            List<Player> players = toRemove.GetPlayersInRoom();
+            List<Spectetor> spectertors = toRemove.GetSpectetorInRoom();
+            foreach (Player p in players)
+            {
+                int userId = p.user.Id();
+                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+                user.RemoveRoomFromActiveGameList(toRemove);
+            }
+            foreach (Spectetor s in spectertors)
+            {
+                int userId = s.user.Id();
+                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+                user.RemoveRoomFromSpectetorGameList(toRemove);
+            }
+            return GameCenter.Instance.RemoveRoom(gameId);
+        }
 
 
         public List<IGame> GetAllActiveGames()

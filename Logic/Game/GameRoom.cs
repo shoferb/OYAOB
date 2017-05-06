@@ -249,6 +249,7 @@ namespace TexasHoldem.Logic.Game
                 this._logControl.AddErrorLog(log);
                 return false;
             }
+
             return true;
         }
 
@@ -1153,6 +1154,16 @@ namespace TexasHoldem.Logic.Game
         public List<Spectetor> GetSpectetorInRoom()
         {
             return this.Spectatores;
+        }
+
+        public int GetMinRank()
+        {
+            return MinRank;
+        }
+
+        public int GetMaxRank()
+        {
+            return MaxRank;
         }
 
         public bool IsBetweenRanks(int playerRank)
