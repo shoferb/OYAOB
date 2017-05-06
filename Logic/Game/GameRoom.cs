@@ -151,7 +151,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return NextRound();
             }
-            return true; ;
+            return true; 
         }
 
         private bool FixRoles(Player playerLeaved)
