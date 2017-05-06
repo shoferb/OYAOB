@@ -356,36 +356,45 @@ namespace TexasHoldem.Logic.Users
 
         public bool ReduceMoneyIfPossible(int amount)
         {
-            if (money - amount >= 0)
+            lock (padlock)
             {
-                money -= amount;
-                return true;
+                if (money - amount >= 0)
+                {
+                    money -= amount;
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
 
         public void AddMoney(int amount)
         {
-            money += amount;
+            lock (padlock)
+            {
+                money += amount;
+            }
         }
 
         public bool EditUserMoney(int money)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (IsValidInputNotSmallerZero(money))
+                bool toReturn = false;
+                try
                 {
-                    this.money = money;
-                    toReturn = true;
+                    if (IsValidInputNotSmallerZero(money))
+                    {
+                        this.money = money;
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
