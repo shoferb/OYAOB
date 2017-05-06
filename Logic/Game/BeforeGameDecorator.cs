@@ -85,9 +85,14 @@ namespace TexasHoldem.Logic
             return this.StartingChip == startingChip;
         }
 
-        public override bool CanUserJoinGame(int userMoney, int userPoints, bool isUnKnow)
+        public override bool CanUserJoinGameWithMoney(int userMoney)
         {
-            throw new NotImplementedException();
+            return userMoney - (this.EnterPayingMoney + this.StartingChip) > 0;
+        }
+
+        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
+        {
+            return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
         }
 
         public override bool CanStartTheGame(int numOfPlayers)
@@ -124,6 +129,7 @@ namespace TexasHoldem.Logic
         {
             return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;
         }
+
 
        
     }

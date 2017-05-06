@@ -129,7 +129,12 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
-        public override bool CanUserJoinGame(int userMoney, int userPoints, bool isUnKnow)
+        public override bool CanUserJoinGameWithMoney(int userMoney)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             throw new NotImplementedException();
         }

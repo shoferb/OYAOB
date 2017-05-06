@@ -1124,7 +1124,25 @@ namespace TexasHoldem.Logic.Game
 
         public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            if (this.IsActiveGame)
+            {
+                return toReturn;
+            }
+            bool moneyOk = MyDecorator.CanUserJoinGameWithMoney(userMoney);
+            bool playerNumOk = MyDecorator.CanAddAnotherPlayer(Players.Count);
+            if (playerNumOk && moneyOk && ISUnKnow)
+            {
+                toReturn = true;
+                return toReturn;
+            }
+            bool isRankOk = IsBetweenRanks(userPoints);
+            if (playerNumOk && moneyOk)
+            {
+                toReturn = true;
+                return toReturn;
+            }
+            return toReturn;
         }
 
         public bool IsBetweenRanks(int playerRank)
