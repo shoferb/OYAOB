@@ -142,7 +142,37 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             Players = relevantPlayers;
+            if (Players.Count < 2 && IsActiveGame)
+            {
+                return EndGame();
+            }
+            FixRoles(player);
             return AfterAction();
+        }
+
+        private void FixRoles(Player playerLeaved)
+        {
+            if (playerLeaved == DealerPlayer)
+            {
+                DealerPos = (DealerPos + 1) % Players.Count;
+                DealerPlayer = Players[DealerPos];
+            }
+            if (playerLeaved == SbPlayer)
+            {
+                SbPlayer = Players[(DealerPos + 1) % Players.Count];
+            }
+            if (playerLeaved == BbPlayer)
+            {
+                BbPlayer = Players[(DealerPos + 2) % Players.Count];
+            }
+            if (playerLeaved == CurrentPlayer)
+            {
+                if (!NextCurrentPlayer(0))
+                {
+                    EndGame();
+                }
+            }
+
         }
 
         private bool Join(IUser user, int amount)
@@ -336,7 +366,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return NextRound();
             }
-            return NextCurrentPlayer();
+            return NextCurrentPlayer(1);
         }
 
         private bool NextRound()
@@ -459,12 +489,11 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-    private bool NextCurrentPlayer()
+    private bool NextCurrentPlayer(int startingIndex)
         {
-            int i = 1;
-            while(i <= Players.Count)
+            while(startingIndex <= Players.Count)
             {
-                int newPosition = (currentPlayerPos + i) % Players.Count;
+                int newPosition = (currentPlayerPos + startingIndex) % Players.Count;
                 if (Players[newPosition].isPlayerActive)
                 {
                     currentPlayerPos = newPosition;
