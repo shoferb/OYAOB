@@ -225,16 +225,16 @@ namespace TexasHoldem.Logic.Game_Control
 
         //return room by room if - suncronized due to for
         //return null if room Id smaller than 0 or not found
-        public GameRoom GetRoomById(int roomId)
+        public IGame GetRoomById(int roomId)
         {
             lock (padlock)
             {
-                GameRoom toReturn = null;
+                IGame toReturn = null;
                 if (!IsValidInputNotSmallerZero(roomId))
                 {
                     return toReturn;
                 }
-                foreach (GameRoom room in games)
+                foreach (IGame room in games)
                 {
                     if (room.Id == roomId)
                     {
