@@ -37,6 +37,7 @@ namespace TexasHoldem.Logic
 
         }
 
+
         public override bool CanSpectatble()
         {
             return IsSpectetor;

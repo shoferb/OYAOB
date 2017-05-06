@@ -134,6 +134,7 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
+
         public override bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             throw new NotImplementedException();

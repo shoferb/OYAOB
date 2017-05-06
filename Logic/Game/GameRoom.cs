@@ -1151,6 +1151,7 @@ namespace TexasHoldem.Logic.Game
             return this.Players;
         }
 
+
         public List<Spectetor> GetSpectetorInRoom()
         {
             return this.Spectatores;

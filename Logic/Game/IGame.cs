@@ -54,6 +54,7 @@ namespace TexasHoldem.Logic.Game
 
         List<Player> GetPlayersInRoom();
 
+
         List<Spectetor> GetSpectetorInRoom();
 
         int GetMinRank();

@@ -8,6 +8,7 @@ namespace TexasHoldem.Logic.Game
 {
     class AfterGameDecorator : Decorator
     {
+
         public AfterGameDecorator(Decorator d) : base(d)
         {
         }
