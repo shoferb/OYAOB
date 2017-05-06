@@ -333,21 +333,24 @@ namespace TexasHoldem.Logic.Users
 
         public bool EditUserPoints(int point)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (IsValidInputNotSmallerZero(point))
+                bool toReturn = false;
+                try
                 {
-                    this.points = point;
-                    toReturn = true;
+                    if (IsValidInputNotSmallerZero(point))
+                    {
+                        this.points = point;
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
