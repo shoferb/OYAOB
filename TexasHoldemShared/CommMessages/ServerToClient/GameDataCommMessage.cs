@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using TexasHoldem;
+using TexasHoldem.Logic.Game;
 
 namespace TexasHoldemShared.CommMessages.ServerToClient
 {
@@ -6,44 +8,26 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
     public class GameDataCommMessage : CommunicationMessage
     {
         //data types:
-        public enum Suits //TODO: duplicated
-        {
-            Hearts,
-            Diamonds,
-            Spades,
-            Clubs,
-            None
-        }
-
-        public class GameDataCard
-        {
-            public int Value;
-            public Suits Suit;
-
-            public GameDataCard(int value, Suits s) //TODO: sort of dup
-            {
-                Value = value;
-                Suit = s;
-            }
-        }
-
+       
         //fields:
         public int RoomId;
 
-        public GameDataCard[] PlayerCards = new GameDataCard[2];
-        public List<GameDataCard> TableCards;
+        public Card[] PlayerCards = new Card[2];
+        public List<Card> TableCards;
 
         public int TotalChips;
         public int PotSize;
 
-        public string[] AllPlayerNames;
+        public List<string> AllPlayerNames;
         public string DealerName;
         public string BbName;
         public string SbName;
 
-        public GameDataCommMessage(int userId, int roomId, GameDataCard card1, GameDataCard card2,
-            List<GameDataCard> tableCards, int chips, int pot, string[] allPlayerNames, string dealerName,
-            string bbName, string sbName) : base(userId)
+        public bool isSucceed;
+
+        public GameDataCommMessage(int userId, int roomId, Card card1, Card card2,
+            List<Card> tableCards, int chips, int pot, List<string> allPlayerNames, string dealerName,
+            string bbName, string sbName, bool success) : base(userId)
         {
             RoomId = roomId;
             TableCards = tableCards;
@@ -55,6 +39,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             DealerName = dealerName;
             BbName = bbName;
             SbName = sbName;
+            this.isSucceed = success;
         }
 
         //visitor pattern

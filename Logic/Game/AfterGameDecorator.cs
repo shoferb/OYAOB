@@ -8,25 +8,11 @@ namespace TexasHoldem.Logic.Game
 {
     class AfterGameDecorator : Decorator
     {
-        public AfterGameDecorator( Decorator d) : base(d)
+
+        public AfterGameDecorator(Decorator d) : base(d)
         {
         }
         public override bool CanStartTheGame(int numOfPlayers)
-        {
-            return false;
-        }
-
-        public override bool CanRaise()
-        {
-            return false;
-        }
-
-        public override bool CanCheck()
-        {
-            return false;
-        }
-
-        public override bool CanFold()
         {
             return false;
         }
@@ -51,22 +37,64 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public override bool CanAddMorePlayer(int currNumOfPlayers)
+        public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
 
-        public override int GetMaxAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step)
+        public override int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
 
-        public override int GetMinAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step)
+        public override bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanBeSpectatble()
+        public override bool CanJoin(int count, int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public override bool IsGameModeEqual(GameMode gm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMinPlayerEqual(int min)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMaxPlayerEqual(int max)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMinBetEqual(int nimBet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameStartingChipEqual(int startingChip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanUserJoinGameWithMoney(int userMoney)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             throw new NotImplementedException();
         }

@@ -10,7 +10,12 @@ namespace TexasHoldem.Logic.Users
 {
     public interface IUser
     {
-        
+        //return true if playes in less than 11 games;
+        bool IsUnKnow();
+
+        //inc num of games play
+        bool IncGamesPlay();
+
         int Id();
        
         String Name();
@@ -77,9 +82,11 @@ namespace TexasHoldem.Logic.Users
 
         bool IsLogin();
 
+        bool ReduceMoneyIfPossible(int amount);
+
+        void AddMoney(int amount);
 
         bool SendNotification(Notification toSend);
-
 
         bool AddNotificationToList(Notification toAdd);
 

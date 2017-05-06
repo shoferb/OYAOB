@@ -14,32 +14,30 @@ namespace TexasHoldem.Logic.Users
         public bool isPlayerActive { get; set; }
         public string name { get; set; }
         public int TotalChip { get; set; }
-        public int RoundChipBet { get; set; } // the number of chips player have each round
+        public int RoundChipBet { get; set; } // the number of chips player use in this round
         public bool PlayedAnActionInTheRound { get; set; }
         public bool _isInRoom { get; set; }
-        public int _payInThisRound { get; set; } //כמות שבזבז בסיבוב 
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
-        public Card _firstCard;
-        public Card _seconedCard;
+        public Card _firstCard { get; set; } 
+        public Card _secondCard { get; set; }
         public List<Card> _publicCards = new List<Card>();
 
         //new Fields
         public IUser user { get; set; }
         public int roomId { get; set; }
 
-        public Player(IUser User, int totalChip, int roundChipBetComitted, int RoomId)
+        public Player(IUser User, int totalChip, int RoomId)
         {
             this.user = User;
             this.roomId = RoomId;
             this.TotalChip = totalChip;
-            this.RoundChipBet = roundChipBetComitted;
+            this.RoundChipBet = 0;
        
             this.RoundChipBet = RoundChipBet;
             this.TotalChip = totalChip;
             isPlayerActive = false;
             this._firstCard = null;
-            this._seconedCard = null;
-            this._payInThisRound = 0;
+            this._secondCard = null;
             this.moveForTest = 0;
             this.isPlayerActive = false;
             this.PlayedAnActionInTheRound = false;
@@ -64,18 +62,23 @@ namespace TexasHoldem.Logic.Users
             return false;
         }
 
+        public Card getFirstCard()
+        {
+            return this._firstCard;
+        }
+
+        public Card getSeconedCard()
+        {
+            return this._secondCard;
+        }
+
 
         public void InitPayInRound()
         {
-            _payInThisRound = 0;
+            RoundChipBet = 0;
+            PlayedAnActionInTheRound = false;
         }
 
-        public bool CanCheck(GameRoom state)
-        {
-            if (state.MaxCommitted == RoundChipBet)
-                return true;
-            return false;
-        }
         public void AddPublicCardToPlayer(Card newCard)
         {
             if (_publicCards.Count < 5)
@@ -85,32 +88,11 @@ namespace TexasHoldem.Logic.Users
         }
 
 
-        //for test propuse only !!!'
-
-        /// return -1 if player select fold
-        /// return -2 if player selsct exit
-        /// return positive number bigger than 0 for call / raise 
-        /// return 0 for check
-        /*
-        public int Play(int amount, GameRoom.HandStep h)
-        {
-            List<playerMoves> validMoves;
-            if (h == GameRoom.HandStep.PreFlop) //first round - can call/fold/raise
-            {
-
-            }
-            else if ((h == GameRoom.HandStep.Flop) || (h == GameRoom.HandStep.Turn) || (h == GameRoom.HandStep.River)) //round 2 to 4 - can check/bet/fold
-            {
-
-            }
-
-            return 0;
-        }*/
 
         public void CommitChips(int chips)
         {
-            this.TotalChip -= chips;
-            this.RoundChipBet += chips;
+            TotalChip -= chips;
+            RoundChipBet += chips;
         }
 
 
@@ -124,15 +106,6 @@ namespace TexasHoldem.Logic.Users
                 TotalChip += amount;
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
-             //   SystemControl sc = SystemControl.SystemControlInstance;
-               /* int highestRank = GameCenter.Instance.HigherRank.Points;
-                if (this.Points > highestRank)
-                {
-                    GameCenter.Instance.HigherRank.IsHigherRank = false;
-                    GameCenter.Instance.HigherRank = SystemControl.SystemControlInstance.GetUserWithId(this.Id);
-                    this.IsHigherRank = true;
-                }*/
-                
                 toReturn = true;
             }
             catch (Exception e)
@@ -146,7 +119,7 @@ namespace TexasHoldem.Logic.Users
         {
             List<Card> holeCards = new List<Card>()
                 {_firstCard,
-                 _seconedCard,
+                 _secondCard,
                 };
             return holeCards;
 
@@ -155,17 +128,17 @@ namespace TexasHoldem.Logic.Users
         public void ClearCards()
         {
             _firstCard = null;
-            _seconedCard = null;
+            _secondCard = null;
             _publicCards.Clear();
 
         }
 
         public void Add2Cards(Card newCardA, Card newCardB)
         {
-            if (_firstCard == null && _seconedCard == null)
+            if (_firstCard == null && _secondCard == null)
             {
                 _firstCard = newCardA;
-                _seconedCard = newCardB;
+                _secondCard = newCardB;
             }
             else
                 throw new System.ArgumentException("Player cards already determined.", "newCard");

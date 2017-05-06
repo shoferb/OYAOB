@@ -1,75 +1,75 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
- using System.Linq;
- using System.Threading;
- using TexasHoldem.Logic.Actions;
- using TexasHoldem.Logic.Game.Evaluator;
- using TexasHoldem.Logic.GameControl;
- using TexasHoldem.Logic.Game_Control;
- using TexasHoldem.Logic.Notifications_And_Logs;
- using TexasHoldem.Logic.Replay;
+using System.Linq;
+using System.Threading;
+using TexasHoldem.Logic.Actions;
+using TexasHoldem.Logic.Game.Evaluator;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldem.communication.Converters;
+using static TexasHoldemShared.CommMessages.CommunicationMessage;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Logic.Game
 {
     public class GameRoom : IGame
     {
-        public List<Player> Players { get; set; }
+        private List<Player> Players;
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
-        public List<Spectetor> Spectatores { get; set;}
-        public int DealerPos { get; set; }
-        public int MaxCommitted { get; set; } //TODO: should move to decorator
-        public int ActionPos { get; set; }
-        public int PotCount { get; set; }
-        public int Bb { get; set; }
-        public int Sb { get; set; }
-        public Deck Deck { get; set; }
-        public GameRoom.HandStep Hand_Step { get; set; }
-        public List<Card> Cards { get; set; }
-        public List<Card> PublicCards { get; set; }
-        public bool IsActiveGame { get; set; }
-        public List<Tuple<int, List<Player>>> SidePots { get; set; }
-        public GameReplay GameReplay { get; set; }
-        public ReplayManager ReplayManager;
-        public GameCenter GameCenter; 
-        public int VerifyAction { get; set; }
-        public bool GameOver = false;
-        public Player CurrentPlayer;
-        public Player DealerPlayer;
-        public Player BbPlayer;
-        public Player SbPlayer;
-        public List<HandEvaluator> Winners;
-        private int _buttonPos;
-        private bool _backFromRaise;
-        public bool IsTestMode { get; set; } //TODO: maybe not relevant anymore?
-        public Decorator MyDecorator;
-        public int MaxRaiseInThisRound { get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
-        public int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
-        public int LastRaise { get; set; }  //change to maxCommit
-        public Thread RoomThread { get; set; }
-        //new after log control change
-        private LogControl _logControl = LogControl.Instance;
-        public int GameNumber=0;
-        public int MinBetInRoom { get; set; }
-        private int _currLoaction { get; set; }
-        private int _roundCounter { get; set; }
-        public int MaxRank { get; set; }
-        public int MinRank { get; set; }
+        private List<Spectetor> Spectatores;
+        private int DealerPos;
+        private int maxBetInRound;
+        private int PotCount;
+        private int Bb;
+        private int Sb;
+        private Deck Deck;
+        private GameRoom.HandStep Hand_Step;
+        private List<Card> PublicCards;
+        private bool IsActiveGame;
+        private List<Tuple<int, List<Player>>> SidePots; //TODO use that in all in
+        private GameReplay GameReplay;
+        private ReplayManager ReplayManager;
+        private GameCenter GameCenter;
+        private Player CurrentPlayer;
+        private Player DealerPlayer;
+        private Player BbPlayer;
+        private Player SbPlayer;
+        private Decorator MyDecorator;
+        private int MaxRaiseInThisRound;
+        private int MinRaiseInThisRound;
+        private int LastRaise; // TODO probably unnecessery 
+        private LogControl _logControl;
+        private int GameNumber;
+        private Player lastPlayerRaisedInRound; // TODO probably unnecessery 
+        private Player FirstPlayerInRound;
+        private int currentPlayerPos;
+        private bool someOneRaised;
+        private int MinBetInRoom;
+        private int MaxRank;
+        private int MinRank;
+        private int firstPlayerInRoundPoistion;
+
         public GameRoom(List<Player> players, int ID)
         {
-            this.Id = ID;
-            this.IsActiveGame = false;
-            this.PotCount = 0;          
-            this.Players = players;
-            this.MaxCommitted = 0;
-            this.PublicCards = new List<Card>();
+            Id = ID;
+            GameNumber = 0;
+            IsActiveGame = false;
+            PotCount = 0;          
+            maxBetInRound = 0;
+            PublicCards = new List<Card>();
+            Players = players;
+            Spectatores = new List<Spectetor>();
             SetTheBlinds();
-            this.SidePots = new List<Tuple<int, List<Player>>>();
+            SidePots = new List<Tuple<int, List<Player>>>();
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
-            this.MinRank = tup.Item1;
-            this.MaxRank = tup.Item2;
-            this.DealerPlayer = null;
+            MinRank = tup.Item1;
+            MaxRank = tup.Item2;
+            DealerPlayer = null;
+            _logControl = LogControl.Instance;
         }
 
         private void SetTheBlinds()
@@ -84,152 +84,502 @@ namespace TexasHoldem.Logic.Game
             this.MyDecorator = d;
         }
 
-        //set the room's thread
-        public void SetThread(Thread thread)
+
+        public bool DoAction(IUser user, ActionType action, int amount)
         {
-            RoomThread = thread;
+            if (action == ActionType.Join)
+            {
+                return Join(user, amount);
+            }
+            if (!IsUserInGame(user))
+            {
+                return IrellevantUser(user, action);
+            }
+
+            Player player = GetInGamePlayerFromUser(user);
+            if(action == ActionType.StartGame)
+            {
+                return StartGame(player);
+            }
+            if (action == ActionType.Leave)
+            {
+                return Leave(player);
+            }
+            if (player != CurrentPlayer)
+            {
+                return IrellevantUser(user, action);
+            }
+            if (action == ActionType.Fold)
+            {
+                return Fold(player);
+            }
+            if (amount == 0)
+            {
+                return Check(player);
+            }
+            if (amount > 0)
+            {
+                return CallOrRaise(player, amount);
+            }
+            return false;
         }
 
-        public void Start()
+        private bool Leave(Player player)
         {
-            if (RoomThread != null && !this.IsActiveGame)
+            List<Player> relevantPlayers = new List<Player>();
+            LeaveAction leave = new LeaveAction(player);
+            GameReplay.AddAction(leave);
+            SystemLog log = new SystemLog(Id, "Player with user Id: "
+                + player.user.Id() + " left succsfully from room: " +Id);
+            _logControl.AddSystemLog(log);
+            player.user.AddMoney(player.TotalChip - player.RoundChipBet);
+            player.user.RemoveRoomFromActiveGameList(this);
+            foreach (Player p in this.Players)
             {
-                try
+                if (p.user.Id() != player.user.Id())
                 {
-                    RoomThread.Start();
-                    Play();
-
-                }
-                catch (Exception e)
-                {
-                    ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
-                    _logControl.AddErrorLog(log);
+                    relevantPlayers.Add(p);
                 }
             }
+            Players = relevantPlayers;
+            if (IsGameOver())
+            {
+                EndGame();
+            }
+            FixRoles(player);
+            if (AllDoneWithTurn())
+            {
+                return NextRound();
+            }
+            return true; 
         }
 
-        private void SetRoles()
+        private bool FixRoles(Player playerLeaved)
         {
-            if (this.DealerPlayer == null)
+            if (playerLeaved == DealerPlayer)
             {
-                this.DealerPos = 0;
+                DealerPos = (DealerPos + 1) % Players.Count;
+                DealerPlayer = Players[DealerPos];
             }
-            Deck deck = new Deck();
-            this.Deck = deck;
-            this._buttonPos = this.DealerPos;
-
-            if (this.Players.Count > 2)
+            if (playerLeaved == SbPlayer)
             {
-                //delaer
-                this.DealerPlayer = this.Players[this._buttonPos];
-                // small blind
-                this.SbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
-                this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(this.Bb / 2);
-                // big blind
-                this.BbPlayer = this.Players[(this._buttonPos + 2) % this.Players.Count];
-                this.Players[(this._buttonPos + 2) % this.Players.Count].CommitChips(this.Bb);
-                //actionPos will keep track on the curr player.
-                this.ActionPos = (this._buttonPos + 3) % this.Players.Count;
-
+                SbPlayer = Players[(DealerPos + 1) % Players.Count];
             }
-            else
+            if (playerLeaved == BbPlayer)
             {
-                this.ActionPos = (this._buttonPos) % this.Players.Count;
-                // small blind
-                this.DealerPlayer = this.Players[(this._buttonPos) % this.Players.Count];
-                this.SbPlayer = this.Players[(this._buttonPos) % this.Players.Count];
-                this.Players[(this._buttonPos) % this.Players.Count].CommitChips(this.Bb / 2);
-                // big blind
-                this.BbPlayer = this.Players[(this._buttonPos + 1) % this.Players.Count];
-                this.Players[(this._buttonPos + 1) % this.Players.Count].CommitChips(this.Bb);
+                BbPlayer = Players[(DealerPos + 2) % Players.Count];
             }
-
-            this.UpdateMaxCommitted();
-            this.MoveBbnSBtoPot(this.BbPlayer, this.SbPlayer);
-            switch (this.Players.Count)
+            if (playerLeaved == CurrentPlayer)
             {
-                case 2:
-                case 3:
-                    this.CurrentPlayer = this.BbPlayer;
-                    this._currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
-                    break;
-                default:
-                    this.CurrentPlayer = this.Players[this.ActionPos];
-                    this._currLoaction = Players.FindIndex((p => p.user.Id() == this.CurrentPlayer.user.Id()));
-                    break;
+                return NextCurrentPlayer(0);
             }
-
+            if (playerLeaved == FirstPlayerInRound)
+            {
+                firstPlayerInRoundPoistion = (firstPlayerInRoundPoistion) % Players.Count;
+                FirstPlayerInRound = Players[firstPlayerInRoundPoistion];              
+            }
+  
+            return true;
         }
 
-        //TODO: restart deck between rounds
-        public bool Play()
+        private bool Join(IUser user, int amount)
         {
-            if (!this.MyDecorator.CanStartTheGame(this.Players.Count))
+            if (CanJoinGameAsPlayer(user, amount))
+            {
+                int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
+                if (user.ReduceMoneyIfPossible(moneyToReduce)){
+                    Player p = new Player(user, amount, this.Id);
+                    this.Players.Add(p);
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        //TODO: checking before calling to this function that this user&room ID are exist
+        public bool CanJoinGameAsPlayer(IUser user, int amount)
+        {
+            if (user == null)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
+                    "invalid input - null user");
+                _logControl.AddErrorLog(log);
+                return false;
+            }
+            if (!MyDecorator.CanJoin(Players.Count , amount)) 
             {
                 return false;
             }
-            this.Hand_Step = HandStep.PreFlop;
-            this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-            SystemLog log = new SystemLog(this.Id, "Game Started");
+
+            int userMoneyAfterFeeAndEnter = user.Money() - MyDecorator.GetEnterPayingMoney() - amount;
+            if (userMoneyAfterFeeAndEnter < 0)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                    + user.Id() + " to room: " + Id + "insufficient money");
+                _logControl.AddErrorLog(log);
+                return false;
+            }
+
+            //User cant be spectator & player in the same room
+            foreach (Spectetor s in Spectatores)
+            {
+                if (s.user.Id() == user.Id())
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " +
+                        user.Id() + " to room: " + Id + " user is a spectetor in this room");
+                    this._logControl.AddErrorLog(log);
+                    return false;
+                }      
+            }
+
+            if (!this.MyDecorator.CanAddMorePlayer(Players.Count))
+            {
+                ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
+                  " to the room: " + Id +" - room is full");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+
+            if (!IsBetweenRanks(user.Points()))
+            {
+                ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
+                    + user.Id() + " to room: " + Id + "user point: " + user.Points() + 
+                    " doest not met the game critiria");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool StartGame(Player player)
+        {
+            if (!MyDecorator.CanStartTheGame(Players.Count))
+            {
+                return false;
+            }
+            if (IsActiveGame == true) //can't start an already active game
+            {
+                return false;
+            }
+
+            Hand_Step = HandStep.PreFlop;
+            Deck = new Deck();
+            GameReplay = new GameReplay(Id, GameNumber);
+            SystemLog log = new SystemLog(Id, "Game Started");
             _logControl.AddSystemLog(log);
             SetRoles();
             StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             _logControl.AddSystemLog(log2);
+
+            MoveBbnSBtoPot();
+            maxBetInRound = Bb;
+
             HandCards();
-            this.IsActiveGame = true;
-            this._roundCounter = 1;
-            while (this._roundCounter <= 4)
-            {
-                InitializePlayerRound();
-                MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.MaxCommitted, this.Hand_Step);
-                MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.MaxCommitted, this.Hand_Step);
-
-                DoRound();
-
-                MoveChipsToPot(); 
-
-                if (this.ActivePlayersInGame() >= 2)
-                {
-                    if (!ProgressHand(this.Hand_Step))
-                    {
-                        EndHand();
-                        return true;
-                    }
-                    else
-                    {
-                        this.InitPlayersLastAction();
-                        this.ActionPos = this._currLoaction;
-                        this.CurrentPlayer = this.NextToPlay();
-                    }
-
-                }
-                else
-                {
-                    EndHand();
-                }
-
-            }
+            IsActiveGame = true;
+            someOneRaised = false;
             return true;
-
         }
 
-        private void DoRound()
+        private bool CallOrRaise(Player player, int bet)
         {
-            while (!this.AllDoneWithTurn())
+            if (player.RoundChipBet + bet == maxBetInRound)
             {
-                this.CurrentPlayer = NextToPlay();
-                int move = PlayerPlay();
-                PlayerDesicion(move);
-                if (_backFromRaise)
-                {
-                    _backFromRaise = false;
-                    break;
-                }
-                this.UpdateGameState();
-                this.CheckIfPlayerWantToLeave();
+                return Call(player, bet);
             }
+            return Raise(player, bet);
+        }
+
+        private bool Raise(Player player, int bet)
+        {
+            int currentPlayerBet = player.RoundChipBet + bet;
+            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound))
+            {
+                return false;
+            }
+            if (player.TotalChip < bet) //not enough chips for bet maybe change to all in 
+            {
+                return false;  
+            }
+            maxBetInRound = currentPlayerBet;
+            player.PlayedAnActionInTheRound = true;
+            player.CommitChips(bet);
+            RaiseAction raise = new RaiseAction(player, player._firstCard,
+                 player._secondCard, currentPlayerBet);
+            GameReplay.AddAction(raise);
+            SystemLog log = new SystemLog(this.Id, raise.ToString());
+            _logControl.AddSystemLog(log);
+            lastPlayerRaisedInRound = player;
+            someOneRaised = true;
+            foreach (Player p in Players) //they all need to make another action in this round
+            {
+                if (p != player)
+                {
+                    p.PlayedAnActionInTheRound = false;
+                }
+            }
+            return AfterAction();
+        }
+
+        private bool Call(Player player, int bet)
+        {
+            player.PlayedAnActionInTheRound = true;
+            bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
+            player.CommitChips(bet);
+            CallAction call = new CallAction(player, player._firstCard,
+                player._secondCard, bet);
+            GameReplay.AddAction(call);
+            SystemLog log = new SystemLog(this.Id, call.ToString());
+            _logControl.AddSystemLog(log);
+            return AfterAction();
+        }
+
+        private bool Check(Player player)
+        {
+            player.PlayedAnActionInTheRound = true;
+            CheckAction check = new CheckAction(player, player._firstCard,
+                 player._secondCard);
+            SystemLog log = new SystemLog(this.Id, check.ToString());
+            _logControl.AddSystemLog(log);
+            GameReplay.AddAction(check);
+            return AfterAction();
+        }
+
+        private bool Fold(Player player)
+        {
+            player.PlayedAnActionInTheRound = true;
+            player.isPlayerActive = false;
+            FoldAction fold = new FoldAction(player, player._firstCard,
+                player._secondCard);
+            GameReplay.AddAction(fold);
+            SystemLog log = new SystemLog(this.Id, fold.ToString());
+            _logControl.AddSystemLog(log);
+            return AfterAction();
+        }
+
+        private bool AfterAction()
+        {
+            if (IsGameOver())
+            {
+                EndGame();
+            }
+            if (AllDoneWithTurn() )
+            {
+                return NextRound();
+            }
+            return NextCurrentPlayer(1);
+        }
+
+        private bool NextRound()
+        {
+            MoveChipsToPot();
+
+            lastPlayerRaisedInRound = null;
+            LastRaise = 0;
+            InitializePlayerRound();
+            //TODO: check that
+            MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+            MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+
+            if (Hand_Step == HandStep.River) 
+            {
+                return EndGame(); 
+            }
+
+            ProgressHand();
+            FindFirstPlayerInRound();
+            return true;
+        }
+
+        private void FindFirstPlayerInRound()
+        {
+            if (Players.Contains(FirstPlayerInRound))
+            {
+                CurrentPlayer = FirstPlayerInRound;
+                currentPlayerPos = firstPlayerInRoundPoistion;
+                return;
+            }
+            int i = 0;
+            while (i <= Players.Count)
+            {
+                int newPosition = (firstPlayerInRoundPoistion + i) % Players.Count;
+                if (Players[newPosition].isPlayerActive)
+                {
+                    currentPlayerPos = newPosition;
+                    CurrentPlayer = Players[newPosition];
+                    FirstPlayerInRound = CurrentPlayer;
+                    firstPlayerInRoundPoistion = newPosition;
+                    return;
+                }
+            }
+        }
+
+        private bool EndGame()
+        {
+            this.GameNumber++;
+            List<Player> playersLeftInGame = new List<Player>();
+            foreach (Player player in this.Players)
+            {
+                if (player.isPlayerActive)
+                {
+                    playersLeftInGame.Add(player);
+                }
+            }
+            List<HandEvaluator> Winners = FindWinner(PublicCards, playersLeftInGame);
+            List<int> ids = new List<int>();
+            foreach (Player player in Players)
+            {
+                ids.Add(player.user.Id());
+            }
+            ReplayManager.AddGameReplay(GameReplay, ids);
+            if (Winners.Count > 0) // so there are winners at the end of the game
+            {
+                int amount = this.PotCount / Winners.Count;
+
+                foreach (HandEvaluator h in Winners)
+                {
+                    h._player.Win(amount);
+                }
+            }
+            playersLeftInGame = new List<Player>();
+            foreach (Player player in this.Players)
+            {
+                player.ClearCards(); // gets rid of cards of all players
+                player.isPlayerActive = false;
+                if (!player.OutOfMoney())
+                {
+                    playersLeftInGame.Add(player);
+                }
+            }
+            Players = playersLeftInGame;
+            IsActiveGame = false;
+            ClearPublicCards();
+            GameReplay = new GameReplay(Id, GameNumber);
+            return true;
+        }
+
+        private void ProgressHand()
+        {
+            int nextStep = (int)Hand_Step + 1;
+            Hand_Step = (GameRoom.HandStep)nextStep;
+
+            switch (Hand_Step)
+            {   //wont get to "pre flop" case
+                case HandStep.PreFlop:
+                    break;
+                case HandStep.Flop:
+                    for (int i = 0; i <= 2; i++)
+                    {
+                       AddNewPublicCard();
+                    }
+                    break;
+                case HandStep.Turn:
+                    AddNewPublicCard();
+                    break;
+                case HandStep.River:
+                    AddNewPublicCard();
+                    break;
+
+                default:
+                    return;
+            }
+
+            if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
+            {
+                ProgressHand(); // recursive, runs until we'll hit the river
+            }
+        }
+
+    private bool NextCurrentPlayer(int startingIndex)
+        {
+            while(startingIndex <= Players.Count)
+            {
+                int newPosition = (currentPlayerPos + startingIndex) % Players.Count;
+                if (Players[newPosition].isPlayerActive)
+                {
+                    currentPlayerPos = newPosition;
+                    CurrentPlayer = Players[newPosition];
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsGameOver()
+        {
+            if (!IsActiveGame)
+            {
+                return false;
+            }
+            if (ActivePlayersInGame() < 2)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        //@TODO send a message to user saying he is not part of the game and cant do action
+        private bool IrellevantUser(IUser user, ActionType action)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool IsUserInGame(IUser user)
+        {
+            return (GetInGamePlayerFromUser(user) != null);
+        }
+
+        private Player GetInGamePlayerFromUser(IUser user)
+        {
+            foreach(Player player in Players)
+            {
+                if (player.user.Id() == user.Id())
+                {
+                    return player;
+                }
+            }
+            return null;
+        }
+
+        //public void Start()
+        //{
+        //    if (RoomThread != null && !this.IsActiveGame)
+        //    {
+        //        try
+        //        {
+        //            RoomThread.Start();
+        //            Play();
+
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
+        //            _logControl.AddErrorLog(log);
+        //        }
+        //    }
+        //}
+
+        private void SetRoles()
+        {
+            if (DealerPlayer == null)
+            {
+                DealerPos = 0;
+            }
+            else
+            {
+                DealerPos = (DealerPos + 1) % Players.Count;
+            }
+
+            DealerPlayer = Players[DealerPos];
+            SbPlayer = Players[(DealerPos + 1) % Players.Count];
+            BbPlayer = Players[(DealerPos + 2) % Players.Count];
+            currentPlayerPos = (DealerPos + 3) % Players.Count;
+            FirstPlayerInRound = Players[currentPlayerPos];
+            firstPlayerInRoundPoistion = currentPlayerPos;
+            CurrentPlayer = FirstPlayerInRound;          
         }
 
         private void HandCards()
@@ -237,20 +587,15 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in this.Players)
             {
                 player.isPlayerActive = true;
-                player.Add2Cards(this.Deck.Draw(), this.Deck.Draw());
+                player.Add2Cards(Deck.Draw(), Deck.Draw());
                 HandCards hand = new HandCards(player, player._firstCard,
-                    player._seconedCard);
-                this.GameReplay.AddAction(hand);
+                    player._secondCard);
+                GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 _logControl.AddSystemLog(log);
             }
         }
         
-        private Player NextToPlay()
-        {
-            return Players[ActionPos];
-        }
-
        private void AddNewPublicCard()
         {
             Card c = Deck.ShowCard();
@@ -263,16 +608,6 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(draw);
         }
 
-        private void UpdateGameState()
-        {
-            // next player picked
-
-            do { ActionPos = (ActionPos + 1) % Players.Count; }
-            while (!Players[ActionPos].isPlayerActive);
-
-            UpdateMaxCommitted();
-        }
-
         private void ClearPublicCards()
         {
             PublicCards.Clear();
@@ -281,8 +616,8 @@ namespace TexasHoldem.Logic.Game
         private void UpdateMaxCommitted()
         {
             foreach (Player player in Players)
-                if (player.RoundChipBet > MaxCommitted)
-                    MaxCommitted = player.RoundChipBet;
+                if (player.RoundChipBet > maxBetInRound)
+                    maxBetInRound = player.RoundChipBet;
         }
 
         private void InitPlayersLastAction()
@@ -324,8 +659,12 @@ namespace TexasHoldem.Logic.Game
         {
             int playersAllIn = 0;
             foreach (Player player in Players)
+            {
                 if (player.IsAllIn())
+                {
                     playersAllIn++;
+                }
+            }
             return playersAllIn;
         }
 
@@ -343,32 +682,11 @@ namespace TexasHoldem.Logic.Game
         }
 
      
-        private void CheckIfPlayerWantToLeave()
-        {
-            List<Player> players = new List<Player>();
-            foreach (Player p in this.Players)
-            {
-                if (p._isInRoom == true)
-                {
-                    players.Add(p);
-                }
-                else
-                {
-                    LeaveAction leave = new LeaveAction(p);
-                    GameReplay.AddAction(leave);
-                }
-            }
-            if (players.Count < this.Players.Count)
-            {
-                this.Players = players;
-            }
-        }
-
-        private void MoveBbnSBtoPot(Player bbPlayer, Player sbPlayer)
+        private void MoveBbnSBtoPot()
         {
             PotCount = Bb + Sb;
-            bbPlayer.RoundChipBet = bbPlayer.RoundChipBet + Bb;
-            sbPlayer.RoundChipBet = sbPlayer.RoundChipBet + Sb;
+            SbPlayer.CommitChips(Sb);
+            BbPlayer.CommitChips(Bb);
         }
 
         private void InitializePlayerRound()
@@ -397,7 +715,7 @@ namespace TexasHoldem.Logic.Game
             //call - <Call, false,call amount, 0>
             List<Tuple<GameMove, bool, int, int>> moveToSend = new List<Tuple<GameMove, bool, int, int>>();
             int callAmount = maxRaise - this.CurrentPlayer._payInThisRound;
-            bool canCheck = (this.MaxCommitted == 0);
+            bool canCheck = (this.maxBetInRound == 0);
             try
             {
 
@@ -602,161 +920,6 @@ namespace TexasHoldem.Logic.Game
             return toReturn;
         }
 
-        private void PlayerDesicion(int move)
-        {
-            switch (move)
-            {
-                case -1:
-                    Fold();
-                    break;
-                case 0:
-                    Check();
-                    break;
-                default:
-                    if (move == MaxCommitted)
-                        Call(MaxCommitted);
-                    else
-                    {
-                        Raise(move);
-                        StartNewRoundAfterRaise();
-                    }
-                    break;
-            }
-        }
-
-        private void Fold()
-        {
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            this.CurrentPlayer.isPlayerActive = false;
-            FoldAction fold = new FoldAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._seconedCard);
-            SystemLog log = new SystemLog(this.Id, fold.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-            this.GameReplay.AddAction(fold);
-        }
-
-        private void Check()
-        {
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            CheckAction check = new CheckAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                 this.CurrentPlayer._seconedCard);
-            SystemLog log = new SystemLog(this.Id, check.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-            this.GameReplay.AddAction(check);
-        }
-
-        private void Call(int additionalChips)
-        {
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            additionalChips = Math.Min(additionalChips, this.CurrentPlayer.TotalChip); // if can't afford that many chips in a call, go all in           
-            this.CurrentPlayer.CommitChips(additionalChips);
-            CallAction call = new CallAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                this.CurrentPlayer._seconedCard, additionalChips);
-            this.GameReplay.AddAction(call);
-            SystemLog log = new SystemLog(this.Id, call.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-        }
-
-       private void Raise(int additionalChips)
-        {
-            this.MaxCommitted += additionalChips;
-            this.CurrentPlayer.PlayedAnActionInTheRound = true;
-            this.CurrentPlayer.CommitChips(additionalChips);
-            RaiseAction raise = new RaiseAction(this.CurrentPlayer, this.CurrentPlayer._firstCard,
-                 this.CurrentPlayer._seconedCard, additionalChips);
-            this.GameReplay.AddAction(raise);
-            SystemLog log = new SystemLog(this.Id, raise.ToString());
-            //this.this._gameCenter.AddSystemLog(log);
-            _logControl.AddSystemLog(log);
-        }
-        private bool ProgressHand(GameRoom.HandStep previousStep)
-        {
-            int numNextStep = (int)previousStep + 1;
-            this.Hand_Step = (GameRoom.HandStep)numNextStep;
-
-            switch (previousStep)
-            {   //never spouse to be in the "pre flop" case
-                case HandStep.PreFlop:               
-                    break;
-                case HandStep.Flop:
-                    for (int i = 0; i <= 2; i++)
-                    {
-                        this.AddNewPublicCard();
-                    }
-                    this._roundCounter++;
-                    break;
-                case HandStep.Turn:
-                    this.AddNewPublicCard();
-                    this._roundCounter++;
-                    break;
-                case HandStep.River:
-                    this.AddNewPublicCard();
-                    this._roundCounter++;
-                    break;
-                
-                default:
-                    return false;
-            }
-
-            if (this.ActivePlayersInGame() - this.PlayersAllIn() < 2)
-            {
-                return ProgressHand(this.Hand_Step); // recursive, runs until we'll hit the river
-            }
-            return true;
-        }
-
-        private void EndHand()
-        {
-            this.GameNumber++;
-            List<Player> playersLeftInGame = new List<Player>();
-            foreach (Player player in this.Players)
-            {
-                if (player.isPlayerActive)
-                {
-                    playersLeftInGame.Add(player);
-                }
-            }
-            this.InitPlayersLastAction();
-            this.Winners = FindWinner(this.PublicCards, playersLeftInGame);
-            List<int> ids = new List<int>();
-            foreach (Player player in playersLeftInGame)
-            {
-                ids.Add(player.user.Id());
-            }
-            this.ReplayManager.AddGameReplay(this.GameReplay, ids);
-            if (this.Winners.Count > 0) // so there are winners at the end of the game
-            {
-                var amount = this.PotCount / this.Winners.Count;
-
-                foreach (HandEvaluator h in this.Winners)
-                {
-                    h._player.Win(amount);
-                }
-            }
-            foreach (Player player in this.Players)
-            {
-                player.ClearCards(); // gets rid of cards of all players
-                if (player.OutOfMoney())
-                {
-                    player.isPlayerActive = false;
-                    this.Players.Remove(player);
-                }
-            }
-            this.IsActiveGame = false;
-            if (this.Players.Count > 1)
-            {
-                // sets next DealerPos - for the next run 
-                this.DealerPos = this.DealerPos+1 % this.Players.Count;
-                // put new turns for the next round
-                this.ClearPublicCards();
-                this.GameReplay = new GameReplay(this.Id, this.GameNumber);
-                SetRoles();
-            }            
-        }
-
         public List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand)
         {
             List<HandEvaluator> winners = new List<HandEvaluator>();
@@ -786,7 +949,7 @@ namespace TexasHoldem.Logic.Game
             if (winners.Count() == 1)
             {
                 WinAction win = new WinAction(winners[0]._player,
-                    winners[0]._player._firstCard, winners[0]._player._seconedCard,
+                    winners[0]._player._firstCard, winners[0]._player._secondCard,
                     this.PotCount, table, winners[0]._relevantCards);
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
@@ -833,7 +996,7 @@ namespace TexasHoldem.Logic.Game
             foreach (HandEvaluator h in winners)
             {
                 WinAction win = new WinAction(h._player,
-                     h._player._firstCard, h._player._seconedCard,
+                     h._player._firstCard, h._player._secondCard,
                      (int)this.PotCount / winners.Count, table, h._relevantCards);
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
@@ -865,172 +1028,148 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        private void StartNewRoundAfterRaise()
-        {
-            if (this.ActivePlayersInGame() < 2)
-            {
-                EndHand();
-            }
-
-            UpdateGameState();
-            Player playerWhoRaise = this.CurrentPlayer;
-            Player nextPlayer = NextToPlay();
-            while (nextPlayer != null && nextPlayer != playerWhoRaise)
-            {
-                this.CurrentPlayer = nextPlayer;
-                int move = PlayerPlay();
-                if (move > this.MaxCommitted)
-                {
-                    StartNewRoundAfterRaise();
-                    break;
-                }
-                    PlayerDesicion(move);                  
-                     UpdateGameState();
-                     nextPlayer = this.NextToPlay();
-            }
-            
-            _backFromRaise = true;
-        }
-
         private int GetRaisePotLimit(Player p)
         {
 
             int potSize = this.PotCount;
-            int lastRise = this.MaxCommitted;
-            int playerPayInRound = p._payInThisRound;
+            int lastRise = this.maxBetInRound;
+            int playerPayInRound = p.RoundChipBet;
             int toReturn = (lastRise - playerPayInRound) + potSize;
             return toReturn;
         }
-        //TODO: checking before calling to this function that this user&room ID are exist
-        public bool AddPlayerToRoom(int userId)
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
-            if (user == null)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - invalid input - there is no user with user Id: " + userId + "(user with Id: " + userId + " to room: " + this.Id);
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
 
-            int EntrancePayingMoney = user.Money() - this.MyDecorator.GetEnterPayingMoney();
-            int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
-            if (EntrancePayingMoney < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + "user dont have money to pay the buy in policey of this room");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            if (AfterReduceTheStartingChip < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user dont have money to get sarting chip and buy in policey");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            //User cant be spectator & player in the same room
-            foreach (Spectetor s in Spectatores)
-            {
-                if (s.user.Id() == userId)
-                {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user is a spectetor in this room need to leave first than join game");
-                    this._logControl.AddErrorLog(log);
-                    continue;
-                }
-                return false;
-            }
-          
-            if (!this.MyDecorator.CanAddMorePlayer(this.Players.Count))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player to room thaere is no place in the room - max amount of player tight now: " + this.Players.Count + "(user with Id: " + userId + " to room: " + this.Id);
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            if (!IsBetweenRanks(user.Points()))
-            {
-                ErrorLog log =
-                    new ErrorLog("Error while trying to add player, user with Id: " + userId + " to room: " + this.Id +
-                                 "user point: " + user.Points() + " are not in this game critiria");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            user.EditUserMoney(AfterReduceTheStartingChip);
-
-            Player p = new Player(user, AfterReduceTheStartingChip, this.MyDecorator.GetStartingChip(), this.Id);
-            this.Players.Add(p);
-
-            return true;
-        
-    }
-
-        public bool AddSpectetorToRoom(int userId)
+        public bool AddSpectetorToRoom(IUser user)
         {           
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
             //if user is player in room cant be also spectetor
             foreach (Player p in Players)
             {
-                if (p.user.Id() == userId)
+                if (p.user.Id() == user.Id())
                 {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user is a spectetor in this room need to leave first than join game");
-                    this._logControl.AddErrorLog(log);
-                    continue;
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                        + user.Id() + " to room: " +Id + " user is already a player in this room");
+                    _logControl.AddErrorLog(log);
+                    break;
                 }
                 return false;
             }
            
-                user.AddRoomToSpectetorGameList(this);
-                Spectetor spectetor = new Spectetor(user, this.Id);
-                this.Spectatores.Add(spectetor);
-                   
-                    return true;
+            user.AddRoomToSpectetorGameList(this);
+            Spectetor spectetor = new Spectetor(user, Id);
+            Spectatores.Add(spectetor);               
+            return true;
        }
 
 
-        public bool RemovePlayerFromRoom(int userId)
-        {                       
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
-
-            foreach (Player p in Players)
+        public bool RemoveSpectetorFromRoom(IUser user)
+        {          
+            foreach (Spectetor s in Spectatores)
             {
-                if (p.user.Id() == userId)
+                if (s.user.Id() == user.Id())
                 {
                     SystemLog log =
-                        new SystemLog(this.Id, "The Player with user Id " + userId + " Removed succsfully from room" + this.Id);
-                    this.Players.Remove(p);
-                    user.EditUserMoney(user.Money() + (p.TotalChip - p.RoundChipBet));
-                    user.RemoveRoomFromActiveGameList(this);
-                    continue;
+                        new SystemLog(this.Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id);
+                    Spectatores.Remove(s);
+                    user.RemoveRoomFromSpectetorGameList(this);
+                    break;
                 }
                 return true;
             }
             return false;
         }
 
-        public bool RemoveSpectetorFromRoom(int userId)
+        public bool IsGameActive()
         {
-            
-            SystemControl sc = SystemControl.SystemControlInstance;     
-            IUser user = sc.GetUserWithId(userId);
+            return this.IsActiveGame;
+        }
 
-            foreach (Spectetor s in Spectatores)
+
+        public bool IsSpectetorGame()
+        {
+            return MyDecorator.CanSpectatble();
+        }
+
+        public bool IsPotSizEqual(int potSize)
+        {
+            return this.PotCount == potSize;
+        }
+
+        public bool IsGameModeEqual(GameMode gm)
+        {
+            return MyDecorator.IsGameModeEqual(gm);
+        }
+
+        public bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            return MyDecorator.IsGameBuyInPolicyEqual(buyIn);
+        }
+
+        public bool IsGameMinPlayerEqual(int min)
+        {
+            return MyDecorator.IsGameMinPlayerEqual(min);
+        }
+
+        public bool IsGameMaxPlayerEqual(int max)
+        {
+            return MyDecorator.IsGameMaxPlayerEqual(max);
+        }
+
+        public bool IsGameMinBetEqual(int minBet)
+        {
+            return MyDecorator.IsGameMinBetEqual(minBet);
+        }
+
+        public bool IsGameStartingChipEqual(int startingChip)
+        {
+            return MyDecorator.IsGameStartingChipEqual(startingChip);
+        }
+
+        public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
+        {
+            bool toReturn = false;
+            if (this.IsActiveGame)
             {
-                if (s.user.Id() == userId)
-                {
-                    SystemLog log =
-                        new SystemLog(this.Id, "The Spcetator with user Id " + userId + " Removed succsfully from room" + this.Id);
-                    this.Spectatores.Remove(s);
-                    user.RemoveRoomFromSpectetorGameList(this);
-                    continue;
-                }
-                return true;
+                return toReturn;
             }
-            return false;
+            bool moneyOk = MyDecorator.CanUserJoinGameWithMoney(userMoney);
+            bool playerNumOk = MyDecorator.CanAddAnotherPlayer(Players.Count);
+            if (playerNumOk && moneyOk && ISUnKnow)
+            {
+                toReturn = true;
+                return toReturn;
+            }
+            bool isRankOk = IsBetweenRanks(userPoints);
+            if (playerNumOk && moneyOk)
+            {
+                toReturn = true;
+                return toReturn;
+            }
+            return toReturn;
+        }
+
+        public List<Player> GetPlayersInRoom()
+        {
+            return this.Players;
+        }
+
+
+        public List<Spectetor> GetSpectetorInRoom()
+        {
+            return this.Spectatores;
+        }
+
+        public int GetMinRank()
+        {
+            return MinRank;
+        }
+
+        public int GetMaxRank()
+        {
+            return MaxRank;
         }
 
         public bool IsBetweenRanks(int playerRank)
         {
-            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank) ? true : false;
+            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank);
         }
     }
 }
