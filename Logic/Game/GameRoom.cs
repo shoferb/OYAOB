@@ -1119,7 +1119,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsGameStartingChipEqual(int startingChip)
         {
-            throw new NotImplementedException();
+            return MyDecorator.IsGameStartingChipEqual(startingChip);
         }
 
         public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)

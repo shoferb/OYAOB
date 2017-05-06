@@ -82,7 +82,7 @@ namespace TexasHoldem.Logic
 
         public override bool IsGameStartingChipEqual(int startingChip)
         {
-            throw new NotImplementedException();
+            return this.StartingChip == startingChip;
         }
 
         public override bool CanUserJoinGame(int userMoney, int userPoints, bool isUnKnow)
