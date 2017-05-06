@@ -8,7 +8,7 @@ namespace TexasHoldem.Logic.Game
 {
     class AfterGameDecorator : Decorator
     {
-        public AfterGameDecorator( Decorator d) : base(d)
+        public AfterGameDecorator(Decorator d) : base(d)
         {
         }
         public override bool CanStartTheGame(int numOfPlayers)
@@ -16,7 +16,7 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
-       public override bool CanSpectatble()
+        public override bool CanSpectatble()
         {
             return false;
         }
@@ -52,6 +52,48 @@ namespace TexasHoldem.Logic.Game
         }
 
         public override bool CanJoin(int count, int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public override bool IsGameModeEqual(GameMode gm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMinPlayerEqual(int min)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMaxPlayerEqual(int max)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameMinBetEqual(int nimBet)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsGameStartingChipEqual(int startingChip)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanUserJoinGameWithMoney(int userMoney)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             throw new NotImplementedException();
         }

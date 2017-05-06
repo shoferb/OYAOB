@@ -1076,6 +1076,85 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
+        public bool IsGameActive()
+        {
+            return this.IsActiveGame;
+        }
+
+
+        public bool IsSpectetorGame()
+        {
+            return MyDecorator.CanSpectatble();
+        }
+
+        public bool IsPotSizEqual(int potSize)
+        {
+            return this.PotCount == potSize;
+        }
+
+        public bool IsGameModeEqual(GameMode gm)
+        {
+            return MyDecorator.IsGameModeEqual(gm);
+        }
+
+        public bool IsGameBuyInPolicyEqual(int buyIn)
+        {
+            return MyDecorator.IsGameBuyInPolicyEqual(buyIn);
+        }
+
+        public bool IsGameMinPlayerEqual(int min)
+        {
+            return MyDecorator.IsGameMinPlayerEqual(min);
+        }
+
+        public bool IsGameMaxPlayerEqual(int max)
+        {
+            return MyDecorator.IsGameMaxPlayerEqual(max);
+        }
+
+        public bool IsGameMinBetEqual(int minBet)
+        {
+            return MyDecorator.IsGameMinBetEqual(minBet);
+        }
+
+        public bool IsGameStartingChipEqual(int startingChip)
+        {
+            return MyDecorator.IsGameStartingChipEqual(startingChip);
+        }
+
+        public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
+        {
+            bool toReturn = false;
+            if (this.IsActiveGame)
+            {
+                return toReturn;
+            }
+            bool moneyOk = MyDecorator.CanUserJoinGameWithMoney(userMoney);
+            bool playerNumOk = MyDecorator.CanAddAnotherPlayer(Players.Count);
+            if (playerNumOk && moneyOk && ISUnKnow)
+            {
+                toReturn = true;
+                return toReturn;
+            }
+            bool isRankOk = IsBetweenRanks(userPoints);
+            if (playerNumOk && moneyOk)
+            {
+                toReturn = true;
+                return toReturn;
+            }
+            return toReturn;
+        }
+
+        public List<Player> GetPlayersInRoom()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Spectetor> GetSpectetorInRoom()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsBetweenRanks(int playerRank)
         {
             return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank);

@@ -139,6 +139,9 @@ namespace TexasHoldem.Service
 
         public bool RemoveRoom(int gameId)
         {
+            bool toReturn = false;
+            IGame toRemove = GameCenter.Instance.GetRoomById(gameId);
+
             return _gameCenter.RemoveRoom(gameId);
         }
 
@@ -181,16 +184,18 @@ namespace TexasHoldem.Service
             return ToReturn;
         }
 
+        //todo remove this?
         private Tuple<Logic.Game.GameMove, int> SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
         {
             return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);
         }
-
+        //todo - remove this?
         private bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
         {
             return GameCenter.Instance.IsValidMove(moves, moveAndBet);
         }
 
+        //todo remove this
         public Tuple<Logic.Game.GameMove, int> GetRandomMove(List<Tuple<GameMove, bool, int, int>> moves)
         {
             return GameCenter.Instance.GetRandomMove(moves);
