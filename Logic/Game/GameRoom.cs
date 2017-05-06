@@ -132,7 +132,7 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             _logControl.AddSystemLog(log);
-            player.user.EditUserMoney(player.user.Money() + (player.TotalChip - player.RoundChipBet));
+            player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
             {
