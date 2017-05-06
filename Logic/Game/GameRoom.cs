@@ -22,38 +22,29 @@ namespace TexasHoldem.Logic.Game
         public int Id { get; set; }
         public List<Spectetor> Spectatores { get; set;}
         public int DealerPos { get; set; }
-        public int maxBetInRound { get; set; } //TODO: should move to decorator
-        public int ActionPos { get; set; }
+        public int maxBetInRound { get; set; } 
         public int PotCount { get; set; }
         public int Bb { get; set; }
         public int Sb { get; set; }
         public Deck Deck { get; set; }
         public GameRoom.HandStep Hand_Step { get; set; }
-        public List<Card> Cards { get; set; }
         public List<Card> PublicCards { get; set; }
         public bool IsActiveGame { get; set; }
-        public List<Tuple<int, List<Player>>> SidePots { get; set; }
+        public List<Tuple<int, List<Player>>> SidePots { get; set; } //TODO use that in all in
         public GameReplay GameReplay { get; set; }
-        public ReplayManager ReplayManager;
-        public GameCenter GameCenter; 
-        public int VerifyAction { get; set; }
-        public bool GameOver = false;
+        private ReplayManager ReplayManager;
+        private GameCenter GameCenter; 
         public Player CurrentPlayer;
         public Player DealerPlayer;
         public Player BbPlayer;
         public Player SbPlayer;
         public List<HandEvaluator> Winners;
-        private int _buttonPos;
-        private bool _backFromRaise;
-        public bool IsTestMode { get; set; } //TODO: maybe not relevant anymore?
-        public Decorator MyDecorator;
+        private Decorator MyDecorator;
         public int MaxRaiseInThisRound { get; set; }  
         public int MinRaiseInThisRound { get; set; } 
-        public int LastRaise { get; set; }  //change to maxCommit
-        public Thread RoomThread { get; set; }
-        //new after log control change
-        private LogControl _logControl = LogControl.Instance;
-        public int GameNumber=0;
+        private int LastRaise { get; set; }  
+        private LogControl _logControl;
+        private int GameNumber;
         private Player lastPlayerRaisedInRound;
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
@@ -66,18 +57,20 @@ namespace TexasHoldem.Logic.Game
         public int MinRank { get; set; }
         public GameRoom(List<Player> players, int ID)
         {
-            this.Id = ID;
-            this.IsActiveGame = false;
-            this.PotCount = 0;          
-            this.Players = players;
-            this.maxBetInRound = 0;
-            this.PublicCards = new List<Card>();
+            Id = ID;
+            GameNumber = 0;
+            IsActiveGame = false;
+            PotCount = 0;          
+            Players = players;
+            maxBetInRound = 0;
+            PublicCards = new List<Card>();
             SetTheBlinds();
-            this.SidePots = new List<Tuple<int, List<Player>>>();
+            SidePots = new List<Tuple<int, List<Player>>>();
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
-            this.MinRank = tup.Item1;
-            this.MaxRank = tup.Item2;
-            this.DealerPlayer = null;
+            MinRank = tup.Item1;
+            MaxRank = tup.Item2;
+            DealerPlayer = null;
+            _logControl = LogControl.Instance;
         }
 
         private void SetTheBlinds()
@@ -92,11 +85,6 @@ namespace TexasHoldem.Logic.Game
             this.MyDecorator = d;
         }
 
-        //set the room's thread
-        public void SetThread(Thread thread)
-        {
-            RoomThread = thread;
-        }
 
         public bool DoAction(IUser user, ActionType action, int bet)
         {

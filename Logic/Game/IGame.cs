@@ -29,8 +29,6 @@ namespace TexasHoldem.Logic.Game
          bool IsActiveGame { get; set; }
          List<Tuple<int, List<Player>>> SidePots { get; set; }
          GameReplay GameReplay { get; set; }     
-         int VerifyAction { get; set; }       
-         bool IsTestMode { get; set; }     
          int MaxRaiseInThisRound { get; set; } //מה המקסימום raise / bet שיכול לבצע בסיבוב הנוכחי 
          int MinRaiseInThisRound { get; set; } //המינימום שחייב לבצע בסיבוב הנוכחי
          int LastRaise { get; set; }  //change to maxCommit
