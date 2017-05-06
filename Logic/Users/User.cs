@@ -151,17 +151,20 @@ namespace TexasHoldem.Logic.Users
 
         public bool IncWinNum()
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                this.winNum++;
-                toReturn = true;
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                bool toReturn = false;
+                try
+                {
+                    this.winNum++;
+                    toReturn = true;
+                    return toReturn;
+                }
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
