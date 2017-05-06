@@ -62,7 +62,7 @@ namespace TexasHoldem.Logic
 
         public override bool IsGameBuyInPolicyEqual(int buyIn)
         {
-            throw new NotImplementedException();
+            return this.EnterPayingMoney == buyIn;
         }
 
         public override bool IsGameMinPlayerEqual(int min)

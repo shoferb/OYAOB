@@ -1099,7 +1099,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsGameBuyInPolicyEqual(int buyIn)
         {
-            throw new NotImplementedException();
+            return MyDecorator.IsGameBuyInPolicyEqual(buyIn);
         }
 
         public bool IsGameMinPlayerEqual(int min)
