@@ -18,8 +18,8 @@ namespace TexasHoldem.Logic.Users
         public bool PlayedAnActionInTheRound { get; set; }
         public bool _isInRoom { get; set; }
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
-        public Card _firstCard;
-        public Card _secondCard;
+        public Card _firstCard { get; set; } 
+        public Card _secondCard { get; set; }
         public List<Card> _publicCards = new List<Card>();
 
         //new Fields
@@ -60,6 +60,16 @@ namespace TexasHoldem.Logic.Users
             if (TotalChip == 0)
                 return true;
             return false;
+        }
+
+        public Card getFirstCard()
+        {
+            return this._firstCard;
+        }
+
+        public Card getSeconedCard()
+        {
+            return this._secondCard;
         }
 
 
