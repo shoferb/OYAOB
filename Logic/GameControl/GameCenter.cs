@@ -622,13 +622,14 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 int userMoney = user.Money();
                 int userPoints = user.Points();
+                bool isUnKnow = user.IsUnKnow();
                 foreach (IGame room in games)
-
-
-                    if (room.CanUserJoinGame(userMoney, userPoints))
+                {
+                    if (room.CanUserJoinGame(userMoney, userPoints,isUnKnow))
                     {
                         toReturn.Add(room);
                     }
+                }
             }
             return toReturn;
         }

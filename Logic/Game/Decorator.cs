@@ -55,6 +55,7 @@ namespace TexasHoldem.Logic
         //return true if user has money for buyIn + starting chip and his point are in:
         //room.minRank <= point <= room.maxPoints +
         //check that game is no active and has more room for another player
-        public abstract bool CanUserJoinGame(int userMoney, int userPoints);
+        //if isUNknow = true --> no need th check if point are good
+        public abstract bool CanUserJoinGame(int userMoney, int userPoints, bool isUnKnow);
     }
 }
