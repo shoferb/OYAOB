@@ -356,9 +356,31 @@ namespace TexasHoldem.Logic.Game
             }
 
             ProgressHand();
-            CurrentPlayer = FirstPlayerInRound;
-            currentPlayerPos = firstPlayerInRoundPoistion;
+            FindFirstPlayerInRound();
             return true;
+        }
+
+        private void FindFirstPlayerInRound()
+        {
+            if (Players.Contains(FirstPlayerInRound))
+            {
+                CurrentPlayer = FirstPlayerInRound;
+                currentPlayerPos = firstPlayerInRoundPoistion;
+                return;
+            }
+            int i = 0;
+            while (i <= Players.Count)
+            {
+                int newPosition = (firstPlayerInRoundPoistion + i) % Players.Count;
+                if (Players[newPosition].isPlayerActive)
+                {
+                    currentPlayerPos = newPosition;
+                    CurrentPlayer = Players[newPosition];
+                    FirstPlayerInRound = CurrentPlayer;
+                    firstPlayerInRoundPoistion = newPosition;
+                    return;
+                }
+            }
         }
 
         private bool EndGame()
