@@ -41,16 +41,17 @@ namespace TexasHoldem.Logic.Game
         private Decorator MyDecorator;
         private int MaxRaiseInThisRound;
         private int MinRaiseInThisRound;
-        private int LastRaise;  
+        private int LastRaise; // TODO probably unnecessery 
         private LogControl _logControl;
         private int GameNumber;
-        private Player lastPlayerRaisedInRound;
+        private Player lastPlayerRaisedInRound; // TODO probably unnecessery 
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private bool someOneRaised;
         private int MinBetInRoom;
         private int MaxRank;
         private int MinRank;
+        private int firstPlayerInRoundPoistion;
 
         public GameRoom(List<Player> players, int ID)
         {
@@ -261,7 +262,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return false;
             }
-            if (player.TotalChip < bet) //not enough chips for bet
+            if (player.TotalChip < bet) //not enough chips for bet maybe change to all in 
             {
                 return false;  
             }
@@ -355,6 +356,8 @@ namespace TexasHoldem.Logic.Game
             }
 
             ProgressHand();
+            CurrentPlayer = FirstPlayerInRound;
+            currentPlayerPos = firstPlayerInRoundPoistion;
             return true;
         }
 
@@ -520,7 +523,8 @@ namespace TexasHoldem.Logic.Game
             BbPlayer = Players[(DealerPos + 2) % Players.Count];
             currentPlayerPos = (DealerPos + 3) % Players.Count;
             FirstPlayerInRound = Players[currentPlayerPos];
-            CurrentPlayer = FirstPlayerInRound;
+            firstPlayerInRoundPoistion = currentPlayerPos;
+            CurrentPlayer = FirstPlayerInRound;          
         }
 
         private void HandCards()
@@ -974,7 +978,7 @@ namespace TexasHoldem.Logic.Game
 
             int potSize = this.PotCount;
             int lastRise = this.maxBetInRound;
-            int playerPayInRound = p._payInThisRound;
+            int playerPayInRound = p.RoundChipBet;
             int toReturn = (lastRise - playerPayInRound) + potSize;
             return toReturn;
         }
