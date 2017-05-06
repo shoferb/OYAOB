@@ -29,5 +29,6 @@ namespace TexasHoldem.Logic
         public abstract int GetMinAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
         public abstract bool CanBeSpectatble(); // TODO: delete it
         public abstract bool CanRaise(int currentPlayerBet, int maxBetInRound);
+        public abstract bool CanJoin(int count, int amount);
     }
 }

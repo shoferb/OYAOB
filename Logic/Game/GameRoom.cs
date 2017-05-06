@@ -17,67 +17,59 @@ namespace TexasHoldem.Logic.Game
 {
     public class GameRoom : IGame
     {
-        public List<Player> Players { get; set; }
+        private List<Player> Players;
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
-        public List<Spectetor> Spectatores { get; set;}
-        public int DealerPos { get; set; }
-        public int maxBetInRound { get; set; } //TODO: should move to decorator
-        public int ActionPos { get; set; }
-        public int PotCount { get; set; }
-        public int Bb { get; set; }
-        public int Sb { get; set; }
-        public Deck Deck { get; set; }
-        public GameRoom.HandStep Hand_Step { get; set; }
-        public List<Card> Cards { get; set; }
-        public List<Card> PublicCards { get; set; }
-        public bool IsActiveGame { get; set; }
-        public List<Tuple<int, List<Player>>> SidePots { get; set; }
-        public GameReplay GameReplay { get; set; }
-        public ReplayManager ReplayManager;
-        public GameCenter GameCenter; 
-        public int VerifyAction { get; set; }
-        public bool GameOver = false;
-        public Player CurrentPlayer;
-        public Player DealerPlayer;
-        public Player BbPlayer;
-        public Player SbPlayer;
-        public List<HandEvaluator> Winners;
-        private int _buttonPos;
-        private bool _backFromRaise;
-        public bool IsTestMode { get; set; } //TODO: maybe not relevant anymore?
-        public Decorator MyDecorator;
-        public int MaxRaiseInThisRound { get; set; }  
-        public int MinRaiseInThisRound { get; set; } 
-        public int LastRaise { get; set; }  //change to maxCommit
-        public Thread RoomThread { get; set; }
-        //new after log control change
-        private LogControl _logControl = LogControl.Instance;
-        public int GameNumber=0;
-        private Player lastPlayerRaisedInRound;
+        private List<Spectetor> Spectatores;
+        private int DealerPos;
+        private int maxBetInRound;
+        private int PotCount;
+        private int Bb;
+        private int Sb;
+        private Deck Deck;
+        private GameRoom.HandStep Hand_Step;
+        private List<Card> PublicCards;
+        private bool IsActiveGame;
+        private List<Tuple<int, List<Player>>> SidePots; //TODO use that in all in
+        private GameReplay GameReplay;
+        private ReplayManager ReplayManager;
+        private GameCenter GameCenter;
+        private Player CurrentPlayer;
+        private Player DealerPlayer;
+        private Player BbPlayer;
+        private Player SbPlayer;
+        private Decorator MyDecorator;
+        private int MaxRaiseInThisRound;
+        private int MinRaiseInThisRound;
+        private int LastRaise; // TODO probably unnecessery 
+        private LogControl _logControl;
+        private int GameNumber;
+        private Player lastPlayerRaisedInRound; // TODO probably unnecessery 
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private bool someOneRaised;
+        private int MinBetInRoom;
+        private int MaxRank;
+        private int MinRank;
+        private int firstPlayerInRoundPoistion;
 
-        public int MinBetInRoom { get; set; }
-        private int _currLoaction { get; set; }
-        private int _roundCounter { get; set; }
-        public int MaxRank { get; set; }
-        public int MinRank { get; set; }
         public GameRoom(List<Player> players, int ID)
         {
-            this.Id = ID;
-            this.IsActiveGame = false;
-            this.PotCount = 0;          
-            this.Players = players;
-            this.maxBetInRound = 0;
-            this.PublicCards = new List<Card>();
+            Id = ID;
+            GameNumber = 0;
+            IsActiveGame = false;
+            PotCount = 0;          
+            maxBetInRound = 0;
+            PublicCards = new List<Card>();
+            Players = players;
+            Spectatores = new List<Spectetor>();
             SetTheBlinds();
-            this.SidePots = new List<Tuple<int, List<Player>>>();
+            SidePots = new List<Tuple<int, List<Player>>>();
             Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
-            this.MinRank = tup.Item1;
-            this.MaxRank = tup.Item2;
-            this.DealerPlayer = null;
+            MinRank = tup.Item1;
+            MaxRank = tup.Item2;
+            DealerPlayer = null;
+            _logControl = LogControl.Instance;
         }
 
         private void SetTheBlinds()
@@ -92,17 +84,12 @@ namespace TexasHoldem.Logic.Game
             this.MyDecorator = d;
         }
 
-        //set the room's thread
-        public void SetThread(Thread thread)
-        {
-            RoomThread = thread;
-        }
 
-        public bool DoAction(IUser user, ActionType action, int bet)
+        public bool DoAction(IUser user, ActionType action, int amount)
         {
             if (action == ActionType.Join)
             {
-                return Join(user);
+                return Join(user, amount);
             }
             if (!IsUserInGame(user))
             {
@@ -126,13 +113,13 @@ namespace TexasHoldem.Logic.Game
             {
                 return Fold(player);
             }
-            if (bet == 0)
+            if (amount == 0)
             {
                 return Check(player);
             }
-            if (bet > 0)
+            if (amount > 0)
             {
-                return CallOrRaise(player, bet);
+                return CallOrRaise(player, amount);
             }
             return false;
         }
@@ -142,6 +129,11 @@ namespace TexasHoldem.Logic.Game
             List<Player> relevantPlayers = new List<Player>();
             LeaveAction leave = new LeaveAction(player);
             GameReplay.AddAction(leave);
+            SystemLog log = new SystemLog(Id, "Player with user Id: "
+                + player.user.Id() + " left succsfully from room: " +Id);
+            _logControl.AddSystemLog(log);
+            player.user.EditUserMoney(player.user.Money() + (player.TotalChip - player.RoundChipBet));
+            player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
             {
                 if (p.user.Id() != player.user.Id())
@@ -153,10 +145,74 @@ namespace TexasHoldem.Logic.Game
             return AfterAction();
         }
 
-        //TODO create player and add to game 
-        private bool Join(IUser user)
+        private bool Join(IUser user, int amount)
         {
-            throw new NotImplementedException();
+            if (CanJoinGameAsPlayer(user, amount))
+            {
+                int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
+                if (user.ReduceMoneyIfPossible(moneyToReduce)){
+                    Player p = new Player(user, amount, this.Id);
+                    this.Players.Add(p);
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+        //TODO: checking before calling to this function that this user&room ID are exist
+        public bool CanJoinGameAsPlayer(IUser user, int amount)
+        {
+            if (user == null)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
+                    "invalid input - null user");
+                _logControl.AddErrorLog(log);
+                return false;
+            }
+            if (!MyDecorator.CanJoin(Players.Count , amount)) //check if the amount is in the range
+            {
+                return false;
+            }
+
+            int userMoneyAfterFeeAndEnter = user.Money() - MyDecorator.GetEnterPayingMoney() - amount;
+            if (userMoneyAfterFeeAndEnter < 0)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                    + user.Id() + " to room: " + Id + "insufficient money");
+                _logControl.AddErrorLog(log);
+                return false;
+            }
+
+            //User cant be spectator & player in the same room
+            foreach (Spectetor s in Spectatores)
+            {
+                if (s.user.Id() == user.Id())
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " +
+                        user.Id() + " to room: " + Id + " user is a spectetor in this room");
+                    this._logControl.AddErrorLog(log);
+                    return false;
+                }      
+            }
+
+            if (!this.MyDecorator.CanAddMorePlayer(Players.Count))
+            {
+                ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
+                  " to the room: " + Id +" - room is full");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+
+            if (!IsBetweenRanks(user.Points()))
+            {
+                ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
+                    + user.Id() + " to room: " + Id + "user point: " + user.Points() + 
+                    " doest not met the game critiria");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+            return true;
         }
 
         private bool StartGame(Player player)
@@ -186,7 +242,6 @@ namespace TexasHoldem.Logic.Game
 
             HandCards();
             IsActiveGame = true;
-            _roundCounter = 1;
             someOneRaised = false;
             return true;
         }
@@ -207,7 +262,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return false;
             }
-            if (player.TotalChip < bet) //not enough chips for bet
+            if (player.TotalChip < bet) //not enough chips for bet maybe change to all in 
             {
                 return false;  
             }
@@ -301,6 +356,8 @@ namespace TexasHoldem.Logic.Game
             }
 
             ProgressHand();
+            CurrentPlayer = FirstPlayerInRound;
+            currentPlayerPos = firstPlayerInRoundPoistion;
             return true;
         }
 
@@ -315,18 +372,18 @@ namespace TexasHoldem.Logic.Game
                     playersLeftInGame.Add(player);
                 }
             }
-            Winners = FindWinner(PublicCards, playersLeftInGame);
+            List<HandEvaluator> Winners = FindWinner(PublicCards, playersLeftInGame);
             List<int> ids = new List<int>();
             foreach (Player player in Players)
             {
                 ids.Add(player.user.Id());
             }
             ReplayManager.AddGameReplay(GameReplay, ids);
-            if (this.Winners.Count > 0) // so there are winners at the end of the game
+            if (Winners.Count > 0) // so there are winners at the end of the game
             {
-                int amount = this.PotCount / this.Winners.Count;
+                int amount = this.PotCount / Winners.Count;
 
-                foreach (HandEvaluator h in this.Winners)
+                foreach (HandEvaluator h in Winners)
                 {
                     h._player.Win(amount);
                 }
@@ -466,7 +523,8 @@ namespace TexasHoldem.Logic.Game
             BbPlayer = Players[(DealerPos + 2) % Players.Count];
             currentPlayerPos = (DealerPos + 3) % Players.Count;
             FirstPlayerInRound = Players[currentPlayerPos];
-            CurrentPlayer = FirstPlayerInRound;
+            firstPlayerInRoundPoistion = currentPlayerPos;
+            CurrentPlayer = FirstPlayerInRound;          
         }
 
         private void HandCards()
@@ -920,131 +978,44 @@ namespace TexasHoldem.Logic.Game
 
             int potSize = this.PotCount;
             int lastRise = this.maxBetInRound;
-            int playerPayInRound = p._payInThisRound;
+            int playerPayInRound = p.RoundChipBet;
             int toReturn = (lastRise - playerPayInRound) + potSize;
             return toReturn;
         }
-        //TODO: checking before calling to this function that this user&room ID are exist
-        public bool AddPlayerToRoom(int userId)
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
-            if (user == null)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - invalid input - there is no user with user Id: " + userId + "(user with Id: " + userId + " to room: " + this.Id);
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
 
-            int EntrancePayingMoney = user.Money() - this.MyDecorator.GetEnterPayingMoney();
-            int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
-            if (EntrancePayingMoney < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + "user dont have money to pay the buy in policey of this room");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            if (AfterReduceTheStartingChip < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user dont have money to get sarting chip and buy in policey");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            //User cant be spectator & player in the same room
-            foreach (Spectetor s in Spectatores)
-            {
-                if (s.user.Id() == userId)
-                {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user is a spectetor in this room need to leave first than join game");
-                    this._logControl.AddErrorLog(log);
-                    continue;
-                }
-                return false;
-            }
-          
-            if (!this.MyDecorator.CanAddMorePlayer(this.Players.Count))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player to room thaere is no place in the room - max amount of player tight now: " + this.Players.Count + "(user with Id: " + userId + " to room: " + this.Id);
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            if (!IsBetweenRanks(user.Points()))
-            {
-                ErrorLog log =
-                    new ErrorLog("Error while trying to add player, user with Id: " + userId + " to room: " + this.Id +
-                                 "user point: " + user.Points() + " are not in this game critiria");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            user.EditUserMoney(AfterReduceTheStartingChip);
-
-            Player p = new Player(user, AfterReduceTheStartingChip, this.MyDecorator.GetStartingChip(), this.Id);
-            this.Players.Add(p);
-
-            return true;
-        
-    }
-
-        public bool AddSpectetorToRoom(int userId)
+        public bool AddSpectetorToRoom(IUser user)
         {           
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
             //if user is player in room cant be also spectetor
             foreach (Player p in Players)
             {
-                if (p.user.Id() == userId)
+                if (p.user.Id() == user.Id())
                 {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user is a spectetor in this room need to leave first than join game");
-                    this._logControl.AddErrorLog(log);
-                    continue;
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                        + user.Id() + " to room: " +Id + " user is already a player in this room");
+                    _logControl.AddErrorLog(log);
+                    break;
                 }
                 return false;
             }
            
-                user.AddRoomToSpectetorGameList(this);
-                Spectetor spectetor = new Spectetor(user, this.Id);
-                this.Spectatores.Add(spectetor);
-                   
-                    return true;
+            user.AddRoomToSpectetorGameList(this);
+            Spectetor spectetor = new Spectetor(user, Id);
+            Spectatores.Add(spectetor);               
+            return true;
        }
 
 
-        public bool RemovePlayerFromRoom(int userId)
-        {                       
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
-
-            foreach (Player p in Players)
-            {
-                if (p.user.Id() == userId)
-                {
-                    SystemLog log =
-                        new SystemLog(this.Id, "The Player with user Id " + userId + " Removed succsfully from room" + this.Id);
-                    this.Players.Remove(p);
-                    user.EditUserMoney(user.Money() + (p.TotalChip - p.RoundChipBet));
-                    user.RemoveRoomFromActiveGameList(this);
-                    continue;
-                }
-                return true;
-            }
-            return false;
-        }
-
-        public bool RemoveSpectetorFromRoom(int userId)
-        {
-            
-            SystemControl sc = SystemControl.SystemControlInstance;     
-            IUser user = sc.GetUserWithId(userId);
-
+        public bool RemoveSpectetorFromRoom(IUser user)
+        {          
             foreach (Spectetor s in Spectatores)
             {
-                if (s.user.Id() == userId)
+                if (s.user.Id() == user.Id())
                 {
                     SystemLog log =
-                        new SystemLog(this.Id, "The Spcetator with user Id " + userId + " Removed succsfully from room" + this.Id);
-                    this.Spectatores.Remove(s);
+                        new SystemLog(this.Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id);
+                    Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
-                    continue;
+                    break;
                 }
                 return true;
             }
@@ -1053,7 +1024,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsBetweenRanks(int playerRank)
         {
-            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank) ? true : false;
+            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank);
         }
     }
 }
