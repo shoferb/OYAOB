@@ -792,7 +792,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public List<GameRoom> Games
+        public List<IGame> Games
         {
             get
             {
@@ -971,7 +971,7 @@ namespace TexasHoldem.Logic.Game_Control
             return toCheck >= 0;
         }
         //return all games in the system 0 active and non active
-        public List<GameRoom> GetGames()
+        public List<IGame> GetGames()
         {
             return games;
         }
