@@ -1147,12 +1147,12 @@ namespace TexasHoldem.Logic.Game
 
         public List<Player> GetPlayersInRoom()
         {
-            throw new NotImplementedException();
+            return this.Players;
         }
 
         public List<Spectetor> GetSpectetorInRoom()
         {
-            throw new NotImplementedException();
+            return this.Spectatores;
         }
 
         public bool IsBetweenRanks(int playerRank)
