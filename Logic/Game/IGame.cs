@@ -27,5 +27,8 @@ namespace TexasHoldem.Logic.Game
 
         //return true the pot size is equal 
         bool IsPotSizEqual(int potSize);
+
+        //return true the game mode is the same
+        bool IsGameModeEqual(GameMode gm);
     }
 }

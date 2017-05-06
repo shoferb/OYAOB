@@ -522,14 +522,14 @@ namespace TexasHoldem.Logic.Game_Control
 
         //return list of games with game mode:
         //limit / no - limit / pot limit
-        public List<GameRoom> GetGamesByGameMode(GameMode gm)
+        public List<IGame> GetGamesByGameMode(GameMode gm)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                List<IGame> toReturn = new List<IGame>();
+                foreach (IGame room in games)
                 {
-                    if (room.GameMode == gm)
+                    if (room.IsGameModeEqual(gm))
                     {
                         toReturn.Add(room);
                     }
