@@ -571,11 +571,11 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //return list of games by min player in room
-        public List<GameRoom> GetGamesByMinPlayer(int min)
+        public List<IGame> GetGamesByMinPlayer(int min)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<IGame> toReturn = new List<IGame>();
                 try
                 {
                     if (!IsValidInputNotSmallerZero(min))
@@ -583,9 +583,9 @@ namespace TexasHoldem.Logic.Game_Control
                         toReturn = null;
                         return toReturn;
                     }
-                    foreach (GameRoom room in games)
+                    foreach (IGame room in games)
                     {
-                        if (room.MinPlayersInRoom == min)
+                        if (room.IsGameMinPlayerEqual(min))
                         {
                             toReturn.Add(room);
                         }

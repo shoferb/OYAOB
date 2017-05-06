@@ -39,5 +39,8 @@ namespace TexasHoldem.Logic
 
         //return true the buyIn is the same
         public abstract bool IsGameBuyInPolicyEqual(int buyIn);
+
+        //return true the min player are the same
+        public abstract bool IsGameMinPlayerEqual(int min);
     }
 }
