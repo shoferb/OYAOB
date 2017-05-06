@@ -144,17 +144,17 @@ namespace TexasHoldem.Logic.Game
             return AfterAction();
         }
 
-        //TODO create player and add to game 
         private bool Join(IUser user, int amount)
         {
             if (CanJoinGameAsPlayer(user, amount))
             {
-                int fee = MyDecorator.GetEnterPayingMoney();
-                int EntrancePayingMoney = user.Money() - MyDecorator.GetEnterPayingMoney();
-                int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
-                user.EditUserMoney(AfterReduceTheStartingChip);
-                Player p = new Player(user, AfterReduceTheStartingChip, this.MyDecorator.GetStartingChip(), this.Id);
-                this.Players.Add(p);
+                int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
+                if (user.ReduceMoneyIfPossible(moneyToReduce)){
+                    Player p = new Player(user, amount, 0, this.Id);
+                    this.Players.Add(p);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
