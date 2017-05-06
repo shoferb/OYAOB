@@ -11,11 +11,11 @@ namespace TexasHoldem.Service
 {
     public class GameServiceHandler : ServiceHandler
     {
-        //TODO Search/ filter active games by: player name/ pot size/ game preference.
+        //TODO - Done! -  Search/ filter active games by: player name/ pot size/ game preference.
         //TODO Join existing games. i Get the User 
         //TODO Spectate active game.
         //TODO Leave a game.
-        //TODO Find all active games which the user can join.
+        //TODO - Done! - Find all active games which the user can join.
         private readonly GameCenter _gameCenter;
         private readonly SystemControl _systemControl;
 
@@ -234,10 +234,18 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+
+       
         public List<IGame> GetAllActiveGamesAUserCanJoin(int userId)
         {
+            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+            List<IGame> toReturn = new List<IGame>();
+            if (user != null)
+            {
+                toReturn = GameCenter.Instance.GetAllActiveGamesAUserCanJoin(user);
+            }
 
-            return _gameCenter.GetAllActiveGamesAUserCanJoin(userId);
+            return toReturn;
         }
 
         //public List<GameRoom> GetAllGames()

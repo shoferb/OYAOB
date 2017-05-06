@@ -51,5 +51,10 @@ namespace TexasHoldem.Logic
 
         //return true the stsrtingchip of room is the same
         public abstract bool IsGameStartingChipEqual(int startingChip);
+
+        //return true if user has money for buyIn + starting chip and his point are in:
+        //room.minRank <= point <= room.maxPoints +
+        //check that game is no active and has more room for another player
+        public abstract bool CanUserJoinGame(int userMoney, int userPoints);
     }
 }

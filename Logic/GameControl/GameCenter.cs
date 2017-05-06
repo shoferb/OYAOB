@@ -58,7 +58,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {
-            GameRoom gm = GetRoomById(roomId);
+            IGame gm = GetRoomById(roomId);
 
             return gm.DoAction(user, action, amount);
         }
@@ -604,26 +604,10 @@ namespace TexasHoldem.Logic.Game_Control
         {
             return toCheck >= 0;
         }
-      
 
-        public List<IGame> GetAllActiveGamesAUserCanJoin(int userId)
-        {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                List<IGame> tempList = GetAllActiveGame();
-                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-                foreach (IGame room in games)
-                {
-                    if (room.MaxRank <= user.Points() && room.MinRank >= user.Points())
-                    {
-                        toReturn.Add(room);
-                    }
-                }
-                return toReturn;
-            }
 
-        }
+
+
 
 
 
@@ -631,6 +615,23 @@ namespace TexasHoldem.Logic.Game_Control
         //Todo - ! From here all method are after fix
 
 
+        public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            lock (padlock)
+            {
+                int userMoney = user.Money();
+                int userPoints = user.Points();
+                foreach (IGame room in games)
+
+
+                    if (room.CanUserJoinGame(userMoney, userPoints))
+                    {
+                        toReturn.Add(room);
+                    }
+            }
+            return toReturn;
+        }
 
         //return room by room if - suncronized due to for
         //return null if room Id smaller than 0 or not found
