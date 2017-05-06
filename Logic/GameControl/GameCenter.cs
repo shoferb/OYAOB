@@ -603,11 +603,11 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //return list of games by max player in room
-        public List<GameRoom> GetGamesByMaxPlayer(int max)
+        public List<IGame> GetGamesByMaxPlayer(int max)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<IGame> toReturn = new List<IGame>();
                 try
                 {
                     if (!IsValidInputNotSmallerEqualZero(max))
@@ -615,9 +615,9 @@ namespace TexasHoldem.Logic.Game_Control
                         toReturn = null;
                         return toReturn;
                     }
-                    foreach (GameRoom room in games)
+                    foreach (IGame room in games)
                     {
-                        if (room.MaxPlayersInRoom == max)
+                        if (room.IsGameMaxPlayerEqual(max))
                         {
                             toReturn.Add(room);
                         }

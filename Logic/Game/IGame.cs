@@ -36,5 +36,8 @@ namespace TexasHoldem.Logic.Game
 
         //return true the min player are the same
         bool IsGameMinPlayerEqual(int min);
+
+        //return true the max player are the same
+        bool IsGameMaxPlayerEqual(int max);
     }
 }
