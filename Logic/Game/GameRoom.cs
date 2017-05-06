@@ -287,7 +287,7 @@ namespace TexasHoldem.Logic.Game
         private bool Raise(Player player, int bet)
         {
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound))
+            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
             {
                 return false;
             }
@@ -372,8 +372,8 @@ namespace TexasHoldem.Logic.Game
             LastRaise = 0;
             InitializePlayerRound();
             //TODO: check that
-            MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
-            MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+           // MaxRaiseInThisRound = MyDecorator.GetMaxAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
+          //  MinRaiseInThisRound = MyDecorator.GetMinAllowedRaise(this.Bb, this.maxBetInRound, this.Hand_Step);
 
             if (Hand_Step == HandStep.River) 
             {
