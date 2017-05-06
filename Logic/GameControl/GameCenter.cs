@@ -492,11 +492,11 @@ namespace TexasHoldem.Logic.Game_Control
 
         //todo ?????? potCount =? postsize
         //return list of games with pot size
-        public List<GameRoom> GetAllGamesByPotSize(int potSize)
+        public List<IGame> GetAllGamesByPotSize(int potSize)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<IGame> toReturn = new List<IGame>();
                 try
                 {
                     if (!IsValidInputNotSmallerZero(potSize))
@@ -504,13 +504,12 @@ namespace TexasHoldem.Logic.Game_Control
                         toReturn = null;
                         return toReturn;
                     }
-                    foreach (GameRoom room in games)
+                    foreach (IGame room in games)
                     {
-                        if (room.PotCount == potSize)
+                        if (room.IsPotSizEqual(potSize))
                         {
                             toReturn.Add(room);
                         }
-
                     }
                 }
                 catch (Exception e)

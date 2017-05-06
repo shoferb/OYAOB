@@ -24,5 +24,8 @@ namespace TexasHoldem.Logic.Game
 
         //return true if this is a game that can hold spectetors.
         bool IsSpectetorGame();
+
+        //return true the pot size is equal 
+        bool IsPotSizEqual(int potSize);
     }
 }

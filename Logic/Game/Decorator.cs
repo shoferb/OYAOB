@@ -30,7 +30,8 @@ namespace TexasHoldem.Logic
         //return true if this is an active game
         public abstract bool IsActiveGame();
 
-        
+        //return true the pot size is equal 
+        public abstract bool IsPotSizEqual(int potSize);
 
     }
 }
