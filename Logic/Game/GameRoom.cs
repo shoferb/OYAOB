@@ -132,7 +132,7 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             _logControl.AddSystemLog(log);
-            player.user.EditUserMoney(player.user.Money() + (player.TotalChip - player.RoundChipBet));
+            player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
             {
@@ -142,7 +142,44 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             Players = relevantPlayers;
-            return AfterAction();
+            if (IsGameOver())
+            {
+                EndGame();
+            }
+            FixRoles(player);
+            if (AllDoneWithTurn())
+            {
+                return NextRound();
+            }
+            return true; 
+        }
+
+        private bool FixRoles(Player playerLeaved)
+        {
+            if (playerLeaved == DealerPlayer)
+            {
+                DealerPos = (DealerPos + 1) % Players.Count;
+                DealerPlayer = Players[DealerPos];
+            }
+            if (playerLeaved == SbPlayer)
+            {
+                SbPlayer = Players[(DealerPos + 1) % Players.Count];
+            }
+            if (playerLeaved == BbPlayer)
+            {
+                BbPlayer = Players[(DealerPos + 2) % Players.Count];
+            }
+            if (playerLeaved == CurrentPlayer)
+            {
+                return NextCurrentPlayer(0);
+            }
+            if (playerLeaved == FirstPlayerInRound)
+            {
+                firstPlayerInRoundPoistion = (firstPlayerInRoundPoistion) % Players.Count;
+                FirstPlayerInRound = Players[firstPlayerInRoundPoistion];              
+            }
+  
+            return true;
         }
 
         private bool Join(IUser user, int amount)
@@ -301,10 +338,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Check(Player player)
         {
-            if (!MyDecorator.CanCheck())
-            {
-                return false;
-            }
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
@@ -336,7 +369,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return NextRound();
             }
-            return NextCurrentPlayer();
+            return NextCurrentPlayer(1);
         }
 
         private bool NextRound()
@@ -356,9 +389,31 @@ namespace TexasHoldem.Logic.Game
             }
 
             ProgressHand();
-            CurrentPlayer = FirstPlayerInRound;
-            currentPlayerPos = firstPlayerInRoundPoistion;
+            FindFirstPlayerInRound();
             return true;
+        }
+
+        private void FindFirstPlayerInRound()
+        {
+            if (Players.Contains(FirstPlayerInRound))
+            {
+                CurrentPlayer = FirstPlayerInRound;
+                currentPlayerPos = firstPlayerInRoundPoistion;
+                return;
+            }
+            int i = 0;
+            while (i <= Players.Count)
+            {
+                int newPosition = (firstPlayerInRoundPoistion + i) % Players.Count;
+                if (Players[newPosition].isPlayerActive)
+                {
+                    currentPlayerPos = newPosition;
+                    CurrentPlayer = Players[newPosition];
+                    FirstPlayerInRound = CurrentPlayer;
+                    firstPlayerInRoundPoistion = newPosition;
+                    return;
+                }
+            }
         }
 
         private bool EndGame()
@@ -437,12 +492,11 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-    private bool NextCurrentPlayer()
+    private bool NextCurrentPlayer(int startingIndex)
         {
-            int i = 1;
-            while(i <= Players.Count)
+            while(startingIndex <= Players.Count)
             {
-                int newPosition = (currentPlayerPos + i) % Players.Count;
+                int newPosition = (currentPlayerPos + startingIndex) % Players.Count;
                 if (Players[newPosition].isPlayerActive)
                 {
                     currentPlayerPos = newPosition;
