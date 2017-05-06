@@ -21,7 +21,7 @@ namespace TexasHoldem.Logic.Game_Control
         private List<Log> logs;
         private User higherRank;
         public int leagueGap { get; set; }
-        private List<GameRoom> games;
+        private List<IGame> games;
         
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
@@ -38,7 +38,7 @@ namespace TexasHoldem.Logic.Game_Control
             CreateFirstLeague(100);
             this.higherRank = null;
             this.logs = new List<Log>();
-            this.games = new List<GameRoom>();            
+            this.games = new List<IGame>();            
         }
 
         public static GameCenter Instance
@@ -258,7 +258,7 @@ namespace TexasHoldem.Logic.Game_Control
                     return toReturn;
                 }
                 GameRoom room = GetRoomById(roomId);
-                List<GameRoom> all = GetAllGames();
+                List<IGame> all = GetAllGames();
                 toReturn = all.Contains(room);
                 /*
                 foreach (GameRoom room in games)
@@ -481,7 +481,7 @@ namespace TexasHoldem.Logic.Game_Control
 
 
 
-        public List<GameRoom> GetAllGames()
+        public List<IGame> GetAllGames()
         {
             lock (padlock)
             {
