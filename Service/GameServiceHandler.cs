@@ -5,6 +5,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Service
 {
@@ -28,6 +29,12 @@ namespace TexasHoldem.Service
         {
             return _gameCenter.GetRoomById(gameId);
         }
+
+        public static void sendMessageToClient(IUser player, int roomId, CommunicationMessage.ActionType action, bool isSucceed, string msg)
+        {
+            throw new NotImplementedException();
+        }
+
         //TODO +Game center to fix 
         public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
@@ -298,5 +305,7 @@ namespace TexasHoldem.Service
         {
             return _gameCenter.saveActionFromGameReplay(roomID, gameID, userID, actionNum);
         }
+
+      
     }
 }

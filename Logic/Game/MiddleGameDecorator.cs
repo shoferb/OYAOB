@@ -12,35 +12,25 @@ namespace TexasHoldem.Logic
     class MiddleGameDecorator : Decorator
     {
         public GameMode GameMode { get; set; }
+        public int BB { get; set; }
+        public int SB { get; set; }
 
-        public MiddleGameDecorator(GameMode gameModeChosen, Decorator d) : base(d)
+
+        public MiddleGameDecorator(GameMode gameModeChosen,int bb, int sb, Decorator d) : base(d)
         {
             this.GameMode = gameModeChosen;
+            this.BB = bb;
+            this.SB = sb;
         }
 
         public override bool CanStartTheGame(int numOfPlayers)
         {
-            return false;
-        }
-
-        public override bool CanRaise()
-        {
-            return false;
-        }
-
-        public override bool CanCheck()
-        {
-            return false;
-        }
-
-        public override bool CanFold()
-        {
-            return false;
+            throw new NotImplementedException();
         }
 
         public override bool CanSpectatble()
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public override int GetMinBetInRoom()
@@ -58,31 +48,34 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
-        public override bool CanAddMorePlayer(int currNumOfPlayers)
+      
+        public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
-            throw new NotImplementedException();
+            switch (GameMode)
+            {
+                    case GameMode.Limit:
+                        switch (step)
+                        {
+                            case GameRoom.HandStep.Flop:
+                            case GameRoom.HandStep.PreFlop:
+                                return BB;
+                            case GameRoom.HandStep.River:
+                            case GameRoom.HandStep.Turn:
+                                return BB * 2;
+                        }
+                    break;
+                    case GameMode.NoLimit:
+                         return int.MaxValue;
+                    case GameMode.PotLimit:
+                        return maxCommited;
+                    default:
+                        break;
+            }
+            //not spouse to arrive here
+            return -1;
         }
 
-        public override int  GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
-        {
-            if (this.GameMode == GameMode.Limit && (step == GameRoom.HandStep.Flop ||
-                                            step == GameRoom.HandStep.PreFlop))
-            {
-                return BB;
-            }
-            if (this.GameMode == GameMode.Limit && (step == GameRoom.HandStep.River ||
-                                                       step == GameRoom.HandStep.Turn))
-            {
-                return BB * 2;
-            }
-            else // no limit
-            {
-                return int.MaxValue;
-            }
-
-        }
-
-        public override int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        public override int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             if (this.GameMode == GameMode.NoLimit)
             {
@@ -91,12 +84,15 @@ namespace TexasHoldem.Logic
             return 0;
         }
 
-        public override bool CanBeSpectatble()
+        public override bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
-            throw new NotImplementedException();
+            if (currentPlayerBet <= GetMaxAllowedRaise(maxBetInRound, step) && currentPlayerBet > 0)
+                return true;
+            return false;
         }
 
-        public override bool CanRaise(int currentPlayerBet, int maxBetInRound)
+        //check if the amount is in the range
+        public override bool CanJoin(int playersCount, int amount)
         {
             throw new NotImplementedException();
         }

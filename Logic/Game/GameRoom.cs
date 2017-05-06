@@ -170,7 +170,7 @@ namespace TexasHoldem.Logic.Game
                 _logControl.AddErrorLog(log);
                 return false;
             }
-            if (!MyDecorator.CanJoin(Players.Count , amount)) //check if the amount is in the range
+            if (!MyDecorator.CanJoin(Players.Count , amount)) 
             {
                 return false;
             }

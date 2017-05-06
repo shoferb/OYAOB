@@ -17,12 +17,14 @@ namespace TexasHoldem.Logic
         public int EnterPayingMoney { get; set; }
         public int StartingChip { get; set; }
         public int MinBetInRoom { get; set; }
-      
+        public int BB { get; set; }
+        public int SB { get; set; }
+
         private GameCenter GameCenter;
 
         public BeforeGameDecorator( int minBetInRoom, int startingChip, bool isSpectetor,
              int minPlayersInRoom, int maxPlayersInRoom,
-            int enterPayingMoney, Decorator d) : base(d)
+            int enterPayingMoney, int bb, int sb, Decorator d) : base(d)
         {
             this.IsSpectetor = isSpectetor;
             this.StartingChip = startingChip;
@@ -30,17 +32,26 @@ namespace TexasHoldem.Logic
             this.MinPlayersInRoom = minPlayersInRoom;
             this.EnterPayingMoney = enterPayingMoney;
             this.MinBetInRoom = minBetInRoom;
-            
+            this.BB = bb;
+            this.SB = sb;
+
         }
 
-        public override bool CanBeSpectatble()
+        public override bool CanSpectatble()
         {
             return IsSpectetor;
         }
 
-        public override bool CanRaise(int currentPlayerBet, int maxBetInRound)
+        public override bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
-            throw new NotImplementedException();
+            return this.NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
+        }
+
+        public override bool CanJoin(int playersCount, int amount)
+        {
+            if (CanAddMorePlayer(playersCount) && amount >= StartingChip)
+                return true;
+            return false;
         }
 
         public override bool CanStartTheGame(int numOfPlayers)
@@ -48,39 +59,19 @@ namespace TexasHoldem.Logic
             return numOfPlayers >= this.MinPlayersInRoom ?  true : false;
         }
 
-        public override bool CanRaise()
-        {
-            return NextDecorator.CanRaise();
-        }
-
-        public override bool CanCheck()
-        {
-            return NextDecorator.CanCheck();
-        }
-
-        public override bool CanFold()
-        {
-            return NextDecorator.CanFold();
-        }
-
-        public override bool CanSpectatble()
-        {
-            throw new NotImplementedException();
-        }
-
         public override int GetMinBetInRoom()
         {
             return this.MinBetInRoom;
         }
 
-        public override int GetMaxAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
-            return NextDecorator.GetMaxAllowedRaise(BB, maxCommited, step);
+            return NextDecorator.GetMaxAllowedRaise(maxCommited, step);
         }
 
-        public override int GetMinAllowedRaise(int BB, int maxCommited, GameRoom.HandStep step)
+        public override int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
-            return NextDecorator.GetMinAllowedRaise(BB, maxCommited, step);
+            return NextDecorator.GetMinAllowedRaise(maxCommited, step);
         }
 
          public override int GetEnterPayingMoney()
@@ -93,7 +84,7 @@ namespace TexasHoldem.Logic
             return this.StartingChip;
         }
         
-        public override bool CanAddMorePlayer(int currNumOfPlayers)
+        private bool CanAddMorePlayer(int currNumOfPlayers)
         {
             return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;
         }

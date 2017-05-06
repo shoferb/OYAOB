@@ -16,22 +16,7 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
-        public override bool CanRaise()
-        {
-            return false;
-        }
-
-        public override bool CanCheck()
-        {
-            return false;
-        }
-
-        public override bool CanFold()
-        {
-            return false;
-        }
-
-        public override bool CanSpectatble()
+       public override bool CanSpectatble()
         {
             return false;
         }
@@ -51,27 +36,22 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public override bool CanAddMorePlayer(int currNumOfPlayers)
+        public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
 
-        public override int GetMaxAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step)
+        public override int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
 
-        public override int GetMinAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step)
+        public override bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanBeSpectatble()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool CanRaise(int currentPlayerBet, int maxBetInRound)
+        public override bool CanJoin(int count, int amount)
         {
             throw new NotImplementedException();
         }

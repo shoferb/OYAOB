@@ -17,18 +17,13 @@ namespace TexasHoldem.Logic
         }
 
         public abstract bool CanStartTheGame(int numOfPlayers);
-        public abstract bool CanCheck(); // TODO: delete it
-        public abstract bool CanRaise(); // TODO: delete it
-        public abstract bool CanFold(); // TODO : delete it 
         public abstract bool CanSpectatble();
         public abstract int GetMinBetInRoom();
         public abstract int GetEnterPayingMoney();
         public abstract int GetStartingChip();
-        public abstract bool CanAddMorePlayer(int currNumOfPlayers);
-        public abstract int GetMaxAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
-        public abstract int GetMinAllowedRaise(int bb, int maxCommited, GameRoom.HandStep step);
-        public abstract bool CanBeSpectatble(); // TODO: delete it
-        public abstract bool CanRaise(int currentPlayerBet, int maxBetInRound);
+        public abstract int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step);
+        public abstract int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step);
+        public abstract bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step);
         public abstract bool CanJoin(int count, int amount);
     }
 }

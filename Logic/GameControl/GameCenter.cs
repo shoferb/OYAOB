@@ -11,6 +11,7 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Logic.Game_Control
 {
@@ -54,6 +55,25 @@ namespace TexasHoldem.Logic.Game_Control
                 }
             }
         }
+
+
+        public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
+        {
+            GameRoom gm = GetRoomById(roomId);
+
+            return gm.DoAction(user, action, amount);
+        }
+
+        public void SendMessageToClient(IUser player, int roomId, CommunicationMessage.ActionType action, bool isSucceed, string msg)
+        {
+            GameServiceHandler.sendMessageToClient(player, roomId, action, isSucceed, msg);
+        }
+
+
+
+
+
+
 
         //TODO: fix this
         public bool CreateNewRoomWithRoomId(int roomId, int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
