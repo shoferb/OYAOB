@@ -174,8 +174,8 @@ namespace TexasHoldem.Logic.Game
                 return false;
             }
 
-            int userMneyAfterFeeAndEnter = user.Money() - MyDecorator.GetEnterPayingMoney() - amount;
-            if (userMneyAfterFeeAndEnter < 0)
+            int userMoneyAfterFeeAndEnter = user.Money() - MyDecorator.GetEnterPayingMoney() - amount;
+            if (userMoneyAfterFeeAndEnter < 0)
             {
                 ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
                     + user.Id() + " to room: " + Id + "insufficient money");
