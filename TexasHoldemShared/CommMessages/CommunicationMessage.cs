@@ -11,6 +11,7 @@
             Leave,
 
             StartGame,
+            HandCard,
         }
 
         //TODO: add fields here
