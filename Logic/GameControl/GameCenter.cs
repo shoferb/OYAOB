@@ -463,14 +463,14 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public List<GameRoom> GetAllSpectetorGame()
+        public List<IGame> GetAllSpectetorGame()
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
-                foreach (GameRoom room in games)
+                List<IGame> toReturn = new List<IGame>();
+                foreach (IGame room in games)
                 {
-                    if (room.IsSpectetor)
+                    if (room.IsSpectetorGame())
                     {
                         toReturn.Add(room);
                     }
