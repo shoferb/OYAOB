@@ -1084,7 +1084,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsSpectetorGame()
         {
-            throw new NotImplementedException();
+            return MyDecorator.CanSpectatble();
         }
 
         public bool IsPotSizEqual(int potSize)
