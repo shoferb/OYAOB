@@ -400,139 +400,160 @@ namespace TexasHoldem.Logic.Users
 
         public bool EditUserRank(int Rank)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (IsValidInputNotSmallerZero(Rank))
+                bool toReturn = false;
+                try
                 {
-                    this.rank = Rank;
-                    toReturn = true;
+                    if (IsValidInputNotSmallerZero(Rank))
+                    {
+                        this.rank = Rank;
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
         public bool RemoveRoomFromActiveGameList(IGame game)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (game != null && activeGameList.Contains(game))
+                bool toReturn = false;
+                try
                 {
-                    this.activeGameList.Remove(game);
-                    toReturn = true;
+                    if (game != null && activeGameList.Contains(game))
+                    {
+                        this.activeGameList.Remove(game);
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
         public bool RemoveRoomFromSpectetorGameList(IGame game)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (game != null && spectateGameList.Contains(game))
+                bool toReturn = false;
+                try
                 {
-                    this.spectateGameList.Remove(game);
-                    toReturn = true;
+                    if (game != null && spectateGameList.Contains(game))
+                    {
+                        this.spectateGameList.Remove(game);
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
         public bool HasThisActiveGame(IGame game)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (game != null && activeGameList.Contains(game))
+                bool toReturn = false;
+                try
                 {
-                    toReturn = true;
+                    if (game != null && activeGameList.Contains(game))
+                    {
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
         public bool HasThisSpectetorGame(IGame game)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (game != null && spectateGameList.Contains(game))
+                bool toReturn = false;
+                try
                 {
-                    toReturn = true;
+                    if (game != null && spectateGameList.Contains(game))
+                    {
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
         public bool AddRoomToActiveGameList(IGame game)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (game != null && !activeGameList.Contains(game))
+                bool toReturn = false;
+                try
                 {
-                    this.activeGameList.Add(game);
-                    toReturn = true;
+                    if (game != null && !activeGameList.Contains(game))
+                    {
+                        this.activeGameList.Add(game);
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
         public bool AddRoomToSpectetorGameList(IGame game)
         {
-            bool toReturn = false;
-            try
+            lock (padlock)
             {
-                if (game != null && !spectateGameList.Contains(game))
+                bool toReturn = false;
+                try
                 {
-                    this.spectateGameList.Add(game);
-                    toReturn = true;
+                    if (game != null && !spectateGameList.Contains(game))
+                    {
+                        this.spectateGameList.Add(game);
+                        toReturn = true;
+                        return toReturn;
+                    }
                     return toReturn;
                 }
-                return toReturn;
-            }
-            catch
-            {
-                toReturn = false;
-                return toReturn;
+                catch
+                {
+                    toReturn = false;
+                    return toReturn;
+                }
             }
         }
 
