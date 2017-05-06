@@ -17,32 +17,31 @@ namespace TexasHoldem.Logic.Game
 {
     public class GameRoom : IGame
     {
-        public List<Player> Players { get; set; }
+        private List<Player> Players { get; set; }
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
-        public List<Spectetor> Spectatores { get; set;}
-        public int DealerPos { get; set; }
-        public int maxBetInRound { get; set; } 
-        public int PotCount { get; set; }
-        public int Bb { get; set; }
-        public int Sb { get; set; }
-        public Deck Deck { get; set; }
-        public GameRoom.HandStep Hand_Step { get; set; }
-        public List<Card> PublicCards { get; set; }
-        public bool IsActiveGame { get; set; }
-        public List<Tuple<int, List<Player>>> SidePots { get; set; } //TODO use that in all in
-        public GameReplay GameReplay { get; set; }
+        private List<Spectetor> Spectatores { get; set;}
+        private int DealerPos { get; set; }
+        private int maxBetInRound { get; set; }
+        private int PotCount { get; set; }
+        private int Bb { get; set; }
+        private int Sb { get; set; }
+        private Deck Deck { get; set; }
+        private GameRoom.HandStep Hand_Step { get; set; }
+        private List<Card> PublicCards { get; set; }
+        private bool IsActiveGame { get; set; }
+        private List<Tuple<int, List<Player>>> SidePots { get; set; } //TODO use that in all in
+        private GameReplay GameReplay { get; set; }
         private ReplayManager ReplayManager;
-        private GameCenter GameCenter; 
-        public Player CurrentPlayer;
-        public Player DealerPlayer;
-        public Player BbPlayer;
-        public Player SbPlayer;
-        public List<HandEvaluator> Winners;
+        private GameCenter GameCenter;
+        private Player CurrentPlayer;
+        private Player DealerPlayer;
+        private Player BbPlayer;
+        private Player SbPlayer;
         private Decorator MyDecorator;
-        public int MaxRaiseInThisRound { get; set; }  
-        public int MinRaiseInThisRound { get; set; } 
-        private int LastRaise { get; set; }  
+        private int MaxRaiseInThisRound;
+        private int MinRaiseInThisRound;
+        private int LastRaise;  
         private LogControl _logControl;
         private int GameNumber;
         private Player lastPlayerRaisedInRound;
@@ -50,11 +49,10 @@ namespace TexasHoldem.Logic.Game
         private int currentPlayerPos;
         private bool someOneRaised;
 
-        public int MinBetInRoom { get; set; }
-        private int _currLoaction { get; set; }
-        private int _roundCounter { get; set; }
-        public int MaxRank { get; set; }
-        public int MinRank { get; set; }
+        private int MinBetInRoom;
+        private int MaxRank;
+        private int MinRank;
+
         public GameRoom(List<Player> players, int ID)
         {
             Id = ID;
@@ -130,6 +128,10 @@ namespace TexasHoldem.Logic.Game
             List<Player> relevantPlayers = new List<Player>();
             LeaveAction leave = new LeaveAction(player);
             GameReplay.AddAction(leave);
+            SystemLog log = new SystemLog(Id, "Player with user Id: "
+                + player.user.Id() + " left succsfully from room: " +Id);
+            player.user.EditUserMoney(player.user.Money() + (player.TotalChip - player.RoundChipBet));
+            player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
             {
                 if (p.user.Id() != player.user.Id())
@@ -174,7 +176,6 @@ namespace TexasHoldem.Logic.Game
 
             HandCards();
             IsActiveGame = true;
-            _roundCounter = 1;
             someOneRaised = false;
             return true;
         }
@@ -303,18 +304,18 @@ namespace TexasHoldem.Logic.Game
                     playersLeftInGame.Add(player);
                 }
             }
-            Winners = FindWinner(PublicCards, playersLeftInGame);
+            List<HandEvaluator> Winners = FindWinner(PublicCards, playersLeftInGame);
             List<int> ids = new List<int>();
             foreach (Player player in Players)
             {
                 ids.Add(player.user.Id());
             }
             ReplayManager.AddGameReplay(GameReplay, ids);
-            if (this.Winners.Count > 0) // so there are winners at the end of the game
+            if (Winners.Count > 0) // so there are winners at the end of the game
             {
-                int amount = this.PotCount / this.Winners.Count;
+                int amount = this.PotCount / Winners.Count;
 
-                foreach (HandEvaluator h in this.Winners)
+                foreach (HandEvaluator h in Winners)
                 {
                     h._player.Win(amount);
                 }
@@ -1008,7 +1009,6 @@ namespace TexasHoldem.Logic.Game
                 {
                     SystemLog log =
                         new SystemLog(this.Id, "The Player with user Id " + userId + " Removed succsfully from room" + this.Id);
-                    this.Players.Remove(p);
                     user.EditUserMoney(user.Money() + (p.TotalChip - p.RoundChipBet));
                     user.RemoveRoomFromActiveGameList(this);
                     continue;
