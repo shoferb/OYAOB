@@ -23,13 +23,13 @@ namespace TexasHoldem.Logic.Game
         private List<Spectetor> Spectatores;
         private int DealerPos;
         private int maxBetInRound;
-        private int PotCount;
+        public int PotCount { get; }
         private int Bb;
         private int Sb;
         private Deck Deck;
         private GameRoom.HandStep Hand_Step;
         private List<Card> PublicCards;
-        private bool IsActiveGame;
+        public bool IsActiveGame { get; }
         private List<Tuple<int, List<Player>>> SidePots; //TODO use that in all in
         private GameReplay GameReplay;
         private ReplayManager ReplayManager;
@@ -49,8 +49,8 @@ namespace TexasHoldem.Logic.Game
         private int currentPlayerPos;
         private bool someOneRaised;
         private int MinBetInRoom;
-        private int MaxRank;
-        private int MinRank;
+        public int MaxRank { get; }
+        public int MinRank { get; }
         private int firstPlayerInRoundPoistion;
 
         public GameRoom(List<Player> players, int ID)
@@ -545,7 +545,7 @@ namespace TexasHoldem.Logic.Game
 
         //public void Start()
         //{
-        //    if (RoomThread != null && !this.IsActiveGame)
+        //    if (RoomThread != null && !this.IsGameActive)
         //    {
         //        try
         //        {
@@ -1076,10 +1076,11 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
-        public bool IsActiveGame()
+        public bool IsGameActive()
         {
-            throw new NotImplementedException();
+            return this.IsActiveGame;
         }
+
 
         public bool IsSpectetorGame()
         {

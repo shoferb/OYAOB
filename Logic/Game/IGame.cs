@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game
         bool RemoveSpectetorFromRoom(IUser user);
 
         //return true if this is an active game
-        bool IsActiveGame();
+        bool IsGameActive();
 
         //return true if this is a game that can hold spectetors.
         bool IsSpectetorGame();

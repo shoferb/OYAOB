@@ -370,7 +370,7 @@ namespace TexasHoldem.Logic.Game_Control
                 toReturn = new List<IGame>();
                 foreach (IGame room in user.ActiveGameList())
                 {
-                    if (room.IsActiveGame())
+                    if (room.IsGameActive())
                     {
                         toReturn.Add(room);
                     }
