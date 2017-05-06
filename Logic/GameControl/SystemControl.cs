@@ -51,7 +51,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        
 
 
 
@@ -465,7 +465,22 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-      
+        public List<IUser> GetAllUnKnowUsers()
+        {
+            List<IUser> toReturn = new List<IUser>();
+            lock (padlock)
+            {
+                
+                foreach (IUser u in users)
+                {
+                    if (u.IsUnKnow())
+                    {
+                        toReturn.Add(u);
+                    }   
+                }
+            }
+            return toReturn;
+        }
 
         private bool IsValidInputNotSmallerZero(int toCheck)
         {

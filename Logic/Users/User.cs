@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.TextFormatting;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
@@ -26,6 +27,7 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private List<IGame> activeGameList;
         private List<IGame> spectateGameList;
+        private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
 
         public int rank { get; set; }
 
@@ -50,7 +52,28 @@ namespace TexasHoldem.Logic.Users
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
             this.winNum = 0;
-          
+            this.unknowGamesPlay = 0;
+
+        }
+
+
+        //return true if play in ess than 11 games.
+        public bool IsUnKnow()
+        {
+            lock (padlock)
+            {
+                return this.unknowGamesPlay <= 10;
+            }
+        }
+
+        //inc num of games play
+        public bool IncGamesPlay()
+        {
+            lock (padlock)
+            {
+                this.unknowGamesPlay++;
+                return true;
+            }
         }
 
         //function to recive notificaion - return the notification.
