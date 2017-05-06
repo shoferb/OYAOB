@@ -9,7 +9,7 @@ namespace TexasHoldem.Logic
 {
     public abstract class Decorator
     {
-       internal Decorator NextDecorator;
+        internal Decorator NextDecorator;
 
         public Decorator(Decorator d)
         {
@@ -27,7 +27,7 @@ namespace TexasHoldem.Logic
         public abstract bool CanJoin(int count, int amount);
 
 
-     
+
 
 
 

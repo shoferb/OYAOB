@@ -12,7 +12,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game
 {
-     public interface IGame
+    public interface IGame
     {
         int Id { get; set; }
         bool DoAction(IUser user, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType action, int amount);
@@ -52,6 +52,14 @@ namespace TexasHoldem.Logic.Game
         //if isUNknow = true --> no need th check if point are good
         bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow);
 
-        
+        List<Player> GetPlayersInRoom();
+
+
+        List<Spectetor> GetSpectetorInRoom();
+
+        int GetMinRank();
+
+        int GetMaxRank();
+
     }
 }

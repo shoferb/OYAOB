@@ -14,16 +14,17 @@ using TexasHoldem.Service;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
+
 namespace TexasHoldem.Logic.Game_Control
 {
-    public class  GameCenter
+    public class GameCenter
     {
         private List<League> leagueTable;
         private List<Log> logs;
 
         public int leagueGap { get; set; }
         private List<IGame> games;
-        
+
         private static int roomIdCounter = 1;
         private static GameCenter singlton;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
@@ -38,7 +39,7 @@ namespace TexasHoldem.Logic.Game_Control
             this.leagueTable = new List<League>();
             CreateFirstLeague(100);
             this.logs = new List<Log>();
-            this.games = new List<IGame>();            
+            this.games = new List<IGame>();
         }
 
         public static GameCenter Instance
@@ -47,7 +48,7 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 lock (padlock)
                 {
-                    if(instance == null)
+                    if (instance == null)
                     {
                         instance = new GameCenter();
                     }
@@ -67,14 +68,14 @@ namespace TexasHoldem.Logic.Game_Control
         public void SendMessageToClient(Player player, int roomId, GameData gmData, CommunicationMessage.ActionType action, bool isSucceed)
         {
             GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
-                        player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
-                        gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
-                        gmData.GetSbPlayer(), isSucceed); ;
+                player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
+                gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
+                gmData.GetSbPlayer(), isSucceed); ;
             switch (action)
             {
-                case CommunicationMessage.ActionType.HandCard:           
+                case CommunicationMessage.ActionType.HandCard:
                 case CommunicationMessage.ActionType.StartGame:
-                       GameServiceHandler.SendMessageToClientGameData(gameDataMes);
+                    GameServiceHandler.SendMessageToClientGameData(gameDataMes);
                     break;
 
                 case CommunicationMessage.ActionType.Fold:
@@ -86,10 +87,10 @@ namespace TexasHoldem.Logic.Game_Control
                     GameServiceHandler.SendMessageToClientGameData(gameDataMes);
                     ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
                     GameServiceHandler.SendMessageToClientResponse(resp);
-                    break;        
+                    break;
             }
 
-           
+
         }
 
 
@@ -111,7 +112,7 @@ namespace TexasHoldem.Logic.Game_Control
                     logControl.AddErrorLog(log);
                     return false;
                 }
-               
+
                 if (startingChip < 0)
                 {
                     return false;
@@ -153,7 +154,7 @@ namespace TexasHoldem.Logic.Game_Control
                     logControl.AddErrorLog(log);
                     return false;
                 }
-            
+
                 List<Player> players = new List<Player>();
                 IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
 
@@ -184,7 +185,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        
+
         //edit the gap field - syncronized 
         public bool EditLeagueGap(int newGap)
         {
@@ -209,7 +210,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
-       
+
         //return thr next room Id
         public int GetNextIdRoom()
         {
@@ -226,60 +227,16 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-      
+
         public int CurrRoomId()
         {
             return roomIdCounter;
         }
+
+
+
+
      
-
-
-
-        //remove room form games list - remove the room remove the game from active game list and spectetor in user
-        //
-        public bool RemoveRoom(int roomId)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                bool exist = IsRoomExist(roomId);
-                if (!exist)
-                {
-                    return toReturn;
-                }
-                if (!IsValidInputNotSmallerZero(roomId))
-                {
-                    return toReturn;
-                }
-                IGame toRemove = GetRoomById(roomId);
-                try
-                {
-                    int userId;
-                    SystemControl sc = SystemControl.SystemControlInstance;
-                    foreach (Player p in toRemove.Players)
-                    {
-                        userId = p.user.Id();
-                        if (sc.HasThisActiveGame(roomId, userId))
-                        {
-                            sc.RemoveRoomFromActiveRoom(roomId, userId);
-                        }
-                        if (sc.HasThisSpectetorGame(roomId, userId))
-                        {
-                            sc.RemoveRoomFromSpectetRoom(roomId, userId);
-                        }
-                    }
-                    games.Remove(toRemove);
-                    toReturn = true;
-                }
-                catch (Exception e)
-                {
-                    ErrorLog log = new ErrorLog("Error while trying to remove game room");
-                    logControl.AddErrorLog(log);
-                    toReturn = false;
-                }
-                return toReturn;
-            }
-        }
 
 
         //Add new room the games list
@@ -307,8 +264,8 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        
-      //create new league whith new gap
+
+        //create new league whith new gap
         public bool CreateFirstLeague(int initGap)
         {
             lock (padlock)
@@ -318,17 +275,17 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     return toReturn;
                 }
-                
+
                 leagueTable = new List<League>();
                 int currpoint = 0;
                 int i = 1;
                 int to = 0;
-                String leaugeName=null;
+                String leaugeName = null;
                 int gap = 0;
                 League l = null;
                 while (i < this.LeagueTable.Count)
                 {
-                    gap= this.LeagueTable[i].getMaxRank() - this.LeagueTable[i].getMinRank();
+                    gap = this.LeagueTable[i].getMaxRank() - this.LeagueTable[i].getMinRank();
                     l = this.LeagueTable[i];
                     if (gap > initGap)
                     {
@@ -336,20 +293,20 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                     leaugeName = "" + i;
                 }
-                League toAdd =null ;
+                League toAdd = null;
                 if (l != null)
                 {
-                     toAdd = new League(leaugeName, l.getMaxRank(), l.getMaxRank() + initGap);
+                    toAdd = new League(leaugeName, l.getMaxRank(), l.getMaxRank() + initGap);
                 }
                 else
                 {
-                     toAdd = new League(leaugeName, 0, initGap);
+                    toAdd = new League(leaugeName, 0, initGap);
                 }
                 leagueTable.Add(toAdd);
                 this.LeagueTable = leagueTable;
                 this.leagueGap = initGap;
-                
-            
+
+
                 return toReturn;
             }
         }
@@ -380,7 +337,7 @@ namespace TexasHoldem.Logic.Game_Control
 
 
         //Tuple<int, int> - <min,max>
-        public Tuple<int,int> UserLeageGapPoint(int userId)
+        public Tuple<int, int> UserLeageGapPoint(int userId)
         {
             //Tuple<int, int> toReturn;
             IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
@@ -401,85 +358,21 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-     
-        //seand notification to user
-        public bool SendNotification(User reciver, Notification toSend)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                reciver.SendNotification(toSend);
-                return toReturn;
-            }
-        }
 
-        //getters setters
-        public List<League> LeagueTable
-        {
-            get
-            {
-                return leagueTable;
-            }
-            
-            set
-            {
-                lock (padlock)
-                {
-                    leagueTable = value;
-                }
-            }
-        }
-       
-
-        public int LeagueGap
-        {
-            get
-            {
-                return leagueGap;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    leagueGap = value;
-                }
-            }
-        }
-
-      
-
-        public List<IGame> Games
-        {
-            get
-            {
-
-                return games;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    games = value;
-                }
-            }
-        }
-        
         //TODO: Should not be here. call from GameRoom should be direct to service
         public Tuple<GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<GameMove, bool, int, int>> moves)
         {
             lock (padlock)
             {
-                
+
                 GameServiceHandler gsh = new GameServiceHandler();
-                Tuple<GameMove, int> happend = gsh.SendUserAvailableMovesAndGetChoosen( moves);
-                
+                Tuple<GameMove, int> happend = gsh.SendUserAvailableMovesAndGetChoosen(moves);
+
                 return happend;
             }
-            
+
         }
-       
+
         //TODO: maybe not needed?
         public String Displaymoves(List<Tuple<GameMove, bool, int, int>> moves)
         {
@@ -537,7 +430,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //should be in decorator inside gameRoom
-      public bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
+        public bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
         {
             lock (padlock)
             {
@@ -614,19 +507,9 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //TODO: should 
-        public Tuple<GameMove, int>  SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
+        public Tuple<GameMove, int> SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
         {
             return moveAndBet;
-        }
-
-        private bool IsValidInputNotSmallerEqualZero(int toCheck)
-        {
-            return toCheck > 0;
-        }
-
-        private bool IsValidInputNotSmallerZero(int toCheck)
-        {
-            return toCheck >= 0;
         }
 
 
@@ -639,6 +522,37 @@ namespace TexasHoldem.Logic.Game_Control
         //Todo - ! From here all method are after fix
 
 
+        public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
+        {
+            lock (padlock)
+            {
+               return games.FindAll(game =>
+                    game.GetMinRank() <= userPoints && game.GetMaxRank() >= userPoints);
+            }
+        }
+
+        //remove room form games list - remove the room remove the game from active game list and spectetor in user
+        public bool RemoveRoom(int roomId)
+        {
+            lock (padlock)
+            {
+                bool toReturn = false;
+                IGame toRemove = GetRoomById(roomId);
+                try
+                {
+                    games.Remove(toRemove);
+                    toReturn = true;
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error while trying to remove game room");
+                    logControl.AddErrorLog(log);
+                    toReturn = false;
+                }
+                return toReturn;
+            }
+        }
+
         public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
         {
             List<IGame> toReturn = new List<IGame>();
@@ -649,7 +563,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool isUnKnow = user.IsUnKnow();
                 foreach (IGame room in games)
                 {
-                    if (room.CanUserJoinGame(userMoney, userPoints,isUnKnow))
+                    if (room.CanUserJoinGame(userMoney, userPoints, isUnKnow))
                     {
                         toReturn.Add(room);
                     }
@@ -986,6 +900,84 @@ namespace TexasHoldem.Logic.Game_Control
                 return games;
             }
         }
+
+
+        private bool IsValidInputNotSmallerEqualZero(int toCheck)
+        {
+            return toCheck > 0;
+        }
+
+        private bool IsValidInputNotSmallerZero(int toCheck)
+        {
+            return toCheck >= 0;
+        }
+
+
+
+        //seand notification to user
+        public bool SendNotification(User reciver, Notification toSend)
+        {
+            lock (padlock)
+            {
+                bool toReturn = false;
+                reciver.SendNotification(toSend);
+                return toReturn;
+            }
+        }
+
+        //getters setters
+        public List<League> LeagueTable
+        {
+            get
+            {
+                return leagueTable;
+            }
+
+            set
+            {
+                lock (padlock)
+                {
+                    leagueTable = value;
+                }
+            }
+        }
+
+
+        public int LeagueGap
+        {
+            get
+            {
+                return leagueGap;
+            }
+
+            set
+            {
+                lock (padlock)
+                {
+                    leagueGap = value;
+                }
+            }
+        }
+
+
+
+        public List<IGame> Games
+        {
+            get
+            {
+
+                return games;
+            }
+
+            set
+            {
+                lock (padlock)
+                {
+                    games = value;
+                }
+            }
+        }
+
 
     }
 

@@ -16,7 +16,7 @@ namespace TexasHoldem.Logic
         public int SB { get; set; }
 
 
-        public MiddleGameDecorator(GameMode gameModeChosen,int bb, int sb, Decorator d) : base(d)
+        public MiddleGameDecorator(GameMode gameModeChosen, int bb, int sb, Decorator d) : base(d)
         {
             this.GameMode = gameModeChosen;
             this.BB = bb;
@@ -48,28 +48,28 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
-      
+
         public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             switch (GameMode)
             {
-                    case GameMode.Limit:
-                        switch (step)
-                        {
-                            case GameRoom.HandStep.Flop:
-                            case GameRoom.HandStep.PreFlop:
-                                return BB;
-                            case GameRoom.HandStep.River:
-                            case GameRoom.HandStep.Turn:
-                                return BB * 2;
-                        }
+                case GameMode.Limit:
+                    switch (step)
+                    {
+                        case GameRoom.HandStep.Flop:
+                        case GameRoom.HandStep.PreFlop:
+                            return BB;
+                        case GameRoom.HandStep.River:
+                        case GameRoom.HandStep.Turn:
+                            return BB * 2;
+                    }
                     break;
-                    case GameMode.NoLimit:
-                         return int.MaxValue;
-                    case GameMode.PotLimit:
-                        return maxCommited;
-                    default:
-                        break;
+                case GameMode.NoLimit:
+                    return int.MaxValue;
+                case GameMode.PotLimit:
+                    return maxCommited;
+                default:
+                    break;
             }
             //not spouse to arrive here
             return -1;
@@ -97,7 +97,7 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
-     
+
 
         public override bool IsGameModeEqual(GameMode gm)
         {
@@ -133,6 +133,7 @@ namespace TexasHoldem.Logic
         {
             throw new NotImplementedException();
         }
+
 
         public override bool CanAddAnotherPlayer(int currNumOfPlayer)
         {

@@ -8,7 +8,8 @@ namespace TexasHoldem.Logic.Game
 {
     class AfterGameDecorator : Decorator
     {
-        public AfterGameDecorator( Decorator d) : base(d)
+
+        public AfterGameDecorator(Decorator d) : base(d)
         {
         }
         public override bool CanStartTheGame(int numOfPlayers)
@@ -16,7 +17,7 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
-       public override bool CanSpectatble()
+        public override bool CanSpectatble()
         {
             return false;
         }
@@ -56,7 +57,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-      
+
 
         public override bool IsGameModeEqual(GameMode gm)
         {

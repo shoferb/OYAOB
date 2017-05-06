@@ -23,13 +23,13 @@ namespace TexasHoldem.Logic.Game
         private List<Spectetor> Spectatores;
         private int DealerPos;
         private int maxBetInRound;
-        public int PotCount { get; }
+        private int PotCount;
         private int Bb;
         private int Sb;
         private Deck Deck;
         private GameRoom.HandStep Hand_Step;
         private List<Card> PublicCards;
-        public bool IsActiveGame { get; }
+        private bool IsActiveGame;
         private List<Tuple<int, List<Player>>> SidePots; //TODO use that in all in
         private GameReplay GameReplay;
         private ReplayManager ReplayManager;
@@ -49,8 +49,8 @@ namespace TexasHoldem.Logic.Game
         private int currentPlayerPos;
         private bool someOneRaised;
         private int MinBetInRoom;
-        public int MaxRank { get; }
-        public int MinRank { get; }
+        private int MaxRank;
+        private int MinRank;
         private int firstPlayerInRoundPoistion;
 
         public GameRoom(List<Player> players, int ID)
@@ -249,6 +249,7 @@ namespace TexasHoldem.Logic.Game
                 this._logControl.AddErrorLog(log);
                 return false;
             }
+
             return true;
         }
 
@@ -545,7 +546,7 @@ namespace TexasHoldem.Logic.Game
 
         //public void Start()
         //{
-        //    if (RoomThread != null && !this.IsGameActive)
+        //    if (RoomThread != null && !this.IsActiveGame)
         //    {
         //        try
         //        {
@@ -1143,6 +1144,27 @@ namespace TexasHoldem.Logic.Game
                 return toReturn;
             }
             return toReturn;
+        }
+
+        public List<Player> GetPlayersInRoom()
+        {
+            return this.Players;
+        }
+
+
+        public List<Spectetor> GetSpectetorInRoom()
+        {
+            return this.Spectatores;
+        }
+
+        public int GetMinRank()
+        {
+            return MinRank;
+        }
+
+        public int GetMaxRank()
+        {
+            return MaxRank;
         }
 
         public bool IsBetweenRanks(int playerRank)

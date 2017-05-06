@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Game_Control;
 
 namespace TexasHoldem.Logic
 {
-   public class BeforeGameDecorator : Decorator
+    public class BeforeGameDecorator : Decorator
     {
         public bool IsSpectetor { get; set; }
         public int MinPlayersInRoom { get; set; }
@@ -22,8 +22,8 @@ namespace TexasHoldem.Logic
 
         private GameCenter GameCenter;
 
-        public BeforeGameDecorator( int minBetInRoom, int startingChip, bool isSpectetor,
-             int minPlayersInRoom, int maxPlayersInRoom,
+        public BeforeGameDecorator(int minBetInRoom, int startingChip, bool isSpectetor,
+            int minPlayersInRoom, int maxPlayersInRoom,
             int enterPayingMoney, int bb, int sb, Decorator d) : base(d)
         {
             this.IsSpectetor = isSpectetor;
@@ -36,6 +36,7 @@ namespace TexasHoldem.Logic
             this.SB = sb;
 
         }
+
 
         public override bool CanSpectatble()
         {
@@ -72,7 +73,7 @@ namespace TexasHoldem.Logic
 
         public override bool IsGameMaxPlayerEqual(int max)
         {
-            return  this.MaxPlayersInRoom == max;
+            return this.MaxPlayersInRoom == max;
         }
 
         public override bool IsGameMinBetEqual(int minBet)
@@ -97,7 +98,7 @@ namespace TexasHoldem.Logic
 
         public override bool CanStartTheGame(int numOfPlayers)
         {
-            return numOfPlayers >= this.MinPlayersInRoom ?  true : false;
+            return numOfPlayers >= this.MinPlayersInRoom ? true : false;
         }
 
         public override int GetMinBetInRoom()
@@ -115,7 +116,7 @@ namespace TexasHoldem.Logic
             return NextDecorator.GetMinAllowedRaise(maxCommited, step);
         }
 
-         public override int GetEnterPayingMoney()
+        public override int GetEnterPayingMoney()
         {
             return this.EnterPayingMoney;
         }
@@ -124,13 +125,13 @@ namespace TexasHoldem.Logic
         {
             return this.StartingChip;
         }
-        
+
         private bool CanAddMorePlayer(int currNumOfPlayers)
         {
-            return currNumOfPlayers < MaxPlayersInRoom ?   true :  false;
+            return currNumOfPlayers < MaxPlayersInRoom ? true : false;
         }
 
 
-       
+
     }
 }
