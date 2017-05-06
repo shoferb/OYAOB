@@ -540,11 +540,11 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //return list of games by buy in policy
-        public List<GameRoom> GetGamesByBuyInPolicy(int buyIn)
+        public List<IGame> GetGamesByBuyInPolicy(int buyIn)
         {
             lock (padlock)
             {
-                List<GameRoom> toReturn = new List<GameRoom>();
+                List<IGame> toReturn = new List<IGame>();
                 try
                 {
                     if (!IsValidInputNotSmallerZero(buyIn))
@@ -552,9 +552,9 @@ namespace TexasHoldem.Logic.Game_Control
                         toReturn = null;
                         return toReturn;
                     }
-                    foreach (GameRoom room in games)
+                    foreach (IGame room in games)
                     {
-                        if (room.EnterPayingMoney == buyIn)
+                        if (room.IsGameBuyInPolicyEqual(buyIn))
                         {
                             toReturn.Add(room);
                         }

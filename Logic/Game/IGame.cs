@@ -30,5 +30,8 @@ namespace TexasHoldem.Logic.Game
 
         //return true the game mode is the same
         bool IsGameModeEqual(GameMode gm);
+
+        //return true the buyIn is the same
+        bool IsGameBuyInPolicyEqual(int buyIn);
     }
 }
