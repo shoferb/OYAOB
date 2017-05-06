@@ -75,9 +75,9 @@ namespace TexasHoldem.Logic
             return  this.MaxPlayersInRoom == max;
         }
 
-        public override bool IsGameMinBetEqual(int nimBet)
+        public override bool IsGameMinBetEqual(int minBet)
         {
-            throw new NotImplementedException();
+            return this.MinBetInRoom == minBet;
         }
 
         public override bool IsGameStartingChipEqual(int startingChip)

@@ -41,7 +41,7 @@ namespace TexasHoldem.Logic.Game
         bool IsGameMaxPlayerEqual(int max);
 
         //return true the min bet in room is the same
-        bool IsGameMinBetEqual(int nimBet);
+        bool IsGameMinBetEqual(int minBet);
 
         //return true the stsrtingchip of room is the same
         bool IsGameStartingChipEqual(int startingChip);

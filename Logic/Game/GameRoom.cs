@@ -1112,9 +1112,9 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.IsGameMaxPlayerEqual(max);
         }
 
-        public bool IsGameMinBetEqual(int nimBet)
+        public bool IsGameMinBetEqual(int minBet)
         {
-            throw new NotImplementedException();
+            return MyDecorator.IsGameMinBetEqual(minBet);
         }
 
         public bool IsGameStartingChipEqual(int startingChip)
