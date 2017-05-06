@@ -15,10 +15,8 @@ namespace TexasHoldem.Logic.Game
      public interface IGame
     {
         int Id { get; set; }
-        List<HandEvaluator> FindWinner(List<Card> table, List<Player> playersLeftInHand);
         bool AddPlayerToRoom(int userId);
-        bool AddSpectetorToRoom(int userId);
-        bool RemovePlayerFromRoom(int userId);
-        bool RemoveSpectetorFromRoom(int userId);
+        bool AddSpectetorToRoom(IUser user);
+        bool RemoveSpectetorFromRoom(IUser user);
     }
 }
