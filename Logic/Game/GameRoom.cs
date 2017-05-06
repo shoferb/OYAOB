@@ -1104,7 +1104,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsGameMinPlayerEqual(int min)
         {
-            throw new NotImplementedException();
+            return MyDecorator.IsGameMinPlayerEqual(min);
         }
 
         public bool IsGameMaxPlayerEqual(int max)
