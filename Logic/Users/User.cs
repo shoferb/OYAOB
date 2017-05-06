@@ -78,114 +78,6 @@ namespace TexasHoldem.Logic.Users
             this.waitListNotification.Add(toAdd);
             return true;
         }
-       
-
-        //getters setters
-       /* public int Id
-        {
-            get
-            {
-                return Id;
-            }
-
-        }
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-
-        }
-        public string MemberName
-        {
-            get
-            {
-                return memberName;
-            }
-
-        }
-        public string Password
-        {
-            get
-            {
-                return password;
-            }
-
-            
-        }
-        public int Points
-        {
-            get
-            {
-                return points;
-            }
-            
-        }
-        public int Money
-        {
-            get
-            {
-                return money;
-            }
-            
-        }
-        public string Email
-        {
-            get
-            {
-                return email;
-            }
-            
-        }
-        public bool IsActive
-        {
-            get
-            {
-                return isActive;
-            }
-            
-        }
-
-        public List<Notification> WaitListNotification
-        {
-            get
-            {
-                return waitListNotification;
-            }
-
-            set
-            {
-                waitListNotification = value;
-            }
-        }
-
-        public string Avatar
-        {
-            get
-            {
-                return avatar;
-            }
-            
-        }
-
-        public List<IGame> SpectateGameList
-        {
-            get
-            {
-                return spectateGameList;
-            }
-
-        }
-
-        public List<IGame> ActiveGameList
-        {
-            get
-            {
-                return activeGameList;
-            }
-
-        }*/
 
         public int Id()
         {
@@ -330,7 +222,6 @@ namespace TexasHoldem.Logic.Users
                 return toReturn;
             }
         }
-
 
         public bool EditEmail(string email)
         {
