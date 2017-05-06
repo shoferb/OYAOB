@@ -15,7 +15,6 @@ namespace TexasHoldem.Logic.Game
      public interface IGame
     {
         int Id { get; set; }
-        bool AddPlayerToRoom(int userId);
         bool AddSpectetorToRoom(IUser user);
         bool RemoveSpectetorFromRoom(IUser user);
     }

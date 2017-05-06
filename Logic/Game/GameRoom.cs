@@ -914,14 +914,14 @@ namespace TexasHoldem.Logic.Game
             int toReturn = (lastRise - playerPayInRound) + potSize;
             return toReturn;
         }
+
         //TODO: checking before calling to this function that this user&room ID are exist
-        public bool AddPlayerToRoom(int userId)
+        public bool CanJoinGameAsPlayer(IUser user)
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            IUser user = sc.GetUserWithId(userId);
             if (user == null)
             {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - invalid input - there is no user with user Id: " + userId + "(user with Id: " + userId + " to room: " + this.Id);
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
+                    "invalid input - null user");
                 this._logControl.AddErrorLog(log);
                 return false;
             }
@@ -982,7 +982,8 @@ namespace TexasHoldem.Logic.Game
             {
                 if (p.user.Id() == user.Id())
                 {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user is a spectetor in this room need to leave first than join game");
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                        + user.Id() + " to room: " +Id + " user is already a player in this room");
                     _logControl.AddErrorLog(log);
                     break;
                 }
@@ -1015,7 +1016,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsBetweenRanks(int playerRank)
         {
-            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank) ? true : false;
+            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank);
         }
     }
 }
