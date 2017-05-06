@@ -452,6 +452,21 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
+        public bool ReduceMoneyIfPossible(int amount)
+        {
+            if (money - amount >= 0)
+            {
+                money -= amount;
+                return true;
+            }
+            return false;
+        }
+
+        public void AddMoney(int amount)
+        {
+            money += amount;
+        }
+
         public bool EditUserMoney(int money)
         {
             bool toReturn = false;

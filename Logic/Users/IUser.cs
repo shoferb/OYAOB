@@ -77,6 +77,9 @@ namespace TexasHoldem.Logic.Users
 
         bool IsLogin();
 
+        bool ReduceMoneyIfPossible(int amount);
+
+        void AddMoney(int amount);
 
         bool SendNotification(Notification toSend);
 

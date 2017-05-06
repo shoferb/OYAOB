@@ -147,7 +147,74 @@ namespace TexasHoldem.Logic.Game
         //TODO create player and add to game 
         private bool Join(IUser user)
         {
-            throw new NotImplementedException();
+            if (CanJoinGameAsPlayer(user))
+            {
+                int fee = MyDecorator.GetEnterPayingMoney();
+                int EntrancePayingMoney = user.Money() - MyDecorator.GetEnterPayingMoney();
+                int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
+                user.EditUserMoney(AfterReduceTheStartingChip);
+                Player p = new Player(user, AfterReduceTheStartingChip, this.MyDecorator.GetStartingChip(), this.Id);
+                this.Players.Add(p);
+            }
+            return false;
+        }
+
+        //TODO: checking before calling to this function that this user&room ID are exist
+        public bool CanJoinGameAsPlayer(IUser user)
+        {
+            if (user == null)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
+                    "invalid input - null user");
+                _logControl.AddErrorLog(log);
+                return false;
+            }
+
+            int EntrancePayingMoney = user.Money() - MyDecorator.GetEnterPayingMoney();
+            int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
+            if (EntrancePayingMoney < 0)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                    + user.Id() + " to room: " + Id + "user dont have money to pay the buy in policey of this room");
+                _logControl.AddErrorLog(log);
+                return false;
+            }
+            if (AfterReduceTheStartingChip < 0)
+            {
+                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                    + user.Id() + " to room: " + this.Id + " user dont have money to get sarting chip and buy in policy");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+            //User cant be spectator & player in the same room
+            foreach (Spectetor s in Spectatores)
+            {
+                if (s.user.Id() == user.Id())
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " +
+                        user.Id() + " to room: " + Id + " user is a spectetor in this room");
+                    this._logControl.AddErrorLog(log);
+                    return false;
+                }      
+            }
+
+            if (!this.MyDecorator.CanAddMorePlayer(Players.Count))
+            {
+                ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
+                  " to the room: " + Id +" - room is full");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+
+            if (!IsBetweenRanks(user.Points()))
+            {
+                ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
+                    + user.Id() + " to room: " + Id + "user point: " + user.Points() + 
+                    " doest not met the game critiria");
+                this._logControl.AddErrorLog(log);
+                return false;
+            }
+            return true;
         }
 
         private bool StartGame(Player player)
@@ -914,66 +981,6 @@ namespace TexasHoldem.Logic.Game
             int toReturn = (lastRise - playerPayInRound) + potSize;
             return toReturn;
         }
-
-        //TODO: checking before calling to this function that this user&room ID are exist
-        public bool CanJoinGameAsPlayer(IUser user)
-        {
-            if (user == null)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
-                    "invalid input - null user");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-
-            int EntrancePayingMoney = user.Money() - this.MyDecorator.GetEnterPayingMoney();
-            int AfterReduceTheStartingChip = EntrancePayingMoney - this.MyDecorator.GetStartingChip();
-            if (EntrancePayingMoney < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + "user dont have money to pay the buy in policey of this room");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            if (AfterReduceTheStartingChip < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user dont have money to get sarting chip and buy in policey");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            //User cant be spectator & player in the same room
-            foreach (Spectetor s in Spectatores)
-            {
-                if (s.user.Id() == userId)
-                {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " + userId + " to room: " + this.Id + " user is a spectetor in this room need to leave first than join game");
-                    this._logControl.AddErrorLog(log);
-                    continue;
-                }
-                return false;
-            }
-          
-            if (!this.MyDecorator.CanAddMorePlayer(this.Players.Count))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player to room thaere is no place in the room - max amount of player tight now: " + this.Players.Count + "(user with Id: " + userId + " to room: " + this.Id);
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            if (!IsBetweenRanks(user.Points()))
-            {
-                ErrorLog log =
-                    new ErrorLog("Error while trying to add player, user with Id: " + userId + " to room: " + this.Id +
-                                 "user point: " + user.Points() + " are not in this game critiria");
-                this._logControl.AddErrorLog(log);
-                return false;
-            }
-            user.EditUserMoney(AfterReduceTheStartingChip);
-
-            Player p = new Player(user, AfterReduceTheStartingChip, this.MyDecorator.GetStartingChip(), this.Id);
-            this.Players.Add(p);
-
-            return true;
-        
-    }
 
         public bool AddSpectetorToRoom(IUser user)
         {           
