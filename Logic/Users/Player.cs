@@ -27,12 +27,12 @@ namespace TexasHoldem.Logic.Users
         public IUser user { get; set; }
         public int roomId { get; set; }
 
-        public Player(IUser User, int totalChip, int roundChipBetComitted, int RoomId)
+        public Player(IUser User, int totalChip, int RoomId)
         {
             this.user = User;
             this.roomId = RoomId;
             this.TotalChip = totalChip;
-            this.RoundChipBet = roundChipBetComitted;
+            this.RoundChipBet = 0;
        
             this.RoundChipBet = RoundChipBet;
             this.TotalChip = totalChip;

@@ -150,7 +150,7 @@ namespace TexasHoldem.Logic.Game
             {
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
-                    Player p = new Player(user, amount, 0, this.Id);
+                    Player p = new Player(user, amount, this.Id);
                     this.Players.Add(p);
                     return true;
                 }
