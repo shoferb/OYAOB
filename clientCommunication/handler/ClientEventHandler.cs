@@ -15,6 +15,7 @@ namespace clientCommunication.handler
     {
         private readonly ICommMsgXmlParser _parser;//init
         private readonly int _userId;
+        
 
         public ClientEventHandler(int id) 
         {
@@ -51,10 +52,12 @@ namespace clientCommunication.handler
             {
                TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] Options = msg.Options;
                //TODO: show to GUI the options
-               TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] ChosenOption;//TODO: get shosen from GUI
-               int amount;////TODO: get shosen from GUI
+               TexasHoldemShared.CommMessages.CommunicationMessage.ActionType ChosenOption;//TODO: get shosen from GUI
+               int amount=0;////TODO: get chosen from GUI
+              int roomId = msg.roomId;
              
-             //  ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount);
+               ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount,roomId );
+              //add msg to queue to send
 
             }
             else

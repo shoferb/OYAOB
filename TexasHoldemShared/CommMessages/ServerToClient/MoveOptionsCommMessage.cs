@@ -4,6 +4,7 @@
     public class MoveOptionsCommMessage : CommunicationMessage
     {
         public ActionType[] Options;
+        public int roomId;
 
         public MoveOptionsCommMessage(int id, ActionType[] options) : base(id)
         {
