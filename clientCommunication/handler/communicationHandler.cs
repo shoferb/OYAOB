@@ -17,7 +17,6 @@ namespace clientCommunication.handler
         protected TcpClient _socket;
         protected NetworkStream _stream;
         protected readonly string _server;
-        protected ClientEventHandler handler;
         bool shouldClose;
         public communicationHandler(int id, string server)
         {
@@ -26,12 +25,11 @@ namespace clientCommunication.handler
             _toSendMsgQueue = new ConcurrentQueue<string>();
             _server = server;
             shouldClose = false;
-            handler = new ClientEventHandler(id);
         }
 
 
 
-        public bool Connect()
+        private bool Connect()
         {
             try
             {
@@ -48,8 +46,18 @@ namespace clientCommunication.handler
                 Console.WriteLine("SocketException: {0}", e);
                   return false;
             }}
+        public string tryGetMsgReceived()
+        {
+            string msgToRet = string.Empty;
+           _receivedMsgQueue.TryDequeue(out msgToRet);
+           return msgToRet;
+        }
+        public void addMsgToSend(string msg)
+        {
+            _toSendMsgQueue.Enqueue(msg);
+        }
 
-        public void sendMessages()
+        private void sendMessages()
         {
             while(!shouldClose)
             try{
@@ -57,7 +65,7 @@ namespace clientCommunication.handler
               _toSendMsgQueue.TryDequeue(out msg);
                 
             // Translate the passed message into ASCII and store it as a Byte array.
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes(msg);
+            Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
               // Send the message to the connected TcpServer. 
                 _stream.Write(data, 0, data.Length);
             
@@ -71,7 +79,7 @@ namespace clientCommunication.handler
 
        
         //returns new msg as string, or eempty string if there's no new msg
-        public void receiveMessages()
+        private void receiveMessages()
         {
              byte[] buffer = new byte[1];
              while(!shouldClose)
@@ -97,22 +105,10 @@ namespace clientCommunication.handler
              close();
              
         }
-        //TODO
-        public void handleMessages()
-        {
-            while (!shouldClose)
-            {
-                 string msg = string.Empty;
-                 _receivedMsgQueue.TryDequeue(out msg);
-                //parse msg
-                //handle msg
-                
-            }
-
-        }
+     
 
 
-        public bool close()
+        private bool close()
         {
             try
             {
@@ -136,7 +132,7 @@ namespace clientCommunication.handler
             {
                 new Task(receiveMessages),
                 new Task(sendMessages),
-                new Task(handleMessages)
+               
             };
             if(Connect())
             {
