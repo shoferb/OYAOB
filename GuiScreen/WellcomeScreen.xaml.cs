@@ -19,7 +19,8 @@ namespace TexasHoldem.GuiScreen
     /// </summary>
     public partial class WellcomeScreen : Window
     {
-        private LoginScreen loginScreen; 
+        private LoginScreen loginScreen;
+        private RegisterScreen registerScreen;
         public WellcomeScreen()
         {
             InitializeComponent();
@@ -35,7 +36,9 @@ namespace TexasHoldem.GuiScreen
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-
+            registerScreen = new RegisterScreen(this);
+            registerScreen.Show();
+            this.Hide();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

@@ -19,9 +19,12 @@ namespace TexasHoldem.GuiScreen
     /// </summary>
     public partial class RegisterScreen : Window
     {
-        public RegisterScreen()
+
+        private Window parentScreen;
+        public RegisterScreen(Window parent)
         {
             InitializeComponent();
+            parentScreen = parent;
         }
 
         private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -57,6 +60,12 @@ namespace TexasHoldem.GuiScreen
         private void PasswordSecTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        private void BackToMainButton_Click(object sender, RoutedEventArgs e)
+        {
+            parentScreen.Show();
+            this.Hide();
         }
     }
 }
