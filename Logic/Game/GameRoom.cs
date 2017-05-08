@@ -126,12 +126,16 @@ namespace TexasHoldem.Logic.Game
 
         private bool Leave(Player player)
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+            BbPlayer.name, SbPlayer.name);
+
             List<Player> relevantPlayers = new List<Player>();
             LeaveAction leave = new LeaveAction(player);
             GameReplay.AddAction(leave);
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             _logControl.AddSystemLog(log);
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
@@ -184,16 +188,21 @@ namespace TexasHoldem.Logic.Game
 
         private bool Join(IUser user, int amount)
         {
+            Player p = new Player(user, amount, this.Id);
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+            BbPlayer.name, SbPlayer.name);
             if (CanJoinGameAsPlayer(user, amount))
             {
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
-                    Player p = new Player(user, amount, this.Id);
                     this.Players.Add(p);
+                    GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
                     return true;
                 }
+                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
                 return false;
             }
+            GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
             return false;
         }
 
@@ -255,12 +264,17 @@ namespace TexasHoldem.Logic.Game
 
         private bool StartGame(Player player)
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+        BbPlayer.name, SbPlayer.name);
+
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
+                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
                 return false;
             }
             if (IsActiveGame == true) //can't start an already active game
             {
+                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
                 return false;
             }
 
@@ -274,7 +288,7 @@ namespace TexasHoldem.Logic.Game
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             _logControl.AddSystemLog(log2);
-
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
             MoveBbnSBtoPot();
             maxBetInRound = Bb;
 
@@ -295,13 +309,18 @@ namespace TexasHoldem.Logic.Game
 
         private bool Raise(Player player, int bet)
         {
+
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+               BbPlayer.name, SbPlayer.name);
             int currentPlayerBet = player.RoundChipBet + bet;
             if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound))
             {
+                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
             }
             if (player.TotalChip < bet) //not enough chips for bet maybe change to all in 
             {
+                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;  
             }
             maxBetInRound = currentPlayerBet;
@@ -312,6 +331,8 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             _logControl.AddSystemLog(log);
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
+
             lastPlayerRaisedInRound = player;
             someOneRaised = true;
             foreach (Player p in Players) //they all need to make another action in this round
@@ -326,6 +347,8 @@ namespace TexasHoldem.Logic.Game
 
         private bool Call(Player player, int bet)
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+              BbPlayer.name, SbPlayer.name);
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
@@ -334,22 +357,28 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             _logControl.AddSystemLog(log);
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Check(Player player)
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+              BbPlayer.name, SbPlayer.name);
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
             _logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Fold(Player player)
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players,
+                DealerPlayer.name, BbPlayer.name, SbPlayer.name);
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
@@ -357,6 +386,8 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             _logControl.AddSystemLog(log);
+            GameCenter.SendMessageToClient(player, this.Id, gameData, ActionType.Fold, true);
+
             return AfterAction();
         }
 
@@ -584,6 +615,8 @@ namespace TexasHoldem.Logic.Game
 
         private void HandCards()
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+           BbPlayer.name, SbPlayer.name);
             foreach (Player player in this.Players)
             {
                 player.isPlayerActive = true;
@@ -593,15 +626,21 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 _logControl.AddSystemLog(log);
+                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
+
             }
         }
         
        private void AddNewPublicCard()
         {
+            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+             BbPlayer.name, SbPlayer.name);
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
             {
                 player.AddPublicCardToPlayer(c);
+                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
+
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);

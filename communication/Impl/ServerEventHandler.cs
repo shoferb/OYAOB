@@ -57,8 +57,7 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(GameDataCommMessage msg)
         {
-            ResponeCommMessage response = new ResponeCommMessage(msg.UserId, msg.isSucceed, msg);
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
         }
 
         public void HandleEvent(MoveOptionsCommMessage msg)

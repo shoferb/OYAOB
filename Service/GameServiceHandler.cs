@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
+using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Service
 {
@@ -18,11 +20,13 @@ namespace TexasHoldem.Service
         //TODO - Done! - Find all active games which the user can join.
         private readonly GameCenter _gameCenter;
         private readonly SystemControl _systemControl;
+        private static ServerEventHandler serverHandler;
 
         public GameServiceHandler()
         {
             _gameCenter = GameCenter.Instance;
             _systemControl = SystemControl.SystemControlInstance;
+            serverHandler = new ServerEventHandler();
         }
 
         public IGame GetGameFromId(int gameId)
@@ -322,6 +326,16 @@ namespace TexasHoldem.Service
         {
             List<IGame> toReturn = GameCenter.Instance.GetGamesByMaxPlayer(max);
             return toReturn;
+        }
+
+        public static void SendMessageToClientGameData(GameDataCommMessage gameDataMes)
+        {
+            serverHandler.HandleEvent(gameDataMes);
+        }
+
+        public static void SendMessageToClientResponse(ResponeCommMessage resp)
+        {
+            serverHandler.HandleEvent(resp);
         }
     }
 }
