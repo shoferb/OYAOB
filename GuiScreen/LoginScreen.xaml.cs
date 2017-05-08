@@ -54,8 +54,8 @@ namespace TexasHoldem.GuiScreen
 
         private void Loginbutton_Click(object sender, RoutedEventArgs e)
         {
-          bool loginOk = cl.login(userName, password);
-            if (loginOk)
+            int loginOk = cl.login(userName, password);
+            if (loginOk != -1)
             {
                 //todo open main window
             }
