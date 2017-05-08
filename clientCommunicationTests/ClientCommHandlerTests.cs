@@ -2,16 +2,22 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using clientCommunication;
 using clientCommunication.handler;
+using System.Net.Sockets;
+using System.Net;
 
 namespace clientCommunicationTests
 {
     [TestClass]
     public class ClientCommHandlerTests
     {
-        communicationHandler handler = null;
+        
+
         [TestMethod]
-        public void TestMethod1()
+        public void testXMLParse()
         {
+
+       //     communicationHandler handler = new communicationHandler();
+         //   TcpListener _listener = new TcpListener(IPAddress.Any, 2000); ;
         }
     }
 }

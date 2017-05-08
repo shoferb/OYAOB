@@ -11,7 +11,7 @@ namespace clientCommunication.handler
 {
     public class communicationHandler
     {
-        protected readonly int _userId;
+        protected int _userId;
         protected readonly ConcurrentQueue<string> _receivedMsgQueue;
         protected readonly ConcurrentQueue<string> _toSendMsgQueue;
         protected TcpClient _socket;
@@ -19,9 +19,9 @@ namespace clientCommunication.handler
         protected readonly string _server;
         private bool _shouldClose;
         
-        public communicationHandler(int id, string server)
+        public communicationHandler(string server)
         {
-            _userId = id;
+          
             _receivedMsgQueue = new ConcurrentQueue<string>();
             _toSendMsgQueue = new ConcurrentQueue<string>();
             _server = server;
@@ -29,8 +29,10 @@ namespace clientCommunication.handler
             _socket.ReceiveTimeout = 5000;
             
         }
-
-
+         public void setUserId(int newId)
+        {
+            this._userId = newId;
+        }
 
         private bool Connect()
         {
