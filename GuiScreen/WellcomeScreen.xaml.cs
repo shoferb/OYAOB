@@ -15,11 +15,12 @@ using System.Windows.Shapes;
 namespace TexasHoldem.GuiScreen
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for WellcomeScreen.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class WellcomeScreen : Window
     {
-        public Window1()
+        private LoginScreen loginScreen; 
+        public WellcomeScreen()
         {
             InitializeComponent();
 
@@ -27,7 +28,9 @@ namespace TexasHoldem.GuiScreen
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-
+            loginScreen = new LoginScreen(this);
+            loginScreen.Show();
+            this.Hide(); 
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)

@@ -72,6 +72,12 @@
     <Compile Include="communication\Impl\ServerEventHandler.cs" />
     <Compile Include="communication\Interfaces\IListenerSelector.cs" />
     <Compile Include="communication\Interfaces\ICommunicationHandler.cs" />
+    <Compile Include="GuiScreen\LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\RegisterScreen.xaml.cs">
+      <DependentUpon>RegisterScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GuiScreen\WellcomeScreen.xaml.cs">
       <DependentUpon>WellcomeScreen.xaml</DependentUpon>
     </Compile>
@@ -150,6 +156,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="GuiScreen\LoginScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GuiScreen\RegisterScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\WellcomeScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
