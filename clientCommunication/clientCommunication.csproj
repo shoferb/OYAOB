@@ -99,7 +99,7 @@
     </Compile>
     <Compile Include="handler\ClientEventHandler.cs" />
     <Compile Include="handler\communicationHandler.cs" />
-    <Compile Include="Logic\ClienLogic.cs" />
+    <Compile Include="Logic\ClientLogic.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
