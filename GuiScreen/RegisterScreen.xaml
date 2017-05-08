@@ -5,12 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
-        Title="RegisterScreen" Height="482.379" Width="627.753">
+        Title="RegisterScreen" Height="533.921" Width="627.753">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
-        <Label x:Name="LoginMenuLabel" Content="Register menu" HorizontalAlignment="Left" Margin="88,45,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Label x:Name="userIdLabel" Content="Enter User Id:" HorizontalAlignment="Left" Margin="34,102,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506"/>
+        <Label x:Name="namelabel" Content="Enter name:" HorizontalAlignment="Left" Margin="34,142,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="UserNamelabel" Content="Enter User name" HorizontalAlignment="Left" Margin="34,182,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="EmailLabel" Content="Enter email" HorizontalAlignment="Left" Margin="34,223,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="MoneyLabel" Content="Enter amount of money" HorizontalAlignment="Left" Margin="34,264,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="PasswordFirstLabel" Content="Enter Password" HorizontalAlignment="Left" Margin="42,301,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="PasswordSecLabel" Content="enter password again" HorizontalAlignment="Left" Margin="42,338,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+
+        <Label x:Name="registerMenuLabel" Content="Register menu" HorizontalAlignment="Left" Margin="88,45,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Button x:Name="registerButton" Content="Register" HorizontalAlignment="Left" Margin="88,396,0,0" VerticalAlignment="Top" Width="101" RenderTransformOrigin="0.314,-0.055"/>
+        <Button x:Name="BackToMainButton" Content="Back" HorizontalAlignment="Left" Margin="53,455,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.469,-0.553"/>
+        <TextBox x:Name="IDtextBox" HorizontalAlignment="Left" Height="23" Margin="165,109,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="IDtextBox_TextChanged"/>
+        <TextBox x:Name="NametextBox" HorizontalAlignment="Left" Height="23" Margin="165,149,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="NametextBox_TextChanged"/>
+        <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="172,188,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="UserNametextBox_TextChanged"/>
+        <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="149,230,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="EmailtextBox_TextChanged"/>
+        <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="242,271,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="MoneytextBox_TextChanged"/>
+        <TextBox x:Name="PasswordFirstTextBox" HorizontalAlignment="Left" Height="23" Margin="189,308,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="PasswordFirstTextBox_TextChanged"/>
+        <TextBox x:Name="PasswordSecTextBox" HorizontalAlignment="Left" Height="23" Margin="218,344,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="PasswordSecTextBox_TextChanged"/>
+
 
     </Grid>
 </Window>

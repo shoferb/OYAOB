@@ -23,5 +23,40 @@ namespace TexasHoldem.GuiScreen
         {
             InitializeComponent();
         }
+
+        private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void NametextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+        
+        }
+
+        private void UserNametextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void EmailtextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void MoneytextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void PasswordFirstTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void PasswordSecTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

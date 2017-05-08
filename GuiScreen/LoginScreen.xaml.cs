@@ -22,7 +22,7 @@ namespace TexasHoldem.GuiScreen
         private WellcomeScreen parentScreen;
         private string userName;
         private string password;
-        private ClienLogic cl;
+      //  private ClienLogic cl;
         public LoginScreen(WellcomeScreen ws)
         {
             InitializeComponent();
@@ -47,7 +47,7 @@ namespace TexasHoldem.GuiScreen
 
         private void Loginbutton_Click(object sender, RoutedEventArgs e)
         {
-            bool loginOk = cl.login(userName, password);
+          /*  bool loginOk = cl.login(userName, password);
             if (loginOk)
             {
                 //todo open main window
@@ -55,7 +55,7 @@ namespace TexasHoldem.GuiScreen
             else
             {
                 MessageBox.Show("Invalid input");
-            }
+            }*/
         }
         
         private void passwordBox_MouseDown(object sender, MouseButtonEventArgs e)
