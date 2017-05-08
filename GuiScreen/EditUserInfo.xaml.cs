@@ -170,5 +170,32 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("User money Edit - fail");
             }
         }
+
+        private void EditPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (secPassword.Equals(""))
+            {
+                MessageBox.Show("Please enter new password");
+                return;
+            }
+            if (firstPassword.Equals(""))
+            {
+                MessageBox.Show("Please enter current password");
+                return;
+            }
+            if (firstPassword.Equals(secPassword))
+            {
+                bool EditPasswordOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
+                    firstPassword);
+                if (EditPasswordOk)
+                {
+                    MessageBox.Show("User Password was sucssesful edit!");
+                }
+                else
+                {
+                    MessageBox.Show("User password Edit - fail");
+                }
+            }
+        }
     }
 }
