@@ -21,6 +21,7 @@ namespace TexasHoldem.GuiScreen
     {
         private ClientLogic cl;
         private Window parent;
+        private Lo
         private int currUserId;
         public MainAfterLogin(Window Parent,int id)
         {

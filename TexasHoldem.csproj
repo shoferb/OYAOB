@@ -75,8 +75,8 @@
     <Compile Include="GuiScreen\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GuiScreen\LogoutMenu.xaml.cs">
-      <DependentUpon>LogoutMenu.xaml</DependentUpon>
+    <Compile Include="GuiScreen\LogoutScreen.xaml.cs">
+      <DependentUpon>LogoutScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\MainAfterLogin.xaml.cs">
       <DependentUpon>MainAfterLogin.xaml</DependentUpon>
@@ -166,7 +166,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GuiScreen\LogoutMenu.xaml">
+    <Page Include="GuiScreen\LogoutScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

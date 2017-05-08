@@ -57,7 +57,9 @@ namespace TexasHoldem.GuiScreen
             int loginOk = cl.login(userName, password);
             if (loginOk != -1)
             {
-                //todo open main window
+                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, loginOk);
+                mainAfterLogin.Show();
+                this.Hide();
             }
             else
             {

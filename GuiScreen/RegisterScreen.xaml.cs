@@ -112,7 +112,9 @@ namespace TexasHoldem.GuiScreen
             bool registerOk = cl.register(name, username, firstPassword, money, email);
             if (registerOk)
             {
-                //todo open main window
+                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, Id);
+                mainAfterLogin.Show();
+                this.Hide();
             }
             else
             {

@@ -15,16 +15,16 @@ using System.Windows.Shapes;
 namespace TexasHoldem.GuiScreen
 {
     /// <summary>
-    /// Interaction logic for LogoutMenu.xaml
+    /// Interaction logic for LogoutScreen.xaml
     /// </summary>
-    public partial class LogoutMenu : Window
+    public partial class LogoutScreen : Window
     {
         private Window parent;
         private ClientLogic cl;
         private string username;
         private string password;
         private int currUserId;
-        public LogoutMenu(Window w,int id)
+        public LogoutScreen(Window w,int id)
         {
             InitializeComponent();
             parent = w;
@@ -54,7 +54,9 @@ namespace TexasHoldem.GuiScreen
             bool logoutOk = cl.logout(username, password);
             if (logoutOk)
             {
-                //todo open main window
+                WellcomeScreen wellcomeScreen = new WellcomeScreen();
+                wellcomeScreen.Show();
+                this.Hide();
             }
             else
             {
