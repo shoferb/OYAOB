@@ -67,9 +67,38 @@ namespace TexasHoldem.GuiScreen
 
         }
 
-        private void EditUserButton_Click(object sender, RoutedEventArgs e)
+      
+
+        private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+            string temp = IDtextBox.Text;
+            bool isValid = int.TryParse(temp, out Id);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Id input");
+            }
+
+        }
+
+        private void EditIdButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Id == null)
+            {
+                MessageBox.Show("Please enter new Id");
+                return;
+            }
+            bool EditIdOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Id,
+                Id.ToString());
+            if (EditIdOk)
+            {
+                MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
+                currId = Id;
+                cl.SetUserId(Id);
+            }
+            else
+            {
+                MessageBox.Show("User Id Edit - fail");
+            }
         }
     }
 }
