@@ -41,20 +41,34 @@ namespace clientCommunication.Logic
         }
         public bool editDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
-           
-            //checkifAnyConstraints?
+
             EditCommMessage toSend = new EditCommMessage(_userId, field, value);
-            messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+            Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+            messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            return true;
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            messagesSentObserver.Remove(messageToList);
+            return toRet;
         }
          public bool joinTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
-             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+             messagesSentObserver.Add(messageToList);
              _eventHandler.SendNewEvent(toSend);
-
-             return true;
+             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+             {
+                 var t = Task.Run(async delegate { await Task.Delay(1000); });
+                 t.Wait();
+             }
+             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+             messagesSentObserver.Remove(messageToList);
+             return toRet;
 
              
          }
@@ -62,34 +76,65 @@ namespace clientCommunication.Logic
          public bool leaveTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
-             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+             messagesSentObserver.Add(messageToList);
              _eventHandler.SendNewEvent(toSend);
-             return true;
+             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+             {
+                 var t = Task.Run(async delegate { await Task.Delay(1000); });
+                 t.Wait();
+             }
+             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+             messagesSentObserver.Remove(messageToList);
+             return toRet;
 
          }
          public bool startTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
-             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+             messagesSentObserver.Add(messageToList);
              _eventHandler.SendNewEvent(toSend);
-             return true;
-
+             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+             {
+                 var t = Task.Run(async delegate { await Task.Delay(1000); });
+                 t.Wait();
+             }
+             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+             messagesSentObserver.Remove(messageToList);
+             return toRet;
          }
 
-         public bool login(string userName, string password)
+         public bool login(string userName, string password)//check with oded
          {
              LoginCommMessage toSend = new LoginCommMessage(_userId, true, userName, password);
-             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+             messagesSentObserver.Add(messageToList);
              _eventHandler.SendNewEvent(toSend);
-             return true;
+             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+             {
+                 var t = Task.Run(async delegate { await Task.Delay(1000); });
+                 t.Wait();
+             }
+             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+             messagesSentObserver.Remove(messageToList);
+             return toRet;
 
          }
          public bool logout(string userName, string password)
          {
              LoginCommMessage toSend = new LoginCommMessage(_userId, false, userName, password);
-             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+             messagesSentObserver.Add(messageToList);
              _eventHandler.SendNewEvent(toSend);
-             return true;
+             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+             {
+                 var t = Task.Run(async delegate { await Task.Delay(1000); });
+                 t.Wait();
+             }
+             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+             messagesSentObserver.Remove(messageToList);
+             return toRet;
 
          }
 
