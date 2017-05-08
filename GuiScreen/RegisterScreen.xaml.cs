@@ -77,9 +77,22 @@ namespace TexasHoldem.GuiScreen
             firstPassword = PasswordFirstTextBox.Text;
         }
 
+        private void PasswordFirstTextBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            PasswordFirstTextBox.Text = "";
+            PasswordFirstTextBox.Opacity = 100;
+
+        }
         private void PasswordSecTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             secPassword = PasswordSecTextBox.Text;
+        }
+
+        private void PasswordSecTextBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            PasswordSecTextBox.Text = "";
+            PasswordSecTextBox.Opacity = 100;
+
         }
 
         private void BackToMainButton_Click(object sender, RoutedEventArgs e)
