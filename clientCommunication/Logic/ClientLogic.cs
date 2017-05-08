@@ -25,6 +25,8 @@ namespace clientCommunication.Logic
          public bool SetUserId(int newId)
         {
             _userId = newId;
+            this._eventHandler.SetNewUserId(newId);
+            this._handler.setUserId(newId);
             return true;
         }
         //needed to be call after create new ClientEventHandler and a new client logic
@@ -32,8 +34,8 @@ namespace clientCommunication.Logic
         {
             _eventHandler = eventHandler;
             _handler = handler;
-
         }
+
         public void CloseSystem()
         {
             _eventHandler.close();
