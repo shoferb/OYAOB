@@ -80,7 +80,7 @@ namespace clientCommunication.handler
             }
         }
         
-
+        //ojo
        
         //returns new msg as string, or eempty string if there's no new msg
         private void receiveMessages()

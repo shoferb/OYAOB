@@ -88,7 +88,7 @@ namespace clientCommunication.handler
                 TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options = msg.Options;
                 int roomId = msg.roomId;
                 _logic.showOptionsMove(options, roomId);
-                 
+        
                
             }
             else

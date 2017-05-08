@@ -15,6 +15,7 @@ namespace clientCommunication.Logic
         private ClientEventHandler _eventHandler;
         private communicationHandler _handler;
 
+        //chanfajf
         public ClientLogic(int userId)
         {
             _userId = userId;
