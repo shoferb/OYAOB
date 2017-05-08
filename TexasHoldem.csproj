@@ -232,6 +232,10 @@
   <ItemGroup>
     <Resource Include="GuiScreen\Photos\Screen\images-1.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Screen\pokerScreen2.png" />
+    <Resource Include="GuiScreen\Photos\Screen\POKERslidesearch.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

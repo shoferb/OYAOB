@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
-        Title="OYAOB - Texas Holdem Poker" Height="300" Width="300">
-    <Grid>
-        
+        Title="OYAOB - Texas Holdem Poker" Height="281.498" Width="300">
+    <Grid Margin="0,0,-0.4,-0.4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
+        </Grid.Background>
+        <Button x:Name="LoginButton" Grid.ColumnSpan="2" Content="Login" HorizontalAlignment="Left" Margin="39,83,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
+        <Button x:Name="RegisterButton" Grid.ColumnSpan="2" Content="Register" HorizontalAlignment="Left" Margin="39,125,0,0" VerticalAlignment="Top" Width="75" Click="RegisterButton_Click"/>
+        <Button x:Name="ExitButton" Grid.ColumnSpan="2" Content="Exit" HorizontalAlignment="Left" Margin="39,172,0,0" VerticalAlignment="Top" Width="75" Click="ExitButton_Click"/>
     </Grid>
 </Window>
