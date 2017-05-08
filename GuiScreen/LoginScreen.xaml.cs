@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace TexasHoldem.GuiScreen
@@ -19,14 +20,15 @@ namespace TexasHoldem.GuiScreen
     /// </summary>
     public partial class LoginScreen : Window
     {
-        private WellcomeScreen parentScreen;
+        private WellcomeScreen wsScreen;
+        private RegisterScreen rgScreen; 
         private string userName;
         private string password;
       //  private ClienLogic cl;
         public LoginScreen(WellcomeScreen ws)
         {
             InitializeComponent();
-            parentScreen = ws;
+            wsScreen = ws;
         }
 
 
@@ -36,13 +38,15 @@ namespace TexasHoldem.GuiScreen
         }
         private void MainMenuBtton_Click(object sender, RoutedEventArgs e)
         {
-            parentScreen.Show();
+            wsScreen.Show();
             this.Hide();
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-
+            rgScreen = new RegisterScreen(this);
+            rgScreen.Show();
+            this.Hide();
         }
 
         private void Loginbutton_Click(object sender, RoutedEventArgs e)
