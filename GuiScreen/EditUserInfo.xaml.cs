@@ -57,15 +57,7 @@ namespace TexasHoldem.GuiScreen
             currPasswordTextBox.Opacity = 100;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
 
       
 
@@ -98,6 +90,44 @@ namespace TexasHoldem.GuiScreen
             else
             {
                 MessageBox.Show("User Id Edit - fail");
+            }
+        }
+
+        private void EditNamebutton_Click(object sender, RoutedEventArgs e)
+        {
+            if (name.Equals(""))
+            {
+                MessageBox.Show("Please enter new name");
+                return;
+            }
+            bool EditNameOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Name,
+                name);
+            if (EditNameOk)
+            {
+                MessageBox.Show("Name was sucssesful edit to: " + name);
+            }
+            else
+            {
+                MessageBox.Show("Name Edit - fail");
+            }
+        }
+
+        private void EditUserName_Click(object sender, RoutedEventArgs e)
+        {
+            if (username.Equals(""))
+            {
+                MessageBox.Show("Please enter userName name");
+                return;
+            }
+            bool EditNameOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.UserName,
+                username);
+            if (EditNameOk)
+            {
+                MessageBox.Show("User Name was sucssesful edit to: " + username);
+            }
+            else
+            {
+                MessageBox.Show("userName Edit - failed");
             }
         }
     }
