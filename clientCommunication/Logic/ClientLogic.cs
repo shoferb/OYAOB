@@ -77,10 +77,12 @@ namespace clientCommunication.Logic
              return true;
 
          }
-         public void logout(string userName, string password)
+         public bool logout(string userName, string password)
          {
              LoginCommMessage toSend = new LoginCommMessage(_userId, false, userName, password);
              _eventHandler.SendNewEvent(toSend);
+             return true;
+
          }
 
          public void register(string name, string memberName, string password, int money, string email)
