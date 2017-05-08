@@ -7,7 +7,7 @@
     <ProjectGuid>{1406192B-7787-4D61-840E-753B60C8D8C5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>clientCommunication</RootNamespace>
+    <RootNamespace>Client</RootNamespace>
     <AssemblyName>clientCommunication</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -97,8 +97,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="handler\ClientEventHandler.cs" />
-    <Compile Include="handler\communicationHandler.cs" />
+    <Compile Include="Handler\ClientEventHandler.cs" />
+    <Compile Include="Handler\CommunicationHandler.cs" />
     <Compile Include="Logic\ClientLogic.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

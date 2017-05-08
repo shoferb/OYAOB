@@ -10,9 +10,9 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldemShared.Parser
 {
-    public class parserImplementation : ICommMsgXmlParser
+    public class ParserImplementation : ICommMsgXmlParser
     {
-        public parserImplementation() {}
+        public ParserImplementation() {}
        
 
         public string SerializeMsg(CommMessages.CommunicationMessage msg)

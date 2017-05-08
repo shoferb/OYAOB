@@ -38,22 +38,22 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.core">
-      <HintPath>..\OYAOB3\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.core.dll</HintPath>
+      <HintPath>..\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.core.interfaces">
-      <HintPath>..\OYAOB3\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
+      <HintPath>..\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.core.interfaces.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\OYAOB3\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.util">
-      <HintPath>..\OYAOB3\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.util.dll</HintPath>
+      <HintPath>..\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\nunit.util.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="NUnit.VisualStudio.TestAdapter">
-      <HintPath>..\OYAOB3\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
+      <HintPath>..\packages\NUnitTestAdapter.WithFramework.2.0.0\lib\NUnit.VisualStudio.TestAdapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -73,11 +73,16 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientCommHandlerTests.cs" />
+    <Compile Include="ParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\clientCommunication\clientCommunication.csproj">
+    <ProjectReference Include="..\clientCommunication\Client.csproj">
       <Project>{1406192b-7787-4d61-840e-753b60c8d8c5}</Project>
-      <Name>clientCommunication</Name>
+      <Name>Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TexasHoldemShared\TexasHoldemShared.csproj">
+      <Project>{22888c95-40ac-4271-8d39-ec1ff358afbd}</Project>
+      <Name>TexasHoldemShared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

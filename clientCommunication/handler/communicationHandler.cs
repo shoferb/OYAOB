@@ -7,9 +7,9 @@ using System.Collections.Concurrent;
 using System.Net.Sockets;
 using TexasHoldemShared.Parser;
 
-namespace clientCommunication.handler
+namespace Client.Handler
 {
-    public class communicationHandler
+    public class CommunicationHandler
     {
         protected int _userId;
         protected readonly ConcurrentQueue<string> _receivedMsgQueue;
@@ -19,7 +19,7 @@ namespace clientCommunication.handler
         protected readonly string _server;
         private bool _shouldClose;
         
-        public communicationHandler(string server)
+        public CommunicationHandler(string server)
         {
           
             _receivedMsgQueue = new ConcurrentQueue<string>();

@@ -1,4 +1,4 @@
-﻿using clientCommunication.handler;
+﻿using Client.Handler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
-namespace clientCommunication.Logic
+namespace Client.Logic
 {
-    class ClientLogic
+    public class ClientLogic
     {
         private  int _userId;
         private ClientEventHandler _eventHandler;
-        private communicationHandler _handler;
+        private CommunicationHandler _handler;
         private List<Tuple<CommunicationMessage,bool,bool>> messagesSentObserver; //first bool = is response received, second bool = is succeeded
         private readonly Object listLock;
         //chanfajf
@@ -30,7 +30,7 @@ namespace clientCommunication.Logic
             return true;
         }
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void Init(ClientEventHandler eventHandler, communicationHandler handler)
+        public void Init(ClientEventHandler eventHandler, CommunicationHandler handler)
         {
             _eventHandler = eventHandler;
             _handler = handler;

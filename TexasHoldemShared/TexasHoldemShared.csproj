@@ -52,7 +52,7 @@
     <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="Parser\ICommMsgXmlParser.cs" />
-    <Compile Include="Parser\parserImplementation.cs" />
+    <Compile Include="Parser\ParserImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Suits.cs" />
   </ItemGroup>

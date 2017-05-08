@@ -6,28 +6,27 @@ using System.Threading.Tasks;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
-using TexasHoldemShared.Parser;
-
-
-using clientCommunication.Logic;
 using TexasHoldemShared.CommMessages;
+using TexasHoldemShared.Parser;
+using Client.Logic;
 
-namespace clientCommunication.handler
+namespace Client.Handler
 {
-    class ClientEventHandler : IEventHandler
+    public class ClientEventHandler : IEventHandler
     {
        
         private int _userId;
-        private readonly communicationHandler _handler;
+        private readonly CommunicationHandler _handler;
         private ClientLogic _logic;
-        private readonly parserImplementation XmlParser;
+        private ParserImplementation XmlParser;
         private bool _shouldClose;
 
-        public ClientEventHandler(communicationHandler handler) 
+        public ClientEventHandler(CommunicationHandler handler) 
         {
             _handler = handler;
-            XmlParser = new parserImplementation();
+            XmlParser = new ParserImplementation();
             _shouldClose = false;
+        
         }
         //needed to be call after create new ClientEventHandler and a new client logic
         public void init(ClientLogic logic){
