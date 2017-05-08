@@ -55,10 +55,12 @@ namespace clientCommunication.Logic
              
          }
 
-         public void leaveTheGame(int roomId)
+         public bool leaveTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
              _eventHandler.SendNewEvent(toSend);
+             return true;
+
          }
          public void startTheGame(int roomId)
          {
