@@ -141,10 +141,17 @@ namespace clientCommunication.Logic
          public bool register(string name, string memberName, string password, int money, string email)
          {
              RegisterCommMessage toSend = new RegisterCommMessage(_userId, name, memberName, password, money,email);
-             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
+             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
+             messagesSentObserver.Add(messageToList);
              _eventHandler.SendNewEvent(toSend);
-             return true;
-
+             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+             {
+                 var t = Task.Run(async delegate { await Task.Delay(1000); });
+                 t.Wait();
+             }
+             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+             messagesSentObserver.Remove(messageToList);
+             return toRet;
          }
 
 
