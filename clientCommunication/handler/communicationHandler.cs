@@ -26,6 +26,7 @@ namespace clientCommunication.handler
             _toSendMsgQueue = new ConcurrentQueue<string>();
             _server = server;
             _shouldClose = false;
+            _socket.ReceiveTimeout = 5000;
             
         }
 
@@ -58,7 +59,7 @@ namespace clientCommunication.handler
         {
             _toSendMsgQueue.Enqueue(msg);
         }
-
+       
         private void sendMessages()
         {
             while (!_shouldClose)
@@ -66,11 +67,14 @@ namespace clientCommunication.handler
                 try
                 {
                     string msg = string.Empty;
-                    _toSendMsgQueue.TryDequeue(out msg);
-                    // Translate the passed message into ASCII and store it as a Byte array.
-                    Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
-                    // Send the message to the connected TcpServer. 
-                    _stream.Write(data, 0, data.Length);
+                    if (!_toSendMsgQueue.IsEmpty)
+                    {
+                        _toSendMsgQueue.TryDequeue(out msg);
+                        // Translate the passed message into ASCII and store it as a Byte array.
+                        Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
+                        // Send the message to the connected TcpServer. 
+                        _stream.Write(data, 0, data.Length);
+                    }
                 }
                 catch (SocketException e)
                 {
@@ -92,11 +96,15 @@ namespace clientCommunication.handler
                var dataReceived = 0;
                     do
                     {
-                        dataReceived = _stream.Read(buffer, 0, 1);
-                        if (dataReceived > 0)
+                        try
                         {
-                            data.Add(buffer[0]);
+                            dataReceived = _stream.Read(buffer, 0, 1);
+                            if (dataReceived > 0)
+                            {
+                                data.Add(buffer[0]);
+                            }
                         }
+                        catch (Exception e) { }
 
                     } while (dataReceived > 0);
 
@@ -119,6 +127,8 @@ namespace clientCommunication.handler
                 _shouldClose = true;
                 _stream.Close();
                 _socket.Close();
+                
+                
             return true;
             }
             catch(Exception e)
