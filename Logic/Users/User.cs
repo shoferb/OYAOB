@@ -47,7 +47,7 @@ namespace TexasHoldem.Logic.Users
             this.email = email;
             this.waitListNotification = new List<Notification>();
             this.isActive = false;
-            this.avatar = "path?";
+            this.avatar = "/GuiScreen/Photos/Avatar/devil.png";
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
