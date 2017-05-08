@@ -17,15 +17,14 @@ namespace clientCommunication.handler
     class ClientEventHandler : IEventHandler
     {
        
-        private readonly int _userId;
+        private int _userId;
         private readonly communicationHandler _handler;
         private ClientLogic _logic;
         private readonly parserImplementation XmlParser;
         private bool _shouldClose;
 
-        public ClientEventHandler(int id,communicationHandler handler) 
+        public ClientEventHandler(communicationHandler handler) 
         {
-            _userId = id;
             _handler = handler;
             XmlParser = new parserImplementation();
             _shouldClose = false;
@@ -33,6 +32,10 @@ namespace clientCommunication.handler
         //needed to be call after create new ClientEventHandler and a new client logic
         public void init(ClientLogic logic){
             _logic = logic;
+        }
+        public void SetNewUserId(int newId)
+        {
+            this._userId = newId;
         }
         public void close() 
         {
