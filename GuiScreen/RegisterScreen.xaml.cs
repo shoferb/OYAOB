@@ -19,7 +19,7 @@ namespace TexasHoldem.GuiScreen
     /// </summary>
     public partial class RegisterScreen : Window
     {
-
+        private ClientLogic cl;
         private Window parentScreen;
         private int Id;
         private string name;
@@ -33,6 +33,7 @@ namespace TexasHoldem.GuiScreen
         {
             InitializeComponent();
             parentScreen = parent;
+            cl = new ClientLogic();
         }
 
         private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -89,7 +90,21 @@ namespace TexasHoldem.GuiScreen
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (!firstPassword.Equals(secPassword))
+            {
+                MessageBox.Show("password dont match");
+                return;
+            }
+            
+            bool registerOk = cl.register(name, username, firstPassword, money, email);
+            if (registerOk)
+            {
+                //todo open main window
+            }
+            else
+            {
+                MessageBox.Show("Invalid input");
+            }
         }
     }
 }
