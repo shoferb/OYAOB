@@ -128,6 +128,7 @@ namespace TexasHoldem.GuiScreen
             else
             {
                 MessageBox.Show("userName Edit - failed");
+
             }
         }
     }
