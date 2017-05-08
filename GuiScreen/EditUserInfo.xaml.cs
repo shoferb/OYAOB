@@ -151,5 +151,24 @@ namespace TexasHoldem.GuiScreen
 
             }
         }
+
+        private void EditMoneyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (money == null)
+            {
+                MessageBox.Show("Please enter new money");
+                return;
+            }
+            bool EditMoneyOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Money,
+                money.ToString());
+            if (EditMoneyOk)
+            {
+                MessageBox.Show("User Money was sucssesful edit to: " + money);
+            }
+            else
+            {
+                MessageBox.Show("User money Edit - fail");
+            }
+        }
     }
 }
