@@ -16,46 +16,44 @@ namespace clientCommunication.handler
 {
     class ClientEventHandler : IEventHandler
     {
-        private readonly ICommMsgXmlParser _parser;//init
+       
         private readonly int _userId;
         private readonly communicationHandler _handler;
-        private bool shouldClose;
-        private ClienLogic _logic;
-        
+        private ClientLogic _logic;
+        private readonly parserImplementation XmlParser;
+        private bool _shouldClose;
 
         public ClientEventHandler(int id,communicationHandler handler) 
         {
             _userId = id;
             _handler = handler;
-            shouldClose = false;
-           
-
-
+            XmlParser = new parserImplementation();
+            _shouldClose = false;
         }
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void init(ClienLogic logic){
+        public void init(ClientLogic logic){
             _logic = logic;
         }
-        //TODO
+        public void close() 
+        {
+            _shouldClose = false;
+ 
+        }
         public void handleMessages()
         {
-            while (!shouldClose)
+            while (!_shouldClose)
             {
                 string msg = string.Empty;
                 msg= _handler.tryGetMsgReceived();
-                //parsedMsg = parse msg
-                //parsedMsg.Handle(this);
-                
-
+                var parsedMsg = XmlParser.ParseString(msg);
+                parsedMsg.Handle(this);
             }
-
-
         }
 
         public void SendNewEvent(CommunicationMessage msg)
         {
-            //parse msg
-            //_handler.addMsgToSend(parsedMsg);
+            string parsedMsg =XmlParser.SerializeMsg(msg);
+            _handler.addMsgToSend(parsedMsg);
         }
         public void HandleEvent(ActionCommMessage msg)
         {
@@ -96,8 +94,8 @@ namespace clientCommunication.handler
                 if (amount > -1)
                 {
                     ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount, roomId);
-                    //parse response
-                    //_handler.addMsgToSend(parsedResponse)
+                    string parsedResponse = XmlParser.SerializeMsg(response);
+                    _handler.addMsgToSend(parsedResponse);
                 }
             }
             else
@@ -110,6 +108,11 @@ namespace clientCommunication.handler
         {
             //notify in GUI
             throw new NotImplementedException();
+        }
+        public void Start()
+        {
+            Task task = new Task(handleMessages);
+            task.Start();
         }
     }
 }

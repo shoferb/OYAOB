@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
-
+using TexasHoldemShared.Parser;
 
 namespace clientCommunication.handler
 {
@@ -17,14 +17,16 @@ namespace clientCommunication.handler
         protected TcpClient _socket;
         protected NetworkStream _stream;
         protected readonly string _server;
-        bool shouldClose;
+        private bool _shouldClose;
+        
         public communicationHandler(int id, string server)
         {
             _userId = id;
             _receivedMsgQueue = new ConcurrentQueue<string>();
             _toSendMsgQueue = new ConcurrentQueue<string>();
             _server = server;
-            shouldClose = false;
+            _shouldClose = false;
+            
         }
 
 
@@ -59,20 +61,24 @@ namespace clientCommunication.handler
 
         private void sendMessages()
         {
-            while(!shouldClose)
-            try{
-                string msg = string.Empty;
-              _toSendMsgQueue.TryDequeue(out msg);
-                
-            // Translate the passed message into ASCII and store it as a Byte array.
-            Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
-              // Send the message to the connected TcpServer. 
-                _stream.Write(data, 0, data.Length);
-            
-            } catch (SocketException e)
+            while (!_shouldClose)
             {
-                Console.WriteLine("SocketException: {0}", e);
-                
+                try
+                {
+                    string msg = string.Empty;
+                    _toSendMsgQueue.TryDequeue(out msg);
+
+                    // Translate the passed message into ASCII and store it as a Byte array.
+                    Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
+                    // Send the message to the connected TcpServer. 
+                    _stream.Write(data, 0, data.Length);
+
+                }
+                catch (SocketException e)
+                {
+                    Console.WriteLine("SocketException: {0}", e);
+
+                }
             }
         }
         
@@ -82,7 +88,7 @@ namespace clientCommunication.handler
         private void receiveMessages()
         {
              byte[] buffer = new byte[1];
-             while(!shouldClose)
+             while(!_shouldClose)
             {
                IList<byte> data = new List<byte>();
                var dataReceived = 0;
@@ -108,11 +114,11 @@ namespace clientCommunication.handler
      
 
 
-        private bool close()
+        public bool close()
         {
             try
             {
-                // Close everything.
+                _shouldClose = true;
                 _stream.Close();
                 _socket.Close();
             return true;

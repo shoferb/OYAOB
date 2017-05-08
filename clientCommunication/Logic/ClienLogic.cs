@@ -9,22 +9,29 @@ using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace clientCommunication.Logic
 {
-    class ClienLogic
+    class ClientLogic
     {
         private readonly int _userId;
         private ClientEventHandler _eventHandler;
+        private communicationHandler _handler;
 
-        public ClienLogic(int userId, string server)
+        public ClientLogic(int userId)
         {
             _userId = userId;
         }
 
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void init(ClientEventHandler handler)
+        public void init(ClientEventHandler eventHandler, communicationHandler handler)
         {
-            _eventHandler = handler;
-        }
+            _eventHandler = eventHandler;
+            _handler = handler;
 
+        }
+        public void closeSystem()
+        {
+            _eventHandler.close();
+            _handler.close();
+        }
         public void editDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
             //checkifAnyConstraints?
