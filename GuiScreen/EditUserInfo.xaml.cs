@@ -119,15 +119,35 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("Please enter userName name");
                 return;
             }
-            bool EditNameOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.UserName,
+            bool EditUserNameOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.UserName,
                 username);
-            if (EditNameOk)
+            if (EditUserNameOk)
             {
                 MessageBox.Show("User Name was sucssesful edit to: " + username);
             }
             else
             {
                 MessageBox.Show("userName Edit - failed");
+
+            }
+        }
+
+        private void EditEmailButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (email.Equals(""))
+            {
+                MessageBox.Show("Please enter new email");
+                return;
+            }
+            bool EditEmailOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Email,
+                username);
+            if (EditEmailOk)
+            {
+                MessageBox.Show("User Email was sucssesful edit to: " + email);
+            }
+            else
+            {
+                MessageBox.Show("Email Edit - failed");
 
             }
         }
