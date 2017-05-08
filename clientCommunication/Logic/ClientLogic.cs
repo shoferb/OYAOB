@@ -11,16 +11,20 @@ namespace clientCommunication.Logic
 {
     class ClientLogic
     {
-        private readonly int _userId;
+        private  int _userId;
         private ClientEventHandler _eventHandler;
         private communicationHandler _handler;
 
         //chanfajf
-        public ClientLogic(int userId)
+        public ClientLogic()
         {
-            _userId = userId;
+           
         }
-
+         public bool SetUserId(int newId)
+        {
+            _userId = newId;
+            return true;
+        }
         //needed to be call after create new ClientEventHandler and a new client logic
         public void init(ClientEventHandler eventHandler, communicationHandler handler)
         {
