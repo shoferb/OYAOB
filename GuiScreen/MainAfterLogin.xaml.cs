@@ -21,12 +21,12 @@ namespace TexasHoldem.GuiScreen
     {
         private ClientLogic cl;
         private Window parent;
-        private Lo
+        private LogoutScreen logout;
         private int currUserId;
-        public MainAfterLogin(Window Parent,int id)
+        public MainAfterLogin(Window Parent,int id, ClientLogic cli)
         {
             InitializeComponent();
-            cl = new ClientLogic();      
+            cl = cli;      
             parent = Parent;
             currUserId = id;
             cl.SetUserId(currUserId);
@@ -34,8 +34,23 @@ namespace TexasHoldem.GuiScreen
 
         private void Logoututton_Click(object sender, RoutedEventArgs e)
         {
-           
-            
+           logout = new LogoutScreen(this,currUserId);
+           logout.Show();
+           this.Hide();
+        }
+
+        public void SetCurrId(int newId)
+        {
+            this.currUserId = newId;
+        }
+
+        public void SetClientLogicId(int id)
+        {
+            cl.SetUserId(id);
+        }  
+        private void EditUserbutton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

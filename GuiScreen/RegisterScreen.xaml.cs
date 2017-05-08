@@ -29,11 +29,11 @@ namespace TexasHoldem.GuiScreen
         private string secPassword;
         private int money;
          
-        public RegisterScreen(Window parent)
+        public RegisterScreen(Window parent,  ClientLogic cli)
         {
             InitializeComponent();
             parentScreen = parent;
-            cl = new ClientLogic();
+            cl = cli;
         }
 
         private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -112,7 +112,7 @@ namespace TexasHoldem.GuiScreen
             bool registerOk = cl.register(name, username, firstPassword, money, email);
             if (registerOk)
             {
-                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, Id);
+                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, Id,cl);
                 mainAfterLogin.Show();
                 this.Hide();
             }

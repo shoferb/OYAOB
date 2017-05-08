@@ -27,10 +27,10 @@ namespace TexasHoldem.GuiScreen
         private ClientLogic cl;
 
 
-        public LoginScreen(WellcomeScreen ws)
+        public LoginScreen(WellcomeScreen ws, ClientLogic cli)
         {
             InitializeComponent();
-            cl = new ClientLogic();
+            cl = cli;
             wsScreen = ws;
         }
 
@@ -47,7 +47,7 @@ namespace TexasHoldem.GuiScreen
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            rgScreen = new RegisterScreen(this);
+            rgScreen = new RegisterScreen(this,cl);
             rgScreen.Show();
             this.Hide();
         }
@@ -57,7 +57,7 @@ namespace TexasHoldem.GuiScreen
             int loginOk = cl.login(userName, password);
             if (loginOk != -1)
             {
-                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, loginOk);
+                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, loginOk,cl);
                 mainAfterLogin.Show();
                 this.Hide();
             }

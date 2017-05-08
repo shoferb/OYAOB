@@ -21,28 +21,31 @@ namespace TexasHoldem.GuiScreen
     {
         private LoginScreen loginScreen;
         private RegisterScreen registerScreen;
+        private ClientLogic cl;
         public WellcomeScreen()
         {
             InitializeComponent();
-
+            cl = new ClientLogic();
+            //todo create new handlers
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            loginScreen = new LoginScreen(this);
+            loginScreen = new LoginScreen(this,cl);
             loginScreen.Show();
             this.Hide(); 
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            registerScreen = new RegisterScreen(this);
+            registerScreen = new RegisterScreen(this,cl);
             registerScreen.Show();
             this.Hide();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            cl.CloseSystem();
             Application.Current.Shutdown();
         }
     }

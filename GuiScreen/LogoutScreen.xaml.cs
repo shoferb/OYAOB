@@ -55,8 +55,9 @@ namespace TexasHoldem.GuiScreen
             if (logoutOk)
             {
                 WellcomeScreen wellcomeScreen = new WellcomeScreen();
+
                 wellcomeScreen.Show();
-                this.Hide();
+                this.Close();
             }
             else
             {
