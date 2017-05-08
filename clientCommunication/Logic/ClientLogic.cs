@@ -45,10 +45,13 @@ namespace clientCommunication.Logic
             _eventHandler.SendNewEvent(toSend);
             return true;
         }
-         public void joinTheGame(int roomId)
+         public bool joinTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
              _eventHandler.SendNewEvent(toSend);
+
+             return true;
+
              
          }
 
