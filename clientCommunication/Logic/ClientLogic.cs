@@ -85,10 +85,12 @@ namespace clientCommunication.Logic
 
          }
 
-         public void register(string name, string memberName, string password, int money, string email)
+         public bool register(string name, string memberName, string password, int money, string email)
          {
              RegisterCommMessage toSend = new RegisterCommMessage(_userId, name, memberName, password, money,email);
              _eventHandler.SendNewEvent(toSend);
+             return true;
+
          }
 
 
