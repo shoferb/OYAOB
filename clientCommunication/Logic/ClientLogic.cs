@@ -62,10 +62,12 @@ namespace clientCommunication.Logic
              return true;
 
          }
-         public void startTheGame(int roomId)
+         public bool startTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
              _eventHandler.SendNewEvent(toSend);
+             return true;
+
          }
 
          public void login(string userName, string password)
