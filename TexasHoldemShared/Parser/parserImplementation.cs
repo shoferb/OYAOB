@@ -12,7 +12,6 @@ namespace TexasHoldemShared.Parser
 {
     public class parserImplementation : ICommMsgXmlParser
     {
-        int i;
         public parserImplementation() {}
        
 

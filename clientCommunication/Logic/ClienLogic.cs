@@ -76,17 +76,15 @@ namespace clientCommunication.Logic
 
 
 
-      //  public void showOptionsMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, int roomId)
-
-        public Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> showOptionsMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, int roomId)
+       public void showOptionsMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, int roomId)
+       
         {
             //GUI
             //after Chosen: Call /notifyChosenMove(options, chosenMove);
-            Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> toRet = new Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int>(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold,0);
-           return toRet;
+          
             
-        }
-        public Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount)
+        }//after client chose call notifyChosenMove
+        public Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
             bool legalMove = false;
             foreach(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType action in options)
@@ -101,8 +99,8 @@ namespace clientCommunication.Logic
                 if (move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold))
                 {
                     amount = -1;//amount isnt relevant
-                    Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> toRet = new Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int>(move, amount);
-                    return toRet;
+                   
+                    _eventHandler.handleChosenAction(move, amount, roomId);
                 }
                 else if ((move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet)) && (amount >= 0))
                 {

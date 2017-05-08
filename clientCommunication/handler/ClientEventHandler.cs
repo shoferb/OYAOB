@@ -87,20 +87,30 @@ namespace clientCommunication.handler
             {
                 TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options = msg.Options;
                 int roomId = msg.roomId;
-                Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> gotBack = _logic.showOptionsMove(options, roomId);
-                TexasHoldemShared.CommMessages.CommunicationMessage.ActionType ChosenOption = gotBack.Item1;
-                int amount = gotBack.Item2;
-                
-                if (amount > -1)
-                {
-                    ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount, roomId);
-                    string parsedResponse = XmlParser.SerializeMsg(response);
-                    _handler.addMsgToSend(parsedResponse);
-                }
+                _logic.showOptionsMove(options, roomId);
+                 
+               
             }
             else
             {
                 Console.WriteLine("got message that lost it's way");
+            }
+        }
+
+        public void handleChosenAction(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType Caction, int Camount, int roomId)
+        {
+            TexasHoldemShared.CommMessages.CommunicationMessage.ActionType ChosenOption = Caction;
+            int amount = Camount;
+
+            if (amount > -1)
+            {
+                ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount, roomId);
+                string parsedResponse = XmlParser.SerializeMsg(response);
+                _handler.addMsgToSend(parsedResponse);
+            }
+            else
+            {
+                Console.WriteLine("illegal");
             }
         }
 

@@ -9,7 +9,7 @@ using TexasHoldemShared.Parser;
 
 namespace clientCommunication.handler
 {
-    class communicationHandler
+    public class communicationHandler
     {
         protected readonly int _userId;
         protected readonly ConcurrentQueue<string> _receivedMsgQueue;
@@ -67,12 +67,10 @@ namespace clientCommunication.handler
                 {
                     string msg = string.Empty;
                     _toSendMsgQueue.TryDequeue(out msg);
-
                     // Translate the passed message into ASCII and store it as a Byte array.
                     Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
                     // Send the message to the connected TcpServer. 
                     _stream.Write(data, 0, data.Length);
-
                 }
                 catch (SocketException e)
                 {
@@ -134,15 +132,12 @@ namespace clientCommunication.handler
 
         public void Start()
         {
-            List<Task> taskList = new List<Task>
-            {
-                new Task(receiveMessages),
-                new Task(sendMessages),
-               
-            };
+            Task task = new Task(receiveMessages);
+           
             if(Connect())
             {
-                taskList.ForEach(task => task.Start());
+                task.Start();
+                sendMessages(); 
                 
             }
             else{
