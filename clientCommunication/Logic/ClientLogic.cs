@@ -26,22 +26,24 @@ namespace clientCommunication.Logic
             return true;
         }
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void init(ClientEventHandler eventHandler, communicationHandler handler)
+        public void Init(ClientEventHandler eventHandler, communicationHandler handler)
         {
             _eventHandler = eventHandler;
             _handler = handler;
 
         }
-        public void closeSystem()
+        public void CloseSystem()
         {
             _eventHandler.close();
             _handler.close();
         }
-        public void editDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
+        public bool editDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
+           
             //checkifAnyConstraints?
             EditCommMessage toSend = new EditCommMessage(_userId, field, value);
             _eventHandler.SendNewEvent(toSend);
+            return true;
         }
          public void joinTheGame(int roomId)
          {
