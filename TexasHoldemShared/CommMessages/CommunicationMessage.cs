@@ -23,5 +23,6 @@
         }
 
         public abstract void Handle(IEventHandler handler);
+        
     }
 }

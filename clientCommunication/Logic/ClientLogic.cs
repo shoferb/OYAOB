@@ -14,11 +14,13 @@ namespace clientCommunication.Logic
         private  int _userId;
         private ClientEventHandler _eventHandler;
         private communicationHandler _handler;
-
+        private List<Tuple<CommunicationMessage,bool,bool>> messagesSentObserver; //first bool = is response received, second bool = is succeeded
+        private readonly Object listLock;
         //chanfajf
         public ClientLogic()
         {
-           
+            messagesSentObserver = new List<Tuple<CommunicationMessage, bool, bool>>();
+            listLock = new Object();
         }
          public bool SetUserId(int newId)
         {
@@ -42,12 +44,14 @@ namespace clientCommunication.Logic
            
             //checkifAnyConstraints?
             EditCommMessage toSend = new EditCommMessage(_userId, field, value);
+            messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
             _eventHandler.SendNewEvent(toSend);
             return true;
         }
          public bool joinTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
+             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
              _eventHandler.SendNewEvent(toSend);
 
              return true;
@@ -58,6 +62,7 @@ namespace clientCommunication.Logic
          public bool leaveTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
+             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
              _eventHandler.SendNewEvent(toSend);
              return true;
 
@@ -65,6 +70,7 @@ namespace clientCommunication.Logic
          public bool startTheGame(int roomId)
          {
              ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
+             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
              _eventHandler.SendNewEvent(toSend);
              return true;
 
@@ -73,6 +79,7 @@ namespace clientCommunication.Logic
          public bool login(string userName, string password)
          {
              LoginCommMessage toSend = new LoginCommMessage(_userId, true, userName, password);
+             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
              _eventHandler.SendNewEvent(toSend);
              return true;
 
@@ -80,6 +87,7 @@ namespace clientCommunication.Logic
          public bool logout(string userName, string password)
          {
              LoginCommMessage toSend = new LoginCommMessage(_userId, false, userName, password);
+             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
              _eventHandler.SendNewEvent(toSend);
              return true;
 
@@ -88,6 +96,7 @@ namespace clientCommunication.Logic
          public bool register(string name, string memberName, string password, int money, string email)
          {
              RegisterCommMessage toSend = new RegisterCommMessage(_userId, name, memberName, password, money,email);
+             messagesSentObserver.Add(new Tuple<CommunicationMessage, bool, bool>(toSend, false, false));
              _eventHandler.SendNewEvent(toSend);
              return true;
 
@@ -104,7 +113,7 @@ namespace clientCommunication.Logic
           
             
         }//after client chose call notifyChosenMove
-        public Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
+        public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
             bool legalMove = false;
             foreach(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType action in options)
@@ -119,21 +128,45 @@ namespace clientCommunication.Logic
                 if (move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold))
                 {
                     amount = -1;//amount isnt relevant
-                   
-                    _eventHandler.handleChosenAction(move, amount, roomId);
+                    ActionCommMessage response = new ActionCommMessage(_userId, move, amount, roomId);
+                    Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(response, false, false);
+                    messagesSentObserver.Add(messageToList);
+                    _eventHandler.SendNewEvent(response);
+                    while((messagesSentObserver.Find(x => x.Item1.Equals(response))).Item2==false)
+                    {
+                         var t = Task.Run(async delegate{ await Task.Delay(1000);});
+                        t.Wait();
+                    }
+                    bool toRet =  (messagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
+                    messagesSentObserver.Remove(messageToList);
+                    return toRet;
                 }
                 else if ((move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet)) && (amount >= 0))
                 {
-                    Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> toRet = new Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int>(move, amount);
+                    ActionCommMessage response = new ActionCommMessage(_userId, move, amount, roomId);
+                    Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(response, false, false);
+                    messagesSentObserver.Add(messageToList);
+                    _eventHandler.SendNewEvent(response);
+                    while ((messagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
+                    {
+                        var t = Task.Run(async delegate { await Task.Delay(1000); });
+                        t.Wait();
+                    }
+                    bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
+                    messagesSentObserver.Remove(messageToList);
                     return toRet;
                 }
+                else
+                {
+                    return false;
+                }
             }
-           
-                //appropriate Log
-                //notify the client for illegal input
-                amount = -2;//illegal answer for client
-                Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int> ret = new Tuple<TexasHoldemShared.CommMessages.CommunicationMessage.ActionType, int>(move, amount);
-                return ret;
+
+            else
+            {
+                return false;
+            }
         }
+       
     }
 }

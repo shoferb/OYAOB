@@ -97,22 +97,7 @@ namespace clientCommunication.handler
             }
         }
 
-        public void handleChosenAction(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType Caction, int Camount, int roomId)
-        {
-            TexasHoldemShared.CommMessages.CommunicationMessage.ActionType ChosenOption = Caction;
-            int amount = Camount;
-
-            if (amount > -1)
-            {
-                ActionCommMessage response = new ActionCommMessage(_userId, ChosenOption, amount, roomId);
-                string parsedResponse = XmlParser.SerializeMsg(response);
-                _handler.addMsgToSend(parsedResponse);
-            }
-            else
-            {
-                Console.WriteLine("illegal");
-            }
-        }
+      
 
         public void HandleEvent(ResponeCommMessage msg)
         {
