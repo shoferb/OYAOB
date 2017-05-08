@@ -70,10 +70,12 @@ namespace clientCommunication.Logic
 
          }
 
-         public void login(string userName, string password)
+         public bool login(string userName, string password)
          {
              LoginCommMessage toSend = new LoginCommMessage(_userId, true, userName, password);
              _eventHandler.SendNewEvent(toSend);
+             return true;
+
          }
          public void logout(string userName, string password)
          {
