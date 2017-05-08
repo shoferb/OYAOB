@@ -197,5 +197,11 @@ namespace TexasHoldem.GuiScreen
                 }
             }
         }
+
+        private void BackToMainButton_Click(object sender, RoutedEventArgs e)
+        {
+            parentScreen.Show();
+            this.Hide();
+        }
     }
 }
