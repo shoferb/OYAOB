@@ -16,10 +16,10 @@ namespace TexasHoldem.Service
 
         
         //Use-Case: user can login to system
-        //return -1 if fail
-        public int LoginUser(string username, string password)
+
+        public bool LoginUser(string username, string password)
         {
-            int toReturn = -1;
+            bool toReturn = false;
             IUser user = sc.GetIUSerByUsername(username);
             if (user == null || !user.Password().Equals(password))
             {
@@ -27,7 +27,7 @@ namespace TexasHoldem.Service
             }
             if (user.Login())
             {
-                toReturn = user.Id();
+                toReturn = true;
             }
             return toReturn;
         }
@@ -48,15 +48,9 @@ namespace TexasHoldem.Service
 
         
         //register to system - return bool that tell is success or fail - syncronized
-        public int RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
+        public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
         {
-            int toReturn = -1;
-
-            if (sc.RegisterToSystem(id, name, memberName, password, money, email))
-            {
-                toReturn = id;
-            }
-            return toReturn;
+            return sc.RegisterToSystem(id, name, memberName, password, money, email);
         }
 
 
@@ -205,6 +199,9 @@ namespace TexasHoldem.Service
             return sc.GetAllUser();
         }
 
-        
+        public IUser GetUserById(int id)
+        {
+            return sc.GetUserWithId(id);
+        }
     }
 }
