@@ -24,8 +24,7 @@ namespace TexasHoldem.Logic
         private GameCenter GameCenter;
 
         public BeforeGameDecorator(int minBetInRoom, int startingChip, bool isSpectetor,
-            int minPlayersInRoom, int maxPlayersInRoom,
-            int enterPayingMoney, int bb, int sb)
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int bb, int sb)
         {
             this.IsSpectetor = isSpectetor;
             this.StartingChip = startingChip;

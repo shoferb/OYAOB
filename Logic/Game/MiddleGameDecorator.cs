@@ -21,7 +21,7 @@ namespace TexasHoldem.Logic
             NextDecorator = d;
         }
 
-        public MiddleGameDecorator(GameMode gameModeChosen, int bb, int sb, Decorator d)
+        public MiddleGameDecorator(GameMode gameModeChosen, int bb, int sb)
         {
             this.GameMode = gameModeChosen;
             this.BB = bb;
