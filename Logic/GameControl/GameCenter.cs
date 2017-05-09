@@ -94,7 +94,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //TODO: fix this
-        public bool CreateNewRoomWithRoomId(int roomId, IUser user, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+        public bool CreateNewRoomWithRoomId(int roomId, IUser user, int startingChip, bool canSpectate, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
             lock (padlock)
@@ -133,7 +133,6 @@ namespace TexasHoldem.Logic.Game_Control
                     logControl.AddErrorLog(log);
                     return false;
                 }
-
                 List<Player> players = new List<Player>();
                 if (enterPayingMoney > 0)
                 {
@@ -149,7 +148,7 @@ namespace TexasHoldem.Logic.Game_Control
                 players.Add(player);
                 player._isInRoom = false;
                 GameRoom room = new GameRoom(players, roomId);
-                Decorator decorator = createDecorator();
+                Decorator decorator = createDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen);
                 room.AddDecorator(decorator);
                 // user.ActiveGameList.Add(room);
                 user.AddRoomToActiveGameList(room);
