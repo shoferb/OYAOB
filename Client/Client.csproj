@@ -55,6 +55,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="GuiScreen\AvatarEditScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\EditUserInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\LoginScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\LogoutScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\MainAfterLogin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\RegisterScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\WellcomeScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -62,6 +90,27 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GuiScreen\AvatarEditScreen.xaml.cs">
+      <DependentUpon>AvatarEditScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\EditUserInfo.xaml.cs">
+      <DependentUpon>EditUserInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\LoginScreen.xaml.cs">
+      <DependentUpon>LoginScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\LogoutScreen.xaml.cs">
+      <DependentUpon>LogoutScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\MainAfterLogin.xaml.cs">
+      <DependentUpon>MainAfterLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\RegisterScreen.xaml.cs">
+      <DependentUpon>RegisterScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\WellcomeScreen.xaml.cs">
+      <DependentUpon>WellcomeScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Handler\ClientEventHandler.cs" />
     <Compile Include="Handler\CommunicationHandler.cs" />
@@ -103,6 +152,231 @@
       <Project>{22888c95-40ac-4271-8d39-ec1ff358afbd}</Project>
       <Name>TexasHoldemShared</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\20150831_55e46ad551392.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\614c32021d7294215593374eb45e11de.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\andrew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\bat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\default_female300x300-af1ea9327d6293733a8874dbd97ce49e.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\devil.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\e01-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\fd04.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\Female-Face-FE-4-blonde-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\fh02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\fi01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\frankenstein.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\i03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\images-2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\images-3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\images-4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\k03.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\latest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\Male-Face-J1-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Avatar\mummy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_10.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_2.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_3.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_4.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_5.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_6.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_7.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_8.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_9.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_A.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_J.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_K.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_club_Q.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_10.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_2.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_3.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_4.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_5.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_6.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_7.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_8.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_9.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_A.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_J.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_K.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_diamond_Q.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_10.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_2.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_3.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_4.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_5.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_6.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_7.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_8.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_9.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_A.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_J.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_K.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_heart_Q.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_10.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_2.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_3.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_4.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_5.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_6.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_7.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_8.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_9.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_A.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_J.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_K.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Cards\1920px-Playing_card_spade_Q.svg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Screen\images-1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Screen\pokerScreen2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GuiScreen\Photos\Screen\POKERslidesearch.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

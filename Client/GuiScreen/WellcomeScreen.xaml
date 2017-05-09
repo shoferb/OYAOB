@@ -1,0 +1,24 @@
+﻿<Window x:Class="TexasHoldem.GuiScreen.WellcomeScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
+        mc:Ignorable="d"
+        Title="OYAOB - Texas Holdem Poker" Height="281.498" Width="300">
+    <Grid Margin="0,0,-0.4,-0.4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
+        </Grid.Background>
+        <Button x:Name="LoginButton" Grid.ColumnSpan="2" Content="LoginScreen" HorizontalAlignment="Left" Margin="39,83,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
+        <Button x:Name="RegisterButton" Grid.ColumnSpan="2" Content="Register" HorizontalAlignment="Left" Margin="39,125,0,0" VerticalAlignment="Top" Width="75" Click="RegisterButton_Click"/>
+        <Button x:Name="ExitButton" Grid.ColumnSpan="2" Content="Exit" HorizontalAlignment="Left" Margin="39,172,0,0" VerticalAlignment="Top" Width="75" Click="ExitButton_Click"/>
+        <Label x:Name="WellcomLabel" Grid.ColumnSpan="2" Content="Wellcome" HorizontalAlignment="Left" Margin="14,23,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+    </Grid>
+</Window>
