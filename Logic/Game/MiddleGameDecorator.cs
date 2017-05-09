@@ -11,10 +11,15 @@ namespace TexasHoldem.Logic
 
     class MiddleGameDecorator : Decorator
     {
+        private Decorator NextDecorator;
         public GameMode GameMode { get; set; }
         public int BB { get; set; }
         public int SB { get; set; }
 
+        public void SetDecorator(Decorator d)
+        {
+            NextDecorator = d;
+        }
 
         public MiddleGameDecorator(GameMode gameModeChosen, int bb, int sb, Decorator d) : base(d)
         {
