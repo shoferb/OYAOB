@@ -204,5 +204,12 @@ namespace TexasHoldem.GuiScreen
             parentScreen.Show();
             this.Hide();
         }
+
+        private void EditAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+            AvatarEditScreen avatarEditScreen = new AvatarEditScreen(this, cl);
+            avatarEditScreen.Show();
+            this.Hide();
+        }
     }
 }
