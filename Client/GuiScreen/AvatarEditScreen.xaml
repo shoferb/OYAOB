@@ -5,11 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
-        Title="AvatarEditScreen" Height="355.507" Width="824.669">
-    <Grid>
+        Title="AvatarEditScreen" Height="577.894" Width="870.086">
+    <Grid Margin="0,0,-44,-343.4">
         <Grid.Background>
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
-        <Label x:Name="EditAvatrMenuLabel" Content="Edit User Avatar menu" HorizontalAlignment="Left" Margin="99,42,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Label x:Name="EditAvatrMenuLabel" Content="Edit User Avatar menu" HorizontalAlignment="Left" Margin="148,73,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Image x:Name="Avatar1image" HorizontalAlignment="Left" Height="100" Margin="122,121,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/andrew.png" RenderTransformOrigin="0.5,0.5"/>
+        <Image x:Name="Avatar2image" HorizontalAlignment="Left" Height="100" Margin="367,121,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/default_female300x300-af1ea9327d6293733a8874dbd97ce49e.png"/>
+        <Image x:Name="Avatar3image" HorizontalAlignment="Left" Height="100" Margin="122,259,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/Male-Face-J1-icon.png"/>
+        <Image x:Name="Avatar4image" HorizontalAlignment="Left" Height="100" Margin="367,259,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/fd04.png"/>
+        <Image x:Name="Avatar5image" HorizontalAlignment="Left" Height="100" Margin="122,383,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/fh02.png"/>
+        <Image x:Name="Avatar6image" HorizontalAlignment="Left" Height="100" Margin="367,383,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/mummy.png"/>
+        <Image x:Name="Avatar7image" HorizontalAlignment="Left" Height="100" Margin="122,525,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/devil.png"/>
+        <Image x:Name="Avatar8image" HorizontalAlignment="Left" Height="100" Margin="367,525,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/frankenstein.png"/>
+        <Image x:Name="Avatar9image" HorizontalAlignment="Left" Height="100" Margin="122,672,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/k03.png"/>
+        <Image x:Name="Avatar10image" HorizontalAlignment="Left" Height="100" Margin="367,672,0,0" VerticalAlignment="Top" Width="100" Source="/GuiScreen/Photos/Avatar/e01-1.png"/>
+
+        <RadioButton x:Name="radioButtonAvatar2" Content="" HorizontalAlignment="Left" Margin="346,167,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar2_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar1" Content="" HorizontalAlignment="Left" Margin="99,167,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar1_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar4" Content="" HorizontalAlignment="Left" Margin="346,299,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar4_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar3" Content="" HorizontalAlignment="Left" Margin="99,299,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar3_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar6" Content="" HorizontalAlignment="Left" Margin="346,425,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar6_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar5" Content="" HorizontalAlignment="Left" Margin="101,425,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar5_Checked"/>
+
+        <RadioButton x:Name="radioButtonAvatar7" Content="" HorizontalAlignment="Left" Margin="99,560,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar7_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar8" Content="" HorizontalAlignment="Left" Margin="346,560,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar8_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar9" Content="" HorizontalAlignment="Left" Margin="99,713,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar9_Checked"/>
+        <RadioButton x:Name="radioButtonAvatar10" Content="" HorizontalAlignment="Left" Margin="346,713,0,0" VerticalAlignment="Top" Checked="radioButtonAvatar10_Checked"/>
+        <Button x:Name="EditAvatar" Content="Edit Avatar" HorizontalAlignment="Left" Margin="239,800,0,0" VerticalAlignment="Top" Width="150" FontWeight="Bold" FontSize="18" Height="31" Click="EditAvatar_Click"/>
+        <Button x:Name="Back" Content="Back" HorizontalAlignment="Left" Margin="42,831,0,0" VerticalAlignment="Top" Width="109" Height="33" FontWeight="Bold" FontSize="18" Click="Back_Click"/>
+
+
     </Grid>
 </Window>
