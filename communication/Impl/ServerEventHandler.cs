@@ -1,4 +1,5 @@
-﻿using TexasHoldem.Service;
+﻿using TexasHoldem.Logic.Users;
+using TexasHoldem.Service;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -47,12 +48,35 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(LoginCommMessage msg)
         {
-            throw new System.NotImplementedException();
+            
+            bool success = _userService.LoginUser(msg.UserName, msg.Password);
+            if (success)
+            {
+                IUser user = _userService.GetUserById(msg.UserId);
+                ResponeCommMessage response = new LoginResponeCommMessage(user.Id(), user.Name(), user.MemberName(),
+                    user.Password(), user.Avatar(), user.Money()
+                    , user.Email(), success, msg);
+                _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            }
+            else
+            {
+                ResponeCommMessage response = new LoginResponeCommMessage(-1, "", "",
+                    "", "", -1 , "", success, msg);
+                _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            }
+           
         }
 
         public void HandleEvent(RegisterCommMessage msg)
         {
-            throw new System.NotImplementedException();
+            bool success = _userService.RegisterToSystem(msg.UserId, msg.Name, msg.MemberName, msg.Password, msg.Money,
+                msg.Email);
+            
+            ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
+                "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,success,msg);
+
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            
         }
 
         public void HandleEvent(GameDataCommMessage msg)

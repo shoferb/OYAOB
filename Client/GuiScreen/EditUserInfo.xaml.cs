@@ -27,8 +27,9 @@ namespace TexasHoldem.GuiScreen
         private string name;
         private string username;
         private string email;
-        private string firstPassword;
-        private string secPassword;
+        private string oldPassword;
+        private string firstNewPassword;
+        private string secNewPassword;
         private int money;
 
 
@@ -54,13 +55,17 @@ namespace TexasHoldem.GuiScreen
 
         private void NewPasswordTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            currPasswordTextBox.Text = "";
-            currPasswordTextBox.Opacity = 100;
+            NewPasswordTextBox.Text = "";
+            NewPasswordTextBox.Opacity = 100;
         }
 
-      
 
-      
+        private void NewPasswordSecTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            NewPasswordSecTextBox_.Text = "";
+            NewPasswordSecTextBox_.Opacity = 100;
+        }
+
 
         private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -87,6 +92,7 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
                 currId = Id;
                 cl.SetUserId(Id);
+                cl.user.id = Id;
             }
             else
             {
@@ -106,6 +112,7 @@ namespace TexasHoldem.GuiScreen
             if (EditNameOk)
             {
                 MessageBox.Show("Name was sucssesful edit to: " + name);
+                cl.user.name = name;
             }
             else
             {
@@ -125,6 +132,7 @@ namespace TexasHoldem.GuiScreen
             if (EditUserNameOk)
             {
                 MessageBox.Show("User Name was sucssesful edit to: " + username);
+                cl.user.username = username;
             }
             else
             {
@@ -141,10 +149,11 @@ namespace TexasHoldem.GuiScreen
                 return;
             }
             bool EditEmailOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Email,
-                username);
+                email);
             if (EditEmailOk)
             {
                 MessageBox.Show("User Email was sucssesful edit to: " + email);
+                cl.user.email = email;
             }
             else
             {
@@ -165,6 +174,7 @@ namespace TexasHoldem.GuiScreen
             if (EditMoneyOk)
             {
                 MessageBox.Show("User Money was sucssesful edit to: " + money);
+                cl.user.money = money;
             }
             else
             {
@@ -174,23 +184,34 @@ namespace TexasHoldem.GuiScreen
 
         private void EditPasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            if (secPassword.Equals(""))
+            if (firstNewPassword.Equals(""))
             {
                 MessageBox.Show("Please enter new password");
                 return;
             }
-            if (firstPassword.Equals(""))
+            if (oldPassword.Equals(""))
             {
                 MessageBox.Show("Please enter current password");
                 return;
             }
-            if (firstPassword.Equals(secPassword))
+            if (secNewPassword.Equals(""))
+            {
+                MessageBox.Show("Please enter new password");
+                return;
+            }
+            if (oldPassword.Equals(firstNewPassword))
+            {
+                MessageBox.Show("you cant change password to the curr password");
+                return;
+            }
+                if (secNewPassword.Equals(firstNewPassword))
             {
                 bool EditPasswordOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
-                    firstPassword);
+                    firstNewPassword);
                 if (EditPasswordOk)
                 {
                     MessageBox.Show("User Password was sucssesful edit!");
+                    cl.user.password = firstNewPassword;
                 }
                 else
                 {
@@ -203,6 +224,18 @@ namespace TexasHoldem.GuiScreen
         {
             parentScreen.Show();
             this.Hide();
+        }
+
+        private void EditAvatarButton_Click(object sender, RoutedEventArgs e)
+        {
+            AvatarEditScreen avatarEditScreen = new AvatarEditScreen(this, cl);
+            avatarEditScreen.Show();
+            this.Hide();
+        }
+
+        private void NewPasswordSecTextBox_Copy_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            secNewPassword = NewPasswordSecTextBox_.Text;
         }
     }
 }

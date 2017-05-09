@@ -31,7 +31,9 @@
         <Button x:Name="EditUserName" Content="Edit User Name" HorizontalAlignment="Left" Margin="407,184,0,0" VerticalAlignment="Top" Width="101" Click="EditUserName_Click"/>
         <Button x:Name="EditEmailButton" Content="Edit User Email" HorizontalAlignment="Left" Margin="407,224,0,0" VerticalAlignment="Top" Width="101" Click="EditEmailButton_Click"/>
         <Button x:Name="EditMoneyButton" Content="Button" HorizontalAlignment="Left" Margin="407,263,0,0" VerticalAlignment="Top" Width="101" Click="EditMoneyButton_Click"/>
-        <Button x:Name="EditPasswordButton" Content="Edit Password" HorizontalAlignment="Left" Margin="407,315,0,0" VerticalAlignment="Top" Width="101" Click="EditPasswordButton_Click"/>
-        <Button x:Name="EditAvatarButton" Content="Edit Avatar Menu" HorizontalAlignment="Left" Margin="167,391,0,0" VerticalAlignment="Top" Width="205"/>
+        <Button x:Name="EditPasswordButton" Content="Edit Password" HorizontalAlignment="Left" Margin="407,337,0,0" VerticalAlignment="Top" Width="101" Click="EditPasswordButton_Click"/>
+        <Button x:Name="EditAvatarButton" Content="Edit Avatar Menu" HorizontalAlignment="Left" Margin="167,414,0,0" VerticalAlignment="Top" Width="205" Click="EditAvatarButton_Click"/>
+        <Label x:Name="PasswordNewSecLabel" Content="Enter new password again" HorizontalAlignment="Left" Margin="44,367,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <TextBox x:Name="NewPasswordSecTextBox_" HorizontalAlignment="Left" Height="23" Margin="255,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewMouseDown = "NewPasswordSecTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown" TextChanged="NewPasswordTextBox_Copy_TextChanged"/>
     </Grid>
 </Window>

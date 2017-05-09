@@ -47,8 +47,10 @@
     <Compile Include="CommMessages\ClientToServer\EditCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\GameDataCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\LoginCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\LoginResponeCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\MoveOptionsCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\RegisterCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\RegisterResponeCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="Parser\ICommMsgXmlParser.cs" />
