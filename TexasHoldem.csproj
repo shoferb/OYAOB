@@ -127,7 +127,6 @@
     </Compile>
     <Compile Include="Service\GameServiceHandler.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
-    <Compile Include="Service\ServiceHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
