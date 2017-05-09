@@ -62,5 +62,15 @@ namespace TexasHoldem.Logic.Game
 
         int GetMaxRank();
 
+
+        //Getter for search display 
+        int GetMinPlayer();
+        int GetMinBet();
+        int GetMaxPlayer();
+        int GetPotSize();
+        int GetBuyInPolicy();
+        int GetStartingChip();
+        GameMode GetGameGameMode();
+        LeagueName GetLeagueName();
     }
 }
