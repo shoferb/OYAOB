@@ -115,6 +115,7 @@
     <Compile Include="Handler\ClientEventHandler.cs" />
     <Compile Include="Handler\CommunicationHandler.cs" />
     <Compile Include="Logic\ClientLogic.cs" />
+    <Compile Include="Logic\ClientUser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
