@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
 using TexasHoldem.Logic.GameControl;
@@ -9,9 +8,7 @@ using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
-using TexasHoldem.communication.Converters;
 using static TexasHoldemShared.CommMessages.CommunicationMessage;
-using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Logic.Game
 {
