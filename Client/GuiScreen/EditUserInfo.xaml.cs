@@ -146,10 +146,11 @@ namespace TexasHoldem.GuiScreen
                 return;
             }
             bool EditEmailOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Email,
-                username);
+                email);
             if (EditEmailOk)
             {
                 MessageBox.Show("User Email was sucssesful edit to: " + email);
+                cl.user.email = email;
             }
             else
             {
