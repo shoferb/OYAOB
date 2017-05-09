@@ -51,6 +51,9 @@ namespace TexasHoldem.Logic.Game
         private int MinRank;
         private int firstPlayerInRoundPoistion;
 
+
+        private LeagueName leagueName;
+
         public GameRoom(List<Player> players, int ID)
         {
             Id = ID;
@@ -68,6 +71,7 @@ namespace TexasHoldem.Logic.Game
             MaxRank = tup.Item2;
             DealerPlayer = null;
             _logControl = LogControl.Instance;
+            leagueName = LeagueName.A;//todo - change to the real league
         }
 
         private void SetTheBlinds()
@@ -976,6 +980,48 @@ namespace TexasHoldem.Logic.Game
         public int GetMaxRank()
         {
             return MaxRank;
+        }
+
+
+        //Getters for search display in GUI
+        public int GetMinPlayer()
+        {
+            return MyDecorator.GetMinPlayerInRoom();
+        }
+
+        public int GetMinBet()
+        {
+            return MyDecorator.GetMinBetInRoom();
+        }
+
+        public int GetMaxPlayer()
+        {
+            return MyDecorator.GetMaxPlayerInRoom();
+        }
+
+        public int GetPotSize()
+        {
+            return MyDecorator.GetPotSize();
+        }
+
+        public int GetBuyInPolicy()
+        {
+            return MyDecorator.GetEnterPayingMoney();
+        }
+
+        public int GetStartingChip()
+        {
+            return MyDecorator.GetStartingChip();
+        }
+
+        public GameMode GetGameGameMode()
+        {
+            return MyDecorator.GetGameMode();
+        }
+
+        public LeagueName GetLeagueName()
+        {
+            return this.leagueName;
         }
 
         public bool IsBetweenRanks(int playerRank)
