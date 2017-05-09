@@ -20,6 +20,7 @@ namespace TexasHoldem.Service
         //TODO - Done! - Find all active games which the user can join.
         private readonly GameCenter _gameCenter;
         private readonly SystemControl _systemControl;
+        private ReplayManager _replayManager;
         private static ServerEventHandler serverHandler;
 
         public GameServiceHandler()
@@ -27,6 +28,7 @@ namespace TexasHoldem.Service
             _gameCenter = GameCenter.Instance;
             _systemControl = SystemControl.SystemControlInstance;
             serverHandler = new ServerEventHandler();
+            _replayManager = ReplayManager.ReplayManagerInstance;
         }
 
         public IGame GetGameFromId(int gameId)
@@ -57,74 +59,15 @@ namespace TexasHoldem.Service
             return _gameCenter.CreateNewRoomWithRoomId(roomID, user, startingChip, isSpectetor, gameModeChosen,
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
-
-        public int GetNextFreeRoomId()
-        {
-            return _gameCenter.GetNextIdRoom();
-        }
-
         
-
-        public bool MakeRoomActive(GameRoom room)
-        {
-            //TODO
-            return false;
-        }
-
-      
-        
-        //TODO: probably not needed
-        public String Displaymoves(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
-        {
-            return GameCenter.Instance.Displaymoves(moves);
-        }
-
-
-  
-       
-        //use only this
-        //TODO: replace random with method that waits until a responce from client was accepted (with some flag / value)
-        public Tuple<Logic.Game.GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<Logic.Game.GameMove, bool, int, int>> moves)
-        {
-            
-            Displaymoves(moves);
-            Tuple<Logic.Game.GameMove, int> moveAndBet = GetRandomMove(moves);
-            bool isValidMove = IsValidMove(moves, moveAndBet);
-            while (!isValidMove)
-            {
-                moveAndBet = GetRandomMove(moves);
-                IsValidMove(moves, moveAndBet);
-            }
-
-            var ToReturn = SendMoveBackToPlayer(moveAndBet);
-            return ToReturn;
-        }
-
-        //todo remove this?
-        private Tuple<Logic.Game.GameMove, int> SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
-        {
-            return GameCenter.Instance.SendMoveBackToPlayer(moveAndBet);
-        }
-        //todo - remove this?
-        private bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
-        {
-            return GameCenter.Instance.IsValidMove(moves, moveAndBet);
-        }
-
-        //todo remove this
-        public Tuple<Logic.Game.GameMove, int> GetRandomMove(List<Tuple<GameMove, bool, int, int>> moves)
-        {
-            return GameCenter.Instance.GetRandomMove(moves);
-        }
-
-        public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
-        {
-            return _gameCenter.GetGamesAvailableForReplayByUser(userID);
-        }
+        //public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
+        //{
+        //    return _gameCenter.GetGamesAvailableForReplayByUser(userID);
+        //}
 
         public List<string> GetGameReplay(int roomId, int gameNum, int userId)
         {
-            GameReplay replay =_gameCenter.GetGameReplay(roomId, gameNum, userId);
+            GameReplay replay = _replayManager.GetGameReplayForUser(roomId, gameNum, userId);
             List<string> replays = new List<string>();
             if (replay == null)
             {
@@ -140,19 +83,10 @@ namespace TexasHoldem.Service
         }
 
 
-        public bool SaveFavoriteMove(int roomID, int gameID, int userID, int actionNum)
-        {
-            return _gameCenter.saveActionFromGameReplay(roomID, gameID, userID, actionNum);
-        }
-
-        // todo fixed - but why need this??
         public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
         {
             return GameCenter.Instance.GetAvaiableGamesByUserRank(userPoints);
         }
-
-        //todo - !!!!!!!!!!from here method are fix!!!!!!
-
 
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {
@@ -182,42 +116,10 @@ namespace TexasHoldem.Service
             }
         }
 
-
-
         //public GameRoom GetGameById(int Id)
         public IGame GetGameById(int id)
         {
             return _gameCenter.GetRoomById(id);
-        }
-
-        public bool RemoveRoom(int gameId)
-        {
-            bool toReturn = false;
-            bool exist = GameCenter.Instance.IsRoomExist(gameId);
-            if (!exist)
-            {
-                return toReturn;
-            }
-            if (gameId < 0)
-            {
-                return toReturn;
-            }
-            IGame toRemove = GameCenter.Instance.GetRoomById(gameId);
-            List<Player> players = toRemove.GetPlayersInRoom();
-            List<Spectetor> spectertors = toRemove.GetSpectetorInRoom();
-            foreach (Player p in players)
-            {
-                int userId = p.user.Id();
-                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-                user.RemoveRoomFromActiveGameList(toRemove);
-            }
-            foreach (Spectetor s in spectertors)
-            {
-                int userId = s.user.Id();
-                IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-                user.RemoveRoomFromSpectetorGameList(toRemove);
-            }
-            return GameCenter.Instance.RemoveRoom(gameId);
         }
 
 
@@ -226,9 +128,7 @@ namespace TexasHoldem.Service
             List<IGame> toReturn = GameCenter.Instance.GetAllActiveGame();
             return toReturn;
         }
-
-
-       
+   
         public List<IGame> GetAllActiveGamesAUserCanJoin(int userId)
         {
             IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
@@ -281,7 +181,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
         //return list of games with game mode:
         //limit / no - limit / pot limit
         public List<IGame> GetGamesByGameMode(GameMode gm)
@@ -297,7 +196,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
         //return list of games by min player in room
         public List<IGame> GetGamesByMinPlayer(int min)
         {
@@ -305,16 +203,12 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
-
         //return list of games by min bet in room
         public List<IGame> GetGamesByMinBet(int minBet)
         {
             List<IGame> toRetun = GameCenter.Instance.GetGamesByMinBet(minBet);
             return toRetun;
         }
-
-
 
         //return list of games by starting chip policy
         public List<IGame> GetGamesByStartingChip(int startingChip)
