@@ -54,7 +54,7 @@ namespace TexasHoldem.Service
         {
             IUser user = _systemControl.GetUserWithId(userId);
             int roomID = _gameCenter.GetNextIdRoom();
-            return _gameCenter.CreateNewRoomWithRoomId(roomId, user, startingChip, isSpectetor, gameModeChosen,
+            return _gameCenter.CreateNewRoomWithRoomId(roomID, user, startingChip, isSpectetor, gameModeChosen,
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
