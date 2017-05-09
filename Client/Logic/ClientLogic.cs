@@ -41,7 +41,7 @@ namespace Client.Logic
             _eventHandler.close();
             _handler.close();
         }
-        public bool editDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
+        public bool EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
 
             EditCommMessage toSend = new EditCommMessage(_userId, field, value);
@@ -106,8 +106,8 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-
-        public bool login(string userName, string password)//check with oded
+        //todo bar need to be int - changesd it
+        public int login(string userName, string password)//check with oded
         {
             LoginCommMessage toSend = new LoginCommMessage(_userId, true, userName, password);
             Tuple<CommunicationMessage, bool, bool> messageToList = new Tuple<CommunicationMessage, bool, bool>(toSend, false, false);
@@ -120,7 +120,16 @@ namespace Client.Logic
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             messagesSentObserver.Remove(messageToList);
-            return toRet;
+            if (toRet)
+            {
+                //todo return id
+                return 1;
+            }
+            else//fail
+            {
+                return -1;
+            }
+            
 
         }
         public bool logout(string userName, string password)
