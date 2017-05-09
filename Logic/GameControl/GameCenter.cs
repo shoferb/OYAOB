@@ -156,7 +156,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //return the next room Id
-        private int GetNextIdRoom()
+        public int GetNextIdRoom()
         {
             lock (padlock)
             {

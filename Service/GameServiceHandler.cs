@@ -11,7 +11,7 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Service
 {
-    public class GameServiceHandler : ServiceHandler
+    public class GameServiceHandler
     {
         //TODO - Done! -  Search/ filter active games by: player name/ pot size/ game preference.
         //TODO Join existing games. i Get the User 
@@ -39,11 +39,11 @@ namespace TexasHoldem.Service
             throw new NotImplementedException();
         }
 
-        //TODO +Game center to fix 
         public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
-            return _gameCenter.CreateNewRoomWithRoomId(roomId,userId, startingChip, isSpectetor, gameModeChosen,
+            IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.CreateNewRoomWithRoomId(roomId, user, startingChip, isSpectetor, gameModeChosen,
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
@@ -52,7 +52,9 @@ namespace TexasHoldem.Service
         public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
-            return _gameCenter.CreateNewRoom(userId, startingChip, isSpectetor, gameModeChosen,
+            IUser user = _systemControl.GetUserWithId(userId);
+            int roomID = _gameCenter.GetNextIdRoom();
+            return _gameCenter.CreateNewRoomWithRoomId(roomId, user, startingChip, isSpectetor, gameModeChosen,
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
