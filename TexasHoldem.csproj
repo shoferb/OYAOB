@@ -72,6 +72,9 @@
     <Compile Include="communication\Impl\ServerEventHandler.cs" />
     <Compile Include="communication\Interfaces\IListenerSelector.cs" />
     <Compile Include="communication\Interfaces\ICommunicationHandler.cs" />
+    <Compile Include="GuiScreen\AvatarEditScreen.xaml.cs">
+      <DependentUpon>AvatarEditScreen.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GuiScreen\EditUserInfo.xaml.cs">
       <DependentUpon>EditUserInfo.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="GuiScreen\AvatarEditScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\EditUserInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
