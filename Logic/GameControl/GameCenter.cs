@@ -31,7 +31,6 @@ namespace TexasHoldem.Logic.Game_Control
         private GameCenter()
         {
             this.leagueTable = new List<League>();
-            CreateFirstLeague(100);
             this.logs = new List<Log>();
             this.games = new List<IGame>();
         }
@@ -157,7 +156,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //return the next room Id
-        public int GetNextIdRoom()
+        private int GetNextIdRoom()
         {
             lock (padlock)
             {
@@ -166,24 +165,10 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public int GetLastGameRoom()
+        private int CurrRoomId()
         {
             return roomIdCounter;
         }
-
-
-
-        public int CurrRoomId()
-        {
-            return roomIdCounter;
-        }
-
-
-
-
-     
-
-
         //Add new room the games list
         public bool AddRoom(GameRoom roomToAdd)
         {
@@ -208,264 +193,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
-
-        //create new league whith new gap
-        public bool CreateFirstLeague(int initGap)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                if (!IsValidInputNotSmallerEqualZero(initGap))
-                {
-                    return toReturn;
-                }
-
-                leagueTable = new List<League>();
-                int currpoint = 0;
-                int i = 1;
-                int to = 0;
-                String leaugeName = null;
-                int gap = 0;
-                League l = null;
-                while (i < this.LeagueTable.Count)
-                {
-                    gap = this.LeagueTable[i].getMaxRank() - this.LeagueTable[i].getMinRank();
-                    l = this.LeagueTable[i];
-                    if (gap > initGap)
-                    {
-                        i++;
-                    }
-                    leaugeName = "" + i;
-                }
-                League toAdd = null;
-                if (l != null)
-                {
-                    toAdd = new League(leaugeName, l.getMaxRank(), l.getMaxRank() + initGap);
-                }
-                else
-                {
-                    toAdd = new League(leaugeName, 0, initGap);
-                }
-                leagueTable.Add(toAdd);
-                this.LeagueTable = leagueTable;
-                this.leagueGap = initGap;
-
-
-                return toReturn;
-            }
-        }
-
-        public string UserLeageInfo(User user)
-        {
-            string toReturn = "";
-            int userRank = user.Points();
-            int i = 1;
-            int min = 0;
-            int max = leagueGap;
-            bool flag = ((userRank >= min) && (userRank < max));
-            while (!flag)
-            {
-                if ((userRank >= min) && (userRank < max))
-                {
-                    flag = true;
-                    toReturn = "" + i;
-                }
-                else
-                {
-                    min = max + 1;
-                    max = min + leagueGap;
-                }
-            }
-            return toReturn;
-        }
-
-
-        //Tuple<int, int> - <min,max>
-        public Tuple<int, int> UserLeageGapPoint(int userId)
-        {
-            //Tuple<int, int> toReturn;
-            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
-            if (user == null)
-            {
-                return new Tuple<int, int>(-1, -1);
-                //return toReturn;
-            }
-
-            int tempPoints = user.Points();
-            int count = 0;
-            while (tempPoints > 0)
-            {
-                tempPoints -= leagueGap;
-                count++;
-            }
-            return new Tuple<int, int>(count * leagueGap, (count + 1) * leagueGap);
-        }
-
-
-
-        //TODO: Should not be here. call from GameRoom should be direct to service
-        public Tuple<GameMove, int> SendUserAvailableMovesAndGetChoosen(List<Tuple<GameMove, bool, int, int>> moves)
-        {
-            lock (padlock)
-            {
-
-                GameServiceHandler gsh = new GameServiceHandler();
-                Tuple<GameMove, int> happend = gsh.SendUserAvailableMovesAndGetChoosen(moves);
-
-                return happend;
-            }
-
-        }
-
-        //TODO: maybe not needed?
-        public String Displaymoves(List<Tuple<GameMove, bool, int, int>> moves)
-        {
-            lock (padlock)
-            {
-                string toReturn = "";
-                foreach (Tuple<GameMove, bool, int, int> t in moves)
-                {
-                    String info = "";
-                    if (t.Item2)
-                    {
-                        if (t.Item1 == GameMove.Bet)
-                        {
-                            info = info + "move avilble is: " + t.Item1 +
-                                   " the game is limit holdem, so the bet is  - 'small bet' and equal " +
-                                   "to big blind: " + t.Item4;
-                        }
-                        else if (t.Item1 == GameMove.Raise)
-                        {
-                            info = info + "move avilble is: " + t.Item1 +
-                                   " the game is limit holdem, so the Raise is  - 'small bet' and equal " +
-                                   "to big blind: " + t.Item4;
-                        }
-                    }
-                    else
-                    {
-                        if (t.Item1 == GameMove.Bet)
-                        {
-                            info = info + "move avilble is: " + t.Item1 + "Raise must be withIn: " + t.Item3 +
-                                   " and: " + t.Item4;
-                        }
-                        else if (t.Item1 == GameMove.Bet)
-                        {
-                            info = info + "move avilble is: " + t.Item1 + "Bet must be withIn: " + t.Item3 + " and: " +
-                                   t.Item4;
-                        }
-                        else if (t.Item1 == GameMove.Call)
-                        {
-                            info = info + "move avilble is: " + t.Item1 + "the amount need to call is: " + t.Item3;
-                        }
-                        else if (t.Item1 == GameMove.Check)
-                        {
-                            info = info + "move avilble is: " + t.Item1;
-                        }
-                        else if (t.Item1 == GameMove.Fold)
-                        {
-                            info = info + "move avilble is: " + t.Item1;
-                        }
-                    }
-                    Console.WriteLine(info);
-                    toReturn = toReturn + "/n" + info;
-                }
-                return toReturn;
-            }
-        }
-
-        //should be in decorator inside gameRoom
-        public bool IsValidMove(List<Tuple<GameMove, bool, int, int>> moves, Tuple<GameMove, int> moveAndBet)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                GameMove toCheck = moveAndBet.Item1;
-                int betToCheck = moveAndBet.Item2;
-                int maxBet = 0;
-                int minBet = 0;
-                bool isLimitGame = false;
-
-                foreach (Tuple<GameMove, bool, int, int> tuple in moves)
-                {
-                    if (tuple.Item1 == toCheck)
-                    {
-                        isLimitGame = tuple.Item2;
-                        minBet = tuple.Item4;
-                        maxBet = tuple.Item3;
-                    }
-                }
-                if (toCheck == GameMove.Bet || toCheck == GameMove.Raise)
-                {
-                    if (isLimitGame)
-                    {
-                        toReturn = (betToCheck == maxBet);
-                        return toReturn;
-                    }
-                    else
-                    {
-                        toReturn = (betToCheck >= minBet) && (betToCheck <= maxBet);
-                        return toReturn;
-                    }
-                }
-                if (toCheck == GameMove.Call)
-                {
-                    toReturn = betToCheck == maxBet; //amount to call
-                    return toReturn;
-                }
-                if (toCheck == GameMove.Fold)
-                {
-                    toReturn = betToCheck == maxBet && maxBet == -1;
-                    return toReturn;
-                }
-                if (toCheck == GameMove.Check)
-                {
-                    toReturn = betToCheck == maxBet && maxBet == 0;
-                    return toReturn;
-                }
-                return toReturn;
-            }
-        }
-
-        //TODO: no need for this any more (after we have client)
-        public Tuple<Logic.Game.GameMove, int> GetRandomMove(List<Tuple<GameMove, bool, int, int>> moves)
-        {
-            lock (padlock)
-            {
-                int size = moves.Count;
-                int selectedMove = GetRandomNumber(0, size);
-                int bet = moves[selectedMove].Item3;
-                GameMove selectedGameMove = moves[selectedMove].Item1;
-                Tuple<Logic.Game.GameMove, int> toReturn = new Tuple<GameMove, int>(selectedGameMove, bet);
-                return toReturn;
-            }
-        }
-
-        //todo - remove this was for test only
-        private int GetRandomNumber(int minimum, int maximum)
-        {
-            lock (padlock)
-            {
-                Random random = new Random();
-                return random.Next() * (maximum - minimum) + minimum;
-            }
-        }
-
-        //TODO: should 
-        public Tuple<GameMove, int> SendMoveBackToPlayer(Tuple<GameMove, int> moveAndBet)
-        {
-            return moveAndBet;
-        }
-
-
-
-
-
-
-
-
-        //Todo - ! From here all method are after fix
-
 
         public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
         {
@@ -563,7 +290,6 @@ namespace TexasHoldem.Logic.Game_Control
             return games;
         }
 
-
         //get all active games - syncronized
         public List<IGame> GetAllActiveGame()
         {
@@ -580,7 +306,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
 
         public List<IGame> GetAllSpectetorGame()
         {
@@ -837,7 +562,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-
         public List<IGame> GetAllGames()
         {
             lock (padlock)
@@ -845,7 +569,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return games;
             }
         }
-
 
         private bool IsValidInputNotSmallerEqualZero(int toCheck)
         {
@@ -856,9 +579,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             return toCheck >= 0;
         }
-
-
-
+        
         //seand notification to user
         public bool SendNotification(User reciver, Notification toSend)
         {
