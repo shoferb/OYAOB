@@ -179,7 +179,7 @@ namespace TexasHoldem.GuiScreen
             if (isEditAvatrOk)
             {
                 MessageBox.Show("User avatar was edit");
-                
+                cl.user.avatar = path;
             }
             else
             {
