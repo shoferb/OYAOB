@@ -21,40 +21,40 @@ namespace TexasHoldem.Logic
             NextDecorator = d;
         }
 
-        public MiddleGameDecorator(GameMode gameModeChosen, int bb, int sb, Decorator d) : base(d)
+        public MiddleGameDecorator(GameMode gameModeChosen, int bb, int sb, Decorator d)
         {
             this.GameMode = gameModeChosen;
             this.BB = bb;
             this.SB = sb;
         }
 
-        public override bool CanStartTheGame(int numOfPlayers)
+        public bool CanStartTheGame(int numOfPlayers)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanSpectatble()
+        public bool CanSpectatble()
         {
             throw new NotImplementedException();
         }
 
-        public override int GetMinBetInRoom()
+        public int GetMinBetInRoom()
         {
             throw new NotImplementedException();
         }
 
-        public override int GetEnterPayingMoney()
+        public int GetEnterPayingMoney()
         {
             throw new NotImplementedException();
         }
 
-        public override int GetStartingChip()
+        public int GetStartingChip()
         {
             throw new NotImplementedException();
         }
 
 
-        public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
+        public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             switch (GameMode)
             {
@@ -80,7 +80,7 @@ namespace TexasHoldem.Logic
             return -1;
         }
 
-        public override int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
+        public int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             if (this.GameMode == GameMode.NoLimit)
             {
@@ -89,7 +89,7 @@ namespace TexasHoldem.Logic
             return 0;
         }
 
-        public override bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
             if (currentPlayerBet <= GetMaxAllowedRaise(maxBetInRound, step) && currentPlayerBet > 0)
                 return true;
@@ -97,50 +97,50 @@ namespace TexasHoldem.Logic
         }
 
         //check if the amount is in the range
-        public override bool CanJoin(int playersCount, int amount)
+        public bool CanJoin(int playersCount, int amount)
         {
             throw new NotImplementedException();
         }
 
 
 
-        public override bool IsGameModeEqual(GameMode gm)
+        public bool IsGameModeEqual(GameMode gm)
         {
             return this.GameMode == gm;
         }
 
-        public override bool IsGameBuyInPolicyEqual(int buyIn)
+        public bool IsGameBuyInPolicyEqual(int buyIn)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsGameMinPlayerEqual(int min)
+        public bool IsGameMinPlayerEqual(int min)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsGameMaxPlayerEqual(int max)
+        public bool IsGameMaxPlayerEqual(int max)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsGameMinBetEqual(int nimBet)
+        public bool IsGameMinBetEqual(int nimBet)
         {
             throw new NotImplementedException();
         }
 
-        public override bool IsGameStartingChipEqual(int startingChip)
+        public bool IsGameStartingChipEqual(int startingChip)
         {
             throw new NotImplementedException();
         }
 
-        public override bool CanUserJoinGameWithMoney(int userMoney)
+        public bool CanUserJoinGameWithMoney(int userMoney)
         {
             throw new NotImplementedException();
         }
 
 
-        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
+        public bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             throw new NotImplementedException();
         }
