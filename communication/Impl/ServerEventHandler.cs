@@ -69,8 +69,14 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(RegisterCommMessage msg)
         {
-            //todo call register in service and send responce with user info
-            throw new System.NotImplementedException();
+            bool success = _userService.RegisterToSystem(msg.UserId, msg.Name, msg.MemberName, msg.Password, msg.Money,
+                msg.Email);
+            
+            ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
+                "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,success,msg);
+
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            
         }
 
         public void HandleEvent(GameDataCommMessage msg)
