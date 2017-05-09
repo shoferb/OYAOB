@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -162,34 +156,7 @@ namespace TexasHoldem.Logic.Game_Control
             return before;
         }
 
-
-
-        //edit the gap field - syncronized 
-        public bool EditLeagueGap(int newGap)
-        {
-            bool toReturn = false;
-            lock (padlock)
-            {
-                if (!IsValidInputNotSmallerEqualZero(newGap))
-                {
-                    return toReturn;
-                }
-                try
-                {
-                    LeagueGap = newGap;
-                    toReturn = true;
-                }
-                catch (Exception e)
-                {
-                    ErrorLog log = new ErrorLog("Error in edit league gap");
-                    logControl.AddErrorLog(log);
-                    toReturn = false;
-                }
-            }
-            return toReturn;
-        }
-
-        //return thr next room Id
+        //return the next room Id
         public int GetNextIdRoom()
         {
             lock (padlock)
