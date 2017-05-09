@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TexasHoldem.Logic.Game;
 namespace TexasHoldemShared.CommMessages.ClientToServer
 {
-     public class SearchCommMessage : CommunicationMessage
+    public class SearchCommMessage : CommunicationMessage
     {
-    
-        public enum SearchField
+
+        public enum SearchType
         {
             ByUserName,
             ByRoomId,
@@ -25,13 +25,13 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         }
 
 
-         public SearchCommMessage(int id) : base(id)
-         {
-         }
+        public SearchCommMessage(int userId, SearchType searchType, string searchByString, int searchByInt) : base(userId)
+        {
+        }
 
-         public override void Handle(IEventHandler handler)
-         {
-             throw new NotImplementedException();
-         }
-     }
+        public override void Handle(IEventHandler handler)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
