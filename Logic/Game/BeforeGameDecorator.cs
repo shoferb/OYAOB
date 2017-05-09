@@ -54,7 +54,9 @@ namespace TexasHoldem.Logic
         public  bool CanJoin(int playersCount, int amount)
         {
             if (CanAddMorePlayer(playersCount) && amount >= StartingChip)
+            {
                 return true;
+            }
             return false;
         }
 
