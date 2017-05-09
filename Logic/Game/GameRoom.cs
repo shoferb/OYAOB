@@ -8,6 +8,7 @@ using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages.ClientToServer;
 using static TexasHoldemShared.CommMessages.CommunicationMessage;
 
 namespace TexasHoldem.Logic.Game

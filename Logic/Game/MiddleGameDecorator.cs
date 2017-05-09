@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
 using TexasHoldem.Logic.Game;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic
 {

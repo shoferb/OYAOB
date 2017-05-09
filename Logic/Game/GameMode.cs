@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TexasHoldem.Logic.Game
+namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public enum GameMode
     {
