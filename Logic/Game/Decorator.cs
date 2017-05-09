@@ -10,6 +10,7 @@ namespace TexasHoldem.Logic
     public interface Decorator
     {
 
+        void SetDecorator(Decorator d);
         bool CanStartTheGame(int numOfPlayers);
         bool CanSpectatble();
         int GetMinBetInRoom();

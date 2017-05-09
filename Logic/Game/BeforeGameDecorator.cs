@@ -20,11 +20,12 @@ namespace TexasHoldem.Logic
         public int BB { get; set; }
         public int SB { get; set; }
 
+        private Decorator NextDecorator;
         private GameCenter GameCenter;
 
         public BeforeGameDecorator(int minBetInRoom, int startingChip, bool isSpectetor,
             int minPlayersInRoom, int maxPlayersInRoom,
-            int enterPayingMoney, int bb, int sb, Decorator d) : base(d)
+            int enterPayingMoney, int bb, int sb)
         {
             this.IsSpectetor = isSpectetor;
             this.StartingChip = startingChip;
@@ -34,21 +35,24 @@ namespace TexasHoldem.Logic
             this.MinBetInRoom = minBetInRoom;
             this.BB = bb;
             this.SB = sb;
-
         }
 
+        public void SetDecorator(Decorator d)
+        {
+            NextDecorator = d;
+        }
 
-        public override bool CanSpectatble()
+        public bool CanSpectatble()
         {
             return IsSpectetor;
         }
 
-        public override bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public  bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
             return this.NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
         }
 
-        public override bool CanJoin(int playersCount, int amount)
+        public  bool CanJoin(int playersCount, int amount)
         {
             if (CanAddMorePlayer(playersCount) && amount >= StartingChip)
                 return true;
@@ -56,72 +60,72 @@ namespace TexasHoldem.Logic
         }
 
 
-        public override bool IsGameModeEqual(GameMode gm)
+        public bool IsGameModeEqual(GameMode gm)
         {
             return this.NextDecorator.IsGameModeEqual(gm);
         }
 
-        public override bool IsGameBuyInPolicyEqual(int buyIn)
+        public bool IsGameBuyInPolicyEqual(int buyIn)
         {
             return this.EnterPayingMoney == buyIn;
         }
 
-        public override bool IsGameMinPlayerEqual(int min)
+        public bool IsGameMinPlayerEqual(int min)
         {
             return this.MinPlayersInRoom == min;
         }
 
-        public override bool IsGameMaxPlayerEqual(int max)
+        public bool IsGameMaxPlayerEqual(int max)
         {
             return this.MaxPlayersInRoom == max;
         }
 
-        public override bool IsGameMinBetEqual(int minBet)
+        public bool IsGameMinBetEqual(int minBet)
         {
             return this.MinBetInRoom == minBet;
         }
 
-        public override bool IsGameStartingChipEqual(int startingChip)
+        public bool IsGameStartingChipEqual(int startingChip)
         {
             return this.StartingChip == startingChip;
         }
 
-        public override bool CanUserJoinGameWithMoney(int userMoney)
+        public bool CanUserJoinGameWithMoney(int userMoney)
         {
             return userMoney - (this.EnterPayingMoney + this.StartingChip) > 0;
         }
 
-        public override bool CanAddAnotherPlayer(int currNumOfPlayer)
+        public bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
         }
 
-        public override bool CanStartTheGame(int numOfPlayers)
+        public bool CanStartTheGame(int numOfPlayers)
         {
             return numOfPlayers >= this.MinPlayersInRoom ? true : false;
         }
 
-        public override int GetMinBetInRoom()
+        public int GetMinBetInRoom()
         {
             return this.MinBetInRoom;
         }
 
-        public override int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
+        public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             return NextDecorator.GetMaxAllowedRaise(maxCommited, step);
         }
 
-        public override int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
+        public int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             return NextDecorator.GetMinAllowedRaise(maxCommited, step);
         }
 
-        public override int GetEnterPayingMoney()
+        public int GetEnterPayingMoney()
         {
             return this.EnterPayingMoney;
         }
 
-        public override int GetStartingChip()
+        public int GetStartingChip()
         {
             return this.StartingChip;
         }
