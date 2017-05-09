@@ -48,10 +48,12 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(LoginCommMessage msg)
         {
             throw new System.NotImplementedException();
+            //todo call login in service and send responce with user info
         }
 
         public void HandleEvent(RegisterCommMessage msg)
         {
+            //todo call register in service and send responce with user info
             throw new System.NotImplementedException();
         }
 

@@ -11,7 +11,7 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Service
 {
-    public class GameServiceHandler : ServiceHandler
+    public class GameServiceHandler 
     {
         //TODO - Done! -  Search/ filter active games by: player name/ pot size/ game preference.
         //TODO Join existing games. i Get the User 

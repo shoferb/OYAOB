@@ -136,6 +136,7 @@ namespace TexasHoldemShared.Parser
                 return (MoveOptionsCommMessage)serializer.Deserialize(stringReader);
             }
         }
+        //todo - add handle to login responce and register responce
         private ResponeCommMessage deserializeResponeCommMessage(string xmlText)
         {
             using (StringReader stringReader = new System.IO.StringReader(xmlText))

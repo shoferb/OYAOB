@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Service
 {
-    public class UserServiceHandler : ServiceHandler
+    public class UserServiceHandler 
     {
         private SystemControl sc = SystemControl.SystemControlInstance;
         private GameCenter gc = GameCenter.Instance;
