@@ -20,6 +20,12 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         public LoginResponeCommMessage(int id, string _name, string _username, string _password,
             string _avatar, int _money, string _email, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
         {
+            this.name = _name;
+            this.username = _username;
+            this.password = _password;
+            this.avatar = _avatar;
+            this.money = _money;
+            this.email = _email;
         }
 
         //visitor pattern
