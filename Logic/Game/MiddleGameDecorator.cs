@@ -145,6 +145,21 @@ namespace TexasHoldem.Logic
         {
             throw new NotImplementedException();
         }
+
+        public int GetMinPlayerInRoom()
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetMaxPlayerInRoom()
+        {
+            throw new NotImplementedException();
+        }
+
+        public GameMode GetGameMode()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
