@@ -24,9 +24,18 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             ByStartingChip
         }
 
+        
+        private SearchType searchType;
+        private string searchByString;
+        private int searchByInt;
+        private GameMode searchByGameMode;
 
-        public SearchCommMessage(int userId, SearchType searchType, string searchByString, int searchByInt) : base(userId)
+        public SearchCommMessage(int userId, SearchType _searchType, string _searchByString, int _searchByInt,GameMode _searchByGameMode) : base(userId)
         {
+            this.searchByGameMode = _searchByGameMode;
+            this.searchByInt = _searchByInt;
+            this.searchByString = _searchByString;
+            this.searchType = _searchType;
         }
 
         //visitor pattern
