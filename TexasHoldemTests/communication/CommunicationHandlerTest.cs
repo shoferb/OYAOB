@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Moq;
+//using Moq;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
 
