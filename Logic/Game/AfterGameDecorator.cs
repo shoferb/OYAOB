@@ -21,12 +21,12 @@ namespace TexasHoldem.Logic.Game
 
         public bool CanStartTheGame(int numOfPlayers)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public bool CanSpectatble()
         {
-            return false;
+            throw new NotImplementedException();
         }
 
         public int GetMinBetInRoom()

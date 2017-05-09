@@ -156,7 +156,8 @@ namespace TexasHoldem.Logic.Game_Control
 
         private Decorator createDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen)
         {
-
+            Decorator mid = new MiddleGameDecorator(gameModeChosen, minBet, minBet / 2);
+            Decorator before = new BeforeGameDecorator()
         }
 
 

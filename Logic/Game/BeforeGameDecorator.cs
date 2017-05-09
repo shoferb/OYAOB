@@ -16,7 +16,6 @@ namespace TexasHoldem.Logic
         public int MaxPlayersInRoom { get; set; }
         public int EnterPayingMoney { get; set; }
         public int StartingChip { get; set; }
-        public int MinBetInRoom { get; set; }
         public int BB { get; set; }
         public int SB { get; set; }
 
@@ -24,16 +23,15 @@ namespace TexasHoldem.Logic
         private GameCenter GameCenter;
 
         public BeforeGameDecorator(int minBetInRoom, int startingChip, bool isSpectetor,
-            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int bb, int sb)
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
         {
             this.IsSpectetor = isSpectetor;
             this.StartingChip = startingChip;
             this.MaxPlayersInRoom = maxPlayersInRoom;
             this.MinPlayersInRoom = minPlayersInRoom;
             this.EnterPayingMoney = enterPayingMoney;
-            this.MinBetInRoom = minBetInRoom;
-            this.BB = bb;
-            this.SB = sb;
+            this.BB = minBetInRoom;
+            SB = BB / 2;
         }
 
         public void SetDecorator(Decorator d)
@@ -83,7 +81,7 @@ namespace TexasHoldem.Logic
 
         public bool IsGameMinBetEqual(int minBet)
         {
-            return this.MinBetInRoom == minBet;
+            return this.BB == minBet;
         }
 
         public bool IsGameStartingChipEqual(int startingChip)
@@ -108,7 +106,7 @@ namespace TexasHoldem.Logic
 
         public int GetMinBetInRoom()
         {
-            return this.MinBetInRoom;
+            return this.BB;
         }
 
         public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
