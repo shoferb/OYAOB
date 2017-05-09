@@ -32,7 +32,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         //visitor pattern
         public override void Handle(IEventHandler handler)
         {
-            handler.HandleEvent();
+            handler.HandleEvent(this);
         }
     }
 }

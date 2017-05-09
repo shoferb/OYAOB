@@ -78,6 +78,11 @@ namespace Client.Handler
             Console.WriteLine("ActionCommMessage is client to server message");
         }
 
+        public void HandleEvent(SearchCommMessage msg)
+        {
+            throw new NotImplementedException();
+        }
+
         public void HandleEvent(GameDataCommMessage msg)
         {
             //show in GUI

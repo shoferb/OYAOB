@@ -79,6 +79,11 @@ namespace TexasHoldem.communication.Impl
             
         }
 
+        public void HandleEvent(SearchCommMessage msg)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void HandleEvent(GameDataCommMessage msg)
         {
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
