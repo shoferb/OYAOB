@@ -45,5 +45,11 @@ namespace TexasHoldem.Logic
 
         //return true can add another player
         bool CanAddAnotherPlayer(int currNumOfPlayer);
+
+
+        int GetMinPlayerInRoom();
+        int GetMaxPlayerInRoom();
+        GameMode GetGameMode();
+        int GetPotSize();
     }
 }
