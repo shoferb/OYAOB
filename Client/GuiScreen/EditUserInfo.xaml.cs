@@ -111,6 +111,7 @@ namespace TexasHoldem.GuiScreen
             if (EditNameOk)
             {
                 MessageBox.Show("Name was sucssesful edit to: " + name);
+                cl.user.name = name;
             }
             else
             {
