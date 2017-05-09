@@ -92,6 +92,7 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
                 currId = Id;
                 cl.SetUserId(Id);
+                cl.user.id = Id;
             }
             else
             {
