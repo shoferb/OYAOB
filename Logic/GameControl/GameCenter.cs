@@ -93,7 +93,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         }
 
-        //TODO: fix this
+        //minBet is the BB
         public bool CreateNewRoomWithRoomId(int roomId, IUser user, int startingChip, bool canSpectate, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
@@ -150,11 +150,13 @@ namespace TexasHoldem.Logic.Game_Control
                 GameRoom room = new GameRoom(players, roomId);
                 Decorator decorator = createDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen);
                 room.AddDecorator(decorator);
-                // user.ActiveGameList.Add(room);
-                user.AddRoomToActiveGameList(room);
-                toReturn = AddRoom(room);
-                return toReturn;
+                return AddRoom(room);
             }
+        }
+
+        private Decorator createDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen)
+        {
+            throw new NotImplementedException();
         }
 
 
