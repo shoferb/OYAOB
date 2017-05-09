@@ -148,16 +148,18 @@ namespace TexasHoldem.Logic.Game_Control
                 players.Add(player);
                 player._isInRoom = false;
                 GameRoom room = new GameRoom(players, roomId);
-                Decorator decorator = createDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen);
+                Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen);
                 room.AddDecorator(decorator);
                 return AddRoom(room);
             }
         }
 
-        private Decorator createDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen)
+        private Decorator CreateDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen)
         {
             Decorator mid = new MiddleGameDecorator(gameModeChosen, minBet, minBet / 2);
-            Decorator before = new BeforeGameDecorator()
+            Decorator before = new BeforeGameDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney);
+            before.SetNextDecorator(mid);
+            return before;
         }
 
 

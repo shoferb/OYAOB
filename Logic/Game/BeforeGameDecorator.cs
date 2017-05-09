@@ -34,7 +34,7 @@ namespace TexasHoldem.Logic
             SB = BB / 2;
         }
 
-        public void SetDecorator(Decorator d)
+        public void SetNextDecorator(Decorator d)
         {
             NextDecorator = d;
         }

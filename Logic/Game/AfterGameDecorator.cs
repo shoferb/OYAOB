@@ -14,7 +14,7 @@ namespace TexasHoldem.Logic.Game
         {
         }
 
-        public void SetDecorator(Decorator d)
+        public void SetNextDecorator(Decorator d)
         {
             NextDecorator = d;
         }
