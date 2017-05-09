@@ -1001,7 +1001,7 @@ namespace TexasHoldem.Logic.Game
 
         public int GetPotSize()
         {
-            return MyDecorator.GetPotSize();
+            return this.PotCount;
         }
 
         public int GetBuyInPolicy()

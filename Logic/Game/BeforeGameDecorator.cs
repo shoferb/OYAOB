@@ -100,6 +100,23 @@ namespace TexasHoldem.Logic
             return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
         }
 
+        public int GetMinPlayerInRoom()
+        {
+            return this.MinPlayersInRoom;
+        }
+
+        public int GetMaxPlayerInRoom()
+        {
+            return  this.MaxPlayersInRoom;
+        }
+
+        public GameMode GetGameMode()
+        {
+            return this.NextDecorator.GetGameMode();
+        }
+
+       
+
         public bool CanStartTheGame(int numOfPlayers)
         {
             return numOfPlayers >= this.MinPlayersInRoom ? true : false;

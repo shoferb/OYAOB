@@ -50,6 +50,6 @@ namespace TexasHoldem.Logic
         int GetMinPlayerInRoom();
         int GetMaxPlayerInRoom();
         GameMode GetGameMode();
-        int GetPotSize();
+      
     }
 }
