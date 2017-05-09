@@ -16,8 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{593CE8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemShared", "TexasHoldemShared\TexasHoldemShared.csproj", "{22888C95-40AC-4271-8D39-EC1FF358AFBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "..\Client\Client.csproj", "{79671288-A22F-43E5-BBD5-AFDC0C96D2AE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,10 +34,6 @@ Global
 		{22888C95-40AC-4271-8D39-EC1FF358AFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22888C95-40AC-4271-8D39-EC1FF358AFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22888C95-40AC-4271-8D39-EC1FF358AFBD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79671288-A22F-43E5-BBD5-AFDC0C96D2AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79671288-A22F-43E5-BBD5-AFDC0C96D2AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79671288-A22F-43E5-BBD5-AFDC0C96D2AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79671288-A22F-43E5-BBD5-AFDC0C96D2AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
