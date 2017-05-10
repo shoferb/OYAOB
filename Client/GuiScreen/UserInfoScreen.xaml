@@ -12,5 +12,6 @@
         </Grid.Background>
         <Label x:Name="UserInfoMenuLabel" Content="User information" HorizontalAlignment="Left" Margin="58,43,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
         <Button x:Name="Backbutton" Content="Back" HorizontalAlignment="Left" Margin="36,345,0,0" VerticalAlignment="Top" Width="75" Click="Backbutton_Click"/>
+        <Button x:Name="EditMenubutton" Content="Edit information" HorizontalAlignment="Left" Margin="36,305,0,0" VerticalAlignment="Top" Width="150" Click="EditMenubutton_Click" />
     </Grid>
 </Window>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Client.Logic;
+using TexasHoldem.GuiScreen;
 
 namespace Client.GuiScreen
 {
@@ -33,6 +34,13 @@ namespace Client.GuiScreen
         private void Backbutton_Click(object sender, RoutedEventArgs e)
         {
             parent.Show();
+            this.Hide();
+        }
+
+        private void EditMenubutton_Click(object sender, RoutedEventArgs e)
+        {
+            EditUserInfo editUserInfo = new EditUserInfo(this,cl.user.id,cl);
+            editUserInfo.Show();
             this.Hide();
         }
     }
