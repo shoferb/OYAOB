@@ -22,37 +22,15 @@ namespace TexasHoldem.Logic.Game
         bool CanJoin(IUser user);
         bool IsGameActive();
         bool IsSpectatable();
-
-        //return true the pot size is equal 
         bool IsPotSizEqual(int potSize);
-
-        //return true the game mode is the same
         bool IsGameModeEqual(GameMode gm);
-
-        //return true the buyIn is the same
         bool IsGameBuyInPolicyEqual(int buyIn);
-
-        //return true the min player is the same
         bool IsGameMinPlayerEqual(int min);
-
-        //return true the max player is the same
         bool IsGameMaxPlayerEqual(int max);
-
-        //return true the min bet in room is the same
         bool IsGameMinBetEqual(int minBet);
-
-        //return true the stsrtingchip of room is the same
         bool IsGameStartingChipEqual(int startingChip);
-
-        List<Player> GetPlayersInRoom();
-
-
-        List<Spectetor> GetSpectetorInRoom();
-
         int GetMinRank();
-
         int GetMaxRank();
-
 
         //Getter for search display 
         int GetMinPlayer();
