@@ -27,7 +27,8 @@
         <Label x:Name="LeaugeLabel" Content="Leauge" HorizontalAlignment="Left" Margin="44,310,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
         <Label x:Name="AvatarLabel" Content="Avatar" HorizontalAlignment="Left" Margin="44,366,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
         <TextBox x:Name="IdtextBox" HorizontalAlignment="Left" Height="23" Margin="194,94,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False" />
-        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="194,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="194,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="194,181,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
 
     </Grid>
 </Window>

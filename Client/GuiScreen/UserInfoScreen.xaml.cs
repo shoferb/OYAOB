@@ -31,6 +31,7 @@ namespace Client.GuiScreen
             cl = cli;
             IdtextBox.Text = cl.user.id.ToString();
             NameTextBox.Text = cl.user.name;
+            UserNametextBox.Text = cl.user.username;
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
