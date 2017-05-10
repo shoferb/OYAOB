@@ -40,7 +40,7 @@ namespace TexasHoldem.Logic.Game
         private int MaxRaiseInThisRound;
         private int MinRaiseInThisRound;
         private int LastRaise; // TODO probably unnecessery 
-        private LogControl _logControl;
+        private LogControl logControl;
         private int GameNumber;
         private Player lastPlayerRaisedInRound; // TODO probably unnecessery 
         private Player FirstPlayerInRound;
@@ -52,7 +52,7 @@ namespace TexasHoldem.Logic.Game
         private int firstPlayerInRoundPoistion;
 
 
-        private LeagueName leagueName;
+        private LeagueName league;
 
         public GameRoom(List<Player> players, int ID)
         {
@@ -67,8 +67,13 @@ namespace TexasHoldem.Logic.Game
             SetTheBlinds();
             SidePots = new List<Tuple<int, List<Player>>>();
             DealerPlayer = null;
-            _logControl = LogControl.Instance;
-            leagueName = LeagueName.A;//todo - change to the real league
+            logControl = LogControl.Instance;
+            league = GetLeagueFromPlayer(Players);
+        }
+
+        private LeagueName GetLeagueFromPlayer(List<Player> players)
+        {
+            throw new NotImplementedException();
         }
 
         private void SetTheBlinds()
@@ -133,7 +138,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(leave);
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
-            _logControl.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
@@ -212,7 +217,7 @@ namespace TexasHoldem.Logic.Game
             {
                 ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
                     "invalid input - null user");
-                _logControl.AddErrorLog(log);
+                logControl.AddErrorLog(log);
                 return false;
             }
             if (!MyDecorator.CanJoin(Players.Count , amount)) 
@@ -225,7 +230,7 @@ namespace TexasHoldem.Logic.Game
             {
                 ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
                     + user.Id() + " to room: " + Id + "insufficient money");
-                _logControl.AddErrorLog(log);
+                logControl.AddErrorLog(log);
                 return false;
             }
 
@@ -236,7 +241,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " +
                         user.Id() + " to room: " + Id + " user is a spectetor in this room");
-                    this._logControl.AddErrorLog(log);
+                    this.logControl.AddErrorLog(log);
                     return false;
                 }      
             }
@@ -245,7 +250,7 @@ namespace TexasHoldem.Logic.Game
             {
                 ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
                   " to the room: " + Id +" - room is full");
-                this._logControl.AddErrorLog(log);
+                this.logControl.AddErrorLog(log);
                 return false;
             }
 
@@ -254,7 +259,7 @@ namespace TexasHoldem.Logic.Game
                 ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
                     + user.Id() + " to room: " + Id + "user point: " + user.Points() + 
                     " doest not met the game critiria");
-                this._logControl.AddErrorLog(log);
+                this.logControl.AddErrorLog(log);
                 return false;
             }
 
@@ -281,12 +286,12 @@ namespace TexasHoldem.Logic.Game
             Deck = new Deck();
             GameReplay = new GameReplay(Id, GameNumber);
             SystemLog log = new SystemLog(Id, "Game Started");
-            _logControl.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             SetRoles();
             StartGame startAction = new StartGame(this.Players, DealerPlayer, SbPlayer, BbPlayer);
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
-            _logControl.AddSystemLog(log2);
+            logControl.AddSystemLog(log2);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
             MoveBbnSBtoPot();
             maxBetInRound = Bb;
@@ -329,7 +334,7 @@ namespace TexasHoldem.Logic.Game
                  player._secondCard, currentPlayerBet);
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
-            _logControl.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
 
             lastPlayerRaisedInRound = player;
@@ -355,7 +360,7 @@ namespace TexasHoldem.Logic.Game
                 player._secondCard, bet);
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
-            _logControl.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
@@ -368,7 +373,7 @@ namespace TexasHoldem.Logic.Game
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
-            _logControl.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
@@ -384,7 +389,7 @@ namespace TexasHoldem.Logic.Game
                 player._secondCard);
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
-            _logControl.AddSystemLog(log);
+            logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, this.Id, gameData, ActionType.Fold, true);
 
             return AfterAction();
@@ -603,7 +608,7 @@ namespace TexasHoldem.Logic.Game
                     player._secondCard);
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
-                _logControl.AddSystemLog(log);
+                logControl.AddSystemLog(log);
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
 
             }
@@ -747,7 +752,7 @@ namespace TexasHoldem.Logic.Game
                     this.PotCount, table, winners[0]._relevantCards);
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
-                _logControl.AddSystemLog(log);
+                logControl.AddSystemLog(log);
                 return winners;
             }
             return EvalTies(winners, table);
@@ -795,7 +800,7 @@ namespace TexasHoldem.Logic.Game
                 this.GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(this.Id, win.ToString());
                 // this.this._gameCenter.AddSystemLog(log);
-                _logControl.AddSystemLog(log);
+                logControl.AddSystemLog(log);
             }
             return winners;
         }
@@ -841,7 +846,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
                         + user.Id() + " to room: " +Id + " user is already a player in this room");
-                    _logControl.AddErrorLog(log);
+                    logControl.AddErrorLog(log);
                     break;
                 }
                 return false;
@@ -1000,7 +1005,7 @@ namespace TexasHoldem.Logic.Game
 
         public LeagueName GetLeagueName()
         {
-            return this.leagueName;
+            return this.league;
         }
 
         public bool IsBetweenRanks(int playerRank)
