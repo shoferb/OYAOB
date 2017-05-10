@@ -15,9 +15,10 @@ namespace TexasHoldem.Logic.Game
 {
     public class GameRoom : IGame
     {
-        private List<Player> Players;
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
+
+        private List<Player> Players;
         private List<Spectetor> Spectatores;
         private int DealerPos;
         private int maxBetInRound;
@@ -51,8 +52,8 @@ namespace TexasHoldem.Logic.Game
         private int MinRank;
         private int firstPlayerInRoundPoistion;
 
-
         private LeagueName league;
+        private static readonly object padlock = new object();
 
         public GameRoom(List<Player> players, int ID)
         {
