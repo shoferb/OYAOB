@@ -23,11 +23,11 @@ namespace TexasHoldem.Logic.Replay.Tests
         public void Initialize()
         {
             testGR = new GameReplay(1, 1);
-            User user1 = new User(1, "test1", "mo", "1234", 0, 1000, "test1@gmail.com");
-            User user2 = new User(1, "test2", "no", "1234", 0, 1000, "test2@gmail.com");
-            testAction1 = new CallAction(new Player(user1, 5000, 1),
+            User user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
+            User user2 = new User(1, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
+            testAction1 = new CallAction(new Player(user1, 1000, 1),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
-            testAction2 = new CallAction(new Player(user2, 5000, 1),
+            testAction2 = new CallAction(new Player(user2, 1000, 1),
                 new Card(Suits.Hearts, 3), new Card(Suits.Hearts, 4), 20);
             testGR.AddAction(testAction1);
             testGR.AddAction(testAction2);
