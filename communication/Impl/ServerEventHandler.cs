@@ -85,12 +85,13 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(SearchCommMessage msg)
         {
             bool success;
-            List<IGame> temp;
+            List<IGame> temp = new List<IGame>();
+            List<ClientGame> toSend = new List<ClientGame>();
             switch (msg.searchType)
             {
                     case SearchCommMessage.SearchType.ActiveGamesByUserName:
                         temp = _userService.GetActiveGamesByUserName(msg.searchByString);
-
+                       
                         break;
             }
         }
@@ -108,6 +109,18 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(ResponeCommMessage msg)
         {
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
+        }
+
+        private List<ClientGame> ToClientGameList(List<IGame> toChange)
+        {
+            List<ClientGame> toReturn = new List<ClientGame>();
+            foreach (IGame game in toChange)
+            {
+                toReturn.Add(new ClientGame(game.IsGameActive(),game.IsSpectatable(),game.GetGameGameMode(),game.Id,
+                    game.GetMinPlayer(),game.GetMaxPlayer(),game.GetMinBet(),game.GetStartingChip(),game.GetBuyInPolicy()
+                    ,game.GetLeagueName().ToString(),game.GetPotSize()));
+            }
+            return toReturn;
         }
     }
 }
