@@ -53,6 +53,7 @@ namespace TexasHoldem.GuiScreen
         {
             EditUserInfo editUserInfo = new EditUserInfo(this,currUserId,cl);
             editUserInfo.Show();
+            
         }
 
         private void GameSearchMenuutton_Click(object sender, RoutedEventArgs e)
