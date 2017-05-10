@@ -116,20 +116,7 @@ namespace Client.GuiScreen
             }
             else if (field == 2) //all active games user can join
             {
-
-                
-                List<ClientGame> temp = null;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
-                    GameMode.Limit);
-                result = temp;
-                if (result == null || !result.Any())
-                {
-                    emptySearch();
-                }
-                else
-                {
-                    listView.ItemsSource = result;
-                }
+                AllActiveGamesUserCanJoin();
             }
             else if (field == 3) //by room Id
             {
@@ -388,6 +375,22 @@ namespace Client.GuiScreen
 
             }
 
+        }
+
+        private void AllActiveGamesUserCanJoin()
+        {
+            List<ClientGame> temp = null;
+            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
+                GameMode.Limit);
+            result = temp;
+            if (result == null || !result.Any())
+            {
+                emptySearch();
+            }
+            else
+            {
+                listView.ItemsSource = result;
+            }
         }
 
         private void GetAllSpectetorByUserName()
