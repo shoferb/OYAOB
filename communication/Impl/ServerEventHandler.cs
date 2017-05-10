@@ -145,6 +145,11 @@ namespace TexasHoldem.communication.Impl
                     toSend = ToClientGameList(temp);
                     success = toSend.Count != 0;
                     break;
+                case SearchCommMessage.SearchType.ByMinBet:
+                    temp = _gameService.GetGamesByMinBet(msg.searchByInt);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
             }
         }
 
