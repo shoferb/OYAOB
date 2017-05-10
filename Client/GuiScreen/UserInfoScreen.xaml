@@ -29,6 +29,7 @@
         <TextBox x:Name="IdtextBox" HorizontalAlignment="Left" Height="23" Margin="194,94,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False" />
         <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Height="23" Margin="194,134,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="194,181,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+        <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="194,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
 
     </Grid>
 </Window>
