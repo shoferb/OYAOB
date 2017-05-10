@@ -187,9 +187,8 @@ namespace Client.GuiScreen
             }
             else if (field == 4) //all spectetors
             {
-
                 List<ClientGame> temp = null;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame, "", -1,
                     GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
