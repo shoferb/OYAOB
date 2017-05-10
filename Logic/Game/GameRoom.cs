@@ -234,62 +234,6 @@ namespace TexasHoldem.Logic.Game
             return false;
         }
 
-        //TODO: checking before calling to this function that this user&room ID are exist
-        public bool CanJoinGameAsPlayer(IUser user, int amount)
-        {
-            if (user == null)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - " +
-                    "invalid input - null user");
-                logControl.AddErrorLog(log);
-                return false;
-            }
-            if (!MyDecorator.CanJoin(Players.Count , amount)) 
-            {
-                return false;
-            }
-
-            int userMoneyAfterFeeAndEnter = user.Money() - MyDecorator.GetEnterPayingMoney() - amount;
-            if (userMoneyAfterFeeAndEnter < 0)
-            {
-                ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
-                    + user.Id() + " to room: " + Id + "insufficient money");
-                logControl.AddErrorLog(log);
-                return false;
-            }
-
-            //User cant be spectator & player in the same room
-            foreach (Spectetor s in Spectatores)
-            {
-                if (s.user.Id() == user.Id())
-                {
-                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: " +
-                        user.Id() + " to room: " + Id + " user is a spectetor in this room");
-                    this.logControl.AddErrorLog(log);
-                    return false;
-                }      
-            }
-
-            if (!this.MyDecorator.CanJoin(Players.Count, amount))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player: " + user.Id() +
-                  " to the room: " + Id +" - room is full");
-                this.logControl.AddErrorLog(log);
-                return false;
-            }
-
-            if (!IsBetweenRanks(user.Points()))
-            {
-                ErrorLog log = new ErrorLog("Error while trying to add player, user with Id: "
-                    + user.Id() + " to room: " + Id + "user point: " + user.Points() + 
-                    " doest not met the game critiria");
-                this.logControl.AddErrorLog(log);
-                return false;
-            }
-
-            return true;
-        }
-
         private bool StartGame(Player player)
         {
             GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
@@ -946,6 +890,7 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.IsGameStartingChipEqual(startingChip);
         }
 
+        //TODO FIX!
         public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
         {
             bool toReturn = false;
@@ -954,7 +899,7 @@ namespace TexasHoldem.Logic.Game
                 return toReturn;
             }
             bool moneyOk = MyDecorator.CanUserJoinGameWithMoney(userMoney);
-            bool playerNumOk = MyDecorator.CanAddAnotherPlayer(Players.Count);
+            //bool playerNumOk = MyDecorator.CanAddAnotherPlayer(Players.Count);
             if (playerNumOk && moneyOk && ISUnKnow)
             {
                 toReturn = true;
