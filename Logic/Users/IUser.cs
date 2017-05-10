@@ -94,5 +94,7 @@ namespace TexasHoldem.Logic.Users
         LeagueName GetLeague();
 
         void SetLeague(LeagueName league);
+
+        bool HasEnoughMoney(int startingChip, int fee);
     }
 }

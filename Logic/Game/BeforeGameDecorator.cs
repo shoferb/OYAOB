@@ -62,9 +62,9 @@ namespace TexasHoldem.Logic
             return false;
         }
 
-        private bool HasEnoughMoney(IUser user)
+        private bool HasEnoughMoney(IUser user, int amount)
         {
-            throw new NotImplementedException();
+            int userMoney
         }
 
         public bool IsGameModeEqual(GameMode gm)
