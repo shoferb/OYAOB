@@ -29,8 +29,6 @@ namespace TexasHoldem.Logic.Game
         bool IsGameMaxPlayerEqual(int max);
         bool IsGameMinBetEqual(int minBet);
         bool IsGameStartingChipEqual(int startingChip);
-        int GetMinRank();
-        int GetMaxRank();
 
         //Getter for search display 
         int GetMinPlayer();
