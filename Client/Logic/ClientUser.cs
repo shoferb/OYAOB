@@ -15,9 +15,10 @@ namespace Client.Logic
         public string avatar { get; set; }//- image path
         public int money { get; set; }
         public string email { get; set; }
+        public string leauge;
 
         public ClientUser(int _id, string _name, string _username, string _password,
-            string _avatar, int _money, string _email)
+            string _avatar, int _money, string _email,string _leauge)
         {
             this.id = _id;
             this.name = _name;
@@ -26,6 +27,7 @@ namespace Client.Logic
             this.avatar = _avatar;
             this.money = _money;
             this.email = _email;
+            this.leauge = _leauge;
         }
 
     }
