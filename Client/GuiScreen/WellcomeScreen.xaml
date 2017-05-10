@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
         Title="OYAOB - Texas Holdem Poker" Height="281.498" Width="300">
+    <Window.Background>
+        <ImageBrush ImageSource="Photos/Screen/pokerScreen2.png"/>
+    </Window.Background>
     <Grid Margin="0,0,-0.4,-0.4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>

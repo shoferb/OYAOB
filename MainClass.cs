@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem
 {
-    class MainClass
+    public class MainClass
     {
         public static void Main()
         {
