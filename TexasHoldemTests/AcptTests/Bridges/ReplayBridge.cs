@@ -5,6 +5,7 @@ using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
+    //todo fix error
     class ReplayBridge : IReplayBridge
     {
         private readonly GameServiceHandler _gameService;
@@ -16,8 +17,9 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public List<Tuple<int, int>> GetReplayableGames(int userId)
         {
-            List<Tuple<int, int>> replays = _gameService.GetGamesAvailableForReplayByUser(userId);
-            return replays;
+            throw new NotImplementedException();
+          /*  List<Tuple<int, int>> replays = _gameService.GetGamesAvailableForReplayByUser(userId);
+            return replays;*/
         }
 
         public List<string> ViewReplay(int roomId, int gameNum, int userId)
@@ -27,7 +29,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum)
         {
-            return _gameService.SaveFavoriteMove(roomId, gameNum, userId, moveNum);
+            throw new NotImplementedException();
+           // return _gameService.SaveFavoriteMove(roomId, gameNum, userId, moveNum);
         }
     }
 }

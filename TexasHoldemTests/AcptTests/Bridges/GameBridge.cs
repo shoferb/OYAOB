@@ -7,8 +7,8 @@ using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
-    class GameBridge : IGameBridge
-    {
+    class GameBridge//Todo remove and fix all - need to impl this -> : IGameBridge
+    {/*
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
 
@@ -283,6 +283,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //    }
         //    return false;
         //}
-
+        */
     }
 }

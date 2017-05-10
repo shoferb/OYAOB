@@ -21,14 +21,14 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            List<int> ids = new List<int>();
+         /*   List<int> ids = new List<int>();
             ids.Add(1);
             _testRM = ReplayManager.ReplayManagerInstance;
             _testGR = new GameReplay(1, 1);
             _testAction = new CallAction(new Player(1000, 500, 1, "test1", "mem", "123", 10, 100, "email@gmail.com", 1),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
             _testGR.AddAction(_testAction);
-            _testRM.AddGameReplay(_testGR, ids);
+            _testRM.AddGameReplay(_testGR, ids);*/
         }
 
         [TestCleanup()]

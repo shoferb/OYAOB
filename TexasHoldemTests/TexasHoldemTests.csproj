@@ -69,7 +69,6 @@
     <Compile Include="communication\CommHandlerChildForTests.cs" />
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\ServerEventHandlerTest.cs" />
-    <Compile Include="Logic\Game Control\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
     <Compile Include="Logic\GameControl\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
@@ -99,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Logic\Game Control\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

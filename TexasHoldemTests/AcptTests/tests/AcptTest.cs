@@ -11,7 +11,7 @@ namespace TexasHoldemTests.AcptTests.tests
     //parent class for all acceptance test classes.
     public abstract class AcptTest
     {
-        protected IUserBridge UserBridge;
+       protected IUserBridge UserBridge;
         protected IGameBridge GameBridge;
         protected IReplayBridge ReplayBridge;
         protected const int UserId = 0; //user1 must all ready be in system when tests start.
@@ -25,8 +25,9 @@ namespace TexasHoldemTests.AcptTests.tests
 
         protected AcptTest()
         {
-            UserBridge = new UserBridge();
-            GameBridge = new GameBridge();
+            //todo - return briges
+          //  UserBridge = new UserBridge();
+           // GameBridge = new GameBridge();
             ReplayBridge = new ReplayBridge();
             Users = new List<int>();
 

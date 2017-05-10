@@ -83,11 +83,11 @@ namespace TexasHoldem.Service
             return replays;
         }
 
-
+        /*//todo fix this ? remove
         public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
         {
             return GameCenter.Instance.GetAvaiableGamesByUserRank(userPoints);
-        }
+        }*/
 
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {

@@ -22,9 +22,9 @@ namespace TexasHoldem.Logic.Users.Tests
             toTest.user.EditId(305077902);
             Assert.AreNotEqual(toTest.user.Id(), 305077901);
             Assert.AreEqual(toTest.user.Id(), 305077902);
-            Assert.AreEqual(toTest.RoomId,1);
+            Assert.AreEqual(toTest.roomId,1);
            
-            Assert.AreEqual(toTest.RoomId, 1);
+            Assert.AreEqual(toTest.roomId, 1);
             Assert.AreEqual(toTest.user.Name(),"orelie");
             toTest.user.EditName("Amir");
             Assert.AreNotEqual(toTest.user.Name(), "orelie");

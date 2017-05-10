@@ -12,9 +12,12 @@ using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
 {
+
+    //todo test this class
     [TestClass()]
     public class GameCenterTests
     {
+        /*
         private GameCenter _gameCenter = GameCenter.Instance;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
         private List<League> _leagueTable;
@@ -442,6 +445,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.Fail();
         }
         */
+        /*
         [TestMethod()]
         public void GetGamesTest()
         {
@@ -461,6 +465,6 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _gameCenter.CreateNewRoomWithRoomId(id, 1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             Assert.IsTrue(_gameCenter.GetGames().Count == 1);
             initForAllTest();
-        }
+        }*/
     }
 }

@@ -8,8 +8,8 @@ using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
-    class UserBridge : IUserBridge
-    {
+    class UserBridge////Todo remove and fix all - need to impl this ->  : IUserBridge
+    {/*
         private readonly UserServiceHandler _userService;
         private readonly GameServiceHandler _gameService;
         private const int RegisterMoney = 1000;
@@ -297,6 +297,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             return ChangeUserMoney(userId, amount);
         }
-
+        */
     }
 }

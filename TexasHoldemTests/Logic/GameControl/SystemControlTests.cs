@@ -714,7 +714,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size2 = sc.Users.Count;
             Assert.AreEqual(size2, 0);
-            GameCenter.Instance.HigherRank = null;
+           // GameCenter.Instance.HigherRank = null;
             int id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
@@ -770,7 +770,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             SystemControl sc = SystemControl.SystemControlInstance;
             int size1 = sc.Users.Count;
             Assert.AreEqual(size1, 0);
-            GameCenter.Instance.HigherRank = null;
+           // GameCenter.Instance.HigherRank = null;
             int id = 305077901;
             string name1 = "orelie";
             String UserName = "orelie123456";
