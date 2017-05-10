@@ -66,9 +66,6 @@ namespace TexasHoldem.Logic.Game
             Spectatores = new List<Spectetor>();
             SetTheBlinds();
             SidePots = new List<Tuple<int, List<Player>>>();
-            Tuple<int,int> tup = GameCenter.UserLeageGapPoint(players[0].user.Id());
-            MinRank = tup.Item1;
-            MaxRank = tup.Item2;
             DealerPlayer = null;
             _logControl = LogControl.Instance;
             leagueName = LeagueName.A;//todo - change to the real league
