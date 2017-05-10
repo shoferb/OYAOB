@@ -22,10 +22,10 @@
                 <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
                     <GridViewColumn Header="game Id" Width="80" DisplayMemberBinding="{Binding roomId}" />
                     <GridViewColumn Header="Game type" Width="80" DisplayMemberBinding="{Binding gameMode}" />
-                    <GridViewColumn Header="Buy in policy" Width="80" DisplayMemberBinding="{Binding BuyIn}" />
-                    <GridViewColumn Header="Starting chip policy" Width="100" DisplayMemberBinding="{Binding StartingChip}" />
+                    <GridViewColumn Header="Buy in policy" Width="80" DisplayMemberBinding="{Binding buyInPolicy}" />
+                    <GridViewColumn Header="Starting chip policy" Width="100" DisplayMemberBinding="{Binding startingChip}" />
                     <GridViewColumn Header="min bet in room" Width="100" DisplayMemberBinding="{Binding minBet}" />
-                    <GridViewColumn Header="league game" Width="100" DisplayMemberBinding="{Binding leauge}" />
+                    <GridViewColumn Header="league game" Width="100" DisplayMemberBinding="{Binding LeaugeName}" />
                     <GridViewColumn Header="min player in room" Width="100" DisplayMemberBinding="{Binding minPlayer}" />
                     <GridViewColumn Header="max player in room" Width="100" DisplayMemberBinding="{Binding maxPlayer}" />
                     <GridViewColumn Header="pot size in room" Width="100" DisplayMemberBinding="{Binding potSize}" />
