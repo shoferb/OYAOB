@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.Logic;
 
 namespace Client.GuiScreen
 {
@@ -19,6 +20,10 @@ namespace Client.GuiScreen
     /// </summary>
     public partial class SearchMenuScreen : Window
     {
+
+        private ClientLogic cl;
+        private Window parentScreen; 
+
         public SearchMenuScreen()
         {
             InitializeComponent();
