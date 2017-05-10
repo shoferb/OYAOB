@@ -132,30 +132,7 @@ namespace Client.GuiScreen
             }
             if (field == 6) //max player num
             {
-                toSearch = searchBox.Text;
-                int toSearchmaxPlayer;
-
-
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchmaxPlayer);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMaxPlayer, "", toSearchmaxPlayer,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid player num should contains only numbers");
-                }
+                GetGamesByMaxPlayer();
             }
             if (field == 7)
             {
@@ -318,6 +295,34 @@ namespace Client.GuiScreen
 
             }
 
+        }
+
+        private void GetGamesByMaxPlayer()
+        {
+            toSearch = searchBox.Text;
+            int toSearchmaxPlayer;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out toSearchmaxPlayer);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMaxPlayer, "", toSearchmaxPlayer,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid player num should contains only numbers");
+            }
         }
 
         private void GetGamesByMinPlayer()
