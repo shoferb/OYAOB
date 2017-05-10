@@ -2,17 +2,17 @@
 {
     public class ClientGame
     {
-        private bool isActive;
-        private bool isSpectetor;
-        private GameMode gameMode;
-        private int roomId;
-        private int minPlayer;
-        private int maxPlayer;
-        private int minBet;
-        private int startingChip;
-        private int buyInPolicy;
-        private string LeagueName;
-        private int potSize;
+        public bool isActive { get; set; }
+        public bool isSpectetor { get; set; }
+        public GameMode gameMode { get; set; }
+        public int roomId { get; set; }
+        public int minPlayer { get; set; }
+        public int maxPlayer { get; set; }
+        public int minBet { get; set; }
+        public int startingChip { get; set; }
+        public int buyInPolicy { get; set; }
+        public string LeagueName { get; set; }
+        public int potSize { get; set; }
 
         public ClientGame(bool isActive, bool isSpectetor, GameMode gameMode, int roomId, int minPlayer, int maxPlayer, int minBet, int startingChip, int buyInPolicy, string leagueName, int potSize)
         {
