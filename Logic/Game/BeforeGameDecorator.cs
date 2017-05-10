@@ -49,7 +49,7 @@ namespace TexasHoldem.Logic
 
         public  bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
-            return this.NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
+            return NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
         }
 
         public  bool CanJoin(int playersCount, int amount, IUser user)
