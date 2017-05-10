@@ -136,136 +136,95 @@ namespace Client.GuiScreen
             }
             if (field == 7)
             {
-                toSearch = searchBox.Text;
-                int toSearchMinBet;
-
-
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchMinBet);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinBet, "", toSearchMinBet,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid min bet should contains only numbers");
-                }
+                GetGamesByMinBet();
             }
             if (field == 8)
             {
-                toSearch = searchBox.Text;
-                int toSearchPotSize;
-
-
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchPotSize);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByPotSize, "", toSearchPotSize,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid pot size should contains only numbers");
-                }
-
+                GetGamesByPotSize();
             }
 
             if (field == 9)
             {
-                toSearch = searchBox.Text;
-                int toSearchBuyIn;
-
-
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchBuyIn);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy, "", toSearchBuyIn,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid buy in policy should contains only numbers");
-                }
-
+                GetGamesByBuyInPolicy();
             }
             if (field == 10)//by starting chip
             {
-                toSearch = searchBox.Text;
-                int toSearchSartingChip;
-
-
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchSartingChip);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, "", toSearchSartingChip,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid chip should contains only numbers");
-                }
-
+                GetGameByStartingChip();
             }
             if (field == 11)//by not limit
             {
-                List<ClientGame> temp;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-                    GameMode.NoLimit);
-                result = temp;
-                if (result == null || !result.Any())
-                {
-                    emptySearch();
-                }
-                else
-                {
-                    listView.ItemsSource = result;
-                }
-
+                GetNotLimitGames();
             }
             if (field == 12)//by limit
             {
-                List<ClientGame> temp;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                GetLinitGames();
+            }
+            if (field == 12)//by limit
+            {
+                GetPotLimitGames();
+            }
+
+        }
+
+        private void GetPotLimitGames()
+        {
+            List<ClientGame> temp;
+            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                GameMode.PotLimit);
+            result = temp;
+            if (result == null || !result.Any())
+            {
+                emptySearch();
+            }
+            else
+            {
+                listView.ItemsSource = result;
+            }
+        }
+
+        private void GetLinitGames()
+        {
+            List<ClientGame> temp;
+            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                GameMode.Limit);
+            result = temp;
+            if (result == null || !result.Any())
+            {
+                emptySearch();
+            }
+            else
+            {
+                listView.ItemsSource = result;
+            }
+        }
+
+        private void GetNotLimitGames()
+        {
+            List<ClientGame> temp;
+            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                GameMode.NoLimit);
+            result = temp;
+            if (result == null || !result.Any())
+            {
+                emptySearch();
+            }
+            else
+            {
+                listView.ItemsSource = result;
+            }
+        }
+
+        private void GetGameByStartingChip()
+        {
+            toSearch = searchBox.Text;
+            int toSearchSartingChip;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out toSearchSartingChip);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, "", toSearchSartingChip,
                     GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
@@ -276,13 +235,25 @@ namespace Client.GuiScreen
                 {
                     listView.ItemsSource = result;
                 }
-
             }
-            if (field == 12)//by limit
+            else
             {
-                List<ClientGame> temp;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-                    GameMode.PotLimit);
+                MessageBox.Show("Invalid chip should contains only numbers");
+            }
+        }
+
+        private void GetGamesByBuyInPolicy()
+        {
+            toSearch = searchBox.Text;
+            int toSearchBuyIn;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out toSearchBuyIn);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy, "", toSearchBuyIn,
+                    GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
                 {
@@ -292,9 +263,67 @@ namespace Client.GuiScreen
                 {
                     listView.ItemsSource = result;
                 }
-
             }
+            else
+            {
+                MessageBox.Show("Invalid buy in policy should contains only numbers");
+            }
+        }
 
+        private void GetGamesByPotSize()
+        {
+            toSearch = searchBox.Text;
+            int toSearchPotSize;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out toSearchPotSize);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByPotSize, "", toSearchPotSize,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid pot size should contains only numbers");
+            }
+        }
+
+        private void GetGamesByMinBet()
+        {
+            toSearch = searchBox.Text;
+            int toSearchMinBet;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out toSearchMinBet);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinBet, "", toSearchMinBet,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid min bet should contains only numbers");
+            }
         }
 
         private void GetGamesByMaxPlayer()
