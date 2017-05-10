@@ -203,7 +203,7 @@ namespace TexasHoldem.Logic.Game
             Player p = new Player(user, amount, this.Id);
             GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
             BbPlayer.name, SbPlayer.name);
-            if (CanJoinGameAsPlayer(user, amount))
+            if (MyDecorator.CanJoin(   CanJoinGameAsPlayer(user, amount))
             {
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){

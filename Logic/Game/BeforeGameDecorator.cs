@@ -95,7 +95,7 @@ namespace TexasHoldem.Logic
             return userMoney - (this.EnterPayingMoney + this.StartingChip) > 0;
         }
 
-        public bool CanAddAnotherPlayer(int currNumOfPlayer)
+        private bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
         }

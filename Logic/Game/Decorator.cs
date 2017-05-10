@@ -43,10 +43,6 @@ namespace TexasHoldem.Logic
         //return true if user has money for buyIn + starting chip and his point are in:
         bool CanUserJoinGameWithMoney(int userMoney);
 
-        //return true can add another player
-        bool CanAddAnotherPlayer(int currNumOfPlayer);
-
-
         int GetMinPlayerInRoom();
         int GetMaxPlayerInRoom();
         GameMode GetGameMode();
