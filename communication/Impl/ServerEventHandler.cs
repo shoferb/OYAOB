@@ -91,7 +91,8 @@ namespace TexasHoldem.communication.Impl
             {
                     case SearchCommMessage.SearchType.ActiveGamesByUserName:
                         temp = _userService.GetActiveGamesByUserName(msg.searchByString);
-                       
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count == 0;
                         break;
             }
         }
