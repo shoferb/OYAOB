@@ -24,9 +24,11 @@ namespace Client.GuiScreen
         private ClientLogic cl;
         private Window parentScreen; 
 
-        public SearchMenuScreen()
+        public SearchMenuScreen(Window w,ClientLogic cli)
         {
             InitializeComponent();
+            parentScreen = w;
+            cl = cli;
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
