@@ -75,12 +75,12 @@ namespace TexasHoldem.Logic
 
         public bool IsGameMinPlayerEqual(int min)
         {
-            return this.MinPlayersInRoom == min;
+            return MinPlayersInRoom == min;
         }
 
         public bool IsGameMaxPlayerEqual(int max)
         {
-            return this.MaxPlayersInRoom == max;
+            return MaxPlayersInRoom == max;
         }
 
         public bool IsGameMinBetEqual(int minBet)
