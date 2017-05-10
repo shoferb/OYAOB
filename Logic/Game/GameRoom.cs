@@ -93,42 +93,45 @@ namespace TexasHoldem.Logic.Game
             this.MyDecorator = d;
         }
 
-
         public bool DoAction(IUser user, ActionType action, int amount)
         {
-            if (action == ActionType.Join)
+            lock (padlock)
             {
-                return Join(user, amount);
-            }
-            if (!IsUserInGame(user))
-            {
-                return IrellevantUser(user, action);
-            }
 
-            Player player = GetInGamePlayerFromUser(user);
-            if(action == ActionType.StartGame)
-            {
-                return StartGame(player);
-            }
-            if (action == ActionType.Leave)
-            {
-                return Leave(player);
-            }
-            if (player != CurrentPlayer)
-            {
-                return IrellevantUser(user, action);
-            }
-            if (action == ActionType.Fold)
-            {
-                return Fold(player);
-            }
-            if (amount == 0)
-            {
-                return Check(player);
-            }
-            if (amount > 0)
-            {
-                return CallOrRaise(player, amount);
+                if (action == ActionType.Join)
+                {
+                    return Join(user, amount);
+                }
+                if (!IsUserInGame(user))
+                {
+                    return IrellevantUser(user, action);
+                }
+
+                Player player = GetInGamePlayerFromUser(user);
+                if (action == ActionType.StartGame)
+                {
+                    return StartGame(player);
+                }
+                if (action == ActionType.Leave)
+                {
+                    return Leave(player);
+                }
+                if (player != CurrentPlayer)
+                {
+                    return IrellevantUser(user, action);
+                }
+                if (action == ActionType.Fold)
+                {
+                    return Fold(player);
+                }
+                if (amount == 0)
+                {
+                    return Check(player);
+                }
+                if (amount > 0)
+                {
+                    return CallOrRaise(player, amount);
+                }
             }
             return false;
         }
