@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="UserInfoScreen" Height="300" Width="300">
+        Title="UserInfoScreen" Height="420.264" Width="518.062">
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
+        </Grid.Background>
+        <Label x:Name="UserInfoMenuLabel" Content="User information" HorizontalAlignment="Left" Margin="58,43,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
     </Grid>
 </Window>
