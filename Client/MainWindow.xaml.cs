@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TexasHoldem.GuiScreen;
 
 namespace Client
 {
@@ -23,6 +24,9 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
+            WellcomeScreen wellcomeScreen = new WellcomeScreen();
+            wellcomeScreen.Show();
+            this.Hide();
         }
     }
 }
