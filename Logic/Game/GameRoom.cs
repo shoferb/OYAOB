@@ -75,7 +75,7 @@ namespace TexasHoldem.Logic.Game
         {
             if (players == null || players.Count == 0)
             {
-                return LeagueName.A;
+                return LeagueName.A; //defult league
             }
             return players[0].user.GetLeague();
         }
