@@ -47,6 +47,11 @@ namespace TexasHoldem.Logic.Users
             _secondCard = null;
         }
 
+        public void InitForNewRound()
+        {
+
+        }
+
        //getter setter
 
         public bool IsAllIn()
