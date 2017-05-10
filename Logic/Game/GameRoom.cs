@@ -914,7 +914,6 @@ namespace TexasHoldem.Logic.Game
             return MaxRank;
         }
 
-
         //Getters for search display in GUI
         public int GetMinPlayer()
         {

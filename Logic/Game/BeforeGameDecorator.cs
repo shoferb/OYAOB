@@ -115,7 +115,7 @@ namespace TexasHoldem.Logic
 
         public int GetMinBetInRoom()
         {
-            return this.BB;
+            return BB;
         }
 
         public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
@@ -130,12 +130,12 @@ namespace TexasHoldem.Logic
 
         public int GetEnterPayingMoney()
         {
-            return this.EnterPayingMoney;
+            return EnterPayingMoney;
         }
 
         public int GetStartingChip()
         {
-            return this.StartingChip;
+            return StartingChip;
         }
 
         private bool CanAddMorePlayer(int currNumOfPlayers)
