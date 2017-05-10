@@ -140,12 +140,6 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
-
-        public bool CanAddAnotherPlayer(int currNumOfPlayer)
-        {
-            throw new NotImplementedException();
-        }
-
         public int GetMinPlayerInRoom()
         {
             throw new NotImplementedException();
