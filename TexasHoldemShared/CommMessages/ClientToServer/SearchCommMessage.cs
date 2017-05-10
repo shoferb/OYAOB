@@ -14,7 +14,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             ActiveGamesByUserName,
             SpectetorGameByUserName,
             ByRoomId,
-            AllActiveGames,
+          //  AllActiveGames,
             AllSepctetorGame,
             GamesUserCanJoin,
             ByPotSize,

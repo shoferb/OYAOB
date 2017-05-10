@@ -92,19 +92,29 @@ namespace TexasHoldem.communication.Impl
                     case SearchCommMessage.SearchType.ActiveGamesByUserName:
                         temp = _userService.GetActiveGamesByUserName(msg.searchByString);
                         toSend = ToClientGameList(temp);
-                        success = toSend.Count == 0;
+                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.SpectetorGameByUserName:
                         temp = _userService.GetSpectetorGamesByUserName(msg.searchByString);
                         toSend = ToClientGameList(temp);
-                        success = toSend.Count == 0;
+                        success = toSend.Count != 0;
                     break;
                     case SearchCommMessage.SearchType.ByRoomId:
                         IGame game = _gameService.GetGameById(msg.searchByInt);
                         temp.Add(game);
                         toSend = ToClientGameList(temp);
-                        success = toSend.Count == 0;
+                        success = toSend.Count != 0;
                     break;
+                    case SearchCommMessage.SearchType.AllSepctetorGame:
+                        temp = _gameService.GetSpectateableGames();
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                    break;
+                    case SearchCommMessage.SearchType.GamesUserCanJoin:
+                        temp = _gameService.GetAllActiveGamesAUserCanJoin(msg.UserId);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
             }
         }
 
