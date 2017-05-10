@@ -82,9 +82,10 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(SearchCommMessage msg)
         {
             bool success;
-            switch (msg.)
+            switch (msg.searchType)
             {
-                    
+                    case SearchCommMessage.SearchType.ByUserName:
+                        break;
             }
         }
 
