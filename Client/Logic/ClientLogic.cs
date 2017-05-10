@@ -134,7 +134,7 @@ namespace Client.Logic
             return toRet;
 
         }
-        public bool logout(string userName, string password)
+        public bool Logout(string userName, string password)
         {
             LoginCommMessage toSend = new LoginCommMessage(_userId, false, userName, password);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
@@ -147,6 +147,30 @@ namespace Client.Logic
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             messagesSentObserver.Remove(messageToList);
             return toRet;
+
+        }
+
+        public List<ClientGame> SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString, int _searchByInt, GameMode _searchByGameMode)
+        {
+            List<ClientGame> toReturn = new List<ClientGame>();
+            SearchCommMessage toSend = new SearchCommMessage(userId,  _searchType, _searchByString, _searchByInt,_searchByGameMode);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+
+            if (toRet)
+            {
+                
+                SearchResponseCommMessage rmsg = (SearchResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                toReturn = rmsg.games;
+            }
+            messagesSentObserver.Remove(messageToList);
+            return toReturn;
 
         }
 

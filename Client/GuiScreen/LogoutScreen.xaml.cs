@@ -52,7 +52,7 @@ namespace TexasHoldem.GuiScreen
 
         private void Logoutbutton_Click(object sender, RoutedEventArgs e)
         {
-            bool logoutOk = cl.logout(username, password);
+            bool logoutOk = cl.Logout(username, password);
             if (logoutOk)
             {
                 WellcomeScreen wellcomeScreen = new WellcomeScreen();
