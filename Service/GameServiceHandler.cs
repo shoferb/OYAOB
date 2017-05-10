@@ -163,25 +163,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        public bool IsGameExist(int roomId)
-        {
-            bool toReturn = GameCenter.Instance.IsRoomExist(roomId);
-            return toReturn;
-        }
-
-        public bool IsGameCanSpectete(int roomId)
-        {
-            bool toReturn = GameCenter.Instance.IsGameCanSpectete(roomId);
-            return toReturn;
-        }
-
-        //return if game is active game
-        public bool IsGameActive(int roomId)
-        {
-            bool toReturn = GameCenter.Instance.IsGameActive(roomId);
-            return toReturn;
-        }
-
         //return list of games with game mode:
         //limit / no - limit / pot limit
         public List<IGame> GetGamesByGameMode(GameMode gm)
