@@ -33,7 +33,8 @@ namespace Client.GuiScreen
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
         {
-
+            this.parentScreen.Show();
+            this.Hide();
         }
     }
 }
