@@ -120,30 +120,7 @@ namespace Client.GuiScreen
             }
             else if (field == 3) //by room Id
             {
-                toSearch = searchBox.Text;
-                int toSearchRoomId;
-               
-               
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out idSearch);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", idSearch,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid room id should contains only numbers");
-                }
+                GetRoomById();
             }
             else if (field == 4) //all spectetors
             {
@@ -375,6 +352,34 @@ namespace Client.GuiScreen
 
             }
 
+        }
+
+        private void GetRoomById()
+        {
+            toSearch = searchBox.Text;
+            int toSearchRoomId;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out idSearch);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", idSearch,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid room id should contains only numbers");
+            }
         }
 
         private void AllActiveGamesUserCanJoin()
