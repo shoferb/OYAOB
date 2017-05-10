@@ -574,24 +574,6 @@ namespace TexasHoldem.Logic.Game
             return null;
         }
 
-        //public void Start()
-        //{
-        //    if (RoomThread != null && !this.IsActiveGame)
-        //    {
-        //        try
-        //        {
-        //            RoomThread.Start();
-        //            Play();
-
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            ErrorLog log = new ErrorLog("Room number " + this.Id + " was attempted to start but has allready been started.");
-        //            _logControl.AddErrorLog(log);
-        //        }
-        //    }
-        //}
-
         private void SetRoles()
         {
             if (DealerPlayer == null)
