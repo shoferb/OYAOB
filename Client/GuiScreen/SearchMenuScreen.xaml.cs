@@ -71,5 +71,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByMaxPlayerbutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
