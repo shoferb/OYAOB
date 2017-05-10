@@ -36,5 +36,10 @@ namespace Client.GuiScreen
             this.parentScreen.Show();
             this.Hide();
         }
+
+        private void SearchByUserNamebutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
