@@ -70,7 +70,6 @@
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\ServerEventHandlerTest.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
-    <Compile Include="Logic\GameControl\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
     <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
@@ -82,7 +81,6 @@
     <Compile Include="Logic\Notifications And Logs\SystemLogTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
-    <Compile Include="Logic\Users\SpectetorTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
