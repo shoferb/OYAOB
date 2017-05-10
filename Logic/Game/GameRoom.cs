@@ -70,6 +70,7 @@ namespace TexasHoldem.Logic.Game
             DealerPlayer = null;
             logControl = LogControl.Instance;
             league = GetLeagueFromPlayer(Players);
+            ReplayManager = ReplayManager.ReplayManagerInstance;
         }
 
         private LeagueName GetLeagueFromPlayer(List<Player> players)
