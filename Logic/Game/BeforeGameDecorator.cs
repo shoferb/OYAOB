@@ -49,7 +49,7 @@ namespace TexasHoldem.Logic
 
         public  bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
-            return this.NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
+            return NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
         }
 
         public  bool CanJoin(int playersCount, int amount, IUser user)
@@ -62,49 +62,35 @@ namespace TexasHoldem.Logic
             return false;
         }
 
-        private bool SuitableLeague(IUser user)
-        {
-            return (user.IsUnKnow() || user.GetLeague() == league);
-        }
-
-        private bool HasEnoughMoney(IUser user, int amount)
-        {
-            return user.HasEnoughMoney(amount, EnterPayingMoney);
-        }
 
         public bool IsGameModeEqual(GameMode gm)
         {
-            return this.NextDecorator.IsGameModeEqual(gm);
+            return NextDecorator.IsGameModeEqual(gm);
         }
 
         public bool IsGameBuyInPolicyEqual(int buyIn)
         {
-            return this.EnterPayingMoney == buyIn;
+            return EnterPayingMoney == buyIn;
         }
 
         public bool IsGameMinPlayerEqual(int min)
         {
-            return this.MinPlayersInRoom == min;
+            return MinPlayersInRoom == min;
         }
 
         public bool IsGameMaxPlayerEqual(int max)
         {
-            return this.MaxPlayersInRoom == max;
+            return MaxPlayersInRoom == max;
         }
 
         public bool IsGameMinBetEqual(int minBet)
         {
-            return this.BB == minBet;
+            return BB == minBet;
         }
 
         public bool IsGameStartingChipEqual(int startingChip)
         {
-            return this.StartingChip == startingChip;
-        }
-
-        private bool CanAddAnotherPlayer(int currNumOfPlayer)
-        {
-            return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
+            return StartingChip == startingChip;
         }
 
         public int GetMinPlayerInRoom()
@@ -129,7 +115,7 @@ namespace TexasHoldem.Logic
 
         public int GetMinBetInRoom()
         {
-            return this.BB;
+            return BB;
         }
 
         public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
@@ -144,12 +130,12 @@ namespace TexasHoldem.Logic
 
         public int GetEnterPayingMoney()
         {
-            return this.EnterPayingMoney;
+            return EnterPayingMoney;
         }
 
         public int GetStartingChip()
         {
-            return this.StartingChip;
+            return StartingChip;
         }
 
         private bool CanAddMorePlayer(int currNumOfPlayers)
@@ -157,7 +143,20 @@ namespace TexasHoldem.Logic
             return currNumOfPlayers < MaxPlayersInRoom ? true : false;
         }
 
+        private bool SuitableLeague(IUser user)
+        {
+            return (user.IsUnKnow() || user.GetLeague() == league);
+        }
 
+        private bool HasEnoughMoney(IUser user, int amount)
+        {
+            return user.HasEnoughMoney(amount, EnterPayingMoney);
+        }
+
+        private bool CanAddAnotherPlayer(int currNumOfPlayer)
+        {
+            return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
+        }
 
     }
 }

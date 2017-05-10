@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldem", "TexasHoldem.csproj", "{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemTests", "TexasHoldemTests\TexasHoldemTests.csproj", "{B529547D-5982-4C96-904A-7E12163AF759}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{593CE8E7-3DD0-4B7F-9EEE-33E39C52AC0A}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemShared", "TexasH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{C9BF5451-511A-40F5-BE85-DEFE5BE9FB46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemTests", "..\TexasHoldemTests\TexasHoldemTests.csproj", "{871B1755-77E8-4013-8C34-33B93C2EBFF6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,10 +28,6 @@ Global
 		{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B529547D-5982-4C96-904A-7E12163AF759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B529547D-5982-4C96-904A-7E12163AF759}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B529547D-5982-4C96-904A-7E12163AF759}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B529547D-5982-4C96-904A-7E12163AF759}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22888C95-40AC-4271-8D39-EC1FF358AFBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22888C95-40AC-4271-8D39-EC1FF358AFBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22888C95-40AC-4271-8D39-EC1FF358AFBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,6 +36,10 @@ Global
 		{C9BF5451-511A-40F5-BE85-DEFE5BE9FB46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9BF5451-511A-40F5-BE85-DEFE5BE9FB46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9BF5451-511A-40F5-BE85-DEFE5BE9FB46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{871B1755-77E8-4013-8C34-33B93C2EBFF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{871B1755-77E8-4013-8C34-33B93C2EBFF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{871B1755-77E8-4013-8C34-33B93C2EBFF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{871B1755-77E8-4013-8C34-33B93C2EBFF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

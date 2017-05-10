@@ -77,9 +77,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="communication\CommHandlerChildForTests.cs" />
-    <Compile Include="communication\CommunicationHandlerTest.cs" />
-    <Compile Include="communication\ServerEventHandlerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
