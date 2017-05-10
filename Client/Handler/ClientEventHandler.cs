@@ -39,8 +39,7 @@ namespace Client.Handler
         }
         public void close()
         {
-            //todo - nned to be true?
-            _shouldClose = false;
+            _shouldClose = true;
 
         }
         public void handleMessages()
