@@ -338,7 +338,7 @@ namespace Client.GuiScreen
                 }
 
             }
-            if (field == 10)
+            if (field == 10)//by starting chip
             {
                 toSearch = searchBox.Text;
                 int toSearchSartingChip;
@@ -366,6 +366,39 @@ namespace Client.GuiScreen
                 }
 
             }
+            if (field == 11)//by not limit
+            {
+                List<ClientGame> temp;
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                    GameMode.NoLimit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+
+            }
+            if (field == 12)//by limit
+            {
+                List<ClientGame> temp;
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+
+            }
+
         }
 
         //all active game bby username
