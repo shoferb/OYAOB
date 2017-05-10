@@ -570,10 +570,6 @@ namespace TexasHoldem.Logic.Game
            BbPlayer.name, SbPlayer.name);
             foreach (Player player in this.Players)
             {
-                player.isPlayerActive = true;
-                player.InitPayInRound();
-                player.PlayedAnActionInTheRound = false;
-                player.RoundChipBet = 0;
                 player.InitForNewGame();
                 player.Add2Cards(Deck.Draw(), Deck.Draw());
                 HandCards hand = new HandCards(player, player._firstCard,
