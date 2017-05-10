@@ -77,7 +77,7 @@ namespace TexasHoldem.Logic.Game
             {
                 return LeagueName.A;
             }
-            return players[0].user.;
+            return players[0].user.GetLeague();
         }
 
         private void SetTheBlinds()
