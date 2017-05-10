@@ -19,6 +19,7 @@
         <Button x:Name="SpectetorGameSeatchButton" Content="Get all spectetor Games" HorizontalAlignment="Left" Margin="70,230,0,0" VerticalAlignment="Top" Width="187" Click="SpectetorGameSeatchButton_Click"/>
         <Button x:Name="SearchByPotSize" Content="Search game By pot size" HorizontalAlignment="Left" Margin="70,273,0,0" VerticalAlignment="Top" Width="187"/>
         <Button x:Name="SearchByGameModebutton" Content="Search By Game Type" HorizontalAlignment="Left" Margin="70,318,0,0" VerticalAlignment="Top" Width="187" Click="SearchByGameModebutton_Click"/>
+        <Button x:Name="SearchByBuyInButton" Content="Search By buy in policy" HorizontalAlignment="Left" Margin="70,362,0,0" VerticalAlignment="Top" Width="187" Click="SearchByBuyInButton_Click"/>
 
     </Grid>
 </Window>

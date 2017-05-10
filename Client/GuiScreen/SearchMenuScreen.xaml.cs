@@ -61,5 +61,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByBuyInButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
