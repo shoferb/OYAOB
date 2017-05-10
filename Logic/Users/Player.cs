@@ -38,7 +38,7 @@ namespace TexasHoldem.Logic.Users
             this.PlayedAnActionInTheRound = false;
         }
         
-        public void InitInNewGame()
+        public void InitForNewGame()
         {
             isPlayerActive = true;
             RoundChipBet = 0;

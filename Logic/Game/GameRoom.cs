@@ -574,7 +574,7 @@ namespace TexasHoldem.Logic.Game
                 player.InitPayInRound();
                 player.PlayedAnActionInTheRound = false;
                 player.RoundChipBet = 0;
-                player.
+                player.InitForNewGame();
                 player.Add2Cards(Deck.Draw(), Deck.Draw());
                 HandCards hand = new HandCards(player, player._firstCard,
                     player._secondCard);
