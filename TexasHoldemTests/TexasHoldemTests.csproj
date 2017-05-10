@@ -50,7 +50,38 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AcptTests\Bridges\GameBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Interface\IGameBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Interface\IReplayBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\GameBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\ReplayBridge.cs" />
+    <Compile Include="AcptTests\Bridges\Real\UserBridge.cs" />
+    <Compile Include="AcptTests\Bridges\ReplayBridge.cs" />
+    <Compile Include="AcptTests\Bridges\UserBridge.cs" />
+    <Compile Include="AcptTests\tests\AcptTest.cs" />
+    <Compile Include="AcptTests\tests\GameAcptTests.cs" />
+    <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
+    <Compile Include="AcptTests\tests\UserAcptTests.cs" />
+    <Compile Include="communication\CommHandlerChildForTests.cs" />
+    <Compile Include="communication\CommunicationHandlerTest.cs" />
+    <Compile Include="communication\ServerEventHandlerTest.cs" />
+    <Compile Include="Logic\Game Control\LeagueTests.cs" />
+    <Compile Include="Logic\GameControl\GameCenterTests.cs" />
+    <Compile Include="Logic\GameControl\LeagueTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
+    <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
+    <Compile Include="Logic\Game\DeckTests.cs" />
+    <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
+    <Compile Include="Logic\Game\HandTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\ErrorLogTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\LogTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\NotificationTests.cs" />
+    <Compile Include="Logic\Notifications And Logs\SystemLogTests.cs" />
+    <Compile Include="Logic\Replay\GameReplayTests.cs" />
+    <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
+    <Compile Include="Logic\Users\SpectetorTests.cs" />
+    <Compile Include="Logic\Users\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +89,9 @@
       <Project>{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}</Project>
       <Name>TexasHoldem</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AcptTests\tests\GameAcptTests.cs.orig" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
