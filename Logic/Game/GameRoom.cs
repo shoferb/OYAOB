@@ -243,7 +243,6 @@ namespace TexasHoldem.Logic.Game
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
                 return false;
             }
-
             Hand_Step = HandStep.PreFlop;
             Deck = new Deck();
             GameReplay = new GameReplay(Id, GameNumber);
@@ -258,9 +257,21 @@ namespace TexasHoldem.Logic.Game
             MoveBbnSBtoPot();
             maxBetInRound = Bb;
 
-            HandCards();
+            HandCardsAndInitPlayers();
+            IncGamesCounterForPlayers();
             IsActiveGame = true;
             return true;
+        }
+
+        private void IncGamesCounterForPlayers()
+        {
+            foreach (Player p in Players)
+            {
+                if (p.isPlayerActive)
+                {
+                    p.user.IncGamesPlay();
+                }
+            }
         }
 
         private bool CallOrRaise(Player player, int bet)
@@ -553,7 +564,7 @@ namespace TexasHoldem.Logic.Game
             CurrentPlayer = FirstPlayerInRound;          
         }
 
-        private void HandCards()
+        private void HandCardsAndInitPlayers()
         {
             GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
            BbPlayer.name, SbPlayer.name);
