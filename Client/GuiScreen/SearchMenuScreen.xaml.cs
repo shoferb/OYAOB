@@ -56,5 +56,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByGameModebutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

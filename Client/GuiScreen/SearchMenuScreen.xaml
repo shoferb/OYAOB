@@ -18,6 +18,7 @@
         <Button x:Name="AllActiveGameCanJoinbutton" Content="Get all active game you can join" HorizontalAlignment="Left" Margin="70,190,0,0" VerticalAlignment="Top" Width="187" Click="AllActiveGameCanJoinbutton_Click"/>
         <Button x:Name="SpectetorGameSeatchButton" Content="Get all spectetor Games" HorizontalAlignment="Left" Margin="70,230,0,0" VerticalAlignment="Top" Width="187" Click="SpectetorGameSeatchButton_Click"/>
         <Button x:Name="SearchByPotSize" Content="Search game By pot size" HorizontalAlignment="Left" Margin="70,273,0,0" VerticalAlignment="Top" Width="187"/>
+        <Button x:Name="SearchByGameModebutton" Content="Search By Game Type" HorizontalAlignment="Left" Margin="70,318,0,0" VerticalAlignment="Top" Width="187" Click="SearchByGameModebutton_Click"/>
 
     </Grid>
 </Window>
