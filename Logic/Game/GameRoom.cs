@@ -853,7 +853,7 @@ namespace TexasHoldem.Logic.Game
         }
 
 
-        public bool IsSpectetorGame()
+        public bool IsSpectatable()
         {
             return MyDecorator.CanSpectatble();
         }

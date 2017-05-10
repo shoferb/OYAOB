@@ -400,7 +400,7 @@ namespace TexasHoldem.Logic.Game_Control
                 toReturn = new List<IGame>();
                 foreach (IGame room in user.SpectateGameList())
                 {
-                    if (room.IsSpectetorGame())
+                    if (room.IsSpectatable())
                     {
                         toReturn.Add(room);
                     }

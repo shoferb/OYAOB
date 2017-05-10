@@ -19,12 +19,9 @@ namespace TexasHoldem.Logic.Game
         bool DoAction(IUser user, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType action, int amount);
         bool AddSpectetorToRoom(IUser user);
         bool RemoveSpectetorFromRoom(IUser user);
-
-        //return true if this is an active game
+        bool CanJoin(IUser user);
         bool IsGameActive();
-
-        //return true if this is a game that can hold spectetors.
-        bool IsSpectetorGame();
+        bool IsSpectatable();
 
         //return true the pot size is equal 
         bool IsPotSizEqual(int potSize);

@@ -315,7 +315,7 @@ namespace TexasHoldem.Logic.Game_Control
                 List<IGame> toReturn = new List<IGame>();
                 foreach (IGame room in games)
                 {
-                    if (room.IsSpectetorGame())
+                    if (room.IsSpectatable())
                     {
                         toReturn.Add(room);
                     }
@@ -542,7 +542,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             bool toReturn = false;
             IGame room = GetRoomById(roomId);
-            if (room.IsSpectetorGame())
+            if (room.IsSpectatable())
             {
                 toReturn = true;
             }
