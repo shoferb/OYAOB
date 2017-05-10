@@ -34,6 +34,7 @@ namespace TexasHoldem.Logic
             this.EnterPayingMoney = enterPayingMoney;
             this.BB = minBetInRoom;
             SB = BB / 2;
+            this.league = league;
         }
 
         public void SetNextDecorator(Decorator d)
@@ -53,13 +54,12 @@ namespace TexasHoldem.Logic
 
         public  bool CanJoin(int playersCount, int amount)
         {
-            if (CanAddMorePlayer(playersCount) && amount >= StartingChip)
+            if (CanAddMorePlayer(playersCount) && amount >= StartingChip && )
             {
                 return true;
             }
             return false;
         }
-
 
         public bool IsGameModeEqual(GameMode gm)
         {
@@ -91,11 +91,6 @@ namespace TexasHoldem.Logic
             return this.StartingChip == startingChip;
         }
 
-        public bool CanUserJoinGameWithMoney(int userMoney)
-        {
-            return userMoney - (this.EnterPayingMoney + this.StartingChip) > 0;
-        }
-
         private bool CanAddAnotherPlayer(int currNumOfPlayer)
         {
             return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
@@ -115,8 +110,6 @@ namespace TexasHoldem.Logic
         {
             return this.NextDecorator.GetGameMode();
         }
-
-       
 
         public bool CanStartTheGame(int numOfPlayers)
         {
