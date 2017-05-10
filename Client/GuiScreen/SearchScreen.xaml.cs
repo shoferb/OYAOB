@@ -200,15 +200,18 @@ namespace Client.GuiScreen
                     listView.ItemsSource = result;
                 }
             }
-            else if (field == 5) //mmberid
+            else if (field == 5) //min player
             {
                 toSearch = searchBox.Text;
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
-                isValid = int.TryParse(toSearch, out memberIdSearch);
+                int toSearchminPlayer;
+
+
+                List<ClientGame> temp;
+                isValid = int.TryParse(toSearch, out toSearchminPlayer);
                 if (isValid)
                 {
-                    temp = _cusBl.GetByClubMemberID(memberIdSearch);
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
+                        GameMode.Limit);
                     result = temp;
                     if (result == null || !result.Any())
                     {
@@ -221,7 +224,7 @@ namespace Client.GuiScreen
                 }
                 else
                 {
-                    MessageBox.Show("Invalid Input-member Id contains only numbers");
+                    MessageBox.Show("Invalid player num should contains only numbers");
                 }
             }
             if (field == 6) //get all
