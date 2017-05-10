@@ -23,7 +23,6 @@ namespace TexasHoldem.Logic
         public int SB { get; set; }
         public LeagueName league { get; set; }
         private Decorator NextDecorator;
-        private GameCenter GameCenter;
 
         public BeforeGameDecorator(int minBetInRoom, int startingChip, bool isSpectetor,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, LeagueName league)
