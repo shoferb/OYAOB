@@ -46,5 +46,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void AllActiveGameCanJoinbutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
