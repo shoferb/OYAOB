@@ -143,7 +143,18 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-
+        //use-case: user can edit is money
+        public bool EditMoney(int userId, int newmoney)
+        {
+            bool toReturn = false;
+            IUser user = sc.GetUserWithId(userId);
+            if (user == null)
+            {
+                return toReturn;
+            }
+            toReturn = user.EditUserMoney(newmoney);
+            return toReturn;
+        }
         //use-case: user can get his rank
         public int GetUserRank(int userId)
         {

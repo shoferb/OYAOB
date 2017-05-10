@@ -29,7 +29,7 @@ namespace TexasHoldem.communication.Impl
             switch (msg.FieldToEdit)
             {
                 case EditCommMessage.EditField.UserName:
-                    success = _userService.EditName(msg.UserId, msg.NewValue);
+                    success = _userService.EditUserName(msg.UserId, msg.NewValue);
                     break;
                 case EditCommMessage.EditField.Password:
                     success = _userService.EditUserPassword(msg.UserId, msg.NewValue);
@@ -39,6 +39,35 @@ namespace TexasHoldem.communication.Impl
                     break;
                 case EditCommMessage.EditField.Email:
                     success = _userService.EditUserEmail(msg.UserId, msg.NewValue);
+                    break;
+                case EditCommMessage.EditField.Money:
+                    string temp = msg.NewValue;
+                    int newMoney;
+                    bool isValid = int.TryParse(temp, out newMoney);
+                    if (isValid)
+                    {
+                        success = _userService.EditMoney(msg.UserId, newMoney);
+                    }
+                    else
+                    {
+                        success = false;
+                    }
+                    break;
+                case EditCommMessage.EditField.Name:
+                    success = _userService.EditName(msg.UserId, msg.NewValue);
+                    break;
+                case EditCommMessage.EditField.Id:
+                    string temp2 = msg.NewValue;
+                    int newId;
+                    bool isValid2 = int.TryParse(temp2, out newId);
+                    if (isValid2)
+                    {
+                        success = _userService.EditId(msg.UserId, newId);
+                    }
+                    else
+                    {
+                        success = false;
+                    }
                     break;
                 default:
                    // _logService.CreateNewErrorLog(
