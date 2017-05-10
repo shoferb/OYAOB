@@ -657,5 +657,10 @@ namespace TexasHoldem.Logic.Users
         {
             this.league = league;
         }
+
+        public bool HasEnoughMoney(int startingChip, int fee)
+        {
+            return (money - startingChip - fee >= 0);
+        }
     }
 }
