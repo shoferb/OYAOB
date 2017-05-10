@@ -140,7 +140,6 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
-                player._isInRoom = false;
                 GameRoom room = new GameRoom(players, roomId);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
                 room.AddDecorator(decorator);
@@ -192,15 +191,6 @@ namespace TexasHoldem.Logic.Game_Control
                     toReturn = false;
                 }
                 return toReturn;
-            }
-        }
-
-        public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
-        {
-            lock (padlock)
-            {
-               return games.FindAll(game =>
-                    game.GetMinRank() <= userPoints && game.GetMaxRank() >= userPoints);
             }
         }
 
