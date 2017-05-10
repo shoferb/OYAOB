@@ -844,7 +844,7 @@ namespace TexasHoldem.Logic.Game
 
         public bool CanJoin(IUser user)
         {
-
+            return MyDecorator.CanJoin(Players.Count, user.Money(), user);
         }
 
         public bool IsGameActive()
