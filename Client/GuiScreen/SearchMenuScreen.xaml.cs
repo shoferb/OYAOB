@@ -23,5 +23,10 @@ namespace Client.GuiScreen
         {
             InitializeComponent();
         }
+
+        private void Backbutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
