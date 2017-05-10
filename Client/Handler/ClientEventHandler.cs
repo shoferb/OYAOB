@@ -109,8 +109,8 @@ namespace Client.Handler
 
         public void HandleEvent(ResponeCommMessage msg)
         {
-            //notify in GUI
-            throw new NotImplementedException();
+            _logic.NotifyResponseReceived(msg);
+
         }
         public void Start()
         {
