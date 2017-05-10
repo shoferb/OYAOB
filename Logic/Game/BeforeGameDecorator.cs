@@ -65,7 +65,7 @@ namespace TexasHoldem.Logic
 
         private bool SuitableLeague(IUser user)
         {
-            throw new NotImplementedException();
+            return (user.IsUnKnow() || user.GetLeague() == league);
         }
 
         private bool HasEnoughMoney(IUser user, int amount)
