@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Client.GuiScreen;
+using Client.Logic;
 using TexasHoldem.GuiScreen;
 
 namespace Client
@@ -23,10 +25,28 @@ namespace Client
     {
         public MainWindow()
         {
+            ClientLogic cl = new ClientLogic();
             InitializeComponent();
             WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
-            this.Hide();
+            LoginScreen l = new LoginScreen(wellcomeScreen,cl);
+            l.Show();
+            AvatarEditScreen avatar = new AvatarEditScreen(l,cl);
+            avatar.Show();
+            EditUserInfo editUserInfo = new EditUserInfo(l,1,cl);
+            editUserInfo.Show();
+            LogoutScreen lo = new LogoutScreen(l,1);
+            lo.Show();
+            MainAfterLogin ma = new MainAfterLogin(l,1,cl);
+            ma.Show();
+            RegisterScreen r = new RegisterScreen(l,cl);
+            r.Show();
+            SearchScreen aSearchScreen = new SearchScreen(l,cl);
+            aSearchScreen.Show();
+            UserInfoScreen userInfo = new UserInfoScreen(l,cl);
+            userInfo.Show();
+            
+            //this.Hide();
         }
        
     }
