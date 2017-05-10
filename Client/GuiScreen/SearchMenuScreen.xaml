@@ -14,6 +14,7 @@
         <Label x:Name="GameSearchMenuLabel" Content="Game Search Menu" HorizontalAlignment="Left" Margin="70,43,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
         <Button x:Name="Backbutton" Content="Back" HorizontalAlignment="Left" Margin="56,327,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.149,0.56" Click="Backbutton_Click"/>
         <Button x:Name="SearchByUserNamebutton" Content="Search games By Username" HorizontalAlignment="Left" Margin="70,106,0,0" VerticalAlignment="Top" Width="187" Height="21" Click="SearchByUserNamebutton_Click"/>
+        <Button x:Name="SearchByRoomIdbutton" Content="Search game by room Id" HorizontalAlignment="Left" Margin="70,148,0,0" VerticalAlignment="Top" Width="187" Click="SearchByRoomIdbutton_Click"/>
 
     </Grid>
 </Window>

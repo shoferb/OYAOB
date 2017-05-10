@@ -41,5 +41,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByRoomIdbutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
