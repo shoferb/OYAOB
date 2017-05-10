@@ -94,6 +94,11 @@ namespace TexasHoldem.communication.Impl
                         toSend = ToClientGameList(temp);
                         success = toSend.Count == 0;
                         break;
+                    case SearchCommMessage.SearchType.SpectetorGameByUserName:
+                        temp = _userService.GetSpectetorGamesByUserName(msg.searchByString);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count == 0;
+                    break;
             }
         }
 
