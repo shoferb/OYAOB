@@ -38,8 +38,6 @@ namespace TexasHoldem.Logic.Game
         private Player BbPlayer;
         private Player SbPlayer;
         private Decorator MyDecorator;
-        private int MaxRaiseInThisRound;
-        private int MinRaiseInThisRound;
         private int LastRaise; // TODO probably unnecessery 
         private LogControl logControl;
         private int GameNumber;
