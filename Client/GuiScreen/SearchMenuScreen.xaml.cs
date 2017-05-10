@@ -51,5 +51,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SpectetorGameSeatchButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
