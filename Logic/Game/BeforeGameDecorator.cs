@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic
@@ -19,12 +20,12 @@ namespace TexasHoldem.Logic
         public int StartingChip { get; set; }
         public int BB { get; set; }
         public int SB { get; set; }
-
+        public LeagueName league { get; set; }
         private Decorator NextDecorator;
         private GameCenter GameCenter;
 
         public BeforeGameDecorator(int minBetInRoom, int startingChip, bool isSpectetor,
-            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney)
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, LeagueName league)
         {
             this.IsSpectetor = isSpectetor;
             this.StartingChip = startingChip;
