@@ -128,30 +128,7 @@ namespace Client.GuiScreen
             }
             else if (field == 5) //min player
             {
-                toSearch = searchBox.Text;
-                int toSearchminPlayer;
-
-
-                List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchminPlayer);
-                if (isValid)
-                {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
-                        GameMode.Limit);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Invalid player num should contains only numbers");
-                }
+                GetGamesByMinPlayer();
             }
             if (field == 6) //max player num
             {
@@ -341,6 +318,34 @@ namespace Client.GuiScreen
 
             }
 
+        }
+
+        private void GetGamesByMinPlayer()
+        {
+            toSearch = searchBox.Text;
+            int toSearchminPlayer;
+
+
+            List<ClientGame> temp;
+            isValid = int.TryParse(toSearch, out toSearchminPlayer);
+            if (isValid)
+            {
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid player num should contains only numbers");
+            }
         }
 
         private void GetAllSpectetor()
