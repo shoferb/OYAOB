@@ -24,6 +24,10 @@ namespace Client.Logic
         {
             
             listLock = new Object();
+            //todo - find server name
+            _handler = new CommunicationHandler("TODO");
+            _eventHandler = new ClientEventHandler(_handler);
+            user = null;
         }
         public bool SetUserId(int newId)
         {
