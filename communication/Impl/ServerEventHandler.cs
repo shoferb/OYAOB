@@ -153,7 +153,9 @@ namespace TexasHoldem.communication.Impl
                 default:
                     success = false;
                     break;
-                    //todo add responce after create searchh responce type
+                    ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+                    
             }
         }
 

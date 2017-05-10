@@ -7,7 +7,7 @@ using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldemShared.CommMessages.ServerToClient
 {
-    class SearchResponseCommMessage : ResponeCommMessage
+    public class SearchResponseCommMessage : ResponeCommMessage
     {
         public List<ClientGame> games;
 
