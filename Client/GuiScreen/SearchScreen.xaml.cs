@@ -108,21 +108,7 @@ namespace Client.GuiScreen
            
             if (field == 0) //all active by user name
             {
-
-                toSearch = searchBox.Text;
-                
-                List<ClientGame> temp;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
-                    GameMode.Limit);
-                result = temp;
-                if (result == null || !result.Any())
-                {
-                    emptySearch();
-                }
-                else
-                {
-                    listView.ItemsSource = result;
-                }
+                getAllUserByUserName();
             }
             else if (field == 1) //Spectetor by user name
             {
@@ -415,6 +401,24 @@ namespace Client.GuiScreen
 
             }
 
+        }
+
+        private void getAllUserByUserName()
+        {
+            toSearch = searchBox.Text;
+
+            List<ClientGame> temp;
+            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+                GameMode.Limit);
+            result = temp;
+            if (result == null || !result.Any())
+            {
+                emptySearch();
+            }
+            else
+            {
+                listView.ItemsSource = result;
+            }
         }
 
         //all active game bby username
