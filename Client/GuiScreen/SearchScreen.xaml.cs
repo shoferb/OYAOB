@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.Logic;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace Client.GuiScreen
 {
@@ -19,47 +21,39 @@ namespace Client.GuiScreen
     /// </summary>
     public partial class SearchScreen : Window
     {
-        public SearchScreen()
+        public SearchScreen(Window w,ClientLogic cli)
         {
             InitializeComponent();
-            startList = _cusBl.GetAllClubMember();
+            parent = w;
+            cl = cli;
+            startList = new List<ClientGame>();
             listView.ItemsSource = startList;
-
-
 
             listView.AddHandler(Control.MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
         }
 
-        private int currclubId;
+        private ClientLogic cl;
+        private Window parent;
+        private int currRoomId;
         private int field;
         private string toSearch;
-        private List<ClubMember> result;
-        private ClubMember_BL _cusBl = new ClubMember_BL();
+        private List<ClientGame> result;
+    
         bool isValid = false;
-        private List<ClubMember> startList;
+        private List<ClientGame> startList;
         private int idSearch;
         private Window perent;
         private DateTime dateToSearch;
         private int memberIdSearch;
-        private ProgressBar progressBar;
 
-        public void SetPerent(Window w)
-        {
-            perent = w;
-        }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            base.OnClosed(e);
-            Application.Current.Shutdown();
-        }
 
         public void toStartlist()
         {
-            startList = _cusBl.GetAllClubMember();
+            startList = new List<ClientGame>();
         }
 
-        public void SetStartList(List<ClubMember> newStartList)
+        public void SetStartList(List<ClientGame> newStartList)
         {
             this.startList = newStartList;
             listView.ItemsSource = startList;
@@ -67,28 +61,21 @@ namespace Client.GuiScreen
 
         private void HandleDoubleClick(object sender, RoutedEventArgs e)
         {
-            ClubMember clubMember = (ClubMember) listView.SelectedItem;
-            if (clubMember != null)
+            ClientGame selectedGame = (ClientGame) listView.SelectedItem;
+            if (selectedGame != null)
             {
-                currclubId = clubMember.TeudatZehute;
-                edit.setPerent(this, currclubId);
-                edit.Show();
-                this.Hide();
+                currRoomId = selectedGame.roomId;
+               //todo - bar continue frome here join game
             }
         }
 
-        private CustomerEditInfo edit = new CustomerEditInfo();
+       
 
-        private void Bremoedit_Click(object sender, RoutedEventArgs e)
-        {
-            edit.setPerent(this, currclubId);
-            edit.Show();
-            this.Hide();
-        }
+ 
 
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
-            perent.Show();
+            parent.Show();
             this.Hide();
         }
 
@@ -96,7 +83,7 @@ namespace Client.GuiScreen
 
         private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            startList = _cusBl.GetAllClubMember();
+            startList = new List<ClientGame>();
 
             listView.ItemsSource = startList;
         }
@@ -108,10 +95,7 @@ namespace Client.GuiScreen
 
         }
 
-        private void cbSearchBy_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
+    
 
 
         private void emptySearch()
@@ -121,15 +105,15 @@ namespace Client.GuiScreen
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
         {
-            progressBar = new ProgressBar();
-            progressBar.Run();
-            if (field == 0) //First name
+           
+            if (field == 0) //all active by user name
             {
 
                 toSearch = searchBox.Text;
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
-                temp = _cusBl.GetByClubMemberFirstName(toSearch);
+                
+                List<ClientGame> temp;
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+                    GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
                 {
@@ -140,13 +124,13 @@ namespace Client.GuiScreen
                     listView.ItemsSource = result;
                 }
             }
-            else if (field == 1) //last name
+            else if (field == 1) //Spectetor by user name
             {
 
                 toSearch = searchBox.Text;
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
-                temp = _cusBl.GetByClubMemberLastName(toSearch);
+                List<ClientGame> temp;
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+                    GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
                 {
@@ -157,12 +141,11 @@ namespace Client.GuiScreen
                     listView.ItemsSource = result;
                 }
             }
-            else if (field == 2) //Gender
+            else if (field == 2) //all active games user can join
             {
 
                 toSearch = searchBox.Text;
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
+                List<Cli> temp = null;
                 temp = _cusBl.GetByClubMemberGender(toSearch);
                 result = temp;
                 if (result == null || !result.Any())
@@ -263,92 +246,111 @@ namespace Client.GuiScreen
             }
         }
 
-        //FN
+        //all active game bby username
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
         {
             field = 0;
             searchBox.IsEnabled = true;
         }
 
-        //Ln
+        //all spectetor game by user name
         private void ComboBoxItem_Selected_1(object sender, RoutedEventArgs e)
         {
             field = 1;
             searchBox.IsEnabled = true;
         }
 
-        //gender
+        //all active game user can join
         private void ComboBoxItem_Selected_2(object sender, RoutedEventArgs e)
         {
             field = 2;
-            searchBox.IsEnabled = true;
+            searchBox.IsEnabled = false;
         }
 
-        //tz
+        //get room by room id
         private void ComboBoxItem_Selected_3(object sender, RoutedEventArgs e)
         {
             field = 3;
             searchBox.IsEnabled = true;
         }
 
-        //DOB
+        //all spectetor game
         private void ComboBoxItem_Selected_4(object sender, RoutedEventArgs e)
         {
             field = 4;
-            searchBox.IsEnabled = true;
+            searchBox.IsEnabled = false;
         }
 
-        //member id
+        //by min player
         private void ComboBoxItem_Selected_5(object sender, RoutedEventArgs e)
         {
             field = 5;
             searchBox.IsEnabled = true;
         }
 
+
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
+        //by max player in room
         private void ComboBoxItem_Selected_6(object sender, RoutedEventArgs e)
         {
             field = 6;
+            searchBox.IsEnabled = true;
+        }
+
+        //by min bet in room
+        private void ComboBoxItem_Selected_7(object sender, RoutedEventArgs e)
+        {
+            field = 7;
+            searchBox.IsEnabled = true;
+        }
+
+        //by potSize
+        private void ComboBoxItem_Selected_8(object sender, RoutedEventArgs e)
+        {
+            field = 8;
+            searchBox.IsEnabled = true;
+        }
+
+
+        //by buy in policy
+        private void ComboBoxItem_Selected_9(object sender, RoutedEventArgs e)
+        {
+            field = 9;
+            searchBox.IsEnabled = true;
+        }
+
+        //by starting chip
+        private void ComboBoxItem_Selected_10(object sender, RoutedEventArgs e)
+        {
+            field = 10;
+            searchBox.IsEnabled = true;
+        }
+
+
+        //by not-limit game
+        private void ComboBoxItem_Selected_11(object sender, RoutedEventArgs e)
+        {
+            field = 11;
             searchBox.IsEnabled = false;
         }
 
-        private void ComboBoxItem_Selected_7(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void ComboBoxItem_Selected_8(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ComboBoxItem_Selected_9(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ComboBoxItem_Selected_10(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ComboBoxItem_Selected_11(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
+        //by limit
         private void ComboBoxItem_Selected_12(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            field = 12;
+            searchBox.IsEnabled = false; ;
         }
 
+        //pot-limit
         private void ComboBoxItem_Selected_13(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            field = 13;
+            searchBox.IsEnabled = false; ;
         }
     }
 }
