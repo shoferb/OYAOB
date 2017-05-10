@@ -938,10 +938,5 @@ namespace TexasHoldem.Logic.Game
         {
             return this.league;
         }
-
-        public bool IsBetweenRanks(int playerRank)
-        {
-            return (playerRank <= this.MaxRank) && (playerRank >= this.MinRank);
-        }
     }
 }
