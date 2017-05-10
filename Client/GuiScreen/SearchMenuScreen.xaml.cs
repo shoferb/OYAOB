@@ -66,5 +66,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByMinPlayerbutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

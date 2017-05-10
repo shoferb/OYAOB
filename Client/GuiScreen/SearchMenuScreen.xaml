@@ -20,6 +20,7 @@
         <Button x:Name="SearchByPotSize" Content="Search game By pot size" HorizontalAlignment="Left" Margin="70,273,0,0" VerticalAlignment="Top" Width="187"/>
         <Button x:Name="SearchByGameModebutton" Content="Search By Game Type" HorizontalAlignment="Left" Margin="70,318,0,0" VerticalAlignment="Top" Width="187" Click="SearchByGameModebutton_Click"/>
         <Button x:Name="SearchByBuyInButton" Content="Search By buy in policy" HorizontalAlignment="Left" Margin="70,362,0,0" VerticalAlignment="Top" Width="187" Click="SearchByBuyInButton_Click"/>
+        <Button x:Name="SearchByMinPlayerbutton" Content="Search By min players" HorizontalAlignment="Left" Margin="70,406,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="-3.814,-0.817" Click="SearchByMinPlayerbutton_Click"/>
 
     </Grid>
 </Window>
