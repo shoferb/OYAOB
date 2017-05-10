@@ -108,8 +108,9 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-        //todo bar need to be int - changesd it
-        public int login(string userName, string password)//check with oded
+       
+
+        public bool Login(string userName, string password)//check with oded
         {
             LoginCommMessage toSend = new LoginCommMessage(_userId, true, userName, password);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
@@ -120,17 +121,17 @@ namespace Client.Logic
                 t.Wait();
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            messagesSentObserver.Remove(messageToList);
+            
             if (toRet)
             {
-                //todo return id
-                return 1;
+                LoginResponeCommMessage rmsg = (LoginResponeCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                ClientUser cuser = new ClientUser(rmsg.UserId, rmsg.name, rmsg.username,
+                    rmsg.password, rmsg.avatar, rmsg.money, rmsg.email, rmsg.leauge);
+                this.user = cuser;
+                this._userId = user.id;
             }
-            else//fail
-            {
-                return -1;
-            }
-            
+            messagesSentObserver.Remove(messageToList);
+            return toRet;
 
         }
         public bool logout(string userName, string password)

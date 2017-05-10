@@ -10,13 +10,13 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
     {
         
 
-        private string name;
-        private string username;
-        private string password;
-        private string avatar;//- image path
-        private int money;
-        private string email;
-        private string leauge;
+        public string name;
+        public string username;
+        public string password;
+        public string avatar;//- image path
+        public int money;
+        public string email;
+        public string leauge;
 
         public LoginResponeCommMessage(int id, string _name, string _username, string _password,
             string _avatar, int _money, string _email,string _leauge, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)

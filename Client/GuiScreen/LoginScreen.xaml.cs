@@ -55,7 +55,7 @@ namespace TexasHoldem.GuiScreen
 
         private void Loginbutton_Click(object sender, RoutedEventArgs e)
         {
-            int loginOk = cl.login(userName, password);
+            int loginOk = cl.Login(userName, password);
             if (loginOk != -1)
             {
                 MainAfterLogin mainAfterLogin = new MainAfterLogin(this, loginOk,cl);
