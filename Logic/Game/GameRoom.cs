@@ -96,8 +96,7 @@ namespace TexasHoldem.Logic.Game
         public bool DoAction(IUser user, ActionType action, int amount)
         {
             lock (padlock)
-            {
-
+            {       
                 if (action == ActionType.Join)
                 {
                     return Join(user, amount);
@@ -203,7 +202,12 @@ namespace TexasHoldem.Logic.Game
             Player p = new Player(user, amount, this.Id);
             GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
             BbPlayer.name, SbPlayer.name);
-            if (MyDecorator.CanJoin(   CanJoinGameAsPlayer(user, amount))
+            if (IsUserASpectator(user))
+            {
+                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                return false;
+            }
+            if (MyDecorator.CanJoin(Players.Count , amount))
             {
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
@@ -216,6 +220,11 @@ namespace TexasHoldem.Logic.Game
             }
             GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
             return false;
+        }
+
+        private bool IsUserASpectator(IUser user)
+        {
+            throw new NotImplementedException();
         }
 
         //TODO: checking before calling to this function that this user&room ID are exist
