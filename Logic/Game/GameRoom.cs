@@ -670,8 +670,7 @@ namespace TexasHoldem.Logic.Game
             }
             return allDone;
         }
-
-     
+  
         private void MoveBbnSBtoPot()
         {
             PotCount = Bb + Sb;
@@ -826,7 +825,6 @@ namespace TexasHoldem.Logic.Game
             return true;
        }
 
-
         public bool RemoveSpectetorFromRoom(IUser user)
         {          
             foreach (Spectetor s in Spectatores)
@@ -842,6 +840,11 @@ namespace TexasHoldem.Logic.Game
                 return true;
             }
             return false;
+        }
+
+        public bool CanJoin(IUser user)
+        {
+
         }
 
         public bool IsGameActive()
