@@ -64,7 +64,7 @@ namespace TexasHoldem.Logic
 
         private bool HasEnoughMoney(IUser user, int amount)
         {
-            int userMoney
+            return user.HasEnoughMoney(amount, EnterPayingMoney);
         }
 
         public bool IsGameModeEqual(GameMode gm)
