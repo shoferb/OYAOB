@@ -99,6 +99,12 @@ namespace TexasHoldem.communication.Impl
                         toSend = ToClientGameList(temp);
                         success = toSend.Count == 0;
                     break;
+                    case SearchCommMessage.SearchType.ByRoomId:
+                        IGame game = _gameService.GetGameById(msg.searchByInt);
+                        temp.Add(game);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count == 0;
+                    break;
             }
         }
 
