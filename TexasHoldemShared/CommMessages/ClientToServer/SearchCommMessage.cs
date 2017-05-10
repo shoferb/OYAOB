@@ -12,6 +12,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         public enum SearchType
         {
             ActiveGamesByUserName,
+            SpectetorGameByUserName,
             ByRoomId,
             AllActiveGames,
             AllSepctetorGame,
