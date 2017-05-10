@@ -281,6 +281,34 @@ namespace Client.GuiScreen
                     MessageBox.Show("Invalid min bet should contains only numbers");
                 }
             }
+            if (field == 8)
+            {
+                toSearch = searchBox.Text;
+                int toSearchPotSize;
+
+
+                List<ClientGame> temp;
+                isValid = int.TryParse(toSearch, out toSearchPotSize);
+                if (isValid)
+                {
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByPotSize, "", toSearchPotSize,
+                        GameMode.Limit);
+                    result = temp;
+                    if (result == null || !result.Any())
+                    {
+                        emptySearch();
+                    }
+                    else
+                    {
+                        listView.ItemsSource = result;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid pot size should contains only numbers");
+                }
+
+            }
         }
 
         //all active game bby username
