@@ -39,6 +39,7 @@ namespace Client.Handler
         }
         public void close()
         {
+            //todo - nned to be true?
             _shouldClose = false;
 
         }
