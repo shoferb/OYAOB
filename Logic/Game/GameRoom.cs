@@ -29,7 +29,7 @@ namespace TexasHoldem.Logic.Game
         private GameRoom.HandStep Hand_Step;
         private List<Card> PublicCards;
         private bool IsActiveGame;
-        private List<Tuple<int, List<Player>>> SidePots; //TODO use that in all in
+        private List<Tuple<int, Player>> SidePots; //TODO use that in all in
         private GameReplay GameReplay;
         private ReplayManager ReplayManager;
         private GameCenter GameCenter;
@@ -58,7 +58,7 @@ namespace TexasHoldem.Logic.Game
             Players = players;
             Spectatores = new List<Spectetor>();
             SetTheBlinds();
-            SidePots = new List<Tuple<int, List<Player>>>();
+            SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
             logControl = LogControl.Instance;
             league = GetLeagueFromPlayer(Players);
