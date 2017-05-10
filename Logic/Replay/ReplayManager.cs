@@ -8,7 +8,7 @@ namespace TexasHoldem.Logic.Replay
 {
     public class ReplayManager
     {
-        public SortedDictionary<GameReplay, List<int>> _gamesActions { set; get; }
+        public Dictionary<GameReplay, List<int>> _gamesActions { set; get; }
         private static ReplayManager replayInstance = null;
         private static readonly object padlock = new object();
 
@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.Replay
 
         private ReplayManager()
         {
-            _gamesActions = new SortedDictionary<GameReplay, List<int>>();
+            _gamesActions = new Dictionary<GameReplay, List<int>>();
         }
 
         public bool AddGameReplay(GameReplay gr, List<int> ids)
@@ -104,9 +104,12 @@ namespace TexasHoldem.Logic.Replay
         {
             lock (padlock)
             {
-                var item = _gamesActions.First(e => e.Key._gameRoomID == gameRoomID &&
-                e.Key._gameNumber == gameNumber);
-                _gamesActions.Remove(item.Key);
+                if (_gamesActions != null && _gamesActions.Count > 0)
+                {
+                    var item = _gamesActions.First(e => e.Key._gameRoomID == gameRoomID &&
+                    e.Key._gameNumber == gameNumber);
+                    _gamesActions.Remove(item.Key);
+                }
             }
          }
         //public GameMove GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)

@@ -10,7 +10,7 @@ using TexasHoldem.Logic.Users;
 using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Replay.Tests
-{//todo fix this class
+{
     [TestClass()]
     public class GameReplayTests
     {
@@ -22,13 +22,15 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestInitialize()]
         public void Initialize()
         {
-          /*  testGR = new GameReplay(1, 1);
-            testAction1 = new CallAction(new Player(1000, 500, 1, "test1", "mem", "123", 10, 100, "email@gmail.com", 1),
+            testGR = new GameReplay(1, 1);
+            User user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
+            User user2 = new User(1, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
+            testAction1 = new CallAction(new Player(user1, 1000, 1),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
-            testAction2 = new CallAction(new Player(1000,100,1, "test2", "mem", "123", 10, 100, "email@gmail.com", 1),
+            testAction2 = new CallAction(new Player(user2, 1000, 1),
                 new Card(Suits.Hearts, 3), new Card(Suits.Hearts, 4), 20);
             testGR.AddAction(testAction1);
-            testGR.AddAction(testAction2);*/
+            testGR.AddAction(testAction2);
         }
 
         [TestMethod()]
