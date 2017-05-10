@@ -16,7 +16,6 @@ namespace TexasHoldem.Logic.Users
         public int TotalChip { get; set; }
         public int RoundChipBet { get; set; } // the number of chips player use in this round
         public bool PlayedAnActionInTheRound { get; set; }
-        public bool _isInRoom { get; set; }
         public int moveForTest { get; set; } //-1 fold, 0 check,raise / call / bet by how mutch
         public Card _firstCard { get; set; } 
         public Card _secondCard { get; set; }
@@ -43,6 +42,13 @@ namespace TexasHoldem.Logic.Users
             this.PlayedAnActionInTheRound = false;
         }
         
+        public void InitInNewGame()
+        {
+            isPlayerActive = true;
+            RoundChipBet = 0;
+            PlayedAnActionInTheRound = false;
+        }
+
        //getter setter
 
         public bool IsAllIn()
