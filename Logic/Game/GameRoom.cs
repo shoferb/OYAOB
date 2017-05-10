@@ -893,6 +893,8 @@ namespace TexasHoldem.Logic.Game
         //TODO FIX! and use decorator
         public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
         {
+            throw new NotImplementedException();
+            /*
             bool toReturn = false;
             if (this.IsActiveGame)
             {
@@ -911,7 +913,7 @@ namespace TexasHoldem.Logic.Game
                 toReturn = true;
                 return toReturn;
             }
-            return toReturn;
+            return toReturn;*/
         }
 
         public List<Player> GetPlayersInRoom()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Game
@@ -60,7 +61,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public bool CanJoin(int count, int amount)
+        public bool CanJoin(int count, int amount,IUser user)
         {
             throw new NotImplementedException();
         }
