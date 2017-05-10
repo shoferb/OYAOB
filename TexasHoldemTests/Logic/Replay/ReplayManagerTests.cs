@@ -36,6 +36,9 @@ namespace TexasHoldem.Logic.Replay.Tests
         public void Cleanup()
         {
             _testRM.DeleteGameReplay(1, 1);
+            _testRM.DeleteGameReplay(2, 1);
+            _testRM.DeleteGameReplay(1, 2);
+
         }
 
         [TestMethod()]
