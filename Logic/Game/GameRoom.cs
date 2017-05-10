@@ -40,7 +40,6 @@ namespace TexasHoldem.Logic.Game
         private Decorator MyDecorator;
         private LogControl logControl;
         private int GameNumber;
-        private Player lastPlayerRaisedInRound; // TODO probably unnecessery 
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;
@@ -299,7 +298,6 @@ namespace TexasHoldem.Logic.Game
             logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
 
-            lastPlayerRaisedInRound = player;
             foreach (Player p in Players) //they all need to make another action in this round
             {
                 if (p != player)
@@ -373,7 +371,6 @@ namespace TexasHoldem.Logic.Game
         {
             MoveChipsToPot();
 
-            lastPlayerRaisedInRound = null;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
