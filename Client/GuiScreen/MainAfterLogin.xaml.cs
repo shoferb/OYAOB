@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.GuiScreen;
 using Client.Logic;
 
 namespace TexasHoldem.GuiScreen
@@ -51,7 +52,16 @@ namespace TexasHoldem.GuiScreen
         }  
         private void EditUserbutton_Click(object sender, RoutedEventArgs e)
         {
+            EditUserInfo editUserInfo = new EditUserInfo(this,currUserId,cl);
+            editUserInfo.Show();
+            this.Hide();
+        }
 
+        private void GameSearchMenuutton_Click(object sender, RoutedEventArgs e)
+        {
+            SearchMenuScreen searchMenuScreen = new SearchMenuScreen(this,cl);
+            searchMenuScreen.Show();
+            this.Hide();
         }
     }
 }

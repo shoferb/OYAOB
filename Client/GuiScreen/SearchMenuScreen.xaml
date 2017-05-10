@@ -1,0 +1,29 @@
+﻿<Window x:Class="Client.GuiScreen.SearchMenuScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.GuiScreen"
+        mc:Ignorable="d"
+        Title="SearchMenuScreen" Height="678.964" Width="844.163">
+    <Grid>
+
+        <Grid.Background>
+            <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
+        </Grid.Background>
+        <Label x:Name="GameSearchMenuLabel" Content="Game Search Menu" HorizontalAlignment="Left" Margin="70,43,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Button x:Name="Backbutton" Content="Back" HorizontalAlignment="Left" Margin="70,577,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.149,0.56" Click="Backbutton_Click"/>
+        <Button x:Name="SearchByUserNamebutton" Content="Search games By Username" HorizontalAlignment="Left" Margin="70,106,0,0" VerticalAlignment="Top" Width="187" Height="21" Click="SearchByUserNamebutton_Click"/>
+        <Button x:Name="SearchByRoomIdbutton" Content="Search game by room Id" HorizontalAlignment="Left" Margin="70,148,0,0" VerticalAlignment="Top" Width="187" Click="SearchByRoomIdbutton_Click"/>
+        <Button x:Name="AllActiveGameCanJoinbutton" Content="Get all active game you can join" HorizontalAlignment="Left" Margin="70,190,0,0" VerticalAlignment="Top" Width="187" Click="AllActiveGameCanJoinbutton_Click"/>
+        <Button x:Name="SpectetorGameSeatchButton" Content="Get all spectetor Games" HorizontalAlignment="Left" Margin="70,230,0,0" VerticalAlignment="Top" Width="187" Click="SpectetorGameSeatchButton_Click"/>
+        <Button x:Name="SearchByPotSize" Content="Search game By pot size" HorizontalAlignment="Left" Margin="70,273,0,0" VerticalAlignment="Top" Width="187"/>
+        <Button x:Name="SearchByGameModebutton" Content="Search By Game Type" HorizontalAlignment="Left" Margin="70,318,0,0" VerticalAlignment="Top" Width="187" Click="SearchByGameModebutton_Click"/>
+        <Button x:Name="SearchByBuyInButton" Content="Search By buy in policy" HorizontalAlignment="Left" Margin="70,362,0,0" VerticalAlignment="Top" Width="187" Click="SearchByBuyInButton_Click"/>
+        <Button x:Name="SearchByMinPlayerbutton" Content="Search By min players" HorizontalAlignment="Left" Margin="70,406,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="-3.814,-0.817" Click="SearchByMinPlayerbutton_Click"/>
+        <Button x:Name="SearchByMaxPlayerbutton" Content="Search By Max Player" HorizontalAlignment="Left" Margin="70,446,0,0" VerticalAlignment="Top" Width="187" Click="SearchByMaxPlayerbutton_Click"/>
+        <Button x:Name="SearchByStartingChipbutton" Content="Search By Srating chip" HorizontalAlignment="Left" Margin="70,487,0,0" VerticalAlignment="Top" Width="187" Click="SearchByStartingChipbutton_Click"/>
+        <Button x:Name="SearchByMinBetBButton" Content="Search By Min Bet" HorizontalAlignment="Left" Margin="70,529,0,0" VerticalAlignment="Top" Width="187" RenderTransformOrigin="-3.589,1.267" Click="SearchByMinBetBButton_Click"/>
+
+    </Grid>
+</Window>
