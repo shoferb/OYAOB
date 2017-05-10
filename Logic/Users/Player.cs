@@ -47,6 +47,7 @@ namespace TexasHoldem.Logic.Users
             isPlayerActive = true;
             RoundChipBet = 0;
             PlayedAnActionInTheRound = false;
+
         }
 
        //getter setter
