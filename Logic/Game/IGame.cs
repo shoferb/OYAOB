@@ -47,12 +47,6 @@ namespace TexasHoldem.Logic.Game
         //return true the stsrtingchip of room is the same
         bool IsGameStartingChipEqual(int startingChip);
 
-        //return true if user has money for buyIn + starting chip and his point are in:
-        //room.minRank <= point <= room.maxPoints +
-        //check that game is no active and has more room for another player
-        //if isUNknow = true --> no need th check if point are good
-        bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow);
-
         List<Player> GetPlayersInRoom();
 
 
