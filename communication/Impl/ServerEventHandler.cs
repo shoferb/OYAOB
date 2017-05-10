@@ -135,6 +135,11 @@ namespace TexasHoldem.communication.Impl
                     toSend = ToClientGameList(temp);
                     success = toSend.Count != 0;
                     break;
+                case SearchCommMessage.SearchType.ByMaxPlayer:
+                    temp = _gameService.GetGamesByMaxPlayer(msg.searchByInt);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
             }
         }
 
