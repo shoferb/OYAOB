@@ -76,5 +76,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByStartingChipbutton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

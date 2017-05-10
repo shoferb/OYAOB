@@ -21,7 +21,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             ByBuyInPolicy,
             ByMinPlayer,
             ByMaxPlayer,
-            ByStartingChip
+            ByStartingChip,
+            ByMinBet
         }
 
         
