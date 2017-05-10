@@ -85,17 +85,12 @@ namespace TexasHoldem.Logic
 
         public bool IsGameMinBetEqual(int minBet)
         {
-            return this.BB == minBet;
+            return BB == minBet;
         }
 
         public bool IsGameStartingChipEqual(int startingChip)
         {
-            return this.StartingChip == startingChip;
-        }
-
-        private bool CanAddAnotherPlayer(int currNumOfPlayer)
-        {
-            return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
+            return StartingChip == startingChip;
         }
 
         public int GetMinPlayerInRoom()
@@ -158,6 +153,10 @@ namespace TexasHoldem.Logic
             return user.HasEnoughMoney(amount, EnterPayingMoney);
         }
 
+        private bool CanAddAnotherPlayer(int currNumOfPlayer)
+        {
+            return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
+        }
 
     }
 }
