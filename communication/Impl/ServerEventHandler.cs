@@ -1,4 +1,6 @@
-﻿using TexasHoldem.Logic.Users;
+﻿using System.Collections.Generic;
+using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
@@ -10,7 +12,8 @@ namespace TexasHoldem.communication.Impl
     //TODO: this class
     class ServerEventHandler : IEventHandler
     {
-        private readonly UserServiceHandler _userService; //TODO init // = new UserServiceHandler();
+        private readonly UserServiceHandler _userService = new UserServiceHandler(); //TODO init // = new UserServiceHandler();
+        private readonly  GameServiceHandler _gameService = new GameServiceHandler();
         private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser; //TODO: init
         //private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
@@ -82,9 +85,12 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(SearchCommMessage msg)
         {
             bool success;
+            List<IGame> temp;
             switch (msg.searchType)
             {
-                    case SearchCommMessage.SearchType.ByUserName:
+                    case SearchCommMessage.SearchType.ActiveGamesByUserName:
+                        temp = _userService.GetActiveGamesByUserName(msg.searchByString);
+
                         break;
             }
         }

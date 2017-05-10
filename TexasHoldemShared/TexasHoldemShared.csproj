@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Card.cs" />
     <Compile Include="CommMessages\ClientToServer\ActionCommMessage.cs" />
+    <Compile Include="CommMessages\ClientToServer\ClientGame.cs" />
     <Compile Include="CommMessages\ClientToServer\GameMode.cs" />
     <Compile Include="CommMessages\ClientToServer\SearchCommMessage.cs" />
     <Compile Include="CommMessages\CommunicationMessage.cs" />
