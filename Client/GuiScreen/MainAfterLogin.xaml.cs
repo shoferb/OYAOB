@@ -59,8 +59,8 @@ namespace TexasHoldem.GuiScreen
 
         private void GameSearchMenuutton_Click(object sender, RoutedEventArgs e)
         {
-            SearchMenuScreen searchMenuScreen = new SearchMenuScreen(this,cl);
-            searchMenuScreen.Show();
+            SearchScreen searchScreen = new SearchScreen(this,cl);
+            searchScreen.Show();
             this.Hide();
         }
     }
