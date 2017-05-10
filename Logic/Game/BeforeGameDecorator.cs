@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic
@@ -52,13 +53,18 @@ namespace TexasHoldem.Logic
             return this.NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
         }
 
-        public  bool CanJoin(int playersCount, int amount)
+        public  bool CanJoin(int playersCount, int amount, IUser user)
         {
-            if (CanAddMorePlayer(playersCount) && amount >= StartingChip && )
+            if (CanAddMorePlayer(playersCount) && amount >= StartingChip && HasEnoughMoney(user) )
             {
                 return true;
             }
             return false;
+        }
+
+        private bool HasEnoughMoney(IUser user)
+        {
+            throw new NotImplementedException();
         }
 
         public bool IsGameModeEqual(GameMode gm)
