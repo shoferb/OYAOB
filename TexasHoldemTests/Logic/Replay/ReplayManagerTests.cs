@@ -78,7 +78,6 @@ namespace TexasHoldem.Logic.Replay.Tests
         [TestMethod()]
         public void ShowGameReplayTest()
         {
-            Assert.IsNotNull(_testRM.ShowGameReplay(1, 1, 1));
             Assert.IsTrue(_testRM.ShowGameReplay(1, 1, 1) != "");
             Assert.IsTrue(_testRM.ShowGameReplay(3, 3, 1) == "");
             Assert.IsTrue(_testRM.ShowGameReplay(1, 3, 1) == "");
