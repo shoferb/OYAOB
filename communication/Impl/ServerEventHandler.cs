@@ -81,7 +81,11 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(SearchCommMessage msg)
         {
-            throw new System.NotImplementedException();
+            bool success;
+            switch (msg.)
+            {
+                    
+            }
         }
 
         public void HandleEvent(GameDataCommMessage msg)

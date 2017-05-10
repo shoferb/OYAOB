@@ -26,10 +26,10 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         }
 
         
-        private SearchType searchType;
-        private string searchByString;
-        private int searchByInt;
-        private GameMode searchByGameMode;
+        public SearchType searchType;
+        public string searchByString;
+        public int searchByInt;
+        public GameMode searchByGameMode;
 
         public SearchCommMessage(int userId, SearchType _searchType, string _searchByString, int _searchByInt,GameMode _searchByGameMode) : base(userId)
         {
