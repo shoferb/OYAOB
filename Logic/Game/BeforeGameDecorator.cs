@@ -70,7 +70,7 @@ namespace TexasHoldem.Logic
 
         public bool IsGameBuyInPolicyEqual(int buyIn)
         {
-            return this.EnterPayingMoney == buyIn;
+            return EnterPayingMoney == buyIn;
         }
 
         public bool IsGameMinPlayerEqual(int min)
