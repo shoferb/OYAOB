@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
         Title="UserInfoScreen" Height="496.664" Width="626.862">
-    <Grid Margin="0,0,-5.6,0.4">
+    <Grid Margin="0,0,-76.2,-78.2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="371*"/>
             <ColumnDefinition Width="81*"/>
@@ -15,16 +15,18 @@
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
         <Label x:Name="UserInfoMenuLabel" Content="User information" HorizontalAlignment="Left" Margin="58,43,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
-        <Button x:Name="Backbutton" Content="Back" HorizontalAlignment="Left" Margin="36,403,0,-85" VerticalAlignment="Top" Width="75" Click="Backbutton_Click"/>
-        <Button x:Name="EditMenubutton" Content="Edit information" HorizontalAlignment="Left" Margin="36,351,0,-33" VerticalAlignment="Top" Width="150" Click="EditMenubutton_Click" />
+        <Button x:Name="Backbutton" Content="Back" HorizontalAlignment="Left" Margin="44,475,0,0" VerticalAlignment="Top" Width="75" Click="Backbutton_Click"/>
+        <Button x:Name="EditMenubutton" Content="Edit information" HorizontalAlignment="Left" Margin="44,428,0,0" VerticalAlignment="Top" Width="150" Click="EditMenubutton_Click" />
 
-        <Label x:Name="EditUserMenuLabel" Content="Edit User menu" HorizontalAlignment="Left" Margin="140,37,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Label x:Name="EditUserMenuLabel" HorizontalAlignment="Left" Margin="140,37,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
         <Label x:Name="userIdLabel" Content="User Id:" HorizontalAlignment="Left" Margin="44,94,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506"/>
         <Label x:Name="namelabel" Content="Name:" HorizontalAlignment="Left" Margin="44,134,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
         <Label x:Name="UserNamelabel" Content="User-name" HorizontalAlignment="Left" Margin="44,174,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
         <Label x:Name="EmailLabel" Content="Email" HorizontalAlignment="Left" Margin="44,215,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
         <Label x:Name="MoneyLabel" Content="Money" HorizontalAlignment="Left" Margin="44,256,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
-        <Label x:Name="LeaugeLabel" Content="Money" HorizontalAlignment="Left" Margin="44,256,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="LeaugeLabel" Content="Leauge" HorizontalAlignment="Left" Margin="44,310,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label x:Name="AvatarLabel" Content="Avatar" HorizontalAlignment="Left" Margin="44,366,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <TextBox x:Name="IdtextBox" HorizontalAlignment="Left" Height="23" Margin="194,94,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False" />
 
     </Grid>
 </Window>

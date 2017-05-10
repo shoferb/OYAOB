@@ -29,6 +29,7 @@ namespace Client.GuiScreen
             InitializeComponent();
             parent = w;
             cl = cli;
+            IdtextBox.Text = cl.user.id.ToString();
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
@@ -43,5 +44,7 @@ namespace Client.GuiScreen
             editUserInfo.Show();
             this.Hide();
         }
+
+      
     }
 }
