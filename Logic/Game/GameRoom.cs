@@ -261,7 +261,6 @@ namespace TexasHoldem.Logic.Game
 
             HandCards();
             IsActiveGame = true;
-            someOneRaised = false;
             return true;
         }
 
@@ -301,7 +300,6 @@ namespace TexasHoldem.Logic.Game
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
 
             lastPlayerRaisedInRound = player;
-            someOneRaised = true;
             foreach (Player p in Players) //they all need to make another action in this round
             {
                 if (p != player)
@@ -376,7 +374,6 @@ namespace TexasHoldem.Logic.Game
             MoveChipsToPot();
 
             lastPlayerRaisedInRound = null;
-            LastRaise = 0;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
@@ -899,15 +896,7 @@ namespace TexasHoldem.Logic.Game
             return this.Spectatores;
         }
 
-        public int GetMinRank()
-        {
-            return MinRank;
-        }
-
-        public int GetMaxRank()
-        {
-            return MaxRank;
-        }
+      
 
         //Getters for search display in GUI
         public int GetMinPlayer()
