@@ -29,14 +29,11 @@ namespace TexasHoldem.Logic.Users
             this.user = User;
             this.roomId = RoomId;
             this.TotalChip = totalChip;
-            this.RoundChipBet = 0;
-       
-            this.RoundChipBet = RoundChipBet;
+            this.RoundChipBet = 0;     
             this.TotalChip = totalChip;
             isPlayerActive = false;
             this._firstCard = null;
             this._secondCard = null;
-            this.moveForTest = 0;
             this.isPlayerActive = false;
             this.PlayedAnActionInTheRound = false;
         }
