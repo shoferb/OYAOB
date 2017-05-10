@@ -224,7 +224,14 @@ namespace TexasHoldem.Logic.Game
 
         private bool IsUserASpectator(IUser user)
         {
-            throw new NotImplementedException();
+            foreach (Spectetor s in Spectatores)
+            {
+                if (s.user.Id() == user.Id())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         //TODO: checking before calling to this function that this user&room ID are exist
