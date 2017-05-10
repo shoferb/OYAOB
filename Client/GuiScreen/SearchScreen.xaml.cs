@@ -144,9 +144,10 @@ namespace Client.GuiScreen
             else if (field == 2) //all active games user can join
             {
 
-                toSearch = searchBox.Text;
+                
                 List<ClientGame> temp = null;
-                temp = _cusBl.GetByClubMemberGender(toSearch);
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
+                    GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
                 {
@@ -157,15 +158,18 @@ namespace Client.GuiScreen
                     listView.ItemsSource = result;
                 }
             }
-            else if (field == 3) //tz
+            else if (field == 3) //by room Id
             {
                 toSearch = searchBox.Text;
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
+                int toSearchRoomId;
+               
+               
+                List<ClientGame> temp;
                 isValid = int.TryParse(toSearch, out idSearch);
                 if (isValid)
                 {
-                    temp = _cusBl.GeBytClubMemberTeudatZehute(idSearch);
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", idSearch,
+                        GameMode.Limit);
                     result = temp;
                     if (result == null || !result.Any())
                     {
@@ -178,31 +182,23 @@ namespace Client.GuiScreen
                 }
                 else
                 {
-                    MessageBox.Show("Invalid Input-TZ contains only numbers");
+                    MessageBox.Show("Invalid room id should contains only numbers");
                 }
             }
-            else if (field == 4) //dob
+            else if (field == 4) //all spectetors
             {
-                toSearch = searchBox.Text;
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
-                isValid = DateTime.TryParse(toSearch, out dateToSearch);
-                if (isValid)
+
+                List<ClientGame> temp = null;
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
+                    GameMode.Limit);
+                result = temp;
+                if (result == null || !result.Any())
                 {
-                    temp = _cusBl.GetByClubMemberDOB(dateToSearch);
-                    result = temp;
-                    if (result == null || !result.Any())
-                    {
-                        emptySearch();
-                    }
-                    else
-                    {
-                        listView.ItemsSource = result;
-                    }
+                    emptySearch();
                 }
                 else
                 {
-                    MessageBox.Show("Invalid input-enter input in date form");
+                    listView.ItemsSource = result;
                 }
             }
             else if (field == 5) //mmberid
