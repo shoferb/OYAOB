@@ -55,10 +55,10 @@ namespace TexasHoldem.GuiScreen
 
         private void Loginbutton_Click(object sender, RoutedEventArgs e)
         {
-            int loginOk = cl.Login(userName, password);
-            if (loginOk != -1)
+            bool loginOk = cl.Login(userName, password);
+            if (loginOk )
             {
-                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, loginOk,cl);
+                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, cl.user.id,cl);
                 mainAfterLogin.Show();
                 this.Hide();
             }
