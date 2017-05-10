@@ -15,7 +15,7 @@
         <Button x:Name="EditUserbutton" Content="Edit User Information" HorizontalAlignment="Left" Margin="70,86,0,0" VerticalAlignment="Top" Width="154" Click="EditUserbutton_Click"/>
         <Button x:Name="Logoututton" Content="LogOut" HorizontalAlignment="Left" Margin="70,130,0,0" VerticalAlignment="Top" Width="154" Click="Logoututton_Click"/>
         <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Left" Margin="31,246,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="GameSearchMenuutton" Content="Game Search Menu" HorizontalAlignment="Left" Margin="70,175,0,0" VerticalAlignment="Top" Width="154"/>
+        <Button x:Name="GameSearchMenuutton" Content="Game Search Menu" HorizontalAlignment="Left" Margin="70,175,0,0" VerticalAlignment="Top" Width="154" Click="GameSearchMenuutton_Click"/>
 
     </Grid>
 </Window>
