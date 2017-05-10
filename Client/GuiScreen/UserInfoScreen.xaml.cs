@@ -33,6 +33,7 @@ namespace Client.GuiScreen
             NameTextBox.Text = cl.user.name;
             UserNametextBox.Text = cl.user.username;
             EmailtextBox.Text = cl.user.email;
+            MoneytextBox.Text = cl.user.money.ToString();
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
