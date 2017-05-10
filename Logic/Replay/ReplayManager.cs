@@ -104,9 +104,12 @@ namespace TexasHoldem.Logic.Replay
         {
             lock (padlock)
             {
-                var item = _gamesActions.First(e => e.Key._gameRoomID == gameRoomID &&
-                e.Key._gameNumber == gameNumber);
-                _gamesActions.Remove(item.Key);
+                if (_gamesActions != null && _gamesActions.Count > 0)
+                {
+                    var item = _gamesActions.First(e => e.Key._gameRoomID == gameRoomID &&
+                    e.Key._gameNumber == gameNumber);
+                    _gamesActions.Remove(item.Key);
+                }
             }
          }
         //public GameMove GetActionFromGameReplay(int gameRoomID, int gameNumber, int actionNumber)
