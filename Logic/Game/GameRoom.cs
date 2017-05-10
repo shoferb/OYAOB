@@ -207,7 +207,7 @@ namespace TexasHoldem.Logic.Game
                 GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
                 return false;
             }
-            if (MyDecorator.CanJoin(Players.Count , amount))
+            if (MyDecorator.CanJoin(Players.Count , amount, user))
             {
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
@@ -890,7 +890,7 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.IsGameStartingChipEqual(startingChip);
         }
 
-        //TODO FIX!
+        //TODO FIX! and use decorator
         public bool CanUserJoinGame(int userMoney, int userPoints, bool ISUnKnow)
         {
             bool toReturn = false;
