@@ -1,0 +1,57 @@
+﻿<Window x:Class="Client.GuiScreen.SearchScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client.GuiScreen"
+        mc:Ignorable="d"
+        Title="SearchScreen" Height="425.716" Width="965.088">
+    <Grid Margin="0,0,-6.6,-0.4">
+        <Grid.Background>
+            <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
+        </Grid.Background>
+        <Label x:Name="GameSearchMenuLabel" Content="Game Search Menu" HorizontalAlignment="Left" Margin="188.8,40,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="27*"/>
+            <ColumnDefinition Width="257*"/>
+            <ColumnDefinition Width="128*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="BBack" Content="Back" HorizontalAlignment="Left" Height="20" Margin="23,329,0,-89" VerticalAlignment="Top" Width="49" Click="BBack_Click" Grid.ColumnSpan="2"/>
+        <ListView x:Name="listView" HorizontalAlignment="Left" Height="186" Margin="10.6,127,0,0" VerticalAlignment="Top" Width="544" SelectionChanged="listView_SelectionChanged" Grid.Column="1">
+            <ListView.View>
+                <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
+                    <GridViewColumn Header="First Name" Width="80" DisplayMemberBinding="{Binding FirstName}" />
+                    <GridViewColumn Header="Last Name" Width="80" DisplayMemberBinding="{Binding LastName}" />
+                    <GridViewColumn Header="Gender" Width="80" DisplayMemberBinding="{Binding Gender}" />
+                    <GridViewColumn Header="Teudat-Zehute" Width="100" DisplayMemberBinding="{Binding TeudatZehute}" />
+                    <GridViewColumn Header="Date Of Birth" Width="100" DisplayMemberBinding="{Binding DateOfBirth}" />
+                    <GridViewColumn Header="Member-ID" Width="100" DisplayMemberBinding="{Binding MemberID}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="27" Margin="433.8,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" SpellCheck.IsEnabled="True" TextChanged="searchBox_TextChanged" Grid.Column="1" Grid.ColumnSpan="2"/>
+        <Label Content="Enter your search here" HorizontalAlignment="Left" Margin="433.8,52,0,0" VerticalAlignment="Top" Width="186" Height="26" Grid.Column="1" Foreground="White" FontWeight="Bold" FontSize="14" Grid.ColumnSpan="2"/>
+        <Label Content="Search by:" HorizontalAlignment="Left" Margin="21.8,81,0,0" VerticalAlignment="Top" Height="41" Width="81" Grid.Column="1" Foreground="White" FontWeight="Bold" FontSize="14"/>
+        <Button x:Name="SearchB" Content="Search" HorizontalAlignment="Left" Height="26" Margin="10.425,318,0,-84" VerticalAlignment="Top" Width="71" Click="SearchB_Click" Grid.Column="2"/>
+        <ComboBox HorizontalAlignment="Left" Height="27" Margin="109.8,168,0,0" VerticalAlignment="Top" Width="258" SelectionChanged="ComboBox_SelectionChanged" Grid.Column="1">
+            <ComboBoxItem Content="Get active game of user by username" HorizontalAlignment="Left" Width="258" Selected="ComboBoxItem_Selected" Margin="0,0,-2,0"/>
+            <ComboBoxItem Content="get spectetor game of user by username" HorizontalAlignment="Left" Width="248" Selected="ComboBoxItem_Selected_1" Height="22"/>
+            <ComboBoxItem Content="Get all Games you can join" HorizontalAlignment="Left" Width="253" Selected="ComboBoxItem_Selected_2"/>
+            <ComboBoxItem Content="Get game by room id" HorizontalAlignment="Left" Width="236" Selected="ComboBoxItem_Selected_3"/>
+            <ComboBoxItem Content="Get all spectetor games" HorizontalAlignment="Left" Width="260" Selected="ComboBoxItem_Selected_4" Margin="0,0,-4,0"/>
+            <ComboBoxItem Content="Get games by min amount of player" HorizontalAlignment="Left" Width="263" Selected="ComboBoxItem_Selected_5" Margin="0,0,-7,0"/>
+            <ComboBoxItem Content="Get Games By max amount of player" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_6"/>
+            <ComboBoxItem Content="Get Games By min bet in room" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_7"/>
+            <ComboBoxItem Content="Get Games By pot size in game" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_8"/>
+            <ComboBoxItem Content="Get Games By Buy in policy" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_9"/>
+            <ComboBoxItem Content="Get Games By staring chip policy" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_10"/>
+            <ComboBoxItem Content="Get not-limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_11"/>
+            <ComboBoxItem Content="Get limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_12"/>
+            <ComboBoxItem Content="Get pot-limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_13"/>
+
+
+
+        </ComboBox>
+
+    </Grid>
+</Window>

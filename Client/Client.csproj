@@ -87,6 +87,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GuiScreen\SearchScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\UserInfoScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,6 +127,9 @@
     </Compile>
     <Compile Include="GuiScreen\SearchMenuScreen.xaml.cs">
       <DependentUpon>SearchMenuScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\SearchScreen.xaml.cs">
+      <DependentUpon>SearchScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\UserInfoScreen.xaml.cs">
       <DependentUpon>UserInfoScreen.xaml</DependentUpon>
