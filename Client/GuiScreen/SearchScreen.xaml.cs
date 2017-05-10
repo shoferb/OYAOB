@@ -129,7 +129,7 @@ namespace Client.GuiScreen
 
                 toSearch = searchBox.Text;
                 List<ClientGame> temp;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
                     GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
@@ -145,7 +145,7 @@ namespace Client.GuiScreen
             {
 
                 toSearch = searchBox.Text;
-                List<Cli> temp = null;
+                List<ClientGame> temp = null;
                 temp = _cusBl.GetByClubMemberGender(toSearch);
                 result = temp;
                 if (result == null || !result.Any())
