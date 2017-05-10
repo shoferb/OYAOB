@@ -49,10 +49,11 @@ namespace TexasHoldem.Logic.Users
 
         public void InitForNewRound()
         {
-
+            RoundChipBet = 0;
+            PlayedAnActionInTheRound = false;
         }
 
-       //getter setter
+        //getter setter
 
         public bool IsAllIn()
         {
