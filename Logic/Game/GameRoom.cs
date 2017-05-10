@@ -231,7 +231,7 @@ namespace TexasHoldem.Logic.Game
         private bool StartGame(Player player)
         {
             GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-                                                BbPlayer.name, SbPlayer.name);
+                                     BbPlayer.name, SbPlayer.name);
 
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
