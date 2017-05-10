@@ -8,7 +8,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 {
     public class LoginResponeCommMessage : ResponeCommMessage
     {
-        //todo - this class is te message responce we get when login
+        
 
         private string name;
         private string username;

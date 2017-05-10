@@ -55,6 +55,7 @@
     <Compile Include="CommMessages\ClientToServer\RegisterCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\RegisterResponeCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\SearchResponseCommMessage.cs" />
     <Compile Include="IEventHandler.cs" />
     <Compile Include="Parser\ICommMsgXmlParser.cs" />
     <Compile Include="Parser\parserImplementation.cs" />
