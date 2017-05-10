@@ -81,5 +81,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void SearchByMinBetBButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
