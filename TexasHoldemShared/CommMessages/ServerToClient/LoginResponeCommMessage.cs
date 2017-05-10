@@ -16,9 +16,10 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         private string avatar;//- image path
         private int money;
         private string email;
+        private string leauge;
 
         public LoginResponeCommMessage(int id, string _name, string _username, string _password,
-            string _avatar, int _money, string _email, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+            string _avatar, int _money, string _email,string _leauge, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
         {
             this.name = _name;
             this.username = _username;
@@ -26,6 +27,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             this.avatar = _avatar;
             this.money = _money;
             this.email = _email;
+            this.leauge = _leauge;
         }
 
         //visitor pattern
