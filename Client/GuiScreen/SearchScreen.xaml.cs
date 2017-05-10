@@ -169,6 +169,7 @@ namespace Client.GuiScreen
         private void GetPotLimitGames()
         {
             List<ClientGame> temp;
+           
             temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
                 GameMode.PotLimit);
             result = temp;
