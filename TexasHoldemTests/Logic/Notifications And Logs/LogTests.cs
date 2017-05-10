@@ -47,11 +47,11 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         public void ToStringTest()
         {
             Log errorLog = new Log();
-            Log errorLog2 = new Log();
+
             string toCheck1 = "Log Id is: " + errorLog.LogId ;
-            string toCheck2 = "Log Id is: " + errorLog2.LogId ;
+
             Assert.AreEqual(errorLog.ToString(), toCheck1);
-            Assert.AreEqual(errorLog2.ToString(), toCheck2);
+
         }
     }
 }
