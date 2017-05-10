@@ -97,11 +97,6 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public bool CanUserJoinGameWithMoney(int userMoney)
-        {
-            throw new NotImplementedException();
-        }
-
         public int GetMinPlayerInRoom()
         {
             throw new NotImplementedException();

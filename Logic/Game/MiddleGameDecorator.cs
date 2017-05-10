@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic
@@ -98,7 +99,7 @@ namespace TexasHoldem.Logic
         }
 
         //check if the amount is in the range
-        public bool CanJoin(int playersCount, int amount)
+        public bool CanJoin(int playersCount, int amount, IUser user)
         {
             throw new NotImplementedException();
         }
@@ -131,11 +132,6 @@ namespace TexasHoldem.Logic
         }
 
         public bool IsGameStartingChipEqual(int startingChip)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanUserJoinGameWithMoney(int userMoney)
         {
             throw new NotImplementedException();
         }
