@@ -44,10 +44,6 @@ namespace TexasHoldem.Logic.Game
         private Player lastPlayerRaisedInRound; // TODO probably unnecessery 
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
-        private bool someOneRaised;
-        private int MinBetInRoom;
-        private int MaxRank;
-        private int MinRank;
         private int firstPlayerInRoundPoistion;
 
         private LeagueName league;
