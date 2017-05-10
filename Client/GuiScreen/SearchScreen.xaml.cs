@@ -309,6 +309,35 @@ namespace Client.GuiScreen
                 }
 
             }
+
+            if (field == 9)
+            {
+                toSearch = searchBox.Text;
+                int toSearchBuyIn;
+
+
+                List<ClientGame> temp;
+                isValid = int.TryParse(toSearch, out toSearchBuyIn);
+                if (isValid)
+                {
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy, "", toSearchBuyIn,
+                        GameMode.Limit);
+                    result = temp;
+                    if (result == null || !result.Any())
+                    {
+                        emptySearch();
+                    }
+                    else
+                    {
+                        listView.ItemsSource = result;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid buy in policy should contains only numbers");
+                }
+
+            }
         }
 
         //all active game bby username
