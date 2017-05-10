@@ -34,15 +34,38 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
             Assert.IsInstanceOfType(sysLog2, typeof(SystemLog));
         }
 
+
+        [TestMethod()]
+        public void SystemLogTestNextIdSucces()
+        {
+            int logId1 = Log.getNextId();
+            SystemLog sysLog = new SystemLog(1, "system log to test");
+            Assert.AreEqual(sysLog.LogId, logId1);
+        }
+
+
+
+        [TestMethod()]
+        public void SystemLogTesNotSameIdSucces()
+        {
+            int logId1 = Log.getNextId();
+            SystemLog sysLog = new SystemLog(1, "system log to test");
+            int logId2 = Log.getNextId();
+            SystemLog sysLog2 = new SystemLog(2, "system log to test2");
+            Assert.AreNotEqual(sysLog.LogId, sysLog2.LogId);
+
+        }
+
+       
+
+
         [TestMethod()]
         public void ToStringTest()
         {
             SystemLog sysLog = new SystemLog(1, "system log to test");
-            SystemLog sysLog2 = new SystemLog(1, "system log to test2");
+           
             string toCheck1 = "Log Id is: " + sysLog.LogId + " msg is: " + sysLog.Msg +"to room Id: "+sysLog.RoomId;
-            string toCheck2 = "Log Id is: " + sysLog2.LogId + " msg is: " + sysLog2.Msg  +"to room Id: " + sysLog.RoomId;
             Assert.AreEqual(sysLog.ToString(), toCheck1);
-            Assert.AreEqual(sysLog2.ToString(), toCheck2);
             
         }
     }
