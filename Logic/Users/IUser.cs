@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 
 namespace TexasHoldem.Logic.Users
@@ -90,5 +91,8 @@ namespace TexasHoldem.Logic.Users
 
         bool AddNotificationToList(Notification toAdd);
 
+        LeagueName GetLeague();
+
+        void SetLeague(LeagueName league);
     }
 }
