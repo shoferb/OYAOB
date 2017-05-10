@@ -150,6 +150,10 @@ namespace TexasHoldem.communication.Impl
                     toSend = ToClientGameList(temp);
                     success = toSend.Count != 0;
                     break;
+                default:
+                    success = false;
+                    break;
+                    //todo add responce after create searchh responce type
             }
         }
 
