@@ -140,6 +140,11 @@ namespace TexasHoldem.communication.Impl
                     toSend = ToClientGameList(temp);
                     success = toSend.Count != 0;
                     break;
+                case SearchCommMessage.SearchType.ByStartingChip:
+                    temp = _gameService.GetGamesByStartingChip(msg.searchByInt);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
             }
         }
 
