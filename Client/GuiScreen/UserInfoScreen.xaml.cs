@@ -35,6 +35,8 @@ namespace Client.GuiScreen
             EmailtextBox.Text = cl.user.email;
             MoneytextBox.Text = cl.user.money.ToString();
             LeaugeTextBox.Text = cl.user.leauge;
+            string path = cl.user.avatar;
+            //todo set avatar
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
