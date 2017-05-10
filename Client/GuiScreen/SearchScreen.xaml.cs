@@ -124,18 +124,7 @@ namespace Client.GuiScreen
             }
             else if (field == 4) //all spectetors
             {
-                List<ClientGame> temp = null;
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame, "", -1,
-                    GameMode.Limit);
-                result = temp;
-                if (result == null || !result.Any())
-                {
-                    emptySearch();
-                }
-                else
-                {
-                    listView.ItemsSource = result;
-                }
+                GetAllSpectetor();
             }
             else if (field == 5) //min player
             {
@@ -352,6 +341,22 @@ namespace Client.GuiScreen
 
             }
 
+        }
+
+        private void GetAllSpectetor()
+        {
+            List<ClientGame> temp = null;
+            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame, "", -1,
+                GameMode.Limit);
+            result = temp;
+            if (result == null || !result.Any())
+            {
+                emptySearch();
+            }
+            else
+            {
+                listView.ItemsSource = result;
+            }
         }
 
         private void GetRoomById()
