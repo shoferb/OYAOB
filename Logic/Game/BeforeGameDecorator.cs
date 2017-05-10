@@ -62,19 +62,10 @@ namespace TexasHoldem.Logic
             return false;
         }
 
-        private bool SuitableLeague(IUser user)
-        {
-            return (user.IsUnKnow() || user.GetLeague() == league);
-        }
-
-        private bool HasEnoughMoney(IUser user, int amount)
-        {
-            return user.HasEnoughMoney(amount, EnterPayingMoney);
-        }
 
         public bool IsGameModeEqual(GameMode gm)
         {
-            return this.NextDecorator.IsGameModeEqual(gm);
+            return NextDecorator.IsGameModeEqual(gm);
         }
 
         public bool IsGameBuyInPolicyEqual(int buyIn)
@@ -157,6 +148,15 @@ namespace TexasHoldem.Logic
             return currNumOfPlayers < MaxPlayersInRoom ? true : false;
         }
 
+        private bool SuitableLeague(IUser user)
+        {
+            return (user.IsUnKnow() || user.GetLeague() == league);
+        }
+
+        private bool HasEnoughMoney(IUser user, int amount)
+        {
+            return user.HasEnoughMoney(amount, EnterPayingMoney);
+        }
 
 
     }
