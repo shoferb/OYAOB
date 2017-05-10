@@ -261,10 +261,10 @@ namespace Client.GuiScreen
 
 
                 List<ClientGame> temp;
-                isValid = int.TryParse(toSearch, out toSearchminPlayer);
+                isValid = int.TryParse(toSearch, out toSearchMinBet);
                 if (isValid)
                 {
-                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinBet, "", toSearchMinBet,
                         GameMode.Limit);
                     result = temp;
                     if (result == null || !result.Any())
@@ -278,7 +278,7 @@ namespace Client.GuiScreen
                 }
                 else
                 {
-                    MessageBox.Show("Invalid player num should contains only numbers");
+                    MessageBox.Show("Invalid min bet should contains only numbers");
                 }
             }
         }
