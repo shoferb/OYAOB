@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Replay.Tests
             ids.Add(1);
             _testRM = ReplayManager.ReplayManagerInstance;
             _testGR = new GameReplay(1, 1);
-            _testAction = new CallAction(new Player(user1, 1000 ),
+            _testAction = new CallAction(new Player(user1, 1000, 1 ),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
             _testGR.AddAction(_testAction);
             _testRM.AddGameReplay(_testGR, ids);

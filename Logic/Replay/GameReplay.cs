@@ -59,6 +59,7 @@ namespace TexasHoldem.Logic.Replay
             {
                 gameReplay += i + ". " + action.ToString();
                 i++;
+                action = GetNextAction();
             }
             return gameReplay;
         }
