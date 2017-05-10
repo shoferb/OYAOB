@@ -125,6 +125,11 @@ namespace TexasHoldem.communication.Impl
                     toSend = ToClientGameList(temp);
                     success = toSend.Count != 0;
                     break;
+                case SearchCommMessage.SearchType.ByBuyInPolicy:
+                    temp = _gameService.GetGamesByBuyInPolicy(msg.searchByInt);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
             }
         }
 
