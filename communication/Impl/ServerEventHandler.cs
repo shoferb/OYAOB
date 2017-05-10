@@ -55,13 +55,13 @@ namespace TexasHoldem.communication.Impl
                 IUser user = _userService.GetUserById(msg.UserId);
                 ResponeCommMessage response = new LoginResponeCommMessage(user.Id(), user.Name(), user.MemberName(),
                     user.Password(), user.Avatar(), user.Money()
-                    , user.Email(), success, msg);
+                    , user.Email(),user.GetLeague().ToString(), success, msg);
                 _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
             }
             else
             {
                 ResponeCommMessage response = new LoginResponeCommMessage(-1, "", "",
-                    "", "", -1 , "", success, msg);
+                    "", "", -1 , "","", success, msg);
                 _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
             }
            
@@ -73,7 +73,7 @@ namespace TexasHoldem.communication.Impl
                 msg.Email);
             
             ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
-                "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,success,msg);
+                "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,"unKnow",success,msg);
 
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
             
