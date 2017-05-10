@@ -30,8 +30,8 @@ namespace TexasHoldem.Logic.Users
         private List<IGame> spectateGameList;
         private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
 
-        public LeagueName league { get; set; }
-        public int rank { get; set; }
+        private LeagueName league;
+        public int rank { get; set; } 
 
         public int winNum { get; set; }
         //for syncronize
@@ -646,6 +646,16 @@ namespace TexasHoldem.Logic.Users
         private bool IsValidInputNotSmallerZero(int toCheck)
         {
             return toCheck >= 0;
+        }
+
+        public LeagueName GetLeague()
+        {
+            return league;
+        }
+
+        public void SetLeague(LeagueName league)
+        {
+            this.league = league;
         }
     }
 }
