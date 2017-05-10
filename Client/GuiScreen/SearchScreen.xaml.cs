@@ -227,19 +227,58 @@ namespace Client.GuiScreen
                     MessageBox.Show("Invalid player num should contains only numbers");
                 }
             }
-            if (field == 6) //get all
+            if (field == 6) //max player num
             {
-                _cusBl = new ClubMember_BL();
-                List<ClubMember> temp = null;
-                temp = _cusBl.GetAllClubMember();
-                result = temp;
-                if (result == null || !result.Any())
+                toSearch = searchBox.Text;
+                int toSearchmaxPlayer;
+
+
+                List<ClientGame> temp;
+                isValid = int.TryParse(toSearch, out toSearchmaxPlayer);
+                if (isValid)
                 {
-                    emptySearch();
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMaxPlayer, "", toSearchmaxPlayer,
+                        GameMode.Limit);
+                    result = temp;
+                    if (result == null || !result.Any())
+                    {
+                        emptySearch();
+                    }
+                    else
+                    {
+                        listView.ItemsSource = result;
+                    }
                 }
                 else
                 {
-                    listView.ItemsSource = result;
+                    MessageBox.Show("Invalid player num should contains only numbers");
+                }
+            }
+            if (field == 7)
+            {
+                toSearch = searchBox.Text;
+                int toSearchMinBet;
+
+
+                List<ClientGame> temp;
+                isValid = int.TryParse(toSearch, out toSearchminPlayer);
+                if (isValid)
+                {
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
+                        GameMode.Limit);
+                    result = temp;
+                    if (result == null || !result.Any())
+                    {
+                        emptySearch();
+                    }
+                    else
+                    {
+                        listView.ItemsSource = result;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid player num should contains only numbers");
                 }
             }
         }
