@@ -149,10 +149,10 @@ namespace Client.Logic
 
         }
 
-        public bool register(string name, string memberName, string password, int money, string email)
+        public bool Register(string name, string memberName, string password, int money, string email)
         {
             RegisterCommMessage toSend = new RegisterCommMessage(_userId, name, memberName, password, money, email);
-Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -161,8 +161,16 @@ Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new 
                 t.Wait();
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+          
+            if (toRet)
+            {
+                RegisterResponeCommMessage rmsg = (RegisterResponeCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                ClientUser cuser = new ClientUser(rmsg.UserId, rmsg.name, rmsg.username,
+                    rmsg.password, rmsg.avatar, rmsg.money, rmsg.email, rmsg.leauge);
+                this.user = cuser;
+                this._userId = user.id;
+            }
             messagesSentObserver.Remove(messageToList);
-
             return toRet;
         }
 

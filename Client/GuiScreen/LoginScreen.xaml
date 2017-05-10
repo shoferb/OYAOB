@@ -24,7 +24,7 @@
         <TextBox x:Name="passwordBox" HorizontalAlignment="Left" Height="23" Margin="132,138,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"  Grid.Column="1" PreviewMouseDown = "passwordBox_MouseDown" TextChanged="passwordBox_TextChanged"/>
 
 
-        <Label x:Name="NotRegisterLabel" Content="not a user? register now! " HorizontalAlignment="Left" Margin="48,230,0,0" VerticalAlignment="Top" Foreground="Aqua" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506" Grid.Column="1"/>
+        <Label x:Name="NotRegisterLabel" Content="not a user? Register now! " HorizontalAlignment="Left" Margin="48,230,0,0" VerticalAlignment="Top" Foreground="Aqua" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506" Grid.Column="1"/>
         <Button x:Name="RegisterButton" Content="Register Now" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="101" Grid.Column="1" Click="RegisterButton_Click"/>
         <Button x:Name="Loginbutton" Grid.ColumnSpan="2" Content="Login" HorizontalAlignment="Left" Margin="158,185,0,0" VerticalAlignment="Top" Width="75" Click="Loginbutton_Click" />
 
