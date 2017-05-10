@@ -58,7 +58,7 @@ namespace TexasHoldem.GuiScreen
 
         private void GameSearchMenuutton_Click(object sender, RoutedEventArgs e)
         {
-
+            //todo open window
         }
     }
 }
