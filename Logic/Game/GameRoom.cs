@@ -73,7 +73,11 @@ namespace TexasHoldem.Logic.Game
 
         private LeagueName GetLeagueFromPlayer(List<Player> players)
         {
-            throw new NotImplementedException();
+            if (players == null || players.Count == 0)
+            {
+                return LeagueName.A;
+            }
+            return players[0].user.;
         }
 
         private void SetTheBlinds()

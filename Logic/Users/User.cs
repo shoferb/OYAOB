@@ -9,6 +9,7 @@ using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
 using Action = TexasHoldem.Logic.Actions.Action;
+using TexasHoldem.Logic.GameControl;
 
 namespace TexasHoldem.Logic.Users
 {
@@ -29,6 +30,7 @@ namespace TexasHoldem.Logic.Users
         private List<IGame> spectateGameList;
         private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
 
+        public LeagueName league { get; set; }
         public int rank { get; set; }
 
         public int winNum { get; set; }
@@ -53,7 +55,7 @@ namespace TexasHoldem.Logic.Users
             spectateGameList = new List<IGame>();
             this.winNum = 0;
             this.unknowGamesPlay = 0;
-
+            league = LeagueName.A; //TODO change to default one or something
         }
 
 
