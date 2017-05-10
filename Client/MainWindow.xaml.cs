@@ -28,5 +28,6 @@ namespace Client
             wellcomeScreen.Show();
             this.Hide();
         }
+       
     }
 }
