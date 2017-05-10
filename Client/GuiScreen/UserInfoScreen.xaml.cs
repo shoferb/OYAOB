@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Client.Logic;
 
 namespace Client.GuiScreen
 {
@@ -19,9 +20,19 @@ namespace Client.GuiScreen
     /// </summary>
     public partial class UserInfoScreen : Window
     {
-        public UserInfoScreen()
+        private ClientLogic cl;
+        private Window parent;
+
+        public UserInfoScreen(Window w,ClientLogic cli)
         {
             InitializeComponent();
+            parent = w;
+            cl = cli;
+        }
+
+        private void Backbutton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
