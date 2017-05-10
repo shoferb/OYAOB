@@ -338,6 +338,34 @@ namespace Client.GuiScreen
                 }
 
             }
+            if (field == 10)
+            {
+                toSearch = searchBox.Text;
+                int toSearchSartingChip;
+
+
+                List<ClientGame> temp;
+                isValid = int.TryParse(toSearch, out toSearchSartingChip);
+                if (isValid)
+                {
+                    temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, "", toSearchSartingChip,
+                        GameMode.Limit);
+                    result = temp;
+                    if (result == null || !result.Any())
+                    {
+                        emptySearch();
+                    }
+                    else
+                    {
+                        listView.ItemsSource = result;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid chip should contains only numbers");
+                }
+
+            }
         }
 
         //all active game bby username
