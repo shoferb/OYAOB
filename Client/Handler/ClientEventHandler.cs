@@ -60,27 +60,32 @@ namespace Client.Handler
         }
         public void HandleEvent(ActionCommMessage msg)
         {
+            //todo change to log
             Console.WriteLine("ActionCommMessage is client to server message");
         }
 
         public void HandleEvent(EditCommMessage msg)
         {
+            //todo change to log
             Console.WriteLine("ActionCommMessage is client to server message");
         }
 
         public void HandleEvent(LoginCommMessage msg)
         {
+            //todo change to log
             Console.WriteLine("ActionCommMessage is client to server message");
         }
 
         public void HandleEvent(RegisterCommMessage msg)
         {
+            //todo change to log
             Console.WriteLine("ActionCommMessage is client to server message");
         }
 
         public void HandleEvent(SearchCommMessage msg)
         {
-            throw new NotImplementedException();
+            //todo change to log
+            Console.WriteLine("SearchCommMessage is client to server message");
         }
 
         public void HandleEvent(GameDataCommMessage msg)
