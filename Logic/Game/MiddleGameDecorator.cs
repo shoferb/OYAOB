@@ -104,8 +104,6 @@ namespace TexasHoldem.Logic
             throw new NotImplementedException();
         }
 
-
-
         public bool IsGameModeEqual(GameMode gm)
         {
             return this.GameMode == gm;
