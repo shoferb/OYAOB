@@ -236,7 +236,7 @@ namespace TexasHoldem.Logic.Game_Control
                 bool isUnKnow = user.IsUnKnow();
                 foreach (IGame room in games)
                 {
-                    if (room.)
+                    if (room.CanJoin(user))
                     {
                         toReturn.Add(room);
                     }
