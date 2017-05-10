@@ -398,6 +398,22 @@ namespace Client.GuiScreen
                 }
 
             }
+            if (field == 12)//by limit
+            {
+                List<ClientGame> temp;
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
+                    GameMode.PotLimit);
+                result = temp;
+                if (result == null || !result.Any())
+                {
+                    emptySearch();
+                }
+                else
+                {
+                    listView.ItemsSource = result;
+                }
+
+            }
 
         }
 
