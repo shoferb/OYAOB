@@ -39,8 +39,6 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom = null;
         }
 
-
-
         [TestMethod()]
         public void GameRoomTest()
         {
