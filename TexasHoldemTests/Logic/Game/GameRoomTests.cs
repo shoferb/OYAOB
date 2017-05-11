@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
@@ -27,12 +28,15 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             gameRoom = new GameRoom(players, roomID);
-            AddDecoratores();
+            AddDecoratores1();
         }
 
-        private void AddDecoratores()
+        private void AddDecoratores1()
         {
-            throw new NotImplementedException();
+            Decorator mid = new MiddleGameDecorator(GameMode, minBet, minBet / 2);
+            Decorator before = new BeforeGameDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, league);
+            before.SetNextDecorator(mid);
+            return before;
         }
 
         [TestCleanup()]

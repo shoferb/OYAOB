@@ -11,7 +11,7 @@ using TexasHoldemShared.CommMessages.ClientToServer;
 namespace TexasHoldem.Logic
 {
 
-    class MiddleGameDecorator : Decorator
+    public class MiddleGameDecorator : Decorator
     {
         private Decorator NextDecorator;
         public GameMode GameMode { get; set; }

@@ -8,7 +8,7 @@ using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Game
 {
-    class AfterGameDecorator : Decorator
+    public class AfterGameDecorator : Decorator
     {
         private Decorator NextDecorator;
 
