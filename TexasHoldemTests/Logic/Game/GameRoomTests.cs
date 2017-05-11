@@ -15,20 +15,24 @@ namespace TexasHoldem.Logic.Game.Tests
         private User user1, user2;
         List<Player> players;
         Player player1, player2;
-        int roomID = 999;
+        int roomID ;
+        GameRoom gameRoom;
         [TestInitialize()]
         public void Initialize()
         {
             user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
             user2 = new User(2, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
+            roomID = 9999;
             players = new List<Player>();
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
+            gameRoom = new GameRoom(players, roomID);
         }
 
         [TestCleanup()]
         public void Cleanup()
         {
+
         }
 
 
