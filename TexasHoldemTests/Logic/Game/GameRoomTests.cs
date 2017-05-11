@@ -67,7 +67,6 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Leave, 0));
-
         }
 
         [TestMethod()]
