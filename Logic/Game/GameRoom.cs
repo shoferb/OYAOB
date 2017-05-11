@@ -183,6 +183,7 @@ namespace TexasHoldem.Logic.Game
             }
             GameData gd = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, dealerName,
                         bbName, sbName);
+            return gd;
         }
 
         private bool FixRoles(Player playerLeaved)
