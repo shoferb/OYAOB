@@ -225,7 +225,7 @@ namespace TexasHoldem.Logic.Game
         private bool Join(IUser user, int amount)
         {
             Player p = new Player(user, amount, this.Id);
-            GameData gameData = GetGameData(p);
+            GameData gameData = GetGameData();
 
             if (IsUserASpectator(user))
             {
