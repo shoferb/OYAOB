@@ -83,7 +83,6 @@
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />
-    <Compile Include="Parser\parserImplementationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

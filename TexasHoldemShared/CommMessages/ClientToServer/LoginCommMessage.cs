@@ -8,10 +8,7 @@
         public string Password;
 
         //TODO: add more fields
-        public LoginCommMessage() : base(0)
-        {
-          //  this.UserId = 
-        }
+
         public LoginCommMessage(int userId, bool isLogin, string name, string passWord) : base(userId)
         {
             IsLogin = isLogin;
