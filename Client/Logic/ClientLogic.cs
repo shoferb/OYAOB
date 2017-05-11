@@ -204,16 +204,6 @@ namespace Client.Logic
         }
 
 
-
-
-        public void showOptionsMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, int roomId)
-
-        {
-            //GUI
-            //after Chosen: Call /notifyChosenMove(options, chosenMove);
-
-
-        }//after client chose call notifyChosenMove
         public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
             bool legalMove = false;

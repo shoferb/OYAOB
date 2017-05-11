@@ -193,10 +193,7 @@ namespace TexasHoldem.communication.Impl
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
         }
 
-        public void HandleEvent(MoveOptionsCommMessage msg)
-        {
-            throw new System.NotImplementedException();
-        }
+    
 
         public void HandleEvent(ResponeCommMessage msg)
         {

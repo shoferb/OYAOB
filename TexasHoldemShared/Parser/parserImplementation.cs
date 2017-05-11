@@ -38,9 +38,7 @@ namespace TexasHoldemShared.Parser
                 else if(msg.GetType()==typeof(GameDataCommMessage)){
                      msgToRet = "e"+msgToRet;
                  }
-                else if(msg.GetType()==typeof(MoveOptionsCommMessage)){
-                     msgToRet = "f"+msgToRet;
-                 }
+               
                 else if(msg.GetType()==typeof(ResponeCommMessage)){
                      msgToRet = "g"+msgToRet;
                  }
@@ -75,11 +73,7 @@ namespace TexasHoldemShared.Parser
                string XMLmsg = msg.Substring(1);
                return deserializeGameDataCommMessage(XMLmsg);
            }
-           else if (msg.IndexOf('f') == 0)
-           {
-               string XMLmsg = msg.Substring(1);
-               return deserializeMoveOptionsCommMessage(XMLmsg);
-           }
+         
            else if (msg.IndexOf('g') == 0)
            {
                string XMLmsg = msg.Substring(1);
@@ -128,14 +122,8 @@ namespace TexasHoldemShared.Parser
                 return (GameDataCommMessage)serializer.Deserialize(stringReader);
             }
         }
-        private MoveOptionsCommMessage deserializeMoveOptionsCommMessage(string xmlText)
-        {
-            using (StringReader stringReader = new System.IO.StringReader(xmlText))
-            {
-                var serializer = new XmlSerializer(typeof(MoveOptionsCommMessage));
-                return (MoveOptionsCommMessage)serializer.Deserialize(stringReader);
-            }
-        }
+       
+        
         //todo - add handle to login responce and register responce
         private ResponeCommMessage deserializeResponeCommMessage(string xmlText)
         {

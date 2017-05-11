@@ -94,24 +94,6 @@ namespace Client.Handler
             throw new NotImplementedException();
         }
 
-        public void HandleEvent(MoveOptionsCommMessage msg)
-        {
-            if (msg.UserId == this._userId)
-            {
-                TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options = msg.Options;
-                int roomId = msg.roomId;
-                _logic.showOptionsMove(options, roomId);
-
-
-            }
-            else
-            {
-                Console.WriteLine("got message that lost it's way");
-            }
-        }
-
-
-
         public void HandleEvent(ResponeCommMessage msg)
         {
             _logic.NotifyResponseReceived(msg);

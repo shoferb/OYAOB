@@ -14,7 +14,6 @@ namespace TexasHoldemShared
 
         //server to client:
         void HandleEvent(GameDataCommMessage msg);
-        void HandleEvent(MoveOptionsCommMessage msg);
         void HandleEvent(ResponeCommMessage msg);
 
     }
