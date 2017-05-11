@@ -25,6 +25,8 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public bool isSucceed;
 
+        public GameDataCommMessage() : base(-1) { } //for parsing
+
         public GameDataCommMessage(int userId, int roomId, Card card1, Card card2,
             List<Card> tableCards, int chips, int pot, List<string> allPlayerNames, string dealerName,
             string bbName, string sbName, bool success) : base(userId)
