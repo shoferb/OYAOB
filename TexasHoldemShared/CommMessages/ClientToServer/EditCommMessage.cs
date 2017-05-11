@@ -8,6 +8,8 @@
         public EditField FieldToEdit;
         public string NewValue;
 
+        public EditCommMessage() : base(-1) { } //for parsing
+
         public EditCommMessage(int userId, EditField field, string value) : base(userId)
         {
             FieldToEdit = field;
