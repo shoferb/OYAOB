@@ -72,7 +72,11 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void AddSpectetorToRoomTest()
         {
-            Assert.Fail();
+            //user that is a player in the room
+            Assert.IsFalse(gameRoom.AddSpectetorToRoom(user1));
+
+            //relevant user
+            Assert.IsTrue(gameRoom.AddSpectetorToRoom(user2));
         }
 
         [TestMethod()]

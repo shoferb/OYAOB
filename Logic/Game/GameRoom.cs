@@ -836,9 +836,8 @@ namespace TexasHoldem.Logic.Game
                     ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
                         + user.Id() + " to room: " +Id + " user is already a player in this room");
                     logControl.AddErrorLog(log);
-                    break;
+                    return false;
                 }
-                return false;
             }
            
             user.AddRoomToSpectetorGameList(this);
