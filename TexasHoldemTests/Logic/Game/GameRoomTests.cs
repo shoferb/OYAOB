@@ -93,7 +93,6 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.AddSpectetorToRoom(user2));
             //relevant user
             Assert.IsTrue(gameRoom.RemoveSpectetorFromRoom(user2));
-
         }
 
 
