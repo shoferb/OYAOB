@@ -172,7 +172,7 @@ namespace TexasHoldem.Logic.Game
             return true; 
         }
 
-        private GameData GetGameData(Player player)
+        private GameData GetGameData()
         {
             string dealerName = "";
             string sbName = "";
@@ -314,9 +314,8 @@ namespace TexasHoldem.Logic.Game
 
         private bool Raise(Player player, int bet)
         {
+            GameData gameData = GetGameData(player);
 
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-               BbPlayer.name, SbPlayer.name);
             int currentPlayerBet = player.RoundChipBet + bet;
             if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
             {
@@ -350,8 +349,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Call(Player player, int bet)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-              BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData(player);
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
@@ -366,8 +364,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Check(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-              BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData(player);
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
@@ -380,8 +377,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Fold(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players,
-                DealerPlayer.name, BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData(player);
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
@@ -595,8 +591,7 @@ namespace TexasHoldem.Logic.Game
 
         private void HandCardsAndInitPlayers()
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-           BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData();
             foreach (Player player in this.Players)
             {
                 player.InitForNewGame();
@@ -613,8 +608,7 @@ namespace TexasHoldem.Logic.Game
         
        private void AddNewPublicCard()
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-             BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData();
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
             {
