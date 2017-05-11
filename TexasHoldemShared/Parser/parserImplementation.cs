@@ -117,6 +117,11 @@ namespace TexasHoldemShared.Parser
                 string XMLmsg = msg.Substring(1);
                 return deserializeRegisterResponeCommMessage(XMLmsg);
             }
+            else if (msg.IndexOf('k') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeSearchResponseCommMessageSTC(XMLmsg);
+            }
             return null;
         }
 
@@ -130,6 +135,15 @@ namespace TexasHoldemShared.Parser
         //   return (ClientGame)serializer.Deserialize(stringReader);
         // }
         //        }
+
+        private SearchResponseCommMessage deserializeSearchResponseCommMessageSTC(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(SearchResponseCommMessage));
+                return (SearchResponseCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
 
         private RegisterResponeCommMessage deserializeRegisterResponeCommMessage(string xmlText)
         {
