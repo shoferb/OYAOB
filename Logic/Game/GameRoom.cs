@@ -526,7 +526,7 @@ namespace TexasHoldem.Logic.Game
         //@TODO send a message to user saying he is not part of the game and cant do action
         private bool IrellevantUser(IUser user, ActionType action)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         private bool IsUserInGame(IUser user)
