@@ -99,7 +99,10 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void CanJoinTest()
         {
-            Assert.Fail();
+            //new user
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            //already player user
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
         }
 
         [TestMethod()]
