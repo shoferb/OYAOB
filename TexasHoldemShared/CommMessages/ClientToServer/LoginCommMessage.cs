@@ -8,7 +8,8 @@
         public string Password;
 
         //TODO: add more fields
-        public LoginCommMessage() : base(-1) { }
+
+        public LoginCommMessage() : base(-1) { } //for parsing
 
         public LoginCommMessage(int userId, bool isLogin, string name, string passWord) : base(userId)
         {

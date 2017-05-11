@@ -14,6 +14,8 @@
         public string LeagueName { get; set; }
         public int potSize { get; set; }
 
+        public ClientGame()  { } //for parsing
+
         public ClientGame(bool isActive, bool isSpectetor, GameMode gameMode, int roomId, int minPlayer, int maxPlayer, int minBet, int startingChip, int buyInPolicy, string leagueName, int potSize)
         {
             this.isActive = isActive;
