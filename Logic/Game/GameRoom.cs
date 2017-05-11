@@ -349,7 +349,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Call(Player player, int bet)
         {
-            GameData gameData = GetGameData(player);
+            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
