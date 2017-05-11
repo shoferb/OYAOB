@@ -106,6 +106,16 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
+        public void CanJoinTest2()
+        {
+            //new user
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            //an already player user
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
+        }
+
+
+        [TestMethod()]
         public void CanJoinTestWithSpectator()
         {
             //relevant user
