@@ -59,6 +59,8 @@ namespace TexasHoldem.Logic.Game.Tests
            
             //relevant user
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
+            Assert.IsTrue(user1.Money() == 5000 - 10);
+
         }
 
         [TestMethod()]
