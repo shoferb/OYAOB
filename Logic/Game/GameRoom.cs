@@ -377,7 +377,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Fold(Player player)
         {
-            GameData gameData = GetGameData(player);
+            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
