@@ -136,8 +136,11 @@ namespace TexasHoldem.Logic.Game
             GameData gameData = GetGameData(player);
 
             List<Player> relevantPlayers = new List<Player>();
-            LeaveAction leave = new LeaveAction(player);
-            GameReplay.AddAction(leave);
+            if (IsActiveGame)
+            {
+                LeaveAction leave = new LeaveAction(player);
+                GameReplay.AddAction(leave);
+            }
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             logControl.AddSystemLog(log);
