@@ -5,15 +5,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
     [TestClass()]
     public class GameRoomTests
     {
+        private User user1, user2;
+        List<Player> players;
+        Player player1, player2;
+        int roomID = 999;
+        [TestInitialize()]
+        public void Initialize()
+        {
+            user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
+            user2 = new User(2, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
+            players = new List<Player>();
+            player1 = new Player(user1, 1000, roomID);
+            players.Add(player1);
+        }
+
+        [TestCleanup()]
+        public void Cleanup()
+        {
+        }
+
+
+
         [TestMethod()]
         public void GameRoomTest()
         {
+            
             Assert.Fail();
         }
 
