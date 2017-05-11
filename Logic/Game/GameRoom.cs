@@ -59,7 +59,6 @@ namespace TexasHoldem.Logic.Game
             Spectatores = new List<Spectetor>();
             Bb = 0;
             Sb = 0;
-            SetTheBlinds();
             SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
             logControl = LogControl.Instance;
@@ -87,6 +86,7 @@ namespace TexasHoldem.Logic.Game
         public void AddDecorator(Decorator d)
         {
             this.MyDecorator = d;
+            SetTheBlinds();
         }
 
         public bool DoAction(IUser user, ActionType action, int amount)
