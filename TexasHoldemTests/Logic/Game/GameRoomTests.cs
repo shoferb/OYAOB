@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldem.Logic.GameControl;
+using static TexasHoldemShared.CommMessages.CommunicationMessage;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
@@ -51,21 +52,11 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
-        public void AddDecoratorTest()
+        public void DoActionLeaveTest()
         {
-            Assert.Fail();
-        }
+            //irrelevant user
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Leave, 0));
 
-        [TestMethod()]
-        public void DoActionTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void FindWinnerTest()
-        {
-            Assert.Fail();
         }
 
         [TestMethod()]
