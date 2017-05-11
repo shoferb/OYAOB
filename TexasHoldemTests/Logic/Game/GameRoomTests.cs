@@ -51,13 +51,6 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
-        public void GameRoomTest()
-        {
-            
-            Assert.Fail();
-        }
-
-        [TestMethod()]
         public void AddDecoratorTest()
         {
             Assert.Fail();
