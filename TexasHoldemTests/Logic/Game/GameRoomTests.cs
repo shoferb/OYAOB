@@ -56,9 +56,9 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             //irrelevant user
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Leave, 0));
+           
             //relevant user
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
-
         }
 
         [TestMethod()]
