@@ -133,8 +133,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Leave(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-            BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData(player);
 
             List<Player> relevantPlayers = new List<Player>();
             LeaveAction leave = new LeaveAction(player);
@@ -163,6 +162,19 @@ namespace TexasHoldem.Logic.Game
                 return NextRound();
             }
             return true; 
+        }
+
+        private GameData GetGameData(Player player)
+        {
+            string dealerName = "";
+            string sbName = "";
+            string bbName = "";
+            if (DealerPlayer != null)
+            {
+
+            }
+            GameData gd = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
+                        BbPlayer.name, SbPlayer.name);
         }
 
         private bool FixRoles(Player playerLeaved)
