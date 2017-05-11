@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemTests", "TexasHoldemTests\TexasHoldemTests.csproj", "{7FEDF8F3-C37D-407A-AD0D-BA69ACDD95F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemTests4", "..\TexasHoldemTests4\TexasHoldemTests4.csproj", "{3C709B35-5C6F-41CA-AEE4-183B8F3CB647}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,10 +40,6 @@ Global
 		{7FEDF8F3-C37D-407A-AD0D-BA69ACDD95F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FEDF8F3-C37D-407A-AD0D-BA69ACDD95F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FEDF8F3-C37D-407A-AD0D-BA69ACDD95F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C709B35-5C6F-41CA-AEE4-183B8F3CB647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C709B35-5C6F-41CA-AEE4-183B8F3CB647}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C709B35-5C6F-41CA-AEE4-183B8F3CB647}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C709B35-5C6F-41CA-AEE4-183B8F3CB647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

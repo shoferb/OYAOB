@@ -74,6 +74,7 @@
     <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
+    <Compile Include="Logic\Game\GameRoomTests.cs" />
     <Compile Include="Logic\Game\HandTests.cs" />
     <Compile Include="Logic\Notifications And Logs\ErrorLogTests.cs" />
     <Compile Include="Logic\Notifications And Logs\LogTests.cs" />
