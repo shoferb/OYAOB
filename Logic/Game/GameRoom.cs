@@ -144,8 +144,7 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             logControl.AddSystemLog(log);
-            //TODO: exceptions check that
-           // GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
@@ -230,7 +229,7 @@ namespace TexasHoldem.Logic.Game
 
             if (IsUserASpectator(user))
             {
-                //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
                 return false;
             }
             if (MyDecorator.CanJoin(Players.Count , amount, user))
@@ -238,13 +237,13 @@ namespace TexasHoldem.Logic.Game
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
-                    //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
+                    GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
                     return true;
                 }
-                //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
                 return false;
             }
-            //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+            GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
             return false;
         }
 
