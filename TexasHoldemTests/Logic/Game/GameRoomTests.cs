@@ -32,7 +32,11 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestCleanup()]
         public void Cleanup()
         {
-
+            user1 = null;
+            user2 = null;
+            players = null;
+            player1 = null;
+            gameRoom = null;
         }
 
 
