@@ -364,7 +364,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Check(Player player)
         {
-            GameData gameData = GetGameData(player);
+            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
