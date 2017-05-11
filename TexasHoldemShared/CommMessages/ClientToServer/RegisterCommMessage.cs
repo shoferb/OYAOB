@@ -10,6 +10,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         public int Money;
         public string Email;
 
+        public RegisterCommMessage() : base(-1) { } //for parsing
+
         public RegisterCommMessage(int id, string name, string memberName, string password, int money, string email) : base(id)
         {
             Name = name;
