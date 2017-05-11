@@ -57,6 +57,8 @@ namespace TexasHoldem.Logic.Game
             PublicCards = new List<Card>();
             Players = players;
             Spectatores = new List<Spectetor>();
+            Bb = 0;
+            Sb = 0;
             SetTheBlinds();
             SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
