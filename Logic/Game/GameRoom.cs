@@ -95,6 +95,10 @@ namespace TexasHoldem.Logic.Game
             {       
                 if (action == ActionType.Join)
                 {
+                    if (IsUserInGame(user))
+                    {
+                        return false;
+                    }
                     return Join(user, amount);
                 }
                 if (!IsUserInGame(user))
