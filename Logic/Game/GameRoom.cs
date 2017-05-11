@@ -133,7 +133,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Leave(Player player)
         {
-            GameData gameData = GetGameData(player);
+            GameData gameData = GetGameData();
 
             List<Player> relevantPlayers = new List<Player>();
             if (IsActiveGame)
