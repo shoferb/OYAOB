@@ -65,6 +65,12 @@ namespace TexasHoldem.Logic.Game
             league = GetLeagueFromPlayer(Players);
             ReplayManager = ReplayManager.ReplayManagerInstance;
             GameCenter = GameCenter.Instance;
+            reduceFeeFromPlayers();
+        }
+
+        private void reduceFeeFromPlayers()
+        {
+            throw new NotImplementedException();
         }
 
         private LeagueName GetLeagueFromPlayer(List<Player> players)
