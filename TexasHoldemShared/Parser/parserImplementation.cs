@@ -49,7 +49,11 @@ namespace TexasHoldemShared.Parser
                  }
                 else if (msg.GetType() == typeof(SearchCommMessage))
                 {
-                    msgToRet = "g" + msgToRet;
+                    msgToRet = "h" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(LoginResponeCommMessage))
+                {
+                    msgToRet = "i" + msgToRet;
                 }
                 return msgToRet;
             }
@@ -99,6 +103,11 @@ namespace TexasHoldemShared.Parser
                 string XMLmsg = msg.Substring(1);
                 return deserializeSearchCommMessage(XMLmsg);
             }
+            else if (msg.IndexOf('i') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeLoginResponeCommMessage(XMLmsg);
+            }
             return null;
         }
 
@@ -112,13 +121,21 @@ namespace TexasHoldemShared.Parser
         //   return (ClientGame)serializer.Deserialize(stringReader);
         // }
         //        }
-
         private SearchCommMessage deserializeSearchCommMessage(string xmlText)
         {
             using (StringReader stringReader = new System.IO.StringReader(xmlText))
             {
                 var serializer = new XmlSerializer(typeof(SearchCommMessage));
                 return (SearchCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private LoginResponeCommMessage deserializeLoginResponeCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(LoginResponeCommMessage));
+                return (LoginResponeCommMessage)serializer.Deserialize(stringReader);
             }
         }
         private ActionCommMessage deserializeActionCommMessage(string xmlText)
