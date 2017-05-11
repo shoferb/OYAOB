@@ -164,10 +164,13 @@ namespace TexasHoldem.Logic.Game
             {
                 EndGame();
             }
-            FixRoles(player);
-            if (AllDoneWithTurn())
+            if (IsActiveGame)
             {
-                return NextRound();
+                FixRoles(player);
+                if (AllDoneWithTurn())
+                {
+                    return NextRound();
+                }
             }
             return true; 
         }
@@ -535,11 +538,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool IsGameOver()
         {
-            if (!IsActiveGame)
-            {
-                return false;
-            }
-            if (ActivePlayersInGame() < 2)
+            if (!IsActiveGame || ActivePlayersInGame() < 2)
             {
                 return true;
             }
