@@ -230,7 +230,7 @@ namespace TexasHoldem.Logic.Game
 
             if (IsUserASpectator(user))
             {
-                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
                 return false;
             }
             if (MyDecorator.CanJoin(Players.Count , amount, user))
@@ -238,13 +238,13 @@ namespace TexasHoldem.Logic.Game
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
-                    GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
+                    //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
                     return true;
                 }
-                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
                 return false;
             }
-            GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+            //GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
             return false;
         }
 
