@@ -85,6 +85,8 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.RemoveSpectetorFromRoom(user1));
             //irrelevant user
             Assert.IsFalse(gameRoom.RemoveSpectetorFromRoom(user2));
+            Assert.IsTrue(gameRoom.AddSpectetorToRoom(user2));
+            Assert.IsTrue(gameRoom.RemoveSpectetorFromRoom(user2));
         }
 
         [TestMethod()]

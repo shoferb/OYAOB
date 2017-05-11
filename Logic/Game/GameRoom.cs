@@ -856,9 +856,8 @@ namespace TexasHoldem.Logic.Game
                         new SystemLog(this.Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id);
                     Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
-                    break;
+                    return true;
                 }
-                return true;
             }
             return false;
         }
