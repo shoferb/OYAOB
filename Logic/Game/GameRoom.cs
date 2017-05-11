@@ -314,7 +314,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool Raise(Player player, int bet)
         {
-            GameData gameData = GetGameData(player);
+            GameData gameData = GetGameData();
 
             int currentPlayerBet = player.RoundChipBet + bet;
             if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
