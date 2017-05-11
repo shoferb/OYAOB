@@ -129,7 +129,12 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameActiveTest()
         {
+            //non started game
             Assert.IsFalse(gameRoom.IsGameActive());
+            //join another player and start game
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.StartGame, 0));
+            Assert.IsTrue(gameRoom.IsGameActive());
         }
 
         [TestMethod()]
