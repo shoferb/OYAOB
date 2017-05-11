@@ -101,7 +101,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             //new user
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
-            //already player user
+            //an already player user
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
         }
 
