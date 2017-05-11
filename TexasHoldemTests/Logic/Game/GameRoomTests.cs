@@ -27,6 +27,12 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             gameRoom = new GameRoom(players, roomID);
+            AddDecoratores();
+        }
+
+        private void AddDecoratores()
+        {
+            throw new NotImplementedException();
         }
 
         [TestCleanup()]
