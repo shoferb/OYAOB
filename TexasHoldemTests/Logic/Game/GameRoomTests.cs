@@ -129,7 +129,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameActiveTest()
         {
-            Assert.Fail();
+            Assert.IsFalse(gameRoom.IsGameActive());
         }
 
         [TestMethod()]
