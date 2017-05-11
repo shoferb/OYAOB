@@ -22,7 +22,7 @@ namespace TexasHoldem.Service
         private readonly GameCenter _gameCenter;
         private readonly SystemControl _systemControl;
         private ReplayManager _replayManager;
-        private static ServerEventHandler serverHandler;
+        private static ServerEventHandler serverHandler = new ServerEventHandler();
 
         public GameServiceHandler()
         {
