@@ -108,8 +108,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void CanJoinTest2()
         {
-            //new user
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            //not enough money enter
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 1));
+            Assert.IsTrue(user2.Money() == 5000);
             //an already player user
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
         }
