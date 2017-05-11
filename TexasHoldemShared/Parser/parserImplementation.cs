@@ -47,6 +47,10 @@ namespace TexasHoldemShared.Parser
                 else if(msg.GetType()==typeof(ResponeCommMessage)){
                      msgToRet = "g"+msgToRet;
                  }
+                else if (msg.GetType() == typeof(SearchCommMessage))
+                {
+                    msgToRet = "g" + msgToRet;
+                }
                 return msgToRet;
             }
         }
@@ -90,20 +94,33 @@ namespace TexasHoldemShared.Parser
                string XMLmsg = msg.Substring(1);
                return deserializeResponeCommMessage(XMLmsg);
            }
+            else if (msg.IndexOf('h') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeSearchCommMessage(XMLmsg);
+            }
             return null;
         }
 
 
         //*******DONT REMOVE********//////
-      //  private ClientGame deserializeClientGame(string XmlText)
-       // {
-         //   using (StringReader stringReader = new System.IO.StringReader(XmlText))
-          //  {
-            //    var serializer = new XmlSerializer(typeof(ClientGame));
-             //   return (ClientGame)serializer.Deserialize(stringReader);
-           // }
-//        }
+        //  private ClientGame deserializeClientGame(string XmlText)
+        // {
+        //   using (StringReader stringReader = new System.IO.StringReader(XmlText))
+        //  {
+        //    var serializer = new XmlSerializer(typeof(ClientGame));
+        //   return (ClientGame)serializer.Deserialize(stringReader);
+        // }
+        //        }
 
+        private SearchCommMessage deserializeSearchCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(SearchCommMessage));
+                return (SearchCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
         private ActionCommMessage deserializeActionCommMessage(string xmlText)
         {
             using (StringReader stringReader = new System.IO.StringReader(xmlText))
