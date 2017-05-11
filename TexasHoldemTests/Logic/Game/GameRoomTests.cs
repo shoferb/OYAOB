@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldem.Logic.GameControl;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
@@ -33,10 +34,10 @@ namespace TexasHoldem.Logic.Game.Tests
 
         private void AddDecoratores1()
         {
-            Decorator mid = new MiddleGameDecorator(GameMode, minBet, minBet / 2);
-            Decorator before = new BeforeGameDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, league);
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(5, 1000, true, 2, 4, 10, LeagueName.A);
             before.SetNextDecorator(mid);
-            return before;
+            gameRoom.AddDecorator(before);
         }
 
         [TestCleanup()]
