@@ -226,8 +226,8 @@ namespace TexasHoldem.Logic.Game
         private bool Join(IUser user, int amount)
         {
             Player p = new Player(user, amount, this.Id);
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-            BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData(p);
+
             if (IsUserASpectator(user))
             {
                 GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
@@ -262,8 +262,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool StartGame(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-                                     BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData(p);
 
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
