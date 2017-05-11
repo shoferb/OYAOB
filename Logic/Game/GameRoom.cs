@@ -173,6 +173,15 @@ namespace TexasHoldem.Logic.Game
             {
                 dealerName = DealerPlayer.name;
             }
+            if (SbPlayer != null)
+            {
+                sbName = SbPlayer.name;
+            }
+            if (DealerPlayer != null)
+            {
+                dealerName = DealerPlayer.name;
+            }
+
             GameData gd = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
                         BbPlayer.name, SbPlayer.name);
         }
