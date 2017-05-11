@@ -181,9 +181,8 @@ namespace TexasHoldem.Logic.Game
             {
                 bbName = BbPlayer.name;
             }
-
-            GameData gd = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-                        BbPlayer.name, SbPlayer.name);
+            GameData gd = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, dealerName,
+                        bbName, sbName);
         }
 
         private bool FixRoles(Player playerLeaved)
