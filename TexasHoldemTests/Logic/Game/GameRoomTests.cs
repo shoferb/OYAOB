@@ -62,6 +62,16 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
+        public void DoActionLeaveTest2()
+        {
+            //irrelevant user
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Leave, 0));
+
+            //relevant user
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
+        }
+
+        [TestMethod()]
         public void AddSpectetorToRoomTest()
         {
             Assert.Fail();
