@@ -262,8 +262,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool StartGame(Player player)
         {
-            GameData gameData = GetGameData(p);
-
+            GameData gameData = GetGameData(player);
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
