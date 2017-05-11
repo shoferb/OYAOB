@@ -156,6 +156,11 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             Players = relevantPlayers;
+            if (Players.Count == 0)
+            {
+                GameCenter.RemoveRoom(Id);
+                return true;
+            }
             if (IsGameOver())
             {
                 EndGame();
