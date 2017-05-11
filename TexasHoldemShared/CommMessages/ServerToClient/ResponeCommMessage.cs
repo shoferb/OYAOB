@@ -5,6 +5,8 @@
         public bool Success;
         public CommunicationMessage OriginalMsg; //TODO: maybe not needed
 
+        public ResponeCommMessage() : base(-1) { } //for parsing
+
         public ResponeCommMessage(int id) : base(id)
         {
             
