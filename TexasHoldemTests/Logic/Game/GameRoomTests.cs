@@ -81,7 +81,10 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void RemoveSpectetorFromRoomTest()
         {
-            Assert.Fail();
+            //user that is a player in the room but not a spectator
+            Assert.IsFalse(gameRoom.RemoveSpectetorFromRoom(user1));
+            //irrelevant user
+            Assert.IsFalse(gameRoom.RemoveSpectetorFromRoom(user1));
         }
 
         [TestMethod()]
