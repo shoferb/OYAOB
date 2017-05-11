@@ -144,7 +144,8 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             logControl.AddSystemLog(log);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
+            //TODO: exceptions check that
+           // GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)

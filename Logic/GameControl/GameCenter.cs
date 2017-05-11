@@ -64,7 +64,7 @@ namespace TexasHoldem.Logic.Game_Control
             GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
                 player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
                 gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
-                gmData.GetSbPlayer(), isSucceed); ;
+                gmData.GetSbPlayer(), isSucceed); 
             switch (action)
             {
                 case CommunicationMessage.ActionType.HandCard:
