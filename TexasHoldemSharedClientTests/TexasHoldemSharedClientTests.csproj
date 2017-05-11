@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7FEDF8F3-C37D-407A-AD0D-BA69ACDD95F8}</ProjectGuid>
+    <ProjectGuid>{95B3EC71-71FC-45A9-8317-4181420BEB87}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TexasHoldemTests</RootNamespace>
-    <AssemblyName>TexasHoldemTests</AssemblyName>
+    <RootNamespace>TexasHoldemSharedClientTests</RootNamespace>
+    <AssemblyName>TexasHoldemSharedClientTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="nunit.framework, Version=3.6.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.6.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -53,53 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AcptTests\Bridges\GameBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Interface\IGameBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Interface\IReplayBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Real\GameBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Real\ReplayBridge.cs" />
-    <Compile Include="AcptTests\Bridges\Real\UserBridge.cs" />
-    <Compile Include="AcptTests\Bridges\ReplayBridge.cs" />
-    <Compile Include="AcptTests\Bridges\UserBridge.cs" />
-    <Compile Include="AcptTests\tests\AcptTest.cs" />
-    <Compile Include="AcptTests\tests\GameAcptTests.cs" />
-    <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
-    <Compile Include="AcptTests\tests\UserAcptTests.cs" />
-    <Compile Include="communication\CommHandlerChildForTests.cs" />
-    <Compile Include="communication\CommunicationHandlerTest.cs" />
-    <Compile Include="communication\ServerEventHandlerTest.cs" />
-    <Compile Include="Logic\GameControl\GameCenterTests.cs" />
-    <Compile Include="Logic\GameControl\SystemControlTests.cs" />
-    <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
-    <Compile Include="Logic\Game\DeckTests.cs" />
-    <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
-    <Compile Include="Logic\Game\GameRoomTests.cs" />
-    <Compile Include="Logic\Game\HandTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\ErrorLogTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\LogTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\NotificationTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\SystemLogTests.cs" />
-    <Compile Include="Logic\Replay\GameReplayTests.cs" />
-    <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
-    <Compile Include="Logic\Users\UserTests.cs" />
-    <Compile Include="Parser\parserImplementationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TexasHoldem.csproj">
-      <Project>{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}</Project>
-      <Name>TexasHoldem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TexasHoldemShared\TexasHoldemShared.csproj">
-      <Project>{22888c95-40ac-4271-8d39-ec1ff358afbd}</Project>
-      <Name>TexasHoldemShared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
