@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
@@ -38,7 +39,11 @@ namespace TexasHoldemShared.Parser
                 else if(msg.GetType()==typeof(GameDataCommMessage)){
                      msgToRet = "e"+msgToRet;
                  }
-               
+                else if (msg.GetType() == typeof(ClientGame))
+                {
+                    msgToRet = "f" + msgToRet;
+                }
+
                 else if(msg.GetType()==typeof(ResponeCommMessage)){
                      msgToRet = "g"+msgToRet;
                  }
@@ -73,14 +78,31 @@ namespace TexasHoldemShared.Parser
                string XMLmsg = msg.Substring(1);
                return deserializeGameDataCommMessage(XMLmsg);
            }
-         
-           else if (msg.IndexOf('g') == 0)
+            //*******DONT REMOVE********//////
+            // else if (msg.IndexOf('f') == 0)
+            // {
+            //    string XMLmsg = msg.Substring(1);
+            //    return deserializeClientGame(XMLmsg);
+            //  }
+
+            else if (msg.IndexOf('g') == 0)
            {
                string XMLmsg = msg.Substring(1);
                return deserializeResponeCommMessage(XMLmsg);
            }
             return null;
         }
+
+
+        //*******DONT REMOVE********//////
+      //  private ClientGame deserializeClientGame(string XmlText)
+       // {
+         //   using (StringReader stringReader = new System.IO.StringReader(XmlText))
+          //  {
+            //    var serializer = new XmlSerializer(typeof(ClientGame));
+             //   return (ClientGame)serializer.Deserialize(stringReader);
+           // }
+//        }
 
         private ActionCommMessage deserializeActionCommMessage(string xmlText)
         {
