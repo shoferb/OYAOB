@@ -101,6 +101,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             //new user
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            Assert.IsTrue(user2.Money() == 5000 - 1000 - 10);
             //an already player user
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
         }
