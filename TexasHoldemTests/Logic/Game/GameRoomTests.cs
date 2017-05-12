@@ -500,6 +500,17 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.A);
         }
 
+        [TestMethod()]
+        public void FullGameTest1()
+        {
+            StartGamewith3Users();
+            SetDecoratoresNoLimitWithSpectatores();
+
+                
+        }
+
+
+
         private void StartGamewith3Users()
         {
             gameRoom.DoAction(user2, ActionType.Join, 1500);
