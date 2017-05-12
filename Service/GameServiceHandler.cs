@@ -32,6 +32,11 @@ namespace TexasHoldem.Service
             _replayManager = ReplayManager.ReplayManagerInstance;
         }
 
+        public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
+        {
+            return _gameCenter.DoAction(user, action, amount, roomId);
+        }
+
         public IGame GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
