@@ -190,7 +190,8 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionLimitRaiseTest()
         {
-            SetDecoratoresLimitNoSpectatores(); // Limit
+            // Limit
+            SetDecoratoresLimitNoSpectatores(); 
             StartGameDeco1with3Users();
             //valid raise now is bb = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
