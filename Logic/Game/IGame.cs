@@ -37,7 +37,7 @@ namespace TexasHoldem.Logic.Game
         int GetPotSize();
         int GetBuyInPolicy();
         int GetStartingChip();
-        GameMode GetGameGameMode();
+        GameMode GetGameMode();
         LeagueName GetLeagueName();
     }
 }

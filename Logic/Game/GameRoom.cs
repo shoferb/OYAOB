@@ -961,7 +961,7 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.GetStartingChip();
         }
 
-        public GameMode GetGameGameMode()
+        public GameMode GetGameMode()
         {
             return MyDecorator.GetGameMode();
         }
