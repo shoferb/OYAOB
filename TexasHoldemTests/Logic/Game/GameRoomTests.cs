@@ -46,8 +46,16 @@ namespace TexasHoldem.Logic.Game.Tests
 
         private void SetDecoratoresLimitNoSpectatores()
         {
-            Decorator mid = new MiddleGameDecorator(GameMode.Limit, 20, 5);
+            Decorator mid = new MiddleGameDecorator(GameMode.Limit, 20, 10);
             Decorator before = new BeforeGameDecorator(20, 1500, false, 2, 5, 25, LeagueName.B);
+            before.SetNextDecorator(mid);
+            gameRoom.AddDecorator(before);
+        }
+
+        private void SetDecoratoresPotLimitWithSpectatores()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.PotLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
