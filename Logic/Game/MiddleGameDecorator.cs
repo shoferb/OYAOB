@@ -99,6 +99,7 @@ namespace TexasHoldem.Logic
             {
                 return true;
             }
+
             return false;
         }
 
