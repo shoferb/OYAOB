@@ -578,6 +578,10 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 45)); //raise 15
             Assert.IsTrue(gameRoom.GetPotSize() == 150);
 
+            //user2 call
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 30)); //call 
+            Assert.IsTrue(gameRoom.GetPotSize() == 180);
+
 
         }
 
