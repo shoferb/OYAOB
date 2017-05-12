@@ -89,7 +89,7 @@ namespace TexasHoldem.Logic
             {
                 if (lastRaiseInRound > 0)
                 {
-
+                    return lastRaiseInRound;
                 }
                 return maxCommited;
             }
