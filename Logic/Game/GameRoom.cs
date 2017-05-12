@@ -425,7 +425,7 @@ namespace TexasHoldem.Logic.Game
         private bool NextRound()
         {
             MoveChipsToPot();
-
+            lastRaiseInRound = 0;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
