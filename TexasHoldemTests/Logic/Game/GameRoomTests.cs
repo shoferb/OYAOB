@@ -141,6 +141,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Fold, 0));
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Fold, 0));
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Fold, 0));
+
         }
 
         [TestMethod()]
