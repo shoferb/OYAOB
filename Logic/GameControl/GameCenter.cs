@@ -329,7 +329,7 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                     foreach (IGame room in games)
                     {
-                        if (room.IsPotSizEqual(potSize))
+                        if (room.IsPotSizeEqual(potSize))
                         {
                             toReturn.Add(room);
                         }

@@ -30,16 +30,25 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             gameRoom = new GameRoom(players, roomID);
-            AddDecoratores1();
+            SetDecoratores1();
         }
 
-        private void AddDecoratores1()
+        private void SetDecoratores1()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
-            Decorator before = new BeforeGameDecorator(5, 1000, true, 2, 4, 10, LeagueName.A);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
+
+        private void SetDecoratoresLimitNoSpectatores()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.Limit, 20, 5);
+            Decorator before = new BeforeGameDecorator(20, 1500, false, 2, 5, 25, LeagueName.B);
+            before.SetNextDecorator(mid);
+            gameRoom.AddDecorator(before);
+        }
+
 
         [TestCleanup()]
         public void Cleanup()
@@ -101,7 +110,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             //new user
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
-            Assert.IsTrue(user2.Money() == 5000 - 1000 - 10);
+            Assert.IsTrue(user2.Money() == 5000 - 1000 - 20);
             //an already player user
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
         }
@@ -140,109 +149,198 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsSpectatableTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsSpectatable());
+            SetDecoratoresLimitNoSpectatores();
+            Assert.IsFalse(gameRoom.IsSpectatable());
         }
 
         [TestMethod()]
         public void IsPotSizEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsPotSizeEqual(0));
+
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.StartGame, 0));
+            Assert.IsTrue(gameRoom.IsPotSizeEqual(10+5)); //small+big
         }
 
         [TestMethod()]
         public void IsGameModeEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameModeEqual(GameMode.NoLimit));
+            Assert.IsFalse(gameRoom.IsGameModeEqual(GameMode.Limit));
+
+            SetDecoratoresLimitNoSpectatores();
+            Assert.IsTrue(gameRoom.IsGameModeEqual(GameMode.Limit));
+            Assert.IsFalse(gameRoom.IsGameModeEqual(GameMode.NoLimit));
+            Assert.IsFalse(gameRoom.IsGameModeEqual(GameMode.PotLimit));
         }
 
         [TestMethod()]
         public void IsGameBuyInPolicyEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(20));
+            Assert.IsFalse(gameRoom.IsGameBuyInPolicyEqual(25));
+            SetDecoratoresLimitNoSpectatores(); // change to 25 fee
+            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(25));
+            Assert.IsFalse(gameRoom.IsGameBuyInPolicyEqual(20));
         }
 
         [TestMethod()]
         public void IsGameMinPlayerEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameMinPlayerEqual(2));
+            Assert.IsFalse(gameRoom.IsGameMinPlayerEqual(3));
+
+            SetDecoratoresLimitNoSpectatores(); // same min players
+            Assert.IsTrue(gameRoom.IsGameMinPlayerEqual(2));
+            Assert.IsFalse(gameRoom.IsGameMinPlayerEqual(3));
         }
 
         [TestMethod()]
         public void IsGameMaxPlayerEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(4));
+            Assert.IsFalse(gameRoom.IsGameMaxPlayerEqual(5));
+
+            SetDecoratoresLimitNoSpectatores(); // max 5 player
+            Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(5));
+            Assert.IsFalse(gameRoom.IsGameMaxPlayerEqual(4));
         }
 
         [TestMethod()]
         public void IsGameMinBetEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameMinBetEqual(10));
+            Assert.IsFalse(gameRoom.IsGameMinBetEqual(20));
+
+            SetDecoratoresLimitNoSpectatores(); // BB (equal to min bet) is now 20
+            Assert.IsTrue(gameRoom.IsGameMinBetEqual(20));
+            Assert.IsFalse(gameRoom.IsGameMinBetEqual(10));
         }
 
         [TestMethod()]
         public void IsGameStartingChipEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameStartingChipEqual(1000));
+            Assert.IsFalse(gameRoom.IsGameStartingChipEqual(1500));
+
+            SetDecoratoresLimitNoSpectatores(); // starting cheap equal to 1500
+            Assert.IsTrue(gameRoom.IsGameStartingChipEqual(1500));
+            Assert.IsFalse(gameRoom.IsGameStartingChipEqual(1000));
         }
 
         [TestMethod()]
         public void GetPlayersInRoomTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().Count == 1);
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(0).user.Equals(user1));
+            // add 1 more player
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000)); 
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().Count == 2);
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(0).user.Equals(user1));
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(1).user.Equals(user2));
         }
 
         [TestMethod()]
         public void GetSpectetorInRoomTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 0);
+            //add spectator
+            Assert.IsTrue(gameRoom.AddSpectetorToRoom(user2));
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 1);
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().ElementAt(0).user.Equals(user2));
+            //remove spectator
+            Assert.IsTrue(gameRoom.RemoveSpectetorFromRoom(user2));
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 0);
         }
 
         [TestMethod()]
         public void GetMinPlayerTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetMinPlayer() == 2);
+            Assert.IsFalse(gameRoom.GetMinPlayer() == 3);
+
+            SetDecoratoresLimitNoSpectatores(); // same min player
+            Assert.IsTrue(gameRoom.GetMinPlayer() == 2);
+            Assert.IsFalse(gameRoom.GetMinPlayer() == 3);
         }
 
         [TestMethod()]
         public void GetMinBetTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetMinBet() == 10);
+            Assert.IsFalse(gameRoom.GetMinBet() == 20);
+
+            SetDecoratoresLimitNoSpectatores(); // min bet is now 20
+            Assert.IsTrue(gameRoom.GetMinBet() == 20);
+            Assert.IsFalse(gameRoom.GetMinBet() == 10);
         }
 
         [TestMethod()]
         public void GetMaxPlayerTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetMaxPlayer() == 4);
+            Assert.IsFalse(gameRoom.GetMaxPlayer() == 5);
+
+            SetDecoratoresLimitNoSpectatores(); // max player is now 5
+            Assert.IsTrue(gameRoom.GetMaxPlayer() == 5);
+            Assert.IsFalse(gameRoom.GetMaxPlayer() == 4);
         }
 
         [TestMethod()]
         public void GetPotSizeTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetPotSize() == 0);
+
+            //add player and start game taking sb and bb
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.StartGame, 0));
+            Assert.IsTrue(gameRoom.GetPotSize() == 10+5); //small+big
         }
 
         [TestMethod()]
         public void GetBuyInPolicyTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetBuyInPolicy() == 20);
+            Assert.IsFalse(gameRoom.GetBuyInPolicy() ==25);
+
+            SetDecoratoresLimitNoSpectatores(); // change to 25 fee
+            Assert.IsTrue(gameRoom.GetBuyInPolicy() == 25);
+            Assert.IsFalse(gameRoom.GetBuyInPolicy() == 20);
         }
 
         [TestMethod()]
         public void GetStartingChipTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetStartingChip() ==1000);
+            Assert.IsFalse(gameRoom.GetStartingChip() == 1500);
+
+            SetDecoratoresLimitNoSpectatores(); // starting cheap equal to 1500
+            Assert.IsTrue(gameRoom.GetStartingChip() == 1500);
+            Assert.IsFalse(gameRoom.GetStartingChip() == 1000);
         }
 
         [TestMethod()]
         public void GetGameGameModeTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetGameMode() == GameMode.NoLimit);
+            Assert.IsFalse(gameRoom.GetGameMode() == GameMode.Limit);
+
+            SetDecoratoresLimitNoSpectatores(); // Game mode is now Limit
+            Assert.IsTrue(gameRoom.GetGameMode() == GameMode.Limit);
+            Assert.IsFalse(gameRoom.GetGameMode() == GameMode.NoLimit);
         }
 
         [TestMethod()]
         public void GetLeagueNameTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetLeagueName() == LeagueName.A);
+            Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.B);
+
+            SetDecoratoresLimitNoSpectatores(); // League name is now B
+            Assert.IsTrue(gameRoom.GetLeagueName() == LeagueName.B);
+            Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.A);
         }
     }
 }

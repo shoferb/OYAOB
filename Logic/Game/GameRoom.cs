@@ -882,7 +882,7 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.CanSpectatble();
         }
 
-        public bool IsPotSizEqual(int potSize)
+        public bool IsPotSizeEqual(int potSize)
         {
             return this.PotCount == potSize;
         }
@@ -961,14 +961,14 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.GetStartingChip();
         }
 
-        public GameMode GetGameGameMode()
+        public GameMode GetGameMode()
         {
             return MyDecorator.GetGameMode();
         }
 
         public LeagueName GetLeagueName()
         {
-            return this.league;
+            return MyDecorator.GetLeagueName();
         }
     }
 }
