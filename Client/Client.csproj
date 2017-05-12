@@ -71,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="GuiScreen\GameScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\LoginScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -119,6 +123,9 @@
     </Compile>
     <Compile Include="GuiScreen\EditUserInfo.xaml.cs">
       <DependentUpon>EditUserInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\GameScreen.xaml.cs">
+      <DependentUpon>GameScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
