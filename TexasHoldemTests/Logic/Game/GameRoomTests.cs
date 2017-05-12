@@ -192,9 +192,9 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             SetDecoratoresLimitNoSpectatores(); // Limit
             StartGameDeco1with3Users();
-            //valid raise now is bb = 10
+            //valid raise now is bb = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 10));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20 + 20)); //20 for call and 20 for raise
 
             ////now its user2 turn who is sb (need to add 15 for valid call and add (15 + 10) for min raise
             //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 20));
