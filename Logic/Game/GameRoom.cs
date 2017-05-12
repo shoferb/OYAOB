@@ -968,7 +968,7 @@ namespace TexasHoldem.Logic.Game
 
         public LeagueName GetLeagueName()
         {
-            return this.league;
+            return MyDecorator.GetLeagueName();
         }
     }
 }
