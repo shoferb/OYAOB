@@ -882,7 +882,7 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.CanSpectatble();
         }
 
-        public bool IsPotSizEqual(int potSize)
+        public bool IsPotSizeEqual(int potSize)
         {
             return this.PotCount == potSize;
         }
