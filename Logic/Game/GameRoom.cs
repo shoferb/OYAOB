@@ -428,6 +428,7 @@ namespace TexasHoldem.Logic.Game
         {
             MoveChipsToPot();
             lastRaiseInRound = 0;
+            maxBetInRound = 0;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
