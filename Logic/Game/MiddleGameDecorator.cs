@@ -146,7 +146,7 @@ namespace TexasHoldem.Logic
 
         public GameMode GetGameMode()
         {
-            throw new NotImplementedException();
+            return GameMode;
         }
     }
 }
