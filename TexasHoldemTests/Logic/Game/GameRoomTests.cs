@@ -225,13 +225,14 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 35));
 
             //now its user2 turn who is sb (need to add 30 for valid call) 
-            // max raise is pot size + 30 = 5+10+35 + 30  = 80 => max bet is 80 +30 = 110
+            // max raise is pot size + valid call = 5+10+35 + 30  = 80 => max bet is 80 +30 = 110
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 120));
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 110));
 
-            ////now its user3 turn for min raise he need to add 30 (total of 40 - add 10 to the max of 30 last bet)
-            //Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 25));
-            //Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 30));
+            //now its user3 turn who is bb (need to add 105 for valid call) 
+            // max raise is pot size + valid call = 10+35+115 + 105  = 265 => max bet is 265 +105 = 370
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 375));
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 370));
         }
 
         [TestMethod()]
