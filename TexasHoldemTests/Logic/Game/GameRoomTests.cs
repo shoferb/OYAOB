@@ -207,9 +207,12 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameMinBetEqualTest()
         {
-            Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(4));
-            SetDecoratoresLimitNoSpectatores(); // max 5 player
-            Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(5));
+            Assert.IsTrue(gameRoom.IsGameMinBetEqual(10));
+            Assert.IsFalse(gameRoom.IsGameMinBetEqual(20));
+
+            SetDecoratoresLimitNoSpectatores(); // BB (equal to min bet) is now 20
+            Assert.IsTrue(gameRoom.IsGameMinBetEqual(20));
+            Assert.IsFalse(gameRoom.IsGameMinBetEqual(10));
         }
 
         [TestMethod()]
