@@ -331,7 +331,8 @@ namespace TexasHoldem.Logic.Game
             GameData gameData = GetGameData();
 
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerBet, maxBetInRound, Hand_Step))
+            int currentPlayerRaise = currentPlayerBet - lastRaiseInRound;
+            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, Hand_Step))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
@@ -350,7 +351,7 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
-
+            lastRaiseInRound = currentPlayerRaise;
             foreach (Player p in Players) //they all need to make another action in this round
             {
                 if (p != player)

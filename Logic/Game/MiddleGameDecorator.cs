@@ -87,6 +87,10 @@ namespace TexasHoldem.Logic
         {
             if (this.GameMode == GameMode.NoLimit)
             {
+                if (lastRaiseInRound > 0)
+                {
+
+                }
                 return maxCommited;
             }
             return 0;
