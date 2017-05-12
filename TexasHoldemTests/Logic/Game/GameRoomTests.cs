@@ -187,6 +187,23 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 30));
         }
 
+        [TestMethod()]
+        public void DoActionLimitRaiseTest()
+        {
+            SetDecoratores1(); // NoLimit
+            StartGameDeco1with3Users();
+            //valid raise now is atless bb*2 = 20
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20));
+
+            //now its user2 turn who is sb (need to add 15 for valid call and add (15 + 10) for min raise
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 20));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 25));
+
+            //now its user3 turn for min raise he need to add 30 (total of 40 - add 10 to the max of 30 last bet)
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 25));
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 30));
+        }
 
 
         [TestMethod()]
