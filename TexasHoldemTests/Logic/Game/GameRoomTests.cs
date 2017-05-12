@@ -140,7 +140,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionFoldTest()
         {
-            StartGameDeco1with3Users();
+            StartGamewith3Users();
             //its user1 turn
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Fold, 0));
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Fold, 0));
@@ -158,7 +158,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionCallTest()
         {
-            StartGameDeco1with3Users();
+            StartGamewith3Users();
             //its user1 turn 
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
             // cant bet with less then bb
@@ -181,7 +181,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActioNoLimitRaiseTest()
         {
             SetDecoratoresNoLimitWithSpectatores(); // NoLimit
-            StartGameDeco1with3Users();
+            StartGamewith3Users();
             //valid raise now is atless bb*2 = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20));
@@ -200,7 +200,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             // Limit
             SetDecoratoresLimitNoSpectatores(); 
-            StartGameDeco1with3Users();
+            StartGamewith3Users();
             //valid raise now is bb = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20 + 20)); //20 for call and 20 for raise
@@ -219,7 +219,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActioPotLimitRaiseTest()
         {
             SetDecoratoresPotLimitWithSpectatores(); //PotLimit
-            StartGameDeco1with3Users();
+            StartGamewith3Users();
             //max raise now is current size of pot + call value = 25. so max bet is 10 + 25 =35 
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 40));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 35));
@@ -500,7 +500,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.A);
         }
 
-        private void StartGameDeco1with3Users()
+        private void StartGamewith3Users()
         {
             gameRoom.DoAction(user2, ActionType.Join, 1500);
             gameRoom.DoAction(user3, ActionType.Join, 1500);
