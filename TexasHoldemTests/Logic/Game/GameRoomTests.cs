@@ -150,8 +150,8 @@ namespace TexasHoldem.Logic.Game.Tests
         public void IsSpectatableTest()
         {
             Assert.IsTrue(gameRoom.IsSpectatable());
-            
-
+            SetDecoratoresLimitNoSpectatores();
+            Assert.IsFalse(gameRoom.IsSpectatable());
         }
 
         [TestMethod()]
