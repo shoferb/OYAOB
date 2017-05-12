@@ -230,7 +230,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void GetPlayersInRoomTest()
         {
             Assert.IsTrue(gameRoom.GetPlayersInRoom().Count == 1);
-            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(0).Equals(user1));
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(0).user.Equals(user1));
 
         }
 
