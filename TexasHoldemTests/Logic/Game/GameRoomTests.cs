@@ -232,6 +232,9 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.GetPlayersInRoom().Count == 1);
             Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(0).user.Equals(user1));
 
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().Count == 2);
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(1).user.Equals(user2));
         }
 
         [TestMethod()]
