@@ -43,6 +43,7 @@ namespace TexasHoldem.Logic.Game
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;
+        private int lastRaiseInRound;
 
         private LeagueName league;
         private static readonly object padlock = new object();
@@ -65,9 +66,10 @@ namespace TexasHoldem.Logic.Game
             league = GetLeagueFromPlayer(Players);
             ReplayManager = ReplayManager.ReplayManagerInstance;
             GameCenter = GameCenter.Instance;
-        }
+            lastRaiseInRound = 0;
+    }
 
-        private LeagueName GetLeagueFromPlayer(List<Player> players)
+    private LeagueName GetLeagueFromPlayer(List<Player> players)
         {
             if (players == null || players.Count == 0)
             {
