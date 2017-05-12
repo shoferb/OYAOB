@@ -300,6 +300,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             Assert.IsTrue(gameRoom.GetBuyInPolicy() == 20);
             Assert.IsFalse(gameRoom.GetBuyInPolicy() ==25);
+
             SetDecoratoresLimitNoSpectatores(); // change to 25 fee
             Assert.IsTrue(gameRoom.GetBuyInPolicy() == 25);
             Assert.IsFalse(gameRoom.GetBuyInPolicy() == 20);
