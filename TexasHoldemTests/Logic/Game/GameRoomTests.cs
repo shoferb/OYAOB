@@ -229,7 +229,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetPlayersInRoomTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().Count == 1);
+            Assert.IsTrue(gameRoom.GetPlayersInRoom().ElementAt(0).Equals(user1));
+
         }
 
         [TestMethod()]
