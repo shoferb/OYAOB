@@ -65,7 +65,12 @@ namespace Client.GuiScreen
 
         private void MinBettextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            string temp = MinBettextBox.Text;
+            bool isValid = int.TryParse(temp, out _minBet);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Minimum Bet input");
+            }
         }
     }
 }
