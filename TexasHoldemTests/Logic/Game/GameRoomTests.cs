@@ -242,6 +242,9 @@ namespace TexasHoldem.Logic.Game.Tests
         public void GetSpectetorInRoomTest()
         {
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 0);
+            Assert.IsTrue(gameRoom.AddSpectetorToRoom(user2));
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 1);
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().ElementAt(0).user.Equals(user2));
         }
 
         [TestMethod()]
