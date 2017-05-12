@@ -57,7 +57,7 @@ namespace TexasHoldem.Logic
         }
 
 
-        private int GetMaxAllowedRaise(int maxCommited, int RoundChipBet, GameRoom.HandStep step)
+        private int GetMaxAllowedRaise(int maxCommited, int RoundChipBet, int PotCount, GameRoom.HandStep step)
         {
             switch (GameMode)
             {
@@ -106,7 +106,7 @@ namespace TexasHoldem.Logic
 
         public bool CanRaise(int lastRaiseInRound, int currentPlayerRaise, int maxBetInRound, int RoundChipBet, int PotCount, GameRoom.HandStep step)
         {
-            if (currentPlayerRaise > 0 && currentPlayerRaise <= GetMaxAllowedRaise(maxBetInRound, RoundChipBet, step) 
+            if (currentPlayerRaise > 0 && currentPlayerRaise <= GetMaxAllowedRaise(maxBetInRound, RoundChipBet, PotCount, step) 
                 && currentPlayerRaise >= GetMinAllowedRaise(lastRaiseInRound, maxBetInRound, step))
             {
                 return true;
