@@ -560,6 +560,11 @@ namespace TexasHoldem.Logic.Game.Tests
             //new round 
             Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Turn);
 
+            //user1 can check or fold or raise
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 0)); //check
+            Assert.IsTrue(gameRoom.GetPotSize() == 60); //from last round
 
         }
 
