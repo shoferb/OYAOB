@@ -36,7 +36,7 @@ namespace TexasHoldem.Logic.Game.Tests
         private void SetDecoratores1()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
-            Decorator before = new BeforeGameDecorator(5, 1000, true, 2, 4, 10, LeagueName.A);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 10, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
@@ -44,7 +44,7 @@ namespace TexasHoldem.Logic.Game.Tests
         private void SetDecoratoresLimitNoSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.Limit, 10, 5);
-            Decorator before = new BeforeGameDecorator(5, 1000, false, 2, 4, 10, LeagueName.A);
+            Decorator before = new BeforeGameDecorator(10, 1000, false, 2, 4, 10, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
@@ -161,7 +161,7 @@ namespace TexasHoldem.Logic.Game.Tests
 
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.StartGame, 0));
-            Assert.IsTrue(gameRoom.IsPotSizeEqual(15));
+            Assert.IsTrue(gameRoom.IsPotSizeEqual(10+5));
         }
 
         [TestMethod()]
