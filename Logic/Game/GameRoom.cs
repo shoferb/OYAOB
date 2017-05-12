@@ -313,6 +313,10 @@ namespace TexasHoldem.Logic.Game
 
         private bool CallOrRaise(Player player, int bet)
         {
+            if (player.RoundChipBet + bet < maxBetInRound && !player.OutOfMoney()) // for all in
+            {
+                return false; // need to bet atless maxBetInRound value
+            }
             if (player.RoundChipBet + bet == maxBetInRound)
             {
                 return Call(player, bet);
