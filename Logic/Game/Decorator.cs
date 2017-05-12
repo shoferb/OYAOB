@@ -19,8 +19,6 @@ namespace TexasHoldem.Logic
         int GetMinBetInRoom();
         int GetEnterPayingMoney();
         int GetStartingChip();
-        int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step);
-        int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step);
         bool CanRaise(int lastRaiseInRound ,int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step);
         bool CanJoin(int count, int amount, IUser user);
    
@@ -42,6 +40,8 @@ namespace TexasHoldem.Logic
         //return true the stsrtingchip of room is the same
         bool IsGameStartingChipEqual(int startingChip);
 
+        int GetMinPlayerInRoom();
+        int GetMaxPlayerInRoom();
         GameMode GetGameMode();
         LeagueName GetLeagueName();
 
