@@ -91,14 +91,18 @@ namespace Client.Logic
                 var t = Task.Run(async delegate { await Task.Delay(1000); });
                 t.Wait();
             }
-            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            if(toRet)
+            bool isSuccessful = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            int newRoomId = 0;//change to room id from response msg
+            if(isSuccessful)
             {
                 //get room number from response
-               //get gameData msg
+            }
+            else
+            {
+                newRoomId = -1;
             }
             messagesSentObserver.Remove(messageToList);
-            return 1;
+            return newRoomId;
         }
 
         public bool leaveTheGame(int roomId)

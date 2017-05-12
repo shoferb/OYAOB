@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.Logic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,16 +22,21 @@ namespace Client.GuiScreen
     public partial class CreateNewRoom : Window
     {
         private GameMode _mode;
-        private int _minBet;
-        private int _chipPolicy;
-        private int _buyInPolicy;
+        private int _minBet=-1;
+        private int _chipPolicy=-1;
+        private int _buyInPolicy=-1;
         private bool _canSpectate;
-        private int _minPlayer;
-        private int _maxPlayers;
+        private int _minPlayer=-1;
+        private int _maxPlayers=-1;
+        private ClientLogic _logic;
+        private Window parentScreen;
 
-        public CreateNewRoom()
+
+        public CreateNewRoom(Window p,ClientLogic cl)
         {
             InitializeComponent();
+            _logic = cl;
+            parentScreen = p;
         }
 
         private void GameModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -112,6 +118,60 @@ namespace Client.GuiScreen
             {
                 MessageBox.Show("Invalid Maximum Players input");
             }
+        }
+
+        private void CreateBotton_Click(object sender, RoutedEventArgs e)
+        {
+            if (GameModeComboBox.SelectedIndex==-1)
+            {
+                MessageBox.Show("Please Choose Game Mode");
+                return;
+            }
+            if (_minPlayer == -1)
+            {
+                MessageBox.Show("Please enter Minimum Playes");
+                return;
+            }
+            if (_maxPlayers == -1)
+            {
+                MessageBox.Show("Please enter Maximum Playes");
+                return;
+            }
+            if (_chipPolicy == -1)
+            {
+                MessageBox.Show("Please enter Chip Policy");
+                return;
+            }
+            if (_buyInPolicy== -1)
+            {
+                MessageBox.Show("Please enter Buy-In Policy");
+                return;
+            }
+            if (SpectatorsComboBox.SelectedIndex == -1)
+            {
+                MessageBox.Show("Please choose Spectetors Allowed");
+                return;
+            }
+            if (_minBet == -1)
+            {
+                MessageBox.Show("Please enter Chip Policy");
+                return;
+            }
+            int newRoomId = _logic.CreateNewRoom(_mode, _minBet, _chipPolicy, _buyInPolicy, _canSpectate, _minPlayer, _maxPlayers);
+            if (newRoomId!=-1)
+            {
+                MessageBox.Show("New Room sucssesfully Created! The new room ID is " + newRoomId + ". Enjoy!");
+                
+            }
+            else
+            {
+                MessageBox.Show("New room creation failed!");
+            }
+        }
+        private void BackToMainButton_Click(object sender, RoutedEventArgs e)
+        {
+            parentScreen.Show();
+            this.Hide();
         }
     }
 }
