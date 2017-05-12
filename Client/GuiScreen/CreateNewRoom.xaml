@@ -23,19 +23,19 @@
         <Label x:Name="SpecLabel" Content="Spectators Allowed?" HorizontalAlignment="Left" Margin="34,338,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
 
         <Label x:Name="CreateLabel" Content="Create New Room" HorizontalAlignment="Left" Margin="105,26,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
-        <Button x:Name="CreateBotton" Content="Create!" HorizontalAlignment="Left" Margin="88,396,0,0" VerticalAlignment="Top" Width="101" RenderTransformOrigin="0.314,-0.055" Click="registerButton_Click"/>
+        <Button x:Name="CreateBotton" Content="Create!" HorizontalAlignment="Left" Margin="88,396,0,0" VerticalAlignment="Top" Width="101" RenderTransformOrigin="0.314,-0.055" Click="CreateBotton_Click"/>
         <Button x:Name="BackToMainButton" Content="Back" HorizontalAlignment="Left" Margin="53,455,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.469,-0.553" Click="BackToMainButton_Click"/>
-        <TextBox x:Name="MinBettextBox" HorizontalAlignment="Left" Height="23" Margin="242,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="NametextBox_TextChanged"/>
-        <TextBox x:Name="ChipPoltextBox" HorizontalAlignment="Left" Height="23" Margin="242,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UserNametextBox_TextChanged"/>
-        <TextBox x:Name="BuyInPoltextBox" HorizontalAlignment="Left" Height="23" Margin="242,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="EmailtextBox_TextChanged"/>
-        <TextBox x:Name="MinPlayerstextBox" HorizontalAlignment="Left" Height="23" Margin="242,271,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MoneytextBox_TextChanged"/>
-        <TextBox x:Name="MaxPlayersFirstTextBox" HorizontalAlignment="Left" Height="23" Margin="242,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="PasswordFirstTextBox_TextChanged" PreviewMouseDown = "PasswordFirstTextBox_MouseDown"/>
+        <TextBox x:Name="MinBettextBox" HorizontalAlignment="Left" Height="23" Margin="242,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MinBettextBox_TextChanged"/>
+        <TextBox x:Name="ChipPoltextBox" HorizontalAlignment="Left" Height="23" Margin="242,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="ChipPoltextBox_TextChanged"/>
+        <TextBox x:Name="BuyInPoltextBox" HorizontalAlignment="Left" Height="23" Margin="242,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="BuyInPoltextBox_TextChanged"/>
+        <TextBox x:Name="MinPlayerstextBox" HorizontalAlignment="Left" Height="23" Margin="242,271,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MinPlayerstextBox_TextChanged"/>
+        <TextBox x:Name="MaxPlayersFirstTextBox" HorizontalAlignment="Left" Height="23" Margin="242,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MaxPlayerstextBox_TextChanged" PreviewMouseDown = "PasswordFirstTextBox_MouseDown"/>
         <Label x:Name="pleaseSetPreferences" Content="Please Enter Game Preferences" HorizontalAlignment="Left" Height="33" Margin="53,64,0,0" VerticalAlignment="Top" Width="274" Foreground="White" FontWeight="Bold" FontSize="18"/>
-        <ComboBox x:Name="SpectatorsComboBox" HorizontalAlignment="Left" Height="25" Margin="242,344,0,0" VerticalAlignment="Top" Width="120">
+        <ComboBox x:Name="SpectatorsComboBox" HorizontalAlignment="Left" Height="25" Margin="242,344,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="SpectatorsComboBox_SelectionChanged">
             <ComboBoxItem Content="Yes" HorizontalAlignment="Left" Width="123"/>
             <ComboBoxItem Content="No" HorizontalAlignment="Left" Width="123"/>
         </ComboBox>
-        <ComboBox x:Name="GameModeComboBox" HorizontalAlignment="Left" Height="25" Margin="242,108,0,0" VerticalAlignment="Top" Width="120">
+        <ComboBox x:Name="GameModeComboBox" HorizontalAlignment="Left" Height="25" Margin="242,108,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="GameModeComboBox_SelectionChanged">
             <ComboBoxItem Content="No Limit" HorizontalAlignment="Left" Width="118"/>
             <ComboBoxItem Content="Limit" HorizontalAlignment="Left" Width="118"/>
             <ComboBoxItem Content="Pot Limit" HorizontalAlignment="Left" Width="118"/>
