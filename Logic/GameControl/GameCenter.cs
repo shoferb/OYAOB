@@ -21,7 +21,6 @@ namespace TexasHoldem.Logic.Game_Control
         private List<IGame> games;
 
         private static int roomIdCounter = 1;
-        private static GameCenter singlton;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
 
         private static GameCenter instance;
