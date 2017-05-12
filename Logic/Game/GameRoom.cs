@@ -291,10 +291,10 @@ namespace TexasHoldem.Logic.Game
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             logControl.AddSystemLog(log2);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
-            MoveBbnSBtoPot();
             maxBetInRound = Bb;
 
             HandCardsAndInitPlayers();
+            MoveBbnSBtoPot();
             IncGamesCounterForPlayers();
             IsActiveGame = true;
             return true;
