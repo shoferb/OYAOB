@@ -973,5 +973,10 @@ namespace TexasHoldem.Logic.Game
         {
             return MyDecorator.GetLeagueName();
         }
+
+        public HandStep GetStep()
+        {
+            return Hand_Step;
+        }
     }
 }
