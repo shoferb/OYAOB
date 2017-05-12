@@ -41,10 +41,10 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom.AddDecorator(before);
         }
 
-        private void AddDecoratores2()
+        private void AddDecoratoresLimitNoSpectatores()
         {
-            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
-            Decorator before = new BeforeGameDecorator(5, 1000, true, 2, 4, 10, LeagueName.A);
+            Decorator mid = new MiddleGameDecorator(GameMode.Limit, 10, 5);
+            Decorator before = new BeforeGameDecorator(5, 1000, false, 2, 4, 10, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
@@ -150,7 +150,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void IsSpectatableTest()
         {
             Assert.IsTrue(gameRoom.IsSpectatable());
-
+            
 
         }
 
