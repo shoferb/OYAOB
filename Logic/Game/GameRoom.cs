@@ -345,6 +345,7 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = currentPlayerBet;
             player.PlayedAnActionInTheRound = true;
             player.CommitChips(bet);
+            PotCount += bet;
             RaiseAction raise = new RaiseAction(player, player._firstCard,
                  player._secondCard, currentPlayerBet);
             GameReplay.AddAction(raise);
