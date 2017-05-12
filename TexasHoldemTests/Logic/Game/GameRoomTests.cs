@@ -41,6 +41,15 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom.AddDecorator(before);
         }
 
+        private void AddDecoratores2()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(5, 1000, true, 2, 4, 10, LeagueName.A);
+            before.SetNextDecorator(mid);
+            gameRoom.AddDecorator(before);
+        }
+
+
         [TestCleanup()]
         public void Cleanup()
         {
@@ -140,7 +149,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsSpectatableTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsSpectatable());
+
+
         }
 
         [TestMethod()]
