@@ -298,11 +298,11 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetBuyInPolicyTest()
         {
-            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(20));
-            Assert.IsFalse(gameRoom.IsGameBuyInPolicyEqual(25));
+            Assert.IsTrue(gameRoom.GetBuyInPolicy() == 20);
+            Assert.IsFalse(gameRoom.GetBuyInPolicy() ==25);
             SetDecoratoresLimitNoSpectatores(); // change to 25 fee
-            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(25));
-            Assert.IsFalse(gameRoom.IsGameBuyInPolicyEqual(20));
+            Assert.IsTrue(gameRoom.GetBuyInPolicy() == 25);
+            Assert.IsFalse(gameRoom.GetBuyInPolicy() == 20);
         }
 
         [TestMethod()]
