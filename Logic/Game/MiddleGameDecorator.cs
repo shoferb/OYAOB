@@ -57,7 +57,7 @@ namespace TexasHoldem.Logic
         }
 
 
-        public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
+        private int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
         {
             switch (GameMode)
             {
@@ -83,7 +83,7 @@ namespace TexasHoldem.Logic
             return -1;
         }
 
-        public int GetMinAllowedRaise(int lastRaiseInRound, int maxCommited, GameRoom.HandStep step)
+        private int GetMinAllowedRaise(int lastRaiseInRound, int maxCommited, GameRoom.HandStep step)
         {
             if (this.GameMode == GameMode.NoLimit)
             {
