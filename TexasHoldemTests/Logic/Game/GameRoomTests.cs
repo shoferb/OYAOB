@@ -265,7 +265,12 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetMinBetTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetMinPlayer() == 2);
+            Assert.IsFalse(gameRoom.GetMinPlayer() == 3);
+
+            SetDecoratoresLimitNoSpectatores(); // same min player
+            Assert.IsTrue(gameRoom.GetMinPlayer() == 2);
+            Assert.IsFalse(gameRoom.GetMinPlayer() == 3);
         }
 
         [TestMethod()]
