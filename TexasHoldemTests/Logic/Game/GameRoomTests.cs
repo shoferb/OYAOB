@@ -79,6 +79,31 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
+        public void DoActionJoinTest()
+        {
+            //already player user
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
+            //new user to the game
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+        }
+
+        [TestMethod()]
+        public void DoActionJoinTest2()
+        {
+            SetDecoratoresLimitNoSpectatores();
+            //already player user
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
+            //new user not enough money in amount
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            //new user not enough money in total
+            user2.EditUserMoney(10);
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 2000));
+            //user with enough money
+            user2.EditUserMoney(10000);
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1500));
+        }
+
+        [TestMethod()]
         public void AddSpectetorToRoomTest()
         {
             //user that is a player in the room
