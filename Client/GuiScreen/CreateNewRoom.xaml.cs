@@ -72,5 +72,16 @@ namespace Client.GuiScreen
                 MessageBox.Show("Invalid Minimum Bet input");
             }
         }
+
+        private void ChipPoltextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string temp = ChipPoltextBox.Text;
+            bool isValid = int.TryParse(temp, out _chipPolicy);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Minimum Bet input");
+            }
+
+        }
     }
 }
