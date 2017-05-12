@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
@@ -44,6 +45,8 @@ namespace TexasHoldem.Logic
         int GetMinPlayerInRoom();
         int GetMaxPlayerInRoom();
         GameMode GetGameMode();
-      
+        LeagueName GetLeagueName();
+
+
     }
 }
