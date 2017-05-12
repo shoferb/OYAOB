@@ -158,5 +158,9 @@ namespace TexasHoldem.Logic
             return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
         }
 
+        public LeagueName GetLeagueName()
+        {
+            return league;
+        }
     }
 }
