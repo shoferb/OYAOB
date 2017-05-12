@@ -30,10 +30,10 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             gameRoom = new GameRoom(players, roomID);
-            AddDecoratores1();
+            SetDecoratores1();
         }
 
-        private void AddDecoratores1()
+        private void SetDecoratores1()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
             Decorator before = new BeforeGameDecorator(5, 1000, true, 2, 4, 10, LeagueName.A);
@@ -41,7 +41,7 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom.AddDecorator(before);
         }
 
-        private void AddDecoratoresLimitNoSpectatores()
+        private void SetDecoratoresLimitNoSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.Limit, 10, 5);
             Decorator before = new BeforeGameDecorator(5, 1000, false, 2, 4, 10, LeagueName.A);
