@@ -75,7 +75,7 @@ namespace TexasHoldem.Logic
                 case GameMode.NoLimit:
                     return int.MaxValue;
                 case GameMode.PotLimit:
-                    return potSize + maxCommited - RoundChipBet;
+                    return PotCount + maxCommited - RoundChipBet;
                 default:
                     break;
             }
