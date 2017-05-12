@@ -127,7 +127,7 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
-        public void DoActionJoinTest2()
+        public void DoActionFoldTest()
         {
             SetDecoratoresLimitNoSpectatores();
             //already player user
