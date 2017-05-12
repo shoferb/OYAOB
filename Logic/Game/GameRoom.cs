@@ -332,7 +332,7 @@ namespace TexasHoldem.Logic.Game
 
             int currentPlayerBet = player.RoundChipBet + bet;
             int currentPlayerRaise = currentPlayerBet - maxBetInRound;
-            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, Hand_Step))
+            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, PotCount, Hand_Step))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
