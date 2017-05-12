@@ -130,13 +130,9 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActionFoldTest()
         {
             StartGameDeco1with3Users();
-        }
-
-        private void StartGameDeco1with3Users()
-        {
-            gameRoom.DoAction(user2, ActionType.Join, 1000);
-            gameRoom.DoAction(user3, ActionType.Join, 1000);
-            gameRoom.DoAction(user1, ActionType.StartGame, 0);
+            //its user1 turn
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Fold, 0));
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Fold, 0));
         }
 
         [TestMethod()]
@@ -403,5 +399,13 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.GetLeagueName() == LeagueName.B);
             Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.A);
         }
+
+        private void StartGameDeco1with3Users()
+        {
+            gameRoom.DoAction(user2, ActionType.Join, 1000);
+            gameRoom.DoAction(user3, ActionType.Join, 1000);
+            gameRoom.DoAction(user1, ActionType.StartGame, 0);
+        }
+
     }
 }
