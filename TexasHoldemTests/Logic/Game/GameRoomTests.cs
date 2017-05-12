@@ -197,8 +197,11 @@ namespace TexasHoldem.Logic.Game.Tests
         public void IsGameMaxPlayerEqualTest()
         {
             Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(4));
+            Assert.IsFalse(gameRoom.IsGameMaxPlayerEqual(5));
+
             SetDecoratoresLimitNoSpectatores(); // max 5 player
             Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(5));
+            Assert.IsFalse(gameRoom.IsGameMaxPlayerEqual(4));
         }
 
         [TestMethod()]
