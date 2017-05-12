@@ -93,5 +93,25 @@ namespace Client.GuiScreen
                 MessageBox.Show("Invalid Buy-In Policy input");
             }
         }
+
+        private void MinPlayerstextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string temp = MinPlayerstextBox.Text;
+            bool isValid = int.TryParse(temp, out _minPlayer);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Minimum Players input");
+            }
+        }
+
+        private void MaxPlayerstextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string temp = MaxPlayersTextBox.Text;
+            bool isValid = int.TryParse(temp, out _maxPlayers);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Maximum Players input");
+            }
+        }
     }
 }
