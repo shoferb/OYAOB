@@ -23,5 +23,10 @@ namespace Client.GuiScreen
         {
             InitializeComponent();
         }
+
+        private void registerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
