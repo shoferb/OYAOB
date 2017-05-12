@@ -185,7 +185,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameMinPlayerEqualTest()
         {
-            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(20));
+            Assert.IsTrue(gameRoom.IsGameMinPlayerEqual(2));
+            SetDecoratoresLimitNoSpectatores(); // same min players
+            Assert.IsTrue(gameRoom.IsGameMinPlayerEqual(2));
         }
 
         [TestMethod()]
