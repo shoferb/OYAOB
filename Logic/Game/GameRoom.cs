@@ -376,6 +376,10 @@ namespace TexasHoldem.Logic.Game
 
         private bool Check(Player player)
         {
+            if (player.RoundChipBet < maxBetInRound && !player.OutOfMoney()) // for all in
+            {
+                return false; // need to bet atless maxBetInRound value
+            }
             GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
