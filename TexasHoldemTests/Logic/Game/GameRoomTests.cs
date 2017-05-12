@@ -137,6 +137,10 @@ namespace TexasHoldem.Logic.Game.Tests
             //now its user2 turn
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Fold, 0));
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Fold, 0));
+            //game should be over and not active
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Fold, 0));
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Fold, 0));
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Fold, 0));
         }
 
         [TestMethod()]

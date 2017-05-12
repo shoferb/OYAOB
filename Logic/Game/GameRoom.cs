@@ -115,6 +115,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     return Leave(player);
                 }
+                if (!IsActiveGame) { return false; }
                 if (player != CurrentPlayer)
                 {
                     return IrellevantUser(user, action);
