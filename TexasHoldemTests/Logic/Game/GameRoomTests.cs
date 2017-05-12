@@ -608,6 +608,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Leave, 0));
             Assert.IsTrue(user3.Money() < 5000);
             Assert.IsTrue(user2.Money() > 5000 || user1.Money() > 5000);
+
         }
 
 
