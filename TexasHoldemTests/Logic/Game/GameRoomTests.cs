@@ -220,9 +220,9 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             SetDecoratoresPotLimitWithSpectatores(); //PotLimit
             StartGameDeco1with3Users();
-            //max raise now is bb+sb+callVal = 10 + 5 + 10 =25
-            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 30));
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 25));
+            //max raise now is current size of pot + call value = 25. so max raise is 10 + 25 =35 
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 40));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 35));
 
             ////now its user2 turn who is sb (need to add 15 for valid call and add (15 + 10) for min raise
             //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 20));
