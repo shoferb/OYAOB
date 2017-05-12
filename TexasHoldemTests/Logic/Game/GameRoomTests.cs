@@ -182,10 +182,9 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 20));
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 25));
 
-            ////now its user3 turn who is bb can call with 0 (check)
-            //Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
-            //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
-            //Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            //now its user3 turn for min raise he need to add 30 (total of 40 - add 10 to the max of 30 last bet)
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 25));
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 30));
 
         }
 
