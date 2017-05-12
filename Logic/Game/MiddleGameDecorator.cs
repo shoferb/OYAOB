@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.TextFormatting;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
@@ -148,6 +149,12 @@ namespace TexasHoldem.Logic
         {
             return GameMode;
         }
+
+        public LeagueName GetLeagueName()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
 
