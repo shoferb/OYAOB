@@ -134,7 +134,9 @@ namespace TexasHoldem.Logic.Game.Tests
 
         private void StartGameDeco1with3Users()
         {
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            gameRoom.DoAction(user2, ActionType.Join, 1000);
+            gameRoom.DoAction(user3, ActionType.Join, 1000);
+            gameRoom.DoAction(user1, ActionType.StartGame, 0);
         }
 
         [TestMethod()]
