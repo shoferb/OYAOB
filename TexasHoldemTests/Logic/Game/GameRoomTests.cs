@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.Game.Tests
     [TestClass()]
     public class GameRoomTests
     {
-        private User user1, user2;
+        private IUser user1, user2, user3;
         List<Player> players;
         Player player1, player2;
         int roomID ;
@@ -25,6 +25,8 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
             user2 = new User(2, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
+            user3 = new User(3, "test3", "3test", "1234", 0, 5000, "test3@mailnator.com");
+
             roomID = 9999;
             players = new List<Player>();
             player1 = new Player(user1, 1000, roomID);
@@ -114,7 +116,6 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1500));
 
             //enough players irrelevant user
-            IUser user3 = new User(3, "test3", "3test", "1234", 0, 5000, "test3@mailnator.com");
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.StartGame, 0));
             
             //enough players relevant user
@@ -123,6 +124,22 @@ namespace TexasHoldem.Logic.Game.Tests
             //already started game
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.StartGame, 0));
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.StartGame, 0));
+        }
+
+        [TestMethod()]
+        public void DoActionJoinTest2()
+        {
+            SetDecoratoresLimitNoSpectatores();
+            //already player user
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
+            //new user not enough money in amount
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            //new user not enough money in total
+            user2.EditUserMoney(10);
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 2000));
+            //user with enough money
+            user2.EditUserMoney(10000);
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1500));
         }
 
         [TestMethod()]
