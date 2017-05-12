@@ -65,7 +65,15 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-               //todo - bar continue frome here join game
+                bool didJoin = cl.joinTheGame(currRoomId);
+                if (didJoin)
+                {
+                    MessageBox.Show("You joined the game successfully!");
+                }
+                else
+                {
+                    MessageBox.Show("Joined the game failed!");
+                }
             }
         }
 
