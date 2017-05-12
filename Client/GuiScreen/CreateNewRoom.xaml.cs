@@ -79,9 +79,19 @@ namespace Client.GuiScreen
             bool isValid = int.TryParse(temp, out _chipPolicy);
             if (!isValid)
             {
-                MessageBox.Show("Invalid Minimum Bet input");
+                MessageBox.Show("Invalid Chip Policy input");
             }
 
+        }
+
+        private void BuyInPoltextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string temp = BuyInPoltextBox.Text;
+            bool isValid = int.TryParse(temp, out _buyInPolicy);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Buy-In Policy input");
+            }
         }
     }
 }
