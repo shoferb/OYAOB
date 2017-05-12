@@ -116,8 +116,10 @@ namespace TexasHoldem.Logic.Game.Tests
             //enough players irrelevant user
             IUser user3 = new User(3, "test3", "3test", "1234", 0, 5000, "test3@mailnator.com");
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.StartGame, 0));
+            
             //enough players relevant user
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.StartGame, 0));
+            
             //already started game
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.StartGame, 0));
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.StartGame, 0));
