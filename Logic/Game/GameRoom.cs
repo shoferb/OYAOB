@@ -664,7 +664,6 @@ namespace TexasHoldem.Logic.Game
         {
             foreach (Player player in Players)
             {
-                PotCount += player.RoundChipBet;
                 player.TotalChip -= player.RoundChipBet;
                 player.RoundChipBet = 0;               
             }
@@ -831,16 +830,6 @@ namespace TexasHoldem.Logic.Game
                     c._value = 1;
                 }
             }
-        }
-
-        private int GetRaisePotLimit(Player p)
-        {
-
-            int potSize = this.PotCount;
-            int lastRise = this.maxBetInRound;
-            int playerPayInRound = p.RoundChipBet;
-            int toReturn = (lastRise - playerPayInRound) + potSize;
-            return toReturn;
         }
 
         public bool AddSpectetorToRoom(IUser user)
