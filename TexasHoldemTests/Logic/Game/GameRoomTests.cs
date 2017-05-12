@@ -36,7 +36,7 @@ namespace TexasHoldem.Logic.Game.Tests
         private void SetDecoratores1()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
-            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 10, LeagueName.A);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
@@ -44,7 +44,7 @@ namespace TexasHoldem.Logic.Game.Tests
         private void SetDecoratoresLimitNoSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.Limit, 10, 5);
-            Decorator before = new BeforeGameDecorator(10, 1000, false, 2, 4, 10, LeagueName.A);
+            Decorator before = new BeforeGameDecorator(10, 1000, false, 2, 4, 25, LeagueName.A);
             before.SetNextDecorator(mid);
             gameRoom.AddDecorator(before);
         }
@@ -110,7 +110,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             //new user
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
-            Assert.IsTrue(user2.Money() == 5000 - 1000 - 10);
+            Assert.IsTrue(user2.Money() == 5000 - 1000 - 20);
             //an already player user
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
         }
@@ -175,7 +175,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameBuyInPolicyEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(20));
+            SetDecoratoresLimitNoSpectatores();
+            Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(25));
         }
 
         [TestMethod()]
