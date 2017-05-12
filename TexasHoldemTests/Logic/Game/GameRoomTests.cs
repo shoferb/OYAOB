@@ -148,17 +148,21 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActionCallTest()
         {
             StartGameDeco1with3Users();
-            //its user1 turn
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            //its user1 turn 
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 0));
-            //now its user2 turn
-            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 0));
-            //game should be over and not active
-            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
-            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            // cant bet with less then bb
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 1));
+
+            //valid call = bb
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 10));
+
+            ////now its user2 turn
+            //Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            //Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            ////game should be over and not active
+            //Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            //Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
 
         }
 
