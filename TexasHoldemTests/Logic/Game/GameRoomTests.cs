@@ -241,7 +241,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetSpectetorInRoomTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 0);
         }
 
         [TestMethod()]
