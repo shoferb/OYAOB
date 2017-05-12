@@ -335,7 +335,12 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetLeagueNameTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetGameMode() == GameMode.NoLimit);
+            Assert.IsFalse(gameRoom.GetGameMode() == GameMode.Limit);
+
+            SetDecoratoresLimitNoSpectatores(); // Game mode is now Limit
+            Assert.IsTrue(gameRoom.GetGameMode() == GameMode.Limit);
+            Assert.IsFalse(gameRoom.GetGameMode() == GameMode.NoLimit);
         }
     }
 }
