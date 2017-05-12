@@ -96,10 +96,10 @@ namespace TexasHoldem.Logic
             return 0;
         }
 
-        public bool CanRaise(int lastRaiseInRound, int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public bool CanRaise(int lastRaiseInRound, int currentPlayerRaise, int maxBetInRound, GameRoom.HandStep step)
         {
-            if (currentPlayerBet > 0 && currentPlayerBet <= GetMaxAllowedRaise(maxBetInRound, step) 
-                && currentPlayerBet >= GetMinAllowedRaise(lastRaiseInRound, maxBetInRound, step))
+            if (currentPlayerRaise > 0 && currentPlayerRaise <= GetMaxAllowedRaise(maxBetInRound, step) 
+                && currentPlayerRaise >= GetMinAllowedRaise(lastRaiseInRound, maxBetInRound, step))
             {
                 return true;
             }

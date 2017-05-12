@@ -19,7 +19,7 @@ namespace TexasHoldem.Logic
         int GetMinBetInRoom();
         int GetEnterPayingMoney();
         int GetStartingChip();
-        bool CanRaise(int lastRaiseInRound ,int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step);
+        bool CanRaise(int lastRaiseInRound ,int currentPlayerRaise, int maxBetInRound, GameRoom.HandStep step);
         bool CanJoin(int count, int amount, IUser user);
    
         //return true the game mode is the same

@@ -47,9 +47,9 @@ namespace TexasHoldem.Logic
             return IsSpectetor;
         }
 
-        public  bool CanRaise(int lastRaiseInRound, int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public  bool CanRaise(int lastRaiseInRound, int currentPlayerRaise, int maxBetInRound, GameRoom.HandStep step)
         {
-            return NextDecorator.CanRaise(lastRaiseInRound, currentPlayerBet, maxBetInRound, step);
+            return NextDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, step);
         }
 
         public  bool CanJoin(int playersCount, int amount, IUser user)

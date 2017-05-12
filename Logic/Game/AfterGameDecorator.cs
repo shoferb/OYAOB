@@ -47,7 +47,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public bool CanRaise(int lastRaiseInRound, int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public bool CanRaise(int lastRaiseInRound, int currentPlayerRaise, int maxBetInRound, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
