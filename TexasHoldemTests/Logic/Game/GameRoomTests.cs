@@ -176,7 +176,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void IsGameBuyInPolicyEqualTest()
         {
             Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(20));
-            SetDecoratoresLimitNoSpectatores();
+            SetDecoratoresLimitNoSpectatores(); // change to 25 fee
             Assert.IsTrue(gameRoom.IsGameBuyInPolicyEqual(25));
         }
 
