@@ -219,6 +219,10 @@ namespace TexasHoldem.Logic.Game.Tests
         public void IsGameStartingChipEqualTest()
         {
             Assert.IsTrue(gameRoom.IsGameStartingChipEqual(1000));
+            Assert.IsFalse(gameRoom.IsGameStartingChipEqual(1500));
+            SetDecoratoresLimitNoSpectatores(); // BB (equal to min bet) is now 20
+            Assert.IsTrue(gameRoom.IsGameStartingChipEqual(1000));
+            Assert.IsFalse(gameRoom.IsGameStartingChipEqual(1500));
         }
 
         [TestMethod()]
