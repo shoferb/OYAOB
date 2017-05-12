@@ -504,6 +504,8 @@ namespace TexasHoldem.Logic.Game
             Players = playersLeftInGame;
             IsActiveGame = false;
             ClearPublicCards();
+            maxBetInRound = 0;
+            lastRaiseInRound = 0;
             GameReplay = new GameReplay(Id, GameNumber);
             return true;
         }
