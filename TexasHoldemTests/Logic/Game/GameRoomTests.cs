@@ -288,6 +288,10 @@ namespace TexasHoldem.Logic.Game.Tests
         public void GetPotSizeTest()
         {
             Assert.IsTrue(gameRoom.GetPotSize() == 0);
+            //add player and start game taking sb and bb
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.StartGame, 0));
+            Assert.IsTrue(gameRoom.GetPotSize() == 10+5); //small+big
         }
 
         [TestMethod()]
