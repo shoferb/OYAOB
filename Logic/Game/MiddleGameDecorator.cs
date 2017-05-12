@@ -95,7 +95,11 @@ namespace TexasHoldem.Logic
             }
             if (GameMode == GameMode.Limit)
             {
-
+                if (step == GameRoom.HandStep.PreFlop || step == GameRoom.HandStep.Flop)
+                {
+                    return BB;
+                }
+                return 2 * BB;
             }
             return 0;
         }
