@@ -42,8 +42,6 @@ namespace TexasHoldem.Logic
         //return true the stsrtingchip of room is the same
         bool IsGameStartingChipEqual(int startingChip);
 
-        int GetMinPlayerInRoom();
-        int GetMaxPlayerInRoom();
         GameMode GetGameMode();
         LeagueName GetLeagueName();
 
