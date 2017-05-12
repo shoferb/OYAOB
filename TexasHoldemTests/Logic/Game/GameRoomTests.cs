@@ -145,6 +145,25 @@ namespace TexasHoldem.Logic.Game.Tests
         }
 
         [TestMethod()]
+        public void DoActionCallTest()
+        {
+            StartGameDeco1with3Users();
+            //its user1 turn
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            //now its user2 turn
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            //game should be over and not active
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+
+        }
+
+
+        [TestMethod()]
         public void AddSpectetorToRoomTest()
         {
             //user that is a player in the room
