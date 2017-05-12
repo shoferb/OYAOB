@@ -338,6 +338,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.GetLeagueName() == LeagueName.A);
             Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.B);
 
+
             SetDecoratoresLimitNoSpectatores(); // League name is now B
             Assert.IsTrue(gameRoom.GetLeagueName() == LeagueName.B);
             Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.A);
