@@ -39,5 +39,6 @@ namespace TexasHoldem.Logic.Game
         int GetStartingChip();
         GameMode GetGameMode();
         LeagueName GetLeagueName();
+        GameRoom.HandStep GetStep();
     }
 }
