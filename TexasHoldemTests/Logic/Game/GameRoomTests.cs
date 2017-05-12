@@ -186,8 +186,11 @@ namespace TexasHoldem.Logic.Game.Tests
         public void IsGameMinPlayerEqualTest()
         {
             Assert.IsTrue(gameRoom.IsGameMinPlayerEqual(2));
+            Assert.IsFalse(gameRoom.IsGameMinPlayerEqual(3));
+
             SetDecoratoresLimitNoSpectatores(); // same min players
             Assert.IsTrue(gameRoom.IsGameMinPlayerEqual(2));
+            Assert.IsFalse(gameRoom.IsGameMinPlayerEqual(3));
         }
 
         [TestMethod()]
@@ -201,7 +204,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameMinBetEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(4));
+            SetDecoratoresLimitNoSpectatores(); // max 5 player
+            Assert.IsTrue(gameRoom.IsGameMaxPlayerEqual(5));
         }
 
         [TestMethod()]
