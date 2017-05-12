@@ -287,7 +287,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetPotSizeTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.GetPotSize() == 0);
         }
 
         [TestMethod()]
