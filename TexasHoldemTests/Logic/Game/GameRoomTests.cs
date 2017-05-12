@@ -313,8 +313,8 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.GetStartingChip() == 1500);
 
             SetDecoratoresLimitNoSpectatores(); // starting cheap equal to 1500
-            Assert.IsTrue(gameRoom.GetStartingChip() == 1000);
-            Assert.IsFalse(gameRoom.GetStartingChip() == 1500);
+            Assert.IsTrue(gameRoom.GetStartingChip() == 1500);
+            Assert.IsFalse(gameRoom.GetStartingChip() == 1000);
         }
 
         [TestMethod()]
