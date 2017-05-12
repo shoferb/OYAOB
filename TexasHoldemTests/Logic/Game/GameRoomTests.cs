@@ -81,9 +81,10 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionJoinTest()
         {
+            //already player user
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000));
+            //new user to the game
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000));
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Leave, 0));
         }
 
 
