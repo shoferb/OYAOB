@@ -172,22 +172,21 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionRaiseTest()
         {
+            SetDecoratores1(); // NoLimit
             StartGameDeco1with3Users();
-            //its user1 turn 
-            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
-            // cant bet with less then bb
-            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 1));
-            //valid call = bb
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 10));
-            //now its user2 turn who is sb (need to add 5 for valid call)
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 3));
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 5));
+            //valid raise now is atless bb*2 = 20
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20));
 
-            //now its user3 turn who is bb can call with 0 (check)
-            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
-            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            ////now its user2 turn who is sb (need to add 5 for valid call)
+            //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 3));
+            //Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 5));
+
+            ////now its user3 turn who is bb can call with 0 (check)
+            //Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            //Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            //Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 0));
 
         }
 
