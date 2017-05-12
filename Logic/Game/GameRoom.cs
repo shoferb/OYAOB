@@ -369,6 +369,7 @@ namespace TexasHoldem.Logic.Game
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
+            PotCount += bet;
             CallAction call = new CallAction(player, player._firstCard,
                 player._secondCard, bet);
             GameReplay.AddAction(call);
