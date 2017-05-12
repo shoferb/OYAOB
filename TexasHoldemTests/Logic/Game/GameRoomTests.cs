@@ -602,7 +602,12 @@ namespace TexasHoldem.Logic.Game.Tests
 
             //game Over
             Assert.IsFalse(gameRoom.IsGameActive());
+
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Leave, 0));
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Leave, 0));
             Assert.IsTrue(user3.Money() < 5000);
+            Assert.IsTrue(user2.Money() > 5000 || user1.Money() > 5000);
         }
 
 
