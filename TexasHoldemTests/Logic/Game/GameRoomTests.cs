@@ -33,10 +33,10 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             gameRoom = new GameRoom(players, roomID);
-            SetDecoratores1();
+            SetDecoratoresNoLimitWithSpectatores();
         }
 
-        private void SetDecoratores1()
+        private void SetDecoratoresNoLimitWithSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
             Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
@@ -172,7 +172,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActioNoLimitRaiseTest()
         {
-            SetDecoratores1(); // NoLimit
+            SetDecoratoresNoLimitWithSpectatores(); // NoLimit
             StartGameDeco1with3Users();
             //valid raise now is atless bb*2 = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
