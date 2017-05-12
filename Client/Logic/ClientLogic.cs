@@ -78,8 +78,27 @@ namespace Client.Logic
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             messagesSentObserver.Remove(messageToList);
             return toRet;
+        }
 
-
+        public int CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
+        {//should ret int as the roomNumber
+            CreatrNewRoomMessage toSend = new CreatrNewRoomMessage(_userId, mode, minBet, chipPol, buyInPol, canSpec, minPlayers, maxPlayers);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            if(toRet)
+            {
+                //get room number from response
+               //get gameData msg
+            }
+            messagesSentObserver.Remove(messageToList);
+            return 1;
         }
 
         public bool leaveTheGame(int roomId)

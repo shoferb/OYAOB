@@ -104,5 +104,10 @@ namespace Client.Handler
             Task task = new Task(handleMessages);
             task.Start();
         }
+
+        public void HandleEvent(CreatrNewRoomMessage msg)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

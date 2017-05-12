@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
@@ -198,6 +199,11 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(ResponeCommMessage msg)
         {
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
+        }
+
+        public void HandleEvent(CreatrNewRoomMessage msg) //TODO
+        {
+            throw new NotImplementedException();
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)

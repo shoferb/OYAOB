@@ -63,6 +63,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="GuiScreen\CreateNewRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\EditUserInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,6 +113,9 @@
     </Compile>
     <Compile Include="GuiScreen\AvatarEditScreen.xaml.cs">
       <DependentUpon>AvatarEditScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\CreateNewRoom.xaml.cs">
+      <DependentUpon>CreateNewRoom.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\EditUserInfo.xaml.cs">
       <DependentUpon>EditUserInfo.xaml</DependentUpon>

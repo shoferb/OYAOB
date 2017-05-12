@@ -59,6 +59,14 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "j" + msgToRet;
                 }
+                else if (msg.GetType() == typeof(SearchResponseCommMessage))
+                {
+                    msgToRet = "k" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(CreatrNewRoomMessage))
+                {
+                    msgToRet = "l" + msgToRet;
+                }
                 return msgToRet;
             }
         }
@@ -122,9 +130,14 @@ namespace TexasHoldemShared.Parser
                 string XMLmsg = msg.Substring(1);
                 return deserializeSearchResponseCommMessageSTC(XMLmsg);
             }
+            else if (msg.IndexOf('l') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeCreatrNewRoomMessage(XMLmsg);
+            }
             return null;
         }
-
+        //TODO Add create new room msg
 
         //*******DONT REMOVE********//////
         //  private ClientGame deserializeClientGame(string XmlText)
@@ -135,6 +148,15 @@ namespace TexasHoldemShared.Parser
         //   return (ClientGame)serializer.Deserialize(stringReader);
         // }
         //        }
+
+        private CreatrNewRoomMessage deserializeCreatrNewRoomMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(CreatrNewRoomMessage));
+                return (CreatrNewRoomMessage)serializer.Deserialize(stringReader);
+            }
+        }
 
         private SearchResponseCommMessage deserializeSearchResponseCommMessageSTC(string xmlText)
         {
