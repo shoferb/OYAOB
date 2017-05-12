@@ -320,7 +320,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void GetGameGameModeTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameModeEqual(GameMode.NoLimit));
+            SetDecoratoresLimitNoSpectatores();
+            Assert.IsTrue(gameRoom.IsGameModeEqual(GameMode.Limit));
         }
 
         [TestMethod()]
