@@ -47,16 +47,6 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool CanRaise(int lastRaiseInRound, int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
