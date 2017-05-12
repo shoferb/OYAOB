@@ -169,7 +169,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             Assert.IsTrue(gameRoom.IsGameModeEqual(GameMode.NoLimit));
             SetDecoratoresLimitNoSpectatores();
-
+            Assert.IsTrue(gameRoom.IsGameModeEqual(GameMode.Limit));
         }
 
         [TestMethod()]
