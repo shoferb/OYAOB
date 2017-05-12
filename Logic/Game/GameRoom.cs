@@ -331,7 +331,7 @@ namespace TexasHoldem.Logic.Game
             GameData gameData = GetGameData();
 
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
+            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerBet, maxBetInRound, Hand_Step))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
