@@ -530,7 +530,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.GetPotSize() == 30); // 5 + 10 + 10 +5
 
             //new round 
-            Assert.IsTrue(gameRoom.Get);
+            Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Flop);
 
 
         }
