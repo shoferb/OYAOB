@@ -218,7 +218,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void IsGameStartingChipEqualTest()
         {
-            Assert.Fail();
+            Assert.IsTrue(gameRoom.IsGameStartingChipEqual(1000));
         }
 
         [TestMethod()]
