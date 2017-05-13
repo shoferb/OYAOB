@@ -12,6 +12,7 @@ namespace TexasHoldem.Logic.GameControl
         B,
         C,
         D,
-        E//low
+        E,//low
+        Unknow
     }
 }

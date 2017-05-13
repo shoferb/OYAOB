@@ -31,7 +31,7 @@ namespace TexasHoldem.Logic.Users
         private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
 
         private LeagueName league;
-        public int rank { get; set; } 
+  
 
         public int winNum { get; set; }
         //for syncronize
@@ -191,10 +191,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public int Rank()
-        {
-            return rank;
-        }
+
 
         public bool Login()
         {
@@ -421,28 +418,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public bool EditUserRank(int Rank)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                try
-                {
-                    if (IsValidInputNotSmallerZero(Rank))
-                    {
-                        this.rank = Rank;
-                        toReturn = true;
-                        return toReturn;
-                    }
-                    return toReturn;
-                }
-                catch
-                {
-                    toReturn = false;
-                    return toReturn;
-                }
-            }
-        }
+    
 
         public bool RemoveRoomFromActiveGameList(IGame game)
         {
