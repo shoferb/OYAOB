@@ -52,6 +52,7 @@ namespace TexasHoldem.Logic.Game
         {
             MyDecorator = decorator;
             SetTheBlinds();
+            ReduceFeeAndStatringChipFromPlayers();
             Id = ID;
             GameNumber = 0;
             IsActiveGame = false;
@@ -69,7 +70,12 @@ namespace TexasHoldem.Logic.Game
             lastRaiseInRound = 0;
     }
 
-    private LeagueName GetLeagueFromPlayer(List<Player> players)
+        private void ReduceFeeAndStatringChipFromPlayers()
+        {
+            throw new NotImplementedException();
+        }
+
+        private LeagueName GetLeagueFromPlayer(List<Player> players)
         {
             if (players == null || players.Count == 0)
             {
