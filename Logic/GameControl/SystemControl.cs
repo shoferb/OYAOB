@@ -244,7 +244,8 @@ namespace TexasHoldem.Logic.Game_Control
             }
             if (!IsIdFree(id))
             {
-                
+                ErrorLog log = new ErrorLog("Error: while trying ceate user - id: " + id + " is NOT free");
+                logControl.AddErrorLog(log);
             }
             if (!IsValidPassword(password))
             {
