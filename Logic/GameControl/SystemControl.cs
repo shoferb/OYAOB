@@ -239,7 +239,8 @@ namespace TexasHoldem.Logic.Game_Control
                 IsValidPassword(password) && IsValidEmail(email) && !memberName.Equals("") && !memberName.Equals(" ");
             if (!IsUsernameFree(memberName))
             {
-                
+                ErrorLog log = new ErrorLog("Error: while trying ceate user - username: "+memberName+" is NOT free");
+                logControl.AddErrorLog(log);
             }
             if (!IsIdFree(id))
             {
