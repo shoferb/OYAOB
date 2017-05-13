@@ -246,7 +246,6 @@ namespace TexasHoldem.Logic.Game
         {
             Player p = new Player(user, amount, this.Id);
             GameData gameData = GetGameData();
-
             if (IsUserASpectator(user))
             {
                 GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
@@ -257,6 +256,7 @@ namespace TexasHoldem.Logic.Game
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
+                    gameData = GetGameData();
                     GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
                     return true;
                 }
