@@ -513,24 +513,27 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return toReturn;
             }
-            if(userCount < 20)
+            double temp =(userCount / 5);
+            divideTo = (int) Math.Round(temp);
+            if(divideTo < 2)
             {
-                double temp =(userCount / 5);
-                divideTo = (int) Math.Round(temp);
-                if(divideTo < 2)
-                {
-                    divideTo = 2;
-                }
-                int i = 0;
-                LeagueName curr = LeagueName.A;
-                foreach (IUser u in sorted)
-                {
-                    if(i > divideTo)
-                    {
-                        curr = GetNextLeague(curr);
-                    }   
-                }
+                divideTo = 2;
             }
+            int i = 0;
+            int k = 0;
+            LeagueName curr = LeagueName.A;
+            while(i < userCount)
+            {
+                while(k <= divideTo && i<userCount)
+                {
+                    sorted.ElementAt(i).SetLeague(curr);
+                    i++;
+                    k++;
+                }
+                k = 0;
+                curr = GetNextLeague(curr);
+            }
+   
             return toReturn;
         }
 
