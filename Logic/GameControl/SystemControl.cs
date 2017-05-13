@@ -201,12 +201,15 @@ namespace TexasHoldem.Logic.Game_Control
                     if (name.Equals(" ") || name.Equals(""))
                     {
                         ErrorLog log = new ErrorLog("Error: while trying register user: name is empty");
+                        logControl.AddErrorLog(log);
 
                         return toReturn;
                     }
                     if (!IsValidInputNotSmallerZero(money))
                     {
                         ErrorLog log = new ErrorLog("Error: while trying register user:money smaller than zero");
+                        logControl.AddErrorLog(log);
+
                         return toReturn;
                     }
 
@@ -217,6 +220,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }catch(Exception e)
                 {
                     ErrorLog log = new ErrorLog("Error: while trying register user");
+                    logControl.AddErrorLog(log);
+
                     toReturn = false;
                 }
 
