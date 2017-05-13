@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
+using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
-    class GameBridge//Todo remove and fix all - need to impl this -> : IGameBridge
-    {/*
+    public class GameBridge : IGameBridge
+    {
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
 
@@ -20,7 +21,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         private int MakeRoomHelper(int userId, int roomId)
         {
-            User user = _userService.GetUserFromId(userId);
+            IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
                 if (_gameService.CreateNewRoomWithRoomId(roomId, userId, 100, true, GameMode.NoLimit, 2, 2, 0, 4))
@@ -42,12 +43,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public int CreateGameRoom(int userId)
         {
-            return MakeRoomHelper(userId, _gameService.GetNextFreeRoomId());
+           return _gameService.CreateNewRoom(userId, 50, true, GameMode.NoLimit, 2, 8, 20, 10);
         }
 
         public bool RemoveGameRoom(int id)
         {
-            return _gameService.RemoveRoom(id);
+            return _gameService.removeGame;
         }
 
         public int GetNextFreeRoomId()
@@ -65,7 +66,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                var roomPlayers = game.Players;
+                var roomPlayers = game.pl
                 var roomSpect = game.Spectatores;
                 return roomPlayers.Exists(p => p.Id == userId) ||
                        roomSpect.Exists(s => s.Id == userId); 
@@ -283,6 +284,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
         //    }
         //    return false;
         //}
-        */
+        
     }
 }

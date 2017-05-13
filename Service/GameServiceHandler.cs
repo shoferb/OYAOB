@@ -52,13 +52,17 @@ namespace TexasHoldem.Service
 
         //TODO: fix this
         //create room and add to games list game center
-        public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+        public int CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
             IUser user = _systemControl.GetUserWithId(userId);
             int roomID = _gameCenter.GetNextIdRoom();
-            return _gameCenter.CreateNewRoomWithRoomId(roomID, user, startingChip, isSpectetor, gameModeChosen,
-                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+            if (!_gameCenter.CreateNewRoomWithRoomId(roomID, user, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet))
+            {
+                return -1;
+            }
+            return roomID;
         }
         
         //public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
