@@ -331,7 +331,10 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch(Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while checking if user exist:  user whith id" + id);
 
+                    logControl.AddErrorLog(log);
+                    return toReturn;
                 }
                
                 return toReturn;
