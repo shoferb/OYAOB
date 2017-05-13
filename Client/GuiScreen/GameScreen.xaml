@@ -1,12 +1,22 @@
-﻿<Window x:Class="Client.GuiScreen.GameScreen"
+﻿<Window x:Name="GameScreen1" x:Class="Client.GuiScreen.GameScreen"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="GameScreen" Height="300" Width="300">
+        Title="GameScreen" Height="422" Width="519">
+    <Window.Background>
+        <ImageBrush ImageSource="Photos/Screen/POKERslidesearch.png"/>
+    </Window.Background>
+
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush Stretch="None"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="195*"/>
+            <RowDefinition Height="196*"/>
+        </Grid.RowDefinitions>
     </Grid>
 </Window>
