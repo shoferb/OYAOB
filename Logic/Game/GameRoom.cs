@@ -622,7 +622,6 @@ namespace TexasHoldem.Logic.Game
 
         private void HandCardsAndInitPlayers()
         {
-            GameData gameData = GetGameData();
             foreach (Player player in this.Players)
             {
                 player.InitForNewGame();
@@ -632,6 +631,7 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 logControl.AddSystemLog(log);
+                GameData gameData = GetGameData();
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
 
             }
