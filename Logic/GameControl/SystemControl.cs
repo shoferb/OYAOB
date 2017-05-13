@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -17,7 +18,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         private static SystemControl systemControlInstance = null;
         private static readonly object padlock = new object();
-
+        private LogControl logControl = LogControl.Instance;
 
         public static SystemControl SystemControlInstance
         {
@@ -37,6 +38,7 @@ namespace TexasHoldem.Logic.Game_Control
         private SystemControl()
         {
             this.users = new List<IUser>();
+            
             var ServiceTimer = new System.Timers.Timer();
             ServiceTimer.Enabled = true;
             ServiceTimer.Interval = (1000 * 60 * 60 * 24 * 7);//once a week
@@ -80,6 +82,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while truing to remove user with id: " + id);
                     toReturn = false;
                 }
                 return toReturn;
