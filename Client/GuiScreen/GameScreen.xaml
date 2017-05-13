@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="GameScreen" Height="552" Width="879">
+        Title="GameScreen" Height="516" Width="937">
     <Window.Background>
         <ImageBrush ImageSource="Photos/Screen/POKERslidesearch.png"/>
     </Window.Background>
 
-    <Grid>
+    <Grid Margin="0,0,0,2">
         <Grid.Background>
             <ImageBrush Stretch="None"/>
         </Grid.Background>
@@ -19,8 +19,60 @@
             <RowDefinition Height="196*"/>
         </Grid.RowDefinitions>
         <Label x:Name="RoomNum" Content="Room Number:" HorizontalAlignment="Left" Height="35" Margin="10,0,0,0" VerticalAlignment="Top" Width="250" Foreground="#FFFBFBFB" FontWeight="Bold" FontSize="22"/>
-        <Label Content="My Cards:" HorizontalAlignment="Left" Height="30" Margin="270,165,0,0" Grid.Row="1" VerticalAlignment="Top" Width="115" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="14"/>
-        <Label x:Name="Card1Labek" Content="Card 1:" HorizontalAlignment="Left" Height="25" Margin="295,195,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" FontWeight="Bold" Background="#FFF5F0F0"/>
-        <Label x:Name="Card2Label" Content="Card 2:" HorizontalAlignment="Left" Height="25" Margin="295,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" Background="#FFF3EEEE" FontWeight="Bold"/>
+        <Label Content="My Cards:" HorizontalAlignment="Left" Height="35" Margin="392,98,0,0" Grid.Row="1" VerticalAlignment="Top" Width="115" FontWeight="Bold" Foreground="Black" FontSize="18"/>
+        <Label x:Name="Card1Labek" Content="Card 1:" HorizontalAlignment="Left" Height="25" Margin="395,139,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" FontWeight="Bold" Background="#FFF5F0F0"/>
+        <Label x:Name="Card2Label" Content="Card 2:" HorizontalAlignment="Left" Height="25" Margin="395,175,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" Background="#FFF3EEEE" FontWeight="Bold"/>
+        <ListView HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="354" Margin="511,63,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Chat:" HorizontalAlignment="Left" Height="26" Margin="529,32,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="My Chips:" HorizontalAlignment="Left" Height="30" Margin="761,102,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="14" RenderTransformOrigin="-1.04,1.1"/>
+        <Label x:Name="ChipAmountLabel" Content="50" HorizontalAlignment="Left" Height="44" Margin="774,129,0,0" Grid.Row="1" VerticalAlignment="Top" Width="65" FontWeight="Bold" FontSize="24" Foreground="#FFFFE803"/>
+        <ComboBox x:Name="ActionChosenComboBox" HorizontalAlignment="Left" Height="30" Margin="669,245,0,0" VerticalAlignment="Top" Width="230" Grid.RowSpan="2" >
+
+        </ComboBox>
+        <Label Content="Perform Action:" HorizontalAlignment="Left" Height="30" Margin="529,213,0,0" VerticalAlignment="Top" Width="140" FontWeight="Bold" Foreground="#FF020000" FontSize="16"/>
+        <TextBox x:Name="InputForActionTextBox" HorizontalAlignment="Left" Height="30" Margin="669,45,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <Label Content="Players:" HorizontalAlignment="Left" Height="30" Margin="10,50,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
+        <ListView x:Name="ListViewPlayers" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="167" Margin="23,88,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Roles:" HorizontalAlignment="Left" Height="30" Margin="210,50,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
+        <Label Content="Dealer:" HorizontalAlignment="Left" Height="26" Margin="220,80,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="Big Blind:" HorizontalAlignment="Left" Height="26" Margin="220,106,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="Small Blind:" HorizontalAlignment="Left" Height="26" Margin="220,132,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="Current Turn:" HorizontalAlignment="Left" Height="26" Margin="220,158,0,0" VerticalAlignment="Top" Width="95" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="DealerNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,80,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label x:Name="BBNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,106,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label x:Name="SBNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,132,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label x:Name="CurrTurnNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,158,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label Content="POT:" HorizontalAlignment="Left" Height="28" Margin="390,205,0,0" VerticalAlignment="Top" Width="70" FontWeight="Bold" FontSize="16" Foreground="WhiteSmoke"/>
+        <Label Content="Choose Action:" HorizontalAlignment="Left" Height="26" Margin="545,249,0,0" VerticalAlignment="Top" Width="95" FontWeight="Bold" Foreground="White" Grid.RowSpan="2"/>
+        <Label Content="Amount/&#xD;&#xA;message to send" HorizontalAlignment="Left" Height="50" Margin="550,33,0,0" VerticalAlignment="Top" Width="105" Foreground="White" Grid.Row="1" FontWeight="Bold" RenderTransformOrigin="0.038,0.66"/>
+        <Label x:Name="PotAmountLabel" Content="50" HorizontalAlignment="Left" Height="44" Margin="392,228,0,0" VerticalAlignment="Top" Width="65" FontWeight="Bold" FontSize="24" Foreground="#FFFF0303" Grid.RowSpan="2"/>
+        <Border BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Left" Height="74" Margin="355,201,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="115" OpacityMask="#FFE6CACA">
+            <Border.Background>
+                <ImageBrush/>
+            </Border.Background>
+        </Border>
+        <Label Content="Public Cards:" HorizontalAlignment="Left" Height="30" Margin="23,228,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16" Grid.RowSpan="2"/>
+        <ListView x:Name="ListViewPublicCards" HorizontalAlignment="Left" Height="143" VerticalAlignment="Top" Width="283" Margin="28,19,0,0" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="DoActiomBotton" Content="Do!" HorizontalAlignment="Left" Height="28" Margin="569,81,0,0" Grid.Row="1" VerticalAlignment="Top" Width="57"/>
+        <Button x:Name="LeaveBotton" Content="Leave" HorizontalAlignment="Left" Margin="714,195,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="LeaveBotton_Click"/>
+        <Button x:Name="StartTheGameBTN" Content="Start The Game!" HorizontalAlignment="Left" Margin="813,196,0,0" Grid.Row="1" VerticalAlignment="Top" Width="98" Height="19" Click="StartTheGameBTN_Click"/>
     </Grid>
 </Window>

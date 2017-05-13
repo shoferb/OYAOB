@@ -227,18 +227,10 @@ namespace Client.Logic
         }
 
         //TODO: no options
-        public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
+        public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
-            bool legalMove = false;
-            foreach (TexasHoldemShared.CommMessages.CommunicationMessage.ActionType action in options)
-            {
-                if (action.Equals(move))
-                {
-                    legalMove = true;
-                }
-            }
-            if (legalMove)
-            {
+          
+            
                 if (move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold))
                 {
                     amount = -1;//amount isnt relevant
@@ -274,12 +266,9 @@ namespace Client.Logic
                 {
                     return false;
                 }
-            }
+            
 
-            else
-            {
-                return false;
-            }
+           
         }
 
         public void NotifyResponseReceived(ResponeCommMessage msg)
