@@ -150,7 +150,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Leave(Player player)
         {
-            GameData gameData = GetGameData();
 
             List<Player> relevantPlayers = new List<Player>();
             if (IsActiveGame)
@@ -161,7 +160,6 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             logControl.AddSystemLog(log);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
@@ -171,6 +169,8 @@ namespace TexasHoldem.Logic.Game
                     relevantPlayers.Add(p);
                 }
             }
+            GameData gameData = GetGameData();
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             Players = relevantPlayers;
             if (Players.Count == 0)
             {
