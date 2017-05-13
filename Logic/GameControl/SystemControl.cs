@@ -432,7 +432,13 @@ namespace TexasHoldem.Logic.Game_Control
                         logControl.AddErrorLog(log);
                         return toReturn;
                     }
-                    
+
+                    if (IsUsernameFree(userName))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " dose not exist!");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
                     IUser user = GetIUSerByUsername(userName);
                     if (user == null)
                     {
