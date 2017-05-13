@@ -140,6 +140,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while trying to remove user by User with user name :" + toRemove.MemberName() + "with id" + toRemove.Id());
                     toReturn = false;
                 }
                 return toReturn;
