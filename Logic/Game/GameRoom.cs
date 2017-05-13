@@ -397,13 +397,13 @@ namespace TexasHoldem.Logic.Game
             {
                 return false; // need to bet atless maxBetInRound value
             }
-            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
             logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
