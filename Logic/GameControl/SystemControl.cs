@@ -190,23 +190,31 @@ namespace TexasHoldem.Logic.Game_Control
             bool toReturn = false;
             lock (padlock)
             {
-                if (!CanCreateNewUser(id, memberName, password, email))
+                try
                 {
-                    return toReturn;
-                }
-                if (name.Equals(" ") || name.Equals(""))
+                    if (!CanCreateNewUser(id, memberName, password, email))
+                    {
+                        return toReturn;
+                    }
+                    if (name.Equals(" ") || name.Equals(""))
+                    {
+                        return toReturn;
+                    }
+                    if (!IsValidInputNotSmallerZero(money))
+                    {
+                        return toReturn;
+                    }
+
+                    User newUser = new User(id, name, memberName, password, 0, money, email);
+                    users.Add(newUser);
+                    toReturn = true;
+                   
+                }catch(Exception e)
                 {
-                    return toReturn;
+                    toReturn = false;
                 }
-                if (!IsValidInputNotSmallerZero(money))
-                {
-                    return toReturn;
-                }
-                
-                User newUser = new User(id, name, memberName, password, 0, money, email);
-                users.Add(newUser);
-                toReturn = true;
-                return toReturn;
+
+                 return toReturn;
             }
         }
 
