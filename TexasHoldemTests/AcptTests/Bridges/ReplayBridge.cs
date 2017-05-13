@@ -27,10 +27,5 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.GetGameReplay(roomId, gameNum, userId);
         }
 
-        public bool SaveFavoriteMove(int userId, int roomId, int gameNum, int moveNum)
-        {
-            throw new NotImplementedException();
-           // return _gameService.SaveFavoriteMove(roomId, gameNum, userId, moveNum);
-        }
     }
 }

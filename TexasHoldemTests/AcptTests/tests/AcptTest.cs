@@ -78,7 +78,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 int newRoomId = GameBridge.CreateGameRoom(UserId);
             }*/
         }
-
+/*
         protected void Setup2Users1Game()
         {
             RegisterUser1();
@@ -87,12 +87,12 @@ namespace TexasHoldemTests.AcptTests.tests
             if (ReplayBridge.GetReplayableGames(UserId).Count == 0)
             {
                 NewRoomId = GameBridge.CreateGameRoom(UserId);
-                User2Id = GetNextUser();
+                User2Id = 
                 int money = UserBridge.GetUserMoney(User2Id);
                 UserBridge.AddUserToGameRoomAsPlayer(User2Id, NewRoomId, money);
                 GameBridge.StartGame(NewRoomId);
             }
-        }
+        }*/
 
         protected void RegisterUser1()
         {
@@ -123,7 +123,7 @@ namespace TexasHoldemTests.AcptTests.tests
             UserBridge.DeleteUser(userId);
         }
 
-        //delete all users and all games, then register user1
+        //delete all users and all games
         protected void RestartSystem()
         {
             //delete all users:
@@ -147,10 +147,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //delete all rooms
             List<int> allGames = GameBridge.GetAllGames();
-            allGames.ForEach(room =>
-            {
-                GameBridge.RemoveGameRoom(room);
-            });
+            Assert.True(allGames.Count==0);
 
         }
 

@@ -4,6 +4,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 
 namespace TexasHoldemTests.AcptTests.Bridges
@@ -110,7 +111,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public List<int> GetUsersGameRooms(int userId)
         {
             List<int> gameIds = new List<int>();
-            List<GameRoom> allGames = _gameService.GetAllGames();
+            List<IGame> allGames = _gameService.GetAllGames();
             if (allGames != null)
             {
                 allGames.ForEach(game =>
@@ -275,7 +276,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool RemoveUserFromRoom(int userId, int roomId)
         {
-            return _gameService.RemoveUserFromRoom(userId, roomId);
+            return _gameService.DoAction(userId, CommunicationMessage.ActionType.Leave, 0, roomId);
         }
 
         private bool ChangeUserMoney(int userId, int amount)

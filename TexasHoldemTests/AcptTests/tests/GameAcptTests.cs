@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using TexasHoldem.Logic.Game;
 using TexasHoldemTests.AcptTests.Bridges;
 
 namespace TexasHoldemTests.AcptTests.tests
@@ -10,7 +11,7 @@ namespace TexasHoldemTests.AcptTests.tests
     [TestFixture]
     public class GameAcptTests : AcptTest
     {
-        private int _userId2;
+        private int _userId2 = -1;
 
         //setup: (called from base)
         protected override void SubClassInit()
@@ -23,6 +24,8 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             if (_userId2 != -1)
             {
+                List<IGame> user2Games = UserBridge.GetUsersGameRooms(_userId2);
+                UserBridge.RemoveUserFromRoom(_userId2)
                 UserBridge.DeleteUser(_userId2);
             }
 

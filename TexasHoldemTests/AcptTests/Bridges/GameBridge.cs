@@ -46,12 +46,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
            return _gameService.CreateNewRoom(userId, 50, true, GameMode.NoLimit, 2, 8, 20, 10);
         }
 
-        public bool RemoveGameRoom(int id)
-        {
-            return _gameService.removeGame;
-        }
-
-        public int GetNextFreeRoomId()
+       public int GetNextFreeRoomId()
         {
             return _gameService.GetNextFreeRoomId();
         }
