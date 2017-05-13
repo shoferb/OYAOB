@@ -424,24 +424,31 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<IGame> toReturn = null;
-                if (userName.Equals("")||userName.Equals(" ")|| IsUsernameFree(userName))
+                try
+                {
+                    if (userName.Equals("") || userName.Equals(" ") || IsUsernameFree(userName))
+                    {
+                        return toReturn;
+                    }
+
+                    IUser user = GetIUSerByUsername(userName);
+                    if (user == null)
+                    {
+                        return toReturn;
+                    }
+                    toReturn = new List<IGame>();
+                    foreach (IGame room in user.ActiveGameList())
+                    {
+                        if (room.IsGameActive())
+                        {
+                            toReturn.Add(room);
+                        }
+                    }
+                }catch(Exception e)
                 {
                     return toReturn;
                 }
                
-                IUser user = GetIUSerByUsername(userName);
-                if (user == null)
-                {
-                    return toReturn;
-                }
-                toReturn = new List<IGame>();
-                foreach (IGame room in user.ActiveGameList())
-                {
-                    if (room.IsGameActive())
-                    {
-                        toReturn.Add(room);
-                    }
-                }
                 return toReturn;
             }
         }
