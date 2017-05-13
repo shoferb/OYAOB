@@ -140,7 +140,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionFoldTest()
         {
-            StartGameDeco1with3Users();
+            StartGameWith3Users();
             //its user1 turn
             Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Fold, 0));
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Fold, 0));
@@ -158,7 +158,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestMethod()]
         public void DoActionCallTest()
         {
-            StartGameDeco1with3Users();
+            StartGameWith3Users();
             //its user1 turn 
             Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
             // cant bet with less then bb
@@ -181,7 +181,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActioNoLimitRaiseTest()
         {
             SetDecoratoresNoLimitWithSpectatores(); // NoLimit
-            StartGameDeco1with3Users();
+            StartGameWith3Users();
             //valid raise now is atless bb*2 = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20));
@@ -200,7 +200,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             // Limit
             SetDecoratoresLimitNoSpectatores(); 
-            StartGameDeco1with3Users();
+            StartGameWith3Users();
             //valid raise now is bb = 20
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 15));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 20 + 20)); //20 for call and 20 for raise
@@ -219,7 +219,7 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActioPotLimitRaiseTest()
         {
             SetDecoratoresPotLimitWithSpectatores(); //PotLimit
-            StartGameDeco1with3Users();
+            StartGameWith3Users();
             //max raise now is current size of pot + call value = 25. so max bet is 10 + 25 =35 
             Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 40));
             Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 35));
@@ -500,7 +500,120 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsFalse(gameRoom.GetLeagueName() == LeagueName.A);
         }
 
-        private void StartGameDeco1with3Users()
+        [TestMethod()]
+        public void FullGameTest1()
+        {
+            SetDecoratoresNoLimitWithSpectatores();
+            StartGameWith3Users();
+            //user1 turn have to bet 10 or more
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 10)); //call
+            Assert.IsTrue(gameRoom.GetPotSize() == 25); // 5 + 10 + 10
+
+            //user2 turn have to bet 5 or more
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 3));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 5));
+            Assert.IsTrue(gameRoom.GetPotSize() == 30); // 5 + 10 + 10 +5
+
+            //add spectator
+            IUser user4 = new User(4, "test4", "4test", "1234", 0, 5000, "test4@mailnator.com");
+            Assert.IsTrue(gameRoom.AddSpectetorToRoom(user4));
+
+            //user3 can check
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            Assert.IsFalse(gameRoom.DoAction(user4, ActionType.Bet, 0)); 
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 0)); // check
+            Assert.IsTrue(gameRoom.GetPotSize() == 30); // 5 + 10 + 10 +5
+
+            //new round 
+            Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Flop);
+
+            //user1 can check
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, -10));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 0)); //check
+            Assert.IsTrue(gameRoom.GetPotSize() == 30); //from last round
+
+            //user2 turn can check but choose to bet 10
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 10)); //raise 10
+            Assert.IsTrue(gameRoom.GetPotSize() == 40);
+
+            //user3 can call 10 or raise or fold -> choose to call
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 10)); // call
+            Assert.IsTrue(gameRoom.GetPotSize() == 50);
+
+            //same round 
+            Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Flop);
+
+            //user1 can call 10 or fold or raise
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 10)); //call
+            Assert.IsTrue(gameRoom.GetPotSize() == 60); //from last round
+
+            //new round 
+            Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Turn);
+
+            //user1 can check or fold or raise
+            Assert.IsFalse(gameRoom.DoAction(user3, ActionType.Bet, 10));
+            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Bet, 0));
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 0)); //check
+            Assert.IsTrue(gameRoom.GetPotSize() == 60); //from last round
+
+            //user2 raise 15
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 15)); //raise 15
+            Assert.IsTrue(gameRoom.GetPotSize() == 75);
+
+            //user3 re raise another 15
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Bet, 30)); //raise 15
+            Assert.IsTrue(gameRoom.GetPotSize() == 105);
+            
+            //user1 re raise another 15
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 45)); //raise 15
+            Assert.IsTrue(gameRoom.GetPotSize() == 150);
+
+            //user2 call
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 30)); //call 
+            Assert.IsTrue(gameRoom.GetPotSize() == 180);
+            
+            //same round 
+            Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Turn);
+
+            //user3 fold
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Fold, 0)); //fold
+            Assert.IsTrue(gameRoom.GetPotSize() == 180);
+
+            //next round 
+            Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.River);
+
+            //user1 check
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Bet, 0)); //check
+            Assert.IsTrue(gameRoom.GetPotSize() == 180);
+
+            //user2 check
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Bet, 0)); //check
+            Assert.IsTrue(gameRoom.GetPotSize() == 180);
+
+            //game Over
+            Assert.IsFalse(gameRoom.IsGameActive());
+
+            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0));
+            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Leave, 0));
+            Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Leave, 0));
+            Assert.IsTrue(user3.Money() < 5000);
+            Assert.IsTrue(user2.Money() > 5000 || user1.Money() > 5000);
+
+        }
+
+
+
+        private void StartGameWith3Users()
         {
             gameRoom.DoAction(user2, ActionType.Join, 1500);
             gameRoom.DoAction(user3, ActionType.Join, 1500);

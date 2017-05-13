@@ -428,6 +428,7 @@ namespace TexasHoldem.Logic.Game
         {
             MoveChipsToPot();
             lastRaiseInRound = 0;
+            maxBetInRound = 0;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
@@ -503,6 +504,8 @@ namespace TexasHoldem.Logic.Game
             Players = playersLeftInGame;
             IsActiveGame = false;
             ClearPublicCards();
+            maxBetInRound = 0;
+            lastRaiseInRound = 0;
             GameReplay = new GameReplay(Id, GameNumber);
             return true;
         }
@@ -972,6 +975,11 @@ namespace TexasHoldem.Logic.Game
         public LeagueName GetLeagueName()
         {
             return MyDecorator.GetLeagueName();
+        }
+
+        public HandStep GetStep()
+        {
+            return Hand_Step;
         }
     }
 }
