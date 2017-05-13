@@ -410,7 +410,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Fold(Player player)
         {
-            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
@@ -418,6 +417,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             logControl.AddSystemLog(log);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, this.Id, gameData, ActionType.Fold, true);
 
             return AfterAction();
