@@ -85,6 +85,7 @@ namespace TexasHoldem.Logic.Game_Control
                     ErrorLog log = new ErrorLog("Error: while truing to remove user with id: " + id);
                     logControl.AddErrorLog(log);
                     toReturn = false;
+                    return toReturn;
                 }
                 return toReturn;
             }
