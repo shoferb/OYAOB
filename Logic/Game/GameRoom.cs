@@ -302,6 +302,7 @@ namespace TexasHoldem.Logic.Game
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             logControl.AddSystemLog(log2);
+            gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
             maxBetInRound = Bb;
 
