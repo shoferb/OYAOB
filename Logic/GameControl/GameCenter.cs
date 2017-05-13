@@ -137,6 +137,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
+                user.ReduceMoneyIfPossible(startingChip + enterPayingMoney);
                 GameRoom room = new GameRoom(players, roomId);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
                 room.AddDecorator(decorator);
