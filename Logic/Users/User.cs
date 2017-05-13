@@ -55,7 +55,7 @@ namespace TexasHoldem.Logic.Users
             spectateGameList = new List<IGame>();
             this.winNum = 0;
             this.unknowGamesPlay = 0;
-            league = LeagueName.A; //TODO change to default one or something
+            league = LeagueName.Unknow; //TODO change to default one or something
         }
 
 
