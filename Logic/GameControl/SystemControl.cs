@@ -226,6 +226,7 @@ namespace TexasHoldem.Logic.Game_Control
                     logControl.AddErrorLog(log);
 
                     toReturn = false;
+                    return toReturn;
                 }
 
                  return toReturn;
