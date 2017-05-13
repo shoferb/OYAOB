@@ -32,16 +32,17 @@ namespace TexasHoldem.Logic.Game.Tests
             players = new List<Player>();
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
-            gameRoom = new GameRoom(players, roomID);
-            SetDecoratoresNoLimitWithSpectatores();
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+
         }
 
-        private void SetDecoratoresNoLimitWithSpectatores()
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
             Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
             before.SetNextDecorator(mid);
-            gameRoom.SetDecorator(before);
+            return before;
         }
 
         private void SetDecoratoresLimitNoSpectatores()

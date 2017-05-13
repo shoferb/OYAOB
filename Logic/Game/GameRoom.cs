@@ -51,6 +51,7 @@ namespace TexasHoldem.Logic.Game
         public GameRoom(List<Player> players, int ID, Decorator decorator)
         {
             MyDecorator = decorator;
+            SetTheBlinds();
             Id = ID;
             GameNumber = 0;
             IsActiveGame = false;
@@ -88,7 +89,7 @@ namespace TexasHoldem.Logic.Game
 
         public void SetDecorator(Decorator d)
         {
-            this.MyDecorator = d;
+            MyDecorator = d;
             SetTheBlinds();
         }
 
