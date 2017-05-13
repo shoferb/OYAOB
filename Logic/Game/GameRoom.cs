@@ -86,7 +86,7 @@ namespace TexasHoldem.Logic.Game
             
         }
 
-        public void AddDecorator(Decorator d)
+        public void SetDecorator(Decorator d)
         {
             this.MyDecorator = d;
             SetTheBlinds();
