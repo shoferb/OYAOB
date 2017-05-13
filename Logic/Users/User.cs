@@ -74,6 +74,10 @@ namespace TexasHoldem.Logic.Users
             lock (padlock)
             {
                 this.unknowGamesPlay++;
+                if (unknowGamesPlay > 10 && league == LeagueName.Unknow)
+                {
+                    league = LeagueName.E;
+                }
                 return true;
             }
         }
