@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game.Tests
     {
         private IUser user1, user2, user3;
         List<Player> players;
-        Player player1, player2;
+        Player player1;
         int roomID ;
         GameRoom gameRoom;
         [TestInitialize()]
