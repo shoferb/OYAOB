@@ -636,28 +636,45 @@ namespace TexasHoldem.Logic.Game_Control
 
         private LeagueName GetNextLeague(LeagueName curr)
         {
-            LeagueName toReturn;
-            switch (curr)
+            LeagueName toReturn = LeagueName.E;
+            try
             {
-                case LeagueName.A:
-                    toReturn = LeagueName.B;
-                    break;
-                case LeagueName.B:
-                    toReturn = LeagueName.C;
-                    break;
-                case LeagueName.C:
-                    toReturn = LeagueName.D;
-                    break;
-                case LeagueName.D:
-                    toReturn = LeagueName.E;
-                    break;
-                case LeagueName.E:
-                    toReturn = LeagueName.E;
-                    break;
-                default:
-                    toReturn = LeagueName.A;
-                    break;
+                switch (curr)
+                {
+                    case LeagueName.A:
+                        toReturn = LeagueName.B;
+                        return toReturn;
+                        break;
+                    case LeagueName.B:
+                        toReturn = LeagueName.C;
+                        return toReturn;
+                        break;
+                    case LeagueName.C:
+                        toReturn = LeagueName.D;
+                        return toReturn;
+                        break;
+                    case LeagueName.D:
+                        toReturn = LeagueName.E;
+                        return toReturn;
+                        break;
+                    case LeagueName.E:
+                        toReturn = LeagueName.E;
+                        return toReturn;
+                        break;
+                    default:
+                        toReturn = LeagueName.E;
+                        return toReturn;
+                        break;
+                  
+                }
             }
+            catch
+            {
+                ErrorLog log = new ErrorLog("Error: while trying to ey next League name");
+                logControl.AddErrorLog(log);
+                return toReturn;
+            }
+           
             return toReturn;
         }
     }
