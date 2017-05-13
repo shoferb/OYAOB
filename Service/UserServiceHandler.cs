@@ -155,13 +155,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditUserMoney(newmoney);
             return toReturn;
         }
-        //use-case: user can get his rank
-        public int GetUserRank(int userId)
-        {
-            int toReturn = -1;
-            toReturn = sc.GetUserRank(userId);
-            return toReturn;
-        }
+ 
 
 
         public List<Notification> GetUserNotifications(int userId)

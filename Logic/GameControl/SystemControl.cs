@@ -436,36 +436,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         
-        //return -1 if error
-        public int GetUserRank(int userId)
-        {
-            lock (padlock)
-            {
-                int toReturn;
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(userId))
-                    {
-                        return -1;
-                    }
-                    List<IUser> sort = SortByRank();
-                    IUser user = GetUserWithId(userId);
-                    if (user == null)
-                    {
-                        return -1;
-                    }
-                    toReturn = sort.IndexOf(user)+1;
-                    user.EditUserRank(toReturn + 1);
-
-                }
-                catch (Exception e)
-                {
-                    return -1;
-                }
-                return toReturn;
-            }
-        }
-
+     
         public List<IUser> GetAllUnKnowUsers()
         {
             List<IUser> toReturn = new List<IUser>();
