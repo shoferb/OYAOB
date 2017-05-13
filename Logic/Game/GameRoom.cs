@@ -426,7 +426,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool NextRound()
         {
-            MoveChipsToPot();
             lastRaiseInRound = 0;
             maxBetInRound = 0;
             InitializePlayerRound();
