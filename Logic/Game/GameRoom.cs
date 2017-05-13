@@ -52,7 +52,6 @@ namespace TexasHoldem.Logic.Game
         {
             MyDecorator = decorator;
             SetTheBlinds();
-            ReduceFeeAndStatringChipFromPlayers();
             Id = ID;
             GameNumber = 0;
             IsActiveGame = false;
@@ -68,11 +67,16 @@ namespace TexasHoldem.Logic.Game
             ReplayManager = ReplayManager.ReplayManagerInstance;
             GameCenter = GameCenter.Instance;
             lastRaiseInRound = 0;
-    }
+            ReduceFeeAndStatringChipFromPlayers();
+        }
 
         private void ReduceFeeAndStatringChipFromPlayers()
         {
-            throw new NotImplementedException();
+            foreach (Player p in Players)
+            {
+                p.user.ReduceMoneyIfPossible(MyDecorator.GetStartingChip() +
+                    MyDecorator.GetEnterPayingMoney());
+            }
         }
 
         private LeagueName GetLeagueFromPlayer(List<Player> players)
