@@ -317,15 +317,23 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                foreach (IUser u in users)
+                try
                 {
-                    if (u.Id() == id)
+                    foreach (IUser u in users)
                     {
-                        toReturn = true;
-                        return toReturn;
+                        if (u.Id() == id)
+                        {
+                            toReturn = true;
+                            return toReturn;
+                        }
+
                     }
+                }
+                catch(Exception e)
+                {
 
                 }
+               
                 return toReturn;
             }
         }
