@@ -338,19 +338,30 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 IUser toReturn = null;
-                if (!IsValidInputNotSmallerZero(id))
+                try
                 {
-                    return toReturn;
-                }
-                
-                foreach (IUser u in users)
-                {
-                    if (u.Id() == id)
+                  
+                    if (!IsValidInputNotSmallerZero(id))
                     {
-                        toReturn = u;
                         return toReturn;
                     }
+
+                    foreach (IUser u in users)
+                    {
+                        if (u.Id() == id)
+                        {
+                            toReturn = u;
+                            return toReturn;
+                        }
+                    }
+                }catch(Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while Get uset whith id" + id );
+
+                    logControl.AddErrorLog(log);
+                    return toReturn;
                 }
+              
                 return toReturn;
             }
         }
