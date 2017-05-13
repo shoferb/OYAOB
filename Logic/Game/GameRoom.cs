@@ -43,6 +43,7 @@ namespace TexasHoldem.Logic.Game
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;
+        private int lastRaiseInRound;
 
         private LeagueName league;
         private static readonly object padlock = new object();
@@ -65,9 +66,10 @@ namespace TexasHoldem.Logic.Game
             league = GetLeagueFromPlayer(Players);
             ReplayManager = ReplayManager.ReplayManagerInstance;
             GameCenter = GameCenter.Instance;
-        }
+            lastRaiseInRound = 0;
+    }
 
-        private LeagueName GetLeagueFromPlayer(List<Player> players)
+    private LeagueName GetLeagueFromPlayer(List<Player> players)
         {
             if (players == null || players.Count == 0)
             {
@@ -115,6 +117,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     return Leave(player);
                 }
+                if (!IsActiveGame) { return false; }
                 if (player != CurrentPlayer)
                 {
                     return IrellevantUser(user, action);
@@ -290,10 +293,10 @@ namespace TexasHoldem.Logic.Game
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             logControl.AddSystemLog(log2);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
-            MoveBbnSBtoPot();
             maxBetInRound = Bb;
 
             HandCardsAndInitPlayers();
+            MoveBbnSBtoPot();
             IncGamesCounterForPlayers();
             IsActiveGame = true;
             return true;
@@ -312,6 +315,10 @@ namespace TexasHoldem.Logic.Game
 
         private bool CallOrRaise(Player player, int bet)
         {
+            if (player.RoundChipBet + bet < maxBetInRound && !player.OutOfMoney()) // for all in
+            {
+                return false; // need to bet atless maxBetInRound value
+            }
             if (player.RoundChipBet + bet == maxBetInRound)
             {
                 return Call(player, bet);
@@ -324,7 +331,8 @@ namespace TexasHoldem.Logic.Game
             GameData gameData = GetGameData();
 
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
+            int currentPlayerRaise = currentPlayerBet - maxBetInRound;
+            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, PotCount, Hand_Step))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
@@ -337,13 +345,14 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = currentPlayerBet;
             player.PlayedAnActionInTheRound = true;
             player.CommitChips(bet);
+            PotCount += bet;
             RaiseAction raise = new RaiseAction(player, player._firstCard,
                  player._secondCard, currentPlayerBet);
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             logControl.AddSystemLog(log);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
-
+            lastRaiseInRound = currentPlayerRaise;
             foreach (Player p in Players) //they all need to make another action in this round
             {
                 if (p != player)
@@ -360,6 +369,7 @@ namespace TexasHoldem.Logic.Game
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
+            PotCount += bet;
             CallAction call = new CallAction(player, player._firstCard,
                 player._secondCard, bet);
             GameReplay.AddAction(call);
@@ -371,6 +381,10 @@ namespace TexasHoldem.Logic.Game
 
         private bool Check(Player player)
         {
+            if (player.RoundChipBet < maxBetInRound && !player.OutOfMoney()) // for all in
+            {
+                return false; // need to bet atless maxBetInRound value
+            }
             GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
@@ -413,7 +427,7 @@ namespace TexasHoldem.Logic.Game
         private bool NextRound()
         {
             MoveChipsToPot();
-
+            lastRaiseInRound = 0;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
@@ -651,7 +665,6 @@ namespace TexasHoldem.Logic.Game
         {
             foreach (Player player in Players)
             {
-                PotCount += player.RoundChipBet;
                 player.TotalChip -= player.RoundChipBet;
                 player.RoundChipBet = 0;               
             }
@@ -818,16 +831,6 @@ namespace TexasHoldem.Logic.Game
                     c._value = 1;
                 }
             }
-        }
-
-        private int GetRaisePotLimit(Player p)
-        {
-
-            int potSize = this.PotCount;
-            int lastRise = this.maxBetInRound;
-            int playerPayInRound = p.RoundChipBet;
-            int toReturn = (lastRise - playerPayInRound) + potSize;
-            return toReturn;
         }
 
         public bool AddSpectetorToRoom(IUser user)
