@@ -639,13 +639,13 @@ namespace TexasHoldem.Logic.Game
         
        private void AddNewPublicCard()
         {
-            GameData gameData = GetGameData();
+            GameData gameData;
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
             {
                 player.AddPublicCardToPlayer(c);
+                gameData = GetGameData();
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
-
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
