@@ -420,7 +420,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
         
  
-
+//no use any more
         public List<IUser> SortByRank()
         {
             lock (padlock)
@@ -486,5 +486,21 @@ namespace TexasHoldem.Logic.Game_Control
         {
             return toCheck >= 0;
         }
+
+        
+
+        public List<IUser> SortByPoint()
+        {
+            lock (padlock)
+            {
+                List<IUser> sort = GetAllUser();
+                sort.Sort(delegate (IUser x, IUser y)
+                {
+                    return y.Points().CompareTo(x.Points());
+                });
+                return sort;
+            }
+        }
+
     }
 }
