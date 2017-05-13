@@ -83,6 +83,7 @@ namespace TexasHoldem.Logic.Game_Control
                 catch (Exception e)
                 {
                     ErrorLog log = new ErrorLog("Error: while truing to remove user with id: " + id);
+                    logControl.AddErrorLog(log);
                     toReturn = false;
                 }
                 return toReturn;
