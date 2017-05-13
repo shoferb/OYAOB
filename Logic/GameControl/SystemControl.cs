@@ -195,10 +195,13 @@ namespace TexasHoldem.Logic.Game_Control
                     if (!CanCreateNewUser(id, memberName, password, email))
                     {
                         ErrorLog log = new ErrorLog("Error: while trying register user: onr or more Invalid fields" );
+                        logControl.AddErrorLog(log);
                         return toReturn;
                     }
                     if (name.Equals(" ") || name.Equals(""))
                     {
+                        ErrorLog log = new ErrorLog("Error: while trying register user: name is empty");
+
                         return toReturn;
                     }
                     if (!IsValidInputNotSmallerZero(money))
