@@ -114,7 +114,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
-                    ErrorLog log = new ErrorLog("Error: while trying to remove user with user name: "+username );
+                    ErrorLog log = new ErrorLog("Error: while trying to remove user with user name: "+username+ "and password fail" );
                     logControl.AddErrorLog(log);
                     toReturn = false;
                 }
