@@ -254,7 +254,9 @@ namespace TexasHoldem.Logic.Game_Control
             }
             if (!IsValidEmail(email))
             {
-                
+                ErrorLog log = new ErrorLog("Error: while trying ceate user with id" + id + " and username: " + memberName + "email: "+email +" is not valid");
+
+                logControl.AddErrorLog(log);
             }
             return toReturn;
         }
