@@ -362,8 +362,6 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             logControl.AddSystemLog(log);
-            gameData = GetGameData();
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             lastRaiseInRound = currentPlayerRaise;
             foreach (Player p in Players) //they all need to make another action in this round
             {
@@ -372,6 +370,8 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
+            gameData = GetGameData();
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
