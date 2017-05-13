@@ -194,6 +194,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     if (!CanCreateNewUser(id, memberName, password, email))
                     {
+                        ErrorLog log = new ErrorLog("Error: while trying register user: onr or more Invalid fields" );
                         return toReturn;
                     }
                     if (name.Equals(" ") || name.Equals(""))
@@ -211,6 +212,7 @@ namespace TexasHoldem.Logic.Game_Control
                    
                 }catch(Exception e)
                 {
+
                     toReturn = false;
                 }
 
