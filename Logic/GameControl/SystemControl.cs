@@ -592,35 +592,46 @@ namespace TexasHoldem.Logic.Game_Control
             
             lock (padlock)
             {
-                List<IUser> sorted = SortByPoint();
-                int userCount = sorted.Count;
-                int divideTo;
-                if (userCount == 0)
+                try
                 {
+
+                    List<IUser> sorted = SortByPoint();
+                    int userCount = sorted.Count;
+                    int divideTo;
+                    if (userCount == 0)
+                    {
+                        return;
+                    }
+                    double temp = (userCount / 5);
+                    divideTo = (int)Math.Round(temp);
+                    if (divideTo < 2)
+                    {
+                        divideTo = 2;
+                    }
+                    int i = 0;
+                    int k = 0;
+                    LeagueName curr = LeagueName.A;
+
+                    while (i < userCount)
+                    {
+                        while (k <= divideTo && i < userCount)
+                        {
+                            sorted.ElementAt(i).SetLeague(curr);
+                            i++;
+                            k++;
+                        }
+                        k = 0;
+                        curr = GetNextLeague(curr);
+                    }
+                }
+                catch
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying to divide the leauge");
+                    logControl.AddErrorLog(log);
                     return;
                 }
-                double temp = (userCount / 5);
-                divideTo = (int)Math.Round(temp);
-                if (divideTo < 2)
-                {
-                    divideTo = 2;
                 }
-                int i = 0;
-                int k = 0;
-                LeagueName curr = LeagueName.A;
-
-                while (i < userCount)
-                {
-                    while (k <= divideTo && i < userCount)
-                    {
-                        sorted.ElementAt(i).SetLeague(curr);
-                        i++;
-                        k++;
-                    }
-                    k = 0;
-                    curr = GetNextLeague(curr);
-                }
-            }
+               
         }
 
         private LeagueName GetNextLeague(LeagueName curr)
