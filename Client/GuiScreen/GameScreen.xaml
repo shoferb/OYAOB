@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="GameScreen" Height="422" Width="519">
+        Title="GameScreen" Height="552" Width="879">
     <Window.Background>
         <ImageBrush ImageSource="Photos/Screen/POKERslidesearch.png"/>
     </Window.Background>
@@ -18,5 +18,9 @@
             <RowDefinition Height="195*"/>
             <RowDefinition Height="196*"/>
         </Grid.RowDefinitions>
+        <Label x:Name="RoomNum" Content="Room Number:" HorizontalAlignment="Left" Height="35" Margin="10,0,0,0" VerticalAlignment="Top" Width="250" Foreground="#FFFBFBFB" FontWeight="Bold" FontSize="22"/>
+        <Label Content="My Cards:" HorizontalAlignment="Left" Height="30" Margin="270,165,0,0" Grid.Row="1" VerticalAlignment="Top" Width="115" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="14"/>
+        <Label x:Name="Card1Labek" Content="Card 1:" HorizontalAlignment="Left" Height="25" Margin="295,195,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" FontWeight="Bold" Background="#FFF5F0F0"/>
+        <Label x:Name="Card2Label" Content="Card 2:" HorizontalAlignment="Left" Height="25" Margin="295,220,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" Background="#FFF3EEEE" FontWeight="Bold"/>
     </Grid>
 </Window>

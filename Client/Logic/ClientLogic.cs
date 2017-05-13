@@ -226,7 +226,7 @@ namespace Client.Logic
             return toRet;
         }
 
-
+        //TODO: no options
         public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
             bool legalMove = false;

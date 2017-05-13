@@ -37,17 +37,21 @@ namespace Client.GuiScreen
         public GameScreen()
         {
             InitializeComponent();
+           
         }
 
-        public void updateGame(GameDataCommMessage msg)
+        public void UpdateGame(GameDataCommMessage msg)
         {
             this.RoomId = msg.RoomId;
+            RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
             this.SbName = msg.SbName;
             this.AllPlayerNames = msg.AllPlayerNames;
             this.BbName = msg.BbName;
             this.CurrPlayerTurn = msg.CurrPlayerTurn;
             this.DealerName = msg.DealerName;
             this.PlayerCards = msg.PlayerCards;
+            this.Card1Labek.Content = string.Concat(Card1Labek.Content, (msg.PlayerCards[0]).ToString());
+            this.Card2Label.Content = string.Concat(Card2Label.Content, (msg.PlayerCards[1]).ToString());
             this.PotSize = msg.PotSize;
             this.TableCards = msg.TableCards;
             this.TotalChips = msg.TotalChips;
