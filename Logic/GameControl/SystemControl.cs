@@ -471,26 +471,46 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<IGame> toReturn = null;
-                if (userName.Equals("") || userName.Equals(" ") || IsUsernameFree(userName))
+                try
                 {
+                    if (userName.Equals("") || userName.Equals(" "))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " empty");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+
+                    if (IsUsernameFree(userName))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " dose not exist!");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+                    IUser user = GetIUSerByUsername(userName);
+                    if (user == null)
+                    {
+                        return toReturn;
+                    }
+                    toReturn = new List<IGame>();
+                    foreach (IGame room in user.ActiveGameList())
+                    {
+
+                        if (room.IsSpectatable())
+                        {
+                            toReturn.Add(room);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName);
+                    logControl.AddErrorLog(log);
                     return toReturn;
                 }
 
-                IUser user = GetIUSerByUsername(userName);
-                if (user == null)
-                {
-                    return toReturn;
-                }
-                toReturn = new List<IGame>();
-                foreach (IGame room in user.SpectateGameList())
-                {
-                    if (room.IsSpectatable())
-                    {
-                        toReturn.Add(room);
-                    }
-                }
                 return toReturn;
             }
+           
         }
 
       
