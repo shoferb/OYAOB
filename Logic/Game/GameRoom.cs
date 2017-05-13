@@ -48,8 +48,9 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
-        public GameRoom(List<Player> players, int ID)
+        public GameRoom(List<Player> players, int ID, Decorator decorator)
         {
+            MyDecorator = decorator;
             Id = ID;
             GameNumber = 0;
             IsActiveGame = false;
