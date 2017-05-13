@@ -116,7 +116,41 @@ namespace Client.GuiScreen
 
         private void DoActiomBotton_Click(object sender, RoutedEventArgs e)
         {
-            string action 
+
+            string action = ActionChosenComboBox.Text;
+            if (action.Equals(""))
+            {
+                MessageBox.Show("please Choose an action");
+            }
+            else
+            {
+                if ((action.Equals("Call"))|| (action.Equals("Raise")))
+                {
+                    int amount = 0;
+                    string temp = InputForActionTextBox.Text;
+                    bool isValid = int.TryParse(temp, out amount);
+                    if (!isValid)
+                    {
+                        MessageBox.Show("Invalid Amount");
+                    }
+                    _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                }
+                if (action.Equals("Check"))
+                {
+                    int amount = 0;
+                    _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                }
+                if (action.Equals("Fold"))
+                {
+                    int amount = -1;
+                    _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                }
+                if (action.Equals("Send A New Chat Message"))
+                {
+                //TODO
+                }
+            }
+
         }
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)

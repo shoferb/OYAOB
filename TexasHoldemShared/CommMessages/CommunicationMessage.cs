@@ -6,7 +6,9 @@
         {
             Fold,
             Bet,
-
+            //check = Bet with amount 0
+            //Call =
+            //Raise =
             Join,
             Leave,
 
