@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -505,9 +506,59 @@ namespace TexasHoldem.Logic.Game_Control
         public bool DivideLeague()
         {
             bool toReturn = false;
+            List<IUser> sorted = SortByPoint();
+            int userCount = sorted.Count;
+            int divideTo;
+            if (userCount == 0)
+            {
+                return toReturn;
+            }
+            if(userCount < 20)
+            {
+                double temp =(userCount / 5);
+                divideTo = (int) Math.Round(temp);
+                if(divideTo < 2)
+                {
+                    divideTo = 2;
+                }
+                int i = 0;
+                LeagueName curr = LeagueName.A;
+                foreach (IUser u in sorted)
+                {
+                    if(i > divideTo)
+                    {
+                        curr = GetNextLeague(curr);
+                    }   
+                }
+            }
             return toReturn;
         }
-        
 
+        private LeagueName GetNextLeague(LeagueName curr)
+        {
+            LeagueName toReturn;
+            switch (curr)
+            {
+                case LeagueName.A:
+                    toReturn = LeagueName.B;
+                    break;
+                case LeagueName.B:
+                    toReturn = LeagueName.C;
+                    break;
+                case LeagueName.C:
+                    toReturn = LeagueName.D;
+                    break;
+                case LeagueName.D:
+                    toReturn = LeagueName.E;
+                    break;
+                case LeagueName.E:
+                    toReturn = LeagueName.E;
+                    break;
+                default:
+                    toReturn = LeagueName.A;
+                    break;
+            }
+            return toReturn;
+        }
     }
 }
