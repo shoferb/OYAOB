@@ -45,7 +45,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                int roomId = _gameService.CreateNewRoom(userId, startingCheap, true, GameMode.NoLimit, 2, 8, 0, 10);
+                int roomId = _gameService.CreateNewRoom(userId, startingCheap, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
                 if (roomId >= 0)
                 {
                     return roomId;

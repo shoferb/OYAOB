@@ -38,11 +38,12 @@ namespace TexasHoldemTests.AcptTests.tests
         [SetUp]
         protected void Init()
         {
-           /* if (!GameBridge.DoesRoomExist(RoomId))
-            {
-                CreateGameWithUser1();
-            }
-            */
+            /* if (!GameBridge.DoesRoomExist(RoomId))
+             {
+                 CreateGameWithUser1();
+             }
+             */
+            SetupUser1();
             SubClassInit();
         }
 
@@ -66,7 +67,10 @@ namespace TexasHoldemTests.AcptTests.tests
        //make sure user1 exists and has at least 1 replayable game
         protected void SetupUser1()
         {
-            this.UserId = new Random().Next();
+            UserId = new Random().Next();
+            User1Name = "Oded";
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
 
         }
