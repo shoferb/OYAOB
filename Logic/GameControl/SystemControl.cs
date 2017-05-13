@@ -216,7 +216,7 @@ namespace TexasHoldem.Logic.Game_Control
                    
                 }catch(Exception e)
                 {
-
+                    ErrorLog log = new ErrorLog("Error: while trying register user");
                     toReturn = false;
                 }
 
