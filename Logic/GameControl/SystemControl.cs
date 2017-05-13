@@ -206,6 +206,7 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                     if (!IsValidInputNotSmallerZero(money))
                     {
+                        ErrorLog log = new ErrorLog("Error: while trying register user:money smaller than zero");
                         return toReturn;
                     }
 
