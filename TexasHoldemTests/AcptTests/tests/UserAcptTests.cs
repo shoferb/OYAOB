@@ -32,17 +32,17 @@ namespace TexasHoldemTests.AcptTests.tests
             _userId2 = new Random().Next();
             _user2Name = "yarden";
             _user2EmailGood = "yarden@gmail.com";
-            _user2Pw = "123";
+            _user2Pw = "123456789";
 
             _userId3 = new Random().Next();
             _user3Name = "Aviv";
             _user3EmailGood = "Aviv@gmail.com";
-            _user3Pw = "123";
+            _user3Pw = "123456789";
 
             _userId4 = new Random().Next();
             _user4Name = "Yarden2";
             _user4EmailGood = "YRD@gmail.com";
-            _user4Pw = "123";
+            _user4Pw = "123456789";
 
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
@@ -56,16 +56,19 @@ namespace TexasHoldemTests.AcptTests.tests
         protected override void SubClassDispose()
         {
 
-            DeleteUser(_userId2);
-            DeleteUser(_userId3);
-            DeleteUser(_userId4);
+            if (DeleteUser(_userId2))
+                _userId2 = -1;
+            if (DeleteUser(_userId3))
+                _userId3 = -1;
+            if (DeleteUser(_userId4))
+                _userId4 = -1;
 
             Assert.True(_userId2==-1);
             Assert.True(_userId3 == -1);
             Assert.True(_userId4 == -1);
         }
 
-        private int DeleteUser(int id)
+        private bool DeleteUser(int id)
         {
             if (id != -1)
             {
@@ -76,9 +79,10 @@ namespace TexasHoldemTests.AcptTests.tests
                 }
 
                 UserBridge.DeleteUser(id);
+                return true;
             }
+            return false;
 
-            return -1;
         }
 
         protected void RegisterUser(int userId, string name, string pass, string mail)
@@ -95,18 +99,13 @@ namespace TexasHoldemTests.AcptTests.tests
             }
         }
 
-        private bool RegisterAndLogoutUser1()
-        {
-            RegisterUser1();
-            Assert.True(UserBridge.LogoutUser(UserId));
-            return true;
-        }
-
-        [TestCase]
+      [TestCase]
         public void UserLoginTestGood()
         {
-            Assert.True(RegisterAndLogoutUser1());
-            Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
+            RestartSystem();
+            Assert.True(UserBridge.LogoutUser(UserId) || UserBridge.getUserById(UserId)==null);
+            SetupUser1();
+            Assert.True(UserBridge.LogoutUser(UserId));
         }
 
         [TestCase]
@@ -355,14 +354,16 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserAddToRoomAsPlayerAllMoneyTestGood()
         {
             RestartSystem();
-            RegisterUser1();
+            SetupUser1();
+            Assert.True(RoomId == -1);
+            Assert.False(UserBridge.getUserById(UserId) == null);
             CreateGameWithUser1();
 
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             IUser user2 = UserBridge.getUserById(_userId2);
-            
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, user2.Money()));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
+            user2.AddMoney(1000);
+            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
+            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId));
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
             Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
         }
@@ -410,7 +411,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
             
         }
-
+        // talk with Aviv about that
         [TestCase]
         public void UserAddToRoomAsPlayerAllreadySpectatorInRoomTestBad()
         {
@@ -467,7 +468,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserRemoveFromRoomSpectatorTestGood()
         {
             RestartSystem();
-            RegisterUser1();
+            SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
 
@@ -476,7 +477,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //add user to Room as spectator
             Assert.True(UserBridge.AddUserToGameRoomAsSpectator(_userId2, RoomId));
-            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId));
+            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId)); /////////////ADD search for spectator there!!
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(_userId2));
 
             //remove user from Room

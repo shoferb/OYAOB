@@ -239,7 +239,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                return _gameService.DoAction(userId, CommunicationMessage.ActionType.Join, roomId, chipAmount);
+                return _gameService.DoAction(userId, CommunicationMessage.ActionType.Join, chipAmount, roomId);
             }
             return false;
         }

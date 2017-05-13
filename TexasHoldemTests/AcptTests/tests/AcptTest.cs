@@ -83,7 +83,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 
                 Users.Add(UserId);
             }
-            else if (!UserBridge.IsUserLoggedIn(UserId))
+            if (!UserBridge.IsUserLoggedIn(UserId))
             {
                 UserBridge.LoginUser(User1Name, User1Pw);
             }
