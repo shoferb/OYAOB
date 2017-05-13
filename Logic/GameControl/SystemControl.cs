@@ -545,14 +545,24 @@ namespace TexasHoldem.Logic.Game_Control
             List<IUser> toReturn = new List<IUser>();
             lock (padlock)
             {
-                
-                foreach (IUser u in users)
+                try
                 {
-                    if (u.IsUnKnow())
+                    foreach (IUser u in users)
                     {
-                        toReturn.Add(u);
-                    }   
+                        if (u.IsUnKnow())
+                        {
+                            toReturn.Add(u);
+                        }
+                    }
                 }
+                catch
+                {
+
+                    ErrorLog log = new ErrorLog("Error: while trying get ALL UNKNOW  users");
+                    logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+               
             }
             return toReturn;
         }
