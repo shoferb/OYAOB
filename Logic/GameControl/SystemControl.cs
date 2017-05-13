@@ -174,6 +174,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch
                 {
+                    ErrorLog log = new ErrorLog("Error: while trying to get user by user name: "+ username );
+
                     return toRerutn;
                 }
                 
