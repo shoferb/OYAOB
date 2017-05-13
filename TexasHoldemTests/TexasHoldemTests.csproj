@@ -68,7 +68,6 @@
     <Compile Include="communication\ServerEventHandlerTest.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
-    <Compile Include="Logic\Game\ConcreteGameRoomTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Game\GameRoomTests.cs" />

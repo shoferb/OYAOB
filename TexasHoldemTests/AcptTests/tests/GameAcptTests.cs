@@ -25,7 +25,7 @@ namespace TexasHoldemTests.AcptTests.tests
             _userId2 = new Random().Next();
             _user2Name = "yarden";
             _user2EmailGood = "yarden@gmail.com";
-            _user2Pw = "123";
+            _user2Pw = "12345678";
         }
 
         //tear down: (called from case)
@@ -49,8 +49,11 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameTestGood()
         {
-            int roomId = GameBridge.CreateGameRoom(UserId, 100);
-            Assert.True(roomId!=-1);
+            RestartSystem();
+            RegisterUser1();
+            Assert.True(RoomId == -1);
+            RoomId = GameBridge.CreateGameRoom(UserId, 100);
+            Assert.True(RoomId != -1);
             Assert.True(GameBridge.DoesRoomExist(RoomId));
             Assert.AreEqual(1, GameBridge.GetPlayersInRoom(RoomId).Count);
             Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First().user.Id());
@@ -67,8 +70,12 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameWithPrefTestGood()
         {
-            int roomId = GameBridge.CreateGameRoomWithPref(UserId, 100, true, GameMode.Limit, 2, 8, 0, 10);
-            Assert.True(roomId != -1);
+            RestartSystem();
+            RegisterUser1();
+
+            Assert.True(RoomId==-1);
+            RoomId = GameBridge.CreateGameRoomWithPref(UserId, 100, true, GameMode.Limit, 2, 8, 0, 10);
+            Assert.True(RoomId != -1);
             Assert.True(GameBridge.DoesRoomExist(RoomId));
             Assert.AreEqual(1, GameBridge.GetPlayersInRoom(RoomId).Count);
             Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First().user.Id());
@@ -77,9 +84,13 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameWithPrefTestBad()
         {
-            int roomId = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.PotLimit, 0, 0, -1, 0);
-            Assert.True(roomId == -1);
-            Assert.False(GameBridge.DoesRoomExist(roomId));
+            RestartSystem();
+            RegisterUser1();
+            Assert.True(RoomId == -1);
+
+            RoomId = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.PotLimit, 0, 0, -1, 0);
+            Assert.True(RoomId == -1);
+            Assert.False(GameBridge.DoesRoomExist(RoomId));
         }
 
         [TestCase]
@@ -88,13 +99,16 @@ namespace TexasHoldemTests.AcptTests.tests
             //delete all users and games, register user1
             RestartSystem();
             RegisterUser1();
-            int roomId = GameBridge.CreateGameRoom(UserId, 10);
-            Assert.True(roomId!= -1);
+            Assert.True(RoomId == -1);
+
+            RoomId = GameBridge.CreateGameRoom(UserId, 10);
             RegisterUser2();
+            Assert.True(UserBridge.IsThereUser(UserId));
+            Assert.True(UserBridge.IsThereUser(_userId2));
             IUser user = UserBridge.getUserById(_userId2);
             user.AddMoney(1000);
             Assert.True(GameBridge.ListAvailableGamesByUserRank(_userId2).Count==1);
-            Assert.Contains(_userId2, GameBridge.GetIdPlayersInRoom(roomId));
+            Assert.Contains(_userId2, GameBridge.GetIdPlayersInRoom(RoomId));
         }
 
        [TestCase]
@@ -168,13 +182,13 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             if (!UserBridge.IsThereUser(_userId2))
             {
-                UserBridge.RegisterUser(_userId2, User1Name, User1Pw, UserEmailGood1);
+                UserBridge.RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
 
-                Users.Add(UserId);
+                Users.Add(_userId2);
             }
-            else if (!UserBridge.IsUserLoggedIn(UserId))
+            else if (!UserBridge.IsUserLoggedIn(_userId2))
             {
-                UserBridge.LoginUser(User1Name, User1Pw);
+                UserBridge.LoginUser(_user2Name, _user2Pw);
             }
         }
     }
