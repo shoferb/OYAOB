@@ -377,7 +377,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Call(Player player, int bet)
         {
-            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
@@ -387,6 +386,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             logControl.AddSystemLog(log);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
