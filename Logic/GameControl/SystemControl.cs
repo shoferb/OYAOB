@@ -454,6 +454,8 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                 }catch(Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName );
+                    logControl.AddErrorLog(log);
                     return toReturn;
                 }
                
