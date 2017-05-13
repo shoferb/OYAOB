@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
@@ -36,6 +37,10 @@ namespace TexasHoldem.Logic.Game_Control
         private SystemControl()
         {
             this.users = new List<IUser>();
+            var ServiceTimer = new System.Timers.Timer();
+            ServiceTimer.Enabled = true;
+            ServiceTimer.Interval = (1000 * 60 * 60 * 24 * 7);//once a week
+            ServiceTimer.Elapsed += new System.Timers.ElapsedEventHandler(DivideLeague);
         }
 
         //getter seeter user list
@@ -474,38 +479,39 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public bool DivideLeague()
+        public void DivideLeague(object sender, ElapsedEventArgs e)
         {
-            bool toReturn = false;
-            List<IUser> sorted = SortByPoint();
-            int userCount = sorted.Count;
-            int divideTo;
-            if (userCount == 0)
+            
+            lock (padlock)
             {
-                return toReturn;
-            }
-            double temp =(userCount / 5);
-            divideTo = (int) Math.Round(temp);
-            if(divideTo < 2)
-            {
-                divideTo = 2;
-            }
-            int i = 0;
-            int k = 0;
-            LeagueName curr = LeagueName.A;
-            while(i < userCount)
-            {
-                while(k <= divideTo && i<userCount)
+                List<IUser> sorted = SortByPoint();
+                int userCount = sorted.Count;
+                int divideTo;
+                if (userCount == 0)
                 {
-                    sorted.ElementAt(i).SetLeague(curr);
-                    i++;
-                    k++;
+                    return;
                 }
-                k = 0;
-                curr = GetNextLeague(curr);
+                double temp = (userCount / 5);
+                divideTo = (int)Math.Round(temp);
+                if (divideTo < 2)
+                {
+                    divideTo = 2;
+                }
+                int i = 0;
+                int k = 0;
+                LeagueName curr = LeagueName.A;
+                while (i < userCount)
+                {
+                    while (k <= divideTo && i < userCount)
+                    {
+                        sorted.ElementAt(i).SetLeague(curr);
+                        i++;
+                        k++;
+                    }
+                    k = 0;
+                    curr = GetNextLeague(curr);
+                }
             }
-   
-            return toReturn;
         }
 
         private LeagueName GetNextLeague(LeagueName curr)
