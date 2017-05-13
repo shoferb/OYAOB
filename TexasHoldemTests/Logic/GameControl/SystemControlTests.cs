@@ -798,10 +798,6 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.AreEqual(orelie.Points(), 50);
             Assert.IsTrue(michele.EditUserPoints( 150));
             Assert.AreEqual(michele.Points(), 150);
-        //    Assert.IsTrue(sc.IsHigestRankUser(id2));
-          //  Assert.IsFalse(sc.IsHigestRankUser(Id));
-            Assert.AreEqual(sc.GetUserRank(id), 2);
-            Assert.AreEqual(sc.GetUserRank(id2), 1);
 
 
             Assert.IsTrue(sc.RemoveUserById(id));

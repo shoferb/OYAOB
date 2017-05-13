@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.Game.Tests
     {
         private IUser user1, user2, user3;
         List<Player> players;
-        Player player1, player2;
+        Player player1;
         int roomID ;
         GameRoom gameRoom;
         [TestInitialize()]
@@ -32,16 +32,17 @@ namespace TexasHoldem.Logic.Game.Tests
             players = new List<Player>();
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
-            gameRoom = new GameRoom(players, roomID);
-            SetDecoratoresNoLimitWithSpectatores();
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+
         }
 
-        private void SetDecoratoresNoLimitWithSpectatores()
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
             Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
             before.SetNextDecorator(mid);
-            gameRoom.AddDecorator(before);
+            return before;
         }
 
         private void SetDecoratoresLimitNoSpectatores()
@@ -49,7 +50,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Decorator mid = new MiddleGameDecorator(GameMode.Limit, 20, 10);
             Decorator before = new BeforeGameDecorator(20, 1500, false, 2, 5, 25, LeagueName.B);
             before.SetNextDecorator(mid);
-            gameRoom.AddDecorator(before);
+            gameRoom.SetDecorator(before);
         }
 
         private void SetDecoratoresPotLimitWithSpectatores()
@@ -57,7 +58,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Decorator mid = new MiddleGameDecorator(GameMode.PotLimit, 10, 5);
             Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
             before.SetNextDecorator(mid);
-            gameRoom.AddDecorator(before);
+            gameRoom.SetDecorator(before);
         }
 
 
@@ -607,8 +608,8 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Leave, 0));
             Assert.IsTrue(gameRoom.DoAction(user3, ActionType.Leave, 0));
             Assert.IsTrue(user3.Money() < 5000);
-            Assert.IsTrue(user2.Money() > 5000 || user1.Money() > 5000);
-
+            //user start money = 5000, fee in room is 20
+            Assert.IsTrue(user1.Money() + user2.Money() + user3.Money() == 5000* 3 - 20*3);
         }
 
 

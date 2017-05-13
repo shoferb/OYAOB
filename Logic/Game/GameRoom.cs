@@ -48,8 +48,10 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
-        public GameRoom(List<Player> players, int ID)
+        public GameRoom(List<Player> players, int ID, Decorator decorator)
         {
+            MyDecorator = decorator;
+            SetTheBlinds();
             Id = ID;
             GameNumber = 0;
             IsActiveGame = false;
@@ -58,8 +60,6 @@ namespace TexasHoldem.Logic.Game
             PublicCards = new List<Card>();
             Players = players;
             Spectatores = new List<Spectetor>();
-            Bb = 0;
-            Sb = 0;
             SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
             logControl = LogControl.Instance;
@@ -67,9 +67,19 @@ namespace TexasHoldem.Logic.Game
             ReplayManager = ReplayManager.ReplayManagerInstance;
             GameCenter = GameCenter.Instance;
             lastRaiseInRound = 0;
-    }
+            ReduceFeeAndStatringChipFromPlayers();
+        }
 
-    private LeagueName GetLeagueFromPlayer(List<Player> players)
+        private void ReduceFeeAndStatringChipFromPlayers()
+        {
+            foreach (Player p in Players)
+            {
+                p.user.ReduceMoneyIfPossible(MyDecorator.GetStartingChip() +
+                    MyDecorator.GetEnterPayingMoney());
+            }
+        }
+
+        private LeagueName GetLeagueFromPlayer(List<Player> players)
         {
             if (players == null || players.Count == 0)
             {
@@ -85,9 +95,9 @@ namespace TexasHoldem.Logic.Game
             
         }
 
-        public void AddDecorator(Decorator d)
+        public void SetDecorator(Decorator d)
         {
-            this.MyDecorator = d;
+            MyDecorator = d;
             SetTheBlinds();
         }
 
@@ -426,7 +436,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool NextRound()
         {
-            MoveChipsToPot();
             lastRaiseInRound = 0;
             maxBetInRound = 0;
             InitializePlayerRound();

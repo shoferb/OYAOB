@@ -14,7 +14,6 @@ namespace TexasHoldem.Logic.Game_Control
 {
     public class GameCenter
     {
-        private List<League> leagueTable;
         private List<Log> logs;
 
         public int leagueGap { get; set; }
@@ -30,7 +29,6 @@ namespace TexasHoldem.Logic.Game_Control
 
         private GameCenter()
         {
-            this.leagueTable = new List<League>();
             this.logs = new List<Log>();
             this.games = new List<IGame>();
         }
@@ -145,9 +143,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
-                GameRoom room = new GameRoom(players, roomId);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
-                room.AddDecorator(decorator);
+                GameRoom room = new GameRoom(players, roomId, decorator);
                 return AddRoom(room);
             }
         }
@@ -587,22 +584,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        //getters setters
-        public List<League> LeagueTable
-        {
-            get
-            {
-                return leagueTable;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    leagueTable = value;
-                }
-            }
-        }
+      
 
 
         public int LeagueGap

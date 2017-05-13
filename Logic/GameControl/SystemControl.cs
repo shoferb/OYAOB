@@ -4,7 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control
@@ -15,7 +18,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         private static SystemControl systemControlInstance = null;
         private static readonly object padlock = new object();
-
+        private LogControl logControl = LogControl.Instance;
 
         public static SystemControl SystemControlInstance
         {
@@ -35,6 +38,11 @@ namespace TexasHoldem.Logic.Game_Control
         private SystemControl()
         {
             this.users = new List<IUser>();
+            
+            var ServiceTimer = new System.Timers.Timer();
+            ServiceTimer.Enabled = true;
+            ServiceTimer.Interval = (1000 * 60 * 60 * 24 * 7);//once a week
+            ServiceTimer.Elapsed += new System.Timers.ElapsedEventHandler(DivideLeague);
         }
 
         //getter seeter user list
@@ -74,7 +82,10 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while truing to remove user with id: " + id);
+                    logControl.AddErrorLog(log);
                     toReturn = false;
+                    return toReturn;
                 }
                 return toReturn;
             }
@@ -104,7 +115,10 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while trying to remove user with user name: "+username+ "and password fail" );
+                    logControl.AddErrorLog(log);
                     toReturn = false;
+                    return toReturn;
                 }
                 return toReturn;
             }
@@ -128,7 +142,10 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch (Exception e)
                 {
+                    ErrorLog log = new ErrorLog("Error: while trying to remove user by User with user name :" + toRemove.MemberName() + "with id" + toRemove.Id());
+                    logControl.AddErrorLog(log);
                     toReturn = false;
+                    return toReturn;
                 }
                 return toReturn;
             }
@@ -160,6 +177,9 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 catch
                 {
+                    ErrorLog log = new ErrorLog("Error: while trying to get user by user name: "+ username );
+                    logControl.AddErrorLog(log);
+
                     return toRerutn;
                 }
                 
@@ -173,23 +193,43 @@ namespace TexasHoldem.Logic.Game_Control
             bool toReturn = false;
             lock (padlock)
             {
-                if (!CanCreateNewUser(id, memberName, password, email))
+                try
                 {
+                    if (!CanCreateNewUser(id, memberName, password, email))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying register user: onr or more Invalid fields" );
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+                    if (name.Equals(" ") || name.Equals(""))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying register user: name is empty");
+                        logControl.AddErrorLog(log);
+
+                        return toReturn;
+                    }
+                    if (!IsValidInputNotSmallerZero(money))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying register user:money smaller than zero");
+                        logControl.AddErrorLog(log);
+
+                        return toReturn;
+                    }
+
+                    User newUser = new User(id, name, memberName, password, 0, money, email);
+                    users.Add(newUser);
+                    toReturn = true;
+                   
+                }catch(Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying register user");
+                    logControl.AddErrorLog(log);
+
+                    toReturn = false;
                     return toReturn;
                 }
-                if (name.Equals(" ") || name.Equals(""))
-                {
-                    return toReturn;
-                }
-                if (!IsValidInputNotSmallerZero(money))
-                {
-                    return toReturn;
-                }
-                
-                User newUser = new User(id, name, memberName, password, 0, money, email);
-                users.Add(newUser);
-                toReturn = true;
-                return toReturn;
+
+                 return toReturn;
             }
         }
 
@@ -203,19 +243,24 @@ namespace TexasHoldem.Logic.Game_Control
                 IsValidPassword(password) && IsValidEmail(email) && !memberName.Equals("") && !memberName.Equals(" ");
             if (!IsUsernameFree(memberName))
             {
-                
+                ErrorLog log = new ErrorLog("Error: while trying ceate user - username: "+memberName+" is NOT free");
+                logControl.AddErrorLog(log);
             }
             if (!IsIdFree(id))
             {
-                
+                ErrorLog log = new ErrorLog("Error: while trying ceate user - id: " + id + " is NOT free");
+                logControl.AddErrorLog(log);
             }
             if (!IsValidPassword(password))
             {
-
+                ErrorLog log = new ErrorLog("Error: while trying ceate user with id" + id+" and username: "+memberName + "password is not valid");
+                logControl.AddErrorLog(log);
             }
             if (!IsValidEmail(email))
             {
-                
+                ErrorLog log = new ErrorLog("Error: while trying ceate user with id" + id + " and username: " + memberName + "email: "+email +" is not valid");
+
+                logControl.AddErrorLog(log);
             }
             return toReturn;
         }
@@ -276,15 +321,26 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                foreach (IUser u in users)
+                try
                 {
-                    if (u.Id() == id)
+                    foreach (IUser u in users)
                     {
-                        toReturn = true;
-                        return toReturn;
-                    }
+                        if (u.Id() == id)
+                        {
+                            toReturn = true;
+                            return toReturn;
+                        }
 
+                    }
                 }
+                catch(Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while checking if user exist:  user whith id" + id);
+
+                    logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+               
                 return toReturn;
             }
         }
@@ -297,19 +353,30 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 IUser toReturn = null;
-                if (!IsValidInputNotSmallerZero(id))
+                try
                 {
-                    return toReturn;
-                }
-                
-                foreach (IUser u in users)
-                {
-                    if (u.Id() == id)
+                  
+                    if (!IsValidInputNotSmallerZero(id))
                     {
-                        toReturn = u;
                         return toReturn;
                     }
+
+                    foreach (IUser u in users)
+                    {
+                        if (u.Id() == id)
+                        {
+                            toReturn = u;
+                            return toReturn;
+                        }
+                    }
+                }catch(Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while Get uset whith id" + id );
+
+                    logControl.AddErrorLog(log);
+                    return toReturn;
                 }
+              
                 return toReturn;
             }
         }
@@ -357,24 +424,41 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<IGame> toReturn = null;
-                if (userName.Equals("")||userName.Equals(" ")|| IsUsernameFree(userName))
+                try
                 {
+                    if (userName.Equals("") || userName.Equals(" "))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " empty");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+
+                    if (IsUsernameFree(userName))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " dose not exist!");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+                    IUser user = GetIUSerByUsername(userName);
+                    if (user == null)
+                    {
+                        return toReturn;
+                    }
+                    toReturn = new List<IGame>();
+                    foreach (IGame room in user.ActiveGameList())
+                    {
+                        if (room.IsGameActive())
+                        {
+                            toReturn.Add(room);
+                        }
+                    }
+                }catch(Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName );
+                    logControl.AddErrorLog(log);
                     return toReturn;
                 }
                
-                IUser user = GetIUSerByUsername(userName);
-                if (user == null)
-                {
-                    return toReturn;
-                }
-                toReturn = new List<IGame>();
-                foreach (IGame room in user.ActiveGameList())
-                {
-                    if (room.IsGameActive())
-                    {
-                        toReturn.Add(room);
-                    }
-                }
                 return toReturn;
             }
         }
@@ -387,26 +471,46 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<IGame> toReturn = null;
-                if (userName.Equals("") || userName.Equals(" ") || IsUsernameFree(userName))
+                try
                 {
+                    if (userName.Equals("") || userName.Equals(" "))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " empty");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+
+                    if (IsUsernameFree(userName))
+                    {
+                        ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " dose not exist!");
+                        logControl.AddErrorLog(log);
+                        return toReturn;
+                    }
+                    IUser user = GetIUSerByUsername(userName);
+                    if (user == null)
+                    {
+                        return toReturn;
+                    }
+                    toReturn = new List<IGame>();
+                    foreach (IGame room in user.ActiveGameList())
+                    {
+
+                        if (room.IsSpectatable())
+                        {
+                            toReturn.Add(room);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName);
+                    logControl.AddErrorLog(log);
                     return toReturn;
                 }
 
-                IUser user = GetIUSerByUsername(userName);
-                if (user == null)
-                {
-                    return toReturn;
-                }
-                toReturn = new List<IGame>();
-                foreach (IGame room in user.SpectateGameList())
-                {
-                    if (room.IsSpectatable())
-                    {
-                        toReturn.Add(room);
-                    }
-                }
                 return toReturn;
             }
+           
         }
 
       
@@ -420,7 +524,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
         
  
-
+//no use any more
         public List<IUser> SortByRank()
         {
             lock (padlock)
@@ -435,49 +539,30 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         
-        //return -1 if error
-        public int GetUserRank(int userId)
-        {
-            lock (padlock)
-            {
-                int toReturn;
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(userId))
-                    {
-                        return -1;
-                    }
-                    List<IUser> sort = SortByRank();
-                    IUser user = GetUserWithId(userId);
-                    if (user == null)
-                    {
-                        return -1;
-                    }
-                    toReturn = sort.IndexOf(user)+1;
-                    user.EditUserRank(toReturn + 1);
-
-                }
-                catch (Exception e)
-                {
-                    return -1;
-                }
-                return toReturn;
-            }
-        }
-
+     
         public List<IUser> GetAllUnKnowUsers()
         {
             List<IUser> toReturn = new List<IUser>();
             lock (padlock)
             {
-                
-                foreach (IUser u in users)
+                try
                 {
-                    if (u.IsUnKnow())
+                    foreach (IUser u in users)
                     {
-                        toReturn.Add(u);
-                    }   
+                        if (u.IsUnKnow())
+                        {
+                            toReturn.Add(u);
+                        }
+                    }
                 }
+                catch
+                {
+
+                    ErrorLog log = new ErrorLog("Error: while trying get ALL UNKNOW  users");
+                    logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+               
             }
             return toReturn;
         }
@@ -485,6 +570,112 @@ namespace TexasHoldem.Logic.Game_Control
         private bool IsValidInputNotSmallerZero(int toCheck)
         {
             return toCheck >= 0;
+        }
+
+        
+
+        public List<IUser> SortByPoint()
+        {
+            lock (padlock)
+            {
+                List<IUser> sort = GetAllUser();
+                sort.Sort(delegate (IUser x, IUser y)
+                {
+                    return y.Points().CompareTo(x.Points());
+                });
+                return sort;
+            }
+        }
+
+        public void DivideLeague(object sender, ElapsedEventArgs e)
+        {
+            
+            lock (padlock)
+            {
+                try
+                {
+
+                    List<IUser> sorted = SortByPoint();
+                    int userCount = sorted.Count;
+                    int divideTo;
+                    if (userCount == 0)
+                    {
+                        return;
+                    }
+                    double temp = (userCount / 5);
+                    divideTo = (int)Math.Round(temp);
+                    if (divideTo < 2)
+                    {
+                        divideTo = 2;
+                    }
+                    int i = 0;
+                    int k = 0;
+                    LeagueName curr = LeagueName.A;
+
+                    while (i < userCount)
+                    {
+                        while (k <= divideTo && i < userCount)
+                        {
+                            sorted.ElementAt(i).SetLeague(curr);
+                            i++;
+                            k++;
+                        }
+                        k = 0;
+                        curr = GetNextLeague(curr);
+                    }
+                }
+                catch
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying to divide the leauge");
+                    logControl.AddErrorLog(log);
+                    return;
+                }
+                }
+               
+        }
+
+        private LeagueName GetNextLeague(LeagueName curr)
+        {
+            LeagueName toReturn = LeagueName.E;
+            try
+            {
+                switch (curr)
+                {
+                    case LeagueName.A:
+                        toReturn = LeagueName.B;
+                        return toReturn;
+                        break;
+                    case LeagueName.B:
+                        toReturn = LeagueName.C;
+                        return toReturn;
+                        break;
+                    case LeagueName.C:
+                        toReturn = LeagueName.D;
+                        return toReturn;
+                        break;
+                    case LeagueName.D:
+                        toReturn = LeagueName.E;
+                        return toReturn;
+                        break;
+                    case LeagueName.E:
+                        toReturn = LeagueName.E;
+                        return toReturn;
+                        break;
+                    default:
+                        toReturn = LeagueName.E;
+                        return toReturn;
+                        break;
+                  
+                }
+            }
+            catch
+            {
+                ErrorLog log = new ErrorLog("Error: while trying to ey next League name");
+                logControl.AddErrorLog(log);
+                return toReturn;
+            }
+           
+            return toReturn;
         }
     }
 }

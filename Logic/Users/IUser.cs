@@ -44,9 +44,7 @@ namespace TexasHoldem.Logic.Users
         int WinNum();
 
         bool IncWinNum();
-
-        int Rank();
-
+        
         bool Login();
 
         bool Logout();
@@ -66,8 +64,6 @@ namespace TexasHoldem.Logic.Users
         bool EditUserPoints(int point);
 
         bool EditUserMoney(int money);
-
-        bool EditUserRank(int Rank);
 
         bool RemoveRoomFromActiveGameList(IGame game);
         

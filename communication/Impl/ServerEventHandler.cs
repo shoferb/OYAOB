@@ -182,10 +182,11 @@ namespace TexasHoldem.communication.Impl
                 default:
                     success = false;
                     break;
-                    ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+                    
                     
             }
+            ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
 
         public void HandleEvent(GameDataCommMessage msg)
