@@ -500,6 +500,7 @@ namespace TexasHoldem.Logic.Game_Control
                 int i = 0;
                 int k = 0;
                 LeagueName curr = LeagueName.A;
+
                 while (i < userCount)
                 {
                     while (k <= divideTo && i < userCount)
