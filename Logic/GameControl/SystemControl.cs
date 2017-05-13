@@ -426,11 +426,13 @@ namespace TexasHoldem.Logic.Game_Control
                 List<IGame> toReturn = null;
                 try
                 {
-                    if (userName.Equals("") || userName.Equals(" ") || IsUsernameFree(userName))
+                    if (userName.Equals("") || userName.Equals(" "))
                     {
+                        ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " empty");
+                        logControl.AddErrorLog(log);
                         return toReturn;
                     }
-
+                    
                     IUser user = GetIUSerByUsername(userName);
                     if (user == null)
                     {
