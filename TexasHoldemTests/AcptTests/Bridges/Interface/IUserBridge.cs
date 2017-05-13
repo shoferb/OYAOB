@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
+using TexasHoldem.Logic.Users;
 
 #endregion
 
@@ -20,12 +21,10 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         int GetNextFreeUserId();
         int GetUserPoints(int userId);
         void SetUserPoints(int userId, int points); //change user's rank BY SYSTEM
-        bool SetUserPoints(int userIdToChange, int points, int changingUserId); //change user's rank BY LEADING USER
-        bool SetLeagueCriteria(int userId, int criteria); //change the rank diff between leagus, BY LEADING USER
 
         bool IsThereUser(int id);
         List<int> GetAllUsers();
-
+        IUser getUserById(int userId);
         bool LoginUser(string name, string password);
         bool LogoutUser(int userId);
         int RegisterUser(string name, string pw1, string email); //register and login. return Id

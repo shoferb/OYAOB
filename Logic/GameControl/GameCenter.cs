@@ -86,6 +86,12 @@ namespace TexasHoldem.Logic.Game_Control
 
         }
 
+        public List<Player> getPlayersInRoom(int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+            return gm.GetPlayersInRoom();
+        }
+
         //minBet is the BB
         public bool CreateNewRoomWithRoomId(int roomId, IUser user, int startingChip, bool canSpectate, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)

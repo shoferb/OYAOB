@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 
@@ -19,12 +20,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
             _userService = new UserServiceHandler();
         }
 
-        private int MakeRoomHelper(int userId, int roomId)
+        private int MakeRoomHelper(int userId, int startingCheap)
         {
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                if (_gameService.CreateNewRoomWithRoomId(roomId, userId, 100, true, GameMode.NoLimit, 2, 2, 0, 4))
+                int roomId = _gameService.CreateNewRoom(userId, startingCheap, true, GameMode.NoLimit, 2, 8, 0, 10);
+                if (roomId >= 0)
                 {
                     return roomId;
                 }
@@ -32,26 +34,27 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return -1;
         }
 
-        public bool CreateGameRoom(int userId, int roomId)
+        public int CreateGameRoom(int userId, int startingCheap)
         {
-            if (!DoesRoomExist(roomId))
+            return MakeRoomHelper(userId, startingCheap);
+        }
+
+        public int CreateGameRoomWithPref(int userId, int startingCheap, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+            IUser user = _userService.GetUserById(userId);
+            if (user != null)
             {
-                return MakeRoomHelper(userId, roomId) != -1;
+                int roomId = _gameService.CreateNewRoom(userId, startingCheap, true, GameMode.NoLimit, 2, 8, 0, 10);
+                if (roomId >= 0)
+                {
+                    return roomId;
+                }
             }
-            return false;
+            return -1;
         }
 
-        public int CreateGameRoom(int userId)
-        {
-           return _gameService.CreateNewRoom(userId, 50, true, GameMode.NoLimit, 2, 8, 20, 10);
-        }
-
-       public int GetNextFreeRoomId()
-        {
-            return _gameService.GetNextFreeRoomId();
-        }
-
-        public bool DoesRoomExist(int id)
+       public bool DoesRoomExist(int id)
         {
             return _gameService.GetGameById(id) != null;
         }
@@ -61,10 +64,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                var roomPlayers = game.pl
-                var roomSpect = game.Spectatores;
-                return roomPlayers.Exists(p => p.Id == userId) ||
-                       roomSpect.Exists(s => s.Id == userId); 
+                var roomPlayers = game.GetPlayersInRoom();
+                return roomPlayers.Exists(p => p.user.Id() == userId);
             }
             return false;
         }
@@ -72,31 +73,47 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool IsRoomActive(int roomId)
         {
             var room = _gameService.GetGameById(roomId);
-            return room != null && room.IsActiveGame;
+            return room != null && room.IsGameActive();
         }
 
-        public bool StartGame(int roomId)
+        public bool StartGame(int userId, int roomId)
         {
             var room = _gameService.GetGameById(roomId);
             if (room != null)
             {
-                return _gameService.MakeRoomActive(_gameService.GetGameById(roomId)); 
+                return _gameService.DoAction(userId, CommunicationMessage.ActionType.StartGame, 0, roomId);
             }
             return false;
         }
 
-        public List<int> GetPlayersInRoom(int roomId)
+        public List<Player> GetPlayersInRoom(int roomId)
         {
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                List<int> toReturn = game.Players.ConvertAll(p => p.Id);
-                return toReturn; 
+                List<Player> gmPlayers = _gameService.getPlayersInRoom(roomId);
+                return gmPlayers;
             }
-            return new List<int>();
+            return null;
         }
 
-        private List<int> GamesToIds(List<GameRoom> games)
+        public List<int> GetIdPlayersInRoom(int roomId)
+        {
+            List<int> res = null;
+            var game = _gameService.GetGameById(roomId);
+            if (game != null)
+            {
+                List<Player> gmPlayers = _gameService.getPlayersInRoom(roomId);
+                foreach (Player p in gmPlayers)
+                {
+                    res.Add(p.user.Id());
+                }
+                return res;
+            }
+            return res;
+        }
+
+        private List<int> GamesToIds(List<IGame> games)
         {
             if (games != null)
             {
@@ -106,16 +123,20 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return null;
         }
 
-        public List<int> ListAvailableGamesByUserRank(int userRank)
+        public List<int> ListAvailableGamesByUserRank(int userId)
         {
-            List<GameRoom> allGames = _gameService.GetAvaiableGamesByUserRank(userRank);
+            List<IGame> allGames = _gameService.GetAllActiveGamesAUserCanJoin(userId);
             return GamesToIds(allGames);
         }
 
-        public List<int> ListSpectateableRooms()
+        public List<IGame> ListSpectateableRooms()
         {
-            List<GameRoom> allGames = _gameService.GetSpectateableGames();
-            return GamesToIds(allGames);
+            return _gameService.GetSpectateableGames();
+        }
+
+        public List<IGame> GetGamesByGameMode(GameMode mode)
+        {
+            return _gameService.GetGamesByGameMode(mode);
         }
 
         public List<int> GetAllGames()
@@ -124,161 +145,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return GamesToIds(allGames);
         }
 
-        public int GetDealerId(int roomId)
-        {
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                return game.Players[game.DealerPos].Id; 
-            }
-            return -1;
-        }
-
-        public int GetBbId(int roomId)
-        {
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                int bbPos = (game.DealerPos + 2) % game.Players.Count;
-                return game.Players[bbPos].Id;
-            }
-            return -1;
-        }
-
-        public int GetSbId(int roomId)
-        {
-            var game = _gameService.GetGameById(roomId);
-            if (game != null)
-            {
-                int sbPos = (game.DealerPos + 1) % game.Players.Count;
-                return game.Players[sbPos].Id;
-            }
-            return - 1;
-        }
-
-        public int GetDeckSize(int gameId)
-        {
-            var game = _gameService.GetGameById(gameId);
-            if (game != null)
-            {
-                return game.Deck.NumOfCards;
-            }
-            return -1;
-        }
-
-        public int GetCurrPlayer(int gameId)
-        {
-            var game = _gameService.GetGameById(gameId);
-            if (game != null)
-            {
-                int pos = (game.ActionPos) % game.Players.Count;
-                return game.Players[pos].Id;
-            }
-            return -1;
-        }
-
-        public int GetSbSize(int gameId)
-        {
-            var game = _gameService.GetGameById(gameId);
-            if (game != null)
-            {
-                return game.Sb;
-            }
-            return -1;
-        }
-
-        public int GetPotSize(int gameId)
-        {
-            var game = _gameService.GetGameById(gameId);
-            if (game != null)
-            {
-                return game.PotCount;
-            }
-            return -1;
-        }
-
-        //public List<int> GetWinner(int gameId)
-        //{
-        //    var winners = _gameService.FindWinner(gameId);
-        //    if (winners != null)
-        //    {
-        //        return winners.ConvertAll(p => p.Id);
-        //    }
-        //    return new List<int>();
-        //}
-
-        //public bool Fold(int userId, int roomId)
-        //{
-        //    //var player = FindPlayerInGame(userId, roomId);
-        //    //if (player != null)
-        //    //{
-        //    //    player.Fold();
-        //    //    return true;
-        //    //}
-        //    //return false;
-        //    var game = _gameService.GetGameById(roomId);
-        //    if (game != null)
-        //    {
-        //        new GameManager((GameRoom) game).Fold();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public bool Check(int userId, int roomId)
-        //{
-        //    //var player = FindPlayerInGame(userId, roomId);
-        //    //if (player != null)
-        //    //{
-        //    //    player.Check();
-        //    //    return true;
-        //    //}
-        //    //return false;
-        //    var game = _gameService.GetGameById(roomId);
-        //    if (game != null)
-        //    {
-        //        new GameManager((GameRoom) game).Check();
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public bool Call(int userId, int roomId, int amount)
-        //{
-        //    //var player = FindPlayerInGame(userId, roomId);
-        //    //if (player != null)
-        //    //{
-        //    //    player.Call(amount);
-        //    //    return true;
-        //    //}
-        //    //return false;
-        //    var game = _gameService.GetGameById(roomId);
-        //    if (game != null)
-        //    {
-        //        new GameManager((GameRoom) game).Call(amount);
-        //        return true;
-        //    }
-        //    return false;
-        //}
-
-        //public bool Raise(int userId, int roomId, int amount)
-        //{
-        //    //var game = _gameService.GetGameById(roomId);
-        //    //var player = _userService.GetPlayer(userId, roomId);
-        //    //if (CheckCurrPlayerIsPlayer(userId, game))
-        //    //{
-        //    //    player.Raise(amount, game);
-        //    //    return true;
-        //    //}
-        //    //return false;
-        //    var game = _gameService.GetGameById(roomId);
-        //    if (game != null)
-        //    {
-        //        new GameManager((GameRoom) game).Raise(amount);
-        //        return true;
-        //    }
-        //    return false;
-        //}
+       
+     
         
     }
 }

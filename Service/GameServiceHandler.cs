@@ -38,17 +38,16 @@ namespace TexasHoldem.Service
             return _gameCenter.DoAction(user, action, amount, roomId);
         }
 
+        public List<Player> getPlayersInRoom(int roomId)
+        {
+            return _gameCenter.getPlayersInRoom(roomId);
+        }
         public IGame GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
         }
 
-        public static void sendMessageToClient(IUser player, int roomId, CommunicationMessage.ActionType action, bool isSucceed, string msg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+       public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
             IUser user = _systemControl.GetUserWithId(userId);

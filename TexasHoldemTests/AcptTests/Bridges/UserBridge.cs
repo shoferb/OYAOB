@@ -23,56 +23,56 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool IsUserLoggedIn(int userId)
         {
-            var user = _userService.GetUserFromId(userId);
-            return user != null && user.IsActive;
+            var user = _userService.GetUserById(userId);
+            return user != null && user.IsLogin();
         }
 
         public string GetUserName(int id)
         {
-            var user = _userService.GetUserFromId(id);
+            var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return user.MemberName;
+                return user.MemberName();
             }
             return "";
         }
 
         public string GetUserPw(int id)
         {
-            var user = _userService.GetUserFromId(id);
+            var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return user.Password;
+                return user.Password();
             }
             return "";
         }
 
         public string GetUserEmail(int id)
         {
-            var user = _userService.GetUserFromId(id);
+            var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return user.Email;
+                return user.Email();
             }
             return "";
         }
         
         public string GetUserAvatar(int id)
         {
-            var user = _userService.GetUserFromId(id);
+            var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return user.Avatar;
+                return user.Avatar();
             }
             return "";
         }
 
         public int GetUserMoney(int id)
         {
-            var user = _userService.GetUserFromId(id);
+            var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return user.Money;
+                return user.Money();
             }
             return 0;
         }
@@ -80,17 +80,17 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public int GetUserChips(int userId)
         {
             int chips = 0;
-            User user = _userService.GetUserFromId(userId);
+            IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                user.ActiveGameList.ForEach(game =>
+                user.ActiveGameList().ForEach(game =>
                     {
                         if (game != null)
                         {
-                            var players = game._players.FindAll(p => p.Id == userId);
+                            var players = game.GetPlayersInRoom().FindAll(p => p.user.Id() == userId);
                             players.ForEach(p =>
                             {
-                                chips += p._totalChip;
+                                chips += p.TotalChip;
                             });
                         }
                     }); 
@@ -98,13 +98,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return chips;
         }
 
-        public int GetUserChips(int userId, int roomId)
-        {
-            var player = _userService.GetPlayer(userId, roomId);
+       public int GetUserChips(int userId, int roomId)
+        {/*
+            var games = _userService.GetActiveGamesByUserName(userId);
             if (player != null)
             {
                 return player._totalChip;
-            }
+            }*/
             return 0;
         }
 
@@ -115,23 +115,24 @@ namespace TexasHoldemTests.AcptTests.Bridges
             if (allGames != null)
             {
                 allGames.ForEach(game =>
+                {
+                    game.GetPlayersInRoom().ForEach(p =>
                     {
-                        game.Players.ForEach(p =>
+                        if (p.user.Id() == userId)
                         {
-                            if (p.Id == userId)
-                            {
-                                gameIds.Add(game.Id);
-                            }
-                        });
-                        game.Spectatores.ForEach(s =>
-                        {
-                            if (s.Id == userId)
-                            {
-                                gameIds.Add(game.Id);
-                            }
-                        });
+                            gameIds.Add(game.Id);
+                        }
+                    });
+                    /*   game..ForEach(s =>
+                       {
+                           if (s.Id == userId)
+                           {
+                               gameIds.Add(game.Id);
+                           }
+                       });*/
 
-                    }); 
+                   });
+                
             }
             return gameIds;
         }
@@ -143,52 +144,31 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public int GetUserPoints(int userId)
         {
-            var user = _userService.GetUserFromId(userId);
+            var user = _userService.GetUserById(userId);
             if (user != null)
             {
-                return user.Points;
+                return user.Points();
             }
             return -1;
         }
 
         public void SetUserPoints(int userId, int points)
         {
-            _userService.EditUserPoints(userId, points);
-        }
-
-        public bool SetUserPoints(int userIdToChange, int points, int changingUserId)
-        {
-            var user = _userService.GetUserFromId(changingUserId);
-            if (user != null && user.Points == _userService.GetMaxUserPoints())
-            {
-                SetUserPoints(userIdToChange, points);
-                return true;
-            }
-            return false;
-        }
-
-        public bool SetLeagueCriteria(int userId, int criteria)
-        {
-            var user = _userService.GetUserFromId(userId);
-            if (user != null && user.IsHigherRank)
-            {
-                return GameCenter.Instance.LeagueChangeAfterGapChange(criteria);
-            }
-            return false;
+          /*  _userService.EditUserPoints(userId, points);*/
         }
 
         public bool IsThereUser(int id)
         {
-            return _userService.GetUserFromId(id) != null;
+            return _userService.GetUserById(id) != null;
         }
 
         public List<int> GetAllUsers()
         {
-            var allUsers = _userService.GetAllUsers();
+            var allUsers = _userService.GetAllUser();
             List<int> ids = new List<int>();
             allUsers.ForEach(user =>
             {
-                ids.Add(user.Id);
+                ids.Add(user.Id());
             });
             return ids;
         }
@@ -226,10 +206,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool DeleteUser(int id)
         {
-            var user = _userService.GetUserFromId(id);
+            var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return DeleteUser(user.Name, user.Password); 
+                return DeleteUser(user.Name(), user.Password()); 
             }
             return false;
         }
@@ -256,22 +236,27 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
-            User user = _userService.GetUserFromId(userId);
+            IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                return _gameService.AddPlayerToRoom(userId, roomId, chipAmount);
+                return _gameService.DoAction(userId, CommunicationMessage.ActionType.Join, roomId, chipAmount);
             }
             return false;
         }
 
         public bool AddUserToGameRoomAsSpectator(int userId, int roomId)
         {
-            User user = _userService.GetUserFromId(userId);
+            IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
                 return _gameService.AddSpectatorToRoom(userId, roomId);
             }
             return false;
+        }
+
+        public IUser getUserById(int userId)
+        {
+            return _userService.GetUserById(userId);
         }
 
         public bool RemoveUserFromRoom(int userId, int roomId)
@@ -281,10 +266,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         private bool ChangeUserMoney(int userId, int amount)
         {
-            var user = _userService.GetUserFromId(userId);
+            var user = _userService.GetUserById(userId);
             if (user != null)
             {
-                return SystemControl.SystemControlInstance.EditUserMoney(userId, user.Money + amount);
+               return _userService.EditMoney(userId, user.Money() + amount);
             }
             return false;
         }
