@@ -502,7 +502,11 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        public bool DivideLeague()
+        {
+            bool toReturn = false;
+            return toReturn;
+        }
         
 
     }
