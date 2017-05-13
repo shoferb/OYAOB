@@ -41,5 +41,6 @@ namespace TexasHoldem.Logic.Game
         LeagueName GetLeagueName();
         GameRoom.HandStep GetStep();
         List<Player> GetPlayersInRoom();
+        List<Spectetor> GetSpectetorInRoom();
     }
 }

@@ -150,7 +150,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Leave(Player player)
         {
-            GameData gameData = GetGameData();
 
             List<Player> relevantPlayers = new List<Player>();
             if (IsActiveGame)
@@ -161,7 +160,6 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             logControl.AddSystemLog(log);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
@@ -171,6 +169,8 @@ namespace TexasHoldem.Logic.Game
                     relevantPlayers.Add(p);
                 }
             }
+            GameData gameData = GetGameData();
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             Players = relevantPlayers;
             if (Players.Count == 0)
             {
@@ -246,7 +246,6 @@ namespace TexasHoldem.Logic.Game
         {
             Player p = new Player(user, amount, this.Id);
             GameData gameData = GetGameData();
-
             if (IsUserASpectator(user))
             {
                 GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
@@ -257,6 +256,7 @@ namespace TexasHoldem.Logic.Game
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
+                    gameData = GetGameData();
                     GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
                     return true;
                 }
@@ -302,6 +302,7 @@ namespace TexasHoldem.Logic.Game
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             logControl.AddSystemLog(log2);
+            gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
             maxBetInRound = Bb;
 
@@ -361,7 +362,6 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             logControl.AddSystemLog(log);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             lastRaiseInRound = currentPlayerRaise;
             foreach (Player p in Players) //they all need to make another action in this round
             {
@@ -370,12 +370,13 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
+            gameData = GetGameData();
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Call(Player player, int bet)
         {
-            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
@@ -385,6 +386,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             logControl.AddSystemLog(log);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
@@ -395,20 +397,19 @@ namespace TexasHoldem.Logic.Game
             {
                 return false; // need to bet atless maxBetInRound value
             }
-            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
             logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Fold(Player player)
         {
-            GameData gameData = GetGameData();
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
@@ -416,6 +417,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             logControl.AddSystemLog(log);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, this.Id, gameData, ActionType.Fold, true);
 
             return AfterAction();
@@ -620,7 +622,6 @@ namespace TexasHoldem.Logic.Game
 
         private void HandCardsAndInitPlayers()
         {
-            GameData gameData = GetGameData();
             foreach (Player player in this.Players)
             {
                 player.InitForNewGame();
@@ -630,6 +631,7 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 logControl.AddSystemLog(log);
+                GameData gameData = GetGameData();
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
 
             }
@@ -637,13 +639,13 @@ namespace TexasHoldem.Logic.Game
         
        private void AddNewPublicCard()
         {
-            GameData gameData = GetGameData();
+            GameData gameData;
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
             {
                 player.AddPublicCardToPlayer(c);
+                gameData = GetGameData();
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
-
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
