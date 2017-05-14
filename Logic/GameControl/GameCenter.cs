@@ -657,7 +657,11 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendPlayerWhisper(IUser sender, IUser reciver, int roomId)
         {
-            throw new NotImplementedException();
+            IGame game = GetRoomById(roomId);
+            if (game == null)
+            {
+                return false;
+            }
         }
     }
 
