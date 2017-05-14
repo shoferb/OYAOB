@@ -363,9 +363,16 @@ namespace TexasHoldem.Logic.Users.Tests
         public void EditNameTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(user.EditUserName("or"));
+            Assert.IsTrue(user.EditName("or"));
         }
 
+
+        [TestMethod()]
+        public void EditNameTest_Bad_empty()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(user.EditName(""));
+        }
         [TestMethod()]
         public void EditAvatarTest()
         {
