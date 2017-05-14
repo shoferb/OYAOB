@@ -593,7 +593,7 @@ namespace TexasHoldem.Logic.Game_Control
 
       
 
-
+        //TODO delete this
         public int LeagueGap
         {
             get
