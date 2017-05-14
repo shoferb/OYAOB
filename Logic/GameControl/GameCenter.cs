@@ -225,6 +225,8 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+       
+
         public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
         {
             List<IGame> toReturn = new List<IGame>();
@@ -629,7 +631,10 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        public bool CanSendPlayerBrodcast(IUser user, int roomId)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 
