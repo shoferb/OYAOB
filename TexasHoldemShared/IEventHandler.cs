@@ -16,6 +16,6 @@ namespace TexasHoldemShared
         void HandleEvent(GameDataCommMessage msg);
         void HandleEvent(ResponeCommMessage msg);
         void HandleEvent(CreatrNewRoomMessage msg);
-
+        void HandleEvent(ChatCommMessage chatCommMessage);
     }
 }
