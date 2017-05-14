@@ -233,5 +233,10 @@ namespace TexasHoldem.Service
         {
             return sc.GetUserWithId(userId).GetLeague();
         }
+
+        public void DevideLeague()
+        {
+           // sc.DivideLeague();
+        }
     }
 }
