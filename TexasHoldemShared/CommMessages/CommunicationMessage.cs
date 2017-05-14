@@ -1,5 +1,23 @@
-﻿namespace TexasHoldemShared.CommMessages
+﻿using System.Xml.Serialization;
+using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldemShared.CommMessages.ServerToClient;
+
+namespace TexasHoldemShared.CommMessages
 {
+    [XmlInclude(typeof(CommunicationMessage))]
+    [XmlInclude(typeof(ChatCommMessage))]
+    [XmlInclude(typeof(RegisterCommMessage))]
+    [XmlInclude(typeof(ResponeCommMessage))]
+    [XmlInclude(typeof(RegisterResponeCommMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+    //[XmlInclude(typeof(CommunicationMessage))]
+
     public abstract class CommunicationMessage
     {
         public enum ActionType

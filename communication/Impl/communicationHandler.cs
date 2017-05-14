@@ -74,7 +74,14 @@ namespace TexasHoldem.communication.Impl
         {
             lock (_receivedMsgQueue)
             {
-                return new List<string>(_receivedMsgQueue.ToArray()); 
+                var lst = new List<string>();
+                while (!_receivedMsgQueue.IsEmpty)
+                {
+                    string temp;
+                    _receivedMsgQueue.TryDequeue(out temp);
+                    lst.Add(temp);
+                }
+                return lst;
             }
         }
 
