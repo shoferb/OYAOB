@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Client.Logic;
+using Client.Handler;
 
 namespace TexasHoldem.GuiScreen
 {
@@ -23,11 +24,18 @@ namespace TexasHoldem.GuiScreen
         private LoginScreen loginScreen;
         private RegisterScreen registerScreen;
         private ClientLogic cl;
+        private CommunicationHandler _commHandler;
+        private ClientEventHandler _eventHandler;
         public WellcomeScreen()
         {
             InitializeComponent();
             cl = new ClientLogic();
-            //todo create new handlers
+            _commHandler = new CommunicationHandler("127.0.0.1");
+            _eventHandler = new ClientEventHandler(_commHandler);
+            _eventHandler.Init(cl);
+            cl.Init(_eventHandler, _commHandler);
+            _commHandler.Connect();
+            
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
