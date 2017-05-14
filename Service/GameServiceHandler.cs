@@ -277,6 +277,11 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
+            IUser reciver = _systemControl.GetUserByUserName(reciverUsername);
+            if (reciver == null)
+            {
+                return toReturn;
+            }
         }
     }
 }
