@@ -997,6 +997,10 @@ namespace TexasHoldem.Logic.Game
         public bool IsPlayerInRoom(IUser user)
         {
             bool toReturn = false;
+            lock (padlock)
+            {
+
+            }
             return toReturn;
         }
     }
