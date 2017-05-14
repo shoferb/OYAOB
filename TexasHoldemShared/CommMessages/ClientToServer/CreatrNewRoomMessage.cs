@@ -8,13 +8,13 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class CreatrNewRoomMessage : CommunicationMessage
     {
-        private GameMode _mode;
-        private int _minBet;
-        private int _chipPolicy;
-        private int _buyInPolicy;
-        private bool _canSpectate;
-        private int _minPlayer;
-        private int _maxPlayers;
+        public GameMode _mode;
+        public int _minBet;
+        public int _chipPolicy;
+        public int _buyInPolicy;
+        public bool _canSpectate;
+        public int _minPlayer;
+        public int _maxPlayers;
 
         public CreatrNewRoomMessage() : base(-1) { } //for parsing
 
