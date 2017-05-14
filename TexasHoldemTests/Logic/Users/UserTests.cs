@@ -474,15 +474,16 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void EditUserMoneyTest()
+        public void EditUserMoneyTest_good()
         {
-            Assert.Fail();
+            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(user.EditUserMoney(100));
         }
 
         [TestMethod()]
         public void RemoveRoomFromActiveGameListTest()
         {
-            Assert.Fail();
+           
         }
 
         [TestMethod()]
