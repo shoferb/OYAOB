@@ -665,14 +665,17 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendPlayerWhisper(IUser sender, IUser reciver, int roomId)
         {
-            IGame game = GetRoomById(roomId);
-            if (game == null)
+            lock (padlock)
             {
-                return false;
+                IGame game = GetRoomById(roomId);
+                if (game == null)
+                {
+                    return false;
+                }
+                bool isSenderPlayer = game.IsPlayerInRoom(sender);
+                bool isReciverSectetorOrPlayer = game.IsPlayerInRoom(reciver) || game.IsSpectetorInRoom(reciver);
+                return isSenderPlayer && isReciverSectetorOrPlayer;
             }
-            bool isSenderPlayer = game.IsPlayerInRoom(sender);
-            bool isReciverSectetorOrPlayer = game.IsPlayerInRoom(reciver) || game.IsSpectetorInRoom(reciver);
-            return isSenderPlayer && isReciverSectetorOrPlayer;
         }
 
         public bool CanSendSpectetorWhisper(IUser sender, IUser reciver, int roomId)
