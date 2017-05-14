@@ -252,9 +252,9 @@ namespace Client.Logic
 
         }
 
-        public bool Register(string name, string memberName, string password, int money, string email)
+        public bool Register(int id,string name, string memberName, string password, int money, string email)
         {
-            RegisterCommMessage toSend = new RegisterCommMessage(_userId, name, memberName, password, money, email);
+            RegisterCommMessage toSend = new RegisterCommMessage(id, name, memberName, password, money, email);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
