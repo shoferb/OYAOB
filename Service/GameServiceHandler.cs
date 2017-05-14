@@ -263,6 +263,7 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
+            IUser sendet = _systemControl.GetUserWithId(idSender);
             return toReturn;
         }
 
