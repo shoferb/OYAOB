@@ -270,9 +270,10 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void EditIdTest()
+        public void EditIdTest_Good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(user.EditId(305077902));
         }
 
         [TestMethod()]
