@@ -42,5 +42,8 @@ namespace TexasHoldem.Logic.Game
         GameRoom.HandStep GetStep();
         List<Player> GetPlayersInRoom();
         List<Spectetor> GetSpectetorInRoom();
+
+        //methods for chat
+        bool IsPlayerInRoom(IUser user);
     }
 }
