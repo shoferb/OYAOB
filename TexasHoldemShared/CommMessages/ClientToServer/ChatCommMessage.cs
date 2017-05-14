@@ -10,6 +10,9 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
     {
         int idSender;
         int roomId;
+        string ReciverUsername;
+        string msgToSend;
+        ActionType chatType;
 
         public override void Handle(IEventHandler handler)
         {
