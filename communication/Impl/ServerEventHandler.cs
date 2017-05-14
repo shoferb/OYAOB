@@ -31,6 +31,8 @@ namespace TexasHoldem.communication.Impl
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join:
                     break;
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave:
+                    break;
 
             }
         }
