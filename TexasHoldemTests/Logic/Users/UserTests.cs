@@ -133,7 +133,12 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.AreEqual(user.Id(), 305077901);
         }
 
-     
+        [TestMethod()]
+        public void IdTest_bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Id(), 305077902);
+        }
 
         [TestMethod()]
         public void NameTest()
