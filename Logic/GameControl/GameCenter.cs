@@ -644,7 +644,12 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendSpectetorBrodcast(IUser user, int roomId)
         {
-            throw new NotImplementedException();
+            IGame game = GetRoomById(roomId);
+            if (game == null)
+            {
+                return false;
+            }
+            return game.IsSpectetorInRoom(user);
         }
     }
 
