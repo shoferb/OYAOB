@@ -277,6 +277,13 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
+        public void EditIdTest_Bad_Smaller_than_Zero()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(user.EditId(-2));
+        }
+
+        [TestMethod()]
         public void EditEmailTest()
         {
             Assert.Fail();
