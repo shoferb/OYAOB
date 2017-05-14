@@ -233,6 +233,7 @@ namespace TexasHoldem.Service
             {
                 return false;
             }
+            IUser user = _systemControl.GetUserWithId(playerId);
             return true;
         }
 
