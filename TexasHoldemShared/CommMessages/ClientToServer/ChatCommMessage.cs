@@ -19,7 +19,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
 
         public ChatCommMessage(int _idSender, int _roomId, string _ReciverUsername, string _msgToSend,
-      ActionType _chatType, int id) : base(id)
+      ActionType _chatType) : base(_idSender)
         {
             idSender = _idSender;
             roomId = _roomId;

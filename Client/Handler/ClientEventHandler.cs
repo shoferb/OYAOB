@@ -18,18 +18,18 @@ namespace Client.Handler
         private int _userId;
         private readonly CommunicationHandler _handler;
         private ClientLogic _logic;
-        private parserImplementation XmlParser;
+        private ParserImplementation XmlParser;
         private bool _shouldClose;
 
         public ClientEventHandler(CommunicationHandler handler)
         {
             _handler = handler;
-            XmlParser = new parserImplementation();
+            XmlParser = new ParserImplementation();
             _shouldClose = false;
 
         }
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void init(ClientLogic logic)
+        public void Init(ClientLogic logic)
         {
             _logic = logic;
         }
@@ -47,7 +47,7 @@ namespace Client.Handler
             while (!_shouldClose)
             {
                 string msg = string.Empty;
-                msg = _handler.tryGetMsgReceived();
+                msg = _handler.TryGetMsgReceived();
                 var parsedMsg = XmlParser.ParseString(msg);
                 parsedMsg.Handle(this);
             }
@@ -90,7 +90,14 @@ namespace Client.Handler
 
         public void HandleEvent(ResponeCommMessage msg)
         {
-            _logic.NotifyResponseReceived(msg);
+            if (msg.GetType().Equals(typeof(ChatResponceCommMessage)))
+            {
+                _logic.gotMsg((ChatResponceCommMessage)msg);
+            }
+            else
+            {
+                _logic.NotifyResponseReceived(msg);
+            }
 
         }
         public void Start()
@@ -99,16 +106,18 @@ namespace Client.Handler
             task.Start();
         }
 
-        //Todo - bar
+      
         public void HandleEvent(CreatrNewRoomMessage msg)
         {
-          
+          //Client to server msg
         }
 
-        // todo - bar
+      
         public void HandleEvent(ChatCommMessage msg)
         {
-            throw new NotImplementedException();
+            //Client to server msg
         }
+      
+
     }
 }

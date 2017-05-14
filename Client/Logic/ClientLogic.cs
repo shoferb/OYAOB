@@ -69,7 +69,7 @@ namespace Client.Logic
         {
             _userId = newId;
             this._eventHandler.SetNewUserId(newId);
-            this._handler.setUserId(newId);
+            this._handler.SetUserId(newId);
             return true;
         }
         //needed to be call after create new ClientEventHandler and a new client logic
@@ -82,7 +82,7 @@ namespace Client.Logic
         public void CloseSystem()
         {
             _eventHandler.close();
-            _handler.close();
+            _handler.Close();
         }
         public bool EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
@@ -157,6 +157,23 @@ namespace Client.Logic
             return toRet;
 
         }
+
+        public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend, CommunicationMessage.ActionType _chatType)
+        {
+            ChatCommMessage toSend = new ChatCommMessage(this._userId, _roomId,  _ReciverUsername,  _msgToSend, _chatType);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            messagesSentObserver.Remove(messageToList);
+            return toRet;
+        }
+
+
         public bool StartTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
@@ -263,15 +280,18 @@ namespace Client.Logic
         }
 
 
-        //not sure if bool or string
-        public bool SendChatMessage(int _idSender, int _roomId, string _ReciverUsername, string _msgToSend,
-      CommunicationMessage.ActionType _chatType, int id)
+        public void gotMsg(ChatResponceCommMessage msg)
         {
-
-            throw new NotImplementedException();
+            foreach(GameScreen game in _games)
+            {
+                if(game.RoomId==msg.roomId)
+                {
+                    game.AddChatMsg(msg);
+                }
+            }
         }
 
-        //TODO: no options
+       
         public bool NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
           

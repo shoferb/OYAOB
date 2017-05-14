@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TexasHoldem;
 using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace Client.GuiScreen
@@ -33,6 +34,7 @@ namespace Client.GuiScreen
         public string BbName;
         public string SbName;
         public string CurrPlayerTurn;
+        bool SpecOrPlay;//spec=false, play=true;
         private ClientLogic _logic; 
 
 
@@ -61,9 +63,12 @@ namespace Client.GuiScreen
                 foldItem.Content = "Fold";
                 ActionChosenComboBox.Items.Add(foldItem);
             }
-            ComboBoxItem chatMsgItem = new ComboBoxItem();
-            chatMsgItem.Content = "Send A New Chat Message";
-            ActionChosenComboBox.Items.Add(chatMsgItem);
+            ComboBoxItem broadcastChatMsgItem = new ComboBoxItem();
+            broadcastChatMsgItem.Content = "Send A New Broadcast Chat Message";
+            ActionChosenComboBox.Items.Add(broadcastChatMsgItem);
+            ComboBoxItem whisperchatMsgItem = new ComboBoxItem();
+            whisperchatMsgItem.Content = "Send A New Whisper Chat Message";
+            ActionChosenComboBox.Items.Add(whisperchatMsgItem);
 
             this.RoomId = msg.RoomId;
             RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
@@ -112,6 +117,13 @@ namespace Client.GuiScreen
             }
             this.TotalChips = msg.TotalChips;
             this.ChipAmountLabel.Content = msg.TotalChips;
+            foreach(string playerName in AllPlayerNames)
+            {
+                if(_logic.user.name.Equals(playerName))
+                {
+                    this.SpecOrPlay = true;
+                }
+            }
         }
 
         private void DoActiomBotton_Click(object sender, RoutedEventArgs e)
@@ -145,17 +157,71 @@ namespace Client.GuiScreen
                     int amount = -1;
                     _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                 }
-                if (action.Equals("Send A New Chat Message"))
+                if (action.Equals("Send A New Broadcast Chat Message"))
                 {
-                //TODO
+                    string msgToSend = InputForActionTextBox.Text;
+                    if (SpecOrPlay == true)
+                    {
+                       
+                        bool ans=  _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    else
+                    {
+                        bool ans =_logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
                 }
-            }
+                if (action.Equals("Send A New Whisper Chat Message"))
+                {
+                    string msgToSend = InputForActionTextBox.Text;
+                    string receiverName = WhisperReceiverTextBox_Copy.Text;
+                    if (SpecOrPlay == true)
+                    {
 
+                       bool ans = _logic.SendChatMsg(RoomId,receiverName, msgToSend, CommunicationMessage.ActionType.PlayerWhisper);
+                        if(!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    else
+                    {
+                        bool ans =_logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.SpectetorWhisper);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                }
+                }
+
+        }
+        public void AddChatMsg(ChatResponceCommMessage msg)
+        {
+            if(msg.idReciver==this._logic.user.id)
+            {
+                ListViewItem toAdd = new ListViewItem();
+                toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
+                this.chatListView.Items.Add(toAdd);
+            }
+            else
+            {
+                ListViewItem toAdd = new ListViewItem();
+                toAdd.Content = string.Concat("Broadcast message from ", msg.senderngUsername, ": ", msg.msgToSend);
+                this.chatListView.Items.Add(toAdd);
+            }
         }
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {
-            _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, this.RoomId);
+            _logic.StartTheGame(this.RoomId);
 
         }
 
