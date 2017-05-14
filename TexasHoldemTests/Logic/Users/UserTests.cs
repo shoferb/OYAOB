@@ -18,51 +18,7 @@ namespace TexasHoldem.Logic.Users.Tests
         private Notification toSend1 = new Notification(11, "joind");
         private Notification toSend2 = new Notification(11, "Exit");
 
-        [TestMethod()]
-        public void UserIdTest()
-        {
-            Assert.AreEqual(orelie.Id(), 305077901);
-            Assert.AreNotEqual(orelie.Id(), 305077902);
-        }
-
-        [TestMethod()]
-        public void UserNameTest()
-        {
-            Assert.AreEqual(orelie.Name(), "orelie");
-            Assert.AreNotEqual(orelie.Name(), "odsdf");
-        }
-        [TestMethod()]
-        public void UserUserNameTest()
-        {
-            Assert.AreEqual(orelie.MemberName(), "orelie26");
-            Assert.AreNotEqual(orelie.MemberName(), "odsdf");
-        }
-        [TestMethod()]
-        public void UserPasswordTest()
-        {
-            Assert.AreEqual(orelie.Password(), "123456");
-            Assert.AreNotEqual(orelie.Password(), "slafkjasp");
-            Assert.AreNotEqual(orelie.Password(), "654321");
-        }
-        [TestMethod()]
-        public void UserPointTest()
-        {
-            Assert.AreEqual(orelie.Points(), 0);
-            Assert.AreNotEqual(orelie.Points(), 5);
-        }
-        [TestMethod()]
-        public void UserMoneyTest()
-        {
-            Assert.AreEqual(orelie.Money(), 500);
-            Assert.AreNotEqual(orelie.Money(), -500);
-        }
-        [TestMethod()]
-        public void UserEmailTest()
-        {
-            Assert.AreEqual(orelie.Email(), "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(orelie.Email(), "slafkjasp");
-            Assert.AreNotEqual(orelie.Email(), "orelie@gmail.com");
-        }
+     
 
 
         [TestMethod()]
@@ -296,9 +252,10 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void LoginTest()
+        public void LoginTest_Not_Active_on_Create()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(user.IsLogin());
         }
 
         [TestMethod()]
