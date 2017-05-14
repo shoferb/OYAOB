@@ -1016,7 +1016,14 @@ namespace TexasHoldem.Logic.Game
             bool toReturn = false;
             lock (padlock)
             {
-                
+                foreach (Spectetor spectetor in Spectatores)
+                {
+                    if (spectetor.user == user)
+                    {
+                        toReturn = true;
+                        return toReturn;
+                    }
+                }
             }
             return toReturn;
         }
