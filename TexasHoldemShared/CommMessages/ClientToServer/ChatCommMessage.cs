@@ -14,6 +14,10 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         string msgToSend;
         ActionType chatType;
 
+
+        public ChatCommMessage() : base(-1){ }//for parsing
+
+      
         public override void Handle(IEventHandler handler)
         {
             throw new NotImplementedException();
