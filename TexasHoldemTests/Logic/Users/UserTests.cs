@@ -219,10 +219,14 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void WaitListNotificationTest()
+        public void WaitListNotificationTest_Good_inc_size_onCreate()
         {
-            Assert.Fail();
-        }
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Notification toSend1 = new Notification(11, "joind");
+            Assert.AreEqual(user.WaitListNotification().Count, 0);
+          //  user.SendNotification(toSend1);
+
+    }
 
         [TestMethod()]
         public void EmailTest()
