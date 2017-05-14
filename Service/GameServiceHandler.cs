@@ -282,6 +282,9 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
+            IUser sender = _systemControl.GetUserWithId(idSender);
+            toReturn = _gameCenter.CanSendSpectetorWhisper(sender, reciver, roomId);
+            return toReturn;
         }
     }
 }
