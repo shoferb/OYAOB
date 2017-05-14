@@ -236,5 +236,10 @@ namespace TexasHoldem.Service
         {
             throw new NotImplementedException();
         }
+        //check id sender is player, reciver exist, + rules 
+        internal bool CanSendPlayerWhisper(int idSender, string reciverUsername, int roomId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
