@@ -18,7 +18,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemTests", "TexasHoldemTests\TexasHoldemTests.csproj", "{7FEDF8F3-C37D-407A-AD0D-BA69ACDD95F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemLoadTests", "..\WebAndLoadTestProject1\TexasHoldemLoadTests.csproj", "{1B1CFB92-4883-4F8D-93A4-F4EE55C36F65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TexasHoldemPrformanceTests", "..\WebAndLoadTestProject1\TexasHoldemPrformanceTests.csproj", "{1B1CFB92-4883-4F8D-93A4-F4EE55C36F65}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8293DD65-415A-4F28-8D39-80D634367E01}"
 	ProjectSection(SolutionItems) = preProject
