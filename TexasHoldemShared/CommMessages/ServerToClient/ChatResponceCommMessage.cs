@@ -12,13 +12,15 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         string senderngUsername;
         ActionType chatType;
         string msgToSend;
+        int roomId;
 
-        public ChatResponceCommMessage(int _idReciver, string _senderngUsername, ActionType _chatType ,string _msgToSend, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+        public ChatResponceCommMessage(int _roomId, int _idReciver, string _senderngUsername, ActionType _chatType ,string _msgToSend, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
         {
             idReciver = _idReciver;
             senderngUsername = _senderngUsername;
             chatType = _chatType;
             msgToSend = _msgToSend;
+            roomId = _roomId;
         }
         //visitor pattern
         public override void Handle(IEventHandler handler)
