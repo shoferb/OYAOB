@@ -266,9 +266,12 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void LogoutTest()
+        public void LogoutTest_good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            user.Login();
+            
+            Assert.IsTrue(user.Logout());
         }
 
         [TestMethod()]
