@@ -17,7 +17,17 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public ChatCommMessage() : base(-1){ }//for parsing
 
-      
+
+        public ChatCommMessage(int _idSender, int _roomId, string _ReciverUsername, string _msgToSend,
+      ActionType _chatType, int id) : base(id)
+        {
+            idSender = _idSender;
+            roomId = _roomId;
+            ReciverUsername = _ReciverUsername;
+            msgToSend = _msgToSend;
+            chatType = _chatType;
+
+        }
         public override void Handle(IEventHandler handler)
         {
             throw new NotImplementedException();
