@@ -28,7 +28,7 @@ namespace Client
             ClientLogic cl = new ClientLogic();
 
             InitializeComponent();
-            WellcomeScreen wellcomeScreen = new WellcomeScreen(cl);
+            WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
             LoginScreen l = new LoginScreen(wellcomeScreen,cl);
             l.Show();
