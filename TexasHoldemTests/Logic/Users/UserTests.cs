@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Game;
 
 namespace TexasHoldem.Logic.Users.Tests
 {
@@ -263,10 +264,13 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.AreEqual(user.ActiveGameList().Count,0);
         }
 
+      
+
         [TestMethod()]
-        public void SpectateGameListTest()
+        public void SpectateGameListTest_good_on_create()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.SpectateGameList().Count, 0);
         }
 
         [TestMethod()]
