@@ -14,8 +14,14 @@
 
             StartGame,
             HandCard,
+            PlayerBrodcast,
+            SpectetorBrodcast,
+            PlayerWhisper,
+            SpectetorWhisper
         }
 
+
+        
         //TODO: add fields here
         public int UserId;
 
@@ -27,3 +33,4 @@
         public abstract void Handle(IEventHandler handler);
     }
 }
+

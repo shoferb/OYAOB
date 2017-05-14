@@ -218,5 +218,39 @@ namespace TexasHoldem.communication.Impl
             }
             return toReturn;
         }
+
+        public void HandleEvent(ChatCommMessage msg)
+        {
+            bool success =false;
+            int idReciver= _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
+            string usernameSender = _userService.GetUserById(msg.idSender).MemberName(); //to get from id;
+
+            switch (msg.chatType)
+            {
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerBrodcast:
+                    success = _gameService.CanSendPlayerBrodcast(msg.idSender,msg.roomId);
+                    idReciver = msg.idSender;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
+                    break;
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerWhisper:
+                    success = _gameService.CanSendPlayerWhisper(msg.idSender,msg.ReciverUsername, msg.roomId);
+                    idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
+                    break;
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorBrodcast:
+                    success = _gameService.CanSendSpectetorBrodcast(msg.idSender, msg.roomId);
+                    idReciver = msg.idSender;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
+                    break;
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorWhisper:
+                    success = _gameService.CanSendSpectetorWhisper(msg.idSender, msg.ReciverUsername, msg.roomId);
+                    idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
+                    break;
+
+            }
+            ResponeCommMessage response = new ChatResponceCommMessage(msg.roomId, idReciver, usernameSender, msg.chatType, msg.msgToSend, msg.UserId, success, msg);
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+        }
     }
 }

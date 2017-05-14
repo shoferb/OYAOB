@@ -212,6 +212,11 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        public IUser GetIUserByUserName(string userName)
+        {
+            IUser toReturn = sc.GetIUSerByUsername(userName);
+            return toReturn;
+        }
 
         public List<IUser> GetAllUser()
         {
