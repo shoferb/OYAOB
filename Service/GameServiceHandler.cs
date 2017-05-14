@@ -263,7 +263,8 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
-            IUser sendet = _systemControl.GetUserWithId(idSender);
+            IUser sender = _systemControl.GetUserWithId(idSender);
+            toReturn = _gameCenter.CanSendPlayerWhisper(sender, reciver, roomId);
             return toReturn;
         }
 
