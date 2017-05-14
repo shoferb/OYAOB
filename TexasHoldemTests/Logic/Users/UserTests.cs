@@ -443,6 +443,13 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.AreEqual(user.Money(), 0);
         }
 
+        [TestMethod()]
+        public void ReduceMoneyIfPossibleTest_Bad_Smaller_than_zero()
+        {
+            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            user.ReduceMoneyIfPossible(600);
+            Assert.AreEqual(user.Money(), 500);
+        }
 
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_good_Equal_to_zero()
