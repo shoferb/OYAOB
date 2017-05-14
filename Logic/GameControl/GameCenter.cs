@@ -662,7 +662,9 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 return false;
             }
-            return game.CanSendPlayerWhisper(sender, reciver);
+            bool isSenderPlayer = game.IsPlayerInRoom(sender);
+            bool isReciverSectetorOrPlayer = game.IsPlayerInRoom(reciver) || game.IsSpectetorInRoom(reciver);
+            return isSenderPlayer && isReciverSectetorOrPlayer;
         }
     }
 
