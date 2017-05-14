@@ -223,7 +223,7 @@ namespace TexasHoldem.communication.Impl
         {
             bool success =false;
             int idReciver= _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
-            string usernameSender=""; //to get from id;
+            string usernameSender= _userService.GetUserById(msg.idSender).MemberName(); //to get from id;
             switch (msg.chatType)
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerBrodcast:
