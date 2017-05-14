@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 
 namespace TexasHoldem.Logic.Users.Tests
 {
@@ -540,16 +541,13 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsTrue(user.IsLogin());
         }
 
-        [TestMethod()]
-        public void IsValidPasswordTest()
-        {
-            Assert.Fail();
-        }
+       
 
         [TestMethod()]
-        public void GetLeagueTest()
+        public void GetLeagueTest_on_create()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.GetLeague(), LeagueName.Unknow);
         }
 
         [TestMethod()]
