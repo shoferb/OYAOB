@@ -225,10 +225,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        internal bool CanSendSpectetorBrodcast(IUser user, int roomId)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
         {
@@ -642,6 +639,12 @@ namespace TexasHoldem.Logic.Game_Control
                 return false;
             }
             return game.IsPlayerInRoom(user);
+        }
+
+
+        public bool CanSendSpectetorBrodcast(IUser user, int roomId)
+        {
+            throw new NotImplementedException();
         }
     }
 
