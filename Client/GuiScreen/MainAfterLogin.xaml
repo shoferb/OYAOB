@@ -11,7 +11,7 @@
         <Grid.Background>
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
-        <Label x:Name="LoginMenuLabel" Content="Wellcome Back" HorizontalAlignment="Left" Margin="69.566,23,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
+        <Label x:Name="LoginMenuLabel" Content="Welcome Back" HorizontalAlignment="Left" Margin="69.566,23,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
         <Button x:Name="EditUserbutton" Content="Edit User Information" HorizontalAlignment="Left" Margin="70,78,0,0" VerticalAlignment="Top" Width="154" Click="EditUserbutton_Click"/>
         <Button x:Name="Logoututton" Content="LogOut" HorizontalAlignment="Left" Margin="70,119,0,0" VerticalAlignment="Top" Width="154" Click="Logoututton_Click"/>
         <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Left" Margin="38,280,0,0" VerticalAlignment="Top" Width="75"/>
