@@ -91,6 +91,7 @@ namespace TexasHoldem.communication.Impl
         //main thread:
         public void AcceptClients()
         {
+            Console.WriteLine("comm: accepting clients");
             //main thread so no need to signal it started
             _listener.Start();
             while (!ShouldClose)
@@ -115,6 +116,7 @@ namespace TexasHoldem.communication.Impl
         //thread 1
         protected void HandleReading()
         {
+            Console.WriteLine("comm: reading");
             byte[] buffer = new byte[1];
 
             while (!ShouldClose)
@@ -147,6 +149,7 @@ namespace TexasHoldem.communication.Impl
         //thread 2
         protected void HandleWriting()
         {
+            Console.WriteLine("comm: writing");
             while (!ShouldClose)
             {
                 IList<TcpClient> readyToWrite = Selector.SelectForWriting(_socketsQueue);
