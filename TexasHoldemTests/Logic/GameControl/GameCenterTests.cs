@@ -268,7 +268,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
             _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
             _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetAllGames().Count==2);
+            Assert.IsTrue(_gameCenter.GetAllGamesId().Count==2);
             initForAllTest();
         }
 

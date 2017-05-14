@@ -140,14 +140,25 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.GetGamesByGameMode(mode);
         }
 
-        public List<int> GetAllGames()
+        public bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId)
+        {
+            return _gameService.DoAction(userId, action, amount, roomId);
+        }
+
+        public List<int> GetAllGamesId()
         {
             var allGames = _gameService.GetAllGames();
             return GamesToIds(allGames);
         }
 
-       
-     
-        
+        public List<IGame> GetAllGames()
+        {
+            var allGames = _gameService.GetAllGames();
+            return allGames;
+        }
+
+
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldemTests.AcptTests.Bridges.Interface
@@ -19,9 +20,11 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<int> GetIdPlayersInRoom(int roomId);
         List<int> ListAvailableGamesByUserRank(int userRank);
         List<IGame> ListSpectateableRooms();
-        List<int> GetAllGames();
+        List<int> GetAllGamesId();
+        List<IGame> GetAllGames();
 
         //game related:
         List<IGame> GetGamesByGameMode(GameMode mode);
+        bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId);
     }
 }

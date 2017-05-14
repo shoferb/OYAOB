@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Service;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 
@@ -13,11 +14,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public ReplayBridge()
         {
             _gameService = new GameServiceHandler();
+            _replayHandler = new ReplayHandler();
         }
        
-        public List<Tuple<int, int>> GetReplayableGames(int userId)
+        public GameReplay GetReplayableGames(int gameRoomID, int gameNumber , int userId)
         {
-            throw new NotImplementedException();
+           return _replayHandler.GetGameReplayForUser(gameRoomID, gameNumber, userId);
         }
 
         public List<string> ViewReplay(int roomId, int gameNum, int userId)
