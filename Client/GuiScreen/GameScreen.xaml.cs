@@ -189,6 +189,21 @@ namespace Client.GuiScreen
                 }
 
         }
+        public void AddChatMsg(ChatResponceCommMessage msg)
+        {
+            if(msg.idReciver==this._logic.user.id)
+            {
+                ListViewItem toAdd = new ListViewItem();
+                toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
+                this.chatListView.Items.Add(toAdd);
+            }
+            else
+            {
+                ListViewItem toAdd = new ListViewItem();
+                toAdd.Content = string.Concat("Broadcast message from ", msg.senderngUsername, ": ", msg.msgToSend);
+                this.chatListView.Items.Add(toAdd);
+            }
+        }
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {

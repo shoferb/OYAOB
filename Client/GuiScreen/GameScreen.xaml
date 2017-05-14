@@ -22,7 +22,7 @@
         <Label Content="My Cards:" HorizontalAlignment="Left" Height="35" Margin="350,98,0,0" Grid.Row="1" VerticalAlignment="Top" Width="115" FontWeight="Bold" Foreground="Black" FontSize="18"/>
         <Label x:Name="Card1Labek" Content="Card 1:" HorizontalAlignment="Left" Height="25" Margin="352,137,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" FontWeight="Bold" Background="#FFF5F0F0"/>
         <Label x:Name="Card2Label" Content="Card 2:" HorizontalAlignment="Left" Height="25" Margin="351,172,0,0" Grid.Row="1" VerticalAlignment="Top" Width="290" Background="#FFF3EEEE" FontWeight="Bold"/>
-        <ListView HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="354" Margin="511,41,0,0">
+        <ListView x:Name="chatListView" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="354" Margin="511,41,0,0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
