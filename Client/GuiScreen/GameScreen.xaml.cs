@@ -168,5 +168,10 @@ namespace Client.GuiScreen
         {
             _logic.Logout(_logic.user.username, _logic.user.password);
         }
+
+        private void DoActiomBotton_Click_1(object sender, RoutedEventArgs e)
+        {
+            //TODO Bar
+        }
     }
 }
