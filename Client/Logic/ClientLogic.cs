@@ -48,6 +48,7 @@ namespace Client.Logic
             {
                 GameScreen newGame = new GameScreen(this);
                 newGame.UpdateGame(msg);
+                newGame.Show();
             }
         }
 
@@ -86,7 +87,7 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-        public bool joinTheGame(int roomId)
+        public bool JoinTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
@@ -127,7 +128,7 @@ namespace Client.Logic
             return newRoomId;
         }
 
-        public bool leaveTheGame(int roomId)
+        public bool LeaveTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
@@ -143,7 +144,7 @@ namespace Client.Logic
             return toRet;
 
         }
-        public bool startTheGame(int roomId)
+        public bool StartTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
@@ -249,7 +250,7 @@ namespace Client.Logic
         }
 
         //TODO: no options
-        public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
+        public bool NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
           
             
