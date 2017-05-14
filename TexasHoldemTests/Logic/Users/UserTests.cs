@@ -141,10 +141,10 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void NameTest()
+        public void NameTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Id(), 305077901);
+            Assert.AreEqual(user.Name(), "orelie");
         }
 
         [TestMethod()]
