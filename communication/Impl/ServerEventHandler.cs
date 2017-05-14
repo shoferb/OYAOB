@@ -225,9 +225,12 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(CreatrNewRoomMessage msg) //TODO
         {
-            //int id, GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers) : base(id)
-            //bool success = _gameService.CreateNewRoom(msg.);
+            int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy, msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers , msg._buyInPolicy , msg._minBet);
+            bool success;
+            if (roomId == -1)
+            {
 
+            }
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
