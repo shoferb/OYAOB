@@ -228,7 +228,9 @@ namespace TexasHoldem.communication.Impl
             switch (msg.chatType)
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerBrodcast:
-                    success = _gameService.CanSendPlayerBrodcast(playerId,roomId);
+                    success = _gameService.CanSendPlayerBrodcast(msg.idSender,msg.roomId);
+                    idReciver = msg.idSender;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerWhisper:
                     break;
