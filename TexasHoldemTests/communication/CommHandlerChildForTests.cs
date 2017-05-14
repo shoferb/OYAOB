@@ -23,7 +23,7 @@ namespace TexasHoldemTests.communication
             get { return _socketsQueue; }
         }
 
-        public ConcurrentQueue<string> ReceivedMsgQueue
+        public ConcurrentQueue<Tuple<string, TcpClient>> ReceivedMsgQueue
         {
             get { return _receivedMsgQueue; }
         }

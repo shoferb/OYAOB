@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Threading;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
@@ -41,8 +42,9 @@ namespace TexasHoldem.communication.Impl
             }
         }
 
-        private void HandleSingleRawMsg(string data)
+        private void HandleSingleRawMsg(Tuple<string, TcpClient> msg)
         {
+            string data = msg.Item1;
             CommunicationMessage parsedMsg = _parser.ParseString(data);
             int userId = parsedMsg.UserId;
             if (_userIdToEventHandlerMap.ContainsKey(userId))
@@ -52,8 +54,9 @@ namespace TexasHoldem.communication.Impl
             }
             else
             {
-                ServerEventHandler handler = new ServerEventHandler();
+                ServerEventHandler handler = new ServerEventHandler(msg.Item2);
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
+                
 
                 //call to visitor
                 parsedMsg.Handle(handler);

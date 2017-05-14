@@ -23,7 +23,7 @@ namespace TexasHoldem.communication.Impl
         protected readonly IListenerSelector Selector;
         protected readonly TcpListener _listener;
         protected readonly ConcurrentQueue<TcpClient> _socketsQueue;
-        protected readonly ConcurrentQueue<string> _receivedMsgQueue;
+        protected readonly ConcurrentQueue<Tuple<string, TcpClient>> _receivedMsgQueue;
         protected readonly IDictionary<int, ConcurrentQueue<string>> _userIdToMsgQueue;
         protected readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids
         protected readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
@@ -43,7 +43,7 @@ namespace TexasHoldem.communication.Impl
         {
             Selector = new ListenerSelector();
             _socketsQueue = new ConcurrentQueue<TcpClient>();
-            _receivedMsgQueue = new ConcurrentQueue<string>();
+            _receivedMsgQueue = new ConcurrentQueue<Tuple<string, TcpClient>>();
             _userIdToMsgQueue = new ConcurrentDictionary<int, ConcurrentQueue<string>>();
             _socketToUserId = new ConcurrentDictionary<TcpClient, int>();
 
@@ -51,6 +51,15 @@ namespace TexasHoldem.communication.Impl
         }
 
         //start all threads:
+        public void AddUserId(int id, TcpClient socket)
+        {
+            if (!_userIdToMsgQueue.ContainsKey(id))
+            {
+                _userIdToMsgQueue.Add(id, new ConcurrentQueue<string>());
+                _socketToUserId.Add(socket, id);
+            }
+        }
+
         public void Start()
         {
 
@@ -70,14 +79,14 @@ namespace TexasHoldem.communication.Impl
             get { return LocalPort; }
         }
 
-        public List<string> GetReceivedMessages()
+        public List<Tuple<string, TcpClient>> GetReceivedMessages()
         {
             lock (_receivedMsgQueue)
             {
-                var lst = new List<string>();
+                var lst = new List<Tuple<string, TcpClient>>();
                 while (!_receivedMsgQueue.IsEmpty)
                 {
-                    string temp;
+                    Tuple<string, TcpClient> temp;
                     _receivedMsgQueue.TryDequeue(out temp);
                     lst.Add(temp);
                 }
@@ -152,7 +161,8 @@ namespace TexasHoldem.communication.Impl
                     if (data.Count > 0)
                     {
                         Console.WriteLine("comm: done getting bytes. putting to arr");
-                        _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
+                        string msgStr = Encoding.UTF8.GetString(data.ToArray());
+                        _receivedMsgQueue.Enqueue(new Tuple<string, TcpClient>(msgStr, tcpClient));
                         Console.WriteLine("comm: msg is: " + Encoding.UTF8.GetString(data.ToArray()));
                     }
                 } 
