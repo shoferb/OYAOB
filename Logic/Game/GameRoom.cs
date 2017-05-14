@@ -1030,7 +1030,12 @@ namespace TexasHoldem.Logic.Game
 
         public bool CanSendPlayerWhisper(IUser sender, IUser reciver)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            lock (padlock)
+            {
+               
+            }
+            return toReturn;
         }
     }
 }
