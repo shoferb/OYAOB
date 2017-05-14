@@ -385,7 +385,7 @@ namespace TexasHoldem.Logic.Users.Tests
         public void EditAvatarTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(user.EditAvatar("/GuiScreen/Photos/Avatar/Test.png")); ;
+            Assert.IsTrue(user.EditAvatar("/GuiScreen/Photos/Avatar/Test.png")); 
         }
 
 
@@ -393,20 +393,21 @@ namespace TexasHoldem.Logic.Users.Tests
         public void EditAvatarTest_bad_empty1()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(user.EditAvatar("")); ;
+            Assert.IsFalse(user.EditAvatar("")); 
         }
 
         [TestMethod()]
         public void EditAvatarTest_bad_empty2()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(user.EditAvatar(" ")); ;
+            Assert.IsFalse(user.EditAvatar(" ")) ;
         }
 
         [TestMethod()]
-        public void EditUserPointsTest()
+        public void EditUserPointsTest_good()
         {
-            Assert.Fail();
+            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(user.EditUserPoints(100));
         }
 
         [TestMethod()]
