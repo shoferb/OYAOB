@@ -253,6 +253,11 @@ namespace TexasHoldem.Service
         public bool CanSendPlayerWhisper(int idSender, string reciverUsername, int roomId)
         {
             bool toReturn = false;
+            bool senderExist = _systemControl.IsUserExist(idSender);
+            if (!senderExist)
+            {
+                return toReturn;
+            }
             return toReturn;
         }
 
