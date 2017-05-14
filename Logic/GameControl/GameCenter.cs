@@ -225,7 +225,10 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-       
+        internal bool CanSendSpectetorBrodcast(IUser user, int roomId)
+        {
+            throw new NotImplementedException();
+        }
 
         public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
         {
