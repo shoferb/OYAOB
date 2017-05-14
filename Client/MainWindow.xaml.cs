@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Client.GuiScreen;
+using Client.Handler;
 using Client.Logic;
 using TexasHoldem.GuiScreen;
 
@@ -26,11 +27,15 @@ namespace Client
         public MainWindow()
         {
             ClientLogic cl = new ClientLogic();
+            //CommunicationHandler commHandler = new CommunicationHandler("127.0.0.1");
+            //Task commTask = Task.Factory.StartNew(commHandler.Start);
 
             InitializeComponent();
             WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
-            this.Hide();/*
+            this.Hide();
+            //commTask.Wait();
+            /*
             LoginScreen l = new LoginScreen(wellcomeScreen,cl);
             l.Show();
             AvatarEditScreen avatar = new AvatarEditScreen(l,cl);
@@ -49,7 +54,7 @@ namespace Client
             cl.user = user;
             UserInfoScreen userInfo = new UserInfoScreen(l,cl);
             userInfo.Show();*/
-            
+
             //this.Hide();
         }
        

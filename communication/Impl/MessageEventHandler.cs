@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using TexasHoldemShared;
@@ -35,6 +36,7 @@ namespace TexasHoldem.communication.Impl
                 }
                 else
                 {
+                    Console.WriteLine("event handler got msg");
                     allMsgs.ForEach(HandleSingleRawMsg); 
                 }
             }

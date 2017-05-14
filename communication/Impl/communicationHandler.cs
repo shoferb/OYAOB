@@ -99,6 +99,7 @@ namespace TexasHoldem.communication.Impl
                 try
                 {
                     TcpClient tcpClient = _listener.AcceptTcpClient();
+                    Console.WriteLine("comm: got connection!" + tcpClient.Client);
                     _socketsQueue.Enqueue(tcpClient);
 
                     _connectionCleanerMre.Set(); //wake the thread removing unconnected clients
@@ -132,15 +133,19 @@ namespace TexasHoldem.communication.Impl
                         dataReceived = stream.Read(buffer, 0, 1);
                         if (dataReceived > 0)
                         {
+                            Console.WriteLine("comm: got byte!");
                             data.Add(buffer[0]);
                         }
 
-                    } while (dataReceived > 0);
+                    } while (dataReceived > 0 && stream.DataAvailable);
+                    Console.WriteLine("comm: after while");
 
                     //add msg string to queue
                     if (data.Count > 0)
                     {
+                        Console.WriteLine("comm: done getting bytes. putting to arr");
                         _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
+                        Console.WriteLine("comm: msg is: " + Encoding.UTF8.GetString(data.ToArray()));
                     }
                 } 
             }
@@ -157,6 +162,7 @@ namespace TexasHoldem.communication.Impl
                 {
                     if (CanSendMsg(tcpClient))
                     {
+                        Console.WriteLine("comm: got shit to write");
                         var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
                         SendAllMsgFromQueue(msgQueue, tcpClient);
                     }

@@ -34,8 +34,10 @@ namespace TexasHoldem.GuiScreen
             _eventHandler = new ClientEventHandler(_commHandler);
             _eventHandler.Init(cl);
             cl.Init(_eventHandler, _commHandler);
-            _commHandler.Connect();
-            
+            //_commHandler.Connect();
+            Task commTask = Task.Factory.StartNew(_commHandler.Start);
+            //commTask.Wait();
+
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
