@@ -1027,5 +1027,10 @@ namespace TexasHoldem.Logic.Game
             }
             return toReturn;
         }
+
+        public bool CanSendPlayerWhisper(IUser sender, IUser reciver)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
