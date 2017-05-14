@@ -533,6 +533,14 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
+        public void IsLoginTest_good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            user.Login();
+            Assert.IsTrue(user.IsLogin());
+        }
+
+        [TestMethod()]
         public void IsValidPasswordTest()
         {
             Assert.Fail();
