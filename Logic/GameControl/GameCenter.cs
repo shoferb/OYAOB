@@ -288,6 +288,11 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
+        internal bool CanSendSpectetorWhisper(IUser sender, IUser reciver, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
         //return all games in the system 0 active and non active
         public List<IGame> GetGames()
         {
