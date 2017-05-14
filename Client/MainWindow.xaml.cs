@@ -29,6 +29,7 @@ namespace Client
             InitializeComponent();
             WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
+            this.Hide();/*
             LoginScreen l = new LoginScreen(wellcomeScreen,cl);
             l.Show();
             AvatarEditScreen avatar = new AvatarEditScreen(l,cl);
@@ -43,8 +44,10 @@ namespace Client
             r.Show();
             SearchScreen aSearchScreen = new SearchScreen(l,cl);
             aSearchScreen.Show();
+            ClientUser user = new ClientUser(305077901,"orelie","orelie26","123456789","",500,"orelie@post.bgu.ac.il","0");
+            cl.user = user;
             UserInfoScreen userInfo = new UserInfoScreen(l,cl);
-            userInfo.Show();
+            userInfo.Show();*/
             
             //this.Hide();
         }

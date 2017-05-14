@@ -27,7 +27,7 @@ namespace Client.Logic
             _games = new List<GameScreen>();
             listLock = new Object();
             //todo - find server name
-            _handler = new CommunicationHandler("TODO");
+            _handler = new CommunicationHandler("127.0.0.1");
             _eventHandler = new ClientEventHandler(_handler);
             user = null;
         }
