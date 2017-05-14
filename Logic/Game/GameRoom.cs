@@ -1010,5 +1010,10 @@ namespace TexasHoldem.Logic.Game
             }
             return toReturn;
         }
+
+        public bool IsSpectetorInRoom(IUser user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
