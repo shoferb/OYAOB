@@ -233,6 +233,9 @@ namespace TexasHoldem.communication.Impl
                     usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerWhisper:
+                    success = _gameService.CanSendPlayerWhisper(msg.idSender,msg.ReciverUsername, msg.roomId);
+                    idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorBrodcast:
                     success = _gameService.CanSendSpectetorBrodcast(msg.idSender, msg.roomId);
