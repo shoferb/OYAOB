@@ -172,7 +172,7 @@ namespace TexasHoldem.Logic.Users.Tests
 
 
         [TestMethod()]
-        public void PasswordTest_good()
+        public void PasswordTest_Good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.Password(), "123456789");
@@ -180,15 +180,17 @@ namespace TexasHoldem.Logic.Users.Tests
 
 
         [TestMethod()]
-        public void PasswordTest_bad()
+        public void PasswordTest_Bad()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreNotEqual(user.Password(), "12");
         }
         [TestMethod()]
-        public void AvatarTest()
+        public void AvatarTest_Good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Avatar(), "/GuiScreen/Photos/Avatar/devil.png");
+            
         }
 
         [TestMethod()]
