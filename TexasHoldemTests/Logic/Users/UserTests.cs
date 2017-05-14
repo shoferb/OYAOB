@@ -406,7 +406,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void EditUserPointsTest_good()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.EditUserPoints(100));
         }
 
@@ -414,7 +414,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void EditUserPointsTest_Bad()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsFalse(user.EditUserPoints(-100));
         }
 
@@ -422,14 +422,14 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_good_bigger_than_zero_bool()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.ReduceMoneyIfPossible(100));
         }
 
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_good_bigger_than_zero()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             user.ReduceMoneyIfPossible(100);
             Assert.AreEqual(user.Money(),400);
         }
@@ -438,7 +438,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_good_Equal_to_zero()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             user.ReduceMoneyIfPossible(500);
             Assert.AreEqual(user.Money(), 0);
         }
@@ -446,14 +446,14 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_good_Equal_to_zero_bool()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.ReduceMoneyIfPossible(500));
         }
 
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_Bad_Smaller_than_zero()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             user.ReduceMoneyIfPossible(600);
             Assert.AreEqual(user.Money(), 500);
         }
@@ -461,14 +461,14 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest_Bad_Smaller_than_zero_bool()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsFalse(user.ReduceMoneyIfPossible(600));
         }
 
         [TestMethod()]
         public void AddMoneyTest_good()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             user.AddMoney(50);
             Assert.AreEqual(user.Money(), 550);
         }
@@ -476,7 +476,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void EditUserMoneyTest_good()
         {
-            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.EditUserMoney(100));
         }
 
