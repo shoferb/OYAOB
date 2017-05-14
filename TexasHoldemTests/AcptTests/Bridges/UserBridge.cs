@@ -123,13 +123,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
                             gameIds.Add(game.Id);
                         }
                     });
-                    /*   game..ForEach(s =>
+                       game.GetSpectetorInRoom().ForEach(s =>
                        {
-                           if (s.Id == userId)
+                           if (s.user.Id() == userId)
                            {
                                gameIds.Add(game.Id);
                            }
-                       });*/
+                       });
 
                    });
                 
@@ -262,6 +262,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public bool RemoveUserFromRoom(int userId, int roomId)
         {
             return _gameService.DoAction(userId, CommunicationMessage.ActionType.Leave, 0, roomId);
+        }
+
+        public bool RemoveSpectatorFromRoom(int userId, int roomId)
+        {
+            return _gameService.RemoveSpectatorFromRoom(userId, roomId);
         }
 
         private bool ChangeUserMoney(int userId, int amount)

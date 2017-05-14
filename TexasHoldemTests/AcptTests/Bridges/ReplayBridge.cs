@@ -9,17 +9,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
     class ReplayBridge : IReplayBridge
     {
         private readonly GameServiceHandler _gameService;
-
+        private readonly ReplayHandler _replayHandler;
         public ReplayBridge()
         {
             _gameService = new GameServiceHandler();
         }
-
+       
         public List<Tuple<int, int>> GetReplayableGames(int userId)
         {
             throw new NotImplementedException();
-          /*  List<Tuple<int, int>> replays = _gameService.GetGamesAvailableForReplayByUser(userId);
-            return replays;*/
         }
 
         public List<string> ViewReplay(int roomId, int gameNum, int userId)

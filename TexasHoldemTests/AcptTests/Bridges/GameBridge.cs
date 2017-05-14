@@ -65,7 +65,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             if (game != null)
             {
                 var roomPlayers = game.GetPlayersInRoom();
-                return roomPlayers.Exists(p => p.user.Id() == userId);
+                var roomSpectators = game.GetSpectetorInRoom();
+                return roomPlayers.Exists(p => p.user.Id() == userId) || roomSpectators.Exists(s => s.user.Id() == userId);
             }
             return false;
         }
@@ -91,7 +92,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                List<Player> gmPlayers = _gameService.getPlayersInRoom(roomId);
+                List<Player> gmPlayers = _gameService.GetPlayersInRoom(roomId);
                 return gmPlayers;
             }
             return null;
@@ -103,7 +104,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var game = _gameService.GetGameById(roomId);
             if (game != null)
             {
-                List<Player> gmPlayers = _gameService.getPlayersInRoom(roomId);
+                List<Player> gmPlayers = _gameService.GetPlayersInRoom(roomId);
                 foreach (Player p in gmPlayers)
                 {
                     res.Add(p.user.Id());

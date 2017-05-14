@@ -29,17 +29,17 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             _userEmailBad = "אבי חיון איז היר";
             _userPwBad = "-~~~~~~~~~~~~~~~~~~~~~~~~~~~~`";
-            _userId2 = new Random().Next();
+            _userId2 = new Random().Next()+9292;
             _user2Name = "yarden";
             _user2EmailGood = "yarden@gmail.com";
             _user2Pw = "123456789";
 
-            _userId3 = new Random().Next();
+            _userId3 = new Random().Next()+91;
             _user3Name = "Aviv";
             _user3EmailGood = "Aviv@gmail.com";
             _user3Pw = "123456789";
 
-            _userId4 = new Random().Next();
+            _userId4 = new Random().Next()+234;
             _user4Name = "Yarden2";
             _user4EmailGood = "YRD@gmail.com";
             _user4Pw = "123456789";
@@ -134,6 +134,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLogoutTestSad()
         {
+            RestartSystem();
             //user is not logged in!
             Assert.False(UserBridge.LogoutUser(UserId));
         }
@@ -288,23 +289,25 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditEmailTestGood()
         {
-            RegisterUser1();
+            RestartSystem();
+            SetupUser1();
 
             Assert.True(UserBridge.EditEmail(UserId, _user2EmailGood));
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), _user2EmailGood);
 
             //set back
-            Assert.True(UserBridge.EditAvatar(UserId, ""));
+            Assert.True(UserBridge.EditAvatar(UserId, "yarden"));
             Assert.AreEqual(UserBridge.GetUserAvatar(UserId), "yarden");
         }
 
         [TestCase]
         public void UserEditEmailTestBad()
         {
+            RestartSystem();
             //user is not logged in:
             Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
 
-            RegisterUser1();
+            SetupUser1();
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad));
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
@@ -343,7 +346,9 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddUserMoneyTestBad()
         {
-            const int amountToChange = -100;
+            RestartSystem();
+            const int amountToChange = -10000;
+            SetupUser1();
             int prevAmount = UserBridge.GetUserMoney(UserId);
             Assert.False(UserBridge.AddUserMoney(UserId, amountToChange));
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId));
@@ -375,12 +380,10 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(UserId, RoomId, 0));
+            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
             Assert.False(GameBridge.IsUserInRoom(_userId2, RoomId));
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(UserId));
-            Assert.GreaterOrEqual(0, UserBridge.GetUserMoney(UserId));
-            Assert.True(UserBridge.RemoveUserFromRoom(UserId, RoomId));
         }
 
         [TestCase]
@@ -388,13 +391,12 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RestartSystem();
             RegisterUser1();
-
             Assert.True(RoomId==-1);
-
-            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(UserId,RoomId, 0));
-            Assert.False(GameBridge.IsUserInRoom(UserId, RoomId));
-            Assert.False(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
-            Assert.AreEqual(0, UserBridge.GetUserChips(UserId));
+            CreateGameWithUser1();
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(_userId2,RoomId, 0));
+            Assert.False(GameBridge.IsUserInRoom(_userId2, RoomId));
+            Assert.True(UserBridge.GetUsersGameRooms(UserId).Contains(RoomId));
         }
 
         [TestCase]
@@ -419,9 +421,11 @@ namespace TexasHoldemTests.AcptTests.tests
             RegisterUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-
+            var u2 = UserBridge.getUserById(_userId2);
+            var u1 = UserBridge.getUserById(UserId);
+            u2.AddMoney(10000);
             Assert.True(UserBridge.AddUserToGameRoomAsSpectator(_userId2, RoomId));
-            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 1));
+            Assert.False(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 100));
         }
 
         //add spectator to room
@@ -477,15 +481,15 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //add user to Room as spectator
             Assert.True(UserBridge.AddUserToGameRoomAsSpectator(_userId2, RoomId));
-            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId)); /////////////ADD search for spectator there!!
+            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId));
             Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(_userId2));
 
             //remove user from Room
-            Assert.True(UserBridge.RemoveUserFromRoom(_userId2, RoomId));
+            Assert.True(UserBridge.RemoveSpectatorFromRoom(_userId2, RoomId));
             Assert.False(UserBridge.GetUsersGameRooms(_userId2).Contains(RoomId));
             Assert.AreEqual(money, UserBridge.GetUserMoney(_userId2));
             Assert.AreEqual(chips, UserBridge.GetUserChips(_userId2));
-            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId)); //user2 should still be in Room
+            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId)); //user1 should still be in Room
         }
 /*
         [TestCase]

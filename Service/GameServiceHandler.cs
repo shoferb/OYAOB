@@ -33,9 +33,14 @@ namespace TexasHoldem.Service
             return _gameCenter.DoAction(user, action, amount, roomId);
         }
 
-        public List<Player> getPlayersInRoom(int roomId)
+        public List<Player> GetPlayersInRoom(int roomId)
         {
             return _gameCenter.getPlayersInRoom(roomId);
+        }
+
+        public List<Spectetor> GetSpectatorsInRoom(int roomId)
+        {
+            return _gameCenter.getSpectatorsInRoom(roomId);
         }
         public IGame GetGameFromId(int gameId)
         {
