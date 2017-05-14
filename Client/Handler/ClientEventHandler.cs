@@ -105,7 +105,14 @@ namespace Client.Handler
             task.Start();
         }
 
+        //Todo - bar
         public void HandleEvent(CreatrNewRoomMessage msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        // todo - bar
+        public void HandleEvent(ChatCommMessage msg)
         {
             throw new NotImplementedException();
         }
