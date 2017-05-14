@@ -395,6 +395,14 @@ namespace TexasHoldem.Logic.Users.Tests
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.EditAvatar("")); ;
         }
+
+        [TestMethod()]
+        public void EditAvatarTest_bad_empty2()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(user.EditAvatar(" ")); ;
+        }
+
         [TestMethod()]
         public void EditUserPointsTest()
         {
