@@ -388,6 +388,13 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsTrue(user.EditAvatar("/GuiScreen/Photos/Avatar/Test.png")); ;
         }
 
+
+        [TestMethod()]
+        public void EditAvatarTest_bad_empty1()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(user.EditAvatar("")); ;
+        }
         [TestMethod()]
         public void EditUserPointsTest()
         {
