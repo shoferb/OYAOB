@@ -274,9 +274,10 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void WinNumTest()
+        public void WinNumTest_good_on_create()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.WinNum(), 0);
         }
 
         [TestMethod()]
