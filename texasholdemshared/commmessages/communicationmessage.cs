@@ -14,6 +14,11 @@
             Spectate,
             StartGame,
             HandCard,
+            PlayerBrodcast,
+            SpectetorBrodcast,
+            PlayerWhisper,
+            SpectetorWhisper
+
         }
 
         //TODO: add fields here
