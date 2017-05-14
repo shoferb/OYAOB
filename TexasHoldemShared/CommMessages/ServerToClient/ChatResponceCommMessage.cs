@@ -13,6 +13,10 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         ActionType chatType;
         string msgToSend;
 
-
+        //visitor pattern
+        public override void Handle(IEventHandler handler)
+        {
+            handler.HandleEvent(this);
+        }
     }
 }
