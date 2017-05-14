@@ -56,6 +56,7 @@ namespace TexasHoldem.Logic.Game_Control
             return gm.DoAction(user, action, amount);
         }
 
+        //TODO : add cuurPlayerTurn
         public void SendMessageToClient(Player player, int roomId, GameData gmData, CommunicationMessage.ActionType action, bool isSucceed)
         {
             //GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
@@ -592,7 +593,7 @@ namespace TexasHoldem.Logic.Game_Control
 
       
 
-
+        //TODO delete this
         public int LeagueGap
         {
             get

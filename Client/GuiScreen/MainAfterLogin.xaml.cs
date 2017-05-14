@@ -63,5 +63,18 @@ namespace TexasHoldem.GuiScreen
             searchScreen.Show();
             this.Hide();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CreateNewRoom newRoomWindow = new CreateNewRoom(this, cl);
+            newRoomWindow.Show();
+        }
+
+        private void UserInfobButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserInfoScreen userIngoScreen = new UserInfoScreen(this, cl);
+            userIngoScreen.Show();
+            this.Hide();
+        }
     }
 }

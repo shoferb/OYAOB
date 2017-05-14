@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Client</RootNamespace>
     <AssemblyName>Client</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -63,9 +64,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="GuiScreen\CreateNewRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\EditUserInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GuiScreen\GameScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GuiScreen\LoginScreen.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -110,8 +119,14 @@
     <Compile Include="GuiScreen\AvatarEditScreen.xaml.cs">
       <DependentUpon>AvatarEditScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GuiScreen\CreateNewRoom.xaml.cs">
+      <DependentUpon>CreateNewRoom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GuiScreen\EditUserInfo.xaml.cs">
       <DependentUpon>EditUserInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\GameScreen.xaml.cs">
+      <DependentUpon>GameScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>

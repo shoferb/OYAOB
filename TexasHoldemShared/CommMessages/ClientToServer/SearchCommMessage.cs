@@ -32,6 +32,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         public int searchByInt;
         public GameMode searchByGameMode;
 
+        public SearchCommMessage() : base(-1) { } //for parsing
+
         public SearchCommMessage(int userId, SearchType _searchType, string _searchByString, int _searchByInt,GameMode _searchByGameMode) : base(userId)
         {
             this.searchByGameMode = _searchByGameMode;

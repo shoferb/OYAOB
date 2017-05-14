@@ -1,6 +1,6 @@
 ﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
-    public class ClientGame
+    public class ClientGame //TODO: Add CommunicationMessages implementation
     {
         public bool isActive { get; set; }
         public bool isSpectetor { get; set; }
@@ -13,6 +13,8 @@
         public int buyInPolicy { get; set; }
         public string LeagueName { get; set; }
         public int potSize { get; set; }
+
+        public ClientGame()  { } //for parsing
 
         public ClientGame(bool isActive, bool isSpectetor, GameMode gameMode, int roomId, int minPlayer, int maxPlayer, int minBet, int startingChip, int buyInPolicy, string leagueName, int potSize)
         {

@@ -34,7 +34,7 @@ namespace Client.Handler
             this._userId = newId;
         }
 
-        private bool Connect()
+        public bool Connect()
         {
             try
             {

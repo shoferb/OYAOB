@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Media.Animation;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
@@ -212,6 +213,11 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
+        public IUser GetIUserByUserName(string userName)
+        {
+            IUser toReturn = sc.GetIUSerByUsername(userName);
+            return toReturn;
+        }
 
         public List<IUser> GetAllUser()
         {
@@ -221,6 +227,16 @@ namespace TexasHoldem.Service
         public IUser GetUserById(int id)
         {
             return sc.GetUserWithId(id);
+        }
+
+        public LeagueName GetUserLeague(int userId)
+        {
+            return sc.GetUserWithId(userId).GetLeague();
+        }
+
+        public void DevideLeague()
+        {
+           // sc.DivideLeague();
         }
     }
 }

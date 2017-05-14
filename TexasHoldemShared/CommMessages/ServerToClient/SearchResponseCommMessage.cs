@@ -11,6 +11,8 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
     {
         public List<ClientGame> games;
 
+        public SearchResponseCommMessage() : base(-1){ }//for parsing
+
         public SearchResponseCommMessage(List<ClientGame> _games, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
         {
             this.games = _games;

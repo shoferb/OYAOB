@@ -6,12 +6,19 @@
         {
             Fold,
             Bet,
-
+            //check = Bet with amount 0
+            //Call =
+            //Raise =?
             Join,
             Leave,
-
+            Spectate,
             StartGame,
             HandCard,
+            PlayerBrodcast,
+            SpectetorBrodcast,
+            PlayerWhisper,
+            SpectetorWhisper
+
         }
 
         //TODO: add fields here

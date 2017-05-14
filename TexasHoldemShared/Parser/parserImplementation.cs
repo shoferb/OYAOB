@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
@@ -38,12 +39,34 @@ namespace TexasHoldemShared.Parser
                 else if(msg.GetType()==typeof(GameDataCommMessage)){
                      msgToRet = "e"+msgToRet;
                  }
-                else if(msg.GetType()==typeof(MoveOptionsCommMessage)){
-                     msgToRet = "f"+msgToRet;
-                 }
+                else if (msg.GetType() == typeof(ClientGame))
+                {
+                    msgToRet = "f" + msgToRet;
+                }
+
                 else if(msg.GetType()==typeof(ResponeCommMessage)){
                      msgToRet = "g"+msgToRet;
                  }
+                else if (msg.GetType() == typeof(SearchCommMessage))
+                {
+                    msgToRet = "h" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(LoginResponeCommMessage))
+                {
+                    msgToRet = "i" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(RegisterResponeCommMessage))
+                {
+                    msgToRet = "j" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(SearchResponseCommMessage))
+                {
+                    msgToRet = "k" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(CreatrNewRoomMessage))
+                {
+                    msgToRet = "l" + msgToRet;
+                }
                 return msgToRet;
             }
         }
@@ -75,19 +98,101 @@ namespace TexasHoldemShared.Parser
                string XMLmsg = msg.Substring(1);
                return deserializeGameDataCommMessage(XMLmsg);
            }
-           else if (msg.IndexOf('f') == 0)
-           {
-               string XMLmsg = msg.Substring(1);
-               return deserializeMoveOptionsCommMessage(XMLmsg);
-           }
-           else if (msg.IndexOf('g') == 0)
+            //*******DONT REMOVE********//////
+            // else if (msg.IndexOf('f') == 0)
+            // {
+            //    string XMLmsg = msg.Substring(1);
+            //    return deserializeClientGame(XMLmsg);
+            //  }
+
+            else if (msg.IndexOf('g') == 0)
            {
                string XMLmsg = msg.Substring(1);
                return deserializeResponeCommMessage(XMLmsg);
            }
+            else if (msg.IndexOf('h') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeSearchCommMessage(XMLmsg);
+            }
+            else if (msg.IndexOf('i') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeLoginResponeCommMessage(XMLmsg);
+            }
+            else if (msg.IndexOf('j') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeRegisterResponeCommMessage(XMLmsg);
+            }
+            else if (msg.IndexOf('k') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeSearchResponseCommMessageSTC(XMLmsg);
+            }
+            else if (msg.IndexOf('l') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return deserializeCreatrNewRoomMessage(XMLmsg);
+            }
             return null;
         }
+        //TODO Add create new room msg
 
+        //*******DONT REMOVE********//////
+        //  private ClientGame deserializeClientGame(string XmlText)
+        // {
+        //   using (StringReader stringReader = new System.IO.StringReader(XmlText))
+        //  {
+        //    var serializer = new XmlSerializer(typeof(ClientGame));
+        //   return (ClientGame)serializer.Deserialize(stringReader);
+        // }
+        //        }
+
+        private CreatrNewRoomMessage deserializeCreatrNewRoomMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(CreatrNewRoomMessage));
+                return (CreatrNewRoomMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private SearchResponseCommMessage deserializeSearchResponseCommMessageSTC(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(SearchResponseCommMessage));
+                return (SearchResponseCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private RegisterResponeCommMessage deserializeRegisterResponeCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(RegisterResponeCommMessage));
+                return (RegisterResponeCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private SearchCommMessage deserializeSearchCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(SearchCommMessage));
+                return (SearchCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private LoginResponeCommMessage deserializeLoginResponeCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(LoginResponeCommMessage));
+                return (LoginResponeCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
         private ActionCommMessage deserializeActionCommMessage(string xmlText)
         {
             using (StringReader stringReader = new System.IO.StringReader(xmlText))
@@ -128,14 +233,8 @@ namespace TexasHoldemShared.Parser
                 return (GameDataCommMessage)serializer.Deserialize(stringReader);
             }
         }
-        private MoveOptionsCommMessage deserializeMoveOptionsCommMessage(string xmlText)
-        {
-            using (StringReader stringReader = new System.IO.StringReader(xmlText))
-            {
-                var serializer = new XmlSerializer(typeof(MoveOptionsCommMessage));
-                return (MoveOptionsCommMessage)serializer.Deserialize(stringReader);
-            }
-        }
+       
+        
         //todo - add handle to login responce and register responce
         private ResponeCommMessage deserializeResponeCommMessage(string xmlText)
         {

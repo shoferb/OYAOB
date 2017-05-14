@@ -23,11 +23,14 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         public string BbName;
         public string SbName;
 
+        public string CurrPlayerTurn;
         public bool isSucceed;
+
+        public GameDataCommMessage() : base(-1) { } //for parsing
 
         public GameDataCommMessage(int userId, int roomId, Card card1, Card card2,
             List<Card> tableCards, int chips, int pot, List<string> allPlayerNames, string dealerName,
-            string bbName, string sbName, bool success) : base(userId)
+            string bbName, string sbName, bool success /*,string currPlayer*/) : base(userId)
         {
             RoomId = roomId;
             TableCards = tableCards;
@@ -40,6 +43,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             BbName = bbName;
             SbName = sbName;
             this.isSucceed = success;
+          //  CurrPlayerTurn = currPlayer;
         }
 
         //visitor pattern

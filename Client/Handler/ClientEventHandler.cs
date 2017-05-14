@@ -60,57 +60,33 @@ namespace Client.Handler
         }
         public void HandleEvent(ActionCommMessage msg)
         {
-            //todo change to log
-            Console.WriteLine("ActionCommMessage is client to server message");
+           
         }
 
         public void HandleEvent(EditCommMessage msg)
         {
-            //todo change to log
-            Console.WriteLine("ActionCommMessage is client to server message");
+            
         }
 
         public void HandleEvent(LoginCommMessage msg)
         {
-            //todo change to log
-            Console.WriteLine("ActionCommMessage is client to server message");
+            
         }
 
         public void HandleEvent(RegisterCommMessage msg)
         {
-            //todo change to log
-            Console.WriteLine("ActionCommMessage is client to server message");
+           
         }
 
         public void HandleEvent(SearchCommMessage msg)
         {
-            //todo change to log
-            Console.WriteLine("SearchCommMessage is client to server message");
+           
         }
 
         public void HandleEvent(GameDataCommMessage msg)
         {
-            //show in GUI
-            throw new NotImplementedException();
+            _logic.GameUpdateReceived(msg);
         }
-
-        public void HandleEvent(MoveOptionsCommMessage msg)
-        {
-            if (msg.UserId == this._userId)
-            {
-                TexasHoldemShared.CommMessages.CommunicationMessage.ActionType[] options = msg.Options;
-                int roomId = msg.roomId;
-                _logic.showOptionsMove(options, roomId);
-
-
-            }
-            else
-            {
-                Console.WriteLine("got message that lost it's way");
-            }
-        }
-
-
 
         public void HandleEvent(ResponeCommMessage msg)
         {
@@ -121,6 +97,18 @@ namespace Client.Handler
         {
             Task task = new Task(handleMessages);
             task.Start();
+        }
+
+        //Todo - bar
+        public void HandleEvent(CreatrNewRoomMessage msg)
+        {
+          
+        }
+
+        // todo - bar
+        public void HandleEvent(ChatCommMessage msg)
+        {
+            throw new NotImplementedException();
         }
     }
 }

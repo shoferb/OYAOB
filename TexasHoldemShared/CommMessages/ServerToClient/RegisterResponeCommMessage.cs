@@ -17,6 +17,8 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         public string email;
         public string leauge;
 
+        public RegisterResponeCommMessage() : base(-1) { } //for parsing
+
         public RegisterResponeCommMessage(int id, string _name, string _username, string _password,
             string _avatar, int _money, string _email, string _leauge, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
         {
