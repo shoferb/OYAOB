@@ -49,6 +49,7 @@
     <Compile Include="CommMessages\ClientToServer\SearchCommMessage.cs" />
     <Compile Include="CommMessages\CommunicationMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\EditCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\ChatResponceCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\GameDataCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\LoginCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\LoginResponeCommMessage.cs" />
