@@ -271,7 +271,12 @@ namespace TexasHoldem.Service
         //check id sender is spectetor, reciver exist, + rules if can send this to reciver
         public bool CanSendSpectetorWhisper(int idSender, string reciverUsername, int roomId)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            bool senderExist = _systemControl.IsUserExist(idSender);
+            if (!senderExist)
+            {
+                return toReturn;
+            }
         }
     }
 }
