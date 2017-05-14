@@ -28,9 +28,12 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             chatType = _chatType;
 
         }
+
+
+        //visitor pattern
         public override void Handle(IEventHandler handler)
         {
-            throw new NotImplementedException();
+            handler.HandleEvent(this);
         }
     }
 }
