@@ -245,6 +245,12 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
+        public void EmailTest_Bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Email(), " ");
+        }
+        [TestMethod()]
         public void GamesAvailableToReplayTest()
         {
             Assert.Fail();
