@@ -410,6 +410,15 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsTrue(user.EditUserPoints(100));
         }
 
+
+        [TestMethod()]
+        public void EditUserPointsTest_Bad()
+        {
+            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(user.EditUserPoints(-100));
+        }
+
+
         [TestMethod()]
         public void ReduceMoneyIfPossibleTest()
         {
