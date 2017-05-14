@@ -596,7 +596,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
 
-        public void DivideLeague()
+        public bool DivideLeague()
         {
             
             lock (padlock)
@@ -609,7 +609,7 @@ namespace TexasHoldem.Logic.Game_Control
                     int divideTo;
                     if (userCount == 0)
                     {
-                        return;
+                        return false;
                     }
                     double temp = (userCount / 5);
                     divideTo = (int)Math.Round(temp);
@@ -632,12 +632,13 @@ namespace TexasHoldem.Logic.Game_Control
                         k = 0;
                         curr = GetNextLeague(curr);
                     }
+                    return true;
                 }
                 catch
                 {
                     ErrorLog log = new ErrorLog("Error: while trying to divide the leauge");
                     logControl.AddErrorLog(log);
-                    return;
+                    return false;
                 }
                 }
                
