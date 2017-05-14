@@ -992,5 +992,10 @@ namespace TexasHoldem.Logic.Game
         {
             return Hand_Step;
         }
+
+        public bool IsPlayerInRoom(IUser user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
