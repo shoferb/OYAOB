@@ -21,7 +21,13 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(ActionCommMessage msg)
         {
-            throw new System.NotImplementedException();
+            switch (msg.MoveType)
+            {
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet:
+                    
+                    break;
+                
+            }
         }
 
         public void HandleEvent(EditCommMessage msg)
