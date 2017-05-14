@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
         Title="SearchScreen" Height="418.516" Width="1209.888">
-    <Grid Margin="0,0,3.2,-18.6">
+    <Grid Margin="0,0,-4,-73">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="27*"/>
             <ColumnDefinition Width="257*"/>
@@ -17,7 +17,7 @@
         </Grid.Background>
         <Label x:Name="GameSearchMenuLabel" Content="Game Search Menu" HorizontalAlignment="Left" Margin="196.6,35,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
 
-        <Button x:Name="BBack" Content="Back" HorizontalAlignment="Left" Height="20" Margin="36.6,350,0,0" VerticalAlignment="Top" Width="49" Click="BBack_Click" Grid.Column="1"/>
+        <Button x:Name="BBack" Content="Back" HorizontalAlignment="Left" Height="20" Margin="27,412,0,0" VerticalAlignment="Top" Width="49" Click="BBack_Click" Grid.Column="1"/>
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="126" Margin="78,192,0,0" VerticalAlignment="Top" Width="1070" SelectionChanged="listView_SelectionChanged" Grid.ColumnSpan="3">
             <ListView.View>
                 <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
@@ -59,6 +59,9 @@
             <ComboBoxItem Content="Get limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_12"/>
             <ComboBoxItem Content="Get pot-limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_13"/>
         </ComboBox>
+        <Label Content="Enter Game Id to be a Spectator:" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="37,341,0,0" VerticalAlignment="Top" Width="224" FontSize="14" Foreground="White"/>
+        <TextBox x:Name="IdToSpectate_TextBox" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="271,343,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
+        <Button x:Name="WatchGame_Btn" Content="Watch!" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="485,343,0,0" VerticalAlignment="Top" Width="76"/>
 
     </Grid>
 </Window>
