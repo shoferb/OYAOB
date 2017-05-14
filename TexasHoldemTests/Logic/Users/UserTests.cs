@@ -544,10 +544,21 @@ namespace TexasHoldem.Logic.Users.Tests
        
 
         [TestMethod()]
-        public void GetLeagueTest_on_create()
+        public void GetLeagueTest_Good_on_create()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.GetLeague(), LeagueName.Unknow);
+        }
+
+        [TestMethod()]
+        public void GetLeagueTest_after_10_games()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            for(int i = 0; i < 20; i++)
+            {
+                user.IncGamesPlay();
+            }
+            Assert.AreEqual(user.GetLeague(), LeagueName.E);
         }
 
         [TestMethod()]
