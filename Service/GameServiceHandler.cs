@@ -224,5 +224,11 @@ namespace TexasHoldem.Service
         {
             _serverHandler.HandleEvent(resp);
         }
+
+        //check player is in the game room
+        public bool CanSendPlayerBrodcast(int playerId, int roomId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
