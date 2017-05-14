@@ -288,10 +288,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        internal bool CanSendSpectetorWhisper(IUser sender, IUser reciver, int roomId)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         //return all games in the system 0 active and non active
         public List<IGame> GetGames()
@@ -670,6 +667,11 @@ namespace TexasHoldem.Logic.Game_Control
             bool isSenderPlayer = game.IsPlayerInRoom(sender);
             bool isReciverSectetorOrPlayer = game.IsPlayerInRoom(reciver) || game.IsSpectetorInRoom(reciver);
             return isSenderPlayer && isReciverSectetorOrPlayer;
+        }
+
+        public bool CanSendSpectetorWhisper(IUser sender, IUser reciver, int roomId)
+        {
+            throw new NotImplementedException();
         }
     }
 
