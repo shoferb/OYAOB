@@ -25,14 +25,19 @@ namespace TexasHoldem.communication.Impl
             switch (msg.MoveType)
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet:
+                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold:
+                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.HandCard:
+                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join:
+                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave:
+                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     break;
 
             }
