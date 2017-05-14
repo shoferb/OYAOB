@@ -26,14 +26,21 @@ namespace Client.Handler
             _toSendMsgQueue = new ConcurrentQueue<string>();
             _server = server;
             _shouldClose = false;
-            _socket.ReceiveTimeout = 5000;
+          
 
         }
-        public void setUserId(int newId)
+        public int getUserId()
+        {
+            return this._userId;
+        }
+        public void SetUserId(int newId)
         {
             this._userId = newId;
         }
-
+        public bool IsSocketConnect()//for testing
+        {
+            return this._socket.Connected;
+        }
         public bool Connect()
         {
             try
@@ -44,6 +51,7 @@ namespace Client.Handler
                 _socket = new TcpClient(_server, port);
                 // Get a client stream for reading and writing.
                 _stream = _socket.GetStream();
+                _socket.ReceiveTimeout = 5000;
                 return true;
             }
             catch (SocketException e)
@@ -52,7 +60,7 @@ namespace Client.Handler
                 return false;
             }
         }
-        public string tryGetMsgReceived()
+        public string TryGetMsgReceived()
         {
             string msgToRet = string.Empty;
             _receivedMsgQueue.TryDequeue(out msgToRet);
@@ -63,7 +71,7 @@ namespace Client.Handler
             _toSendMsgQueue.Enqueue(msg);
         }
 
-        private void sendMessages()
+        private void SendMessages()
         {
             while (!_shouldClose)
             {
@@ -87,10 +95,10 @@ namespace Client.Handler
             }
         }
 
-        //ojo
+      
 
         //returns new msg as string, or eempty string if there's no new msg
-        private void receiveMessages()
+        private void ReceiveMessages()
         {
             byte[] buffer = new byte[1];
             while (!_shouldClose)
@@ -117,13 +125,13 @@ namespace Client.Handler
                     _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
                 }
             }
-            close();
+          
 
         }
 
 
 
-        public bool close()
+        public bool Close()
         {
             try
             {
@@ -145,12 +153,12 @@ namespace Client.Handler
 
         public void Start()
         {
-            Task task = new Task(receiveMessages);
+            Task task = new Task(ReceiveMessages);
 
             if (Connect())
             {
                 task.Start();
-                sendMessages();
+                SendMessages();
 
             }
             else

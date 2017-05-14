@@ -16,22 +16,24 @@ namespace Client.Handler.ClientTests
         [TestMethod()]
         public void CommunicationHandlerTest()
         {
-           /* TcpListener server = new TcpListener(IPAddress.Any, 2000);
-            server.Start();
+           TcpListener server = new TcpListener(IPAddress.Any, 2000);
+            var task = Task.Factory.StartNew(() => server.Start());
             CommunicationHandler commHandler = new CommunicationHandler(IPAddress.Loopback.ToString());
-            server.AcceptTcpClient();
-            Assert.IsTrue(commHandler.);
-            */
+            commHandler.Connect();
+           Assert.IsTrue(commHandler.IsSocketConnect());
+            
         }
 
         [TestMethod()]
-        public void setUserIdTest()
+        public void SetUserIdTest()
         {
-            Assert.Fail();
+            CommunicationHandler commHandler = new CommunicationHandler(IPAddress.Loopback.ToString());
+            commHandler.SetUserId(1);
+            Assert.IsTrue(commHandler.getUserId()==1);
         }
 
         [TestMethod()]
-        public void tryGetMsgReceivedTest()
+        public void TryGetMsgReceivedTest()
         {
             Assert.Fail();
         }

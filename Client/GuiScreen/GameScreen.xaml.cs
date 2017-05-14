@@ -163,12 +163,19 @@ namespace Client.GuiScreen
                     if (SpecOrPlay == true)
                     {
                        
-                        _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
+                        bool ans=  _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
                     }
                     else
                     {
-                        _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
-
+                        bool ans =_logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
                     }
                 }
                 if (action.Equals("Send A New Whisper Chat Message"))
@@ -178,12 +185,19 @@ namespace Client.GuiScreen
                     if (SpecOrPlay == true)
                     {
 
-                        _logic.SendChatMsg(RoomId,receiverName, msgToSend, CommunicationMessage.ActionType.PlayerWhisper);
+                       bool ans = _logic.SendChatMsg(RoomId,receiverName, msgToSend, CommunicationMessage.ActionType.PlayerWhisper);
+                        if(!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
                     }
                     else
                     {
-                        _logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.SpectetorWhisper);
-
+                        bool ans =_logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.SpectetorWhisper);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
                     }
                 }
                 }

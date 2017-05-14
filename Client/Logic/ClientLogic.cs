@@ -69,7 +69,7 @@ namespace Client.Logic
         {
             _userId = newId;
             this._eventHandler.SetNewUserId(newId);
-            this._handler.setUserId(newId);
+            this._handler.SetUserId(newId);
             return true;
         }
         //needed to be call after create new ClientEventHandler and a new client logic
@@ -82,7 +82,7 @@ namespace Client.Logic
         public void CloseSystem()
         {
             _eventHandler.close();
-            _handler.close();
+            _handler.Close();
         }
         public bool EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
@@ -280,7 +280,16 @@ namespace Client.Logic
         }
 
 
-        
+        public void gotMsg(ChatResponceCommMessage msg)
+        {
+            foreach(GameScreen game in _games)
+            {
+                if(game.RoomId==msg.roomId)
+                {
+                    game.AddChatMsg(msg);
+                }
+            }
+        }
 
        
         public bool NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
