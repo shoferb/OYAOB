@@ -680,14 +680,17 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendSpectetorWhisper(IUser sender, IUser reciver, int roomId)
         {
-            IGame game = GetRoomById(roomId);
-            if (game == null)
+            lock (padlock)
             {
-                return false;
+                IGame game = GetRoomById(roomId);
+                if (game == null)
+                {
+                    return false;
+                }
+                bool isSenderSpectetor = game.IsSpectetorInRoom(sender);
+                bool isReciverSpector = game.IsSpectetorInRoom(reciver);
+                return isSenderSpectetor && isReciverSpector;
             }
-            bool isSenderSpectetor = game.IsSpectetorInRoom(sender);
-            bool isReciverSpector = game.IsSpectetorInRoom(reciver);
-            return isSenderSpectetor && isReciverSpector;
         }
     }
 
