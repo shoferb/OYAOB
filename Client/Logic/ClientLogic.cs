@@ -32,7 +32,7 @@ namespace Client.Logic
           //  _eventHandler = new ClientEventHandler(_handler);
             user = null;
         }
-
+        //TODO Add specs
         public void GameUpdateReceived(GameDataCommMessage msg)
         {
             bool isNewGame = true;
