@@ -233,7 +233,10 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
+        internal IUser GetUserByUserName(string userName)
+        {
+            throw new NotImplementedException();
+        }
 
         public bool CanCreateNewUser(int id, string memberName,
             string password, string email)
