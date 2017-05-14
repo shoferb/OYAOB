@@ -237,7 +237,7 @@ namespace TexasHoldem.communication.Impl
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
-            //add gae data send.
+            //add gae data send. maybe here maybe in game service
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
