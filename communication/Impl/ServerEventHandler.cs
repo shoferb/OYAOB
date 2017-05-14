@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
@@ -17,6 +18,18 @@ namespace TexasHoldem.communication.Impl
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
         private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
+
+        private readonly TcpClient _socket;
+
+        public ServerEventHandler(TcpClient socket)
+        {
+            _socket = socket;
+        }
+
+        public ServerEventHandler()
+        {
+        }
+
         //private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
 
         public void HandleEvent(ActionCommMessage msg)
@@ -125,7 +138,17 @@ namespace TexasHoldem.communication.Impl
         {
             bool success = _userService.RegisterToSystem(msg.UserId, msg.Name, msg.MemberName, msg.Password, msg.Money,
                 msg.Email);
-            
+
+            if (_socket != null)
+            {
+                CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket); 
+            }
+            else
+            {
+                //TODO log here
+            }
+
+
             ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
                 "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,"unKnow",success,msg);
 

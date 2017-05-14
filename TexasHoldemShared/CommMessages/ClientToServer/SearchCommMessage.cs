@@ -47,5 +47,16 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         {
             handler.HandleEvent(this);
         }
+
+        public override bool Equals(CommunicationMessage other)
+        {
+            if (other.GetType() == typeof(SearchCommMessage))
+            {
+                var afterCasting = (SearchCommMessage)other;
+                return searchType == afterCasting.searchType && searchByString.Equals(afterCasting.searchByString) &&
+                       UserId == afterCasting.UserId && searchByInt == afterCasting.searchByInt;
+            }
+            return false;
+        }
     }
 }

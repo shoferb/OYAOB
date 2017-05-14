@@ -33,5 +33,18 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         {
             handler.HandleEvent(this);
         }
+
+        public override bool Equals(CommunicationMessage other)
+        {
+            if (other.GetType() == typeof(CreatrNewRoomMessage))
+            {
+                var afterCasting = (CreatrNewRoomMessage)other;
+                return _mode == afterCasting._mode && _minBet == afterCasting._minBet && UserId == afterCasting.UserId &&
+                       _chipPolicy == afterCasting._chipPolicy && _buyInPolicy == afterCasting._buyInPolicy && 
+                       _canSpectate == afterCasting._canSpectate && _minPlayer == afterCasting._minPlayer && 
+                       _maxPlayers == afterCasting._maxPlayers;
+            }
+            return false;
+        }
     }
 }

@@ -23,5 +23,16 @@
         {
             handler.HandleEvent(this);
         }
+
+        public override bool Equals(CommunicationMessage other)
+        {
+            if (other.GetType() == typeof(ResponeCommMessage))
+            {
+                var afterCasting = (ResponeCommMessage)other;
+                return Success == afterCasting.Success && OriginalMsg.Equals(afterCasting.OriginalMsg) &&
+                       UserId == afterCasting.UserId;
+            }
+            return false;
+        }
     }
 }
