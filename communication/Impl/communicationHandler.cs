@@ -35,7 +35,8 @@ namespace TexasHoldem.communication.Impl
             {
                 return _instance;
             }
-            return new CommunicationHandler();
+            _instance = new CommunicationHandler();
+            return _instance;
         }
 
         protected CommunicationHandler()

@@ -11,15 +11,14 @@ namespace TexasHoldem.communication.Impl
 {
     public class MessageEventHandler
     {
-        //TODO: fill this class up
-        private ICommMsgXmlParser _parser; //TODO: init
+        private readonly ICommMsgXmlParser _parser;
         private readonly ConcurrentDictionary<int, IEventHandler> _userIdToEventHandlerMap;
         private bool _shouldStop = false;
 
 
         public MessageEventHandler()
         {
-            //_parser = ;
+            _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
         }
 

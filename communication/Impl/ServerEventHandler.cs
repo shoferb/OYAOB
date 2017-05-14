@@ -16,7 +16,7 @@ namespace TexasHoldem.communication.Impl
         private readonly UserServiceHandler _userService = new UserServiceHandler(); //TODO init // = new UserServiceHandler();
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
         private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
-        private readonly ICommMsgXmlParser _parser; //TODO: init
+        private readonly ICommMsgXmlParser _parser = new ParserImplementation();
         //private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
 
         public void HandleEvent(ActionCommMessage msg)
