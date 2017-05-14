@@ -226,6 +226,15 @@ namespace Client.Logic
             return toRet;
         }
 
+
+        //not sure if bool or string
+        public bool SendChatMessage(int _idSender, int _roomId, string _ReciverUsername, string _msgToSend,
+      CommunicationMessage.ActionType _chatType, int id)
+        {
+
+            throw new NotImplementedException();
+        }
+
         //TODO: no options
         public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
