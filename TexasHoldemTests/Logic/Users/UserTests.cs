@@ -200,14 +200,15 @@ namespace TexasHoldem.Logic.Users.Tests
         public void AvatarTest_Bad()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Avatar(), " ");
+            Assert.AreNotEqual(user.Avatar(), " ");
 
         }
 
         [TestMethod()]
-        public void PointsTest()
+        public void PointsTest_Good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Points(), 0);
         }
 
         [TestMethod()]
