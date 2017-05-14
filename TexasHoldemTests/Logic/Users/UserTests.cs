@@ -587,5 +587,13 @@ namespace TexasHoldem.Logic.Users.Tests
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.HasEnoughMoney(100, 50));
         }
+
+        [TestMethod()]
+        public void HasEnoughMoneyTest_good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            user.HasEnoughMoney(100, 50);
+            Assert.AreEqual(user.Money(),350);
+        }
     }
 }
