@@ -269,10 +269,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        internal bool CanSendPlayerWhisper(IUser sender, IUser reciver, int roomId)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         //return true if there is a room with this Id
         public bool IsRoomExist(int roomId)
@@ -655,6 +652,12 @@ namespace TexasHoldem.Logic.Game_Control
                 return false;
             }
             return game.IsSpectetorInRoom(user);
+        }
+
+
+        public bool CanSendPlayerWhisper(IUser sender, IUser reciver, int roomId)
+        {
+            throw new NotImplementedException();
         }
     }
 
