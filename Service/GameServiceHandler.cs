@@ -240,7 +240,11 @@ namespace TexasHoldem.Service
         //check spectetor is in the game room 
         public bool CanSendSpectetorBrodcast(int idSpectetor, int roomId)
         {
-            throw new NotImplementedException();
+            bool isUserExist = _systemControl.IsUserExist(idSpectetor);
+            if (!isUserExist)
+            {
+                return false;
+            }
         }
 
         //check id sender is player, reciver exist, + rules if can send this to reciver
