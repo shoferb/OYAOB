@@ -163,5 +163,10 @@ namespace Client.GuiScreen
         {
             _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, this.RoomId);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _logic.Logout(_logic.user.username, _logic.user.password);
+        }
     }
 }
