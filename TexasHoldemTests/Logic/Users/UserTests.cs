@@ -93,6 +93,17 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
 
+        [TestMethod()]
+        public void IsUnKnowTestGood_on_at_10_Games()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            for (int i = 0; i < 10; i++)
+            {
+                user.IncGamesPlay();
+            }
+            Assert.IsTrue(user.IsUnKnow());
+        }
+
 
         [TestMethod()]
         public void IncGamesPlayTest()
