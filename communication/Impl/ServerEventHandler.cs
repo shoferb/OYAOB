@@ -235,6 +235,9 @@ namespace TexasHoldem.communication.Impl
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerWhisper:
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorBrodcast:
+                    success = _gameService.CanSendSpectetorBrodcast(msg.idSender, msg.roomId);
+                    idReciver = msg.idSender;
+                    usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorWhisper:
                     break;

@@ -225,8 +225,14 @@ namespace TexasHoldem.Service
             _serverHandler.HandleEvent(resp);
         }
 
-        //check player is in the game room
+        //check player is in the game room 
         public bool CanSendPlayerBrodcast(int playerId, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //check spectetor is in the game room 
+        public bool CanSendSpectetorBrodcast(int idSpectetor, int roomId)
         {
             throw new NotImplementedException();
         }
