@@ -420,13 +420,19 @@ namespace TexasHoldem.Logic.Users.Tests
 
 
         [TestMethod()]
-        public void ReduceMoneyIfPossibleTest_good_bigger_than_zero()
+        public void ReduceMoneyIfPossibleTest_good_bigger_than_zero_bool()
         {
             User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.ReduceMoneyIfPossible(100));
         }
-    
 
+        [TestMethod()]
+        public void ReduceMoneyIfPossibleTest_good_bigger_than_zero()
+        {
+            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            user.ReduceMoneyIfPossible(100);
+            Assert.AreEqual(user.Money(),400);
+        }
         [TestMethod()]
         public void AddMoneyTest()
         {
