@@ -8,7 +8,7 @@
             Bet,
             //check = Bet with amount 0
             //Call =
-            //Raise =
+            //Raise =?
             Join,
             Leave,
             Spectate,
