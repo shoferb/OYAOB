@@ -234,7 +234,7 @@ namespace TexasHoldem.Service
                 return false;
             }
             IUser user = _systemControl.GetUserWithId(playerId);
-            return true;
+            return _gameCenter.CanSendPlayerBrodcast(user,roomId);
         }
 
         //check spectetor is in the game room 
