@@ -66,6 +66,7 @@
     <Compile Include="communication\CommHandlerChildForTests.cs" />
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\ServerEventHandlerTest.cs" />
+    <Compile Include="Handler\CommunicationHandlerTests.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
@@ -82,6 +83,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Client\Client.csproj">
+      <Project>{c9bf5451-511a-40f5-be85-defe5be9fb46}</Project>
+      <Name>Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TexasHoldem.csproj">
       <Project>{AD9D0B82-A9EB-4FB7-A021-AD6AF46414A5}</Project>
       <Name>TexasHoldem</Name>
