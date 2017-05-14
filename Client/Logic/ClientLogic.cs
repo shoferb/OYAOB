@@ -1,4 +1,5 @@
-﻿using Client.Handler;
+﻿using Client.GuiScreen;
+using Client.Handler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +18,52 @@ namespace Client.Logic
         private CommunicationHandler _handler;
         public List<Tuple<CommunicationMessage, bool, bool,ResponeCommMessage>> messagesSentObserver =  new List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>>(); //first bool = is response received, second bool = is succeeded
         private readonly Object listLock;
+        private List<GameScreen> _games;
 
         public ClientUser user { get; set; }
         //chanfajf
         public ClientLogic()
         {
-            
+            _games = new List<GameScreen>();
             listLock = new Object();
             //todo - find server name
             _handler = new CommunicationHandler("TODO");
             _eventHandler = new ClientEventHandler(_handler);
             user = null;
+        }
+        //TODO Add specs
+        public void GameUpdateReceived(GameDataCommMessage msg)
+        {
+            bool isNewGame = true;
+            foreach (GameScreen game in _games)
+            {
+                if (game.RoomId == msg.RoomId)
+                {
+                    isNewGame = false;
+                    game.UpdateGame(msg);
+                }
+            }
+            if (isNewGame == false)
+            {
+                GameScreen newGame = new GameScreen(this);
+                newGame.UpdateGame(msg);
+                newGame.Show();
+            }
+        }
+        public bool SpectateRoom(int roomId)
+        {
+            ActionCommMessage toSend = new ActionCommMessage(_userId, CommunicationMessage.ActionType.Spectate, -1, roomId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            return toRet;
+
         }
         public bool SetUserId(int newId)
         {
@@ -64,7 +100,7 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-        public bool joinTheGame(int roomId)
+        public bool JoinTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
@@ -105,7 +141,7 @@ namespace Client.Logic
             return newRoomId;
         }
 
-        public bool leaveTheGame(int roomId)
+        public bool LeaveTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
@@ -121,7 +157,7 @@ namespace Client.Logic
             return toRet;
 
         }
-        public bool startTheGame(int roomId)
+        public bool StartTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
@@ -236,7 +272,7 @@ namespace Client.Logic
         }
 
         //TODO: no options
-        public bool notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
+        public bool NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
           
             
