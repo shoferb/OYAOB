@@ -13,6 +13,13 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         ActionType chatType;
         string msgToSend;
 
+        public ChatResponceCommMessage(int _idReciver, string _senderngUsername, ActionType _chatType ,string _msgToSend, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+        {
+            idReciver = _idReciver;
+            senderngUsername = _senderngUsername;
+            chatType = _chatType;
+            msgToSend = _msgToSend;
+        }
         //visitor pattern
         public override void Handle(IEventHandler handler)
         {
