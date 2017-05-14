@@ -11,7 +11,7 @@
             //Raise =
             Join,
             Leave,
-
+            Spectate,
             StartGame,
             HandCard,
             PlayerBrodcast,
