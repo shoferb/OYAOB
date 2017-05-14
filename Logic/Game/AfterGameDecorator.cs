@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
@@ -46,17 +47,7 @@ namespace TexasHoldem.Logic.Game
             throw new NotImplementedException();
         }
 
-        public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public bool CanRaise(int lastRaiseInRound, int currentPlayerRaise, int maxBetInRound, int RoundChipBet, int PotCount, GameRoom.HandStep step)
         {
             throw new NotImplementedException();
         }
@@ -112,6 +103,12 @@ namespace TexasHoldem.Logic.Game
         {
             throw new NotImplementedException();
         }
+
+        public LeagueName GetLeagueName()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
 

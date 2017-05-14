@@ -76,6 +76,20 @@ namespace TexasHoldem.Service
         }
 
 
+        //for test only
+        //use-case: user can edit is points
+        public bool EditUserPoints(int userId, int newPoints)
+        {
+            bool toReturn = false;
+            IUser user = sc.GetUserWithId(userId);
+            if (user == null)
+            {
+                return toReturn;
+            }
+            toReturn = user.EditUserPoints(newPoints);
+            return toReturn;
+        }
+
         //use-case: user can edit is password
         public bool EditUserPassword(int userId, string newPassword)
         {
@@ -155,13 +169,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditUserMoney(newmoney);
             return toReturn;
         }
-        //use-case: user can get his rank
-        public int GetUserRank(int userId)
-        {
-            int toReturn = -1;
-            toReturn = sc.GetUserRank(userId);
-            return toReturn;
-        }
+ 
 
 
         public List<Notification> GetUserNotifications(int userId)

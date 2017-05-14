@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemTests.AcptTests.Bridges;
 
 namespace TexasHoldemTests.AcptTests.tests
@@ -10,12 +13,19 @@ namespace TexasHoldemTests.AcptTests.tests
     [TestFixture]
     public class GameAcptTests : AcptTest
     {
-        private int _userId2;
+        private int _userId2 = -1;
+        private string _user2Name;
+        private string _user2Pw;
+        private string _user2EmailGood;
+
 
         //setup: (called from base)
         protected override void SubClassInit()
         {
-            //nothing at the moment
+            _userId2 = new Random().Next();
+            _user2Name = "yarden";
+            _user2EmailGood = "yarden@gmail.com";
+            _user2Pw = "12345678";
         }
 
         //tear down: (called from case)
@@ -23,6 +33,12 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             if (_userId2 != -1)
             {
+                List<int> user2Games = UserBridge.GetUsersGameRooms(_userId2);
+                foreach (int roomId in user2Games)
+                {
+                    UserBridge.RemoveUserFromRoom(_userId2, RoomId);
+                }
+               
                 UserBridge.DeleteUser(_userId2);
             }
 
@@ -33,68 +49,81 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameTestGood()
         {
-            RegisterUser1();
-
-            GameBridge.RemoveGameRoom(RoomId);
-
-            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
+            RestartSystem();
+            SetupUser1();
+            Assert.True(RoomId == -1);
+            Assert.False(UserBridge.getUserById(UserId)==null);
+            RoomId = GameBridge.CreateGameRoom(UserId, 100);
+            Assert.True(RoomId != -1);
             Assert.True(GameBridge.DoesRoomExist(RoomId));
             Assert.AreEqual(1, GameBridge.GetPlayersInRoom(RoomId).Count);
-            Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First());
+            Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First().user.Id());
         }
 
         [TestCase]
         public void CreateGameTestBad()
         {
-            //user1 is not logged in
-            Assert.False(GameBridge.CreateGameRoom(-1, RoomId));
-            Assert.False(GameBridge.DoesRoomExist(-1));
+            int roomId = GameBridge.CreateGameRoom(UserId, -1);
+            Assert.True(roomId==-1);
+            Assert.False(GameBridge.DoesRoomExist(roomId));
         }
 
         [TestCase]
-        public void GameBecomesInactiveGood()
+        public void CreateGameWithPrefTestGood()
         {
-            _userId2 = GetNextUser();
-
-            RegisterUser1();
-
-            GameBridge.RemoveGameRoom(RoomId);
-
-            Assert.True(GameBridge.CreateGameRoom(UserId, RoomId));
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
-           
-            Assert.True(UserBridge.RemoveUserFromRoom(_userId2, RoomId));
-            Assert.False(GameBridge.IsRoomActive(RoomId));
-        }
-
-        [TestCase]
-        public void ListGamesByRankTestGood()
-        {
-            //delete all users and games
             RestartSystem();
+            SetupUser1();
 
-            RegisterUser1();
-
-            int rank = UserBridge.GetUserPoints(UserId);
-            int someUser = GetNextUser();
-            UserBridge.SetUserPoints(someUser, rank);
-
-            Assert.True(GameBridge.CreateGameRoom(someUser, RoomId));
-            Assert.Contains(RoomId, GameBridge.ListAvailableGamesByUserRank(rank));
+            Assert.True(RoomId==-1);
+            RoomId = GameBridge.CreateGameRoomWithPref(UserId, 100, true, GameMode.Limit, 2, 8, 0, 10);
+            Assert.True(RoomId != -1);
+            Assert.True(GameBridge.DoesRoomExist(RoomId));
+            Assert.AreEqual(1, GameBridge.GetPlayersInRoom(RoomId).Count);
+            Assert.AreEqual(UserId, GameBridge.GetPlayersInRoom(RoomId).First().user.Id());
         }
 
         [TestCase]
-        public void ListGamesByRankTestSad()
+        public void CreateGameWithPrefTestBad()
+        {
+            RestartSystem();
+            SetupUser1();
+            Assert.True(RoomId == -1);
+            Assert.False(UserBridge.getUserById(UserId) == null);
+
+            RoomId = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.PotLimit, 0, 0, -1, 0);
+            Assert.True(RoomId == -1);
+            Assert.False(GameBridge.DoesRoomExist(RoomId));
+        }
+
+        [TestCase]
+        public void ListActiveGamesTestGood()
         {
             //delete all users and games, register user1
             RestartSystem();
+            SetupUser1();
+            Assert.True(RoomId == -1);
+            Assert.True(UserBridge.IsThereUser(UserId));
+            RoomId = GameBridge.CreateGameRoom(UserId, 10);
+            RegisterUser2();
+            Assert.True(UserBridge.IsThereUser(UserId));
+            Assert.True(UserBridge.IsThereUser(_userId2));
+            IUser user = UserBridge.getUserById(_userId2);
+            user.AddMoney(1000);
+            Assert.True(GameBridge.ListAvailableGamesByUserRank(_userId2).Count==1);
+        }
 
-            int rank1 = UserBridge.GetUserPoints(UserId);
-            int someUser = GetNextUser();
-            UserBridge.SetUserPoints(someUser, rank1 + 10);
-
-            Assert.True(GameBridge.CreateGameRoom(someUser, RoomId));
-            Assert.IsEmpty(GameBridge.ListAvailableGamesByUserRank(rank1));
+       [TestCase]
+        public void ListActiveGamesTestSad()
+        {
+            //delete all users and games, register user1
+            RestartSystem();
+            SetupUser1();
+            int roomId = GameBridge.CreateGameRoom(UserId, 10);
+            Assert.True(roomId != -1);
+            RegisterUser2();
+            IUser user = UserBridge.getUserById(_userId2);
+            user.EditUserMoney(0);
+            Assert.IsEmpty(GameBridge.ListAvailableGamesByUserRank(_userId2));
         }
 
         [TestCase]
@@ -102,14 +131,13 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //delete all users and games, register user1
             RestartSystem();
-
-            int someUser1 = GetNextUser();
-            int someUser2 = GetNextUser();
-
-            Assert.True(GameBridge.CreateGameRoom(someUser1, RoomId));
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(someUser2, RoomId, 0));
-
-            Assert.Contains(RoomId, GameBridge.ListSpectateableRooms());
+            SetupUser1();
+            int roomId = GameBridge.CreateGameRoomWithPref(UserId, 10, true, GameMode.Limit, 2, 8, 1, 1);
+            Assert.True(roomId != -1);
+            IGame spec = GameBridge.ListSpectateableRooms().First();
+            Assert.True(GameBridge.ListSpectateableRooms().Count == 1);
+            Assert.True(spec.Id==roomId);
+           
         }
 
         [TestCase]
@@ -117,209 +145,55 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //delete all users and games, register user1
             RestartSystem();
-
+            SetupUser1();
+            int roomId = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.Limit, 2, 8, 1, 1);
+            Assert.True(roomId != -1);
             Assert.IsEmpty(GameBridge.ListSpectateableRooms());
         }
 
-        //game related tests:
+        [TestCase]
+        public void ListGamesByPrefTestGood()
+        {
+            //delete all users and games
+            RestartSystem();
+            SetupUser1();
+            int roomId1 = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.Limit, 2, 8, 1, 1);
+            Assert.True(roomId1 != -1);
+            RegisterUser2();
+            int roomId2 = GameBridge.CreateGameRoomWithPref(_userId2, 10, false, GameMode.NoLimit, 2, 8, 1, 1);
+            Assert.True(roomId2 != -1);
+            Assert.True(GameBridge.GetGamesByGameMode(GameMode.Limit).Count==1);
+            Assert.True(GameBridge.GetGamesByGameMode(GameMode.NoLimit).Count == 1);
+        }
 
-        //tests a whole game including all actions, card deals, pot size changes, etc.
-        //[TestCase]
-        //public void GameTestGood()
-        //{
-        //    //create users:
-        //    RegisterUser1();
-        //    List<int> userList = new List<int>(4)
-        //    {
-        //        CreateGameWithUser(),UserId, GetNextUser(), GetNextUser()
-        //    };
+        [TestCase]
+        public void ListGamesByPrefTestBad()
+        {
+            //delete all users and games
+            RestartSystem();
+            SetupUser1();
+            int roomId1 = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.Limit, 2, 8, 1, 1);
+            Assert.True(roomId1 != -1);
+            RegisterUser2();
+            int roomId2 = GameBridge.CreateGameRoomWithPref(_userId2, 10, false, GameMode.NoLimit, 2, 8, 1, 1);
+            Assert.True(roomId2 != -1);
+            Assert.True(GameBridge.GetGamesByGameMode(GameMode.PotLimit).Count == 0);
+        }
 
-        //    List<int> moneyList = new List<int>(4)
-        //    {
-        //        UserBridge.GetUserMoney(userList[0]),
-        //        UserBridge.GetUserMoney(userList[1]),
-        //        UserBridge.GetUserMoney(userList[2]),
-        //        UserBridge.GetUserMoney(userList[3])
-        //    };
 
-        //    List<int> chipsList = new List<int>
-        //    {
-        //        UserBridge.GetUserChips(userList[0]),
-        //        UserBridge.GetUserChips(userList[1]),
-        //        UserBridge.GetUserChips(userList[2]),
-        //        UserBridge.GetUserChips(userList[3]),
-        //    };
 
-        //    int smallBlind = GameBridge.GetSbSize(RoomId);
-        //    int bb = 2 * smallBlind;
-        //    int currMinBet = bb;
-        //    int potSize = 0;
+        private void RegisterUser2()
+        {
+            if (!UserBridge.IsThereUser(_userId2))
+            {
+                UserBridge.RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
 
-        //    //add users to game:
-        //    //user0 alleady in game
-        //    for (int i = 0; i < userList.Count; i++)
-        //    {
-        //        if (i > 0) //user #0 allready in game
-        //        {
-        //            UserBridge.AddUserToGameRoomAsPlayer(userList[i], RoomId, 10);
-        //        }
-        //        Assert.AreEqual(moneyList[i] - 10, UserBridge.GetUserMoney(userList[i]));
-        //        moneyList[i] -= 10;
-        //        Assert.AreEqual(chipsList[i] + 10, UserBridge.GetUserChips(userList[i], RoomId));
-        //        chipsList[i] += 10;
-        //    }
-
-        //    //pot should be empty
-        //    Assert.AreEqual(0, GameBridge.GetPotSize(RoomId));
-
-        //    GameBridge.StartGame(RoomId);
-
-        //    potSize += smallBlind + bb;
-
-        //    Assert.True(GameBridge.IsRoomActive(RoomId));
-        //    Assert.AreEqual(userList[0], GameBridge.GetDealerId(RoomId));
-        //    Assert.AreEqual(UserId, GameBridge.GetSbId(RoomId));
-        //    Assert.AreEqual(userList[2], GameBridge.GetBbId(RoomId));
-        //    Assert.AreEqual(52 - 6, GameBridge.GetDeckSize(RoomId));
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    //sb and _bb paied:
-        //    Assert.AreEqual(chipsList[1] - smallBlind, UserBridge.GetUserChips(userList[1], RoomId));
-        //    chipsList[1] -= smallBlind;
-        //    potSize += smallBlind;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(chipsList[2] - currMinBet, UserBridge.GetUserChips(userList[2], RoomId));
-        //    chipsList[2] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    //game start:
-        //    Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user0 is dealr, user1 is sb, user2 is _bb => user3 starts
-        //    Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls equal to _bb
-        //    Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
-        //    chipsList[3] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Raise(userList[0], RoomId, currMinBet * 2)); //user0 raises
-        //    currMinBet *= 2;
-        //    Assert.AreEqual(chipsList[0] - currMinBet, UserBridge.GetUserChips(userList[1], RoomId));
-        //    chipsList[1] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[1], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Call(userList[1], RoomId, currMinBet)); //user1 calls
-        //    Assert.AreEqual(chipsList[1] - currMinBet, UserBridge.GetUserChips(userList[1], RoomId));
-        //    chipsList[1] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[2], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Fold(userList[2], RoomId)); //user2 folds
-        //    Assert.AreEqual(chipsList[2], UserBridge.GetUserChips(userList[2], RoomId));
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls
-        //    Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
-        //    chipsList[3] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    //deal flop:
-        //    Assert.True(GameBridge.DealFlop(RoomId));
-        //    Assert.AreEqual(43, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[1], GameBridge.GetCurrPlayer(RoomId)); //user1 is left of dealer
-        //    Assert.True(GameBridge.Check(userList[1], RoomId));
-        //    Assert.AreEqual(chipsList[1], UserBridge.GetUserChips(userList[1], RoomId));
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user2 folded so user3 is next
-        //    Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls
-        //    Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
-        //    chipsList[3] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user0 calls
-        //    Assert.AreEqual(chipsList[0] - currMinBet, UserBridge.GetUserChips(userList[0], RoomId));
-        //    chipsList[0] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    //deal turn:
-        //    Assert.True(GameBridge.DealSingleCardToTable(RoomId));
-        //    Assert.AreEqual(42, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[1], GameBridge.GetCurrPlayer(RoomId)); //user1 is left of dealer
-        //    Assert.True(GameBridge.Check(userList[1], RoomId));
-        //    Assert.AreEqual(chipsList[1], UserBridge.GetUserChips(userList[1], RoomId));
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user2 folded so user3 is next
-        //    Assert.True(GameBridge.Call(userList[3], RoomId, currMinBet)); //user3 calls
-        //    Assert.AreEqual(chipsList[3] - currMinBet, UserBridge.GetUserChips(userList[3], RoomId));
-        //    chipsList[3] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user0 calls
-        //    Assert.AreEqual(chipsList[0] - currMinBet, UserBridge.GetUserChips(userList[0], RoomId));
-        //    chipsList[0] -= currMinBet;
-        //    potSize += currMinBet;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    //deal River:
-        //    Assert.True(GameBridge.DealSingleCardToTable(RoomId));
-        //    Assert.AreEqual(41, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[1], GameBridge.GetCurrPlayer(RoomId)); //user1 is left of dealer
-        //    Assert.True(GameBridge.Raise(userList[1], RoomId, bb));
-        //    Assert.AreEqual(chipsList[1] - bb, UserBridge.GetUserChips(userList[1], RoomId));
-        //    chipsList[0] -= bb;
-        //    potSize += bb;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    Assert.AreEqual(userList[3], GameBridge.GetCurrPlayer(RoomId)); //user2 folded so user3 is next
-        //    Assert.True(GameBridge.Fold(userList[3], RoomId)); //user3 folds
-        //    Assert.AreEqual(chipsList[3], UserBridge.GetUserChips(userList[3], RoomId));
-
-        //    Assert.AreEqual(userList[0], GameBridge.GetCurrPlayer(RoomId));
-        //    Assert.True(GameBridge.Call(userList[0], RoomId, currMinBet)); //user0 calls
-        //    Assert.AreEqual(chipsList[0] - bb, UserBridge.GetUserChips(userList[0], RoomId));
-        //    chipsList[0] -= bb;
-        //    potSize += bb;
-        //    Assert.AreEqual(potSize, GameBridge.GetPotSize(RoomId));
-
-        //    //winner:
-        //    var winners = GameBridge.GetWinner(RoomId);
-        //    Assert.True(winners.TrueForAll(winner => userList.Contains(winner)));
-        //    Assert.False(winners.Contains(userList[2])); //user2 folded
-        //    Assert.False(winners.Contains(userList[3])); //user3 folded
-
-        //    //game is saved:
-
-        //    //each player has this game saved:
-        //    userList.ForEach(uid =>
-        //    {
-        //        Assert.Contains(RoomId, ReplayBridge.GetReplayableGames(uid));
-        //    });
-
-        //    //all moves are saved:
-        //    CheckGameIsSaved();
-        //}
-
-        //private void CheckGameIsSaved()
-        //{
-        //    var moves = ReplayBridge.ViewReplay(RoomId, 1);
-        //    Assert.NotNull(moves);
-        //    Assert.GreaterOrEqual(22, moves.Count);
-        //}
+                Users.Add(_userId2);
+            }
+            else if (!UserBridge.IsUserLoggedIn(_userId2))
+            {
+                UserBridge.LoginUser(_user2Name, _user2Pw);
+            }
+        }
     }
 }

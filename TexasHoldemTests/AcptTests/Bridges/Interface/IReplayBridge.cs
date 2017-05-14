@@ -6,6 +6,5 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
     {
         List<Tuple<int, int>> GetReplayableGames(int userId);
         List<string> ViewReplay(int roomId, int gameNum, int userId);
-        bool SaveFavoriteMove(int roomId, int gameNum, int userId, int moveNum);
     }
 }

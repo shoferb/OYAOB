@@ -1,40 +1,27 @@
 ﻿using System.Collections.Generic;
+using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldemTests.AcptTests.Bridges.Interface
 {
     public interface IGameBridge
     {
 
-        bool CreateGameRoom(int userId, int roomId);
-        int CreateGameRoom(int userId); //create game room and return it's Id 
-        bool RemoveGameRoom(int id);
-        int GetNextFreeRoomId();
+        int CreateGameRoom(int userId, int startingCheap);
+        int CreateGameRoomWithPref(int userId, int startingCheap, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet);
         bool DoesRoomExist(int id);
         bool IsUserInRoom(int userId, int roomId);
         bool IsRoomActive(int roomId);
-        bool StartGame(int roomId);
-        List<int> GetPlayersInRoom(int roomId);
+        bool StartGame(int userId, int roomId);
+        List<Player> GetPlayersInRoom(int roomId);
+        List<int> GetIdPlayersInRoom(int roomId);
         List<int> ListAvailableGamesByUserRank(int userRank);
-        List<int> ListSpectateableRooms();
+        List<IGame> ListSpectateableRooms();
         List<int> GetAllGames();
 
-        //(if only 1 player in room, return he's Id)
-        int GetDealerId(int roomId);
-        int GetBbId(int roomId);
-        int GetSbId(int roomId);
-        
         //game related:
-        int GetDeckSize(int gameId);
-        int GetCurrPlayer(int gameId);
-        int GetSbSize(int gameId);
-        int GetPotSize(int gameId);
-        //List<int> GetWinner(int gameId);
-
-        //game player oporations:
-        //bool Fold(int userId, int roomId);
-        //bool Check(int userId, int roomId);
-        //bool Call(int userId, int roomId, int amount);
-        //bool Raise(int userId, int roomId, int amount);
-
+        List<IGame> GetGamesByGameMode(GameMode mode);
     }
 }

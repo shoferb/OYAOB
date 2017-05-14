@@ -14,14 +14,12 @@ namespace TexasHoldem.Logic.Game_Control
 {
     public class GameCenter
     {
-        private List<League> leagueTable;
         private List<Log> logs;
 
         public int leagueGap { get; set; }
         private List<IGame> games;
 
         private static int roomIdCounter = 1;
-        private static GameCenter singlton;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
 
         private static GameCenter instance;
@@ -31,7 +29,6 @@ namespace TexasHoldem.Logic.Game_Control
 
         private GameCenter()
         {
-            this.leagueTable = new List<League>();
             this.logs = new List<Log>();
             this.games = new List<IGame>();
         }
@@ -62,30 +59,42 @@ namespace TexasHoldem.Logic.Game_Control
         //TODO : add cuurPlayerTurn
         public void SendMessageToClient(Player player, int roomId, GameData gmData, CommunicationMessage.ActionType action, bool isSucceed)
         {
-            GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
-                player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
-                gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
-                gmData.GetSbPlayer(), isSucceed); ;
-            switch (action)
-            {
-                case CommunicationMessage.ActionType.HandCard:
-                case CommunicationMessage.ActionType.StartGame:
-                    GameServiceHandler.SendMessageToClientGameData(gameDataMes);
-                    break;
+            //GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
+            //    player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
+            //    gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
+            //    gmData.GetSbPlayer(), isSucceed); 
+            //switch (action)
+            //{
+            //    case CommunicationMessage.ActionType.HandCard:
+            //    case CommunicationMessage.ActionType.StartGame:
+            //        GameServiceHandler.SendMessageToClientGameData(gameDataMes);
+            //        break;
 
-                case CommunicationMessage.ActionType.Fold:
-                case CommunicationMessage.ActionType.Bet:
-                case CommunicationMessage.ActionType.Join:
-                case CommunicationMessage.ActionType.Leave:
+            //    case CommunicationMessage.ActionType.Fold:
+            //    case CommunicationMessage.ActionType.Bet:
+            //    case CommunicationMessage.ActionType.Join:
+            //    case CommunicationMessage.ActionType.Leave:
 
-                    // we need to send game message also
-                    GameServiceHandler.SendMessageToClientGameData(gameDataMes);
-                    ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
-                    GameServiceHandler.SendMessageToClientResponse(resp);
-                    break;
-            }
+            //        // we need to send game message also
+            //        GameServiceHandler.SendMessageToClientGameData(gameDataMes);
+            //        ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
+            //        GameServiceHandler.SendMessageToClientResponse(resp);
+            //        break;
+            //}
 
 
+        }
+
+        public List<Player> getPlayersInRoom(int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+            return gm.GetPlayersInRoom();
+        }
+
+        public List<Spectetor> getSpectatorsInRoom(int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+            return gm.GetSpectetorInRoom();
         }
 
         //minBet is the BB
@@ -141,9 +150,8 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
-                GameRoom room = new GameRoom(players, roomId);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
-                room.AddDecorator(decorator);
+                GameRoom room = new GameRoom(players, roomId, decorator);
                 return AddRoom(room);
             }
         }
@@ -330,7 +338,7 @@ namespace TexasHoldem.Logic.Game_Control
                     }
                     foreach (IGame room in games)
                     {
-                        if (room.IsPotSizEqual(potSize))
+                        if (room.IsPotSizeEqual(potSize))
                         {
                             toReturn.Add(room);
                         }
@@ -583,22 +591,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        //getters setters
-        public List<League> LeagueTable
-        {
-            get
-            {
-                return leagueTable;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    leagueTable = value;
-                }
-            }
-        }
+      
 
 
         public int LeagueGap

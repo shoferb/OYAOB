@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
@@ -18,9 +19,7 @@ namespace TexasHoldem.Logic
         int GetMinBetInRoom();
         int GetEnterPayingMoney();
         int GetStartingChip();
-        int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step);
-        int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step);
-        bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step);
+        bool CanRaise(int lastRaiseInRound ,int currentPlayerRaise, int maxBetInRound, int RoundChipBet, int PotCount, GameRoom.HandStep step);
         bool CanJoin(int count, int amount, IUser user);
    
         //return true the game mode is the same
@@ -44,6 +43,8 @@ namespace TexasHoldem.Logic
         int GetMinPlayerInRoom();
         int GetMaxPlayerInRoom();
         GameMode GetGameMode();
-      
+        LeagueName GetLeagueName();
+
+
     }
 }

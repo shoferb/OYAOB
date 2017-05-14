@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Game
         bool CanJoin(IUser user);
         bool IsGameActive();
         bool IsSpectatable();
-        bool IsPotSizEqual(int potSize);
+        bool IsPotSizeEqual(int potSize);
         bool IsGameModeEqual(GameMode gm);
         bool IsGameBuyInPolicyEqual(int buyIn);
         bool IsGameMinPlayerEqual(int min);
@@ -37,7 +37,10 @@ namespace TexasHoldem.Logic.Game
         int GetPotSize();
         int GetBuyInPolicy();
         int GetStartingChip();
-        GameMode GetGameGameMode();
+        GameMode GetGameMode();
         LeagueName GetLeagueName();
+        GameRoom.HandStep GetStep();
+        List<Player> GetPlayersInRoom();
+        List<Spectetor> GetSpectetorInRoom();
     }
 }

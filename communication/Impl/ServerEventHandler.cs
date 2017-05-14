@@ -183,10 +183,11 @@ namespace TexasHoldem.communication.Impl
                 default:
                     success = false;
                     break;
-                    ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+                    
                     
             }
+            ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
 
         public void HandleEvent(GameDataCommMessage msg)
@@ -211,7 +212,7 @@ namespace TexasHoldem.communication.Impl
             List<ClientGame> toReturn = new List<ClientGame>();
             foreach (IGame game in toChange)
             {
-                toReturn.Add(new ClientGame(game.IsGameActive(),game.IsSpectatable(),game.GetGameGameMode(),game.Id,
+                toReturn.Add(new ClientGame(game.IsGameActive(),game.IsSpectatable(),game.GetGameMode(),game.Id,
                     game.GetMinPlayer(),game.GetMaxPlayer(),game.GetMinBet(),game.GetStartingChip(),game.GetBuyInPolicy()
                     ,game.GetLeagueName().ToString(),game.GetPotSize()));
             }

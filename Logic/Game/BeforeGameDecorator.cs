@@ -47,9 +47,9 @@ namespace TexasHoldem.Logic
             return IsSpectetor;
         }
 
-        public  bool CanRaise(int currentPlayerBet, int maxBetInRound, GameRoom.HandStep step)
+        public  bool CanRaise(int lastRaiseInRound, int currentPlayerRaise, int maxBetInRound, int RoundChipBet, int PotCount, GameRoom.HandStep step)
         {
-            return NextDecorator.CanRaise(currentPlayerBet, maxBetInRound, step);
+            return NextDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, RoundChipBet, PotCount, step);
         }
 
         public  bool CanJoin(int playersCount, int amount, IUser user)
@@ -118,16 +118,6 @@ namespace TexasHoldem.Logic
             return BB;
         }
 
-        public int GetMaxAllowedRaise(int maxCommited, GameRoom.HandStep step)
-        {
-            return NextDecorator.GetMaxAllowedRaise(maxCommited, step);
-        }
-
-        public int GetMinAllowedRaise(int maxCommited, GameRoom.HandStep step)
-        {
-            return NextDecorator.GetMinAllowedRaise(maxCommited, step);
-        }
-
         public int GetEnterPayingMoney()
         {
             return EnterPayingMoney;
@@ -158,5 +148,9 @@ namespace TexasHoldem.Logic
             return currNumOfPlayer >= this.MaxPlayersInRoom && currNumOfPlayer <= this.MaxPlayersInRoom;
         }
 
+        public LeagueName GetLeagueName()
+        {
+            return league;
+        }
     }
 }

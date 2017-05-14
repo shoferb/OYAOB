@@ -8,10 +8,11 @@ namespace TexasHoldem.Logic.GameControl
 {
     public enum LeagueName
     {
-        A,
+        A, //high
         B,
         C,
         D,
-        E
+        E,//low
+        Unknow
     }
 }

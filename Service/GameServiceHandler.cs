@@ -14,35 +14,40 @@ namespace TexasHoldem.Service
 {
     public class GameServiceHandler
     {
-        //TODO - Done! -  Search/ filter active games by: player name/ pot size/ game preference.
-        //TODO Join existing games. i Get the User 
-        //TODO Spectate active game.
-        //TODO Leave a game.
-        //TODO - Done! - Find all active games which the user can join.
-        private readonly GameCenter _gameCenter;
-        private readonly SystemControl _systemControl;
+        
+        private  GameCenter _gameCenter;
+        private  SystemControl _systemControl;
         private ReplayManager _replayManager;
-        private static ServerEventHandler serverHandler = new ServerEventHandler();
+        private static ServerEventHandler _serverHandler = new ServerEventHandler();
 
         public GameServiceHandler()
         {
             _gameCenter = GameCenter.Instance;
             _systemControl = SystemControl.SystemControlInstance;
-            serverHandler = new ServerEventHandler();
             _replayManager = ReplayManager.ReplayManagerInstance;
         }
 
+        public bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId)
+        {
+            IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.DoAction(user, action, amount, roomId);
+        }
+
+        public List<Player> GetPlayersInRoom(int roomId)
+        {
+            return _gameCenter.getPlayersInRoom(roomId);
+        }
+
+        public List<Spectetor> GetSpectatorsInRoom(int roomId)
+        {
+            return _gameCenter.getSpectatorsInRoom(roomId);
+        }
         public IGame GetGameFromId(int gameId)
         {
             return _gameCenter.GetRoomById(gameId);
         }
 
-        public static void sendMessageToClient(IUser player, int roomId, CommunicationMessage.ActionType action, bool isSucceed, string msg)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+       public bool CreateNewRoomWithRoomId(int roomId,int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
             IUser user = _systemControl.GetUserWithId(userId);
@@ -52,13 +57,17 @@ namespace TexasHoldem.Service
 
         //TODO: fix this
         //create room and add to games list game center
-        public bool CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+        public int CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
         {
             IUser user = _systemControl.GetUserWithId(userId);
             int roomID = _gameCenter.GetNextIdRoom();
-            return _gameCenter.CreateNewRoomWithRoomId(roomID, user, startingChip, isSpectetor, gameModeChosen,
-                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+            if (!_gameCenter.CreateNewRoomWithRoomId(roomID, user, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet))
+            {
+                return -1;
+            }
+            return roomID;
         }
         
         //public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
@@ -208,12 +217,12 @@ namespace TexasHoldem.Service
 
         public static void SendMessageToClientGameData(GameDataCommMessage gameDataMes)
         {
-            serverHandler.HandleEvent(gameDataMes);
+            _serverHandler.HandleEvent(gameDataMes);
         }
 
         public static void SendMessageToClientResponse(ResponeCommMessage resp)
         {
-            serverHandler.HandleEvent(resp);
+            _serverHandler.HandleEvent(resp);
         }
     }
 }

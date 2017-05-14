@@ -43,12 +43,15 @@ namespace TexasHoldem.Logic.Game
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;
+        private int lastRaiseInRound;
 
         private LeagueName league;
         private static readonly object padlock = new object();
 
-        public GameRoom(List<Player> players, int ID)
+        public GameRoom(List<Player> players, int ID, Decorator decorator)
         {
+            MyDecorator = decorator;
+            SetTheBlinds();
             Id = ID;
             GameNumber = 0;
             IsActiveGame = false;
@@ -57,14 +60,23 @@ namespace TexasHoldem.Logic.Game
             PublicCards = new List<Card>();
             Players = players;
             Spectatores = new List<Spectetor>();
-            Bb = 0;
-            Sb = 0;
             SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
             logControl = LogControl.Instance;
             league = GetLeagueFromPlayer(Players);
             ReplayManager = ReplayManager.ReplayManagerInstance;
             GameCenter = GameCenter.Instance;
+            lastRaiseInRound = 0;
+            ReduceFeeAndStatringChipFromPlayers();
+        }
+
+        private void ReduceFeeAndStatringChipFromPlayers()
+        {
+            foreach (Player p in Players)
+            {
+                p.user.ReduceMoneyIfPossible(MyDecorator.GetStartingChip() +
+                    MyDecorator.GetEnterPayingMoney());
+            }
         }
 
         private LeagueName GetLeagueFromPlayer(List<Player> players)
@@ -83,9 +95,9 @@ namespace TexasHoldem.Logic.Game
             
         }
 
-        public void AddDecorator(Decorator d)
+        public void SetDecorator(Decorator d)
         {
-            this.MyDecorator = d;
+            MyDecorator = d;
             SetTheBlinds();
         }
 
@@ -95,6 +107,10 @@ namespace TexasHoldem.Logic.Game
             {       
                 if (action == ActionType.Join)
                 {
+                    if (IsUserInGame(user))
+                    {
+                        return false;
+                    }
                     return Join(user, amount);
                 }
                 if (!IsUserInGame(user))
@@ -111,6 +127,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     return Leave(player);
                 }
+                if (!IsActiveGame) { return false; }
                 if (player != CurrentPlayer)
                 {
                     return IrellevantUser(user, action);
@@ -133,7 +150,6 @@ namespace TexasHoldem.Logic.Game
 
         private bool Leave(Player player)
         {
-            GameData gameData = GetGameData(player);
 
             List<Player> relevantPlayers = new List<Player>();
             if (IsActiveGame)
@@ -144,7 +160,6 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                 + player.user.Id() + " left succsfully from room: " +Id);
             logControl.AddSystemLog(log);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
             foreach (Player p in this.Players)
@@ -154,20 +169,30 @@ namespace TexasHoldem.Logic.Game
                     relevantPlayers.Add(p);
                 }
             }
+            GameData gameData = GetGameData();
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             Players = relevantPlayers;
+            if (Players.Count == 0)
+            {
+                GameCenter.RemoveRoom(Id);
+                return true;
+            }
             if (IsGameOver())
             {
                 EndGame();
             }
-            FixRoles(player);
-            if (AllDoneWithTurn())
+            if (IsActiveGame)
             {
-                return NextRound();
+                FixRoles(player);
+                if (AllDoneWithTurn())
+                {
+                    return NextRound();
+                }
             }
             return true; 
         }
 
-        private GameData GetGameData(Player player)
+        private GameData GetGameData()
         {
             string dealerName = "";
             string sbName = "";
@@ -220,8 +245,7 @@ namespace TexasHoldem.Logic.Game
         private bool Join(IUser user, int amount)
         {
             Player p = new Player(user, amount, this.Id);
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-            BbPlayer.name, SbPlayer.name);
+            GameData gameData = GetGameData();
             if (IsUserASpectator(user))
             {
                 GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
@@ -232,6 +256,7 @@ namespace TexasHoldem.Logic.Game
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
+                    gameData = GetGameData();
                     GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
                     return true;
                 }
@@ -256,9 +281,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool StartGame(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-                                     BbPlayer.name, SbPlayer.name);
-
+            GameData gameData = GetGameData();
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
@@ -279,11 +302,12 @@ namespace TexasHoldem.Logic.Game
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             logControl.AddSystemLog(log2);
+            gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
-            MoveBbnSBtoPot();
             maxBetInRound = Bb;
 
             HandCardsAndInitPlayers();
+            MoveBbnSBtoPot();
             IncGamesCounterForPlayers();
             IsActiveGame = true;
             return true;
@@ -302,6 +326,10 @@ namespace TexasHoldem.Logic.Game
 
         private bool CallOrRaise(Player player, int bet)
         {
+            if (player.RoundChipBet + bet < maxBetInRound && !player.OutOfMoney()) // for all in
+            {
+                return false; // need to bet atless maxBetInRound value
+            }
             if (player.RoundChipBet + bet == maxBetInRound)
             {
                 return Call(player, bet);
@@ -311,11 +339,11 @@ namespace TexasHoldem.Logic.Game
 
         private bool Raise(Player player, int bet)
         {
+            GameData gameData = GetGameData();
 
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-               BbPlayer.name, SbPlayer.name);
             int currentPlayerBet = player.RoundChipBet + bet;
-            if (!MyDecorator.CanRaise(currentPlayerBet, maxBetInRound, Hand_Step))
+            int currentPlayerRaise = currentPlayerBet - maxBetInRound;
+            if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, PotCount, Hand_Step))
             {
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, false);
                 return false;
@@ -328,13 +356,13 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = currentPlayerBet;
             player.PlayedAnActionInTheRound = true;
             player.CommitChips(bet);
+            PotCount += bet;
             RaiseAction raise = new RaiseAction(player, player._firstCard,
                  player._secondCard, currentPlayerBet);
             GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(this.Id, raise.ToString());
             logControl.AddSystemLog(log);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
-
+            lastRaiseInRound = currentPlayerRaise;
             foreach (Player p in Players) //they all need to make another action in this round
             {
                 if (p != player)
@@ -342,43 +370,46 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
+            gameData = GetGameData();
+            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Call(Player player, int bet)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-              BbPlayer.name, SbPlayer.name);
             player.PlayedAnActionInTheRound = true;
             bet = Math.Min(bet, player.TotalChip); // if can't afford that many chips in a call, go all in           
             player.CommitChips(bet);
+            PotCount += bet;
             CallAction call = new CallAction(player, player._firstCard,
                 player._secondCard, bet);
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(this.Id, call.ToString());
             logControl.AddSystemLog(log);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Check(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-              BbPlayer.name, SbPlayer.name);
+            if (player.RoundChipBet < maxBetInRound && !player.OutOfMoney()) // for all in
+            {
+                return false; // need to bet atless maxBetInRound value
+            }
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
             SystemLog log = new SystemLog(this.Id, check.ToString());
             logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
             return AfterAction();
         }
 
         private bool Fold(Player player)
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players,
-                DealerPlayer.name, BbPlayer.name, SbPlayer.name);
             player.PlayedAnActionInTheRound = true;
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
@@ -386,6 +417,7 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             logControl.AddSystemLog(log);
+            GameData gameData = GetGameData();
             GameCenter.SendMessageToClient(player, this.Id, gameData, ActionType.Fold, true);
 
             return AfterAction();
@@ -406,8 +438,8 @@ namespace TexasHoldem.Logic.Game
 
         private bool NextRound()
         {
-            MoveChipsToPot();
-
+            lastRaiseInRound = 0;
+            maxBetInRound = 0;
             InitializePlayerRound();
 
             if (Hand_Step == HandStep.River) 
@@ -483,6 +515,8 @@ namespace TexasHoldem.Logic.Game
             Players = playersLeftInGame;
             IsActiveGame = false;
             ClearPublicCards();
+            maxBetInRound = 0;
+            lastRaiseInRound = 0;
             GameReplay = new GameReplay(Id, GameNumber);
             return true;
         }
@@ -536,11 +570,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool IsGameOver()
         {
-            if (!IsActiveGame)
-            {
-                return false;
-            }
-            if (ActivePlayersInGame() < 2)
+            if (!IsActiveGame || ActivePlayersInGame() < 2)
             {
                 return true;
             }
@@ -592,8 +622,6 @@ namespace TexasHoldem.Logic.Game
 
         private void HandCardsAndInitPlayers()
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-           BbPlayer.name, SbPlayer.name);
             foreach (Player player in this.Players)
             {
                 player.InitForNewGame();
@@ -603,6 +631,7 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 logControl.AddSystemLog(log);
+                GameData gameData = GetGameData();
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
 
             }
@@ -610,14 +639,13 @@ namespace TexasHoldem.Logic.Game
         
        private void AddNewPublicCard()
         {
-            GameData gameData = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, DealerPlayer.name,
-             BbPlayer.name, SbPlayer.name);
+            GameData gameData;
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
             {
                 player.AddPublicCardToPlayer(c);
+                gameData = GetGameData();
                 GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
-
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
@@ -651,7 +679,6 @@ namespace TexasHoldem.Logic.Game
         {
             foreach (Player player in Players)
             {
-                PotCount += player.RoundChipBet;
                 player.TotalChip -= player.RoundChipBet;
                 player.RoundChipBet = 0;               
             }
@@ -820,16 +847,6 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        private int GetRaisePotLimit(Player p)
-        {
-
-            int potSize = this.PotCount;
-            int lastRise = this.maxBetInRound;
-            int playerPayInRound = p.RoundChipBet;
-            int toReturn = (lastRise - playerPayInRound) + potSize;
-            return toReturn;
-        }
-
         public bool AddSpectetorToRoom(IUser user)
         {           
             //if user is player in room cant be also spectetor
@@ -840,9 +857,8 @@ namespace TexasHoldem.Logic.Game
                     ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
                         + user.Id() + " to room: " +Id + " user is already a player in this room");
                     logControl.AddErrorLog(log);
-                    break;
+                    return false;
                 }
-                return false;
             }
            
             user.AddRoomToSpectetorGameList(this);
@@ -861,9 +877,8 @@ namespace TexasHoldem.Logic.Game
                         new SystemLog(this.Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id);
                     Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
-                    break;
+                    return true;
                 }
-                return true;
             }
             return false;
         }
@@ -884,7 +899,7 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.CanSpectatble();
         }
 
-        public bool IsPotSizEqual(int potSize)
+        public bool IsPotSizeEqual(int potSize)
         {
             return this.PotCount == potSize;
         }
@@ -963,14 +978,19 @@ namespace TexasHoldem.Logic.Game
             return MyDecorator.GetStartingChip();
         }
 
-        public GameMode GetGameGameMode()
+        public GameMode GetGameMode()
         {
             return MyDecorator.GetGameMode();
         }
 
         public LeagueName GetLeagueName()
         {
-            return this.league;
+            return MyDecorator.GetLeagueName();
+        }
+
+        public HandStep GetStep()
+        {
+            return Hand_Step;
         }
     }
 }

@@ -17,17 +17,19 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //nothing to do here
         }
-        /*
+        
         [TestCase]
         public void GetReplayableGamesTestGood()
         {
             //create a game to be replayd
-            Setup2Users1Game();
+            RestartSystem();
+            SetupUser1();
+            CreateGameWithUser1();
             System.Threading.Thread.Sleep(5000);
-            UserBridge.RemoveUserFromRoom(User2Id, NewRoomId);
+            UserBridge.RemoveUserFromRoom(UserId, RoomId);
             Assert.IsNotEmpty(ReplayBridge.GetReplayableGames(UserId));
         }
-        */
+        
 
         [TestCase]
         public void GetReplayableGamesTestSad()
@@ -75,7 +77,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
             Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, 5, UserId));
-            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 5, 100));
+         //   Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 5, 100));
         }
 
         [TestCase]
@@ -83,7 +85,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             RegisterUser1();
             Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, -5, UserId));
-            Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
+          //  Assert.False(ReplayBridge.SaveFavoriteMove(UserId, RoomId, 1, -1));
         }
 
     }
