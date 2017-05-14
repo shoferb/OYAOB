@@ -1,4 +1,5 @@
-﻿using Client.Handler;
+﻿using Client.GuiScreen;
+using Client.Handler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,38 @@ namespace Client.Logic
         public List<Tuple<CommunicationMessage, bool, bool,ResponeCommMessage>> messagesSentObserver =  new List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>>(); //first bool = is response received, second bool = is succeeded
         private readonly Object listLock;
 
+        private List<GameScreen> _games;
+
         public ClientUser user { get; set; }
         //chanfajf
         public ClientLogic()
         {
-            
+            _games = new List<GameScreen>();
             listLock = new Object();
             //todo - find server name
-            _handler = new CommunicationHandler("TODO");
-            _eventHandler = new ClientEventHandler(_handler);
+         //   _handler = new CommunicationHandler("TODO");
+          //  _eventHandler = new ClientEventHandler(_handler);
             user = null;
         }
+
+        public void GameUpdateReceived(GameDataCommMessage msg)
+        {
+            bool isNewGame = true;
+            foreach(GameScreen game in _games)
+            {
+                if(game.RoomId==msg.RoomId)
+                {
+                    isNewGame = false;
+                    game.UpdateGame(msg);
+                }
+            }
+            if(isNewGame==false)
+            {
+                GameScreen newGame = new GameScreen(this);
+                newGame.UpdateGame(msg);
+            }
+        }
+
         public bool SetUserId(int newId)
         {
             _userId = newId;
