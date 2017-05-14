@@ -90,7 +90,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IsUnKnowTestGood_on_Create()
         {
-            IUser user =  new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user =  new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsTrue(user.IsUnKnow());
         }
 
@@ -98,7 +98,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IsUnKnowTestGood_on_at_10_Games()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             for (int i = 0; i < 10; i++)
             {
                 user.IncGamesPlay();
@@ -110,7 +110,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IsUnKnowTestGood_More_Than_10()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             for (int i = 0; i < 11; i++)
             {
                 user.IncGamesPlay();
@@ -129,21 +129,21 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IdTest_good()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.Id(), 305077901);
         }
 
         [TestMethod()]
         public void IdTest_bad()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreNotEqual(user.Id(), 305077902);
         }
 
         [TestMethod()]
         public void NameTest_good()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.Name(), "orelie");
         }
 
@@ -151,14 +151,14 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void NameTest_Bad()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreNotEqual(user.Name(), " ");
         }
 
         [TestMethod()]
         public void MemberNameTest_good()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.MemberName(), "orelie26");
         }
 
@@ -166,15 +166,16 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void MemberNameTest_Bad()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreNotEqual(user.MemberName(), "orelie18");
         }
 
 
         [TestMethod()]
-        public void PasswordTest()
+        public void PasswordTest_good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Password(), "123456789");
         }
 
         [TestMethod()]
