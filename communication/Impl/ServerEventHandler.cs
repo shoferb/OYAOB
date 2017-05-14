@@ -27,6 +27,8 @@ namespace TexasHoldem.communication.Impl
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold:
                     break;
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.HandCard:
+                    break;
 
             }
         }
