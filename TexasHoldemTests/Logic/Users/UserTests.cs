@@ -321,6 +321,13 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.EditPassword("12"));
         }
 
+        [TestMethod()]
+        public void EditPasswordTest_Bad_big()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(user.EditPassword("121212121212121212112"));
+        }
+
 
         [TestMethod()]
         public void EditUserNameTest()
