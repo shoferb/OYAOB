@@ -26,5 +26,11 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         {
             handler.HandleEvent(this);
         }
+
+        public bool Equals(RegisterCommMessage other)
+        {
+            return Name.Equals(other.Name) && MemberName.Equals(other.MemberName) && Password.Equals(other.Password) &&
+                   Money == other.Money && Email.Equals(other.Email);
+        }
     }
 }

@@ -48,8 +48,11 @@ namespace Client.Handler
             {
                 string msg = string.Empty;
                 msg = _handler.TryGetMsgReceived();
-                var parsedMsg = XmlParser.ParseString(msg);
-                parsedMsg.Handle(this);
+                if (msg != null)
+                {
+                    var parsedMsg = XmlParser.ParseString(msg);
+                    parsedMsg.Handle(this); 
+                }
             }
         }
 

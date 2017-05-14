@@ -103,26 +103,32 @@ namespace Client.Handler
             byte[] buffer = new byte[1];
             while (!_shouldClose)
             {
-                IList<byte> data = new List<byte>();
-                var dataReceived = 0;
-                do
+                if (_stream.DataAvailable)
                 {
-                    try
+                    IList<byte> data = new List<byte>();
+                    var dataReceived = 0;
+                    do
                     {
-                        dataReceived = _stream.Read(buffer, 0, 1);
-                        if (dataReceived > 0)
+                        try
                         {
-                            data.Add(buffer[0]);
+                            dataReceived = _stream.Read(buffer, 0, 1);
+                            if (dataReceived > 0)
+                            {
+                                data.Add(buffer[0]);
+                            }
                         }
-                    }
-                    catch (Exception e) { }
+                        catch (Exception e)
+                        {
+                            dataReceived = 0;
+                        }
 
-                } while (dataReceived > 0);
+                    } while (dataReceived > 0);
 
-                //add msg string to queue
-                if (data.Count > 0)
-                {
-                    _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
+                    //add msg string to queue
+                    if (data.Count > 0)
+                    {
+                        _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
+                    } 
                 }
             }
           

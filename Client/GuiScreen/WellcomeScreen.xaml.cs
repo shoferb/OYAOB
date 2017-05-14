@@ -36,6 +36,7 @@ namespace TexasHoldem.GuiScreen
             cl.Init(_eventHandler, _commHandler);
             //_commHandler.Connect();
             Task commTask = Task.Factory.StartNew(_commHandler.Start);
+            _eventHandler.Start();
             //commTask.Wait();
 
         }
