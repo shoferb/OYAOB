@@ -464,10 +464,13 @@ namespace TexasHoldem.Logic.Users.Tests
             User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.IsFalse(user.ReduceMoneyIfPossible(600));
         }
+
         [TestMethod()]
-        public void AddMoneyTest()
+        public void AddMoneyTest_good()
         {
-            Assert.Fail();
+            User user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            user.AddMoney(50);
+            Assert.AreEqual(user.Money(), 550);
         }
 
         [TestMethod()]
