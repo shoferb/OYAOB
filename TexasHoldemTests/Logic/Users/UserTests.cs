@@ -159,8 +159,17 @@ namespace TexasHoldem.Logic.Users.Tests
         public void MemberNameTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(user.MemberName(), "orelie26");
+            Assert.AreEqual(user.MemberName(), "orelie26");
         }
+
+
+        [TestMethod()]
+        public void MemberNameTest_Bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.MemberName(), "orelie18");
+        }
+
 
         [TestMethod()]
         public void PasswordTest()
