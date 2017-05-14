@@ -245,6 +245,8 @@ namespace TexasHoldem.Service
             {
                 return false;
             }
+            IUser user = _systemControl.GetUserWithId(idSpectetor);
+            return _gameCenter.CanSendSpectetorBrodcast(user, roomId);
         }
 
         //check id sender is player, reciver exist, + rules if can send this to reciver
