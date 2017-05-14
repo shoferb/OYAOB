@@ -8,11 +8,11 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class ChatCommMessage : CommunicationMessage
     {
-        int idSender;
-        int roomId;
-        string ReciverUsername;
-        string msgToSend;
-        ActionType chatType;
+        public int idSender;
+        public int roomId;
+        public string ReciverUsername;
+        public string msgToSend;
+        public ActionType chatType;
 
 
         public ChatCommMessage() : base(-1){ }//for parsing
