@@ -229,8 +229,14 @@ namespace TexasHoldem.communication.Impl
             bool success;
             if (roomId == -1)
             {
-
+                success = false;
             }
+            else
+            {
+                success = true;
+            }
+            ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
