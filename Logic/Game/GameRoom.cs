@@ -999,7 +999,14 @@ namespace TexasHoldem.Logic.Game
             bool toReturn = false;
             lock (padlock)
             {
-
+                foreach(Player player in Players)
+                {
+                    if(player.user == user)
+                    {
+                        toReturn = true;
+                        return toReturn;
+                    }
+                }
             }
             return toReturn;
         }
