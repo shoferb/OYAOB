@@ -1028,14 +1028,6 @@ namespace TexasHoldem.Logic.Game
             return toReturn;
         }
 
-        public bool CanSendPlayerWhisper(IUser sender, IUser reciver)
-        {
-            bool toReturn = false;
-            lock (padlock)
-            {
-               
-            }
-            return toReturn;
-        }
+     
     }
 }
