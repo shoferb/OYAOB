@@ -252,7 +252,8 @@ namespace TexasHoldem.Service
         //check id sender is player, reciver exist, + rules if can send this to reciver
         public bool CanSendPlayerWhisper(int idSender, string reciverUsername, int roomId)
         {
-            throw new NotImplementedException();
+            bool toReturn = false;
+            return toReturn;
         }
 
         //check id sender is spectetor, reciver exist, + rules if can send this to reciver
