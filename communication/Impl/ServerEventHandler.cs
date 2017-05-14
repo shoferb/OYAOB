@@ -222,7 +222,7 @@ namespace TexasHoldem.communication.Impl
         public void HandleEvent(ChatCommMessage msg)
         {
             bool success =false;
-            int idReciver=-1; // to get id reciver from user name
+            int idReciver= _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
             string usernameSender=""; //to get from id;
             switch (msg.chatType)
             {
