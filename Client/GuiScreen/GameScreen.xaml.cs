@@ -133,17 +133,17 @@ namespace Client.GuiScreen
                     {
                         MessageBox.Show("Invalid Amount");
                     }
-                    _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                 }
                 if (action.Equals("Check"))
                 {
                     int amount = 0;
-                    _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                 }
                 if (action.Equals("Fold"))
                 {
                     int amount = -1;
-                    _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                 }
                 if (action.Equals("Send A New Chat Message"))
                 {
@@ -155,13 +155,13 @@ namespace Client.GuiScreen
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {
-            _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, this.RoomId);
+            _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, this.RoomId);
 
         }
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
         {
-            _logic.notifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, this.RoomId);
+            _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, this.RoomId);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

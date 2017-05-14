@@ -65,7 +65,7 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-                bool didJoin = cl.joinTheGame(currRoomId);
+                bool didJoin = cl.JoinTheGame(currRoomId);
                 if (didJoin)
                 {
                     MessageBox.Show("You joined the game successfully!");
@@ -591,6 +591,25 @@ namespace Client.GuiScreen
         {
             field = 13;
             searchBox.IsEnabled = false; ;
+        }
+
+        private void WatchGame_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            int roomIdToSpectate;
+            string temp = IdToSpectate_TextBox.Text;
+            bool isValid = int.TryParse(temp, out roomIdToSpectate);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Game ID input");
+            }
+            else
+            {
+                bool ans =cl.SpectateRoom(roomIdToSpectate);
+                if(!ans)
+                {
+                    MessageBox.Show("You Can't be a spectator in this game!");
+                }
+            }
         }
     }
 }

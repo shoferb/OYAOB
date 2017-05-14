@@ -249,7 +249,21 @@ namespace Client.Logic
             return toRet;
         }
 
-        //TODO: no options
+        public bool SpectateRoom(int roomId)
+        {
+            ActionCommMessage toSend = new ActionCommMessage(_userId, CommunicationMessage.ActionType.Spectate,-1, roomId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            return toRet;
+
+        }
         public bool NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType move, int amount, int roomId)
         {
           

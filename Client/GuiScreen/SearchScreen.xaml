@@ -61,7 +61,7 @@
         </ComboBox>
         <Label Content="Enter Game Id to be a Spectator:" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="37,341,0,0" VerticalAlignment="Top" Width="224" FontSize="14" Foreground="White"/>
         <TextBox x:Name="IdToSpectate_TextBox" Grid.Column="1" HorizontalAlignment="Left" Height="26" Margin="271,343,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
-        <Button x:Name="WatchGame_Btn" Content="Watch!" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="485,343,0,0" VerticalAlignment="Top" Width="76"/>
+        <Button x:Name="WatchGame_Btn" Content="Watch!" Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="485,343,0,0" VerticalAlignment="Top" Width="76" Click="WatchGame_Btn_Click"/>
 
     </Grid>
 </Window>
