@@ -38,8 +38,6 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
 
-   
-
         [TestMethod()]
         public void IsUnKnowTestGood_on_Create()
         {
@@ -71,105 +69,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.IsUnKnow());
         }
 
-       /* [TestMethod()]
-        public void IncGamesPlayTest()
-        {
-            Assert.Fail();
-        }*/
-
       
-
-        [TestMethod()]
-        public void IdTest_good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Id(), 305077901);
-        }
-
-        [TestMethod()]
-        public void IdTest_bad()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(user.Id(), 305077902);
-        }
-
-        [TestMethod()]
-        public void NameTest_good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Name(), "orelie");
-        }
-
-
-        [TestMethod()]
-        public void NameTest_Bad()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(user.Name(), " ");
-        }
-
-        [TestMethod()]
-        public void MemberNameTest_good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.MemberName(), "orelie26");
-        }
-
-
-        [TestMethod()]
-        public void MemberNameTest_Bad()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(user.MemberName(), "orelie18");
-        }
-
-
-        [TestMethod()]
-        public void PasswordTest_Good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Password(), "123456789");
-        }
-
-
-        [TestMethod()]
-        public void PasswordTest_Bad()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(user.Password(), "12");
-        }
-
-
-        [TestMethod()]
-        public void AvatarTest_Good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Avatar(), "/GuiScreen/Photos/Avatar/devil.png");
-            
-        }
-
-
-        [TestMethod()]
-        public void AvatarTest_Bad()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreNotEqual(user.Avatar(), " ");
-
-        }
-
-        [TestMethod()]
-        public void PointsTest_Good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Points(), 0);
-        }
-
-        [TestMethod()]
-        public void MoneyTest_Good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Money(), 500); 
-        }
 
         [TestMethod()]
         public void WaitListNotificationTest_Good_inc_size_onCreate()
@@ -603,6 +503,98 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.HasEnoughMoney(490, 50));
         }
 
-    
+
+
+        [TestMethod()]
+        public void IdTest_good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Id(), 305077901);
+        }
+
+        [TestMethod()]
+        public void IdTest_bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Id(), 305077902);
+        }
+
+        [TestMethod()]
+        public void NameTest_good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Name(), "orelie");
+        }
+
+
+        [TestMethod()]
+        public void NameTest_Bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Name(), " ");
+        }
+
+        [TestMethod()]
+        public void MemberNameTest_good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.MemberName(), "orelie26");
+        }
+
+
+        [TestMethod()]
+        public void MemberNameTest_Bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.MemberName(), "orelie18");
+        }
+
+
+        [TestMethod()]
+        public void PasswordTest_Good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Password(), "123456789");
+        }
+
+
+        [TestMethod()]
+        public void PasswordTest_Bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Password(), "12");
+        }
+
+
+        [TestMethod()]
+        public void AvatarTest_Good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Avatar(), "/GuiScreen/Photos/Avatar/devil.png");
+
+        }
+
+
+        [TestMethod()]
+        public void AvatarTest_Bad()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.Avatar(), " ");
+
+        }
+
+        [TestMethod()]
+        public void PointsTest_Good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Points(), 0);
+        }
+
+        [TestMethod()]
+        public void MoneyTest_Good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(user.Money(), 500);
+        }
     }
 }
