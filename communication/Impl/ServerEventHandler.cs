@@ -218,5 +218,10 @@ namespace TexasHoldem.communication.Impl
             }
             return toReturn;
         }
+
+        public void HandleEvent(ChatCommMessage msg)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
