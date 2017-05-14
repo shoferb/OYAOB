@@ -42,7 +42,7 @@ namespace TexasHoldem.Logic.Game_Control
             var ServiceTimer = new System.Timers.Timer();
             ServiceTimer.Enabled = true;
             ServiceTimer.Interval = (1000 * 60 * 60 * 24 * 7);//once a week
-            ServiceTimer.Elapsed += new System.Timers.ElapsedEventHandler(DivideLeague);
+            ServiceTimer.Elapsed += new System.Timers.ElapsedEventHandler(DivideStart);
         }
 
         //getter seeter user list
@@ -590,7 +590,13 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        public void DivideLeague(object sender, ElapsedEventArgs e)
+        public void DivideStart(object sender, ElapsedEventArgs e)
+        {
+            DivideLeague();
+        }
+
+
+        public void DivideLeague()
         {
             
             lock (padlock)
