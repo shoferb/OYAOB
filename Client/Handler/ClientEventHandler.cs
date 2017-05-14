@@ -29,7 +29,7 @@ namespace Client.Handler
 
         }
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void init(ClientLogic logic)
+        public void Init(ClientLogic logic)
         {
             _logic = logic;
         }
@@ -99,16 +99,20 @@ namespace Client.Handler
             task.Start();
         }
 
-        //Todo - bar
+      
         public void HandleEvent(CreatrNewRoomMessage msg)
         {
-          
+          //Client to server msg
         }
 
-        // todo - bar
+      
         public void HandleEvent(ChatCommMessage msg)
         {
-            throw new NotImplementedException();
+            //Client to server msg
+        }
+        public void HandleEvent(ChatResponceCommMessage msg)
+        {
+            
         }
     }
 }
