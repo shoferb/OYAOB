@@ -221,6 +221,9 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(ChatCommMessage msg)
         {
+            bool success =false;
+            int idReciver=-1; // to get id reciver from user name
+            string usernameSender=""; //to get from id;
             switch (msg.chatType)
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerBrodcast:
@@ -233,6 +236,7 @@ namespace TexasHoldem.communication.Impl
                     break;
 
             }
+            ResponeCommMessage response = new ChatResponceCommMessage(msg.roomId, idReciver, usernameSender, msg.chatType, msg.msgToSend, msg.UserId, success, msg);
         }
     }
 }
