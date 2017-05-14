@@ -551,7 +551,7 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void GetLeagueTest_after_10_games()
+        public void GetLeagueTest_Good_after_10_games()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             for(int i = 0; i < 20; i++)
@@ -562,15 +562,30 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void SetLeagueTest()
+        public void GetLeagueTest_Bad_on_create()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.AreNotEqual(user.GetLeague(), LeagueName.A);
         }
 
         [TestMethod()]
-        public void HasEnoughMoneyTest()
+        public void GetLeagueTest_Bad_after_10_games()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            for (int i = 0; i < 20; i++)
+            {
+                user.IncGamesPlay();
+            }
+            Assert.AreNotEqual(user.GetLeague(), LeagueName.Unknow);
+        }
+
+       
+
+        [TestMethod()]
+        public void HasEnoughMoneyTest_good_bool()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(user.HasEnoughMoney(100, 50));
         }
     }
 }
