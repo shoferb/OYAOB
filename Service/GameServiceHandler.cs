@@ -228,7 +228,12 @@ namespace TexasHoldem.Service
         //check player is in the game room 
         public bool CanSendPlayerBrodcast(int playerId, int roomId)
         {
-            throw new NotImplementedException();
+            bool isUserExist = _systemControl.IsUserExist(playerId);
+            if (!isUserExist)
+            {
+                return false;
+            }
+            return true;
         }
 
         //check spectetor is in the game room 
