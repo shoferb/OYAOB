@@ -21,6 +21,7 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(ActionCommMessage msg)
         {
+            bool success = false;
             switch (msg.MoveType)
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet:
@@ -35,6 +36,8 @@ namespace TexasHoldem.communication.Impl
                     break;
 
             }
+            ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
 
         public void HandleEvent(EditCommMessage msg)
