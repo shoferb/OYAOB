@@ -637,12 +637,15 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendPlayerBrodcast(IUser user, int roomId)
         {
-            IGame game = GetRoomById(roomId);
-            if(game == null)
+            lock (padlock)
             {
-                return false;
+                IGame game = GetRoomById(roomId);
+                if (game == null)
+                {
+                    return false;
+                }
+                return game.IsPlayerInRoom(user);
             }
-            return game.IsPlayerInRoom(user);
         }
 
 
