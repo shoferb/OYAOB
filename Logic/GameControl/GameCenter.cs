@@ -633,7 +633,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendPlayerBrodcast(IUser user, int roomId)
         {
-            throw new NotImplementedException();
+            IGame game = GetRoomById(roomId);
         }
     }
 
