@@ -677,7 +677,8 @@ namespace TexasHoldem.Logic.Game_Control
                 return false;
             }
             bool isSenderSpectetor = game.IsSpectetorInRoom(sender);
-            
+            bool isReciverSpector = game.IsSpectetorInRoom(reciver);
+            return isSenderSpectetor && isReciverSpector;
         }
     }
 
