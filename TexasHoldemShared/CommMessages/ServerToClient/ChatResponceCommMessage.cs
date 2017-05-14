@@ -29,5 +29,18 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         {
             handler.HandleEvent(this);
         }
+
+        public override bool Equals(CommunicationMessage other)
+        {
+            if (other.GetType() == typeof(ChatResponceCommMessage))
+            {
+                var afterCasting = (ChatResponceCommMessage)other;
+                return Success == afterCasting.Success && OriginalMsg.Equals(afterCasting.OriginalMsg) &&
+                       UserId == afterCasting.UserId && idReciver == afterCasting.idReciver && 
+                       roomId == afterCasting.roomId && senderngUsername.Equals(afterCasting.senderngUsername) &&
+                       chatType == afterCasting.chatType;
+            }
+            return false;
+        }
     }
 }

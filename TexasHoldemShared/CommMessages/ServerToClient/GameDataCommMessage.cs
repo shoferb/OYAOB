@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem;
 using TexasHoldem.Logic.Game;
 
@@ -50,6 +51,23 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         public override void Handle(IEventHandler handler)
         {
             handler.HandleEvent(this);
+        }
+
+        public override bool Equals(CommunicationMessage other)
+        {
+            if (other.GetType() == typeof(GameDataCommMessage))
+            {
+                var afterCasting = (GameDataCommMessage)other;
+                bool good = isSucceed == afterCasting.isSucceed && DealerName.Equals(afterCasting.DealerName) &&
+                       UserId == afterCasting.UserId && PotSize == afterCasting.PotSize &&
+                       TotalChips == afterCasting.TotalChips && BbName.Equals(afterCasting.BbName) &&
+                       SbName.Equals(afterCasting.SbName) && CurrPlayerTurn.Equals(afterCasting.CurrPlayerTurn);
+                good = PlayerCards.Aggregate(good, (current, card) => current && afterCasting.PlayerCards.Contains(card));
+                good = AllPlayerNames.Aggregate(good, (current, name) => current && afterCasting.AllPlayerNames.Contains(name));
+                good = TableCards.Aggregate(good, (current, card) => current && afterCasting.TableCards.Contains(card));
+                return good;
+            }
+            return false;
         }
     }
 }
