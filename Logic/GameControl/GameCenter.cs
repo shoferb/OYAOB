@@ -651,12 +651,15 @@ namespace TexasHoldem.Logic.Game_Control
 
         public bool CanSendSpectetorBrodcast(IUser user, int roomId)
         {
-            IGame game = GetRoomById(roomId);
-            if (game == null)
+            lock (padlock)
             {
-                return false;
+                IGame game = GetRoomById(roomId);
+                if (game == null)
+                {
+                    return false;
+                }
+                return game.IsSpectetorInRoom(user);
             }
-            return game.IsSpectetorInRoom(user);
         }
 
 
