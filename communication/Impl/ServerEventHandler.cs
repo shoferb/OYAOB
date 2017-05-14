@@ -225,7 +225,8 @@ namespace TexasHoldem.communication.Impl
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerBrodcast:
                     break;
-               
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerWhisper:
+                    break;
             }
         }
     }
