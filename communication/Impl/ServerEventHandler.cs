@@ -24,9 +24,10 @@ namespace TexasHoldem.communication.Impl
             switch (msg.MoveType)
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet:
-                    
                     break;
-                
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold:
+                    break;
+
             }
         }
 
