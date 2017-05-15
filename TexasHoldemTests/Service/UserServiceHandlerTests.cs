@@ -5,13 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.Logic.Game_Control;
 
 namespace TexasHoldem.Service.Tests
 {
     [TestClass()]
     public class UserServiceHandlerTests
     {
+        private SystemControl sc;
 
+
+        private void Init()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = null;
+        }
         [TestMethod()]
         public void LoginUserTest()
         {
