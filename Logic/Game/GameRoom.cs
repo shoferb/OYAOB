@@ -173,7 +173,7 @@ namespace TexasHoldem.Logic.Game
             List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
             idsToSend.Add(player.user.Id());
             GameDataCommMessage gameData = GetGameData(player, 0 , true, ActionType.Leave);
-            GameCenter.SendMessageToClient(player, gameData, ActionType.Leave, true, idsToSend);
+            GameCenter.SendMessageToClient(gameData, idsToSend);
             Players = relevantPlayers;
             if (Players.Count == 0)
             {
