@@ -75,6 +75,11 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "n" + msgToRet;
                 }
+                else if (msg.GetType() == typeof(ReplaySearchResponseCommMessage))
+                {
+                    msgToRet = "o" + msgToRet;
+                }
+
                 return msgToRet;
             }
         }
@@ -153,7 +158,22 @@ namespace TexasHoldemShared.Parser
                 string XMLmsg = msg.Substring(1);
                 return DeserializeReplayCommMessage(XMLmsg);
             }
+            else if (msg.IndexOf('o') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeReplaySearchResponseCommMessage(XMLmsg);
+            }
             return null;
+        }
+
+
+        private ReplaySearchResponseCommMessage DeserializeReplaySearchResponseCommMessage(string XmlText)
+        {
+            using (StringReader stringReader = new System.IO.StringReader(XmlText))
+            {
+                var serializer = new XmlSerializer(typeof(ReplaySearchResponseCommMessage));
+                return (ReplaySearchResponseCommMessage)serializer.Deserialize(stringReader);
+            }
         }
 
 
