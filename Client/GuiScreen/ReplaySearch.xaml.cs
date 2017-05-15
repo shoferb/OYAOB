@@ -71,11 +71,8 @@ namespace Client.GuiScreen
                 List<string> replays = ans.Item2;
                 foreach (string rep in replays)
                 {
-                    ListViewItem toAdd = new ListViewItem()
-                    {
-                        Content = rep
-                    };
-                    this.results_ListView.Items.Add(toAdd);
+                   
+                   // this.results_ListView.Items.Add(toAdd); TODO
                 }
             }
             else if(!ans.Item1)
