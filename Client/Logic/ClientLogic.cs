@@ -13,7 +13,7 @@ namespace Client.Logic
 {
     public class ClientLogic
     {
-        private int _userId;
+        
         private ClientEventHandler _eventHandler;
         private CommunicationHandler _handler;
         public List<Tuple<CommunicationMessage, bool, bool,ResponeCommMessage>> messagesSentObserver =  new List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>>(); //first bool = is response received, second bool = is succeeded
@@ -50,8 +50,8 @@ namespace Client.Logic
         }
         public bool SpectateRoom(int roomId)
         {
-            ActionCommMessage toSend = new ActionCommMessage(_userId, CommunicationMessage.ActionType.Spectate, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            ActionCommMessage toSend = new ActionCommMessage(user.id, CommunicationMessage.ActionType.Spectate, -1, roomId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -63,13 +63,7 @@ namespace Client.Logic
             return toRet;
 
         }
-        public bool SetUserId(int newId)
-        {
-            _userId = newId;
-            this._eventHandler.SetNewUserId(newId);
-            this._handler.SetUserId(newId);
-            return true;
-        }
+       
         //needed to be call after create new ClientEventHandler and a new client logic
         public void Init(ClientEventHandler eventHandler, CommunicationHandler handler)
         {
@@ -79,14 +73,14 @@ namespace Client.Logic
 
         public void CloseSystem()
         {
-            _eventHandler.close();
+            _eventHandler.Close();
             _handler.Close();
         }
         public bool EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)
         {
 
-            EditCommMessage toSend = new EditCommMessage(_userId, field, value);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            EditCommMessage toSend = new EditCommMessage(user.id, field, value);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -100,8 +94,8 @@ namespace Client.Logic
         }
         public bool JoinTheGame(int roomId)
         {
-            ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -116,8 +110,8 @@ namespace Client.Logic
 
         public int CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
         {//should ret int as the roomNumber
-            CreatrNewRoomMessage toSend = new CreatrNewRoomMessage(_userId, mode, minBet, chipPol, buyInPol, canSpec, minPlayers, maxPlayers);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            CreatrNewRoomMessage toSend = new CreatrNewRoomMessage(user.id, mode, minBet, chipPol, buyInPol, canSpec, minPlayers, maxPlayers);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -141,8 +135,8 @@ namespace Client.Logic
 
         public bool LeaveTheGame(int roomId)
         {
-            ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave, -1, roomId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -158,8 +152,8 @@ namespace Client.Logic
 
         public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend, CommunicationMessage.ActionType _chatType)
         {
-            ChatCommMessage toSend = new ChatCommMessage(this._userId, _roomId,  _ReciverUsername,  _msgToSend, _chatType);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            ChatCommMessage toSend = new ChatCommMessage(user.id, _roomId,  _ReciverUsername,  _msgToSend, _chatType);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
@@ -174,8 +168,8 @@ namespace Client.Logic
 
         public bool StartTheGame(int roomId)
         {
-            ActionCommMessage toSend = new ActionCommMessage(_userId, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
@@ -190,8 +184,8 @@ namespace Client.Logic
 
         public bool Login(string userName, string password)//check with oded
         {
-            LoginCommMessage toSend = new LoginCommMessage(_userId, true, userName, password);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            LoginCommMessage toSend = new LoginCommMessage(user.id, true, userName, password);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
@@ -206,16 +200,39 @@ namespace Client.Logic
                 ClientUser cuser = new ClientUser(rmsg.UserId, rmsg.name, rmsg.username,
                     rmsg.password, rmsg.avatar, rmsg.money, rmsg.email, rmsg.leauge);
                 this.user = cuser;
-                this._userId = user.id;
+               
             }
             messagesSentObserver.Remove(messageToList);
             return toRet;
 
         }
+
+        public Tuple<bool,List<string>> AskForReplays(bool isAll, int gameId)
+        {
+            ReplayCommMessage toSend = new ReplayCommMessage(user.id, isAll, gameId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            List<string> replays = new List<string>();
+            if (toRet)
+            {
+                ReplaySearchResponseCommMessage retMsg = (ReplaySearchResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                replays = retMsg.replaysAsked;
+            }
+            messagesSentObserver.Remove(messageToList);
+            return new Tuple<bool, List<string>>(toRet,replays);
+
+        }
+
         public bool Logout(string userName, string password)
         {
-            LoginCommMessage toSend = new LoginCommMessage(_userId, false, userName, password);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            LoginCommMessage toSend = new LoginCommMessage(user.id, false, userName, password);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
@@ -232,7 +249,7 @@ namespace Client.Logic
         {
             List<ClientGame> toReturn = new List<ClientGame>();
             SearchCommMessage toSend = new SearchCommMessage(userId,  _searchType, _searchByString, _searchByInt,_searchByGameMode);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
@@ -255,7 +272,7 @@ namespace Client.Logic
         public bool Register(int id,string name, string memberName, string password, int money, string email)
         {
             RegisterCommMessage toSend = new RegisterCommMessage(id, name, memberName, password, money, email);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId));
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
@@ -271,7 +288,7 @@ namespace Client.Logic
                 ClientUser cuser = new ClientUser(rmsg.UserId, rmsg.name, rmsg.username,
                     rmsg.password, rmsg.avatar, rmsg.money, rmsg.email, rmsg.leauge);
                 this.user = cuser;
-                this._userId = user.id;
+              
             }
             messagesSentObserver.Remove(messageToList);
             return toRet;
@@ -297,8 +314,8 @@ namespace Client.Logic
                 if (move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold))
                 {
                     amount = -1;//amount isnt relevant
-                    ActionCommMessage response = new ActionCommMessage(_userId, move, amount, roomId);
-                    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false, new ResponeCommMessage(_userId));
+                    ActionCommMessage response = new ActionCommMessage(user.id, move, amount, roomId);
+                    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false, new ResponeCommMessage(user.id));
                     messagesSentObserver.Add(messageToList);
                     _eventHandler.SendNewEvent(response);
                     while ((messagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
@@ -312,8 +329,8 @@ namespace Client.Logic
                 }
                 else if ((move.Equals(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet)) && (amount >= 0))
                 {
-                    ActionCommMessage response = new ActionCommMessage(_userId, move, amount, roomId);
-                    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false, new ResponeCommMessage(_userId));
+                    ActionCommMessage response = new ActionCommMessage(user.id, move, amount, roomId);
+                    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false, new ResponeCommMessage(user.id));
                     messagesSentObserver.Add(messageToList);
                     _eventHandler.SendNewEvent(response);
                     while ((messagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)

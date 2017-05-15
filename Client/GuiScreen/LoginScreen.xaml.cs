@@ -33,6 +33,7 @@ namespace TexasHoldem.GuiScreen
             InitializeComponent();
             cl = cli;
             wsScreen = ws;
+
         }
 
 

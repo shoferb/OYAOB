@@ -37,7 +37,7 @@ namespace Client.Handler
         {
             this._userId = newId;
         }
-        public void close()
+        public void Close()
         {
             _shouldClose = true;
 
@@ -51,7 +51,7 @@ namespace Client.Handler
                 if (msg != null)
                 {
                     var parsedMsg = XmlParser.ParseString(msg);
-                    parsedMsg.Handle(this); 
+                    parsedMsg.Handle(this);
                 }
             }
         }
@@ -63,27 +63,27 @@ namespace Client.Handler
         }
         public void HandleEvent(ActionCommMessage msg)
         {
-           
+
         }
 
         public void HandleEvent(EditCommMessage msg)
         {
-            
+
         }
 
         public void HandleEvent(LoginCommMessage msg)
         {
-            
+
         }
 
         public void HandleEvent(RegisterCommMessage msg)
         {
-           
+
         }
 
         public void HandleEvent(SearchCommMessage msg)
         {
-           
+
         }
 
         public void HandleEvent(GameDataCommMessage msg)
@@ -109,18 +109,21 @@ namespace Client.Handler
             task.Start();
         }
 
-      
+
         public void HandleEvent(CreatrNewRoomMessage msg)
         {
-          //Client to server msg
+            //Client to server msg
         }
 
-      
+
         public void HandleEvent(ChatCommMessage msg)
         {
             //Client to server msg
         }
-      
 
+        public void HandleEvent(ReplayCommMessage msg)
+        {
+            //Client to server msg
+        }
     }
 }

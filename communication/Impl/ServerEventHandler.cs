@@ -12,10 +12,11 @@ using TexasHoldemShared.Parser;
 namespace TexasHoldem.communication.Impl
 {
     //TODO: this class
-    class ServerEventHandler : IEventHandler
+    public class ServerEventHandler : IEventHandler
     {
         private readonly UserServiceHandler _userService = new UserServiceHandler(); //TODO init // = new UserServiceHandler();
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
+        private readonly ReplayHandler _replayService = new ReplayHandler();
         private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
 
@@ -324,6 +325,10 @@ namespace TexasHoldem.communication.Impl
             ResponeCommMessage response = new ChatResponceCommMessage(msg.roomId, idReciver, usernameSender, msg.chatType, msg.msgToSend, msg.UserId, success, msg);
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
- 
+
+        public void HandleEvent(ReplayCommMessage msg)
+        {
+            
+        }
     }
 }

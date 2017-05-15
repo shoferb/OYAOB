@@ -12,7 +12,7 @@ namespace TexasHoldemShared
         void HandleEvent(RegisterCommMessage msg);
         void HandleEvent(SearchCommMessage msg);
         void HandleEvent(ChatCommMessage msg);
-
+        void HandleEvent(ReplayCommMessage msg); 
         //server to client:
         void HandleEvent(GameDataCommMessage msg);
         void HandleEvent(ResponeCommMessage msg);
