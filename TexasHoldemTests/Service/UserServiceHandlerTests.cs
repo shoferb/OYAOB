@@ -96,9 +96,18 @@ namespace TexasHoldem.Service.Tests
         {
             Init();
             userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(userService.LoginUser("orelie2", "123456789"));
+            Assert.IsFalse(userService.LoginUser("orelie2", "123456789"));
 
         }
+
+        [TestMethod()]
+        public void LoginUserTest_bad_password()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.LoginUser("orelie26", "123s56789"));
+        }
+
         [TestMethod()]
         public void LogoutUserTest()
         {
