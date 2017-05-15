@@ -23,7 +23,7 @@ namespace TexasHoldem.GuiScreen
     {
         private ClientLogic cl;
         private Window parent;
-        private LogoutScreen logout;
+
         private int currUserId;
         public MainAfterLogin(Window Parent,int id, ClientLogic cli)
         {

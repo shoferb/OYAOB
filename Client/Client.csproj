@@ -80,10 +80,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GuiScreen\LogoutScreen.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="GuiScreen\MainAfterLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,9 +122,6 @@
     </Compile>
     <Compile Include="GuiScreen\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GuiScreen\LogoutScreen.xaml.cs">
-      <DependentUpon>LogoutScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\MainAfterLogin.xaml.cs">
       <DependentUpon>MainAfterLogin.xaml</DependentUpon>
