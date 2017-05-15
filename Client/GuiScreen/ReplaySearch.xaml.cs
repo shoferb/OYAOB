@@ -39,14 +39,47 @@ namespace Client.GuiScreen
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
         {
-            
-            if(SearchFilter_ComboBox.Text.Equals("View All Of My Game Replays"))
+            this.results_ListView.Items.Clear();
+            bool isAllReq;
+            int gameIdReq;
+            Tuple<bool, List<string>> ans = new Tuple<bool, List<string>>(false,new List<string>());
+            if (SearchFilter_ComboBox.Text.Equals("View All Of My Game Replays"))
             {
-                //TODO: Send 
+                isAllReq = true;
+                gameIdReq = -1;
+                ans = _logic.AskForReplays(isAllReq, gameIdReq);
             }
             else if(SearchFilter_ComboBox.Text.Equals("View Replay By Game ID"))
             {
-                //TODO: Send
+                isAllReq = false;
+                string temp = GameId_textBox.Text;
+                bool isValid = int.TryParse(temp, out gameIdReq);
+                if (!isValid)
+                {
+                    MessageBox.Show("Invalid Game ID input");
+                    
+                }
+                else
+                {
+                    ans = _logic.AskForReplays(isAllReq, gameIdReq);
+                }
+            }
+            
+            if (ans.Item1)
+            {
+                List<string> replays = ans.Item2;
+                foreach (string rep in replays)
+                {
+                    ListViewItem toAdd = new ListViewItem()
+                    {
+                        Content = rep
+                    };
+                    this.results_ListView.Items.Add(toAdd);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Search Failed!");
             }
         }
     }
