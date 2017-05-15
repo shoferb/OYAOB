@@ -426,7 +426,7 @@ namespace TexasHoldem.Service.Tests
             Init();
             userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
             IUser u = userService.GetUserById(305077901);
-            Assert.AreEqual(u.GetLeague(), LeagueName.A);
+            Assert.AreNotEqual(u.GetLeague(), LeagueName.A);
         }
 
         [TestMethod()]
