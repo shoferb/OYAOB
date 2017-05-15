@@ -702,10 +702,10 @@ namespace TexasHoldem.Logic.Game
             foreach (Player player in Players)
             {
                 player.AddPublicCardToPlayer(c);
-                gameData = GetGameData(player, 0, true);
+                gameData = GetGameData(player, 0, true, ActionType.HandCard);
                 ids.Add(player.user.Id());
                 ///send new public card for only 1 user
-                GameCenter.SendMessageToClient(player, gameData, ActionType.HandCard, true, ids);
+                GameCenter.SendMessageToClient(gameData, ids);
                 ids.Remove(player.user.Id());
             }
             PublicCards.Add(Deck.Draw());
