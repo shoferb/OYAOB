@@ -78,7 +78,7 @@ namespace Client.GuiScreen
                     this.results_ListView.Items.Add(toAdd);
                 }
             }
-            else
+            else if(!ans.Item1)
             {
                 MessageBox.Show("Search Failed!");
             }
