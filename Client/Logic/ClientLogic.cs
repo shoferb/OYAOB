@@ -212,6 +212,28 @@ namespace Client.Logic
             return toRet;
 
         }
+
+        public List<string> AskForReplays(bool isAll, int gameId)
+        {
+            ReplayCommMessage toSend = new ReplayCommMessage(this._userId, isAll, gameId);
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
+            _eventHandler.SendNewEvent(toSend);
+            while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            {
+                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                t.Wait();
+            }
+            bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            List<string> replays = new List<string>();
+            if (toRet)
+            {
+               
+            }
+            messagesSentObserver.Remove(messageToList);
+            return replays;
+
+        }
+
         public bool Logout(string userName, string password)
         {
             LoginCommMessage toSend = new LoginCommMessage(_userId, false, userName, password);
