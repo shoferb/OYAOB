@@ -247,8 +247,6 @@ namespace TexasHoldem.communication.Impl
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
         }
 
-    
-
         public void HandleEvent(ResponeCommMessage msg)
         {
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
@@ -273,7 +271,6 @@ namespace TexasHoldem.communication.Impl
             if (success)
             {
                 var game = _gameService.GetGameById(roomId);
-                var user = _userService.GetUserById(msg.UserId);
                 var gameData = new GameDataCommMessage(msg.UserId, roomId, null, null, new List<Card>(),
                     msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success);
                 _commHandler.AddMsgToSend(_parser.SerializeMsg(gameData), msg.UserId); 

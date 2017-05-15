@@ -180,8 +180,7 @@ namespace Client.Logic
             return toRet;
         }
        
-
-        public bool Login(string userName, string password)//check with oded
+        public bool Login(string userName, string password)
         {
             LoginCommMessage toSend = new LoginCommMessage(-1, true, userName, password);
             var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, 
@@ -293,7 +292,6 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-
 
         public void gotMsg(ChatResponceCommMessage msg)
         {

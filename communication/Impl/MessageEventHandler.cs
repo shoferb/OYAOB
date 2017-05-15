@@ -27,7 +27,7 @@ namespace TexasHoldem.communication.Impl
         {
             CommunicationHandler commHandler = CommunicationHandler.GetInstance();
 
-            while (!_shouldStop)//TODO: busy wait maybe change this
+            while (!_shouldStop)
             {
                 var allMsgs = commHandler.GetReceivedMessages();
                 if (allMsgs.Count == 0)
@@ -52,19 +52,14 @@ namespace TexasHoldem.communication.Impl
         private void HandleSingleRawMsg(CommunicationMessage parsedMsg, TcpClient tcpClient)
         {
             int userId = parsedMsg.UserId;
-            if (_userIdToEventHandlerMap.ContainsKey(userId))
-            {
-                //call to visitor pattern
-                parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
-            }
-            else
+            if (!_userIdToEventHandlerMap.ContainsKey(userId))
             {
                 ServerEventHandler handler = new ServerEventHandler(tcpClient);
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
-
-                //call to visitor
-                parsedMsg.Handle(handler);
             }
+
+            //call to visitor pattern
+            parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
         }
     }
 }
