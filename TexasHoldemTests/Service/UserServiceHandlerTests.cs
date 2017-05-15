@@ -384,24 +384,13 @@ namespace TexasHoldem.Service.Tests
             Assert.IsTrue(userService.EditUserAvatar(305077901, "newPic"));
         }
 
-        [TestMethod()]
-        public void GetActiveGamesByUserNameTest_good()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetSpectetorGamesByUserNameTest()
-        {
-            Assert.Fail();
-        }
 
         [TestMethod()]
         public void GetIUserByUserNameTest()
         {
             Init();
             userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            IUser u = userService.GetIUserByUserName("orleie26");
+            IUser u = userService.GetIUserByUserName("orelie26");
             Assert.IsTrue(sc.Users.Contains(u));
         }
 
