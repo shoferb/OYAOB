@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="SearchScreen" Height="420.8" Width="870.88" SizeToContent = "WidthAndHeight"  >
-    <Grid Margin="0,0,3.8,-18.2">
+        Title="SearchScreen" Height="416.4" Width="878.08" SizeToContent = "WidthAndHeight"  >
+    <Grid Margin="0,0,-6,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
