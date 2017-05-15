@@ -200,6 +200,7 @@ namespace TexasHoldem.Logic.Game
             string sbName = "";
             string bbName = "";
             string currName = "";
+            string playerName ="":
             Card card1 = null, card2 = null;
             if (DealerPlayer != null)
             {
@@ -222,11 +223,12 @@ namespace TexasHoldem.Logic.Game
                 card1 = player._firstCard;
                 card2 = player._secondCard;
                 userId = player.user.Id();
+                playerName = player.user.MemberName();
             }
             List<string> allPlayerNames = GetPlayersNames();
             GameDataCommMessage gd = new GameDataCommMessage(userId, Id, card1, card2,
             PublicCards , bet, PotCount , allPlayerNames, dealerName,
-            bbName, sbName, success, currName);
+            bbName, sbName, success, currName , playerName);
             return gd;
         }
 
@@ -285,13 +287,13 @@ namespace TexasHoldem.Logic.Game
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
                     gameData = GetGameData();
-                    GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, true);
+                    GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
                     return true;
                 }
-                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
                 return false;
             }
-            GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+            GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
             return false;
         }
 
