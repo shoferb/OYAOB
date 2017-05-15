@@ -455,8 +455,9 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(this.Id, check.ToString());
             logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
-            GameData gameData = GetGameData();
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Bet, true);
+            GameDataCommMessage gameData = GetGameData(player, 0, true);
+            List<int> ids = GetAllPlayersAndSpectatoresIds();
+            GameCenter.SendMessageToClient(player, gameData, ActionType.Bet, true, ids);
             return AfterAction();
         }
 
