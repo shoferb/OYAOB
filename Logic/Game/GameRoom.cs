@@ -470,8 +470,9 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(this.Id, fold.ToString());
             logControl.AddSystemLog(log);
-            GameData gameData = GetGameData();
-            GameCenter.SendMessageToClient(player, this.Id, gameData, ActionType.Fold, true);
+            GameDataCommMessage gameData = GetGameData(player, 0, true);
+            List<int> ids = GetAllPlayersAndSpectatoresIds();
+            GameCenter.SendMessageToClient(player, gameData, ActionType.Fold, true, ids);
 
             return AfterAction();
         }
