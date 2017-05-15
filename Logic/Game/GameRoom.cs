@@ -291,12 +291,12 @@ namespace TexasHoldem.Logic.Game
         private bool Join(IUser user, int amount)
         {
             Player p = new Player(user, amount, this.Id);
-            GameDataCommMessage gameData = GetGameData(p, amount, false);
+            GameDataCommMessage gameData = GetGameData(p, amount, false, ActionType.Join);
             List<int> idsTosend = new List<int>();
             idsTosend.Add(user.Id());
             if (IsUserASpectator(user))
             {
-                GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
+                GameCenter.SendMessageToClient(gameData, idsTosend);
                 return false;
             }
             if (MyDecorator.CanJoin(Players.Count , amount, user))
@@ -305,14 +305,14 @@ namespace TexasHoldem.Logic.Game
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
                     List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
-                    gameData = GetGameData(p, amount, true);
-                    GameCenter.SendMessageToClient(p, gameData, ActionType.Join, true, idsTosend);
+                    gameData = GetGameData(p, amount, true, ActionType.Join);
+                    GameCenter.SendMessageToClient(gameData, idsTosend);
                     return true;
                 }
-                GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
+                GameCenter.SendMessageToClient(gameData, idsTosend);
                 return false;
             }
-            GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
+            GameCenter.SendMessageToClient(gameData, idsTosend);
             return false;
         }
 
