@@ -441,6 +441,15 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
+        public void AddRoomToActiveGameListTest_Bad_game_null()
+        {
+
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+        }
+
+        [TestMethod()]
         public void AddRoomToSpectetorGameListTest()
         {
             Assert.Fail();
