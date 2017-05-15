@@ -236,7 +236,7 @@ namespace Client.Logic
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
-                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                var t = Task.Run(async delegate { await Task.Delay(10); });
                 t.Wait();
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
@@ -253,7 +253,7 @@ namespace Client.Logic
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
-                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                var t = Task.Run(async delegate { await Task.Delay(10); });
                 t.Wait();
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
@@ -277,7 +277,7 @@ namespace Client.Logic
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
-                var t = Task.Run(async delegate { await Task.Delay(1000); });
+                var t = Task.Run(async delegate { await Task.Delay(10); });
                 t.Wait();
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
@@ -320,7 +320,7 @@ namespace Client.Logic
                     _eventHandler.SendNewEvent(response);
                     while ((messagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
                     {
-                        var t = Task.Run(async delegate { await Task.Delay(1000); });
+                        var t = Task.Run(async delegate { await Task.Delay(10); });
                         t.Wait();
                     }
                     bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
@@ -335,7 +335,7 @@ namespace Client.Logic
                     _eventHandler.SendNewEvent(response);
                     while ((messagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
                     {
-                        var t = Task.Run(async delegate { await Task.Delay(1000); });
+                        var t = Task.Run(async delegate { await Task.Delay(10); });
                         t.Wait();
                     }
                     bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
