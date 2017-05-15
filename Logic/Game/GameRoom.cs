@@ -222,6 +222,11 @@ namespace TexasHoldem.Logic.Game
             return gd;
         }
 
+        private List<string> GetPlayersNames()
+        {
+            throw new NotImplementedException();
+        }
+
         private bool FixRoles(Player playerLeaved)
         {
             if (playerLeaved == DealerPlayer)
