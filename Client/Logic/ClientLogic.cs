@@ -79,7 +79,7 @@ namespace Client.Logic
 
         public void CloseSystem()
         {
-            _eventHandler.close();
+            _eventHandler.Close();
             _handler.Close();
         }
         public bool EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField field, string value)

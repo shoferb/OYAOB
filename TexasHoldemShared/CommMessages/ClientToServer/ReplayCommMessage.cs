@@ -21,6 +21,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         }
 
 
+        //TODO: ask Oded if needed Equal method? 
+
 
         public override void Handle(IEventHandler handler)
         {

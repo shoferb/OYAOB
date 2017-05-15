@@ -308,6 +308,10 @@ namespace TexasHoldem.communication.Impl
             ResponeCommMessage response = new ChatResponceCommMessage(msg.roomId, idReciver, usernameSender, msg.chatType, msg.msgToSend, msg.UserId, success, msg);
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
- 
+
+        public void HandleEvent(ReplayCommMessage msg)//TODO!!!
+        {
+            throw new NotImplementedException();
+        }
     }
 }
