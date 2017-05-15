@@ -170,8 +170,10 @@ namespace TexasHoldem.Logic.Game
                     relevantPlayers.Add(p);
                 }
             }
+            List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
+            idsToSend.Add(player.user.Id());
             GameDataCommMessage gameData = GetGameData(player, 0 , true);
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
+            GameCenter.SendMessageToClient(player, gameData, ActionType.Leave, true, idsToSend);
             Players = relevantPlayers;
             if (Players.Count == 0)
             {
@@ -191,6 +193,11 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             return true; 
+        }
+
+        private List<int> GetAllPlayersAndSpectatoresIds()
+        {
+            throw new NotImplementedException();
         }
 
         private GameDataCommMessage GetGameData(Player player, int bet, bool success)
