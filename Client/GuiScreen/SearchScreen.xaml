@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
         Title="SearchScreen" Height="420.8" Width="870.88" SizeToContent = "WidthAndHeight"  >
-    <Grid Margin="0,0,0,-18.2" Height="411" VerticalAlignment="Top" HorizontalAlignment="Left" Width="861">
+    <Grid Margin="0,0,3.8,-18.2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
