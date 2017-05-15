@@ -333,10 +333,24 @@ namespace TexasHoldem.Service.Tests
             Init();
             userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
             userService.RegisterToSystem(305077902, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il");
-
             Assert.IsFalse(userService.EditId(305077901, 305077902));
         }
 
+        [TestMethod()]
+        public void EditIdTest_bad_no_user()
+        {
+            Init();
+            Assert.IsFalse(userService.EditId(305077901, 305077902));
+        }
+
+        [TestMethod()]
+        public void EditIdTest_bad_invalid_id()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+
+            Assert.IsFalse(userService.EditId(305077901, -1));
+        }
         [TestMethod()]
         public void EditMoneyTest()
         {
