@@ -216,7 +216,7 @@ namespace TexasHoldem.Logic.Game
             string sbName = "";
             string bbName = "";
             string currName = "";
-            string playerName ="":
+            string playerName = "";
             Card card1 = null, card2 = null;
             if (DealerPlayer != null)
             {
