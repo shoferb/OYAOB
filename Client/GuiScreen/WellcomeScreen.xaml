@@ -12,16 +12,16 @@
     <Grid Margin="0,0,-0.4,-0.4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="97*"/>
             <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
-        <Button x:Name="LoginButton" Grid.ColumnSpan="2" Content="LoginScreen" HorizontalAlignment="Left" Margin="39,83,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
-        <Button x:Name="RegisterButton" Grid.ColumnSpan="2" Content="Register" HorizontalAlignment="Left" Margin="39,125,0,0" VerticalAlignment="Top" Width="75" Click="RegisterButton_Click"/>
-        <Button x:Name="ExitButton" Grid.ColumnSpan="2" Content="Exit" HorizontalAlignment="Left" Margin="39,172,0,0" VerticalAlignment="Top" Width="75" Click="ExitButton_Click"/>
-        <Label x:Name="WellcomLabel" Grid.ColumnSpan="2" Content="Welcome" HorizontalAlignment="Left" Margin="14,23,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25"/>
+        <Button x:Name="LoginButton" Grid.ColumnSpan="2" Content="LoginScreen" HorizontalAlignment="Left" Margin="39,83,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click" Height="22"/>
+        <Button x:Name="RegisterButton" Grid.ColumnSpan="2" Content="Register" HorizontalAlignment="Left" Margin="39,125,0,0" VerticalAlignment="Top" Width="75" Click="RegisterButton_Click" Height="22"/>
+        <Button x:Name="ExitButton" Grid.ColumnSpan="2" Content="Exit" HorizontalAlignment="Left" Margin="39,172,0,0" VerticalAlignment="Top" Width="75" Click="ExitButton_Click" Height="22"/>
+        <Label x:Name="WellcomLabel" Grid.ColumnSpan="2" Content="Welcome" HorizontalAlignment="Left" Margin="14,23,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Height="43" Width="120"/>
     </Grid>
 </Window>
