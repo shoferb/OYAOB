@@ -446,6 +446,16 @@ namespace TexasHoldem.Logic.Users.Tests
 
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
             IGame gameRoom = null;
+            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+        }
+
+
+        [TestMethod()]
+        public void AddRoomToActiveGameListTest_Bad_already_contain()
+        {
+
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
@@ -457,14 +467,6 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
 
-        [TestMethod()]
-        public void AddRoomToActiveGameListTest_Bad_already_contain()
-        {
-
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom = null;
-            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
-        }
         [TestMethod()]
         public void AddRoomToSpectetorGameListTest()
         {
