@@ -34,7 +34,7 @@
         <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="194,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="194,275,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox x:Name="LeaugeTextBox" HorizontalAlignment="Left" Height="23" Margin="194,310,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Image x:Name="Avatarimage" HorizontalAlignment="Left" Height="100" Margin="194,362,0,0" VerticalAlignment="Top" Width="100" Source=""/>
+        <Image x:Name="Avatarimage" HorizontalAlignment="Left" Height="100" Margin="194,362,0,0" VerticalAlignment="Top" Width="100" />
 
     </Grid>
 </Window>

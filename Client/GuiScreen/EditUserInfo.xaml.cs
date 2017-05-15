@@ -33,13 +33,13 @@ namespace TexasHoldem.GuiScreen
         private int money;
 
 
-        public EditUserInfo(Window parent, int id, ClientLogic cli)
+        public EditUserInfo(Window parent, ClientLogic cli)
         {
             InitializeComponent();
             parentScreen = parent;
             cl = cli;
-            currId = id;
-            cl.SetUserId(id);
+           
+
         }
 
         private void currPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
@@ -91,7 +91,7 @@ namespace TexasHoldem.GuiScreen
             {
                 MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
                 currId = Id;
-                cl.SetUserId(Id);
+            
                 cl.user.id = Id;
             }
             else

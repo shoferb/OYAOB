@@ -63,13 +63,7 @@ namespace Client.Logic
             return toRet;
 
         }
-        public bool SetUserId(int newId)
-        {
-            _userId = newId;
-            this._eventHandler.SetNewUserId(newId);
-            this._handler.SetUserId(newId);
-            return true;
-        }
+      
         //needed to be call after create new ClientEventHandler and a new client logic
         public void Init(ClientEventHandler eventHandler, CommunicationHandler handler)
         {
