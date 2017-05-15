@@ -11,7 +11,7 @@ namespace TexasHoldemShared.Parser
 {
     public class ParserImplementation : ICommMsgXmlParser
     {
-        private static readonly char[] DelimArr = {'\r'};
+        private static readonly string[] DelimArr = {"\r\r\r\r"};
 
         public string SerializeMsg(CommunicationMessage msg)
         {
@@ -169,7 +169,10 @@ namespace TexasHoldemShared.Parser
             var parsed = new List<CommunicationMessage>();
             foreach (var m in msgs)
             {
-                parsed.Add(ParseSingleString(m));
+                if (!string.IsNullOrEmpty(m))
+                {
+                    parsed.Add(ParseSingleString(m)); 
+                }
             }
             return parsed;
         }

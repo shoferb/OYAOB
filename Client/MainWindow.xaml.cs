@@ -31,12 +31,12 @@ namespace Client
             InitializeComponent();
             WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
-            AvatarEditScreen avatar = new AvatarEditScreen(wellcomeScreen, cl);
-            avatar.Show();
-            SearchScreen aSearchScreen = new SearchScreen(wellcomeScreen, cl);
-            aSearchScreen.Show();
-            MainAfterLogin ma = new MainAfterLogin(wellcomeScreen, cl.user.id, cl);
-            ma.Show();
+            //AvatarEditScreen avatar = new AvatarEditScreen(wellcomeScreen, cl);
+            //avatar.Show();
+            //SearchScreen aSearchScreen = new SearchScreen(wellcomeScreen, cl);
+            //aSearchScreen.Show();
+            //MainAfterLogin ma = new MainAfterLogin(wellcomeScreen, cl.user.id, cl);
+            //ma.Show();
             this.Hide();/*
             LoginScreen l = new LoginScreen(wellcomeScreen,cl);
             l.Show();

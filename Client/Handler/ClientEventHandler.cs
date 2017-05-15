@@ -93,7 +93,7 @@ namespace Client.Handler
 
         public void HandleEvent(ResponeCommMessage msg)
         {
-            if (msg.GetType().Equals(typeof(ChatResponceCommMessage)))
+            if (msg.GetType() == typeof(ChatResponceCommMessage))
             {
                 _logic.gotMsg((ChatResponceCommMessage)msg);
             }

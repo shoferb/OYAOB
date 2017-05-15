@@ -120,7 +120,7 @@ namespace TexasHoldem.communication.Impl
             bool success = _userService.LoginUser(msg.UserName, msg.Password);
             if (success)
             {
-                IUser user = _userService.GetUserById(msg.UserId);
+                IUser user = _userService.GetIUserByUserName(msg.UserName);
                 ResponeCommMessage response = new LoginResponeCommMessage(user.Id(), user.Name(), user.MemberName(),
                     user.Password(), user.Avatar(), user.Money()
                     , user.Email(),user.GetLeague().ToString(), success, msg);
