@@ -56,32 +56,8 @@ namespace TexasHoldem.Logic.Game_Control
             return gm.DoAction(user, action, amount);
         }
 
-        //TODO : add cuurPlayerTurn
         public void SendMessageToClient(Player player, GameDataCommMessage gmData, CommunicationMessage.ActionType action, bool isSucceed, List<int> idsToSend)
         {
-            //GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
-            //    player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
-            //    gmData.getPotSize(), gmData.getPlayersNames(), gmData.getDealer(), gmData.GetBbPlayer(),
-            //    gmData.GetSbPlayer(), isSucceed); 
-            //switch (action)
-            //{
-            //    case CommunicationMessage.ActionType.HandCard:
-            //    case CommunicationMessage.ActionType.StartGame:
-            //        GameServiceHandler.SendMessageToClientGameData(gameDataMes);
-            //        break;
-
-            //    case CommunicationMessage.ActionType.Fold:
-            //    case CommunicationMessage.ActionType.Bet:
-            //    case CommunicationMessage.ActionType.Join:
-            //    case CommunicationMessage.ActionType.Leave:
-
-            //        // we need to send game message also
-            //        GameServiceHandler.SendMessageToClientGameData(gameDataMes);
-            //        ResponeCommMessage resp = new ResponeCommMessage(player.user.Id(), isSucceed, gameDataMes);
-            //        GameServiceHandler.SendMessageToClientResponse(resp);
-            //        break;
-            //}
-
 
         }
 
