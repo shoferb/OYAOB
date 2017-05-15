@@ -297,9 +297,27 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void EditNameTest()
+        public void EditNameTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditName(305077901, "NewName"));
+        }
+
+        [TestMethod()]
+        public void EditNameTest_Bad_name_empty()
+        {
+            Init();
+            userService.RegisterToSystem(305077902, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il");
+
+            Assert.IsFalse(userService.EditName(305077902, " "));
+        }
+
+        [TestMethod()]
+        public void EditNameTest_Bad_No_user()
+        {
+            Init();
+            Assert.IsFalse(userService.EditName(305077902, "orelie"));
         }
 
         [TestMethod()]
