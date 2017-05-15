@@ -5,6 +5,7 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 namespace TexasHoldemShared.CommMessages
 {
     [XmlInclude(typeof(CommunicationMessage))]
+    [XmlInclude(typeof(ActionCommMessage))]
     [XmlInclude(typeof(ChatCommMessage))]
     [XmlInclude(typeof(CreatrNewRoomMessage))]
     [XmlInclude(typeof(EditCommMessage))]

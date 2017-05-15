@@ -255,7 +255,9 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(CreatrNewRoomMessage msg) //TODO
         {
-            int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy, msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers , msg._buyInPolicy , msg._minBet);
+            int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy,
+                msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers ,
+                msg._buyInPolicy , msg._minBet);
             bool success;
             if (roomId == -1)
             {
@@ -265,9 +267,16 @@ namespace TexasHoldem.communication.Impl
             {
                 success = true;
             }
-            ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
+            var response = new ResponeCommMessage(msg.UserId, success, msg);
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
-            //add gae data send. maybe here maybe in game service
+            if (success)
+            {
+                var game = _gameService.GetGameById(roomId);
+                var user = _userService.GetUserById(msg.UserId);
+                var gameData = new GameDataCommMessage(msg.UserId, roomId, null, null, new List<Card>(),
+                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success);
+                _commHandler.AddMsgToSend(_parser.SerializeMsg(gameData), msg.UserId); 
+            }
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
