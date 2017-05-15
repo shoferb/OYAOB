@@ -360,6 +360,13 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void EditMoneyTest_bad_no_user()
+        {
+            Init();
+            Assert.IsTrue(userService.EditMoney(305077901, 800));
+        }
+
+        [TestMethod()]
         public void GetUserNotificationsTest()
         {
             Assert.Fail();
