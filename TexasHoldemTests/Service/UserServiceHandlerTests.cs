@@ -92,6 +92,14 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void LoginUserTest_bad_username()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.LoginUser("orelie2", "123456789"));
+
+        }
+        [TestMethod()]
         public void LogoutUserTest()
         {
             Assert.Fail();
