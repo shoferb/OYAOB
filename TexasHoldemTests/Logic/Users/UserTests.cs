@@ -425,7 +425,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomID, deco);
             user.AddRoomToActiveGameList(gameRoom);
-            Assert.IsTrue(user.ActiveGameList().Contains(gameRoom));
+            Assert.IsTrue(user.HasThisActiveGame(gameRoom));
         }
 
         [TestMethod()]
@@ -439,8 +439,17 @@ namespace TexasHoldem.Logic.Users.Tests
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomID, deco);
-            Assert.IsFalse(user.ActiveGameList().Contains(gameRoom));
+            Assert.IsFalse(user.HasThisActiveGame(gameRoom));
         }
+
+        [TestMethod()]
+        public void HasThisActiveGameTest_Bad_game_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.HasThisActiveGame(gameRoom));
+        }
+    
 
         [TestMethod()]
         public void HasThisSpectetorGameTest()
