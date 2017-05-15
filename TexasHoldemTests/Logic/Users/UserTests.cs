@@ -403,8 +403,18 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void RemoveRoomFromActiveGameListTest()
+        public void RemoveRoomFromActiveGameListTest_good()
         {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            user.AddRoomToActiveGameList(gameRoom);
+            Assert.IsTrue(user.RemoveRoomFromActiveGameList(gameRoom));
         }
 
         [TestMethod()]
