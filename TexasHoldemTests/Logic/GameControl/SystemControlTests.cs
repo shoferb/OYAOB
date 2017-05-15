@@ -106,7 +106,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         }
 
         [TestMethod()]
-        public void GetIUSerByUsernameTest()
+        public void GetIUSerByUsernameTest_good()
         {
             sc = SystemControl.SystemControlInstance;
             sc.Users = new List<IUser>();
@@ -115,6 +115,15 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(sc.Users.Contains(u));
         }
 
+
+        [TestMethod()]
+        public void GetIUSerByUsernameTest_bad_no_user()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsFalse(sc.Users.Contains(u));
+        }
         [TestMethod()]
         public void RegisterToSystemTest1()
         {
