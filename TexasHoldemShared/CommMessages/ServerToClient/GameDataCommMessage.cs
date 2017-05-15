@@ -51,7 +51,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             betAmount = bet;
             action = actionType;
         }
-
+       
         //visitor pattern
         public override void Handle(IEventHandler handler)
         {
@@ -70,6 +70,10 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
                 good = PlayerCards.Aggregate(good, (current, card) => current && afterCasting.PlayerCards.Contains(card));
                 good = AllPlayerNames.Aggregate(good, (current, name) => current && afterCasting.AllPlayerNames.Contains(name));
                 good = TableCards.Aggregate(good, (current, card) => current && afterCasting.TableCards.Contains(card));
+                good = good && afterCasting.actionPlayerName.Equals(actionPlayerName);
+                good = good && afterCasting.actionPlayerName.Equals(actionPlayerName);
+                good = good && afterCasting.betAmount == this.betAmount;
+                good = good && afterCasting.action.Equals(action);
                 return good;
             }
             return false;
