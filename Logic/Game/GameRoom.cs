@@ -328,15 +328,17 @@ namespace TexasHoldem.Logic.Game
 
         private bool StartGame(Player player)
         {
-            GameData gameData = GetGameData();
+            GameDataCommMessage gameData = GetGameData(player, 0, false);
+            List<int> ids = new List<int>();
+            ids.Add(player.user.Id());
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
-                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
+                GameCenter.SendMessageToClient(player, gameData, ActionType.StartGame, false, ids);
                 return false;
             }
             if (IsActiveGame == true) //can't start an already active game
             {
-                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, false);
+                GameCenter.SendMessageToClient(player, gameData, ActionType.StartGame, false, ids);
                 return false;
             }
             Hand_Step = HandStep.PreFlop;
@@ -349,8 +351,9 @@ namespace TexasHoldem.Logic.Game
             this.GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(this.Id, startAction.ToString());
             logControl.AddSystemLog(log2);
-            gameData = GetGameData();
-            GameCenter.SendMessageToClient(player, Id, gameData, ActionType.StartGame, true);
+            gameData = GetGameData(player, 0, true);
+            ids = GetAllPlayersAndSpectatoresIds();
+            GameCenter.SendMessageToClient(player, gameData, ActionType.StartGame, true, ids);
             maxBetInRound = Bb;
 
             HandCardsAndInitPlayers();
