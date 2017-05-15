@@ -30,15 +30,45 @@ namespace TexasHoldem.GuiScreen
             InitializeComponent();
             cl = cli;      
             parent = Parent;
-            currUserId = id;
-            cl.SetUserId(currUserId);
+           
         }
 
         private void Logoututton_Click(object sender, RoutedEventArgs e)
         {
-           logout = new LogoutScreen(this,currUserId);
-           logout.Show();
-           this.Hide();
+            MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNoCancel);
+            bool done = false;
+            while (!done)
+            {
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        string username = cl.user.username;
+                        string password = cl.user.password;
+                        bool logoutOk = cl.Logout(username, password);
+                        if (logoutOk)
+                        {
+                            MessageBox.Show("Logout OK!");
+                            done = true;
+                            WellcomeScreen wellcomeScreen = new WellcomeScreen();
+
+                            wellcomeScreen.Show();
+                            this.Close();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Logout Fail! - please try again");
+                        }
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                    case MessageBoxResult.Cancel:
+                        done = true;
+                        break;
+                }
+            }
+           
+       
         }
 
         public void SetCurrId(int newId)
@@ -46,13 +76,10 @@ namespace TexasHoldem.GuiScreen
             this.currUserId = newId;
         }
 
-        public void SetClientLogicId(int id)
-        {
-            cl.SetUserId(id);
-        }  
+        
         private void EditUserbutton_Click(object sender, RoutedEventArgs e)
         {
-            EditUserInfo editUserInfo = new EditUserInfo(this,currUserId,cl);
+            EditUserInfo editUserInfo = new EditUserInfo(this,cl);
             editUserInfo.Show();
             this.Hide();
         }

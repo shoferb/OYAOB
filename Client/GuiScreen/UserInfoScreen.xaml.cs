@@ -47,7 +47,7 @@ namespace Client.GuiScreen
 
         private void EditMenubutton_Click(object sender, RoutedEventArgs e)
         {
-            EditUserInfo editUserInfo = new EditUserInfo(this,cl.user.id,cl);
+            EditUserInfo editUserInfo = new EditUserInfo(this,cl);
             editUserInfo.Show();
             this.Hide();
         }

@@ -25,13 +25,12 @@ namespace TexasHoldem.GuiScreen
         private string username;
         private string password;
         private int currUserId;
-        public LogoutScreen(Window w,int id)
+        public LogoutScreen(Window w)
         {
             InitializeComponent();
             parent = w;
             cl = new ClientLogic();
-            currUserId = id;
-            cl.SetUserId(currUserId);
+          
         }
 
         private void UserNametextBox_TextChanged(object sender, TextChangedEventArgs e)

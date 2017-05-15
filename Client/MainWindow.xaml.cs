@@ -27,6 +27,7 @@ namespace Client
         {
             ClientLogic cl = new ClientLogic();
             ClientUser user = new ClientUser(3, "orelie", "orelie", "", "", 1, "", "");
+            cl.user = user;
             InitializeComponent();
             WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
@@ -34,6 +35,8 @@ namespace Client
             avatar.Show();
             SearchScreen aSearchScreen = new SearchScreen(wellcomeScreen, cl);
             aSearchScreen.Show();
+            MainAfterLogin ma = new MainAfterLogin(wellcomeScreen, cl.user.id, cl);
+            ma.Show();
             this.Hide();/*
             LoginScreen l = new LoginScreen(wellcomeScreen,cl);
             l.Show();
