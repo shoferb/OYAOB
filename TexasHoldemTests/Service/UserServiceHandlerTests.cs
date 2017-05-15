@@ -51,6 +51,12 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_passWord()
+        {
+            Init();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123", 15000, "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
         public void LoginUserTest()
         {
             Assert.Fail();
