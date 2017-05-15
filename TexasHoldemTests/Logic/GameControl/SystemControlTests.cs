@@ -198,15 +198,77 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             sc.Users = new List<IUser>();
             Assert.IsTrue(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "orelie@post.bgu.ac.il"));
         }
-
         [TestMethod()]
-        public void IsUsernameFreeTest1()
+        public void CanCreateNewUserTest_Bad_id()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(-1, "orelie26", "123456789", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_Bad_userName()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, " ", "123456789", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_bad_email()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "oreliepost.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_bad_email_empty()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "oreliepost.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_password()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", "123", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_password_empty()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", " ", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void IsUsernameFreeTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.IsUsernameFree("orelie"));
+
         }
 
         [TestMethod()]
-        public void IsIdFreeTest1()
+        public void IsUsernameFreeTest_bad_taken()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.IsUsernameFree("orelie26"));
+        }
+
+        [TestMethod()]
+        public void IsUsernameFreeTest_bad_empty()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.IsUsernameFree(" "));
+        }
+
+        [TestMethod()]
+        public void IsIdFreeTest_good()
         {
             Assert.Fail();
         }
