@@ -19,11 +19,12 @@ namespace TexasHoldem.Logic.GameControl
         bool CreateNewRoomWithRoomId(int roomId, IUser user, int startingChip, bool canSpectate, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet);
         int GetNextIdRoom();
-        IGameCenter Instance { get; }
+
+       IGameCenter Instance {get;}
         List<IGame> GetAllActiveGamesAUserCanJoin(IUser user);
         List<IGame> GetAllActiveGame();
         List<IGame> GetAllGames();
-        List<IGame> GetSpectateableGames();
+        List<IGame> GetAllSpectetorGame();
         List<IGame> GetAllGamesByPotSize(int potSize);
         List<IGame> GetGamesByGameMode(GameMode gm);
         List<IGame> GetGamesByBuyInPolicy(int buyIn);
