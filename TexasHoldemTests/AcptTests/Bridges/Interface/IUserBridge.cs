@@ -41,5 +41,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool ReduceUserMoney(int userId, int amount);
         bool AddUserMoney(int userId, int amount);
         bool RemoveSpectatorFromRoom(int userId, int roomId);
+        bool DividLeage();
     }
 }

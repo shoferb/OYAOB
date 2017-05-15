@@ -68,6 +68,17 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
+        public bool SetPoints(int amount)
+        {
+            if (amount > 0)
+            {
+                points += amount;
+                return true;
+            }
+
+            return false;
+        }
+
         //inc num of games play
         public bool IncGamesPlay()
         {

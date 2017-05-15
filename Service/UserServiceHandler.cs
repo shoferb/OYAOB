@@ -238,5 +238,7 @@ namespace TexasHoldem.Service
         {
             return sc.DivideLeague();
         }
+
+       
     }
 }

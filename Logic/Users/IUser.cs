@@ -13,7 +13,8 @@ namespace TexasHoldem.Logic.Users
     {
         //return true if playes in less than 11 games;
         bool IsUnKnow();
-
+        //for testing only
+        bool SetPoints(int amount);
         //inc num of games play
         bool IncGamesPlay();
 
