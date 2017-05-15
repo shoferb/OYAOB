@@ -385,9 +385,12 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void GetActiveGamesByUserNameTest()
+        public void GetActiveGamesByUserNameTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = userService.GetIUserByUserName("orleie26");
+            Assert.IsTrue(sc.Users.Contains(u));
         }
 
         [TestMethod()]
@@ -453,7 +456,7 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void DevideLeagueTest_good_check_league_highest()
+        public void DevideLeagueTest_good_check_league_A()
         {
             Init();
             string name = "";
@@ -463,11 +466,19 @@ namespace TexasHoldem.Service.Tests
                 userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
                 userService.EditUserPoints(i, i);
             }
+           
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    userService.GetUserById(i).IncGamesPlay();
+                }
+            }
             Assert.AreEqual(userService.GetUserById(10).GetLeague(),LeagueName.A);
 
         }
         [TestMethod()]
-        public void DevideLeagueTest_good_check_league_low()
+        public void DevideLeagueTest_good_check_league_C()
         {
             Init();
             string name = "";
@@ -476,6 +487,76 @@ namespace TexasHoldem.Service.Tests
                 name = "" + i;
                 userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
                 userService.EditUserPoints(i, i);
+            }
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    userService.GetUserById(i).IncGamesPlay();
+                }
+            }
+            Assert.AreEqual(userService.GetUserById(9).GetLeague(), LeagueName.C);
+
+        }
+        [TestMethod()]
+        public void DevideLeagueTest_good_check_league_B()
+        {
+            Init();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                userService.EditUserPoints(i, i);
+            }
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    userService.GetUserById(i).IncGamesPlay();
+                }
+            }
+            Assert.AreEqual(userService.GetUserById(13).GetLeague(), LeagueName.C);
+
+        }
+        [TestMethod()]
+        public void DevideLeagueTest_good_check_league_D()
+        {
+            Init();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                userService.EditUserPoints(i, i);
+            }
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    userService.GetUserById(i).IncGamesPlay();
+                }
+            }
+            Assert.AreEqual(userService.GetUserById(5).GetLeague(), LeagueName.D);
+
+        }
+        [TestMethod()]
+        public void DevideLeagueTest_good_check_league_E()
+        {
+            Init();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                userService.EditUserPoints(i, i);
+            }
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    userService.GetUserById(i).IncGamesPlay();
+                }
             }
             Assert.AreEqual(userService.GetUserById(1).GetLeague(), LeagueName.E);
 
