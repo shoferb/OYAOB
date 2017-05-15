@@ -27,12 +27,13 @@ namespace Client.GuiScreen
         public ReplaySearch(ClientLogic cl, Window p)
         {
             InitializeComponent();
-            _logic = cl;
-            _parent = p;
+            _logic = cl;//init cient logic
+            _parent = p;//window Parenr
         }
 
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
+
             this.Hide();
             _parent.Show();
         }
