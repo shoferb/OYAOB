@@ -213,7 +213,7 @@ namespace Client.Logic
 
         }
 
-        public List<string> AskForReplays(bool isAll, int gameId)
+        public Tuple<bool,List<string>> AskForReplays(bool isAll, int gameId)
         {
             ReplayCommMessage toSend = new ReplayCommMessage(this._userId, isAll, gameId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(_userId)); messagesSentObserver.Add(messageToList);
@@ -227,10 +227,11 @@ namespace Client.Logic
             List<string> replays = new List<string>();
             if (toRet)
             {
-               
+                ReplaySearchResponseCommMessage retMsg = (ReplaySearchResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                replays = retMsg.replaysAsked;
             }
             messagesSentObserver.Remove(messageToList);
-            return replays;
+            return new Tuple<bool, List<string>>(toRet,replays);
 
         }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldemShared.CommMessages.ServerToClient
 {
-    class ReplaySearchResponseCommMessage : ResponeCommMessage
+    public class ReplaySearchResponseCommMessage : ResponeCommMessage
     {
         public List<string> replaysAsked;
 
