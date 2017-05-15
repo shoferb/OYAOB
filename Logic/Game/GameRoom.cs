@@ -197,7 +197,16 @@ namespace TexasHoldem.Logic.Game
 
         private List<int> GetAllPlayersAndSpectatoresIds()
         {
-            throw new NotImplementedException();
+            List<int> ids = new List<int>();
+            foreach(Player p in Players)
+            {
+                ids.Add(p.user.Id());
+            }
+            foreach(Spectetor s in Spectatores)
+            {
+                ids.Add(s.user.Id());
+            }
+            return ids;
         }
 
         private GameDataCommMessage GetGameData(Player player, int bet, bool success)
