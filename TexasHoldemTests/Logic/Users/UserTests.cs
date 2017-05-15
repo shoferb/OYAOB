@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Users.Tests
 {
@@ -389,41 +390,260 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.EditUserMoney(-100));
         }
 
-
-        [TestMethod()]
-        public void RemoveRoomFromActiveGameListTest()
+         
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
         {
-           
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.Unknow);
+            before.SetNextDecorator(mid);
+            return before;
         }
 
         [TestMethod()]
-        public void RemoveRoomFromSpectetorGameListTest()
+        public void RemoveRoomFromActiveGameListTest_good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            user.AddRoomToActiveGameList(gameRoom);
+            Assert.IsTrue(user.RemoveRoomFromActiveGameList(gameRoom));
+        }
+
+
+        [TestMethod()]
+        public void RemoveRoomFromActiveGameListTest_bad_dont_contain()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
+        }
+
+
+
+        [TestMethod()]
+        public void RemoveRoomFromActiveGameListTest_bad_game_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
         }
 
         [TestMethod()]
-        public void HasThisActiveGameTest()
+        public void RemoveRoomFromSpectetorGameListTest_good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            user2.AddRoomToSpectetorGameList(gameRoom);
+            Assert.IsTrue(user2.RemoveRoomFromSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
-        public void HasThisSpectetorGameTest()
+        public void RemoveRoomFromSpectetorGameListTest_Bad_dont_contain()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Assert.IsFalse(user2.RemoveRoomFromSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
-        public void AddRoomToActiveGameListTest()
+        public void RemoveRoomFromSpectetorGameListTest_Bad_game_null()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.RemoveRoomFromSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
-        public void AddRoomToSpectetorGameListTest()
+        public void HasThisActiveGameTest_good_contain()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            user.AddRoomToActiveGameList(gameRoom);
+            Assert.IsTrue(user.HasThisActiveGame(gameRoom));
+        }
+
+        [TestMethod()]
+        public void HasThisActiveGameTest_good_dont_contain()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Assert.IsFalse(user.HasThisActiveGame(gameRoom));
+        }
+
+        [TestMethod()]
+        public void HasThisActiveGameTest_Bad_game_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.HasThisActiveGame(gameRoom));
+        }
+
+
+        [TestMethod()]
+        public void HasThisSpectetorGameTest_good_contain()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            user2.AddRoomToSpectetorGameList(gameRoom);
+            Assert.IsTrue(user2.HasThisSpectetorGame(gameRoom));
+        }
+
+        [TestMethod()]
+        public void HasThisSpectetorGameTest_good_dont_contain()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            Assert.IsFalse(user2.HasThisSpectetorGame(gameRoom));
+        }
+
+
+        [TestMethod()]
+        public void HasThisSpectetorGameTest_bad_game_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            Assert.IsFalse(user.HasThisSpectetorGame(gameRoom));
+        }
+
+        [TestMethod()]
+        public void AddRoomToActiveGameListTest_good()
+        {
+
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Assert.IsTrue(user.AddRoomToActiveGameList(gameRoom));
+        }
+
+        [TestMethod()]
+        public void AddRoomToActiveGameListTest_Bad_game_null()
+        {
+
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+        }
+
+
+        [TestMethod()]
+        public void AddRoomToActiveGameListTest_Bad_already_contain()
+        {
+
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            user.AddRoomToActiveGameList(gameRoom);
+            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+        }
+
+
+        [TestMethod()]
+        public void AddRoomToSpectetorGameListTest_good()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            Assert.IsTrue(user2.AddRoomToSpectetorGameList(gameRoom));
+        }
+
+        [TestMethod()]
+        public void AddRoomToSpectetorGameListTest_Bad_Room_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.AddRoomToSpectetorGameList(gameRoom));
+        }
+
+        [TestMethod()]
+        public void AddRoomToSpectetorGameListTest_Bad_Room_aready_contains()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            user2.AddRoomToSpectetorGameList(gameRoom);
+            Assert.IsFalse(user2.AddRoomToSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
@@ -488,13 +708,6 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsTrue(user.HasEnoughMoney(100, 50));
         }
 
-        [TestMethod()]
-        public void HasEnoughMoneyTest_good()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            user.HasEnoughMoney(100, 50);
-            Assert.AreEqual(user.Money(), 350);
-        }
 
         [TestMethod()]
         public void HasEnoughMoneyTest_Bad_bool()

@@ -6,17 +6,17 @@ namespace TexasHoldemShared.CommMessages
 {
     [XmlInclude(typeof(CommunicationMessage))]
     [XmlInclude(typeof(ChatCommMessage))]
+    [XmlInclude(typeof(CreatrNewRoomMessage))]
+    [XmlInclude(typeof(EditCommMessage))]
+    [XmlInclude(typeof(LoginCommMessage))]
+    [XmlInclude(typeof(SearchCommMessage))]
     [XmlInclude(typeof(RegisterCommMessage))]
     [XmlInclude(typeof(ResponeCommMessage))]
     [XmlInclude(typeof(RegisterResponeCommMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
-    //[XmlInclude(typeof(CommunicationMessage))]
+    [XmlInclude(typeof(ChatResponceCommMessage))]
+    [XmlInclude(typeof(GameDataCommMessage))]
+    [XmlInclude(typeof(LoginResponeCommMessage))]
+    [XmlInclude(typeof(SearchResponseCommMessage))]
 
     public abstract class CommunicationMessage
     {

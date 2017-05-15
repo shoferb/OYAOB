@@ -33,13 +33,13 @@ namespace TexasHoldem.GuiScreen
         private int money;
 
 
-        public EditUserInfo(Window parent, int id, ClientLogic cli)
+        public EditUserInfo(Window parent, ClientLogic cli)
         {
             InitializeComponent();
             parentScreen = parent;
             cl = cli;
-            currId = id;
-            cl.SetUserId(id);
+           
+
         }
 
         private void currPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
@@ -50,7 +50,7 @@ namespace TexasHoldem.GuiScreen
         }
         private void currPasswordTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            oldPassword = currPasswordTextBox.Text;
         }
 
         private void NewPasswordTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
@@ -91,7 +91,7 @@ namespace TexasHoldem.GuiScreen
             {
                 MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
                 currId = Id;
-                cl.SetUserId(Id);
+            
                 cl.user.id = Id;
             }
             else
@@ -236,6 +236,36 @@ namespace TexasHoldem.GuiScreen
         private void NewPasswordSecTextBox_Copy_TextChanged(object sender, TextChangedEventArgs e)
         {
             secNewPassword = NewPasswordSecTextBox_.Text;
+        }
+
+        private void NametextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            name = NametextBox.Text;
+        }
+
+        private void UserNametextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            username = UserNametextBox.Text;
+        }
+
+        private void EmailtextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            email = EmailtextBox.Text;
+        }
+
+        private void MoneytextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string temp = MoneytextBox.Text;
+            bool isValid = int.TryParse(temp, out money);
+            if (!isValid)
+            {
+                MessageBox.Show("Invalid Money input");
+            }
+        }
+
+        private void NewPasswordTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            firstNewPassword = NametextBox.Text;
         }
     }
 }

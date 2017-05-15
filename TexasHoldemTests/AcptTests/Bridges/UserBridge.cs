@@ -269,6 +269,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _gameService.RemoveSpectatorFromRoom(userId, roomId);
         }
 
+        public bool DividLeage()
+        {
+            return _userService.DevideLeague();
+        }
+
         private bool ChangeUserMoney(int userId, int amount)
         {
             var user = _userService.GetUserById(userId);

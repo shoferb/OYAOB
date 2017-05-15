@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="UserInfoScreen" Height="496.664" Width="626.862">
+        Title="UserInfoScreen" Height="496.664" Width="626.862"
+        SizeToContent="WidthAndHeight">
+    
     <Grid Margin="0,0,-122.2,-159.2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="371*"/>
@@ -32,7 +34,7 @@
         <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="194,232,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="194,275,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox x:Name="LeaugeTextBox" HorizontalAlignment="Left" Height="23" Margin="194,310,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <Image x:Name="Avatarimage" HorizontalAlignment="Left" Height="100" Margin="194,362,0,0" VerticalAlignment="Top" Width="100" Source=""/>
+        <Image x:Name="Avatarimage" HorizontalAlignment="Left" Height="100" Margin="194,362,0,0" VerticalAlignment="Top" Width="100" />
 
     </Grid>
 </Window>

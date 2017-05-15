@@ -23,22 +23,62 @@ namespace TexasHoldem.GuiScreen
     {
         private ClientLogic cl;
         private Window parent;
-        private LogoutScreen logout;
+
         private int currUserId;
         public MainAfterLogin(Window Parent,int id, ClientLogic cli)
         {
             InitializeComponent();
             cl = cli;      
             parent = Parent;
-            currUserId = id;
-            cl.SetUserId(currUserId);
+           
         }
 
         private void Logoututton_Click(object sender, RoutedEventArgs e)
         {
-           logout = new LogoutScreen(this,currUserId);
-           logout.Show();
-           this.Hide();
+            MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNo);
+            bool done = false;
+            while (!done)
+            {
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        try
+                        {
+                            string username = cl.user.username;
+                            string password = cl.user.password;
+                            bool logoutOk = cl.Logout(username, password);
+                            if (logoutOk)
+                            {
+                                MessageBox.Show("Logout OK!");
+                                done = true;
+                                WellcomeScreen wellcomeScreen = new WellcomeScreen();
+
+                                wellcomeScreen.Show();
+                                this.Close();
+                                this.Hide();
+                                break;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Logout Fail! - please try again");
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Logout Fail! Exeption - please try again");
+                            done = true;
+                            break;
+                        }
+                       
+                        
+                    case MessageBoxResult.No:
+                        done = true;
+                        break;
+                }
+            }
+           
+       
         }
 
         public void SetCurrId(int newId)
@@ -46,13 +86,10 @@ namespace TexasHoldem.GuiScreen
             this.currUserId = newId;
         }
 
-        public void SetClientLogicId(int id)
-        {
-            cl.SetUserId(id);
-        }  
+        
         private void EditUserbutton_Click(object sender, RoutedEventArgs e)
         {
-            EditUserInfo editUserInfo = new EditUserInfo(this,currUserId,cl);
+            EditUserInfo editUserInfo = new EditUserInfo(this,cl);
             editUserInfo.Show();
             this.Hide();
         }

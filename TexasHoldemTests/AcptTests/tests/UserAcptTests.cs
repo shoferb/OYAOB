@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemTests.AcptTests.Bridges;
@@ -24,6 +25,14 @@ namespace TexasHoldemTests.AcptTests.tests
         private string _user4Name;
         private string _user4Pw;
         private string _user4EmailGood;
+        private int _userId5 = -1;
+        private string _user5Name;
+        private string _user5Pw;
+        private string _user5EmailGood;
+        private int _userId6 = -1;
+        private string _user6Name;
+        private string _user6Pw;
+        private string _user6EmailGood;
         private string _userPwBad;
         private string _userEmailBad;
 
@@ -46,6 +55,17 @@ namespace TexasHoldemTests.AcptTests.tests
             _user4Name = "Yarden2";
             _user4EmailGood = "YRD@gmail.com";
             _user4Pw = "123456789";
+
+            _userId5 = 305509069;
+            _user5Name = "Orellie";
+            _user5EmailGood = "o@gmail.com";
+            _user5Pw = "12345555";
+
+            _userId6 = 305509000;
+            _user6Name = "bar";
+            _user6EmailGood = "b@gmail.com";
+            _user6Pw = "9191919191";
+
 
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
@@ -841,6 +861,118 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.False(user3.Points() > 0);
             Assert.False(user1.Points() > 0);
         }
+
+        [TestCase]
+        public void redistributesThePlayersAmongTheLeaguesGood()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            IUser user2 = UserBridge.getUserById(_userId2);
+            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
+            IUser user3 = UserBridge.getUserById(_userId3);
+            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
+            IUser user4 = UserBridge.getUserById(_userId4);
+            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
+            IUser user5 = UserBridge.getUserById(_userId5);
+            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
+            IUser user6 = UserBridge.getUserById(_userId6);
+            for (int i = 0; i < 11; i++)
+            {
+                user6.IncGamesPlay();
+                user5.IncGamesPlay();
+                user3.IncGamesPlay();
+                user4.IncGamesPlay();
+                user2.IncGamesPlay();
+                user1.IncGamesPlay();
+            }
+
+            Assert.True(user2.EditUserPoints(100));
+            Assert.True(user1.EditUserPoints(10000));
+            Assert.True(UserBridge.DividLeage());
+            Assert.True(user1.GetLeague()==LeagueName.A);
+            Assert.True(user2.GetLeague() == LeagueName.A);
+
+        }
+
+        [TestCase]
+        public void redistributesThePlayersAmongTheLeaguesSad()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            IUser user2 = UserBridge.getUserById(_userId2);
+            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
+            IUser user3 = UserBridge.getUserById(_userId3);
+            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
+            IUser user4 = UserBridge.getUserById(_userId4);
+            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
+            IUser user5 = UserBridge.getUserById(_userId5);
+            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
+            IUser user6 = UserBridge.getUserById(_userId6);
+            for (int i = 0; i < 11; i++)
+            {
+                user6.IncGamesPlay();
+                user5.IncGamesPlay();
+                user3.IncGamesPlay();
+                user4.IncGamesPlay();
+                user2.IncGamesPlay();
+                user1.IncGamesPlay();
+            }
+
+            Assert.True(user2.EditUserPoints(100));
+            Assert.True(user1.EditUserPoints(10000));
+            Assert.True(UserBridge.DividLeage());
+            //both spoused to be in leage A
+            Assert.False(user1.GetLeague() == LeagueName.A);
+            Assert.False(user2.GetLeague() == LeagueName.A);
+
+        }
+
+        [TestCase]
+        public void redistributesThePlayersAmongTheLeaguesBad()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            IUser user2 = UserBridge.getUserById(_userId2);
+            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
+            IUser user3 = UserBridge.getUserById(_userId3);
+            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
+            IUser user4 = UserBridge.getUserById(_userId4);
+            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
+            IUser user5 = UserBridge.getUserById(_userId5);
+            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
+            IUser user6 = UserBridge.getUserById(_userId6);
+            for (int i = 0; i < 11; i++)
+            {
+                user6.IncGamesPlay();
+                user5.IncGamesPlay();
+                user3.IncGamesPlay();
+                user4.IncGamesPlay();
+                user2.IncGamesPlay();
+                user1.IncGamesPlay();
+            }
+
+            Assert.True(user2.EditUserPoints(100));
+            Assert.True(user1.EditUserPoints(10000));
+            Assert.True(UserBridge.DividLeage());
+            Assert.True(user1.GetLeague() == LeagueName.A);
+            Assert.True(user2.GetLeague() == LeagueName.A);
+            Assert.True(user3.GetLeague()==LeagueName.A);
+            Assert.True(user4.GetLeague() == LeagueName.B);
+            Assert.True(user5.GetLeague() == LeagueName.B);
+            Assert.True(user6.GetLeague()==LeagueName.B);
+
+
+        }
+
+
+
+
         private Player GetInGamePlayerFromUser(IUser user, int roomId)
         {
            

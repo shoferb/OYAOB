@@ -12,6 +12,9 @@ namespace TexasHoldem
         public int _value { get; set; }
         public Suits _suit { get; set; }
       
+        //needed for xml parsing
+        public Card() { }
+
         public Card(Suits s, int val)
         {
             this._suit = s;

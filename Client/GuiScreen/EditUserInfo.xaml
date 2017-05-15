@@ -21,12 +21,12 @@
         <Button x:Name="EditIdButton" Content="Edit User Id" HorizontalAlignment="Left" Margin="407,105,0,0" VerticalAlignment="Top" Width="101" RenderTransformOrigin="0.314,-0.055" Click="EditIdButton_Click" />
         <Button x:Name="BackToMainButton" Content="Back" HorizontalAlignment="Left" Margin="63,447,0,-29" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.469,-0.553" Click="BackToMainButton_Click" />
         <TextBox x:Name="IDtextBox" HorizontalAlignment="Left" Height="23" Margin="252,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="IDtextBox_TextChanged" />
-        <TextBox x:Name="NametextBox" HorizontalAlignment="Left" Height="23" Margin="252,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="252,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="252,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="252,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
+        <TextBox x:Name="NametextBox" HorizontalAlignment="Left" Height="23" Margin="252,144,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="NametextBox_TextChanged" />
+        <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="252,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UserNametextBox_TextChanged" />
+        <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="252,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="EmailtextBox_TextChanged" />
+        <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="252,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MoneytextBox_TextChanged" />
         <TextBox x:Name="currPasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="252,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="currPasswordTextBox_TextChanged" PreviewMouseDown = "currPasswordTextBox_MouseDown"/>
-        <TextBox x:Name="NewPasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="252,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewMouseDown = "NewPasswordTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown"/>
+        <TextBox x:Name="NewPasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="252,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewMouseDown = "NewPasswordTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown" TextChanged="NewPasswordTextBox_TextChanged"/>
         <Button x:Name="EditNameButton" Content="Edit Name" HorizontalAlignment="Left" Margin="407,144,0,0" VerticalAlignment="Top" Width="101" Click="EditNamebutton_Click"/>
         <Button x:Name="EditUserName" Content="Edit User Name" HorizontalAlignment="Left" Margin="407,184,0,0" VerticalAlignment="Top" Width="101" Click="EditUserName_Click"/>
         <Button x:Name="EditEmailButton" Content="Edit User Email" HorizontalAlignment="Left" Margin="407,224,0,0" VerticalAlignment="Top" Width="101" Click="EditEmailButton_Click"/>
