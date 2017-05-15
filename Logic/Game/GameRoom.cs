@@ -195,10 +195,12 @@ namespace TexasHoldem.Logic.Game
 
         private GameDataCommMessage GetGameData(Player player, int bet, bool success)
         {
+            int userId = 0;
             string dealerName = "";
             string sbName = "";
             string bbName = "";
             string currName = "";
+            Card card1 = null, card2 = null;
             if (DealerPlayer != null)
             {
                 dealerName = DealerPlayer.user.MemberName();
@@ -214,6 +216,12 @@ namespace TexasHoldem.Logic.Game
             if (CurrentPlayer != null)
             {
                 currName = CurrentPlayer.user.MemberName();
+            }
+            if (player != null)
+            {
+                card1 = player._firstCard;
+                card2 = player._secondCard;
+                userId = player.user.Id();
             }
             List<string> allPlayerNames = GetPlayersNames();
             GameDataCommMessage gd = new GameDataCommMessage(userId, Id, card1, card2,
