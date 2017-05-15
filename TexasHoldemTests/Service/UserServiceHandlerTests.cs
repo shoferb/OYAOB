@@ -13,13 +13,28 @@ namespace TexasHoldem.Service.Tests
     public class UserServiceHandlerTests
     {
         private SystemControl sc;
-
-
+      
         private void Init()
         {
             sc = SystemControl.SystemControlInstance;
-            sc.Users = null;
+            sc.Users = new List<Logic.Users.IUser>();
         }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_good()
+        {
+            Init();
+            Assert.IsTrue(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_id_taken()
+        {
+            Init();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
         [TestMethod()]
         public void LoginUserTest()
         {
@@ -32,11 +47,7 @@ namespace TexasHoldem.Service.Tests
             Assert.Fail();
         }
 
-        [TestMethod()]
-        public void RegisterToSystemTest()
-        {
-            Assert.Fail();
-        }
+       
 
         [TestMethod()]
         public void DeleteUserTest()
