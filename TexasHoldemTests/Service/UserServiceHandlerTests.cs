@@ -121,10 +121,17 @@ namespace TexasHoldem.Service.Tests
         public void LogoutUserTest_Bad_no_User()
         {
             Init();
-            Assert.IsTrue(userService.LogoutUser(305077901));
+            Assert.IsFalse(userService.LogoutUser(305077901));
         }
 
-
+        [TestMethod()]
+        public void LogoutUserTest_Bad_Id()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LoginUser("orelie26", "123456789");
+            Assert.IsFalse(userService.LogoutUser(305077902));
+        }
 
         [TestMethod()]
         public void DeleteUserTest()
