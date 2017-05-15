@@ -24,7 +24,7 @@
             handler.HandleEvent(this);
         }
 
-        public override bool Equals(CommunicationMessage other)
+       public override bool Equals(CommunicationMessage other)
         {
             if (other.GetType() == typeof(ActionCommMessage))
             {
