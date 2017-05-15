@@ -391,9 +391,6 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
          
-
-        
-
         private Decorator SetDecoratoresNoLimitWithSpectatores()
         {
             Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
@@ -443,9 +440,20 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void RemoveRoomFromSpectetorGameListTest()
+        public void RemoveRoomFromSpectetorGameListTest_good()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            user2.AddRoomToSpectetorGameList(gameRoom);
+            Assert.IsTrue(user2.RemoveRoomFromSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
