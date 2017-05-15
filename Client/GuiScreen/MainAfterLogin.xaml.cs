@@ -31,7 +31,7 @@ namespace TexasHoldem.GuiScreen
             cl = cli;      
             parent = Parent;
             currUserId = id;
-            cl.SetUserId(currUserId);
+           
         }
 
         private void Logoututton_Click(object sender, RoutedEventArgs e)
@@ -46,10 +46,7 @@ namespace TexasHoldem.GuiScreen
             this.currUserId = newId;
         }
 
-        public void SetClientLogicId(int id)
-        {
-            cl.SetUserId(id);
-        }  
+     
         private void EditUserbutton_Click(object sender, RoutedEventArgs e)
         {
             EditUserInfo editUserInfo = new EditUserInfo(this,currUserId,cl);

@@ -20,6 +20,11 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             this.isAllGames = _isAll;
         }
 
+        public override bool Equals(CommunicationMessage other)
+        {
+            throw new NotImplementedException();
+        }
+
 
         //TODO: ask Oded if needed Equal method? 
 
