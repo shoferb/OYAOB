@@ -5,6 +5,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
@@ -272,7 +273,7 @@ namespace TexasHoldem.communication.Impl
             {
                 var game = _gameService.GetGameById(roomId);
                 var gameData = new GameDataCommMessage(msg.UserId, roomId, null, null, new List<Card>(),
-                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success);
+                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success,"","",0,CommunicationMessage.ActionType.Bet);
                 _commHandler.AddMsgToSend(_parser.SerializeMsg(gameData), msg.UserId); 
             }
         }
