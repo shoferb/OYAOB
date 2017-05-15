@@ -198,9 +198,10 @@ namespace TexasHoldem.Logic.Game
             string dealerName = "";
             string sbName = "";
             string bbName = "";
+            string currName = "";
             if (DealerPlayer != null)
             {
-                dealerName = DealerPlayer.name;
+                dealerName = DealerPlayer.user.MemberName();
             }
             if (SbPlayer != null)
             {
@@ -210,8 +211,14 @@ namespace TexasHoldem.Logic.Game
             {
                 bbName = BbPlayer.name;
             }
-            GameDataCommMessage gd = new GameDataCommMessage(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, dealerName,
-                        bbName, sbName);
+            if (CurrentPlayer != null)
+            {
+                currName = CurrentPlayer.user.MemberName();
+            }
+            List<string> allPlayerNames = GetPlayersNames();
+            GameDataCommMessage gd = new GameDataCommMessage(userId, Id, Card card1, Card card2,
+            PublicCards , bet, PotCount , allPlayerNames, dealerName,
+            bbName, sbName, success, currName);
             return gd;
         }
 
