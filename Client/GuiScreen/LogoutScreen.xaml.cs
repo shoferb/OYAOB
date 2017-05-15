@@ -31,7 +31,7 @@ namespace TexasHoldem.GuiScreen
             parent = w;
             cl = new ClientLogic();
             currUserId = id;
-            cl.SetUserId(currUserId);
+           
         }
 
         private void UserNametextBox_TextChanged(object sender, TextChangedEventArgs e)
