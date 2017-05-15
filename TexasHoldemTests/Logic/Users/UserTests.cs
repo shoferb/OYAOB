@@ -432,6 +432,16 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
         }
 
+
+
+        [TestMethod()]
+        public void RemoveRoomFromActiveGameListTest_bad_game_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
+        }
+
         [TestMethod()]
         public void RemoveRoomFromSpectetorGameListTest()
         {
