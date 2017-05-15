@@ -423,7 +423,7 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
-            gameData = GetGameData(player, bet, true, ActionType.StartGame);
+            gameData = GetGameData(player, bet, true, ActionType.Bet);
             GameCenter.SendMessageToClient(gameData, ids);
             return AfterAction();
         }
