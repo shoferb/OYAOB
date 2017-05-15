@@ -54,15 +54,18 @@ namespace TexasHoldem.Logic.Game_Control
         {
             IGame gm = GetRoomById(roomId);
 
-            return gm.DoAction(user, action, amount);
+            return gm.DoAction(user, action, amount, true);
         }
 
-        public void SendMessageToClient(GameDataCommMessage gmData, List<int> idsToSend)
+        public void SendMessageToClient(GameDataCommMessage gmData, List<int> idsToSend, bool useCommunication)
         {
-            foreach (int id in idsToSend)
+            if (useCommunication)
             {
-                gmData.UserId = id; //id of the user to send 
-                gameServiceHandler.SendMessageToClientGameData(gmData);
+                foreach (int id in idsToSend)
+                {
+                    gmData.UserId = id; //id of the user to send 
+                    gameServiceHandler.SendMessageToClientGameData(gmData);
+                }
             }
         }
 
