@@ -61,7 +61,8 @@ namespace TexasHoldem.Logic.Game_Control
         {
             foreach (int id in idsToSend)
             {
-                gameServiceHandler.SendMessageToClientGameData(gmData.);
+                gmData.UserId = id; //id of the user to send 
+                gameServiceHandler.SendMessageToClientGameData(gmData);
             }
         }
 
