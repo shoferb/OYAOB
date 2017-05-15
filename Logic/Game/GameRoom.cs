@@ -10,6 +10,7 @@ using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using static TexasHoldemShared.CommMessages.CommunicationMessage;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Logic.Game
 {
@@ -169,7 +170,7 @@ namespace TexasHoldem.Logic.Game
                     relevantPlayers.Add(p);
                 }
             }
-            GameData gameData = GetGameData();
+            GameDataCommMessage gameData = GetGameData();
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             Players = relevantPlayers;
             if (Players.Count == 0)
@@ -192,7 +193,7 @@ namespace TexasHoldem.Logic.Game
             return true; 
         }
 
-        private GameData GetGameData()
+        private GameDataCommMessage GetGameData()
         {
             string dealerName = "";
             string sbName = "";
@@ -209,7 +210,7 @@ namespace TexasHoldem.Logic.Game
             {
                 bbName = BbPlayer.name;
             }
-            GameData gd = new GameData(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, dealerName,
+            GameDataCommMessage gd = new GameDataCommMessage(PublicCards, MyDecorator.GetStartingChip(), PotCount, Players, dealerName,
                         bbName, sbName);
             return gd;
         }
