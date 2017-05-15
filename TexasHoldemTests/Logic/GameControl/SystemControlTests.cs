@@ -270,7 +270,28 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void IsIdFreeTest_good()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+
+            Assert.IsTrue(sc.IsIdFree(305077901));
+        }
+
+        [TestMethod()]
+        public void IsIdFreeTest_bad_taken()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+
+            Assert.IsFalse(sc.IsIdFree(305077901));
+        }
+
+        [TestMethod()]
+        public void IsIdFreeTest_bad_Invalid_id()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.IsIdFree(-1));
         }
 
         [TestMethod()]
