@@ -40,7 +40,6 @@ namespace TexasHoldemShared.CommMessages
 
         }
 
-        //TODO: add fields here
         public int UserId;
 
         protected CommunicationMessage(int id)
