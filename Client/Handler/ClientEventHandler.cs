@@ -39,7 +39,7 @@ namespace Client.Handler
             _shouldClose = true;
 
         }
-        public void handleMessages()
+        public void HandleMessages()
         {
             while (!_shouldClose)
             {
@@ -102,7 +102,7 @@ namespace Client.Handler
         }
         public void Start()
         {
-            Task task = new Task(handleMessages);
+            Task task = new Task(HandleMessages);
             task.Start();
         }
 
