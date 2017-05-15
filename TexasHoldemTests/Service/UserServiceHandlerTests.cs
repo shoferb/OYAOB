@@ -214,6 +214,12 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void EditUserPasswordTest_bad_no_user()
+        {
+            Init();
+            Assert.IsTrue(userService.EditUserPassword(305077901, "or123456"));
+        }
+        [TestMethod()]
         public void EditUserEmailTest()
         {
             Assert.Fail();
