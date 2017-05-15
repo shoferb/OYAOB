@@ -685,21 +685,26 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 logControl.AddSystemLog(log);
-                GameData gameData = GetGameData();
-                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
-
+                GameDataCommMessage gameData = GetGameData(player, 0, true);
+                List<int> ids = new List<int>();
+                ids.Add(player.user.Id());
+                GameCenter.SendMessageToClient(player, gameData, ActionType.HandCard, true, ids);
             }
         }
         
        private void AddNewPublicCard()
         {
-            GameData gameData;
+            GameDataCommMessage gameData;
+            List<int> ids = new List<int>();
             Card c = Deck.ShowCard();
             foreach (Player player in Players)
             {
                 player.AddPublicCardToPlayer(c);
-                gameData = GetGameData();
-                GameCenter.SendMessageToClient(player, Id, gameData, ActionType.HandCard, true);
+                gameData = GetGameData(player, 0, true);
+                ids.Add(player.user.Id());
+                ///send new public card for only 1 user
+                GameCenter.SendMessageToClient(player, gameData, ActionType.HandCard, true, ids);
+                ids.Remove(player.user.Id());
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
