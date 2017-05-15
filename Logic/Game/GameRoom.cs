@@ -193,7 +193,7 @@ namespace TexasHoldem.Logic.Game
             return true; 
         }
 
-        private GameDataCommMessage GetGameData()
+        private GameDataCommMessage GetGameData(Player player, int bet, bool success)
         {
             string dealerName = "";
             string sbName = "";
@@ -216,7 +216,7 @@ namespace TexasHoldem.Logic.Game
                 currName = CurrentPlayer.user.MemberName();
             }
             List<string> allPlayerNames = GetPlayersNames();
-            GameDataCommMessage gd = new GameDataCommMessage(userId, Id, Card card1, Card card2,
+            GameDataCommMessage gd = new GameDataCommMessage(userId, Id, card1, card2,
             PublicCards , bet, PotCount , allPlayerNames, dealerName,
             bbName, sbName, success, currName);
             return gd;
