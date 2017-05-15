@@ -25,12 +25,14 @@ namespace Client
     {
         public MainWindow()
         {
-            ClientLogic cl = new ClientLogic();
+     
             ClientUser user = new ClientUser(3, "orelie", "orelie", "", "", 1, "", "");
-            cl.user = user;
+            
             InitializeComponent();
             WellcomeScreen wellcomeScreen = new WellcomeScreen();
             wellcomeScreen.Show();
+            this.Hide();
+            /*
             AvatarEditScreen avatar = new AvatarEditScreen(wellcomeScreen, cl);
             avatar.Show();
             SearchScreen aSearchScreen = new SearchScreen(wellcomeScreen, cl);

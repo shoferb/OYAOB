@@ -15,7 +15,7 @@ namespace Client.Handler
     public class ClientEventHandler : IEventHandler
     {
 
-        private int _userId;
+        
         private readonly CommunicationHandler _handler;
         private ClientLogic _logic;
         private ParserImplementation XmlParser;
@@ -33,16 +33,13 @@ namespace Client.Handler
         {
             _logic = logic;
         }
-        public void SetNewUserId(int newId)
-        {
-            this._userId = newId;
-        }
+     
         public void Close()
         {
             _shouldClose = true;
 
         }
-        public void handleMessages()
+        public void HandleMessages()
         {
             while (!_shouldClose)
             {
@@ -105,7 +102,7 @@ namespace Client.Handler
         }
         public void Start()
         {
-            Task task = new Task(handleMessages);
+            Task task = new Task(HandleMessages);
             task.Start();
         }
 

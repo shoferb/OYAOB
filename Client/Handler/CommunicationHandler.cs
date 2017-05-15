@@ -11,7 +11,7 @@ namespace Client.Handler
 {
     public class CommunicationHandler
     {
-        protected int _userId;
+        
         protected readonly ConcurrentQueue<string> _receivedMsgQueue;
         protected readonly ConcurrentQueue<string> _toSendMsgQueue;
         protected TcpClient _socket;
@@ -29,14 +29,8 @@ namespace Client.Handler
           
 
         }
-        public int getUserId()
-        {
-            return this._userId;
-        }
-        public void SetUserId(int newId)
-        {
-            this._userId = newId;
-        }
+     
+       
         public bool IsSocketConnect()//for testing
         {
             return this._socket.Connected;

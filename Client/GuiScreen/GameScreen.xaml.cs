@@ -72,58 +72,83 @@ namespace Client.GuiScreen
 
             this.RoomId = msg.RoomId;
             RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
-            this.SbName = msg.SbName;
-            this.SBNameLabel.Content = msg.SbName;
-            this.AllPlayerNames = msg.AllPlayerNames;
-            foreach (string aString in AllPlayerNames)
+            if (msg.SbName != null)
             {
-                // Construct the ListViewItem object
-                ListViewItem item = new ListViewItem();
-
-                // Set the Text property to the cursor name.
-                item.Content = aString;
-
-                // Set the Tag property to the cursor.
-                item.Tag = aString;
-
-                // Add the ListViewItem to the ListView.
-                ListViewPlayers.Items.Add(item);
+                this.SbName = msg.SbName;
+                this.SBNameLabel.Content = msg.SbName;
             }
-            this.BbName = msg.BbName;
-            this.BBNameLabel.Content = msg.BbName;
-            this.CurrPlayerTurn = msg.CurrPlayerTurn;
-            this.CurrTurnNameLabel.Content = msg.CurrPlayerTurn;
-            this.DealerName = msg.DealerName;
-            this.DealerNameLabel.Content = msg.DealerName;
-            this.PlayerCards = msg.PlayerCards;
-            this.Card1Labek.Content = string.Concat(Card1Labek.Content, (msg.PlayerCards[0]).ToString());
-            this.Card2Label.Content = string.Concat(Card2Label.Content, (msg.PlayerCards[1]).ToString());
-            this.PotSize = msg.PotSize;
-            this.PotAmountLabel.Content = msg.PotSize;
-            this.TableCards = msg.TableCards;
-            foreach (Card aCard in TableCards)
+            if (msg.AllPlayerNames != null)
             {
-                // Construct the ListViewItem object
-                ListViewItem item = new ListViewItem();
-
-                // Set the Text property to the cursor name.
-                item.Content = aCard.ToString();
-
-                // Set the Tag property to the cursor.
-                item.Tag = aCard;
-
-                // Add the ListViewItem to the ListView.
-                ListViewPublicCards.Items.Add(item);
-            }
-            this.TotalChips = msg.TotalChips;
-            this.ChipAmountLabel.Content = msg.TotalChips;
-            foreach(string playerName in AllPlayerNames)
-            {
-                if(_logic.user.name.Equals(playerName))
+                this.AllPlayerNames = msg.AllPlayerNames;
+                foreach (string aString in AllPlayerNames)
                 {
-                    this.SpecOrPlay = true;
+                    // Construct the ListViewItem object
+                    ListViewItem item = new ListViewItem();
+
+                    // Set the Text property to the cursor name.
+                    item.Content = aString;
+
+                    // Set the Tag property to the cursor.
+                    item.Tag = aString;
+
+                    // Add the ListViewItem to the ListView.
+                    ListViewPlayers.Items.Add(item);
+                }
+                foreach (string playerName in AllPlayerNames)
+                {
+                    if (_logic.user.name.Equals(playerName))
+                    {
+                        this.SpecOrPlay = true;
+                    }
                 }
             }
+            if (msg.BbName != null)
+            {
+                this.BbName = msg.BbName;
+                this.BBNameLabel.Content = msg.BbName;
+            }
+            if (msg.CurrPlayerTurn != null)
+            {
+                this.CurrPlayerTurn = msg.CurrPlayerTurn;
+                this.CurrTurnNameLabel.Content = msg.CurrPlayerTurn;
+            }
+            if (msg.DealerName != null)
+            {
+                this.DealerName = msg.DealerName;
+                this.DealerNameLabel.Content = msg.DealerName;
+            }
+            if (msg.PlayerCards != null)
+            {
+                this.PlayerCards = msg.PlayerCards;
+                this.Card1Labek.Content = string.Concat(Card1Labek.Content, (msg.PlayerCards[0]).ToString());
+                this.Card2Label.Content = string.Concat(Card2Label.Content, (msg.PlayerCards[1]).ToString());
+            }
+            
+            this.PotSize = msg.PotSize;
+            this.PotAmountLabel.Content = msg.PotSize;
+            
+            if (msg.TableCards != null)
+            {
+                this.TableCards = msg.TableCards;
+                foreach (Card aCard in TableCards)
+                {
+                    // Construct the ListViewItem object
+                    ListViewItem item = new ListViewItem();
+
+                    // Set the Text property to the cursor name.
+                    item.Content = aCard.ToString();
+
+                    // Set the Tag property to the cursor.
+                    item.Tag = aCard;
+
+                    // Add the ListViewItem to the ListView.
+                    ListViewPublicCards.Items.Add(item);
+                }
+            }
+            
+            this.TotalChips = msg.TotalChips;
+            this.ChipAmountLabel.Content = msg.TotalChips;
+           
         }
 
         private void DoActiomBotton_Click(object sender, RoutedEventArgs e)
@@ -145,17 +170,32 @@ namespace Client.GuiScreen
                     {
                         MessageBox.Show("Invalid Amount");
                     }
-                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        string msg =string.Concat("*GAME MESSAGE* ",_logic.user.username,": ",action,"with amount of ",amount);
+                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                    }
                 }
                 if (action.Equals("Check"))
                 {
                     int amount = 0;
-                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans =_logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        string msg = string.Concat("*GAME MESSAGE* ", _logic.user.username, ": ", action);
+                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                    }
                 }
                 if (action.Equals("Fold"))
                 {
                     int amount = -1;
-                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans =_logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        string msg = string.Concat("*GAME MESSAGE* ", _logic.user.username, ": ", action);
+                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                    }
                 }
                 if (action.Equals("Send A New Broadcast Chat Message"))
                 {
