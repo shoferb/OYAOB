@@ -95,7 +95,7 @@ namespace TexasHoldem.Logic.Game_Control
         //remove user by name and password  - syncronized
         public bool RemoveUserByUserNameAndPassword(string username, string password)
         {
-            bool toReturn;
+            bool toReturn = false;
             IUser toRemove = null;
             bool found = false;
             lock (padlock)
@@ -110,8 +110,13 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    users.Remove(toRemove);
-                    toReturn = true;
+                    if (found)
+                    {
+                        users.Remove(toRemove);
+                        toReturn = true;
+                        return toReturn;
+                    }
+                   
                 }
                 catch (Exception e)
                 {

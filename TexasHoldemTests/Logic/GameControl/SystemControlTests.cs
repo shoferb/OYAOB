@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
@@ -60,15 +61,6 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(sc.RemoveUserByUserNameAndPassword("orelie26", "123456789"));
         }
 
-        [TestMethod()]
-        public void RemoveUserByUserNameAndPasswordTest_Bad_no_user_name()
-        {
-            sc = SystemControl.SystemControlInstance;
-            sc.Users = new List<IUser>();
-            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(sc.RemoveUserByUserNameAndPassword("orelie6", "123456789"));
-        }
-
 
         [TestMethod()]
         public void RemoveUserByUserNameAndPasswordTest_Bad_password()
@@ -101,7 +93,6 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         {
             sc = SystemControl.SystemControlInstance;
             sc.Users = new List<IUser>();
-            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(sc.RemoveUser(sc.GetUserWithId(305077901)));
         }
 
@@ -365,37 +356,217 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(u.Contains(u1));
         }
 
+      
+
         [TestMethod()]
-        public void SortByRankTest1()
+        public void GetAllUnKnowUsersTest_good_1()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 5; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                
+                sc.GetUserWithId(i).EditUserPoints( i);
+            }
+
+            for (int i = 3; i < 5; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            List<IUser> un = sc.GetAllUnKnowUsers();
+            Assert.IsTrue(un.Count==2);
         }
 
         [TestMethod()]
-        public void GetAllUnKnowUsersTest()
+        public void GetAllUnKnowUsersTest_good_2()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 5; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 3; i < 5; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            List<IUser> un = sc.GetAllUnKnowUsers();
+            IUser u = sc.GetUserWithId(1);
+            Assert.IsTrue(un.Contains(u));
+        }
+
+      
+
+        [TestMethod()]
+        public void DivideLeagueTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+           Assert.IsTrue(sc.DivideLeague());
         }
 
         [TestMethod()]
-        public void SortByPointTest()
+        public void DivideLeagueTest_good_A()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(10).GetLeague(),LeagueName.A);
         }
 
         [TestMethod()]
-        public void DivideStartTest()
+        public void DivideLeagueTest_good_B()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(8).GetLeague(), LeagueName.B);
         }
 
         [TestMethod()]
-        public void DivideLeagueTest()
+        public void DivideLeagueTest_good_C()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(6).GetLeague(), LeagueName.C);
         }
 
+        [TestMethod()]
+        public void DivideLeagueTest_good_D()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
 
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(4).GetLeague(), LeagueName.D);
+        }
+        [TestMethod()]
+        public void DivideLeagueTest_good_E()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(2).GetLeague(), LeagueName.E);
+        }
+
+        [TestMethod()]
+        public void DivideLeagueTest_good_Unknow()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(1, "orelie", "orelie", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(sc.GetUserWithId(1).GetLeague(), LeagueName.Unknow);
+        }
     }
 }
 
