@@ -48,7 +48,7 @@ namespace Client.Handler
                 if (msg != null)
                 {
                     var parsedMsg = XmlParser.ParseString(msg);
-                    parsedMsg.Handle(this);
+                    parsedMsg.ForEach(p => p.Handle(this));
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace Client.Handler
 
         public void HandleEvent(ResponeCommMessage msg)
         {
-            if (msg.GetType().Equals(typeof(ChatResponceCommMessage)))
+            if (msg.GetType() == typeof(ChatResponceCommMessage))
             {
                 _logic.gotMsg((ChatResponceCommMessage)msg);
             }

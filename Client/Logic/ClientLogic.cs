@@ -165,7 +165,6 @@ namespace Client.Logic
             return toRet;
         }
 
-
         public bool StartTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);
@@ -184,8 +183,9 @@ namespace Client.Logic
 
         public bool Login(string userName, string password)//check with oded
         {
-            LoginCommMessage toSend = new LoginCommMessage(user.id, true, userName, password);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); messagesSentObserver.Add(messageToList);
+            LoginCommMessage toSend = new LoginCommMessage(-1, true, userName, password);
+            var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, 
+                false, false, new ResponeCommMessage(-1)); messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
             {
@@ -272,7 +272,7 @@ namespace Client.Logic
         public bool Register(int id,string name, string memberName, string password, int money, string email)
         {
             RegisterCommMessage toSend = new RegisterCommMessage(id, name, memberName, password, money, email);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
+            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(-1));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
             while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
