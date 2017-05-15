@@ -134,9 +134,12 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void DeleteUserTest()
+        public void DeleteUserTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LoginUser("orelie26", "123456789");
+            Assert.IsTrue(userService.DeleteUser("orelie26", "123456789"));
         }
 
         [TestMethod()]
