@@ -70,8 +70,12 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 bool toReturn = false;
-                IUser original = GetUserWithId(id);
                 if (!IsValidInputNotSmallerZero(id))
+                {
+                    return toReturn;
+                }
+                IUser original = GetUserWithId(id);
+                if (original==null)
                 {
                     return toReturn;
                 }

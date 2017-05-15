@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
 using Moq;
+using TexasHoldem.Logic.GameControl;
 
 
 namespace TexasHoldem.Service.Tests
@@ -373,16 +374,14 @@ namespace TexasHoldem.Service.Tests
             Assert.IsFalse(userService.EditMoney(305077901, -800));
         }
 
-        [TestMethod()]
-        public void GetUserNotificationsTest()
-        {
-            Assert.Fail();
-        }
+       
 
         [TestMethod()]
         public void EditUserAvatarTest()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditUserAvatar(305077901, "newPic"));
         }
 
         [TestMethod()]
@@ -404,27 +403,82 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void GetAllUserTest()
+        public void GetAllUserTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.GetAllUser().Count==1);
         }
 
         [TestMethod()]
-        public void GetUserByIdTest()
+        public void GetUserByIdTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = userService.GetUserById(305077901);
+            Assert.IsTrue(sc.Users.Contains(u));
         }
 
         [TestMethod()]
-        public void GetUserLeagueTest()
+        public void GetUserLeagueTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = userService.GetUserById(305077901);
+            Assert.AreEqual(u.GetLeague(),LeagueName.Unknow);
         }
 
         [TestMethod()]
-        public void DevideLeagueTest()
+        public void GetUserLeagueTest_bad()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = userService.GetUserById(305077901);
+            Assert.AreEqual(u.GetLeague(), LeagueName.A);
+        }
+
+        [TestMethod()]
+        public void DevideLeagueTest_good()
+        {
+            Init();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                userService.EditUserPoints(i, i);
+            }
+            Assert.IsTrue(userService.DevideLeague());
+         
+        }
+
+        [TestMethod()]
+        public void DevideLeagueTest_good_check_league_highest()
+        {
+            Init();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                userService.EditUserPoints(i, i);
+            }
+            Assert.AreEqual(userService.GetUserById(10).GetLeague(),LeagueName.A);
+
+        }
+        [TestMethod()]
+        public void DevideLeagueTest_good_check_league_low()
+        {
+            Init();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                userService.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                userService.EditUserPoints(i, i);
+            }
+            Assert.AreEqual(userService.GetUserById(1).GetLeague(), LeagueName.E);
+
         }
     }
 }
