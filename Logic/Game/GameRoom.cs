@@ -272,9 +272,11 @@ namespace TexasHoldem.Logic.Game
         {
             Player p = new Player(user, amount, this.Id);
             GameDataCommMessage gameData = GetGameData(p, amount, false);
+            List<int> idsTosend = new List<int>();
+            idsTosend.Add(user.Id());
             if (IsUserASpectator(user))
             {
-                GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
+                GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
                 return false;
             }
             if (MyDecorator.CanJoin(Players.Count , amount, user))
