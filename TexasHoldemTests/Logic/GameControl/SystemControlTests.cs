@@ -309,7 +309,15 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         {
             sc = SystemControl.SystemControlInstance;
             sc.Users = new List<IUser>();
-            Assert.IsTrue(sc.IsUserExist(3));
+            Assert.IsFalse(sc.IsUserExist(3));
+        }
+
+        [TestMethod()]
+        public void IsUserExistTest_bad_invalid_id()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.IsUserExist(-3));
 
         }
 
