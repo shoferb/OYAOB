@@ -209,7 +209,7 @@ namespace TexasHoldem.Logic.Game
             return ids;
         }
 
-        private GameDataCommMessage GetGameData(Player player, int bet, bool success)
+        private GameDataCommMessage GetGameData(Player player, int bet, bool success, ActionType action)
         {
             int userId = 0;
             string dealerName = "";
@@ -217,6 +217,7 @@ namespace TexasHoldem.Logic.Game
             string bbName = "";
             string currName = "";
             string playerName = "";
+            int money = 0;
             Card card1 = null, card2 = null;
             if (DealerPlayer != null)
             {
@@ -240,11 +241,12 @@ namespace TexasHoldem.Logic.Game
                 card2 = player._secondCard;
                 userId = player.user.Id();
                 playerName = player.user.MemberName();
+                money = player.TotalChip;
             }
             List<string> allPlayerNames = GetPlayersNames();
             GameDataCommMessage gd = new GameDataCommMessage(userId, Id, card1, card2,
-            PublicCards , bet, PotCount , allPlayerNames, dealerName,
-            bbName, sbName, success, currName , playerName);
+            PublicCards , money, PotCount , allPlayerNames, dealerName,
+            bbName, sbName, success, currName , playerName, bet, action);
             return gd;
         }
 
