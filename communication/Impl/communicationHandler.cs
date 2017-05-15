@@ -56,7 +56,6 @@ namespace TexasHoldem.communication.Impl
             if (!_userIdToMsgQueue.ContainsKey(id))
             {
                 _userIdToMsgQueue.Add(id, new ConcurrentQueue<string>());
-                _socketToUserId.Add(socket, id);
             }
             if (!_socketToUserId.ContainsKey(socket))
             {

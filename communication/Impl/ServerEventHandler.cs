@@ -119,6 +119,10 @@ namespace TexasHoldem.communication.Impl
         {
             
             bool success = _userService.LoginUser(msg.UserName, msg.Password);
+            if (_socket != null)
+            {
+                CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket);
+            }
             if (success)
             {
                 IUser user = _userService.GetIUserByUserName(msg.UserName);
