@@ -15,7 +15,7 @@ namespace Client.Handler
     public class ClientEventHandler : IEventHandler
     {
 
-        private int _userId;
+        
         private readonly CommunicationHandler _handler;
         private ClientLogic _logic;
         private ParserImplementation XmlParser;
@@ -33,10 +33,7 @@ namespace Client.Handler
         {
             _logic = logic;
         }
-        public void SetNewUserId(int newId)
-        {
-            this._userId = newId;
-        }
+     
         public void Close()
         {
             _shouldClose = true;
