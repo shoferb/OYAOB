@@ -56,6 +56,14 @@ namespace TexasHoldem.Service.Tests
             Init();
             Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123", 15000, "orelie@post.bgu.ac.il"));
         }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_Name()
+        {
+            Init();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, " ", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
         [TestMethod()]
         public void LoginUserTest()
         {
