@@ -35,34 +35,44 @@ namespace TexasHoldem.GuiScreen
 
         private void Logoututton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNoCancel);
+            MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNo);
             bool done = false;
             while (!done)
             {
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        string username = cl.user.username;
-                        string password = cl.user.password;
-                        bool logoutOk = cl.Logout(username, password);
-                        if (logoutOk)
+                        try
                         {
-                            MessageBox.Show("Logout OK!");
-                            done = true;
-                            WellcomeScreen wellcomeScreen = new WellcomeScreen();
+                            string username = cl.user.username;
+                            string password = cl.user.password;
+                            bool logoutOk = cl.Logout(username, password);
+                            if (logoutOk)
+                            {
+                                MessageBox.Show("Logout OK!");
+                                done = true;
+                                WellcomeScreen wellcomeScreen = new WellcomeScreen();
 
-                            wellcomeScreen.Show();
-                            this.Close();
-                            this.Hide();
+                                wellcomeScreen.Show();
+                                this.Close();
+                                this.Hide();
+                                break;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Logout Fail! - please try again");
+                                break;
+                            }
                         }
-                        else
+                        catch
                         {
-                            MessageBox.Show("Logout Fail! - please try again");
+                            MessageBox.Show("Logout Fail! Exeption - please try again");
+                            done = true;
+                            break;
                         }
-                        break;
+                       
+                        
                     case MessageBoxResult.No:
-                        break;
-                    case MessageBoxResult.Cancel:
                         done = true;
                         break;
                 }
