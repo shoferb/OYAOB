@@ -37,6 +37,8 @@ namespace TexasHoldem.communication.Impl
                 else
                 {
                     Console.WriteLine("event handler got msg");
+                  //  Thread.Sleep(3000);
+                    Console.WriteLine("Im here event");
                     allMsgs.ForEach(HandleRawMsgs); 
                 }
             }
@@ -44,6 +46,8 @@ namespace TexasHoldem.communication.Impl
 
         private void HandleRawMsgs(Tuple<string, TcpClient> msg)
         {
+            Console.WriteLine("Im here HandleRawMsgs");
+
             string data = msg.Item1;
             var parsedMsgs = _parser.ParseString(data);
             parsedMsgs.ForEach(m => HandleSingleRawMsg(m, msg.Item2));
@@ -51,17 +55,21 @@ namespace TexasHoldem.communication.Impl
 
         private void HandleSingleRawMsg(CommunicationMessage parsedMsg, TcpClient tcpClient)
         {
+            Console.WriteLine("HandleSingleRawMsg");
             int userId = parsedMsg.UserId;
             if (_userIdToEventHandlerMap.ContainsKey(userId))
             {
+                Console.WriteLine("calling visiotr pattern");
                 //call to visitor pattern
                 parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
             }
             else
             {
+                Console.WriteLine("just init handler");
                 ServerEventHandler handler = new ServerEventHandler(tcpClient);
+                Console.WriteLine("try adding to queue.....");
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
-
+                Console.WriteLine("parsing");
                 //call to visitor
                 parsedMsg.Handle(handler);
             }
