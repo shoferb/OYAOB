@@ -363,7 +363,14 @@ namespace TexasHoldem.Service.Tests
         public void EditMoneyTest_bad_no_user()
         {
             Init();
-            Assert.IsTrue(userService.EditMoney(305077901, 800));
+            Assert.IsFalse(userService.EditMoney(305077901, 800));
+        }
+
+        [TestMethod()]
+        public void EditMoneyTest_bad_invalidMoney()
+        {
+            Init();
+            Assert.IsFalse(userService.EditMoney(305077901, -800));
         }
 
         [TestMethod()]
