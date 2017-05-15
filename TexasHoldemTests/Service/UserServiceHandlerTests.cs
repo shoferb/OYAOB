@@ -228,10 +228,21 @@ namespace TexasHoldem.Service.Tests
             Assert.IsFalse(userService.EditUserPassword(305077901, "or"));
         }
 
+
         [TestMethod()]
-        public void EditUserEmailTest()
+        public void EditUserPasswordTest_Bad_invalid_Password_empty()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.EditUserPassword(305077901, " "));
+        }
+
+        [TestMethod()]
+        public void EditUserEmailTest_good()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditUserEmail(305077901, "or123456@wall.co.il"));
         }
 
         [TestMethod()]
