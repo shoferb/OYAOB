@@ -60,10 +60,6 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         
-
-
-
-
         //remove user from user list byID - syncronized
         public bool RemoveUserById(int id)
         {
