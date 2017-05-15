@@ -28,14 +28,14 @@ namespace Client.GuiScreen
         {
             InitializeComponent();
             _logic = cl;//init cient logic
-            _parent = p;//window Parenr
+            _parent = p;
         }
 
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
 
             this.Hide();
-            _parent.Show();
+            _parent.Show(); //window Parent
         }
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
