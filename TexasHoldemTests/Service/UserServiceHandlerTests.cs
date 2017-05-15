@@ -387,10 +387,7 @@ namespace TexasHoldem.Service.Tests
         [TestMethod()]
         public void GetActiveGamesByUserNameTest_good()
         {
-            Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            IUser u = userService.GetIUserByUserName("orleie26");
-            Assert.IsTrue(sc.Users.Contains(u));
+            Assert.Fail();
         }
 
         [TestMethod()]
@@ -402,7 +399,10 @@ namespace TexasHoldem.Service.Tests
         [TestMethod()]
         public void GetIUserByUserNameTest()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = userService.GetIUserByUserName("orleie26");
+            Assert.IsTrue(sc.Users.Contains(u));
         }
 
         [TestMethod()]
@@ -474,6 +474,7 @@ namespace TexasHoldem.Service.Tests
                     userService.GetUserById(i).IncGamesPlay();
                 }
             }
+            userService.DevideLeague();
             Assert.AreEqual(userService.GetUserById(10).GetLeague(),LeagueName.A);
 
         }
@@ -495,7 +496,8 @@ namespace TexasHoldem.Service.Tests
                     userService.GetUserById(i).IncGamesPlay();
                 }
             }
-            Assert.AreEqual(userService.GetUserById(9).GetLeague(), LeagueName.C);
+            userService.DevideLeague();
+            Assert.AreEqual(userService.GetUserById(6).GetLeague(), LeagueName.C);
 
         }
         [TestMethod()]
@@ -516,7 +518,9 @@ namespace TexasHoldem.Service.Tests
                     userService.GetUserById(i).IncGamesPlay();
                 }
             }
-            Assert.AreEqual(userService.GetUserById(13).GetLeague(), LeagueName.C);
+            userService.DevideLeague();
+            Assert.AreEqual(userService.GetUserById(8).Points(), 8);
+            Assert.AreEqual(userService.GetUserById(8).GetLeague(), LeagueName.B);
 
         }
         [TestMethod()]
@@ -537,7 +541,8 @@ namespace TexasHoldem.Service.Tests
                     userService.GetUserById(i).IncGamesPlay();
                 }
             }
-            Assert.AreEqual(userService.GetUserById(5).GetLeague(), LeagueName.D);
+            userService.DevideLeague();
+            Assert.AreEqual(userService.GetUserById(3).GetLeague(), LeagueName.D);
 
         }
         [TestMethod()]
@@ -558,6 +563,7 @@ namespace TexasHoldem.Service.Tests
                     userService.GetUserById(i).IncGamesPlay();
                 }
             }
+            userService.DevideLeague();
             Assert.AreEqual(userService.GetUserById(1).GetLeague(), LeagueName.E);
 
         }

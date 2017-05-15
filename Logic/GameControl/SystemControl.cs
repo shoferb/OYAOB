@@ -627,11 +627,12 @@ namespace TexasHoldem.Logic.Game_Control
 
                     while (i < userCount)
                     {
-                        while (k <= divideTo && i < userCount)
+                        while (k < divideTo && i < userCount)
                         {
                             sorted.ElementAt(i).SetLeague(curr);
-                            i++;
+                            
                             k++;
+                            i++;
                         }
                         k = 0;
                         curr = GetNextLeague(curr);
