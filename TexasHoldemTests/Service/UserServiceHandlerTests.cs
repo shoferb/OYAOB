@@ -348,13 +348,15 @@ namespace TexasHoldem.Service.Tests
         {
             Init();
             userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-
             Assert.IsFalse(userService.EditId(305077901, -1));
         }
+
         [TestMethod()]
-        public void EditMoneyTest()
+        public void EditMoneyTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditMoney(305077901,800));
         }
 
         [TestMethod()]
