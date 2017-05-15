@@ -271,7 +271,7 @@ namespace TexasHoldem.Logic.Game
         private bool Join(IUser user, int amount)
         {
             Player p = new Player(user, amount, this.Id);
-            GameData gameData = GetGameData();
+            GameDataCommMessage gameData = GetGameData(p, amount, false);
             if (IsUserASpectator(user))
             {
                 GameCenter.SendMessageToClient(p, Id, gameData, ActionType.Join, false);
