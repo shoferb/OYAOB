@@ -290,6 +290,13 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void EditUserNameTest_Bad_no_user()
+        {
+            Init();
+            Assert.IsFalse(userService.EditUserName(305077902, "orelie"));
+        }
+
+        [TestMethod()]
         public void EditNameTest()
         {
             Assert.Fail();
