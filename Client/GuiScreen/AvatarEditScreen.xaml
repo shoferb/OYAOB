@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
-        Title="AvatarEditScreen" Height="577.894" Width="870.086">
-    <Grid Margin="0,0,-44,-343.4">
+        Title="AvatarEditScreen" Height="934.665" Width="1011.582">
+    <Grid Margin="0,0,-7.2,-18.6">
         <Grid.Background>
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
