@@ -191,6 +191,12 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void EditUserPointsTest_Bad_no_user()
+        {
+            Init();
+            Assert.IsFalse(userService.EditUserPoints(305077901, 10));
+        }
+        [TestMethod()]
         public void EditUserPasswordTest()
         {
             Assert.Fail();
