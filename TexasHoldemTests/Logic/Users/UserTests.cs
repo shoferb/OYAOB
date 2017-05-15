@@ -481,7 +481,15 @@ namespace TexasHoldem.Logic.Users.Tests
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomID, deco);
             Spectetor spectetor = new Spectetor(user2, roomID);
-            Assert.IsTrue(user.AddRoomToSpectetorGameList(gameRoom));
+            Assert.IsTrue(user2.AddRoomToSpectetorGameList(gameRoom));
+        }
+
+        [TestMethod()]
+        public void AddRoomToSpectetorGameListTest_Bad_Room_null()
+        {
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom=null;
+            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
         }
 
         [TestMethod()]
