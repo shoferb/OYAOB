@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="UserInfoScreen" Height="496.664" Width="626.862">
+        Title="UserInfoScreen" Height="496.664" Width="626.862"
+        SizeToContent="WidthAndHeight">
+    
     <Grid Margin="0,0,-122.2,-159.2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="371*"/>
