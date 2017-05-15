@@ -57,7 +57,7 @@ namespace TexasHoldem.Logic.Game_Control
             return gm.DoAction(user, action, amount);
         }
 
-        public void SendMessageToClient(Player player, GameDataCommMessage gmData, CommunicationMessage.ActionType action, bool isSucceed, List<int> idsToSend)
+        public void SendMessageToClient(GameDataCommMessage gmData, List<int> idsToSend)
         {
             foreach (int id in idsToSend)
             {
