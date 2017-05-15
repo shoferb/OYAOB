@@ -309,7 +309,7 @@ namespace TexasHoldem.communication.Impl
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
         }
 
-        public void HandleEvent(ReplayCommMessage msg)//TODO!!!
+        public void HandleEvent(ReplayCommMessage msg)
         {
             throw new NotImplementedException();
         }

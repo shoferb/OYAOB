@@ -8,6 +8,7 @@
               Title="ReplaySearch"  Height="457.945" Width="1156.745">
     <Grid Margin="0,0,-4,-73">
         <Grid.ColumnDefinitions>
+            
             <ColumnDefinition Width="27*"/>
             <ColumnDefinition Width="257*"/>
             <ColumnDefinition Width="128*"/>
@@ -27,10 +28,12 @@
             <ComboBoxItem Content="View Replay By Game ID" HorizontalAlignment="Left" Width="256"/>
 
         </ComboBox>
-        <ListView x:Name="results_ListView" Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="18,135,0,0" VerticalAlignment="Top" Width="1014" Grid.ColumnSpan="2">
+        <ListView x:Name="results_ListView" Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="18,135,0,0" VerticalAlignment="Top" Width="1030" Grid.ColumnSpan="2">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
+
+                <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
+                    <GridViewColumn Header="game Id" Width="80" DisplayMemberBinding="{Binding roomId}" />
+                    <GridViewColumn Header="Game Replay" Width="950" DisplayMemberBinding="{Binding gameReplay}" />
                 </GridView>
             </ListView.View>
         </ListView>
