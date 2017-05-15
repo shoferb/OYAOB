@@ -170,7 +170,7 @@ namespace TexasHoldem.Logic.Game
                     relevantPlayers.Add(p);
                 }
             }
-            GameDataCommMessage gameData = GetGameData();
+            GameDataCommMessage gameData = GetGameData(player, 0 , true);
             GameCenter.SendMessageToClient(player, Id, gameData, ActionType.Leave, true);
             Players = relevantPlayers;
             if (Players.Count == 0)

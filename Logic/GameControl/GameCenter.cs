@@ -57,7 +57,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         //TODO : add cuurPlayerTurn
-        public void SendMessageToClient(Player player, int roomId, GameData gmData, CommunicationMessage.ActionType action, bool isSucceed)
+        public void SendMessageToClient(Player player, int roomId, GameDataCommMessage gmData, CommunicationMessage.ActionType action, bool isSucceed)
         {
             //GameDataCommMessage gameDataMes = new GameDataCommMessage(player.user.Id(), roomId, player.getFirstCard(),
             //    player.getSeconedCard(), gmData.getPublicCard(), gmData.getChips(),
