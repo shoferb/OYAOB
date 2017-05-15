@@ -172,8 +172,16 @@ namespace TexasHoldem.Service.Tests
         public void DeleteUserByIdTest_bad_no_user()
         {
             Init();
-            Assert.IsTrue(userService.DeleteUserById(305077902));
+            Assert.IsFalse(userService.DeleteUserById(305077902));
         }
+
+        [TestMethod()]
+        public void DeleteUserByIdTest_bad_inValid_id()
+        {
+            Init();
+            Assert.IsFalse(userService.DeleteUserById(-2));
+        }
+
         [TestMethod()]
         public void EditUserPointsTest()
         {
