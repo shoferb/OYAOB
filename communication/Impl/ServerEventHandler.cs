@@ -14,7 +14,7 @@ namespace TexasHoldem.communication.Impl
     //TODO: this class
     public class ServerEventHandler : IEventHandler
     {
-        private readonly UserServiceHandler _userService = new UserServiceHandler(); //TODO init // = new UserServiceHandler();
+        private readonly UserServiceHandler _userService = new UserServiceHandler();
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
         private readonly ReplayHandler _replayService = new ReplayHandler();
         private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
@@ -254,7 +254,7 @@ namespace TexasHoldem.communication.Impl
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
         }
 
-        public void HandleEvent(CreatrNewRoomMessage msg) //TODO
+        public void HandleEvent(CreatrNewRoomMessage msg)
         {
             int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy,
                 msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers ,

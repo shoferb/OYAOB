@@ -165,7 +165,6 @@ namespace Client.Logic
             return toRet;
         }
 
-
         public bool StartTheGame(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, roomId);

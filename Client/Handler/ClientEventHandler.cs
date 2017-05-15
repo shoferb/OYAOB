@@ -51,7 +51,7 @@ namespace Client.Handler
                 if (msg != null)
                 {
                     var parsedMsg = XmlParser.ParseString(msg);
-                    parsedMsg.Handle(this);
+                    parsedMsg.ForEach(p => p.Handle(this));
                 }
             }
         }
