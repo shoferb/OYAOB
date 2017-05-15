@@ -124,16 +124,79 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             IUser u = sc.GetUserWithId(305077901);
             Assert.IsFalse(sc.Users.Contains(u));
         }
+
         [TestMethod()]
-        public void RegisterToSystemTest1()
+        public void RegisterToSystemTest_good()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
-        public void CanCreateNewUserTest()
+        public void RegisterToSystemTest_bad_id_taken()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_userName_taken()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RegisterToSystem(305077902, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_email()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "oreliepost.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_passWord()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_Name()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, " ", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_Id()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(-1, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_money()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", -10, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void CanCreateNewUserTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
