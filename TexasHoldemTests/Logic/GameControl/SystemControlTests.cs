@@ -295,9 +295,13 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         }
 
         [TestMethod()]
-        public void IsUserExistTest()
+        public void IsUserExistTest_good()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(sc.IsUserExist(305077901));
+
         }
 
         [TestMethod()]
