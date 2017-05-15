@@ -170,17 +170,32 @@ namespace Client.GuiScreen
                     {
                         MessageBox.Show("Invalid Amount");
                     }
-                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        string msg =string.Concat("*GAME MESSAGE* ",_logic.user.username,": ",action,"with amount of ",amount);
+                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                    }
                 }
                 if (action.Equals("Check"))
                 {
                     int amount = 0;
-                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans =_logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        string msg = string.Concat("*GAME MESSAGE* ", _logic.user.username, ": ", action);
+                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                    }
                 }
                 if (action.Equals("Fold"))
                 {
                     int amount = -1;
-                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans =_logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        string msg = string.Concat("*GAME MESSAGE* ", _logic.user.username, ": ", action);
+                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                    }
                 }
                 if (action.Equals("Send A New Broadcast Chat Message"))
                 {
