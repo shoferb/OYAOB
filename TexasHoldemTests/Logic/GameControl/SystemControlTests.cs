@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
@@ -14,6 +15,9 @@ namespace TexasHoldem.Logic.Game_Control.Tests
     [TestClass()]
     public class SystemControlTests
     {
+        private SystemControl sc;
+
+        
 
         [TestMethod()]
         public void SingltonTest()
@@ -24,802 +28,546 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         }
 
         [TestMethod()]
-        public void AddNewUserGoodTest()
+        public void RemoveUserByIdTest_good()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int id = 305077901;
-            string name = "orelie";
-            string UserName = "orelie123456";
-            string password = "12345678";
-            string email = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email));
-            Assert.IsTrue(sc.RegisterToSystem(id, name, UserName, password, money, email));
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsFalse(sc.IsUsernameFree(UserName));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            Assert.IsTrue(sc.RemoveUserById(id));
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(sc.RemoveUserById(305077901));
         }
 
         [TestMethod()]
-        public void AddNewUserBadfieldTest()
+        public void RemoveUserByIdTest_Bad_no_user()
         {
-            //empty username
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int id = 305077901;
-            int badId = -3216;
-            string name = "orelie";
-            string badName = " ";
-            string badUserName = "";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string badPassword = "123";
-            string email = "orelie@post.bgu.ac.il";
-            string badEmail = "orelie.bgu.ac.il";
-            int money = 1000;
-            int badMoney = -100;
-            //bad Id
-            Assert.IsFalse(sc.CanCreateNewUser(badId, UserName, password, email));
-            Assert.IsFalse(sc.RegisterToSystem(badId, name, UserName, password, money, email));
-            //bad username
-            Assert.IsFalse(sc.CanCreateNewUser(id, badUserName, password, email));
-            Assert.IsFalse(sc.RegisterToSystem(id, name, badUserName, password, money, email));
-            //empty name
-            Assert.IsFalse(sc.RegisterToSystem(id, badUserName, UserName, password, money, email));
-            //bad email
-            Assert.IsFalse(sc.CanCreateNewUser(id, UserName, password, badEmail));
-            Assert.IsFalse(sc.RegisterToSystem(id, name, UserName, password, money, badEmail));
-            //bad password
-            Assert.IsFalse(sc.CanCreateNewUser(id, UserName, badPassword, email));
-            Assert.IsFalse(sc.RegisterToSystem(id, name, UserName, badPassword, money, email));
-            //bad money
-            Assert.IsFalse(sc.RegisterToSystem(id, name, UserName, password, badMoney, email));
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RemoveUserById(305077901));
+        }
+
+        public void RemoveUserByIdTest_Bad_invalidId()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RemoveUserById(-1));
+        }
+
+        [TestMethod()]
+        public void RemoveUserByUserNameAndPasswordTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(sc.RemoveUserByUserNameAndPassword("orelie26", "123456789"));
         }
 
 
         [TestMethod()]
-        public void AddNewUserBadTest()
+        public void RemoveUserByUserNameAndPasswordTest_Bad_password()
         {
-            //empty username
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            int id2 = 30507902;
-            string name1 = "orelie";
-            string name2 = "michele";
-            string userName2 = "michele12";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string password2 = "65432156";
-            string email1 = "orelie@post.bgu.ac.il";
-            string email2 = "michele@post.bgu.ac.il";
-            string badEmail = "orelie.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsFalse(sc.IsUsernameFree(UserName));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            //create user with same Id
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsTrue(sc.IsUsernameFree(userName2));
-            Assert.IsTrue((sc.IsUsernameFree(userName2)));
-            Assert.IsFalse(sc.CanCreateNewUser(id, userName2, password2, email2));
-            Assert.IsFalse(sc.RegisterToSystem(id, name2, userName2, password2, money, email2));
-            IUser user2 = sc.GetIUSerByUsername(userName2);
-            Assert.IsFalse(sc.GetAllUser().Contains(user2));
-            //create user with same user name
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RemoveUserByUserNameAndPassword("orelie26", "83456789"));
+        }
 
-            Assert.IsTrue(sc.IsIdFree(id2));
-            Assert.IsFalse(sc.IsUsernameFree(UserName));
-            Assert.IsFalse(sc.CanCreateNewUser(id2, UserName, password2, email2));
-            Assert.IsFalse(sc.RegisterToSystem(id2, name2, UserName, password2, money, email2));
-            IUser user3 = sc.GetIUSerByUsername(userName2);
-            Assert.IsFalse(sc.GetAllUser().Contains(user3));
+         [TestMethod()]
+        public void RemoveUserTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(sc.RemoveUser(sc.GetUserWithId(305077901)));
+        }
 
-            Assert.IsTrue(sc.RemoveUserById(id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+        [TestMethod()]
+        public void RemoveUserTest_bad_user_null()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RemoveUser(null));
+        }
+
+        [TestMethod()]
+        public void RemoveUserTest_bad_not_in_users()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RemoveUser(sc.GetUserWithId(305077901)));
+        }
+
+        [TestMethod()]
+        public void GetIUSerByUsernameTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsTrue(sc.Users.Contains(u));
         }
 
 
         [TestMethod()]
-        public void RemoveUserByIdTest()
+        public void GetIUSerByUsernameTest_bad_no_user()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsFalse(sc.GetAllUser().Contains(user));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void RemoveUserByUserNameAndPasswordTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            Assert.IsTrue(sc.RemoveUserByUserNameAndPassword(UserName, password));
-            Assert.IsFalse(sc.GetAllUser().Contains(user));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void RemoveUserTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            Assert.IsTrue(sc.RemoveUser(user));
-            Assert.IsFalse(sc.GetAllUser().Contains(user));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-
-        [TestMethod()]
-        public void LoginTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            Assert.AreEqual(user.IsLogin(), false);
-            Assert.IsTrue(user.Login());
-            Assert.AreEqual(user.IsLogin(), true);
-
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsFalse(sc.GetAllUser().Contains(user));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void LogoutTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-            Assert.AreEqual(user.IsLogin(), false);
-            Assert.IsTrue(user.Login());
-            Assert.AreEqual(user.IsLogin(), true);
-            Assert.IsTrue(user.Logout());
-            Assert.AreEqual(user.IsLogin(), false);
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsFalse(sc.GetAllUser().Contains(user));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void RegisterToSystemTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            IUser user = sc.GetUserWithId(id);
-            Assert.IsTrue(sc.GetAllUser().Contains(user));
-
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsFalse(sc.GetAllUser().Contains(user));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsFalse(sc.Users.Contains(u));
         }
 
         [TestMethod()]
-        public void IsUsernameFreeTest()
+        public void RegisterToSystemTest_good()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsUsernameFree(UserName));
-            Assert.IsTrue(sc.RemoveUserById(id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void IsIdFreeTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsTrue(sc.RemoveUserById(id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-
-        [TestMethod()]
-        public void IsUserWithIdTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int id2 = 305077902;
-            string name2 = "michele";
-            String UserName2 = "michele";
-            string password2 = "123456789";
-            string email2 = "michele@post.bgu.ac.il";
-            int money2 = 5000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
-            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            Assert.IsFalse(sc.IsIdFree(id2));
-            Assert.IsTrue(sc.IsUserExist(id));
-            Assert.IsTrue(sc.IsUserExist(id2));
-            Assert.IsFalse(sc.IsUserExist(-500));
-            Assert.IsFalse(sc.IsUserExist(0));
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsTrue(sc.RemoveUserById(id2));
-            Assert.IsFalse(sc.IsUserExist(id));
-            Assert.IsFalse(sc.IsUserExist(id2));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
-        public void GetUserWithIdTest()
+        public void RegisterToSystemTest_bad_id_taken()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsTrue(sc.IsUserExist(id));
-            IUser user = sc.GetUserWithId(id);
-            Assert.AreEqual(user.Id(), 305077901);
-            Assert.AreEqual(user.Name(), "orelie");
-            Assert.AreEqual(user.MemberName(), "orelie123456");
-            Assert.AreEqual(user.Points(), 0);
-            Assert.AreEqual(user.Password(), "123456789");
-            Assert.AreEqual(user.Email(), "orelie@post.bgu.ac.il");
-            Assert.AreEqual(user.Money(), 1000);
-            Assert.IsTrue(sc.RemoveUserById(id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
-/*
+
         [TestMethod()]
-        public void IsValidEmailTest()
+        public void RegisterToSystemTest_bad_userName_taken()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            Assert.IsTrue(sc.IsValidEmail("orelie@post.bgu.ac.il"));
-            Assert.IsTrue(sc.IsValidEmail("orelie.shahar@gmail.com"));
-            Assert.IsTrue(sc.IsValidEmail("orelie@walla.co.il"));
-            Assert.IsFalse(sc.IsValidEmail("orelie.post.bgu.ac.il"));
-            Assert.IsFalse(sc.IsValidEmail("wromgEmail"));
-            Assert.IsFalse(sc.IsValidEmail("oreli2198#@%*_)(*&^%#!?@bgu.ac.il"));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }*/
-/*
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.RegisterToSystem(305077902, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
         [TestMethod()]
-        public void EditEmailTest()
+        public void RegisterToSystemTest_bad_Not_Valid_email()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.IsTrue(user.EditEmail(Id, "orelie@post.bgu.ac.il"));
-            Assert.IsTrue(sc.EditEmail(Id, "orelie.shahar@gmail.com"));
-            Assert.IsTrue(sc.EditEmail(Id, "orelie@walla.co.il"));
-            Assert.IsFalse(sc.EditEmail(Id, "orelie.post.bgu.ac.il"));
-            Assert.IsFalse(sc.EditEmail(Id, "wromgEmail"));
-            Assert.IsFalse(sc.EditEmail(Id, "oreli2198#@%*_)(*&^%#!?@bgu.ac.il"));
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "oreliepost.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_passWord()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_Name()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, " ", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_Id()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(-1, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void RegisterToSystemTest_bad_Not_Valid_money()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", -10, "orelie@post.bgu.ac.il"));
+        }
+
+        [TestMethod()]
+        public void CanCreateNewUserTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_Bad_id()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(-1, "orelie26", "123456789", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_Bad_userName()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, " ", "123456789", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_bad_email()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "oreliepost.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_bad_email_empty()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", "123456789", "oreliepost.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_password()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", "123", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void CanCreateNewUserTest_password_empty()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.CanCreateNewUser(305077901, "orelie26", " ", "orelie@post.bgu.ac.il"));
+        }
+        [TestMethod()]
+        public void IsUsernameFreeTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsTrue(sc.IsUsernameFree("orelie"));
 
         }
 
         [TestMethod()]
-        public void IsValidPasswordTest()
+        public void IsUsernameFreeTest_bad_taken()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            Assert.IsFalse(sc.IsValidPassword(""));
-            Assert.IsFalse(sc.IsValidPassword("  "));
-            Assert.IsFalse(sc.IsValidPassword("1234!@"));
-            Assert.IsFalse(sc.IsValidPassword("12345678912346"));
-            Assert.IsTrue(sc.IsValidPassword("12345678"));
-            Assert.IsTrue(sc.IsValidPassword("orelie123"));
-            Assert.IsTrue(sc.IsValidPassword("1234567891"));
-            Assert.IsTrue(sc.IsValidPassword("12345678912"));
-            Assert.IsTrue(sc.IsValidPassword("123456789123"));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void EditPasswordTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.EditPassword(Id, ""));
-            Assert.IsFalse(sc.EditPassword(Id, "  "));
-            Assert.IsFalse(sc.EditPassword(Id, "1234!@"));
-            Assert.IsFalse(sc.EditPassword(Id, "12345678912346"));
-            Assert.IsTrue(sc.EditPassword(Id, "12345678"));
-            Assert.IsTrue(sc.EditPassword(Id, "orelie123"));
-            Assert.IsTrue(sc.EditPassword(Id, "1234567891"));
-            Assert.IsTrue(sc.EditPassword(Id, "12345678912"));
-            Assert.IsTrue(sc.EditPassword(Id, "123456789123"));
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void EditUserNameTest()
-        {
-
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int id2 = 305077902;
-            string name2 = "michele";
-            String UserName2 = "michele";
-            string password2 = "123456789";
-            string email2 = "michele@post.bgu.ac.il";
-            int money2 = 5000;
-            string newUserName1 = "try1";
-            string newUserName2 = "try2";
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(Id));
-            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
-            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            Assert.IsFalse(sc.EditUserName(Id, UserName2));
-            Assert.IsFalse(sc.EditUserName(id2, UserName));
-            Assert.IsTrue(sc.EditUserName(Id, newUserName1));
-            Assert.IsTrue(sc.EditUserName(id2, UserName));
-            Assert.IsTrue(sc.EditUserName(id2, UserName2));
-            Assert.IsFalse(sc.EditUserName(id2, newUserName1));
-            Assert.IsTrue(sc.EditUserName(id2, newUserName2));
-            Assert.IsTrue(sc.EditUserName(Id, UserName2));
-            Assert.IsFalse(sc.EditUserName(Id, newUserName2));
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            Assert.IsTrue(sc.RemoveUserById(id2));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.IsUsernameFree("orelie26"));
         }
 
         [TestMethod()]
-        public void EditAvatarTest()
+        public void IsUsernameFreeTest_bad_empty()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.IsTrue(sc.EditAvatar(Id, "newPath"));
-            Assert.AreEqual(sc.GetUserWithId(Id).Avatar, "newPath");
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-        }
-
-
-        [TestMethod()]
-        public void EditUserIDTest()
-        {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int id2 = 305077902;
-            string name2 = "michele";
-            String UserName2 = "michele";
-            string password2 = "123456789";
-            string email2 = "michele@post.bgu.ac.il";
-            int money2 = 5000;
-            int newId1 = 11111;
-            int newId2 = 2222;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(Id));
-            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
-            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            Assert.IsFalse(sc.EditUserID(Id, id2));
-            Assert.IsFalse(sc.EditUserID(id2, Id));
-            Assert.IsTrue(sc.EditUserID(Id, newId1));//Id=1111
-            Assert.IsTrue(sc.EditUserID(id2, Id));//id2=305077901
-            Assert.IsFalse(sc.EditUserID(id2, newId1));//fail
-            Assert.IsTrue(sc.EditUserID(Id, id2));//Id=305077902
-
-            Assert.IsFalse(sc.EditUserID(id2, -1));//fail
-            Assert.IsFalse(sc.EditUserID(id2, -111111));//fail
-            Assert.IsTrue(sc.RemoveUserById(newId1));
-            Assert.IsTrue(sc.RemoveUserById(id2));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(sc.IsUsernameFree(" "));
         }
 
         [TestMethod()]
-        public void EditUserPointsTest()
+        public void IsIdFreeTest_good()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size1 = sc.Users.Count;
-            Assert.AreEqual(size1, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int size = sc.Users.Count;
-            Assert.AreEqual(size, 0);
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.AreEqual(sc.GetUserWithId(Id).Points, 0);
-            Assert.IsTrue(sc.EditUserPoints(Id, 500));
-            Assert.AreEqual(sc.GetUserWithId(Id).Points, 500);
-            Assert.IsTrue(sc.EditUserPoints(Id, 0));
-            Assert.AreEqual(sc.GetUserWithId(Id).Points, 0);
-            Assert.IsFalse(sc.EditUserPoints(Id, -100));
-            Assert.AreEqual(sc.GetUserWithId(Id).Points, 0); ;
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+
+            Assert.IsTrue(sc.IsIdFree(305077901));
         }
 
         [TestMethod()]
-        public void EditUserMoneyTest()
+        public void IsIdFreeTest_bad_taken()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.AreEqual(sc.GetUserWithId(Id).Money, 1000);
-            Assert.IsTrue(sc.EditUserMoney(Id, 500));
-            Assert.AreEqual(sc.GetUserWithId(Id).Money, 500);
-            Assert.IsTrue(sc.EditUserMoney(Id, 0));
-            Assert.AreEqual(sc.GetUserWithId(Id).Money, 0);
-            Assert.IsFalse(sc.EditUserMoney(Id, -100));
-            Assert.AreEqual(sc.GetUserWithId(Id).Money, 0); ;
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            int size1 = sc.Users.Count;
-            Assert.AreEqual(size1, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+
+            Assert.IsFalse(sc.IsIdFree(305077901));
         }
 
         [TestMethod()]
-        public void EditActiveGameTest()
+        public void IsIdFreeTest_bad_Invalid_id()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.AreEqual(sc.GetUserWithId(Id).IsActive, false);
-            Assert.IsTrue(sc.EditActiveGame(Id, true));
-            Assert.AreEqual(sc.GetUserWithId(Id).IsActive, true);
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            int size1 = sc.Users.Count;
-            Assert.AreEqual(size1, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.IsIdFree(-1));
         }
 
         [TestMethod()]
-        public void IsHigestRankUserTest()
+        public void IsUserExistTest_good()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size1 = sc.Users.Count;
-            Assert.AreEqual(size1, 0);
-            int Id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int id2 = 305077902;
-            string name2 = "michele";
-            String UserName2 = "michele";
-            string password2 = "123456789";
-            string email2 = "michele@post.bgu.ac.il";
-            int money2 = 5000;
-            int newId1 = 11111;
-            int newId2 = 2222;
-            Assert.IsTrue(sc.CanCreateNewUser(Id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(Id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(Id));
-            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
-            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            User orelie = sc.GetUserWithId(Id);
-            User michele = sc.GetUserWithId(id2);
-            List<User> all = sc.GetAllUser();
-            int size = all.Count;
-            Assert.IsTrue(size > 1);
-            User higher = GameCenter.Instance.HigherRank;
-            Assert.IsTrue(sc.EditUserPoints(Id, 100));
-            Assert.AreEqual(orelie.Points, 100);
-            Assert.AreEqual(orelie.IsHigherRank, true);
-            Assert.AreEqual(michele.IsHigherRank, false);
-            higher = GameCenter.Instance.HigherRank;
-            Assert.AreEqual(higher, orelie);
-            Assert.IsTrue(sc.EditUserPoints(id2, 1000));
-            Assert.AreEqual(michele.Points, 1000);
-            Assert.AreEqual(orelie.IsHigherRank, false);
-            Assert.AreEqual(michele.IsHigherRank, true);
-            higher = GameCenter.Instance.HigherRank;
-            Assert.AreEqual(higher, michele);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(sc.IsUserExist(305077901));
 
-
-            Assert.IsTrue(sc.IsHigestRankUser(id2));
-            Assert.IsFalse(sc.IsHigestRankUser(Id));
-            Assert.IsTrue(sc.RemoveUserById(Id));
-            Assert.IsTrue(sc.RemoveUserById(id2));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
         }
-
-    */
-    
-
 
         [TestMethod()]
-        public void SortByRankTest()
+        public void IsUserExistTest_bad_no_user()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
-           // GameCenter.Instance.HigherRank = null;
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int id2 = 305077902;
-            string name2 = "michele";
-            String UserName2 = "michele";
-            string password2 = "123456789";
-            string email2 = "michele@post.bgu.ac.il";
-            int money2 = 5000;
-            int id3 = 305077903;
-            string name3 = "Amir";
-            String UserName3 = "Amir29";
-            string password3 = "123456789";
-            string email3 = "Amirf@post.bgu.ac.il";
-            int money3 = 5000;
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
-            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            Assert.IsTrue(sc.CanCreateNewUser(id3, UserName3, password3, email3));
-            Assert.IsTrue(sc.RegisterToSystem(id3, name3, UserName3, password3, money3, email3));
-            IUser orelie = sc.GetUserWithId(id);
-            IUser michele = sc.GetUserWithId(id2);
-            IUser Amir = sc.GetUserWithId(id3);
-            Assert.IsTrue(michele.EditUserPoints(1000));
-            Assert.AreEqual(michele.Points(), 1000);
-            Assert.IsTrue(orelie.EditUserPoints( 10));
-            Assert.AreEqual(orelie.Points(), 10);
-            Assert.IsTrue(Amir.EditUserPoints(5000));
-            Assert.AreEqual(Amir.Points(), 5000);
-            List<IUser> byRank = sc.SortByRank();
-            int orelieIndex = byRank.IndexOf(orelie);
-            int micheleIndex = byRank.IndexOf(michele);
-            int AmirIndex = byRank.IndexOf(Amir);
-            Assert.AreEqual(AmirIndex, 0);
-            Assert.AreEqual(micheleIndex, 1);
-            Assert.AreEqual(orelieIndex, 2);
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsTrue(sc.RemoveUserById(id2));
-            Assert.IsTrue(sc.RemoveUserById(id3));
-            int size1 = sc.Users.Count;
-            Assert.AreEqual(size1, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.IsUserExist(3));
         }
-
 
         [TestMethod()]
-        public void GetUserRankTest()
+        public void IsUserExistTest_bad_invalid_id()
         {
-            SystemControl sc = SystemControl.SystemControlInstance;
-            int size1 = sc.Users.Count;
-            Assert.AreEqual(size1, 0);
-           // GameCenter.Instance.HigherRank = null;
-            int id = 305077901;
-            string name1 = "orelie";
-            String UserName = "orelie123456";
-            string password = "123456789";
-            string email1 = "orelie@post.bgu.ac.il";
-            int money = 1000;
-            int id2 = 305077902;
-            string name2 = "michele";
-            String UserName2 = "michele";
-            string password2 = "123456789";
-            string email2 = "michele@post.bgu.ac.il";
-            int money2 = 5000;
-
-            Assert.IsTrue(sc.CanCreateNewUser(id, UserName, password, email1));
-            Assert.IsTrue(sc.RegisterToSystem(id, name1, UserName, password, money, email1));
-            Assert.IsFalse(sc.IsIdFree(id));
-            Assert.IsTrue(sc.CanCreateNewUser(id2, UserName2, password2, email2));
-            Assert.IsTrue(sc.RegisterToSystem(id2, name2, UserName2, password2, money2, email2));
-            IUser orelie = sc.GetUserWithId(id);
-            IUser michele = sc.GetUserWithId(id2);
-            List<IUser> all = sc.GetAllUser();
-            int size = all.Count;
-            Assert.IsTrue(size > 1);
-            Assert.IsTrue(orelie.EditUserPoints( 50));
-            Assert.AreEqual(orelie.Points(), 50);
-            Assert.IsTrue(michele.EditUserPoints( 150));
-            Assert.AreEqual(michele.Points(), 150);
-
-
-            Assert.IsTrue(sc.RemoveUserById(id));
-            Assert.IsTrue(sc.RemoveUserById(id2));
-            int size2 = sc.Users.Count;
-            Assert.AreEqual(size2, 0);
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            Assert.IsFalse(sc.IsUserExist(-3));
         }
 
+        [TestMethod()]
+        public void GetUserWithIdTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsTrue(sc.Users.Contains(u));
+        }
 
-       
+        [TestMethod()]
+        public void GetUserWithIdTest_bad_no_user()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsFalse(sc.Users.Contains(u));
+        }
+
       
 
+        [TestMethod()]
+        public void GetAllUserTes_good1()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            sc.RegisterToSystem(305077902, "orelie", "orelie25", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Users.IUser u1 = sc.GetUserWithId(305077901);
+            List<IUser> u = sc.GetAllUser();
+            Assert.IsTrue(u.Contains(u1));
+        }
 
+        [TestMethod()]
+        public void GetAllUserTes_good2()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            sc.RegisterToSystem(305077902, "orelie", "orelie25", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Users.IUser u1 = sc.GetUserWithId(305077902);
+            List<IUser> u = sc.GetAllUser();
+            Assert.IsTrue(u.Contains(u1));
+        }
 
+      
 
+        [TestMethod()]
+        public void GetAllUnKnowUsersTest_good_1()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 5; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+                
+                sc.GetUserWithId(i).EditUserPoints( i);
+            }
 
+            for (int i = 3; i < 5; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            List<IUser> un = sc.GetAllUnKnowUsers();
+            Assert.IsTrue(un.Count==2);
+        }
 
+        [TestMethod()]
+        public void GetAllUnKnowUsersTest_good_2()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 5; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
 
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
 
+            for (int i = 3; i < 5; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            List<IUser> un = sc.GetAllUnKnowUsers();
+            IUser u = sc.GetUserWithId(1);
+            Assert.IsTrue(un.Contains(u));
+        }
 
+      
 
+        [TestMethod()]
+        public void DivideLeagueTest_good()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+           Assert.IsTrue(sc.DivideLeague());
+        }
+
+        [TestMethod()]
+        public void DivideLeagueTest_good_A()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(10).GetLeague(),LeagueName.A);
+        }
+
+        [TestMethod()]
+        public void DivideLeagueTest_good_B()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(8).GetLeague(), LeagueName.B);
+        }
+
+        [TestMethod()]
+        public void DivideLeagueTest_good_C()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(6).GetLeague(), LeagueName.C);
+        }
+
+        [TestMethod()]
+        public void DivideLeagueTest_good_D()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(4).GetLeague(), LeagueName.D);
+        }
+        [TestMethod()]
+        public void DivideLeagueTest_good_E()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            string name = "";
+            for (int i = 1; i < 11; i++)
+            {
+                name = "" + i;
+                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
+
+                sc.GetUserWithId(i).EditUserPoints(i);
+            }
+
+            for (int i = 1; i < 11; i++)
+            {
+                for (int j = 0; j < 15; j++)
+                {
+                    sc.GetUserWithId(i).IncGamesPlay();
+                }
+            }
+            sc.DivideLeague();
+            Assert.AreEqual(sc.GetUserWithId(2).GetLeague(), LeagueName.E);
+        }
+
+        [TestMethod()]
+        public void DivideLeagueTest_good_Unknow()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(1, "orelie", "orelie", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.AreEqual(sc.GetUserWithId(1).GetLeague(), LeagueName.Unknow);
+        }
     }
-
-
 }
+
+
