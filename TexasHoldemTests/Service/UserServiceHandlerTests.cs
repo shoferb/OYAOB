@@ -246,6 +246,14 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
+        public void EditUserEmailTest_Bad_invlid_email()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.EditUserEmail(305077901, "or123456wall.co.il"));
+        }
+
+        [TestMethod()]
         public void EditUserNameTest()
         {
             Assert.Fail();
