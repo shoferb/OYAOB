@@ -24,13 +24,7 @@ namespace Client.Handler.ClientTests
             
         }
 
-        [TestMethod()]
-        public void SetUserIdTest()
-        {
-            CommunicationHandler commHandler = new CommunicationHandler(IPAddress.Loopback.ToString());
-            commHandler.SetUserId(1);
-            Assert.IsTrue(commHandler.getUserId()==1);
-        }
+      
 
         [TestMethod()]
         public void TryGetMsgReceivedTest()
