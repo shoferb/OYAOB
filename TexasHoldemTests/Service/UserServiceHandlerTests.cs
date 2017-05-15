@@ -285,7 +285,6 @@ namespace TexasHoldem.Service.Tests
         {
             Init();
             userService.RegisterToSystem(305077902, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il");
-
             Assert.IsFalse(userService.EditUserName(305077902, " "));
         }
 
@@ -321,9 +320,11 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void EditIdTest()
+        public void EditIdTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditId(305077901, 305077902));
         }
 
         [TestMethod()]
