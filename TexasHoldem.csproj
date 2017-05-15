@@ -87,6 +87,7 @@
     <Compile Include="Logic\Actions\StartGame.cs" />
     <Compile Include="Logic\Actions\WinAction.cs" />
     <Compile Include="Logic\GameControl\GameCenter.cs" />
+    <Compile Include="Logic\GameControl\IGameCenter.cs" />
     <Compile Include="Logic\GameControl\LeagueName.cs" />
     <Compile Include="Logic\GameControl\LogControl.cs" />
     <Compile Include="Logic\GameControl\SystemControl.cs" />
