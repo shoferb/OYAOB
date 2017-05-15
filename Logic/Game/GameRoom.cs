@@ -687,10 +687,10 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(this.Id, hand.ToString());
                 logControl.AddSystemLog(log);
-                GameDataCommMessage gameData = GetGameData(player, 0, true);
+                GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.HandCard);
                 List<int> ids = new List<int>();
                 ids.Add(player.user.Id());
-                GameCenter.SendMessageToClient(player, gameData, ActionType.HandCard, true, ids);
+                GameCenter.SendMessageToClient(gameData, ids);
             }
         }
         
