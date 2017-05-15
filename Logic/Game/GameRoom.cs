@@ -224,7 +224,12 @@ namespace TexasHoldem.Logic.Game
 
         private List<string> GetPlayersNames()
         {
-            throw new NotImplementedException();
+            List<string> names = new List<string>();
+            foreach(Player p in Players)
+            {
+                names.Add(p.user.MemberName());
+            }
+            return names;
         }
 
         private bool FixRoles(Player playerLeaved)
