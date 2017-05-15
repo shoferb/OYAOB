@@ -175,9 +175,16 @@ namespace TexasHoldem.communication.Impl
                     break;
                     case SearchCommMessage.SearchType.ByRoomId:
                         IGame game = _gameService.GetGameById(msg.searchByInt);
-                        temp.Add(game);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
+                        if (game != null)
+                        {
+                            temp.Add(game);
+                            toSend = ToClientGameList(temp);
+                            success = toSend.Count != 0; 
+                        }
+                        else
+                        {
+                            success = false;
+                        }
                     break;
                     case SearchCommMessage.SearchType.AllSepctetorGame:
                         temp = _gameService.GetSpectateableGames();
