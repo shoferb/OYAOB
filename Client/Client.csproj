@@ -80,10 +80,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="GuiScreen\LogoutScreen.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="GuiScreen\MainAfterLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,10 +89,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="GuiScreen\ReplaySearch.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="GuiScreen\SearchMenuScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,9 +127,6 @@
     <Compile Include="GuiScreen\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GuiScreen\LogoutScreen.xaml.cs">
-      <DependentUpon>LogoutScreen.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GuiScreen\MainAfterLogin.xaml.cs">
       <DependentUpon>MainAfterLogin.xaml</DependentUpon>
     </Compile>
@@ -146,9 +135,6 @@
     </Compile>
     <Compile Include="GuiScreen\ReplaySearch.xaml.cs">
       <DependentUpon>ReplaySearch.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="GuiScreen\SearchMenuScreen.xaml.cs">
-      <DependentUpon>SearchMenuScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\SearchScreen.xaml.cs">
       <DependentUpon>SearchScreen.xaml</DependentUpon>
