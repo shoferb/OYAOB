@@ -449,12 +449,24 @@ namespace TexasHoldem.Logic.Users.Tests
             IGame gameRoom=null;
             Assert.IsFalse(user.HasThisActiveGame(gameRoom));
         }
-    
+
 
         [TestMethod()]
-        public void HasThisSpectetorGameTest()
+        public void HasThisSpectetorGameTest_good_contain()
         {
-            Assert.Fail();
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom = null;
+            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Spectetor spectetor = new Spectetor(user2, roomID);
+            user2.AddRoomToSpectetorGameList(gameRoom);
+            Assert.IsTrue(user2.HasThisSpectetorGame(gameRoom));
         }
 
         [TestMethod()]
@@ -521,7 +533,7 @@ namespace TexasHoldem.Logic.Users.Tests
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
             IGame gameRoom=null;
-            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+            Assert.IsFalse(user.AddRoomToSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
@@ -538,8 +550,8 @@ namespace TexasHoldem.Logic.Users.Tests
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomID, deco);
             Spectetor spectetor = new Spectetor(user2, roomID);
-            user.AddRoomToActiveGameList(gameRoom);
-            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+            user2.AddRoomToSpectetorGameList(gameRoom);
+            Assert.IsFalse(user2.AddRoomToSpectetorGameList(gameRoom));
         }
 
         [TestMethod()]
