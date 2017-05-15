@@ -160,11 +160,20 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void DeleteUserByIdTest()
+        public void DeleteUserByIdTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.DeleteUserById(305077901));
         }
 
+
+        [TestMethod()]
+        public void DeleteUserByIdTest_bad_no_user()
+        {
+            Init();
+            Assert.IsTrue(userService.DeleteUserById(305077902));
+        }
         [TestMethod()]
         public void EditUserPointsTest()
         {
