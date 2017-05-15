@@ -21,7 +21,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         private static int roomIdCounter = 1;
         private SystemControl _systemControl = SystemControl.SystemControlInstance;
-
+        private GameServiceHandler gameServiceHandler;
         private static GameCenter instance;
         private LogControl logControl = LogControl.Instance;
 
@@ -31,6 +31,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             this.logs = new List<Log>();
             this.games = new List<IGame>();
+            gameServiceHandler = new GameServiceHandler();
         }
 
         public static GameCenter Instance
@@ -58,7 +59,10 @@ namespace TexasHoldem.Logic.Game_Control
 
         public void SendMessageToClient(Player player, GameDataCommMessage gmData, CommunicationMessage.ActionType action, bool isSucceed, List<int> idsToSend)
         {
-
+            foreach (int id in idsToSend)
+            {
+                gameServiceHandler.SendMessageToClientGameData(gmData.);
+            }
         }
 
         public List<Player> getPlayersInRoom(int roomId)
