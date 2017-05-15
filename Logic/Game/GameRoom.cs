@@ -391,19 +391,19 @@ namespace TexasHoldem.Logic.Game
 
         private bool Raise(Player player, int bet)
         {
-            GameDataCommMessage gameData = GetGameData(player, bet, false);
+            GameDataCommMessage gameData = GetGameData(player, bet, false, ActionType.Bet);
             List<int> ids = new List<int>();
             ids.Add(player.user.Id());
             int currentPlayerBet = player.RoundChipBet + bet;
             int currentPlayerRaise = currentPlayerBet - maxBetInRound;
             if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, PotCount, Hand_Step))
             {
-                GameCenter.SendMessageToClient(player, gameData, ActionType.Bet, false, ids);
+                GameCenter.SendMessageToClient(gameData, ids);
                 return false;
             }
             if (player.TotalChip < bet) //not enough chips for bet maybe change to all in 
             {
-                GameCenter.SendMessageToClient(player, gameData, ActionType.Bet, false, ids);
+                GameCenter.SendMessageToClient(gameData, ids);
                 return false;  
             }
             maxBetInRound = currentPlayerBet;
@@ -423,8 +423,8 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
-            gameData = GetGameData(player, bet, true);
-            GameCenter.SendMessageToClient(player, gameData, ActionType.Bet, true, ids);
+            gameData = GetGameData(player, bet, true, ActionType.StartGame);
+            GameCenter.SendMessageToClient(gameData, ids);
             return AfterAction();
         }
 
