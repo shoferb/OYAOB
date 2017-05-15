@@ -15,14 +15,13 @@ namespace TexasHoldem.Service
     public class GameServiceHandler
     {
         
-        private  GameCenter _gameCenter;
-        private  SystemControl _systemControl;
+        private static GameCenter _gameCenter = GameCenter.Instance;
+        private SystemControl _systemControl;
         private ReplayManager _replayManager;
         private static ServerEventHandler _serverHandler = new ServerEventHandler();
 
         public GameServiceHandler()
         {
-            _gameCenter = GameCenter.Instance;
             _systemControl = SystemControl.SystemControlInstance;
             _replayManager = ReplayManager.ReplayManagerInstance;
         }
