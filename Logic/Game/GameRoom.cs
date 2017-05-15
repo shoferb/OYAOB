@@ -45,6 +45,7 @@ namespace TexasHoldem.Logic.Game
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;
         private int lastRaiseInRound;
+        private bool useCommunication;
 
         private LeagueName league;
         private static readonly object padlock = new object();
@@ -69,6 +70,7 @@ namespace TexasHoldem.Logic.Game
             GameCenter = GameCenter.Instance;
             lastRaiseInRound = 0;
             ReduceFeeAndStatringChipFromPlayers();
+            useCommunication = true;
         }
 
         private void ReduceFeeAndStatringChipFromPlayers()
@@ -102,10 +104,11 @@ namespace TexasHoldem.Logic.Game
             SetTheBlinds();
         }
 
-        public bool DoAction(IUser user, ActionType action, int amount)
+        public bool DoAction(IUser user, ActionType action, int amount, bool useCommunication)
         {
             lock (padlock)
-            {       
+            {
+                this.useCommunication = useCommunication;
                 if (action == ActionType.Join)
                 {
                     if (IsUserInGame(user))
