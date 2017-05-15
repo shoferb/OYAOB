@@ -109,9 +109,12 @@ namespace TexasHoldem.Service.Tests
         }
 
         [TestMethod()]
-        public void LogoutUserTest()
+        public void LogoutUserTest_good()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LoginUser("orelie26", "123456789");
+            Assert.IsTrue(userService.LogoutUser(305077901));
         }
 
        
