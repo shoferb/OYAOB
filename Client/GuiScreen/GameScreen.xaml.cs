@@ -148,7 +148,44 @@ namespace Client.GuiScreen
             
             this.TotalChips = msg.TotalChips;
             this.ChipAmountLabel.Content = msg.TotalChips;
-           
+            if (msg.isSucceed)
+            {
+                string msgToChat = "";
+                if (msg.action.Equals(CommunicationMessage.ActionType.Bet))
+                {
+                    if (msg.betAmount == 0)
+                    {
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Checked");
+                    }
+                    else
+                    {
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Bet with amount of ",
+                            msg.betAmount);
+                    }
+                }
+                else if (msg.action.Equals(CommunicationMessage.ActionType.Fold))
+                {
+                    msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Folded.");
+                }
+                else if (msg.action.Equals(CommunicationMessage.ActionType.Join))
+                {
+                    msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Joined the game.");
+                }
+                else if (msg.action.Equals(CommunicationMessage.ActionType.Leave))
+                {
+                    msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " left the game.");
+                }
+                else if (msg.action.Equals(CommunicationMessage.ActionType.StartGame))
+                {
+                    msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " started the game.");
+                }
+                ListViewItem toAdd = new ListViewItem();
+                toAdd.Content = msgToChat;
+                this.chatListView.Items.Add(toAdd);
+
+            }
+
+
         }
 
         private void DoActiomBotton_Click(object sender, RoutedEventArgs e)
@@ -173,8 +210,11 @@ namespace Client.GuiScreen
                     bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (ans)
                     {
-                        string msg =string.Concat("*GAME MESSAGE* ",_logic.user.username,": ",action,"with amount of ",amount);
-                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
                     }
                 }
                 if (action.Equals("Check"))
@@ -183,8 +223,11 @@ namespace Client.GuiScreen
                     bool ans =_logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (ans)
                     {
-                        string msg = string.Concat("*GAME MESSAGE* ", _logic.user.username, ": ", action);
-                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
                     }
                 }
                 if (action.Equals("Fold"))
@@ -193,8 +236,11 @@ namespace Client.GuiScreen
                     bool ans =_logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (ans)
                     {
-                        string msg = string.Concat("*GAME MESSAGE* ", _logic.user.username, ": ", action);
-                        _logic.SendChatMsg(this.RoomId, _logic.user.username, msg, CommunicationMessage.ActionType.PlayerBrodcast);
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
                     }
                 }
                 if (action.Equals("Send A New Broadcast Chat Message"))
