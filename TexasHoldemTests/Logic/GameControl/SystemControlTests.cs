@@ -317,32 +317,52 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         {
             sc = SystemControl.SystemControlInstance;
             sc.Users = new List<IUser>();
-            Assert.IsTrue(sc.IsUserExist(-3));
-
+            Assert.IsFalse(sc.IsUserExist(-3));
         }
 
         [TestMethod()]
-        public void GetUserWithIdTest1()
+        public void GetUserWithIdTest_good()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsTrue(sc.Users.Contains(u));
         }
 
         [TestMethod()]
-        public void GetActiveGamesByUserNameTest()
+        public void GetUserWithIdTest_bad_no_user()
         {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            IUser u = sc.GetUserWithId(305077901);
+            Assert.IsFalse(sc.Users.Contains(u));
+        }
+
+      
+
+        [TestMethod()]
+        public void GetAllUserTes_good1()
+        {
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            sc.RegisterToSystem(305077902, "orelie", "orelie25", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Users.IUser u1 = sc.GetUserWithId(305077901);
+            List<IUser> u = sc.GetAllUser();
+            Assert.IsTrue(u.Contains(u1));
         }
 
         [TestMethod()]
-        public void GetSpectetorGamesByUserNameTest()
+        public void GetAllUserTes_good2()
         {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void GetAllUserTest()
-        {
-            Assert.Fail();
+            sc = SystemControl.SystemControlInstance;
+            sc.Users = new List<IUser>();
+            sc.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            sc.RegisterToSystem(305077902, "orelie", "orelie25", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Users.IUser u1 = sc.GetUserWithId(305077902);
+            List<IUser> u = sc.GetAllUser();
+            Assert.IsTrue(u.Contains(u1));
         }
 
         [TestMethod()]
