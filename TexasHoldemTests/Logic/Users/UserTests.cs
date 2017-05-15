@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Users.Tests
 {
@@ -389,11 +390,21 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.EditUserMoney(-100));
         }
 
+         
+
+        
+
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.Unknow);
+            before.SetNextDecorator(mid);
+            return before;
+        }
 
         [TestMethod()]
         public void RemoveRoomFromActiveGameListTest()
         {
-           
         }
 
         [TestMethod()]
@@ -415,9 +426,18 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void AddRoomToActiveGameListTest()
+        public void AddRoomToActiveGameListTest_good()
         {
-            Assert.Fail();
+
+            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            IGame gameRoom;
+            int roomID = 9999;
+            List<Player> players = new List<Player>();
+            Player player1 = new Player(user, 1000, roomID);
+            players.Add(player1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            gameRoom = new GameRoom(players, roomID, deco);
+            Assert.IsTrue(user.AddRoomToActiveGameList(gameRoom));
         }
 
         [TestMethod()]
