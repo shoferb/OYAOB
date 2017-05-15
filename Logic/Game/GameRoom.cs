@@ -302,8 +302,9 @@ namespace TexasHoldem.Logic.Game
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     this.Players.Add(p);
-                    gameData = GetGameData();
-                    GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
+                    List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
+                    gameData = GetGameData(p, amount, true);
+                    GameCenter.SendMessageToClient(p, gameData, ActionType.Join, true, idsTosend);
                     return true;
                 }
                 GameCenter.SendMessageToClient(p, gameData, ActionType.Join, false, idsTosend);
