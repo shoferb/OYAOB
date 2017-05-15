@@ -160,7 +160,7 @@ namespace Client.GuiScreen
             int newRoomId = _logic.CreateNewRoom(_mode, _minBet, _chipPolicy, _buyInPolicy, _canSpectate, _minPlayer, _maxPlayers);
             if (newRoomId!=-1)
             {
-                MessageBox.Show("New Room sucssesfully Created! The new room ID is " + newRoomId + ". Enjoy!");
+                MessageBox.Show("New Room sucssesfully Created, Enjoy!");
                 
             }
             else
