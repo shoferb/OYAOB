@@ -196,10 +196,21 @@ namespace TexasHoldem.Service.Tests
             Init();
             Assert.IsFalse(userService.EditUserPoints(305077901, 10));
         }
+
         [TestMethod()]
-        public void EditUserPasswordTest()
+        public void EditUserPointsTest_Bad_Ivalid_points()
         {
-            Assert.Fail();
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.EditUserPoints(305077901, -100));
+        }
+
+        [TestMethod()]
+        public void EditUserPasswordTest_good()
+        {
+            Init();
+            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditUserPassword(305077901, "or123456")); 
         }
 
         [TestMethod()]
