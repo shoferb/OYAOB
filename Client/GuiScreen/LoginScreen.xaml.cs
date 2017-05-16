@@ -64,6 +64,7 @@ namespace TexasHoldem.GuiScreen
             if ( string.IsNullOrEmpty(passwordBox.Text))
             {
                 MessageBox.Show("Invalid input - please enter password");
+                return;
             }
             bool loginOk = cl.Login(userName, password);
             if (loginOk )

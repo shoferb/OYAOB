@@ -104,12 +104,47 @@ namespace TexasHoldem.GuiScreen
 
         private void registerButton_Click(object sender, RoutedEventArgs e)
         {
+           
+            if (string.IsNullOrEmpty(IDtextBox.Text))
+            {
+                MessageBox.Show("please enter Id");
+                return;
+            }
+            if (string.IsNullOrEmpty(NametextBox.Text))
+            {
+                MessageBox.Show("please enter name");
+                return;
+            }
+            if (string.IsNullOrEmpty(UserNametextBox.Text))
+            {
+                MessageBox.Show("please enter User name");
+                return;
+            }
+            if (string.IsNullOrEmpty(EmailtextBox.Text))
+            {
+                MessageBox.Show("please enter email");
+                return;
+            }
+            if (string.IsNullOrEmpty(MoneytextBox.Text))
+            {
+                MessageBox.Show("please enter money");
+                return;
+            }
+            if (string.IsNullOrEmpty(PasswordFirstTextBox.Text))
+            {
+                MessageBox.Show("please enter password");
+                return;
+            }
+            if (string.IsNullOrEmpty(PasswordSecTextBox.Text))
+            {
+                MessageBox.Show("please enter password again");
+                return;
+            }
             if (!firstPassword.Equals(secPassword))
             {
                 MessageBox.Show("password dont match");
                 return;
             }
-            
             bool registerOk = cl.Register(Id,name, username, firstPassword, money, email);
             if (registerOk)
             {
