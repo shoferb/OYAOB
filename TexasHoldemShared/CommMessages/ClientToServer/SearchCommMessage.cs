@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TexasHoldem.Logic.Game;
-namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class SearchCommMessage : CommunicationMessage
     {
@@ -14,7 +8,6 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             ActiveGamesByUserName,
             SpectetorGameByUserName,
             ByRoomId,
-          //  AllActiveGames,
             AllSepctetorGame,
             GamesUserCanJoin,
             ByPotSize,
@@ -50,7 +43,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(SearchCommMessage))
+            if (other != null && other.GetType() == typeof(SearchCommMessage))
             {
                 var afterCasting = (SearchCommMessage)other;
                 return searchType == afterCasting.searchType && searchByString.Equals(afterCasting.searchByString) &&

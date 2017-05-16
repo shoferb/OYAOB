@@ -26,7 +26,7 @@
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(LoginCommMessage))
+            if (other != null && other.GetType() == typeof(LoginCommMessage))
             {
                 var afterCasting = (LoginCommMessage) other;
                 return IsLogin == afterCasting.IsLogin && UserName.Equals(afterCasting.UserName) &&

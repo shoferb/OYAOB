@@ -38,7 +38,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(ChatCommMessage))
+            if (other != null && other.GetType() == typeof(ChatCommMessage))
             {
                 var afterCasting = (ChatCommMessage)other;
                 return idSender == afterCasting.idSender && roomId == afterCasting.roomId && UserId == afterCasting.UserId &&

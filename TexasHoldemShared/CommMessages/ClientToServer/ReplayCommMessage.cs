@@ -22,7 +22,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(ReplayCommMessage))
+            if (other != null && other.GetType() == typeof(ReplayCommMessage))
             {
                 var afterCasting = (ReplayCommMessage)other;
                 return roomId == afterCasting.roomId &&
@@ -30,10 +30,6 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             }
             return false;
         }
-
-
-        //TODO: ask Oded if needed Equal method? 
-
 
         public override void Handle(IEventHandler handler)
         {
