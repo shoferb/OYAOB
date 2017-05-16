@@ -119,5 +119,12 @@ namespace TexasHoldem.GuiScreen
             cl.CloseSystem();
             Application.Current.Shutdown();
         }
+
+        private void ReplayBTN_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaySearch ReplayScreen = new ReplaySearch(cl, this);
+            ReplayScreen.Show();
+            this.Hide();
+        }
     }
 }
