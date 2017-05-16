@@ -58,6 +58,21 @@ namespace Client.Logic.Tests
 
         }
 
+        [TestMethod()]
+        public void WinTest()
+        {
+            var mock = new Mock<IUser>(MockBehavior.Strict);
+            Player p = new Player(mock.Object, 100, 100);
+            mock.Setup(foo => foo.IncWinNum()).Returns(true);
+            mock.Setup(foo => foo.EditUserPoints(10100)).Returns(true);
+            mock.Setup(foo => foo.Money()).Returns(10000);
+            mock.Setup(foo => foo.WinNum()).Returns(100);
+
+
+            Assert.IsTrue(p.Win(1000));
+
+        }
+
     }
 
 
