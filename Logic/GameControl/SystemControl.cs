@@ -60,18 +60,18 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
         
-
-
-
-
         //remove user from user list byID - syncronized
         public bool RemoveUserById(int id)
         {
             lock (padlock)
             {
                 bool toReturn = false;
-                IUser original = GetUserWithId(id);
                 if (!IsValidInputNotSmallerZero(id))
+                {
+                    return toReturn;
+                }
+                IUser original = GetUserWithId(id);
+                if (original==null)
                 {
                     return toReturn;
                 }
@@ -95,7 +95,7 @@ namespace TexasHoldem.Logic.Game_Control
         //remove user by name and password  - syncronized
         public bool RemoveUserByUserNameAndPassword(string username, string password)
         {
-            bool toReturn;
+            bool toReturn = false;
             IUser toRemove = null;
             bool found = false;
             lock (padlock)
@@ -110,8 +110,13 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    users.Remove(toRemove);
-                    toReturn = true;
+                    if (found)
+                    {
+                        users.Remove(toRemove);
+                        toReturn = true;
+                        return toReturn;
+                    }
+                   
                 }
                 catch (Exception e)
                 {
@@ -623,11 +628,12 @@ namespace TexasHoldem.Logic.Game_Control
 
                     while (i < userCount)
                     {
-                        while (k <= divideTo && i < userCount)
+                        while (k < divideTo && i < userCount)
                         {
                             sorted.ElementAt(i).SetLeague(curr);
-                            i++;
+                            
                             k++;
+                            i++;
                         }
                         k = 0;
                         curr = GetNextLeague(curr);
