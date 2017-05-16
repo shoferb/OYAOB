@@ -50,6 +50,19 @@ namespace TexasHoldem.communication.Impl
             _listener = new TcpListener(IPAddress.Any, LocalPort);
         }
 
+        public List<string> GetMsgsToSend()
+        {
+            List<string> msgs = new List<string>();
+            foreach (var queue in _userIdToMsgQueue.Values)
+            {
+                foreach (var msg in queue)
+                {
+                    msgs.Add(msg);
+                }
+            }
+            return msgs;
+        }
+
         //start all threads:
         public void AddUserId(int id, TcpClient socket)
         {

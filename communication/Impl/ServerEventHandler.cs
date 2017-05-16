@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using TexasHoldem.communication.Interfaces;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
@@ -12,13 +13,12 @@ using TexasHoldemShared.Parser;
 
 namespace TexasHoldem.communication.Impl
 {
-    //TODO: this class
     public class ServerEventHandler : IEventHandler
     {
         private readonly UserServiceHandler _userService = new UserServiceHandler();
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
         private readonly ReplayHandler _replayService = new ReplayHandler();
-        private readonly CommunicationHandler _commHandler = CommunicationHandler.GetInstance();
+        private ICommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
 
         private readonly TcpClient _socket;
@@ -33,6 +33,12 @@ namespace TexasHoldem.communication.Impl
         }
 
         //private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
+
+        //for tests only
+        public void SetCommHandler(ICommunicationHandler handler)
+        {
+            _commHandler = handler;
+        }
 
         public void HandleEvent(ActionCommMessage msg)
         {

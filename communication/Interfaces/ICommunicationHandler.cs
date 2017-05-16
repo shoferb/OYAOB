@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.communication.Interfaces
 {
-    internal interface ICommunicationHandler
+    public interface ICommunicationHandler
     {
         List<Tuple<string, TcpClient>> GetReceivedMessages();
         bool AddMsgToSend(string msg, int userId);
+        List<String> GetMsgsToSend();
         void AddUserId(int id, TcpClient socket);
         void Start();
         void Close();
