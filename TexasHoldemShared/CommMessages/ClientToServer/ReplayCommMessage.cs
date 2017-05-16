@@ -22,7 +22,13 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public override bool Equals(CommunicationMessage other)
         {
-            throw new NotImplementedException();
+            if (other.GetType() == typeof(ReplayCommMessage))
+            {
+                var afterCasting = (ReplayCommMessage)other;
+                return roomId == afterCasting.roomId &&
+                       UserId == afterCasting.UserId;
+            }
+            return false;
         }
 
 
