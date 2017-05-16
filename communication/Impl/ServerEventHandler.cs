@@ -337,7 +337,7 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(ReplayCommMessage msg)
         {           
-            _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);          
+           // _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);          
         }
     }
 }

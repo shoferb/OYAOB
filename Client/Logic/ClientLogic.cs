@@ -222,7 +222,7 @@ namespace Client.Logic
             if (toRet)
             {
                 ReplaySearchResponseCommMessage retMsg = (ReplaySearchResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
-                replays = retMsg.replaysAsked;
+                //replays = retMsg.replaysAsked;
             }
             messagesSentObserver.Remove(messageToList);
             return new Tuple<bool, List<string>>(toRet,replays);

@@ -8,24 +8,21 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class ReplayCommMessage : CommunicationMessage
     {
-        public int roomID;
+        public int gameId;
+        public bool isAllGames;
 
 
         public ReplayCommMessage() : base(-1) { } //for parsing
 
-        public ReplayCommMessage(int _userid, int _roomId ) : base(_userid)
+        public ReplayCommMessage(int _userid, bool _isAll, int _gameId ) : base(_userid)
         {
-            this.roomID = _roomId;
+            this.gameId = _gameId;
+            this.isAllGames = _isAll;
         }
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() != this.GetType())
-            {
-                return false;
-            }
-            var afterCasting = (ReplayCommMessage)other;
-            return roomID == afterCasting.roomID && UserId == afterCasting.UserId;
+            throw new NotImplementedException();
         }
 
 
