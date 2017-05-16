@@ -25,6 +25,12 @@ namespace TexasHoldem.Service
         {
             _RM.DeleteGameReplay(gameRoomID, gameNumber);
         }
+        public Tuple<int, string> ShowFirstGameReplay(int userID, int roomID)
+        {
+            string replay = _RM.ShowFirstGameReplayForUser(userID, roomID);
+            Tuple<int,string> tup = new Tuple(roomID, replay);
+            return tup;
+        }
 
     }
 }
