@@ -138,36 +138,36 @@ namespace Client.GuiScreen
             {
                 GetGamesByMinPlayer();
             }
-            if (field == 6) //max player num
+            else if (field == 6) //max player num
             {
                 GetGamesByMaxPlayer();
             }
-            if (field == 7)
+            else if (field == 7)
             {
                 GetGamesByMinBet();
             }
-            if (field == 8)
+            else if (field == 8)
             {
                 GetGamesByPotSize();
             }
 
-            if (field == 9)
+            else if (field == 9)
             {
                 GetGamesByBuyInPolicy();
             }
-            if (field == 10)//by starting chip
+            else if (field == 10)//by starting chip
             {
                 GetGameByStartingChip();
             }
-            if (field == 11)//by not limit
+            else if (field == 11)//by not limit
             {
                 GetNotLimitGames();
             }
-            if (field == 12)//by limit
+            else if (field == 12)//by limit
             {
                 GetLinitGames();
             }
-            if (field == 12)//by limit
+            else if (field == 13)//by limit
             {
                 GetPotLimitGames();
             }
