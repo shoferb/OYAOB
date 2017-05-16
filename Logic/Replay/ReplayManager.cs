@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,9 +91,16 @@ namespace TexasHoldem.Logic.Replay
             return null;
         }
 
+        public string ShowFirstGameReplayForUser(int userID, int gameRoomID)
+        {
+            string show = ShowGameReplay(gameRoomID, 0, userID);
+            if (show != ""){
+                return show;
+            }
+            return ShowGameReplay(gameRoomID, 1, userID);
+        }
 
-
-        public string ShowGameReplay(int gameRoomID, int gameNumber, int userID)
+            public string ShowGameReplay(int gameRoomID, int gameNumber, int userID)
         {
             GameReplay gr = GetGameReplayForUser(gameRoomID, gameNumber, userID);
             if (gr!= null)

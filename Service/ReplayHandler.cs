@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Logic.Replay;
+using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Service
 {
@@ -24,6 +25,13 @@ namespace TexasHoldem.Service
         public void DeleteGameReplay(int gameRoomID, int gameNumber)
         {
             _RM.DeleteGameReplay(gameRoomID, gameNumber);
+        }
+        public void ShowFirstGameReplay(int userID, int roomID)
+        {
+            //string replay = _RM.ShowFirstGameReplayForUser(userID, roomID);
+            //Tuple<int,string> tup = new Tuple<int,string>(roomID, replay);
+            //ReplayCommMessage rcm = new ReplayCommMessage(userID, roomID, replay);
+            //return tup;
         }
 
     }

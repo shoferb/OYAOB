@@ -57,8 +57,11 @@ namespace TexasHoldem.GuiScreen
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+           
             cl.CloseSystem();
             Application.Current.Shutdown();
         }
+
+       
     }
 }

@@ -36,7 +36,7 @@ namespace Client.GuiScreen
             MoneytextBox.Text = cl.user.money.ToString();
             LeaugeTextBox.Text = cl.user.leauge;
             string path = cl.user.avatar;
-            //todo set avatar
+            Avatarimage.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
         }
 
         private void Backbutton_Click(object sender, RoutedEventArgs e)
