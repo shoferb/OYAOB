@@ -38,8 +38,8 @@
         <Label Content="Players:" HorizontalAlignment="Left" Height="30" Margin="22,204,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
         <ListView x:Name="ListViewPlayers" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="167" Margin="23,230,0,0" Grid.RowSpan="2">
             <ListView.View>
-                <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
-                    <GridViewColumn Header="Players" Width="167" DisplayMemberBinding="{Binding viewStr}" />
+                <GridView>
+                    <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
