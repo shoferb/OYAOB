@@ -3,8 +3,6 @@
     //Sent from Client to Server and represents a player's action, as in Fold, Raise, Join a game, etc.
     public class ActionCommMessage : CommunicationMessage
     {
-        //TODO: consider spliting this class up
-
         public ActionType MoveType;
         public int Amount; //only filled when relevant
         public int RoomId;
@@ -26,7 +24,7 @@
 
        public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(ActionCommMessage))
+            if (other != null && other.GetType() == typeof(ActionCommMessage))
             {
                 var afterCasting = (ActionCommMessage) other;
                 return Amount == afterCasting.Amount && RoomId == afterCasting.RoomId && UserId == afterCasting.UserId;

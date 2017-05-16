@@ -1,6 +1,6 @@
 ﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
-    public class ClientGame //TODO: Add CommunicationMessages implementation
+    public class ClientGame
     {
         public bool isActive { get; set; }
         public bool isSpectetor { get; set; }

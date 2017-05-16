@@ -60,7 +60,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(GameDataCommMessage))
+            if (other != null && other.GetType() == typeof(GameDataCommMessage))
             {
                 var afterCasting = (GameDataCommMessage)other;
                 bool good = isSucceed == afterCasting.isSucceed && DealerName.Equals(afterCasting.DealerName) &&

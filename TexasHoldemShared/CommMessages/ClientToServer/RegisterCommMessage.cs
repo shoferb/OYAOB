@@ -29,7 +29,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(RegisterCommMessage))
+            if (other != null && other.GetType() == typeof(RegisterCommMessage))
             {
                 var afterCasting = (RegisterCommMessage)other;
                 return Money == afterCasting.Money && Name.Equals(afterCasting.Name) &&

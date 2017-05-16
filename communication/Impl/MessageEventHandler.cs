@@ -32,7 +32,7 @@ namespace TexasHoldem.communication.Impl
                 var allMsgs = commHandler.GetReceivedMessages();
                 if (allMsgs.Count == 0)
                 {
-                    Thread.Sleep(250);
+                    Thread.Sleep(25);
                 }
                 else
                 {
