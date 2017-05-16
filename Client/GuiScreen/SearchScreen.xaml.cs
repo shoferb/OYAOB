@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Client.Logic;
 using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace Client.GuiScreen
 {
@@ -65,10 +66,17 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-                bool didJoin = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
-                if (didJoin)
+                JoinResponseCommMessage joinResp = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
+                if (joinResp!=null)
                 {
+
                     MessageBox.Show("You joined the game successfully!");
+                    GameScreen newGameWindow = new GameScreen(cl);
+                    GameDataCommMessage newRoom = joinResp.GameData;
+                    newGameWindow.UpdateGame(newRoom);
+                    cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    this.Hide();
                 }
                 else
                 {
