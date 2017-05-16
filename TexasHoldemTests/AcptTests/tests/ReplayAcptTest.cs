@@ -82,7 +82,7 @@ namespace TexasHoldemTests.AcptTests.tests
             UserBridge.RemoveUserFromRoom(UserId, RoomId);
             UserBridge.RemoveUserFromRoom(_userId2, RoomId);
             UserBridge.RemoveUserFromRoom(_userId3, RoomId);
-            Assert.True(ReplayBridge.GetReplayableGames(RoomId, 0, UserId)._actions.Count>=1);
+            Assert.True(ReplayBridge.GetReplayableGames(RoomId, 0, _userId3)._actions.Count>=1);
         }
         
         

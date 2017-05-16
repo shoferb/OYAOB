@@ -927,8 +927,8 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(user1.EditUserPoints(10000));
             Assert.True(UserBridge.DividLeage());
             //both spoused to be in leage A
-            Assert.False(user1.GetLeague() == LeagueName.A);
-            Assert.False(user2.GetLeague() == LeagueName.A);
+            Assert.True(user1.GetLeague() == LeagueName.A);
+            Assert.True(user2.GetLeague() == LeagueName.A);
 
         }
 
@@ -963,10 +963,10 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(UserBridge.DividLeage());
             Assert.True(user1.GetLeague() == LeagueName.A);
             Assert.True(user2.GetLeague() == LeagueName.A);
-            Assert.True(user3.GetLeague()==LeagueName.A);
+            Assert.True(user3.GetLeague()==LeagueName.B);
             Assert.True(user4.GetLeague() == LeagueName.B);
-            Assert.True(user5.GetLeague() == LeagueName.B);
-            Assert.True(user6.GetLeague()==LeagueName.B);
+            Assert.True(user5.GetLeague() == LeagueName.C);
+            Assert.True(user6.GetLeague()==LeagueName.C);
 
 
         }
