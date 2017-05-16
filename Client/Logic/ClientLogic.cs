@@ -18,7 +18,7 @@ namespace Client.Logic
         private CommunicationHandler _handler;
         public List<Tuple<CommunicationMessage, bool, bool,ResponeCommMessage>> messagesSentObserver =  new List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>>(); //first bool = is response received, second bool = is succeeded
         private readonly Object listLock;
-        private List<GameScreen> _games;
+        public List<GameScreen> _games { get; }
 
         public ClientUser user { get; set; }
         //chanfajf
