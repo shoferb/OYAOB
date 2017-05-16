@@ -336,15 +336,8 @@ namespace TexasHoldem.communication.Impl
         }
 
         public void HandleEvent(ReplayCommMessage msg)
-        {
-            if(msg.isAllGames==true)
-            {
-                 //ret
-            }
-            else if(msg.isAllGames==false)
-            {
-                //_replayService.ShowGameReplay(msg.gameId, , msg.UserId); game id?
-            }
+        {           
+            _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);          
         }
     }
 }
