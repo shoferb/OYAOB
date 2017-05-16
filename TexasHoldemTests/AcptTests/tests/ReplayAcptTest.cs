@@ -78,10 +78,11 @@ namespace TexasHoldemTests.AcptTests.tests
             user3.AddMoney(1000);
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
             GameBridge.StartGame(UserId, RoomId);
+            System.Threading.Thread.Sleep(5000);
+            UserBridge.RemoveUserFromRoom(UserId, RoomId);
             UserBridge.RemoveUserFromRoom(_userId2, RoomId);
             UserBridge.RemoveUserFromRoom(_userId3, RoomId);
-            UserBridge.RemoveUserFromRoom(UserId, RoomId);
-            Assert.True(ReplayBridge.GetReplayableGames(RoomId, 0, UserId)._actions.Count>=1);
+            Assert.True(ReplayBridge.GetReplayableGames(RoomId, 0, _userId3)._actions.Count>=1);
         }
         
         
