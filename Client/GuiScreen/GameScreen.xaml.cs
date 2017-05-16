@@ -196,7 +196,7 @@ namespace Client.GuiScreen
         private void DoActiomBotton_Click(object sender, RoutedEventArgs e)
         {
 
-            string action = ActionChosenComboBox.Text;
+            string action = ActionChosenComboBox.SelectedValue.ToString();
             if (action.Equals(""))
             {
                 MessageBox.Show("please Choose an action");

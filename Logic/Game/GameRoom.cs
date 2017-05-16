@@ -1092,6 +1092,11 @@ namespace TexasHoldem.Logic.Game
             return toReturn;
         }
 
+        public List<Card> GetPublicCards()
+        {
+            return PublicCards;
+        }
+
      
     }
 }
