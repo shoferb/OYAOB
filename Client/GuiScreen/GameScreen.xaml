@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="OYAOB - Texas Holdem Poker" Height="516" Width="937" Icon="/GuiScreen/Photos/Screen/icon.png">
+        Title="OYAOB - Texas Holdem Poker" Height="571.2" Width="937" Icon="/GuiScreen/Photos/Screen/icon.png">
     <Window.Background>
         <ImageBrush ImageSource="Photos/Screen/POKERslidesearch.png"/>
     </Window.Background>
@@ -35,23 +35,23 @@
         <ComboBox x:Name="ActionChosenComboBox" HorizontalAlignment="Left" Height="30" Margin="669,219,0,0" VerticalAlignment="Top" Width="230" Grid.RowSpan="2" />
         <Label Content="Perform Action:" HorizontalAlignment="Left" Height="30" Margin="529,187,0,0" VerticalAlignment="Top" Width="140" FontWeight="Bold" Foreground="#FF020000" FontSize="16"/>
         <TextBox x:Name="InputForActionTextBox" HorizontalAlignment="Left" Height="30" Margin="669,15,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
-        <Label Content="Players:" HorizontalAlignment="Left" Height="30" Margin="10,50,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
-        <ListView x:Name="ListViewPlayers" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="167" Margin="23,88,0,0">
+        <Label Content="Players:" HorizontalAlignment="Left" Height="30" Margin="22,204,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
+        <ListView x:Name="ListViewPlayers" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="167" Margin="23,230,0,0" Grid.RowSpan="2">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Roles:" HorizontalAlignment="Left" Height="30" Margin="210,50,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
-        <Label Content="Dealer:" HorizontalAlignment="Left" Height="26" Margin="220,80,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
-        <Label Content="Big Blind:" HorizontalAlignment="Left" Height="26" Margin="220,106,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
-        <Label Content="Small Blind:" HorizontalAlignment="Left" Height="26" Margin="220,132,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
-        <Label Content="Current Turn:" HorizontalAlignment="Left" Height="26" Margin="220,158,0,0" VerticalAlignment="Top" Width="95" FontWeight="Bold" Foreground="White"/>
-        <Label x:Name="DealerNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,80,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
-        <Label x:Name="BBNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,106,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
-        <Label x:Name="SBNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,132,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
-        <Label x:Name="CurrTurnNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="320,158,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label Content="Roles:" HorizontalAlignment="Left" Height="30" Margin="227,50,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
+        <Label Content="Dealer:" HorizontalAlignment="Left" Height="26" Margin="237,80,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="Big Blind:" HorizontalAlignment="Left" Height="26" Margin="237,106,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="Small Blind:" HorizontalAlignment="Left" Height="26" Margin="237,132,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label Content="Current Turn:" HorizontalAlignment="Left" Height="26" Margin="237,158,0,0" VerticalAlignment="Top" Width="95" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="DealerNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="337,80,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label x:Name="BBNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="337,106,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label x:Name="SBNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="337,132,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label x:Name="CurrTurnNameLabel" Content="" HorizontalAlignment="Left" Height="26" Margin="337,158,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
         <Label Content="POT:" HorizontalAlignment="Left" Height="28" Margin="390,205,0,0" VerticalAlignment="Top" Width="70" FontWeight="Bold" FontSize="16" Foreground="WhiteSmoke"/>
         <Label Content="Choose Action:" HorizontalAlignment="Left" Height="26" Margin="545,215,0,0" VerticalAlignment="Top" Width="95" FontWeight="Bold" Foreground="White"/>
         <Label Content="Amount/&#xD;&#xA;message to send" HorizontalAlignment="Left" Height="50" Margin="550,240,0,0" VerticalAlignment="Top" Width="105" Foreground="White" FontWeight="Bold" RenderTransformOrigin="0.038,0.66" Grid.RowSpan="2"/>
@@ -61,8 +61,8 @@
                 <ImageBrush/>
             </Border.Background>
         </Border>
-        <Label Content="Public Cards:" HorizontalAlignment="Left" Height="30" Margin="23,228,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16" Grid.RowSpan="2"/>
-        <ListView x:Name="ListViewPublicCards" HorizontalAlignment="Left" Height="143" VerticalAlignment="Top" Width="283" Margin="28,19,0,0" Grid.Row="1">
+        <Label Content="Public Cards:" HorizontalAlignment="Left" Height="30" Margin="23,56.4,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16" Grid.Row="1"/>
+        <ListView x:Name="ListViewPublicCards" HorizontalAlignment="Left" Height="143" VerticalAlignment="Top" Width="283" Margin="28,90.4,0,0" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -75,5 +75,11 @@
         <Button Content="Logout" HorizontalAlignment="Left" Height="21" Margin="754,209,0,0" Grid.Row="1" VerticalAlignment="Top" Width="72" Click="Button_Click"/>
         <Label Content="Chat Whisper &#xD;&#xA;receiver " HorizontalAlignment="Left" Height="50" Margin="550,38,0,0" VerticalAlignment="Top" Width="105" Foreground="White" FontWeight="Bold" RenderTransformOrigin="0.038,0.66" Grid.Row="1"/>
         <TextBox x:Name="WhisperReceiverTextBox_Copy" HorizontalAlignment="Left" Height="30" Margin="669,51,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <Label Content="User Information:" HorizontalAlignment="Left" Height="30" Margin="18,35,0,0" VerticalAlignment="Top" Width="146" FontWeight="Bold" Foreground="Black" FontSize="16"/>
+        <Label Content="user Id:" HorizontalAlignment="Left" Height="26" Margin="19,62,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="UserID" Content="" HorizontalAlignment="Left" Height="26" Margin="79,65,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Label Content="username:" HorizontalAlignment="Left" Height="26" Margin="18,81,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
+        <Label x:Name="UserName" Content="" HorizontalAlignment="Left" Height="26" Margin="93,81,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
+        <Image x:Name="Avatar" HorizontalAlignment="Left" Height="82" Margin="55,117,0,0" VerticalAlignment="Top" Width="81"/>
     </Grid>
 </Window>
