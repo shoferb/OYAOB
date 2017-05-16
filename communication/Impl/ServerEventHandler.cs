@@ -5,6 +5,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
@@ -116,14 +117,15 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleEvent(LoginCommMessage msg)
         {
-            Console.WriteLine("Arrive to the right visior");
+            
             bool success = _userService.LoginUser(msg.UserName, msg.Password);
-            Console.WriteLine("does success?   " + success);
+            if (_socket != null)
+            {
+                CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket);
+            }
             if (success)
             {
-                Console.WriteLine("whoooohooooooooo");
                 IUser user = _userService.GetIUserByUserName(msg.UserName);
-               
                 ResponeCommMessage response = new LoginResponeCommMessage(user.Id(), user.Name(), user.MemberName(),
                     user.Password(), user.Avatar(), user.Money()
                     , user.Email(),user.GetLeague().ToString(), success, msg);
@@ -131,12 +133,8 @@ namespace TexasHoldem.communication.Impl
             }
             else
             {
-                Console.WriteLine("Im not a user preparing sending response ");
                 ResponeCommMessage response = new LoginResponeCommMessage(-1, "", "",
                     "", "", -1 , "","", success, msg);
-
-                Console.WriteLine("adding msg to queue for response");
-               
                 _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
             }
            
@@ -254,8 +252,6 @@ namespace TexasHoldem.communication.Impl
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
         }
 
-    
-
         public void HandleEvent(ResponeCommMessage msg)
         {
             _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
@@ -275,16 +271,22 @@ namespace TexasHoldem.communication.Impl
             {
                 success = true;
             }
-            var response = new ResponeCommMessage(msg.UserId, success, msg);
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+
+            CreateNewGameResponse respons;
+
             if (success)
             {
                 var game = _gameService.GetGameById(roomId);
-                var user = _userService.GetUserById(msg.UserId);
                 var gameData = new GameDataCommMessage(msg.UserId, roomId, null, null, new List<Card>(),
-                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success);
-                _commHandler.AddMsgToSend(_parser.SerializeMsg(gameData), msg.UserId); 
+                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success,
+                    "","",0,CommunicationMessage.ActionType.Bet);
+                respons = new CreateNewGameResponse(msg.UserId, success, msg, gameData);
             }
+            else
+            {
+                respons = new CreateNewGameResponse();
+            }
+            _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId); 
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
         Title="CreateNewRoom" Height="577.121" Width="834.153">
-    <Grid Margin="0,0,4,0.8">
+    <Grid Margin="0,0,-2,-53">
         <Grid.RowDefinitions>
             <RowDefinition Height="477*"/>
             <RowDefinition Height="73*"/>

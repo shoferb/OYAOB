@@ -15,14 +15,13 @@ namespace TexasHoldem.Service
     public class GameServiceHandler
     {
         
-        private  GameCenter _gameCenter;
-        private  SystemControl _systemControl;
+        private static GameCenter _gameCenter = GameCenter.Instance;
+        private SystemControl _systemControl;
         private ReplayManager _replayManager;
         private static ServerEventHandler _serverHandler = new ServerEventHandler();
 
         public GameServiceHandler()
         {
-            _gameCenter = GameCenter.Instance;
             _systemControl = SystemControl.SystemControlInstance;
             _replayManager = ReplayManager.ReplayManagerInstance;
         }
@@ -55,7 +54,6 @@ namespace TexasHoldem.Service
                 minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
-        //TODO: fix this
         //create room and add to games list game center
         public int CreateNewRoom(int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
@@ -70,11 +68,6 @@ namespace TexasHoldem.Service
             return roomID;
         }
         
-        //public List<Tuple<int, int>> GetGamesAvailableForReplayByUser(int userID)
-        //{
-        //    return _gameCenter.GetGamesAvailableForReplayByUser(userID);
-        //}
-
         public List<string> GetGameReplay(int roomId, int gameNum, int userId)
         {
             GameReplay replay = _replayManager.GetGameReplayForUser(roomId, gameNum, userId);
@@ -91,12 +84,6 @@ namespace TexasHoldem.Service
             }
             return replays;
         }
-
-        /*//todo fix this ? remove
-        public List<IGame> GetAvaiableGamesByUserRank(int userPoints)
-        {
-            return GameCenter.Instance.GetAvaiableGamesByUserRank(userPoints);
-        }*/
 
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {
@@ -126,7 +113,6 @@ namespace TexasHoldem.Service
             }
         }
 
-        //public GameRoom GetGameById(int Id)
         public IGame GetGameById(int id)
         {
             return _gameCenter.GetRoomById(id);
@@ -151,29 +137,24 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        //public List<GameRoom> GetAllGames()
         public List<IGame> GetAllGames()
         {
             List<IGame> toReturn = GameCenter.Instance.GetAllGames();
             return toReturn;
         }
 
-        //public  List<GameRoom> GetSpectateableGames()
         public List<IGame> GetSpectateableGames()
         {
             List<IGame> toReturn = GameCenter.Instance.GetAllSpectetorGame();
             return toReturn;
         }
 
-        //public List<GameRoom> GetGamesByPotSize(int potSize)
         public List<IGame> GetGamesByPotSize(int potSize)
         {
             List<IGame> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
             return toReturn;
         }
 
-        //return list of games with game mode:
-        //limit / no - limit / pot limit
         public List<IGame> GetGamesByGameMode(GameMode gm)
         {
             List<IGame> toReturn = GameCenter.Instance.GetGamesByGameMode(gm);
@@ -215,12 +196,12 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        public static void SendMessageToClientGameData(GameDataCommMessage gameDataMes)
+        public void SendMessageToClientGameData(GameDataCommMessage gameDataMes)
         {
             _serverHandler.HandleEvent(gameDataMes);
         }
 
-        public static void SendMessageToClientResponse(ResponeCommMessage resp)
+        public void SendMessageToClientResponse(ResponeCommMessage resp)
         {
             _serverHandler.HandleEvent(resp);
         }

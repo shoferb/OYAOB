@@ -3,7 +3,7 @@
     public class ResponeCommMessage : CommunicationMessage
     {
         public bool Success;
-        public CommunicationMessage OriginalMsg; //TODO: maybe not needed
+        public CommunicationMessage OriginalMsg;
 
         public ResponeCommMessage() : base(-1) { } //for parsing
 

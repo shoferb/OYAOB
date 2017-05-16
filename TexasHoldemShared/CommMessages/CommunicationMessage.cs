@@ -5,6 +5,7 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 namespace TexasHoldemShared.CommMessages
 {
     [XmlInclude(typeof(CommunicationMessage))]
+    [XmlInclude(typeof(CreateNewGameResponse))]
     [XmlInclude(typeof(ActionCommMessage))]
     [XmlInclude(typeof(ChatCommMessage))]
     [XmlInclude(typeof(CreatrNewRoomMessage))]
@@ -25,9 +26,6 @@ namespace TexasHoldemShared.CommMessages
         {
             Fold,
             Bet,
-            //check = Bet with amount 0
-            //Call =
-            //Raise =?
             Join,
             Leave,
             Spectate,
@@ -40,7 +38,6 @@ namespace TexasHoldemShared.CommMessages
 
         }
 
-        //TODO: add fields here
         public int UserId;
 
         protected CommunicationMessage(int id)
