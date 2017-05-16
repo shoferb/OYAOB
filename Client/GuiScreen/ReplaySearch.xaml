@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-              Title="ReplaySearch"  Height="457.945" Width="1156.745">
+        Title="OYAOB - Texas Holdem Poker"  Height="457.945" Width="1156.745">
     <Grid Margin="0,0,-4,-73">
         <Grid.ColumnDefinitions>
             

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="UserInfoScreen" Height="525.838" Width="342.161"
+        Title="OYAOB - Texas Holdem Poker" Height="525.838" Width="342.161"
         SizeToContent="WidthAndHeight">
 
     <Grid Margin="0,0,4,-1.4">
