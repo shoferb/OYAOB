@@ -35,7 +35,10 @@ namespace TexasHoldemTests.communication
 
         public IDictionary<TcpClient, int> SocketToUserId
         {
-            get { return _socketToUserId; }
+            get
+            {
+                return _socketToUserId;
+            }
         }
 
         public ManualResetEvent ConnectionCleanerMre

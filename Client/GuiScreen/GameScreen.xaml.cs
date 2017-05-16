@@ -117,7 +117,7 @@ namespace Client.GuiScreen
                 this.DealerName = msg.DealerName;
                 this.DealerNameLabel.Content = msg.DealerName;
             }
-            if (msg.PlayerCards != null)
+            if ((msg.PlayerCards[0] != null)||(msg.PlayerCards[1]!=null))
             {
                 this.PlayerCards = msg.PlayerCards;
                 this.Card1Labek.Content = string.Concat(Card1Labek.Content, (msg.PlayerCards[0]).ToString());
@@ -132,17 +132,20 @@ namespace Client.GuiScreen
                 this.TableCards = msg.TableCards;
                 foreach (Card aCard in TableCards)
                 {
-                    // Construct the ListViewItem object
-                    ListViewItem item = new ListViewItem();
+                    if (aCard != null)
+                    {
+                        // Construct the ListViewItem object
+                        ListViewItem item = new ListViewItem();
 
-                    // Set the Text property to the cursor name.
-                    item.Content = aCard.ToString();
+                        // Set the Text property to the cursor name.
+                        item.Content = aCard.ToString();
 
-                    // Set the Tag property to the cursor.
-                    item.Tag = aCard;
+                        // Set the Tag property to the cursor.
+                        item.Tag = aCard;
 
-                    // Add the ListViewItem to the ListView.
-                    ListViewPublicCards.Items.Add(item);
+                        // Add the ListViewItem to the ListView.
+                        ListViewPublicCards.Items.Add(item);
+                    }
                 }
             }
             

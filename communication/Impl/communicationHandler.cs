@@ -56,7 +56,6 @@ namespace TexasHoldem.communication.Impl
             if (!_userIdToMsgQueue.ContainsKey(id))
             {
                 _userIdToMsgQueue.Add(id, new ConcurrentQueue<string>());
-                _socketToUserId.Add(socket, id);
             }
             if (!_socketToUserId.ContainsKey(socket))
             {
@@ -100,12 +99,21 @@ namespace TexasHoldem.communication.Impl
 
         public bool AddMsgToSend(string msg, int userId)
         {
+            Console.WriteLine("arrived to AddMsgToSend");
+            Console.WriteLine("the user id is: " + userId);
+            Console.WriteLine("the msg is: " + msg);
+
             if (!_userIdToMsgQueue.ContainsKey(userId))
             {
+                Console.WriteLine("fucking enter to if");
+
                 _userIdToMsgQueue.Add(userId, new ConcurrentQueue<string>());
             }
+            Console.WriteLine("fucking didnt enter to if");
+
             var queue = _userIdToMsgQueue[userId];
             queue.Enqueue(msg);
+            Console.WriteLine("put enqueue" + msg);
             return true;
         }
 
@@ -182,8 +190,11 @@ namespace TexasHoldem.communication.Impl
                 IList<TcpClient> readyToWrite = Selector.SelectForWriting(_socketsQueue);
                 foreach (var tcpClient in readyToWrite)
                 {
+
                     if (CanSendMsg(tcpClient))
                     {
+                        Console.WriteLine("entered to if inside foreach");
+
                         Console.WriteLine("comm: got shit to write");
                         var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
                         SendAllMsgFromQueue(msgQueue, tcpClient);
@@ -204,8 +215,13 @@ namespace TexasHoldem.communication.Impl
         //true if socket and user id exist, msgQueue isn't empty and socket connected
         protected bool CanSendMsg(TcpClient client)
         {
+
+            //_socketToUserId.Add(client, -1);
+
+
             if (_socketToUserId.ContainsKey(client))
             {
+
                 int id = _socketToUserId[client];
                 if (_userIdToMsgQueue.ContainsKey(id))
                 {

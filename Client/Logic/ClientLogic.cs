@@ -30,6 +30,11 @@ namespace Client.Logic
             user = null;
         }
         //TODO Add specs
+        public void AddNewRoom(GameScreen newWin)
+        {
+            _games.Add(newWin);
+        }
+
         public void GameUpdateReceived(GameDataCommMessage msg)
         {
             bool isNewGame = true;
@@ -41,12 +46,7 @@ namespace Client.Logic
                     game.UpdateGame(msg);
                 }
             }
-            if (isNewGame == true)
-            {
-                GameScreen newGame = new GameScreen(this);
-                newGame.UpdateGame(msg);
-                newGame.Show();
-            }
+           
         }
         public bool SpectateRoom(int roomId)
         {
@@ -108,7 +108,7 @@ namespace Client.Logic
             return toRet;
         }
 
-        public int CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
+        public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
         {//should ret int as the roomNumber
             CreatrNewRoomMessage toSend = new CreatrNewRoomMessage(user.id, mode, minBet, chipPol, buyInPol, canSpec, minPlayers, maxPlayers);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
@@ -120,17 +120,18 @@ namespace Client.Logic
                 t.Wait();
             }
             bool isSuccessful = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            int newRoomId = 0;//change to room id from response msg
+            CreateNewGameResponse res = (CreateNewGameResponse)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+            GameDataCommMessage newRoom;
             if(isSuccessful)
             {
-                //get room number from response
+                newRoom = res.GameData;
             }
             else
             {
-                newRoomId = -1;
+                newRoom = null;
             }
             messagesSentObserver.Remove(messageToList);
-            return newRoomId;
+            return newRoom;
         }
 
         public bool LeaveTheGame(int roomId)

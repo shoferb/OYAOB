@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace Client.GuiScreen
 {
@@ -157,11 +158,16 @@ namespace Client.GuiScreen
                 MessageBox.Show("Please enter Chip Policy");
                 return;
             }
-            int newRoomId = _logic.CreateNewRoom(_mode, _minBet, _chipPolicy, _buyInPolicy, _canSpectate, _minPlayer, _maxPlayers);
-            if (newRoomId!=-1)
+            GameDataCommMessage newRoom = _logic.CreateNewRoom(_mode, _minBet, _chipPolicy, _buyInPolicy, _canSpectate, _minPlayer, _maxPlayers);
+            if (newRoom!=null)
             {
                 MessageBox.Show("New Room sucssesfully Created, Enjoy!");
+                GameScreen newGameWindow = new GameScreen(_logic);
                 
+                newGameWindow.UpdateGame(newRoom);
+                _logic.AddNewRoom(newGameWindow);
+                newGameWindow.Show();
+                this.Hide();
             }
             else
             {
