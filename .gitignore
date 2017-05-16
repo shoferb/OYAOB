@@ -74,3 +74,5 @@ packages/Castle.Core.3.3.3/lib/sl5/Castle.Core.xml
 packages/Moq.4.5.28/Moq.4.5.28.nupkg
 packages/Moq.4.5.28/lib/net45/Moq.xml
 packages/
+/TexasHoldemTests/app.config
+/TexasHoldemTests/app.config

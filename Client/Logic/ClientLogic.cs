@@ -106,11 +106,31 @@ namespace Client.Logic
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             if (toRet)
             {
-                return (JoinResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                if (!(((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4).GetType() == (typeof(JoinResponseCommMessage))))
+                {
+                    messagesSentObserver.Remove(messageToList);
+                    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> temp = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
+                    messagesSentObserver.Add(temp);
+                    while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+                    {
+                        var t = Task.Run(async delegate { await Task.Delay(10); });
+                        t.Wait();
+                    }
+                    bool toRetTemp = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+                    if (toRet)
+                    {
+                        JoinResponseCommMessage res = (JoinResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                        return res;
+                    }
+                }
+
+                
             }
-            messagesSentObserver.Remove(messageToList);
             return null;
         }
+           
+            
+        
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
         {//should ret int as the roomNumber
