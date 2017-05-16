@@ -150,6 +150,7 @@
     <Compile Include="Logic\ClientLogic.cs" />
     <Compile Include="Logic\ClientUser.cs" />
     <Compile Include="Logic\GameReplayClientReview.cs" />
+    <Compile Include="Logic\ViewObj.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

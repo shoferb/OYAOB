@@ -38,8 +38,8 @@
         <Label Content="Players:" HorizontalAlignment="Left" Height="30" Margin="22,204,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
         <ListView x:Name="ListViewPlayers" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="167" Margin="23,230,0,0" Grid.RowSpan="2">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
+                <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
+                    <GridViewColumn Header="Players" Width="167" DisplayMemberBinding="{Binding viewStr}" />
                 </GridView>
             </ListView.View>
         </ListView>
@@ -64,8 +64,8 @@
         <Label Content="Public Cards:" HorizontalAlignment="Left" Height="30" Margin="23,56.4,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16" Grid.Row="1"/>
         <ListView x:Name="ListViewPublicCards" HorizontalAlignment="Left" Height="143" VerticalAlignment="Top" Width="283" Margin="28,90.4,0,0" Grid.Row="1">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn/>
+                <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
+                    <GridViewColumn Header="Public Cards" Width="283" DisplayMemberBinding="{Binding viewStr}" />
                 </GridView>
             </ListView.View>
         </ListView>

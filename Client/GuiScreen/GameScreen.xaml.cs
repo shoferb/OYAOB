@@ -88,20 +88,14 @@ namespace Client.GuiScreen
             if (msg.AllPlayerNames != null)
             {
                 this.AllPlayerNames = msg.AllPlayerNames;
+                List<ViewObj> players = new List<ViewObj>();
                 foreach (string aString in AllPlayerNames)
                 {
-                    // Construct the ListViewItem object
-                    ListViewItem item = new ListViewItem();
-
-                    // Set the Text property to the cursor name.
-                    item.Content = aString;
-
-                    // Set the Tag property to the cursor.
-                    item.Tag = aString;
-
-                    // Add the ListViewItem to the ListView.
-                    ListViewPlayers.Items.Add(item);
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = aString;
+                    this.ListViewPlayers.Items.Add(aString);
                 }
+               // ListViewPlayers.ItemsSource = players;
                 foreach (string playerName in AllPlayerNames)
                 {
                     if (_logic.user.name.Equals(playerName))
@@ -138,23 +132,16 @@ namespace Client.GuiScreen
             if (msg.TableCards != null)
             {
                 this.TableCards = msg.TableCards;
+                List<ViewObj> pCards = new List<ViewObj>();
                 foreach (Card aCard in TableCards)
                 {
                     if (aCard != null)
                     {
-                        // Construct the ListViewItem object
-                        ListViewItem item = new ListViewItem();
-
-                        // Set the Text property to the cursor name.
-                        item.Content = aCard.ToString();
-
-                        // Set the Tag property to the cursor.
-                        item.Tag = aCard;
-
-                        // Add the ListViewItem to the ListView.
-                        ListViewPublicCards.Items.Add(item);
+                        ViewObj toAdd = new ViewObj(aCard.ToString());
+                        pCards.Add(toAdd);
                     }
                 }
+                ListViewPublicCards.ItemsSource = pCards;
             }
             
             this.TotalChips = msg.TotalChips;
@@ -190,6 +177,7 @@ namespace Client.GuiScreen
                 {
                     msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " started the game.");
                 }
+
                 ListViewItem toAdd = new ListViewItem();
                 toAdd.Content = msgToChat;
                 this.chatListView.Items.Add(toAdd);
