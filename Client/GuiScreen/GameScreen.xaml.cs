@@ -178,6 +178,11 @@ namespace Client.GuiScreen
                 {
                     msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " started the game.");
                 }
+                else if (msg.action.Equals(CommunicationMessage.ActionType.CreateRoom))
+                {
+                    msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " created the room game.");
+                }
+
 
                 ListViewItem toAdd = new ListViewItem();
                 toAdd.Content = msgToChat;
