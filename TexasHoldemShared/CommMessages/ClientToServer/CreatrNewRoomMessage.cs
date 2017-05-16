@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class CreatrNewRoomMessage : CommunicationMessage
     {
@@ -36,7 +30,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(CreatrNewRoomMessage))
+            if (other != null && other.GetType() == typeof(CreatrNewRoomMessage))
             {
                 var afterCasting = (CreatrNewRoomMessage)other;
                 return _mode == afterCasting._mode && _minBet == afterCasting._minBet && UserId == afterCasting.UserId &&

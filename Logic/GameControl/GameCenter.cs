@@ -290,6 +290,7 @@ namespace TexasHoldem.Logic.Game_Control
                 {
                     if (room.IsGameActive())
                     {
+
                         toReturn.Add(room);
                     }
                 }
@@ -302,11 +303,13 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
                 List<IGame> toReturn = new List<IGame>();
+                IGame toAdd = null;
                 foreach (IGame room in games)
                 {
                     if (room.IsSpectatable())
                     {
-                        toReturn.Add(room);
+                        toAdd = room;
+                        toReturn.Add(toAdd);
                     }
                 }
                 return toReturn;

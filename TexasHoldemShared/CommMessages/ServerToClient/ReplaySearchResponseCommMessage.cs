@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldemShared.CommMessages.ServerToClient
+﻿namespace TexasHoldemShared.CommMessages.ServerToClient
 {
     public class ReplaySearchResponseCommMessage : ResponeCommMessage
     {
@@ -26,7 +20,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(ReplaySearchResponseCommMessage))
+            if (other != null && other.GetType() == typeof(ReplaySearchResponseCommMessage))
             {
                 var afterCasting = (ReplaySearchResponseCommMessage)other;
                 bool same = afterCasting.roomID == roomID && afterCasting.UserId == UserId;
@@ -36,6 +30,4 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         }
 
     }
-
-    //TODO: Aske oded if needed equal methos;
 }

@@ -12,7 +12,7 @@
             Id,
             Name,
             Money
-        } //TODO: make sure all fields are here
+        } 
 
         public EditField FieldToEdit;
         public string NewValue;
@@ -35,7 +35,7 @@
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(EditCommMessage))
+            if (other != null && other.GetType() == typeof(EditCommMessage))
             {
                 var afterCasting = (EditCommMessage) other;
                 return FieldToEdit == afterCasting.FieldToEdit && NewValue == afterCasting.NewValue &&

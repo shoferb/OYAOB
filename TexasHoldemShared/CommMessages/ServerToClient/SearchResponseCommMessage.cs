@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldemShared.CommMessages.ServerToClient
@@ -26,7 +22,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(SearchResponseCommMessage))
+            if (other != null && other.GetType() == typeof(SearchResponseCommMessage))
             {
                 var afterCasting = (SearchResponseCommMessage)other;
                 return Success == afterCasting.Success && OriginalMsg.Equals(afterCasting.OriginalMsg) &&

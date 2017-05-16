@@ -65,7 +65,7 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-                bool didJoin = cl.JoinTheGame(currRoomId);
+                bool didJoin = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
                 if (didJoin)
                 {
                     MessageBox.Show("You joined the game successfully!");
@@ -167,7 +167,7 @@ namespace Client.GuiScreen
             {
                 GetLinitGames();
             }
-            if (field == 12)//by limit
+            if (field == 13)//by limit
             {
                 GetPotLimitGames();
             }

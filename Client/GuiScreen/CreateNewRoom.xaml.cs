@@ -31,7 +31,8 @@ namespace Client.GuiScreen
         private int _maxPlayers=-1;
         private ClientLogic _logic;
         private Window parentScreen;
-
+        private int filedT;
+        private int fieldS;
 
         public CreateNewRoom(Window p,ClientLogic cl)
         {
@@ -42,15 +43,15 @@ namespace Client.GuiScreen
 
         private void GameModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(GameModeComboBox.Text.Equals("Pot Limit"))
+            if(filedT==3)
             {
                 this._mode = GameMode.PotLimit;
             }
-            else if (GameModeComboBox.Text.Equals("No Limit"))
+            else if (filedT == 2)
             {
                 this._mode = GameMode.NoLimit;
             }
-            else if (GameModeComboBox.Text.Equals("Limit"))
+            else if (filedT == 1)
             {
                 this._mode = GameMode.Limit;
             }
@@ -60,11 +61,11 @@ namespace Client.GuiScreen
 
         private void SpectatorsComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (GameModeComboBox.Text.Equals("No"))
+            if (fieldS == 2)
             {
                 this._canSpectate=false;
             }
-            else if (GameModeComboBox.Text.Equals("Yes"))
+            else if (fieldS == 1)
             {
                 this._canSpectate = true;
             }
@@ -178,6 +179,32 @@ namespace Client.GuiScreen
         {
             parentScreen.Show();
             this.Hide();
+        }
+
+      
+        private void ComboBoxItem_Selected_No_limit(object sender, RoutedEventArgs e)
+        {
+            filedT = 2;
+        }
+
+        private void ComboBoxItem_Selected(object sender, RoutedEventArgs e) //limit
+        {
+            filedT = 1;
+        }
+
+        private void ComboBoxItem_Selected_1(object sender, RoutedEventArgs e)//pot
+        {
+            filedT = 3;
+        }
+
+        private void ComboBoxItem_Selected_2(object sender, RoutedEventArgs e)
+        {
+            fieldS = 1;
+        }
+
+        private void ComboBoxItem_Selected_3(object sender, RoutedEventArgs e)
+        {
+            fieldS = 2;//no
         }
     }
 }

@@ -92,9 +92,9 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-        public bool JoinTheGame(int roomId)
+        public bool JoinTheGame(int roomId, int startingChip)
         {
-            ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, -1, roomId);
+            ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, startingChip, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);

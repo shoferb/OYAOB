@@ -56,6 +56,11 @@ namespace TexasHoldem.communication.Impl
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                    IGame room = _gameService.GetGameById(msg.RoomId);
+                    GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, null, null, room.GetPublicCards(), msg.Amount,
+                        room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+                    JoinResponseCommMessage respons = new JoinResponseCommMessage(msg.UserId, success, msg,data);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
@@ -64,6 +69,16 @@ namespace TexasHoldem.communication.Impl
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+        }
+
+        private List<string> GetNamesFromList(List<Player> players)
+        {
+            List<string> names = new List<string>();
+            foreach (Player p in players)
+            {
+                names.Add(p.user.MemberName());
+            }
+            return names;
         }
 
         public void HandleEvent(EditCommMessage msg)
@@ -283,9 +298,12 @@ namespace TexasHoldem.communication.Impl
             if (success)
             {
                 var game = _gameService.GetGameById(roomId);
+                List<string> names = new List<string>();
+                IUser user = _userService.GetUserById(msg.UserId);
+                names.Add(user.MemberName());
                 var gameData = new GameDataCommMessage(msg.UserId, roomId, null, null, new List<Card>(),
-                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success,
-                    "","",0,CommunicationMessage.ActionType.Bet);
+                    msg._chipPolicy, 0,names , null, null, null, success,
+                    "","",0,CommunicationMessage.ActionType.CreateRoom);
                 respons = new CreateNewGameResponse(msg.UserId, success, msg, gameData);
             }
             else
@@ -300,9 +318,13 @@ namespace TexasHoldem.communication.Impl
             List<ClientGame> toReturn = new List<ClientGame>();
             foreach (IGame game in toChange)
             {
-                toReturn.Add(new ClientGame(game.IsGameActive(),game.IsSpectatable(),game.GetGameMode(),game.Id,
-                    game.GetMinPlayer(),game.GetMaxPlayer(),game.GetMinBet(),game.GetStartingChip(),game.GetBuyInPolicy()
-                    ,game.GetLeagueName().ToString(),game.GetPotSize()));
+                if (game != null)
+                {
+                    toReturn.Add(new ClientGame(game.IsGameActive(), game.IsSpectatable(), game.GetGameMode(), game.Id,
+                        game.GetMinPlayer(), game.GetMaxPlayer(), game.GetMinBet(), game.GetStartingChip(), game.GetBuyInPolicy()
+                        , game.GetLeagueName().ToString(), game.GetPotSize()));
+                }
+              
             }
             return toReturn;
         }

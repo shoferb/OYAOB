@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldemShared.CommMessages.ServerToClient
+﻿namespace TexasHoldemShared.CommMessages.ServerToClient
 {
     public class LoginResponeCommMessage : ResponeCommMessage
     {
@@ -40,7 +34,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other.GetType() == typeof(LoginResponeCommMessage))
+            if (other != null && other.GetType() == typeof(LoginResponeCommMessage))
             {
                 var afterCasting = (LoginResponeCommMessage)other;
                 return Success == afterCasting.Success && OriginalMsg.Equals(afterCasting.OriginalMsg) &&
