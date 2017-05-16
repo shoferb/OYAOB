@@ -32,13 +32,13 @@
         <TextBox x:Name="MaxPlayersTextBox" HorizontalAlignment="Left" Height="23" Margin="242,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MaxPlayerstextBox_TextChanged"/>
         <Label x:Name="pleaseSetPreferences" Content="Please Enter Game Preferences" HorizontalAlignment="Left" Height="33" Margin="53,64,0,0" VerticalAlignment="Top" Width="274" Foreground="White" FontWeight="Bold" FontSize="18"/>
         <ComboBox x:Name="SpectatorsComboBox" HorizontalAlignment="Left" Height="25" Margin="242,344,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="SpectatorsComboBox_SelectionChanged">
-            <ComboBoxItem Content="Yes" HorizontalAlignment="Left" Width="123"/>
-            <ComboBoxItem Content="No" HorizontalAlignment="Left" Width="123"/>
+            <ComboBoxItem Content="Yes" HorizontalAlignment="Left" Width="123" Selected="ComboBoxItem_Selected_2"/>
+            <ComboBoxItem Content="No" HorizontalAlignment="Left" Width="123" Selected="ComboBoxItem_Selected_3"/>
         </ComboBox>
         <ComboBox x:Name="GameModeComboBox" HorizontalAlignment="Left" Height="25" Margin="242,108,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="GameModeComboBox_SelectionChanged">
-            <ComboBoxItem Content="No Limit" HorizontalAlignment="Left" Width="118"/>
-            <ComboBoxItem Content="Limit" HorizontalAlignment="Left" Width="118"/>
-            <ComboBoxItem Content="Pot Limit" HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="No Limit" HorizontalAlignment="Left" Width="118" Selected="ComboBoxItem_Selected_No_limit"/>
+            <ComboBoxItem Content="Limit" HorizontalAlignment="Left" Width="118" Selected="ComboBoxItem_Selected"/>
+            <ComboBoxItem Content="Pot Limit" HorizontalAlignment="Left" Width="118" Selected="ComboBoxItem_Selected_1"/>
         </ComboBox>
 
 

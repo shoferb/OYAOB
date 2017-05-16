@@ -167,7 +167,7 @@ namespace Client.GuiScreen
             {
                 GetLinitGames();
             }
-            if (field == 12)//by limit
+            if (field == 13)//by limit
             {
                 GetPotLimitGames();
             }
