@@ -7,6 +7,7 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemTests.AcptTests.Bridges;
+using Moq;
 
 namespace TexasHoldemTests.AcptTests.tests
 {

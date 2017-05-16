@@ -1,4 +1,4 @@
-﻿packages/NUnit.3.6.1/lib/net45/nunit.framework.xml
+packages/NUnit.3.6.1/lib/net45/nunit.framework.xml
 workshop/UMLs/Visios/class diagram bl only.vsdx
 workshop/UMLs/Visios/class diagram.vsdx
 workshop/UMLs/Visios/mine/create new game uc.vsdx
@@ -73,3 +73,4 @@ packages/Castle.Core.3.3.3/lib/sl4/Castle.Core.xml
 packages/Castle.Core.3.3.3/lib/sl5/Castle.Core.xml
 packages/Moq.4.5.28/Moq.4.5.28.nupkg
 packages/Moq.4.5.28/lib/net45/Moq.xml
+packages/
