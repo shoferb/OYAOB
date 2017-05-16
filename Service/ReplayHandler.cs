@@ -28,7 +28,7 @@ namespace TexasHoldem.Service
         public Tuple<int, string> ShowFirstGameReplay(int userID, int roomID)
         {
             string replay = _RM.ShowFirstGameReplayForUser(userID, roomID);
-            Tuple<int,string> tup = new Tuple(roomID, replay);
+            Tuple<int,string> tup = new Tuple<int,string>(roomID, replay);
             return tup;
         }
 
