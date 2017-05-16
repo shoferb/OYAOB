@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TexasHoldem;
+using TexasHoldem.GuiScreen;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -317,7 +318,49 @@ namespace Client.GuiScreen
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _logic.Logout(_logic.user.username, _logic.user.password);
+            MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNo);
+            bool done = false;
+            while (!done)
+            {
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        try
+                        {
+                            string username = _logic.user.username;
+                            string password = _logic.user.password;
+                            bool logoutOk = _logic.Logout(username, password);
+                            if (logoutOk)
+                            {
+                                MessageBox.Show("Logout OK!");
+                                done = true;
+                                WellcomeScreen wellcomeScreen = new WellcomeScreen();
+
+                                wellcomeScreen.Show();
+                                this.Close();
+                                this.Hide();
+                                break;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Logout Fail! - please try again");
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            MessageBox.Show("Logout Fail! Exeption - please try again");
+                            done = true;
+                            break;
+                        }
+
+
+                    case MessageBoxResult.No:
+                        done = true;
+                        break;
+                }
+            }
+
         }
 
         private void DoActiomBotton_Click_1(object sender, RoutedEventArgs e)
