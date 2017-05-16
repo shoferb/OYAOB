@@ -22,7 +22,7 @@ namespace TexasHoldem.GuiScreen
     {
         private ClientLogic cl;
         private Window parentScreen;
-        private int currId;
+        
         private int Id;
         private string name;
         private string username;
@@ -85,13 +85,12 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("Please enter new Id");
                 return;
             }
+            int oldId = cl.user.id;
             bool EditIdOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Id,
                 Id.ToString());
             if (EditIdOk)
             {
-                MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
-                currId = Id;
-            
+                MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + oldId);
                 cl.user.id = Id;
             }
             else
