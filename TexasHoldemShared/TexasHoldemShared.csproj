@@ -55,6 +55,7 @@
     <Compile Include="CommMessages\ServerToClient\CreateNewGameResponse.cs" />
     <Compile Include="CommMessages\ServerToClient\GameDataCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\LoginCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\JoinResponseCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\LoginResponeCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\RegisterCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\RegisterResponeCommMessage.cs" />

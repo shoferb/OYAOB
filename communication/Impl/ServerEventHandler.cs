@@ -56,6 +56,11 @@ namespace TexasHoldem.communication.Impl
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                    IGame room = _gameService.GetGameById(msg.RoomId);
+                    GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, null, null, room.GetPublicCards(), msg.Amount,
+                        room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+                    JoinResponseCommMessage respons = new JoinResponseCommMessage(msg.UserId, success, msg,data);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
@@ -64,6 +69,16 @@ namespace TexasHoldem.communication.Impl
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
             _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+        }
+
+        private List<string> GetNamesFromList(List<Player> players)
+        {
+            List<string> names = new List<string>();
+            foreach (Player p in players)
+            {
+                names.Add(p.user.MemberName());
+            }
+            return names;
         }
 
         public void HandleEvent(EditCommMessage msg)
