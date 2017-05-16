@@ -63,9 +63,13 @@ namespace TexasHoldem.Logic.Game_Control
             {
                 foreach (int id in idsToSend)
                 {
+                    if (id == gmData.UserId && gmData.action == CommunicationMessage.ActionType.Join)
+                    {
+                        continue;
+                    }
                     gmData.UserId = id; //id of the user to send 
                     gameServiceHandler.SendMessageToClientGameData(gmData);
-                }
+                }        
             }
         }
 
