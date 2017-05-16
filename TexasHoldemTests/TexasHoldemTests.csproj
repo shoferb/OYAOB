@@ -75,6 +75,7 @@
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\ServerEventHandlerTest.cs" />
     <Compile Include="Handler\CommunicationHandlerTests.cs" />
+    <Compile Include="Logic\Client\ClientTests.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
     <Compile Include="Logic\GameControl\SystemControlTests.cs" />
     <Compile Include="Logic\Game\DeckTests.cs" />
