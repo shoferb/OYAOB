@@ -24,7 +24,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             {
                 return false;
             }
-            return roomID == (ReplayCommMessage)other.roomID;
+            var afterCasting = (ReplayCommMessage)other;
+            return roomID == afterCasting.roomID && UserId == afterCasting.UserId;
         }
 
 
