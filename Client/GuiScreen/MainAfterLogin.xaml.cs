@@ -113,5 +113,11 @@ namespace TexasHoldem.GuiScreen
             userIngoScreen.Show();
             this.Hide();
         }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            cl.CloseSystem();
+            Application.Current.Shutdown();
+        }
     }
 }

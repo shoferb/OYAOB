@@ -183,39 +183,45 @@ namespace TexasHoldem.GuiScreen
 
         private void EditPasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(firstNewPassword))
+            if (string.IsNullOrEmpty(NewPasswordTextBox.Text))
             {
                 MessageBox.Show("Please enter first new password");
                 return;
             }
-            if (string.IsNullOrEmpty(oldPassword))
+            if (string.IsNullOrEmpty(currPasswordTextBox.Text))
             {
                 MessageBox.Show("Please enter current password");
                 return;
             }
-            if (string.IsNullOrEmpty(secNewPassword))
+            if (string.IsNullOrEmpty(NewPasswordSecTextBox_.Text))
             {
                 MessageBox.Show("Please enter 2 new password");
                 return;
             }
-            if (oldPassword.Equals(firstNewPassword))
+            if (currPasswordTextBox.Text.Equals(NewPasswordTextBox.Text))
             {
                 MessageBox.Show("you cant change password to the curr password");
                 return;
             }
-                if (secNewPassword.Equals(firstNewPassword))
+            if (NewPasswordSecTextBox_.Text.Equals(NewPasswordTextBox.Text))
             {
-                bool EditPasswordOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
-                    firstNewPassword);
+                bool EditPasswordOk = cl.EditDetails(
+                    TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
+                    NewPasswordTextBox.Text);
                 if (EditPasswordOk)
                 {
                     MessageBox.Show("User Password was sucssesful edit!");
-                    cl.user.password = firstNewPassword;
+                    cl.user.password = NewPasswordTextBox.Text;
                 }
                 else
                 {
                     MessageBox.Show("User password Edit - fail");
                 }
+            }
+            else
+            {
+                MessageBox.Show("the 2 new passwords dont match");
+                return;
             }
         }
 
