@@ -92,7 +92,7 @@ namespace Client.Logic
             messagesSentObserver.Remove(messageToList);
             return toRet;
         }
-        public bool JoinTheGame(int roomId, int startingChip)
+        public JoinResponseCommMessage JoinTheGame(int roomId, int startingChip)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join, startingChip, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
@@ -104,8 +104,12 @@ namespace Client.Logic
                 t.Wait();
             }
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            if (toRet)
+            {
+                return (JoinResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+            }
             messagesSentObserver.Remove(messageToList);
-            return toRet;
+            return null;
         }
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
