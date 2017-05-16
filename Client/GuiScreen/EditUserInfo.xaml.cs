@@ -22,7 +22,7 @@ namespace TexasHoldem.GuiScreen
     {
         private ClientLogic cl;
         private Window parentScreen;
-        private int currId;
+        
         private int Id;
         private string name;
         private string username;
@@ -80,18 +80,17 @@ namespace TexasHoldem.GuiScreen
 
         private void EditIdButton_Click(object sender, RoutedEventArgs e)
         {
-            if (Id == null)
+            if (string.IsNullOrEmpty(IDtextBox.Text))
             {
                 MessageBox.Show("Please enter new Id");
                 return;
             }
+            int oldId = cl.user.id;
             bool EditIdOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Id,
                 Id.ToString());
             if (EditIdOk)
             {
-                MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + currId);
-                currId = Id;
-            
+                MessageBox.Show("User Id was sucssesful edit to: " +Id + "From: " + oldId);
                 cl.user.id = Id;
             }
             else
@@ -102,7 +101,7 @@ namespace TexasHoldem.GuiScreen
 
         private void EditNamebutton_Click(object sender, RoutedEventArgs e)
         {
-            if (name.Equals(""))
+            if (string.IsNullOrEmpty(name))
             {
                 MessageBox.Show("Please enter new name");
                 return;
@@ -122,7 +121,7 @@ namespace TexasHoldem.GuiScreen
 
         private void EditUserName_Click(object sender, RoutedEventArgs e)
         {
-            if (username.Equals(""))
+            if (string.IsNullOrEmpty(username))
             {
                 MessageBox.Show("Please enter userName name");
                 return;
@@ -143,7 +142,7 @@ namespace TexasHoldem.GuiScreen
 
         private void EditEmailButton_Click(object sender, RoutedEventArgs e)
         {
-            if (email.Equals(""))
+            if (string.IsNullOrEmpty(email))
             {
                 MessageBox.Show("Please enter new email");
                 return;
@@ -164,7 +163,7 @@ namespace TexasHoldem.GuiScreen
 
         private void EditMoneyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (money == null)
+            if (string.IsNullOrEmpty(MoneytextBox.Text))
             {
                 MessageBox.Show("Please enter new money");
                 return;
@@ -184,44 +183,51 @@ namespace TexasHoldem.GuiScreen
 
         private void EditPasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            if (firstNewPassword.Equals(""))
+            if (string.IsNullOrEmpty(NewPasswordTextBox.Text))
             {
-                MessageBox.Show("Please enter new password");
+                MessageBox.Show("Please enter first new password");
                 return;
             }
-            if (oldPassword.Equals(""))
+            if (string.IsNullOrEmpty(currPasswordTextBox.Text))
             {
                 MessageBox.Show("Please enter current password");
                 return;
             }
-            if (secNewPassword.Equals(""))
+            if (string.IsNullOrEmpty(NewPasswordSecTextBox_.Text))
             {
-                MessageBox.Show("Please enter new password");
+                MessageBox.Show("Please enter 2 new password");
                 return;
             }
-            if (oldPassword.Equals(firstNewPassword))
+            if (currPasswordTextBox.Text.Equals(NewPasswordTextBox.Text))
             {
                 MessageBox.Show("you cant change password to the curr password");
                 return;
             }
-                if (secNewPassword.Equals(firstNewPassword))
+            if (NewPasswordSecTextBox_.Text.Equals(NewPasswordTextBox.Text))
             {
-                bool EditPasswordOk = cl.EditDetails(TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
-                    firstNewPassword);
+                bool EditPasswordOk = cl.EditDetails(
+                    TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
+                    NewPasswordTextBox.Text);
                 if (EditPasswordOk)
                 {
                     MessageBox.Show("User Password was sucssesful edit!");
-                    cl.user.password = firstNewPassword;
+                    cl.user.password = NewPasswordTextBox.Text;
                 }
                 else
                 {
                     MessageBox.Show("User password Edit - fail");
                 }
             }
+            else
+            {
+                MessageBox.Show("the 2 new passwords dont match");
+                return;
+            }
         }
 
         private void BackToMainButton_Click(object sender, RoutedEventArgs e)
         {
+         
             parentScreen.Show();
             this.Hide();
         }

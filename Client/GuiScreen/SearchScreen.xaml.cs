@@ -225,6 +225,12 @@ namespace Client.GuiScreen
 
         private void GetGameByStartingChip()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter amount of starting chip");
+                return;
+                
+            }
             toSearch = searchBox.Text;
             int toSearchSartingChip;
 
@@ -253,6 +259,12 @@ namespace Client.GuiScreen
 
         private void GetGamesByBuyInPolicy()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter amount of buy in policy");
+                return;
+
+            }
             toSearch = searchBox.Text;
             int toSearchBuyIn;
 
@@ -281,6 +293,12 @@ namespace Client.GuiScreen
 
         private void GetGamesByPotSize()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter amount of pot size");
+                return;
+
+            }
             toSearch = searchBox.Text;
             int toSearchPotSize;
 
@@ -309,6 +327,12 @@ namespace Client.GuiScreen
 
         private void GetGamesByMinBet()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter amount of min bet in room");
+                return;
+
+            }
             toSearch = searchBox.Text;
             int toSearchMinBet;
 
@@ -337,6 +361,12 @@ namespace Client.GuiScreen
 
         private void GetGamesByMaxPlayer()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter amount of max player in room");
+                return;
+
+            }
             toSearch = searchBox.Text;
             int toSearchmaxPlayer;
 
@@ -359,12 +389,18 @@ namespace Client.GuiScreen
             }
             else
             {
-                MessageBox.Show("Invalid player num should contains only numbers");
+                MessageBox.Show("Invalid player number should contains only numbers");
             }
         }
 
         private void GetGamesByMinPlayer()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter amount min player in room");
+                return;
+
+            }
             toSearch = searchBox.Text;
             int toSearchminPlayer;
 
@@ -387,7 +423,7 @@ namespace Client.GuiScreen
             }
             else
             {
-                MessageBox.Show("Invalid player num should contains only numbers");
+                MessageBox.Show("Invalid player number should contains only numbers");
             }
         }
 
@@ -409,15 +445,21 @@ namespace Client.GuiScreen
 
         private void GetRoomById()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter room id to search");
+                return;
+
+            }
             toSearch = searchBox.Text;
             int toSearchRoomId;
 
 
             List<ClientGame> temp;
-            isValid = int.TryParse(toSearch, out idSearch);
+            isValid = int.TryParse(toSearch, out toSearchRoomId);
             if (isValid)
             {
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", idSearch,
+                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
                     GameMode.Limit);
                 result = temp;
                 if (result == null || !result.Any())
@@ -453,6 +495,12 @@ namespace Client.GuiScreen
 
         private void GetAllSpectetorByUserName()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter username");
+                return;
+
+            }
             toSearch = searchBox.Text;
             List<ClientGame> temp;
             temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
@@ -470,6 +518,12 @@ namespace Client.GuiScreen
 
         private void GetAllUserByUserName()
         {
+            if (string.IsNullOrEmpty(searchBox.Text))
+            {
+                MessageBox.Show("please enter username");
+                return;
+
+            }
             toSearch = searchBox.Text;
 
             List<ClientGame> temp;
