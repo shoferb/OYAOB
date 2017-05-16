@@ -41,20 +41,12 @@ namespace Client.GuiScreen
         private void SearchB_Click(object sender, RoutedEventArgs e)
         {
             this.results_ListView.Items.Clear();
-            bool isAllReq;
-            int gameIdReq;
-            Tuple<bool, List<string>> ans = new Tuple<bool, List<string>>(false,new List<string>());
-            if (SearchFilter_ComboBox.Text.Equals("View All Of My Game Replays"))
-            {
-                isAllReq = true;
-                gameIdReq = -1;
-                ans = _logic.AskForReplays(isAllReq, gameIdReq);
-            }
-            else if(SearchFilter_ComboBox.Text.Equals("View Replay By Game ID"))
-            {
-                isAllReq = false;
+          
+            int roomIdReq;
+
+            string ans="";
                 string temp = GameId_textBox.Text;
-                bool isValid = int.TryParse(temp, out gameIdReq);
+                bool isValid = int.TryParse(temp, out roomIdReq);
                 if (!isValid)
                 {
                     MessageBox.Show("Invalid Game ID input");
@@ -62,22 +54,18 @@ namespace Client.GuiScreen
                 }
                 else
                 {
-                    ans = _logic.AskForReplays(isAllReq, gameIdReq);
+                    ans = _logic.AskForReplays(roomIdReq);
                 }
-            }
-            
-            if (ans.Item1)
-            {
-                List<string> replays = ans.Item2;
-                foreach (string rep in replays)
-                {
-                   
-                   // this.results_ListView.Items.Add(toAdd); TODO
-                }
-            }
-            else if(!ans.Item1)
+           
+            if(ans==null)
             {
                 MessageBox.Show("Search Failed!");
+            }
+            else
+            {
+                ListViewItem rep = new ListViewItem();
+                rep.Content = ans;
+                results_ListView.Items.Add(rep);
             }
         }
     }
