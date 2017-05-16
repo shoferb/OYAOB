@@ -30,9 +30,9 @@ namespace TexasHoldem.GuiScreen
             InitializeComponent();
             cl = cli;      
             parent = Parent;
-           
+          
         }
-
+       
         private void Logoututton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNo);
@@ -91,7 +91,7 @@ namespace TexasHoldem.GuiScreen
         {
             EditUserInfo editUserInfo = new EditUserInfo(this,cl);
             editUserInfo.Show();
-            this.Hide();
+           this.Hide();
         }
 
         private void GameSearchMenuutton_Click(object sender, RoutedEventArgs e)
