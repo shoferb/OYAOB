@@ -25,12 +25,12 @@
         <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="252,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UserNametextBox_TextChanged" />
         <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="252,224,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="EmailtextBox_TextChanged" />
         <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="252,263,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MoneytextBox_TextChanged" />
-        <TextBox x:Name="currPasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="252,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="currPasswordTextBox_TextChanged" PreviewMouseDown = "currPasswordTextBox_MouseDown"/>
+        <TextBox x:Name="currPasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="252,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="currPasswordTextBox_TextChanged" PreviewMouseDown = "currPasswordTextBox_MouseDown" Text="&#xD;&#xA;"/>
         <TextBox x:Name="NewPasswordTextBox" HorizontalAlignment="Left" Height="23" Margin="252,339,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewMouseDown = "NewPasswordTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown" TextChanged="NewPasswordTextBox_TextChanged"/>
         <Button x:Name="EditNameButton" Content="Edit Name" HorizontalAlignment="Left" Margin="407,144,0,0" VerticalAlignment="Top" Width="101" Click="EditNamebutton_Click"/>
         <Button x:Name="EditUserName" Content="Edit User Name" HorizontalAlignment="Left" Margin="407,184,0,0" VerticalAlignment="Top" Width="101" Click="EditUserName_Click"/>
         <Button x:Name="EditEmailButton" Content="Edit User Email" HorizontalAlignment="Left" Margin="407,224,0,0" VerticalAlignment="Top" Width="101" Click="EditEmailButton_Click"/>
-        <Button x:Name="EditMoneyButton" Content="Button" HorizontalAlignment="Left" Margin="407,263,0,0" VerticalAlignment="Top" Width="101" Click="EditMoneyButton_Click"/>
+        <Button x:Name="EditMoneyButton" Content="Edit User Mony" HorizontalAlignment="Left" Margin="407,263,0,0" VerticalAlignment="Top" Width="101" Click="EditMoneyButton_Click"/>
         <Button x:Name="EditPasswordButton" Content="Edit Password" HorizontalAlignment="Left" Margin="407,337,0,0" VerticalAlignment="Top" Width="101" Click="EditPasswordButton_Click"/>
         <Button x:Name="EditAvatarButton" Content="Edit Avatar Menu" HorizontalAlignment="Left" Margin="167,414,0,0" VerticalAlignment="Top" Width="205" Click="EditAvatarButton_Click"/>
         <Label x:Name="PasswordNewSecLabel" Content="Enter new password again" HorizontalAlignment="Left" Margin="44,367,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16"/>
