@@ -283,9 +283,12 @@ namespace TexasHoldem.communication.Impl
             if (success)
             {
                 var game = _gameService.GetGameById(roomId);
+                List<string> names = new List<string>();
+                IUser user = _userService.GetUserById(msg.UserId);
+                names.Add(user.MemberName());
                 var gameData = new GameDataCommMessage(msg.UserId, roomId, null, null, new List<Card>(),
-                    msg._chipPolicy, 0, game.GetPlayersInRoom().ConvertAll(p => p.name), null, null, null, success,
-                    "","",0,CommunicationMessage.ActionType.Bet);
+                    msg._chipPolicy, 0,names , null, null, null, success,
+                    "","",0,CommunicationMessage.ActionType.CreateRoom);
                 respons = new CreateNewGameResponse(msg.UserId, success, msg, gameData);
             }
             else

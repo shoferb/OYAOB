@@ -24,6 +24,7 @@ namespace TexasHoldemShared.CommMessages
     {
         public enum ActionType
         {
+            CreateRoom,
             Fold,
             Bet,
             Join,
