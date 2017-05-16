@@ -56,6 +56,15 @@ namespace TexasHoldem.GuiScreen
 
         private void Loginbutton_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(UserNametextBox.Text))
+            {
+                MessageBox.Show("Invalid input - please enter username");
+                return;
+            }
+            if ( string.IsNullOrEmpty(passwordBox.Text))
+            {
+                MessageBox.Show("Invalid input - please enter password");
+            }
             bool loginOk = cl.Login(userName, password);
             if (loginOk )
             {
@@ -65,7 +74,7 @@ namespace TexasHoldem.GuiScreen
             }
             else
             {
-                MessageBox.Show("Invalid input");
+                MessageBox.Show("login fail! - please try again");
             }
         }
         
