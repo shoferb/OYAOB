@@ -121,17 +121,17 @@ namespace TexasHoldem.Service
 
         public List<IGame> GetAllActiveGames()
         {
-            List<IGame> toReturn = GameCenter.Instance.GetAllActiveGame();
+            List<IGame> toReturn = _gameCenter.GetAllActiveGame();
             return toReturn;
         }
    
         public List<IGame> GetAllActiveGamesAUserCanJoin(int userId)
         {
-            IUser user = SystemControl.SystemControlInstance.GetUserWithId(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
             List<IGame> toReturn = new List<IGame>();
             if (user != null)
             {
-                toReturn = GameCenter.Instance.GetAllActiveGamesAUserCanJoin(user);
+                toReturn = _gameCenter.GetAllActiveGamesAUserCanJoin(user);
             }
 
             return toReturn;
@@ -139,60 +139,60 @@ namespace TexasHoldem.Service
 
         public List<IGame> GetAllGames()
         {
-            List<IGame> toReturn = GameCenter.Instance.GetAllGames();
+            List<IGame> toReturn = _gameCenter.GetAllGames();
             return toReturn;
         }
 
         public List<IGame> GetSpectateableGames()
         {
-            List<IGame> toReturn = GameCenter.Instance.GetAllSpectetorGame();
+            List<IGame> toReturn = _gameCenter.GetAllSpectetorGame();
             return toReturn;
         }
 
         public List<IGame> GetGamesByPotSize(int potSize)
         {
-            List<IGame> toReturn = GameCenter.Instance.GetAllGamesByPotSize(potSize);
+            List<IGame> toReturn = _gameCenter.GetAllGamesByPotSize(potSize);
             return toReturn;
         }
 
         public List<IGame> GetGamesByGameMode(GameMode gm)
         {
-            List<IGame> toReturn = GameCenter.Instance.GetGamesByGameMode(gm);
+            List<IGame> toReturn = _gameCenter.GetGamesByGameMode(gm);
             return toReturn;
         }
 
         //return list of games by buy in policy
         public List<IGame> GetGamesByBuyInPolicy(int buyIn)
         {
-            List<IGame> toReturn = GameCenter.Instance.GetGamesByBuyInPolicy(buyIn);
+            List<IGame> toReturn = _gameCenter.GetGamesByBuyInPolicy(buyIn);
             return toReturn;
         }
 
         //return list of games by min player in room
         public List<IGame> GetGamesByMinPlayer(int min)
         {
-            List<IGame> toReturn = GameCenter.Instance.GetGamesByMinPlayer(min);
+            List<IGame> toReturn = _gameCenter.GetGamesByMinPlayer(min);
             return toReturn;
         }
 
         //return list of games by min bet in room
         public List<IGame> GetGamesByMinBet(int minBet)
         {
-            List<IGame> toRetun = GameCenter.Instance.GetGamesByMinBet(minBet);
+            List<IGame> toRetun = _gameCenter.GetGamesByMinBet(minBet);
             return toRetun;
         }
 
         //return list of games by starting chip policy
         public List<IGame> GetGamesByStartingChip(int startingChip)
         {
-            List<IGame> toRetun = GameCenter.Instance.GetGamesByStartingChip(startingChip);
+            List<IGame> toRetun = _gameCenter.GetGamesByStartingChip(startingChip);
             return toRetun;
         }
 
         //return list of games by max player in room
         public List<IGame> GetGamesByMaxPlayer(int max)
         {
-            List<IGame> toReturn = GameCenter.Instance.GetGamesByMaxPlayer(max);
+            List<IGame> toReturn = _gameCenter.GetGamesByMaxPlayer(max);
             return toReturn;
         }
 
