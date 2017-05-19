@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        Login page
+    </title>
+    <style>
+        h1 {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:30pt;
+            color: #30faff;
+        }
+
+        p.login {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:10pt;
+            color: #3e2fff;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<h1>Texas Holdem Log Out</h1>
+
+<p class="login">
+    Username<input type="userName" name="userName"/>
+    Password<input type="password" name="password"/>
+    <button type="button" onclick="sendData()">Log out</button>
+    <input type="reset" value="Cancel"/>
+</p>
+<script>
+    function sendData() {
+        var xmlData = document.getElementById("name").value + document.getElementById("pass").value ;
+        $.ajax({
+            type: "POST",
+            url: "", // the url I want to post to.
+            processData: false,
+            data: xmlData, // send the string directly
+            success: function(response){
+                alert("Bye Bye");
+            },
+            error: function(response) {
+                alert("error occurred");
+            }
+        });
+
+
+    }
+
+</script>
+</head>
+</body>
+</html>
