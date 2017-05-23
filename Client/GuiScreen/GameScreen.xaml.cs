@@ -49,13 +49,16 @@ namespace Client.GuiScreen
             Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
 
         }
-
-        public void UpdateGame(GameDataCommMessage msg)
-        {
-            UserID.Content = _logic.user.id;
+        //todo refrash name
+        /*
+         *  UserID.Content = _logic.user.id;
             UserName.Content = _logic.user.username;
             string path = _logic.user.avatar;
             Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
+            */
+        public void UpdateGame(GameDataCommMessage msg)
+        {
+           
             ActionChosenComboBox.Items.Clear();
             if(_logic.user.name.Equals(CurrPlayerTurn))
             {

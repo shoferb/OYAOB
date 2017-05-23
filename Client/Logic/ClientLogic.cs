@@ -106,23 +106,11 @@ namespace Client.Logic
             bool toRet = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             if (toRet)
             {
-                if (!(((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4).GetType() == (typeof(JoinResponseCommMessage))))
-                {
-                    messagesSentObserver.Remove(messageToList);
-                    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> temp = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
-                    messagesSentObserver.Add(temp);
-                    while ((messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-                    {
-                        var t = Task.Run(async delegate { await Task.Delay(10); });
-                        t.Wait();
-                    }
-                    bool toRetTemp = (messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-                    if (toRet)
-                    {
+               
                         JoinResponseCommMessage res = (JoinResponseCommMessage)(messagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
                         return res;
-                    }
-                }
+                    
+                
 
                 
             }

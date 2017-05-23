@@ -10,7 +10,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
     {
             public GameDataCommMessage GameData;
 
-            public JoinResponseCommMessage() //for parsing
+            public JoinResponseCommMessage(): base(-1)//for parsing
             {
             }
 

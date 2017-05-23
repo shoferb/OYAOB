@@ -47,29 +47,44 @@ namespace TexasHoldem.communication.Impl
             {
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                    ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                    ResponeCommMessage response1 = new ResponeCommMessage(msg.UserId, success, msg);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response1), msg.UserId);
+
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.HandCard:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                    ResponeCommMessage response2 = new ResponeCommMessage(msg.UserId, success, msg);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response2), msg.UserId);
+
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     IGame room = _gameService.GetGameById(msg.RoomId);
                     GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, null, null, room.GetPublicCards(), msg.Amount,
                         room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
-                    JoinResponseCommMessage respons = new JoinResponseCommMessage(msg.UserId, success, msg,data);
+                    ResponeCommMessage respons = new JoinResponseCommMessage(msg.UserId, success, msg,data);
                     _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId);
                     break;
                 case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    break;
+                    ResponeCommMessage response4 = new ResponeCommMessage(msg.UserId, success, msg);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response4), msg.UserId);
 
+                    break;
+                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame:
+                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                    ResponeCommMessage response5 = new ResponeCommMessage(msg.UserId, success, msg);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response5), msg.UserId);
+
+                    break;
             }
-            ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
-        }
+              }
 
         private List<string> GetNamesFromList(List<Player> players)
         {
