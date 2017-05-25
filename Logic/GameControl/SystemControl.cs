@@ -691,5 +691,23 @@ namespace TexasHoldem.Logic.Game_Control
            
             return toReturn;
         }
+
+        public List<IUser> GetUsersByTotalProfit()
+        {
+            return new List<IUser>(Users.OrderByDescending(user => user.TotalProfit)
+                .Take(Math.Min(20, Users.Count)));
+        }
+
+        public List<IUser> GetUsersByHighestCash()
+        {
+            return new List<IUser>(Users.OrderByDescending(user => user.HighestCashGainInGame)
+                .Take(Math.Min(20, Users.Count)));
+        }
+
+        public List<IUser> GetUsersByNumOfGames()
+        {
+            return new List<IUser>(Users.OrderByDescending(user => user.WinNum + user.LoseNum)
+                .Take(Math.Min(20, Users.Count)));
+        }
     }
 }

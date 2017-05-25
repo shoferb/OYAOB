@@ -239,6 +239,21 @@ namespace TexasHoldem.Service
             return sc.DivideLeague();
         }
 
-       
+        public List<IUser> GetUsersByTotalProfit()
+        {
+            return sc.GetUsersByTotalProfit();
+        }
+
+        public List<IUser> GetUsersByHighestCash()
+        {
+            return sc.GetUsersByHighestCash();
+        }
+
+        public List<IUser> GetUsersByNumOfGames()
+        {
+            return sc.GetUsersByNumOfGames();
+        }
+
+
     }
 }
