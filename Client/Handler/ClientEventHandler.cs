@@ -18,16 +18,17 @@ namespace Client.Handler
         
         private readonly CommunicationHandler _handler;
         private ClientLogic _logic;
-        private ParserImplementation XmlParser;
+        private readonly ParserImplementation _xmlParser;
         private bool _shouldClose;
 
         public ClientEventHandler(CommunicationHandler handler)
         {
             _handler = handler;
-            XmlParser = new ParserImplementation();
+            _xmlParser = new ParserImplementation();
             _shouldClose = false;
 
         }
+
         //needed to be call after create new ClientEventHandler and a new client logic
         public void Init(ClientLogic logic)
         {
@@ -39,6 +40,12 @@ namespace Client.Handler
             _shouldClose = true;
 
         }
+
+        private void GotClientToServerMsg(CommunicationMessage msg)
+        {
+            //handle error here
+        }
+
         public void HandleMessages()
         {
             while (!_shouldClose)
@@ -47,7 +54,7 @@ namespace Client.Handler
                 msg = _handler.TryGetMsgReceived();
                 if (msg != null)
                 {
-                    var parsedMsg = XmlParser.ParseString(msg);
+                    var parsedMsg = _xmlParser.ParseString(msg);
                     parsedMsg.ForEach(p => p.Handle(this));
                 }
             }
@@ -55,37 +62,43 @@ namespace Client.Handler
 
         public void SendNewEvent(CommunicationMessage msg)
         {
-            string parsedMsg = XmlParser.SerializeMsg(msg);
+            string parsedMsg = _xmlParser.SerializeMsg(msg);
             _handler.addMsgToSend(parsedMsg);
         }
-        public void HandleEvent(ActionCommMessage msg)
+        public string HandleEvent(ActionCommMessage msg)
         {
-
+            GotClientToServerMsg(msg);
+            return "";
         }
 
-        public void HandleEvent(EditCommMessage msg)
+        public string HandleEvent(EditCommMessage msg)
         {
-
+            GotClientToServerMsg(msg);
+            return "";
         }
 
-        public void HandleEvent(LoginCommMessage msg)
+        public string HandleEvent(LoginCommMessage msg)
         {
-
+            GotClientToServerMsg(msg);
+            return "";
         }
 
-        public void HandleEvent(RegisterCommMessage msg)
+        public string HandleEvent(RegisterCommMessage msg)
         {
-
+            GotClientToServerMsg(msg);
+            return "";
         }
 
-        public void HandleEvent(SearchCommMessage msg)
+        public string HandleEvent(SearchCommMessage msg)
         {
-
+            GotClientToServerMsg(msg);
+            return "";
         }
 
-        public void HandleEvent(GameDataCommMessage msg)
+        public string HandleEvent(GameDataCommMessage msg)
         {
             _logic.GameUpdateReceived(msg);
+            return "";
         }
 
         public string HandleEvent(ResponeCommMessage msg)
@@ -98,6 +111,7 @@ namespace Client.Handler
             {
                 _logic.NotifyResponseReceived(msg);
             }
+            return "";
 
         }
         public void Start()
@@ -107,20 +121,25 @@ namespace Client.Handler
         }
 
 
-        public void HandleEvent(CreatrNewRoomMessage msg)
+        public string HandleEvent(CreatrNewRoomMessage msg)
         {
-            //Client to server msg
+            GotClientToServerMsg(msg);
+            return "";
         }
 
 
-        public void HandleEvent(ChatCommMessage msg)
+        public string HandleEvent(ChatCommMessage msg)
         {
-            //Client to server msg
+            GotClientToServerMsg(msg);
+            return "";
         }
 
-        public void HandleEvent(ReplayCommMessage msg)
+        public string HandleEvent(ReplayCommMessage msg)
         {
-            //Client to server msg
+            GotClientToServerMsg(msg);
+            return "";
         }
+
+        
     }
 }
