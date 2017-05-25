@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class LeaderboardCommMessage : CommunicationMessage
     {
-        /// <summary>
-        /// can be one of:
-        ///     totGrossProfit
-        ///     highCashGain
-        ///     numGamesPlayed
-        /// </summary>
-        public string SortBy;
-
-        public LeaderboardCommMessage(int id, string sortBy) : base(id)
+        public enum SortingOption
         {
-            SortBy = sortBy;
+            TotalGrossProfit,
+            HighestCashGain,
+            NumGamesPlayes
+        }
+
+        public SortingOption SortedBy;
+
+        public LeaderboardCommMessage(int id, SortingOption sortBy) : base(id)
+        {
+            SortedBy = sortBy;
         }
 
         public override string Handle(IEventHandler handler)
@@ -32,7 +27,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             if (other.GetType() == typeof(LeaderboardCommMessage))
             {
                 var afterCast = (LeaderboardCommMessage)other;
-                ans = UserId == afterCast.UserId && SortBy.Equals(afterCast.SortBy);
+                ans = UserId == afterCast.UserId && SortedBy.Equals(afterCast.SortedBy);
             }
             return ans;
         }
