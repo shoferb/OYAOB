@@ -2,9 +2,8 @@
 using Client.Handler;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -122,7 +121,7 @@ namespace Client.Logic
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers)
         {//should ret int as the roomNumber
-            CreatrNewRoomMessage toSend = new CreatrNewRoomMessage(user.id, mode, minBet, chipPol, buyInPol, canSpec, minPlayers, maxPlayers);
+            CreateNewRoomMessage toSend = new CreateNewRoomMessage(user.id, mode, minBet, chipPol, buyInPol, canSpec, minPlayers, maxPlayers);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id));
             messagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);

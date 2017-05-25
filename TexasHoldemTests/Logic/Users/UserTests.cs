@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Users.Tests

@@ -10,6 +10,8 @@ using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldem.Logic.GameControl;
 using static TexasHoldemShared.CommMessages.CommunicationMessage;
 using TexasHoldem.Logic.Replay;
+using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Logic.Game.Tests
 {

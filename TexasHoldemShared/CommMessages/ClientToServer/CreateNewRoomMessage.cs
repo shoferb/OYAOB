@@ -1,6 +1,6 @@
 ﻿namespace TexasHoldemShared.CommMessages.ClientToServer
 {
-    public class CreatrNewRoomMessage : CommunicationMessage
+    public class CreateNewRoomMessage : CommunicationMessage
     {
         public GameMode _mode;
         public int _minBet;
@@ -10,9 +10,9 @@
         public int _minPlayer;
         public int _maxPlayers;
 
-        public CreatrNewRoomMessage() : base(-1) { } //for parsing
+        public CreateNewRoomMessage() : base(-1) { } //for parsing
 
-        public CreatrNewRoomMessage(int id, GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers) : base(id)
+        public CreateNewRoomMessage(int id, GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers) : base(id)
         {
             this._mode = mode;
             this._minBet = minBet;
@@ -23,16 +23,16 @@
             this._canSpectate = canSpec;
         }
 
-        public override void Handle(IEventHandler handler)
+        public override string Handle(IEventHandler handler)
         {
-            handler.HandleEvent(this);
+            return handler.HandleEvent(this);
         }
 
         public override bool Equals(CommunicationMessage other)
         {
-            if (other != null && other.GetType() == typeof(CreatrNewRoomMessage))
+            if (other != null && other.GetType() == typeof(CreateNewRoomMessage))
             {
-                var afterCasting = (CreatrNewRoomMessage)other;
+                var afterCasting = (CreateNewRoomMessage)other;
                 return _mode == afterCasting._mode && _minBet == afterCasting._minBet && UserId == afterCasting.UserId &&
                        _chipPolicy == afterCasting._chipPolicy && _buyInPolicy == afterCasting._buyInPolicy && 
                        _canSpectate == afterCasting._canSpectate && _minPlayer == afterCasting._minPlayer && 

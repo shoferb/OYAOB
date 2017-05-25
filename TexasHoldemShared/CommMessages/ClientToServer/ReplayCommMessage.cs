@@ -20,6 +20,11 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
            
         }
 
+        public override string Handle(IEventHandler handler)
+        {
+            return handler.HandleEvent(this);
+        }
+
         public override bool Equals(CommunicationMessage other)
         {
             if (other != null && other.GetType() == typeof(ReplayCommMessage))
@@ -29,11 +34,6 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
                        UserId == afterCasting.UserId;
             }
             return false;
-        }
-
-        public override void Handle(IEventHandler handler)
-        {
-            handler.HandleEvent(this);
         }
     }
 }

@@ -6,6 +6,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -201,6 +202,7 @@ namespace TexasHoldem.Service
             _serverHandler.HandleEvent(gameDataMes);
         }
 
+        //TODO: not used. maybe remove?
         public void SendMessageToClientResponse(ResponeCommMessage resp)
         {
             _serverHandler.HandleEvent(resp);

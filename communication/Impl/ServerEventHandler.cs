@@ -17,9 +17,9 @@ namespace TexasHoldem.communication.Impl
     {
         private readonly UserServiceHandler _userService = new UserServiceHandler();
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
-        private readonly ReplayHandler _replayService = new ReplayHandler();
         private ICommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
+        public bool ShouldUseDelim { get; set; } = false;
 
         private readonly TcpClient _socket;
 
@@ -32,59 +32,51 @@ namespace TexasHoldem.communication.Impl
         {
         }
 
-        //private readonly LogServiceHandler _logService = new LogServiceHandler(); //TODO: change to log control
-
-        //for tests only
         public void SetCommHandler(ICommunicationHandler handler)
         {
             _commHandler = handler;
         }
 
-        public void HandleEvent(ActionCommMessage msg)
+        public string HandleEvent(ActionCommMessage msg)
         {
             bool success = false;
+            ResponeCommMessage response = null;
             switch (msg.MoveType)
             {
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet:
+                case CommunicationMessage.ActionType.Bet:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
-
+                    response = new ResponeCommMessage(msg.UserId, success, msg);
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold:
+                case CommunicationMessage.ActionType.Fold:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    ResponeCommMessage response1 = new ResponeCommMessage(msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response1), msg.UserId);
-
+                    response = new ResponeCommMessage(msg.UserId, success, msg);
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.HandCard:
+                case CommunicationMessage.ActionType.HandCard:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    ResponeCommMessage response2 = new ResponeCommMessage(msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response2), msg.UserId);
-
+                    response = new ResponeCommMessage(msg.UserId, success, msg);
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Join:
+                case CommunicationMessage.ActionType.Join:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                     IGame room = _gameService.GetGameById(msg.RoomId);
                     GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, null, null, room.GetPublicCards(), msg.Amount,
                         room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
-                    ResponeCommMessage respons = new JoinResponseCommMessage(msg.UserId, success, msg,data);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId);
+                    response = new JoinResponseCommMessage(msg.UserId, success, msg,data);
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Leave:
+                case CommunicationMessage.ActionType.Leave:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    ResponeCommMessage response4 = new ResponeCommMessage(msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response4), msg.UserId);
-
+                    response = new ResponeCommMessage(msg.UserId, success, msg);
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame:
+                case CommunicationMessage.ActionType.StartGame:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    ResponeCommMessage response5 = new ResponeCommMessage(msg.UserId, success, msg);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(response5), msg.UserId);
-
+                    response = new ResponeCommMessage(msg.UserId, success, msg);
                     break;
             }
-              }
+            if (response != null)
+            {
+                return _parser.SerializeMsg(response, ShouldUseDelim); 
+            }
+            return "";
+        }
 
         private List<string> GetNamesFromList(List<Player> players)
         {
@@ -96,7 +88,7 @@ namespace TexasHoldem.communication.Impl
             return names;
         }
 
-        public void HandleEvent(EditCommMessage msg)
+        public string HandleEvent(EditCommMessage msg)
         {
             bool success;
             switch (msg.FieldToEdit)
@@ -143,18 +135,17 @@ namespace TexasHoldem.communication.Impl
                     }
                     break;
                 default:
-                   // _logService.CreateNewErrorLog(
-                    //    "an unidentified EditCommMessage was received by ServerEventHandler.");
-                    return;
+                    return "";
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
-        public void HandleEvent(LoginCommMessage msg)
+        public string HandleEvent(LoginCommMessage msg)
         {
             
             bool success = _userService.LoginUser(msg.UserName, msg.Password);
+            ResponeCommMessage response;
             if (_socket != null)
             {
                 CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket);
@@ -162,21 +153,20 @@ namespace TexasHoldem.communication.Impl
             if (success)
             {
                 IUser user = _userService.GetIUserByUserName(msg.UserName);
-                ResponeCommMessage response = new LoginResponeCommMessage(user.Id(), user.Name(), user.MemberName(),
+                response = new LoginResponeCommMessage(user.Id(), user.Name(), user.MemberName(),
                     user.Password(), user.Avatar(), user.Money()
                     , user.Email(),user.GetLeague().ToString(), success, msg);
-                _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
             }
             else
             {
-                ResponeCommMessage response = new LoginResponeCommMessage(-1, "", "",
+                response = new LoginResponeCommMessage(-1, "", "",
                     "", "", -1 , "","", success, msg);
-                _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
             }
+            return _parser.SerializeMsg(response, ShouldUseDelim);
            
         }
 
-        public void HandleEvent(RegisterCommMessage msg)
+        public string HandleEvent(RegisterCommMessage msg)
         {
             bool success = _userService.RegisterToSystem(msg.UserId, msg.Name, msg.MemberName, msg.Password, msg.Money,
                 msg.Email);
@@ -185,64 +175,57 @@ namespace TexasHoldem.communication.Impl
             {
                 CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket); 
             }
-            else
-            {
-                //TODO log here
-            }
-
-
             ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
                 "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,"unKnow",success,msg);
 
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
-            
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
-        public void HandleEvent(SearchCommMessage msg)
+        public string HandleEvent(SearchCommMessage msg)
         {
             bool success;
             List<IGame> temp = new List<IGame>();
             List<ClientGame> toSend = new List<ClientGame>();
             switch (msg.searchType)
             {
-                    case SearchCommMessage.SearchType.ActiveGamesByUserName:
-                        temp = _userService.GetActiveGamesByUserName(msg.searchByString);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
-                        break;
-                    case SearchCommMessage.SearchType.SpectetorGameByUserName:
-                        temp = _userService.GetSpectetorGamesByUserName(msg.searchByString);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
+                case SearchCommMessage.SearchType.ActiveGamesByUserName:
+                    temp = _userService.GetActiveGamesByUserName(msg.searchByString);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
                     break;
-                    case SearchCommMessage.SearchType.ByRoomId:
-                        IGame game = _gameService.GetGameById(msg.searchByInt);
-                        if (game != null)
-                        {
-                            temp.Add(game);
-                            toSend = ToClientGameList(temp);
-                            success = toSend.Count != 0; 
-                        }
-                        else
-                        {
-                            success = false;
-                        }
+                case SearchCommMessage.SearchType.SpectetorGameByUserName:
+                    temp = _userService.GetSpectetorGamesByUserName(msg.searchByString);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
                     break;
-                    case SearchCommMessage.SearchType.AllSepctetorGame:
-                        temp = _gameService.GetSpectateableGames();
+                case SearchCommMessage.SearchType.ByRoomId:
+                    IGame game = _gameService.GetGameById(msg.searchByInt);
+                    if (game != null)
+                    {
+                        temp.Add(game);
                         toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
+                        success = toSend.Count != 0; 
+                    }
+                    else
+                    {
+                        success = false;
+                    }
                     break;
-                    case SearchCommMessage.SearchType.GamesUserCanJoin:
-                        temp = _gameService.GetAllActiveGamesAUserCanJoin(msg.UserId);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
-                        break;
-                    case SearchCommMessage.SearchType.ByPotSize:
-                        temp = _gameService.GetGamesByPotSize(msg.searchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
-                        break;
+                case SearchCommMessage.SearchType.AllSepctetorGame:
+                    temp = _gameService.GetSpectateableGames();
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
+                case SearchCommMessage.SearchType.GamesUserCanJoin:
+                    temp = _gameService.GetAllActiveGamesAUserCanJoin(msg.UserId);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
+                case SearchCommMessage.SearchType.ByPotSize:
+                    temp = _gameService.GetGamesByPotSize(msg.searchByInt);
+                    toSend = ToClientGameList(temp);
+                    success = toSend.Count != 0;
+                    break;
                 case SearchCommMessage.SearchType.ByGameMode:
                     temp = _gameService.GetGamesByGameMode(msg.searchByGameMode);
                     toSend = ToClientGameList(temp);
@@ -276,43 +259,49 @@ namespace TexasHoldem.communication.Impl
                 default:
                     success = false;
                     break;
-                    
-                    
             }
             ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
-        public void HandleEvent(GameDataCommMessage msg)
+        //TODO
+        public string HandleEvent(UserStatisticsCommMessage msg)
         {
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
+            throw new NotImplementedException();
         }
 
-        public void HandleEvent(ResponeCommMessage msg)
+        //TODO:
+        public string HandleEvent(LeaderboardCommMessage msg)
         {
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(msg), msg.UserId);
+            throw new NotImplementedException();
         }
 
-        public void HandleEvent(CreatrNewRoomMessage msg)
+        //this is done differently then other types of msgs because it is called from service
+        public string HandleEvent(GameDataCommMessage msg)
+        {
+            var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
+            _commHandler.AddMsgToSend(parsed, msg.UserId);
+            return parsed;
+        }
+
+        //TODO: maybe problematic
+        public string HandleEvent(ResponeCommMessage msg)
+        {
+            var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
+            _commHandler.AddMsgToSend(parsed, msg.UserId);
+            return parsed;
+        }
+
+        public string HandleEvent(CreateNewRoomMessage msg)
         {
             int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy,
                 msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers ,
                 msg._buyInPolicy , msg._minBet);
-            bool success;
-            if (roomId == -1)
-            {
-                success = false;
-            }
-            else
-            {
-                success = true;
-            }
+            var success = roomId != -1;
 
             CreateNewGameResponse respons;
-
             if (success)
             {
-                var game = _gameService.GetGameById(roomId);
                 List<string> names = new List<string>();
                 IUser user = _userService.GetUserById(msg.UserId);
                 names.Add(user.MemberName());
@@ -325,7 +314,7 @@ namespace TexasHoldem.communication.Impl
             {
                 respons = new CreateNewGameResponse();
             }
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId); 
+            return _parser.SerializeMsg(respons, ShouldUseDelim); 
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
@@ -344,7 +333,7 @@ namespace TexasHoldem.communication.Impl
             return toReturn;
         }
 
-        public void HandleEvent(ChatCommMessage msg)
+        public string HandleEvent(ChatCommMessage msg)
         {
             bool success =false;
             int idReciver= _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
@@ -352,22 +341,22 @@ namespace TexasHoldem.communication.Impl
 
             switch (msg.chatType)
             {
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerBrodcast:
+                case CommunicationMessage.ActionType.PlayerBrodcast:
                     success = _gameService.CanSendPlayerBrodcast(msg.idSender,msg.roomId);
                     idReciver = msg.idSender;
                     usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.PlayerWhisper:
+                case CommunicationMessage.ActionType.PlayerWhisper:
                     success = _gameService.CanSendPlayerWhisper(msg.idSender,msg.ReciverUsername, msg.roomId);
                     idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
                     usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorBrodcast:
+                case CommunicationMessage.ActionType.SpectetorBrodcast:
                     success = _gameService.CanSendSpectetorBrodcast(msg.idSender, msg.roomId);
                     idReciver = msg.idSender;
                     usernameSender = _userService.GetUserById(msg.idSender).MemberName();
                     break;
-                case TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.SpectetorWhisper:
+                case CommunicationMessage.ActionType.SpectetorWhisper:
                     success = _gameService.CanSendSpectetorWhisper(msg.idSender, msg.ReciverUsername, msg.roomId);
                     idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
                     usernameSender = _userService.GetUserById(msg.idSender).MemberName();
@@ -375,12 +364,14 @@ namespace TexasHoldem.communication.Impl
 
             }
             ResponeCommMessage response = new ChatResponceCommMessage(msg.roomId, idReciver, usernameSender, msg.chatType, msg.msgToSend, msg.UserId, success, msg);
-            _commHandler.AddMsgToSend(_parser.SerializeMsg(response), msg.UserId);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
-        public void HandleEvent(ReplayCommMessage msg)
+        //TODO:
+        public string HandleEvent(ReplayCommMessage msg)
         {           
-           // _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);          
+           // _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);   
+            return "";
         }
     }
 }
