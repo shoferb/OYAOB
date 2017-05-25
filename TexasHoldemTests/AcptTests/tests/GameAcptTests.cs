@@ -5,6 +5,8 @@ using System.Linq;
 using NUnit.Framework;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemTests.AcptTests.Bridges;
 

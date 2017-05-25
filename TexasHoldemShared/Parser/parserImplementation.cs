@@ -60,7 +60,7 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "k" + msgToRet;
                 }
-                else if (msg.GetType() == typeof(CreatrNewRoomMessage))
+                else if (msg.GetType() == typeof(CreateNewRoomMessage))
                 {
                     msgToRet = "l" + msgToRet;
                 }
@@ -277,12 +277,12 @@ namespace TexasHoldemShared.Parser
          }
                 }
 
-        private CreatrNewRoomMessage DeserializeCreatrNewRoomMessage(string xmlText)
+        private CreateNewRoomMessage DeserializeCreatrNewRoomMessage(string xmlText)
         {
             using (StringReader stringReader = new StringReader(xmlText))
             {
-                var serializer = new XmlSerializer(typeof(CreatrNewRoomMessage));
-                return (CreatrNewRoomMessage)serializer.Deserialize(stringReader);
+                var serializer = new XmlSerializer(typeof(CreateNewRoomMessage));
+                return (CreateNewRoomMessage)serializer.Deserialize(stringReader);
             }
         }
 

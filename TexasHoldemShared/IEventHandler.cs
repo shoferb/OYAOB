@@ -13,10 +13,12 @@ namespace TexasHoldemShared
         string HandleEvent(SearchCommMessage msg);
         string HandleEvent(ChatCommMessage msg);
         string HandleEvent(ReplayCommMessage msg); 
+        string HandleEvent(UserStatisticsCommMessage msg);
+        string HandleEvent(LeaderboardCommMessage msg);
         //server to client:
         string HandleEvent(GameDataCommMessage msg);
         string HandleEvent(ResponeCommMessage msg);
-        string HandleEvent(CreatrNewRoomMessage msg);
+        string HandleEvent(CreateNewRoomMessage msg);
 
     }
 }

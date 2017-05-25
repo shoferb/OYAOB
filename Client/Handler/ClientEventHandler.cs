@@ -14,8 +14,6 @@ namespace Client.Handler
 {
     public class ClientEventHandler : IEventHandler
     {
-
-        
         private readonly CommunicationHandler _handler;
         private ClientLogic _logic;
         private readonly ParserImplementation _xmlParser;
@@ -95,6 +93,11 @@ namespace Client.Handler
             return "";
         }
 
+        public string HandleEvent(LeaderboardCommMessage msg)
+        {
+            throw new NotImplementedException();
+        }
+
         public string HandleEvent(GameDataCommMessage msg)
         {
             _logic.GameUpdateReceived(msg);
@@ -121,7 +124,7 @@ namespace Client.Handler
         }
 
 
-        public string HandleEvent(CreatrNewRoomMessage msg)
+        public string HandleEvent(CreateNewRoomMessage msg)
         {
             GotClientToServerMsg(msg);
             return "";
@@ -140,6 +143,10 @@ namespace Client.Handler
             return "";
         }
 
-        
+        public string HandleEvent(UserStatisticsCommMessage msg)
+        {
+            GotClientToServerMsg(msg);
+            return "";
+        }
     }
 }

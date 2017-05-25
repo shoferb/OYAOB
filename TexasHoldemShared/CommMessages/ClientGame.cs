@@ -1,4 +1,4 @@
-﻿namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿namespace TexasHoldemShared.CommMessages
 {
     public class ClientGame
     {

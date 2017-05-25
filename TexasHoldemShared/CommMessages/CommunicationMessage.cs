@@ -8,7 +8,7 @@ namespace TexasHoldemShared.CommMessages
     [XmlInclude(typeof(CreateNewGameResponse))]
     [XmlInclude(typeof(ActionCommMessage))]
     [XmlInclude(typeof(ChatCommMessage))]
-    [XmlInclude(typeof(CreatrNewRoomMessage))]
+    [XmlInclude(typeof(CreateNewRoomMessage))]
     [XmlInclude(typeof(EditCommMessage))]
     [XmlInclude(typeof(LoginCommMessage))]
     [XmlInclude(typeof(SearchCommMessage))]

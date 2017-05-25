@@ -253,6 +253,18 @@ namespace TexasHoldem.communication.Impl
             return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
+        //TODO
+        public string HandleEvent(UserStatisticsCommMessage msg)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        //TODO:
+        public string HandleEvent(LeaderboardCommMessage msg)
+        {
+            throw new System.NotImplementedException();
+        }
+
         //this is done differently then other types of msgs because it is called from service
         public string HandleEvent(GameDataCommMessage msg)
         {
@@ -269,7 +281,7 @@ namespace TexasHoldem.communication.Impl
             return parsed;
         }
 
-        public string HandleEvent(CreatrNewRoomMessage msg)
+        public string HandleEvent(CreateNewRoomMessage msg)
         {
             int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy,
                 msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers ,
