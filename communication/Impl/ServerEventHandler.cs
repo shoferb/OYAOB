@@ -18,6 +18,7 @@ namespace TexasHoldem.communication.Impl
         private readonly  GameServiceHandler _gameService = new GameServiceHandler();
         private ICommunicationHandler _commHandler = CommunicationHandler.GetInstance();
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
+        public bool ShouldUseDelim { get; set; } = false;
 
         private readonly TcpClient _socket;
 
@@ -55,7 +56,7 @@ namespace TexasHoldem.communication.Impl
                     GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, null, null, room.GetPublicCards(), msg.Amount,
                         room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
                     JoinResponseCommMessage respons = new JoinResponseCommMessage(msg.UserId, success, msg,data);
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(respons), msg.UserId);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(respons, ShouldUseDelim), msg.UserId);
                     break;
                 case CommunicationMessage.ActionType.Leave:
                     success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
@@ -63,7 +64,7 @@ namespace TexasHoldem.communication.Impl
 
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
-            return _parser.SerializeMsg(response);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
         private List<string> GetNamesFromList(List<Player> players)
@@ -126,7 +127,7 @@ namespace TexasHoldem.communication.Impl
                     return "";
             }
             ResponeCommMessage response = new ResponeCommMessage(msg.UserId, success, msg);
-            return _parser.SerializeMsg(response);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
         public string HandleEvent(LoginCommMessage msg)
@@ -150,7 +151,7 @@ namespace TexasHoldem.communication.Impl
                 response = new LoginResponeCommMessage(-1, "", "",
                     "", "", -1 , "","", success, msg);
             }
-            return _parser.SerializeMsg(response);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
            
         }
 
@@ -166,7 +167,7 @@ namespace TexasHoldem.communication.Impl
             ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
                 "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,"unKnow",success,msg);
 
-            return _parser.SerializeMsg(response);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
         public string HandleEvent(SearchCommMessage msg)
@@ -249,13 +250,13 @@ namespace TexasHoldem.communication.Impl
                     break;
             }
             ResponeCommMessage response = new SearchResponseCommMessage(toSend, msg.UserId, success, msg);
-            return _parser.SerializeMsg(response);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
         //this is done differently then other types of msgs because it is called from service
         public string HandleEvent(GameDataCommMessage msg)
         {
-            var parsed = _parser.SerializeMsg(msg);
+            var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
             _commHandler.AddMsgToSend(parsed, msg.UserId);
             return parsed;
         }
@@ -263,7 +264,7 @@ namespace TexasHoldem.communication.Impl
         //TODO: maybe problematic
         public string HandleEvent(ResponeCommMessage msg)
         {
-            var parsed = _parser.SerializeMsg(msg);
+            var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
             _commHandler.AddMsgToSend(parsed, msg.UserId);
             return parsed;
         }
@@ -290,7 +291,7 @@ namespace TexasHoldem.communication.Impl
             {
                 respons = new CreateNewGameResponse();
             }
-            return _parser.SerializeMsg(respons); 
+            return _parser.SerializeMsg(respons, ShouldUseDelim); 
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
@@ -340,7 +341,7 @@ namespace TexasHoldem.communication.Impl
 
             }
             ResponeCommMessage response = new ChatResponceCommMessage(msg.roomId, idReciver, usernameSender, msg.chatType, msg.msgToSend, msg.UserId, success, msg);
-            return _parser.SerializeMsg(response);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
         //TODO:

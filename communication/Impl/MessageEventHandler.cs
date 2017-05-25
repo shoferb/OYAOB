@@ -46,7 +46,7 @@ namespace TexasHoldem.communication.Impl
         private void HandleRawMsgs(Tuple<string, TcpClient> msg)
         {
             string data = msg.Item1;
-            var parsedMsgs = _parser.ParseString(data);
+            var parsedMsgs = _parser.ParseString(data, true);
             parsedMsgs.ForEach(m => HandleSingleRawMsg(m, msg.Item2));
         }
 

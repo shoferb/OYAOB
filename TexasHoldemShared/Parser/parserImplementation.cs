@@ -13,7 +13,7 @@ namespace TexasHoldemShared.Parser
     {
         private static readonly string[] DelimArr = {"\r\r\r\r"};
 
-        public string SerializeMsg(CommunicationMessage msg)
+        public string SerializeMsg(CommunicationMessage msg, bool addDelimiter)
         {
 
             using (StringWriter stringwriter = new StringWriter())
@@ -85,7 +85,11 @@ namespace TexasHoldemShared.Parser
                     msgToRet = "q" + msgToRet;
                 }
 
-                return AddDelimiter(msgToRet);
+                if (addDelimiter)
+                {
+                    msgToRet = AddDelimiter(msgToRet);
+                }
+                return msgToRet;
             }
         }
 
@@ -181,7 +185,21 @@ namespace TexasHoldemShared.Parser
             return null;
         }
 
-        public List<CommunicationMessage> ParseString(string msg)
+        public List<CommunicationMessage> ParseString(string msg, bool removeDelimiter)
+        {
+            if (removeDelimiter)
+            {
+                return ParseStrWithDelim(msg);
+            }
+            return ParseStrNoDelim(msg);
+        }
+
+        private List<CommunicationMessage> ParseStrNoDelim(string msg)
+        {
+            return new List<CommunicationMessage> {ParseSingleString(msg)};
+        }
+
+        private List<CommunicationMessage> ParseStrWithDelim(string msg)
         {
             var msgs = SeperateByDelimiter(msg);
             var parsed = new List<CommunicationMessage>();
@@ -189,7 +207,7 @@ namespace TexasHoldemShared.Parser
             {
                 if (!string.IsNullOrEmpty(m))
                 {
-                    parsed.Add(ParseSingleString(m)); 
+                    parsed.Add(ParseSingleString(m));
                 }
             }
             return parsed;
@@ -232,7 +250,6 @@ namespace TexasHoldemShared.Parser
             }
         }
 
-
         private ReplayCommMessage DeserializeReplayCommMessage(string XmlText)
         {
             using (StringReader stringReader = new StringReader(XmlText))
@@ -242,7 +259,6 @@ namespace TexasHoldemShared.Parser
             }
         }
 
-
         private ChatResponceCommMessage deserializeChatResponceCommMessage(string XmlText)
         {
             using (StringReader stringReader = new StringReader(XmlText))
@@ -251,7 +267,6 @@ namespace TexasHoldemShared.Parser
                 return (ChatResponceCommMessage)serializer.Deserialize(stringReader);
             }
         }
-
 
         private ChatCommMessage DeserializeChatCommMessage(string XmlText)
          {
@@ -306,6 +321,7 @@ namespace TexasHoldemShared.Parser
                 return (LoginResponeCommMessage)serializer.Deserialize(stringReader);
             }
         }
+
         private ActionCommMessage DeserializeActionCommMessage(string xmlText)
         {
             using (StringReader stringReader = new StringReader(xmlText))
@@ -314,6 +330,7 @@ namespace TexasHoldemShared.Parser
                 return (ActionCommMessage)serializer.Deserialize(stringReader);
             }
         }
+
         private EditCommMessage DeserializeEditCommMessage(string xmlText)
         {
             using (StringReader stringReader = new StringReader(xmlText))
@@ -322,6 +339,7 @@ namespace TexasHoldemShared.Parser
                 return (EditCommMessage)serializer.Deserialize(stringReader);
             }
         }
+
         private LoginCommMessage DeserializeLoginCommMessage(string xmlText)
         {
             using (StringReader stringReader = new StringReader(xmlText))
@@ -330,6 +348,7 @@ namespace TexasHoldemShared.Parser
                 return (LoginCommMessage)serializer.Deserialize(stringReader);
             }
         }
+
         private RegisterCommMessage DeserializeRegisterCommMessage(string xmlText)
         {
             using (StringReader stringReader = new StringReader(xmlText))
@@ -338,6 +357,7 @@ namespace TexasHoldemShared.Parser
                 return (RegisterCommMessage)serializer.Deserialize(stringReader);
             }
         }
+
         private GameDataCommMessage DeserializeGameDataCommMessage(string xmlText)
         {
             using (StringReader stringReader = new StringReader(xmlText))
@@ -347,7 +367,6 @@ namespace TexasHoldemShared.Parser
             }
         }
        
-        
         //todo - add handle to login responce and register responce
         private ResponeCommMessage DeserializeResponeCommMessage(string xmlText)
         {

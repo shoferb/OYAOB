@@ -54,7 +54,7 @@ namespace Client.Handler
                 msg = _handler.TryGetMsgReceived();
                 if (msg != null)
                 {
-                    var parsedMsg = _xmlParser.ParseString(msg);
+                    var parsedMsg = _xmlParser.ParseString(msg, true);
                     parsedMsg.ForEach(p => p.Handle(this));
                 }
             }
@@ -62,7 +62,7 @@ namespace Client.Handler
 
         public void SendNewEvent(CommunicationMessage msg)
         {
-            string parsedMsg = _xmlParser.SerializeMsg(msg);
+            string parsedMsg = _xmlParser.SerializeMsg(msg, true);
             _handler.addMsgToSend(parsedMsg);
         }
         public string HandleEvent(ActionCommMessage msg)
