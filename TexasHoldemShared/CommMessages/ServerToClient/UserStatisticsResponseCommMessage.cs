@@ -1,11 +1,11 @@
 ﻿namespace TexasHoldemShared.CommMessages.ServerToClient
 {
-    class UserStaticticsResponseCommMessage : ResponeCommMessage
+    class UserStatisticsResponseCommMessage : ResponeCommMessage
     {
         public int AvgCashGain;
         public int AvgGrossProfit;
 
-        public UserStaticticsResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, int avgCashGain, int avgGrossProfit) 
+        public UserStatisticsResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, int avgCashGain, int avgGrossProfit) 
             : base(id, success, originalMsg)
         {
             AvgCashGain = avgCashGain;
@@ -20,9 +20,9 @@
         public override bool Equals(CommunicationMessage other)
         {
             bool ans = false;
-            if (other.GetType() == typeof(UserStaticticsResponseCommMessage))
+            if (other.GetType() == typeof(UserStatisticsResponseCommMessage))
             {
-                var afterCast = (UserStaticticsResponseCommMessage)other;
+                var afterCast = (UserStatisticsResponseCommMessage)other;
                 ans = base.Equals(afterCast) && AvgCashGain == afterCast.AvgCashGain &&
                       AvgGrossProfit == afterCast.AvgGrossProfit;
             }

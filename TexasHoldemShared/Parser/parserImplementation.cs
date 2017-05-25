@@ -84,6 +84,22 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "q" + msgToRet;
                 }
+                else if (msg.GetType() == typeof(LeaderboardCommMessage))
+                {
+                    msgToRet = "r" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(LeaderboardResponseCommMessage))
+                {
+                    msgToRet = "s" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(UserStatisticsCommMessage))
+                {
+                    msgToRet = "t" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(UserStatisticsResponseCommMessage))
+                {
+                    msgToRet = "u" + msgToRet;
+                }
 
                 if (addDelimiter)
                 {
@@ -181,6 +197,26 @@ namespace TexasHoldemShared.Parser
             {
                 string XMLmsg = msg.Substring(1);
                 return DeserializeJoinResponseCommMessage(XMLmsg);
+            }
+            if (msg.IndexOf('r') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeLeaderboardResponseCommMessage(XMLmsg);
+            }
+            if (msg.IndexOf('s') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeLeaderboardCommMessage(XMLmsg);
+            }
+            if (msg.IndexOf('t') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeUserStatisticsCommMessage(XMLmsg);
+            }
+            if (msg.IndexOf('u') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeUserStatisticsResponseCommMessage(XMLmsg);
             }
             return null;
         }
@@ -363,6 +399,42 @@ namespace TexasHoldemShared.Parser
             using (StringReader stringReader = new StringReader(xmlText))
             {
                 var serializer = new XmlSerializer(typeof(GameDataCommMessage));
+                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeUserStatisticsResponseCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(UserStatisticsCommMessage));
+                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeUserStatisticsCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(UserStatisticsResponseCommMessage));
+                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeLeaderboardCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(LeaderboardCommMessage));
+                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeLeaderboardResponseCommMessage(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(LeaderboardResponseCommMessage));
                 return (GameDataCommMessage)serializer.Deserialize(stringReader);
             }
         }
