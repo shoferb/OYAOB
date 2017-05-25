@@ -16,11 +16,11 @@ namespace TexasHoldem.Logic.Users
         private String avatar;//- image path
         private int points;
         private int money;
-        private List<Notification> waitListNotification;
+        private readonly List<Notification> waitListNotification;
         private string email;
         private bool isActive;
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
-        private List<IGame> activeGameList;
+        private readonly List<IGame> activeGameList;
         private List<IGame> spectateGameList;
         private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
         private LeagueName league;
@@ -206,6 +206,16 @@ namespace TexasHoldem.Logic.Users
         public int HighestCashGainInGame { get; }
 
         public int TotalProfit { get; }
+
+        public double GetAvgProft()
+        {
+            return (double) TotalProfit / (WinNum + LoseNum);
+        }
+
+        public double GetWinRate()
+        {
+            return (double) WinNum / (WinNum + LoseNum);
+        }
 
         public bool IncWinNum()
         {

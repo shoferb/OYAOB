@@ -521,8 +521,6 @@ namespace TexasHoldem.Logic.Game_Control
            
         }
 
-       
-
         public List<IUser> GetAllUser()
         {
             lock (padlock)
