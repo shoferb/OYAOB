@@ -221,7 +221,7 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    User newUser = new User(id, name, memberName, password, 0, money, email);
+                    User newUser = new User(id, name, memberName, password, 0, money, email, 0, 0, 0, 0);
                     users.Add(newUser);
                     toReturn = true;
                    

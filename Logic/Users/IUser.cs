@@ -42,7 +42,7 @@ namespace TexasHoldem.Logic.Users
 
         List<IGame> SpectateGameList();
 
-        int WinNum();
+        int WinNum { get; }
 
         bool IncWinNum();
         
@@ -93,5 +93,7 @@ namespace TexasHoldem.Logic.Users
         void SetLeague(LeagueName league);
 
         bool HasEnoughMoney(int startingChip, int fee);
+
+        
     }
 }

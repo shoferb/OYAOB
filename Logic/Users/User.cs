@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.RightsManagement;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.TextFormatting;
-using TexasHoldem.Logic.Game_Control;
-using TexasHoldem.Logic.Notifications_And_Logs;
+using System.Net.Mail;
 using TexasHoldem.Logic.Game;
-using Action = TexasHoldem.Logic.Actions.Action;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Notifications_And_Logs;
 
 namespace TexasHoldem.Logic.Users
 {
@@ -29,14 +23,10 @@ namespace TexasHoldem.Logic.Users
         private List<IGame> activeGameList;
         private List<IGame> spectateGameList;
         private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
-
         private LeagueName league;
-  
 
-        public int winNum { get; set; }
         //for syncronize
         private static readonly object padlock = new object();
-
 
         public User(int id, string name, string memberName, string password, int points, int money, string email)
         {
@@ -47,14 +37,41 @@ namespace TexasHoldem.Logic.Users
             this.points = points;
             this.money = money;
             this.email = email;
-            this.waitListNotification = new List<Notification>();
-            this.isActive = false;
-            this.avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            WinNum = 0;
+            LoseNum = 0;
+            HighestCashGainInGame = 0;
+            TotalProfit = 0;
+            waitListNotification = new List<Notification>();
+            isActive = false;
+            avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            _gamesAvailableToReplay = new List<Tuple<int, int>>();
+            activeGameList = new List<IGame>();
+            spectateGameList = new List<IGame>();
+            unknowGamesPlay = 0;
+            league = LeagueName.Unknow; //TODO change to default one or something
+        }
+
+        public User(int id, string name, string memberName, string password, int points, int money, 
+            string email, int winNum, int loseNum, int highestCashGainInGame, int totalProfit)
+        {
+            this.id = id;
+            this.name = name;
+            this.memberName = memberName;
+            this.password = password;
+            this.points = points;
+            this.money = money;
+            this.email = email;
+            WinNum = winNum;
+            LoseNum = loseNum;
+            HighestCashGainInGame = highestCashGainInGame;
+            TotalProfit = totalProfit;
+            waitListNotification = new List<Notification>();
+            isActive = false;
+            avatar = "/GuiScreen/Photos/Avatar/devil.png";
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
-            this.winNum = 0;
-            this.unknowGamesPlay = 0;
+            unknowGamesPlay = 0;
             league = LeagueName.Unknow; //TODO change to default one or something
         }
 
@@ -64,7 +81,7 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                return this.unknowGamesPlay <= 10;
+                return unknowGamesPlay <= 10;
             }
         }
 
@@ -84,7 +101,7 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                this.unknowGamesPlay++;
+                unknowGamesPlay++;
                 if (unknowGamesPlay > 10 && league == LeagueName.Unknow)
                 {
                     league = LeagueName.E;
@@ -117,7 +134,7 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                this.waitListNotification.Add(toAdd);
+                waitListNotification.Add(toAdd);
                 return true;
             }
         }
@@ -139,7 +156,7 @@ namespace TexasHoldem.Logic.Users
 
         public string Password()
         {
-            return this.password;
+            return password;
         }
 
         public string Avatar()
@@ -182,38 +199,52 @@ namespace TexasHoldem.Logic.Users
             return spectateGameList;
         }
 
-        public int WinNum()
-        {
-            return this.winNum;
-        }
+        public int WinNum { get; set; }
+
+        public int LoseNum { get; set; }
+
+        public int HighestCashGainInGame { get; }
+
+        public int TotalProfit { get; }
 
         public bool IncWinNum()
         {
             lock (padlock)
             {
-                bool toReturn = false;
                 try
                 {
-                    this.winNum++;
-                    toReturn = true;
-                    return toReturn;
+                    WinNum++;
+                    return true;
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }
 
-
+        public bool IncLoseNum()
+        {
+            lock (padlock)
+            {
+                try
+                {
+                    LoseNum++;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
         public bool Login()
         {
             bool toReturn = false;
             try
             {
-                this.isActive = true;
+                isActive = true;
                 toReturn = true;
                 return toReturn;
             }
@@ -230,9 +261,9 @@ namespace TexasHoldem.Logic.Users
             bool toReturn = false;
             try
             {
-                if (isActive == true)
+                if (isActive)
                 {
-                    this.isActive = false;
+                    isActive = false;
                     toReturn = true;
                     return toReturn;
                 }
@@ -253,7 +284,7 @@ namespace TexasHoldem.Logic.Users
             {
                 if (IsValidInputNotSmallerZero(Id))
                 {
-                    this.id = Id;
+                    id = Id;
                     toReturn = true;
                     return toReturn;
                 }
@@ -313,7 +344,7 @@ namespace TexasHoldem.Logic.Users
             {
                 if (IsValidString(username))
                 {
-                    this.memberName = username;
+                    memberName = username;
                     toReturn = true;
                     return toReturn;
                 }
@@ -333,7 +364,7 @@ namespace TexasHoldem.Logic.Users
             {
                 if (IsValidString(name))
                 {
-                    this.memberName = name;
+                    memberName = name;
                     toReturn = true;
                     return toReturn;
                 }
@@ -353,7 +384,7 @@ namespace TexasHoldem.Logic.Users
             {
                 if (IsValidString(path))
                 {
-                    this.avatar = path;
+                    avatar = path;
                     toReturn = true;
                     return toReturn;
                 }
@@ -375,7 +406,7 @@ namespace TexasHoldem.Logic.Users
                 {
                     if (IsValidInputNotSmallerZero(point))
                     {
-                        this.points = point;
+                        points = point;
                         toReturn = true;
                         return toReturn;
                     }
@@ -444,7 +475,7 @@ namespace TexasHoldem.Logic.Users
                 {
                     if (game != null && activeGameList.Contains(game))
                     {
-                        this.activeGameList.Remove(game);
+                        activeGameList.Remove(game);
                         toReturn = true;
                         return toReturn;
                     }
@@ -467,7 +498,7 @@ namespace TexasHoldem.Logic.Users
                 {
                     if (game != null && spectateGameList.Contains(game))
                     {
-                        this.spectateGameList.Remove(game);
+                        spectateGameList.Remove(game);
                         toReturn = true;
                         return toReturn;
                     }
@@ -534,7 +565,7 @@ namespace TexasHoldem.Logic.Users
                 {
                     if (game != null && !activeGameList.Contains(game))
                     {
-                        this.activeGameList.Add(game);
+                        activeGameList.Add(game);
                         toReturn = true;
                         return toReturn;
                     }
@@ -557,7 +588,7 @@ namespace TexasHoldem.Logic.Users
                 {
                     if (game != null && !spectateGameList.Contains(game))
                     {
-                        this.spectateGameList.Add(game);
+                        spectateGameList.Add(game);
                         toReturn = true;
                         return toReturn;
                     }
@@ -581,7 +612,7 @@ namespace TexasHoldem.Logic.Users
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
+                var addr = new MailAddress(email);
                 return addr.Address == email;
             }
             catch

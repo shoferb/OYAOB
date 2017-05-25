@@ -159,7 +159,7 @@ namespace TexasHoldem.Logic.Users
         public int GetNewPoint()
         {
             int calc = (int)(user.Money() / 100);
-            int newPoint = (20 * ((5 * user.WinNum()))) + calc;
+            int newPoint = (20 * ((5 * user.WinNum))) + calc;
             return newPoint;
         }
        
