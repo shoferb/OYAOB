@@ -88,7 +88,7 @@ namespace Client.Handler
             _logic.GameUpdateReceived(msg);
         }
 
-        public void HandleEvent(ResponeCommMessage msg)
+        public string HandleEvent(ResponeCommMessage msg)
         {
             if (msg.GetType() == typeof(ChatResponceCommMessage))
             {

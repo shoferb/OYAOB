@@ -46,7 +46,7 @@ namespace TexasHoldemShared.CommMessages
             UserId = id;
         }
 
-        public abstract void Handle(IEventHandler handler);
+        public abstract string Handle(IEventHandler handler);
 
         public abstract bool Equals(CommunicationMessage other);
     }

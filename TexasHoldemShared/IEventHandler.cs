@@ -6,17 +6,17 @@ namespace TexasHoldemShared
     public interface IEventHandler
     {
         //client to server:
-        void HandleEvent(ActionCommMessage msg);
-        void HandleEvent(EditCommMessage msg);
-        void HandleEvent(LoginCommMessage msg);
-        void HandleEvent(RegisterCommMessage msg);
-        void HandleEvent(SearchCommMessage msg);
-        void HandleEvent(ChatCommMessage msg);
-        void HandleEvent(ReplayCommMessage msg); 
+        string HandleEvent(ActionCommMessage msg);
+        string HandleEvent(EditCommMessage msg);
+        string HandleEvent(LoginCommMessage msg);
+        string HandleEvent(RegisterCommMessage msg);
+        string HandleEvent(SearchCommMessage msg);
+        string HandleEvent(ChatCommMessage msg);
+        string HandleEvent(ReplayCommMessage msg); 
         //server to client:
-        void HandleEvent(GameDataCommMessage msg);
-        void HandleEvent(ResponeCommMessage msg);
-        void HandleEvent(CreatrNewRoomMessage msg);
+        string HandleEvent(GameDataCommMessage msg);
+        string HandleEvent(ResponeCommMessage msg);
+        string HandleEvent(CreatrNewRoomMessage msg);
 
     }
 }

@@ -15,21 +15,22 @@ namespace TexasHoldem.communication.Impl
         private readonly ICommMsgXmlParser _parser;
         private readonly ConcurrentDictionary<int, IEventHandler> _userIdToEventHandlerMap;
         private bool _shouldStop = false;
+        private readonly CommunicationHandler _commHandler;
 
 
         public MessageEventHandler()
         {
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
+            _commHandler = CommunicationHandler.GetInstance();
         }
 
         public void HandleIncomingMsgs()
         {
-            CommunicationHandler commHandler = CommunicationHandler.GetInstance();
 
             while (!_shouldStop)
             {
-                var allMsgs = commHandler.GetReceivedMessages();
+                var allMsgs = _commHandler.GetReceivedMessages();
                 if (allMsgs.Count == 0)
                 {
                     Thread.Sleep(25);
@@ -59,7 +60,8 @@ namespace TexasHoldem.communication.Impl
             }
 
             //call to visitor pattern
-            parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
+            var res = parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
+            _commHandler.AddMsgToSend(res, userId);
         }
     }
 }

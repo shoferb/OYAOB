@@ -201,6 +201,7 @@ namespace TexasHoldem.Service
             _serverHandler.HandleEvent(gameDataMes);
         }
 
+        //TODO: not used. maybe remove?
         public void SendMessageToClientResponse(ResponeCommMessage resp)
         {
             _serverHandler.HandleEvent(resp);
