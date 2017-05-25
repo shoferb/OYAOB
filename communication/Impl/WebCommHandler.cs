@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace TexasHoldem.communication.Impl
         private bool _shouldStop = false;
         private static readonly string[] _prefixes = {"http://*:8080/"}; //TODO: maybe add more / change
         private ICommMsgXmlParser _parser = new ParserImplementation();
+        private IWebEventHandler _eventHandler;
 
         public WebCommHandler()
         {
@@ -40,13 +42,27 @@ namespace TexasHoldem.communication.Impl
             }
         }
 
-        private string HandleContext(HttpListenerContext context)
+        private List<string> HandleContext(HttpListenerContext context)
         {
             var request = context.Request;
             var msgStr = new StreamReader(request.InputStream,
                 context.Request.ContentEncoding).ReadToEnd();
-            //TODO: handle msg with ServerEventHandler here
-            return "";
+            var resultLst = _eventHandler.HandleRawMsg(msgStr);
+            if (resultLst.Count > 1)
+            {
+                Console.WriteLine("WebCommHandler: msg contained more than one task");
+            }
+            else
+            {
+                var res = resultLst[0];
+                var response = context.Response;
+                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(res);
+                response.ContentLength64 = bytes.Length;
+                Stream output = response.OutputStream;
+                output.Write(bytes, 0, bytes.Length);
+                output.Close();
+            }
+            return resultLst;
         }
 
         public void Start()
