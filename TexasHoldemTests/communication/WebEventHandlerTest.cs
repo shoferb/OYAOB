@@ -27,7 +27,7 @@ namespace TexasHoldemTests.communication
         private UserServiceHandler _userService;
         private readonly ParserImplementation _parser = new ParserImplementation();
 
-        private void createUserService()
+        private void Init()
         {
             LogControl lc = new LogControl();
             SystemControl sc = new SystemControl(lc);
@@ -98,6 +98,7 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void HandleRawMsgLeaderBoardGood()
         {
+            Init();
             _userService.RegisterToSystem(1, "Oded", "Oded", "123456789", 1000, "bla@bla.com");
             _userService.RegisterToSystem(2, "Jordy", "Jordy", "123456789", 1000, "blabla@bla.com");
             _userService.EditUserPoints(1, 100);
