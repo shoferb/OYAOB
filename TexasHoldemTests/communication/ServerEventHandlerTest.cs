@@ -44,9 +44,12 @@ namespace TexasHoldemTests.communication
         public void TestJson()
         {
             LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+            var jsonStr = JsonConvert.SerializeObject(lbcm);
             var xml = _parser.SerializeMsg(lbcm, false);
             var json = _parser.XmlToJson(xml);
-            Console.WriteLine(json);
+            //Console.WriteLine(json);
+            var lb = _parser.ParseString(_parser.JsonToXml(json), false);
+
             List<LeaderboardLineData> data = new List<LeaderboardLineData>
             {
                 new LeaderboardLineData(1, "Oded", 100, 1000, 13, 12),

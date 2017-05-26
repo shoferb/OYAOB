@@ -86,11 +86,11 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "q" + msgToRet;
                 }
-                else if (msg.GetType() == typeof(LeaderboardCommMessage))
+                else if (msg.GetType() == typeof(LeaderboardResponseCommMessage))
                 {
                     msgToRet = "r" + msgToRet;
                 }
-                else if (msg.GetType() == typeof(LeaderboardResponseCommMessage))
+                else if (msg.GetType() == typeof(LeaderboardCommMessage))
                 {
                     msgToRet = "s" + msgToRet;
                 }
@@ -264,24 +264,43 @@ namespace TexasHoldemShared.Parser
         public string XmlToJson(string xml)
         {
             XmlDocument xmlDoc = new XmlDocument();
+            char first = '0';
             if (xml[0] != '<') //a char was added to the xml
             {
+                first = xml[0];
                 xml = xml.Substring(1);
             }
             xmlDoc.LoadXml(xml); 
-            return JsonConvert.SerializeXmlNode(xmlDoc);
+            string json = JsonConvert.SerializeXmlNode(xmlDoc);
+            if (first != '0')
+            {
+                json = first + json;
+            }
+            return json;
         }
 
         public string JsonToXml(string json)
         {
-            XmlDocument doc = JsonConvert.DeserializeXmlNode(json);
-            using (var stringWriter = new StringWriter())
-            using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+            if (json[0] != '{')
             {
-                doc.WriteTo(xmlTextWriter);
-                xmlTextWriter.Flush();
-                return stringWriter.GetStringBuilder().ToString();
+                var first = json[0];
+                json = json.Substring(1);
+
+                XmlDocument doc = JsonConvert.DeserializeXmlNode(json);
+                using (var stringWriter = new StringWriter())
+                using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+                {
+                    doc.WriteTo(xmlTextWriter);
+                    xmlTextWriter.Flush();
+                    var toReturn = stringWriter.GetStringBuilder().ToString();
+                    if (first != '0')
+                    {
+                        toReturn = first + toReturn;
+                    }
+                    return toReturn;
+                }
             }
+            return "";
         }
 
         private JoinResponseCommMessage DeserializeJoinResponseCommMessage(string XmlText)
@@ -451,7 +470,7 @@ namespace TexasHoldemShared.Parser
             using (StringReader stringReader = new StringReader(xmlText))
             {
                 var serializer = new XmlSerializer(typeof(LeaderboardCommMessage));
-                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+                return (LeaderboardCommMessage)serializer.Deserialize(stringReader);
             }
         }
 
@@ -460,7 +479,7 @@ namespace TexasHoldemShared.Parser
             using (StringReader stringReader = new StringReader(xmlText))
             {
                 var serializer = new XmlSerializer(typeof(LeaderboardResponseCommMessage));
-                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+                return (LeaderboardResponseCommMessage)serializer.Deserialize(stringReader);
             }
         }
        

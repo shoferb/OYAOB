@@ -1,5 +1,8 @@
-﻿namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿using Newtonsoft.Json;
+
+namespace TexasHoldemShared.CommMessages.ClientToServer
 {
+    [JsonObject(Title = "LeaderboardCommMessage")]
     public class LeaderboardCommMessage : CommunicationMessage
     {
         public enum SortingOption
