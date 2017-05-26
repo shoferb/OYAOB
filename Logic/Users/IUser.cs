@@ -52,7 +52,11 @@ namespace TexasHoldem.Logic.Users
 
         int HighestCashGainInGame { get; set; }
 
+        void UpdateHighestCashInGame(int cashToChck);
+
         int TotalProfit { get; set; }
+
+        void UpdateTotalProfit(int profit);
 
         double GetAvgProft();
 

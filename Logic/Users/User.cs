@@ -205,7 +205,20 @@ namespace TexasHoldem.Logic.Users
 
         public int HighestCashGainInGame { get; set; }
 
+        public void UpdateHighestCashInGame(int cashToChck)
+        {
+            if (HighestCashGainInGame < cashToChck)
+            {
+                HighestCashGainInGame = cashToChck;
+            }
+        }
+
         public int TotalProfit { get; set; }
+
+        public void UpdateTotalProfit(int profit)
+        {
+            TotalProfit += profit;
+        }
 
         public double GetAvgProft()
         {

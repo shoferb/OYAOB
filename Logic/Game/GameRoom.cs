@@ -540,7 +540,7 @@ namespace TexasHoldem.Logic.Game
         {
             this.GameNumber++;
             List<Player> playersLeftInGame = new List<Player>();
-            foreach (Player player in this.Players)
+            foreach (Player player in Players)
             {
                 if (player.isPlayerActive)
                 {
@@ -562,6 +562,12 @@ namespace TexasHoldem.Logic.Game
                 {
                     h._player.Win(amount);
                 }
+            }
+            var winningPlayers = Winners.ConvertAll(win => win._player);
+            var loosingPlayers = Players.Except(winningPlayers);
+            foreach (var looser in loosingPlayers)
+            {
+                looser.Lose();
             }
             playersLeftInGame = new List<Player>();
             foreach (Player player in this.Players)

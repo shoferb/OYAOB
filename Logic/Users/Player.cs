@@ -113,6 +113,8 @@ namespace TexasHoldem.Logic.Users
             try
             {
                 user.IncWinNum();
+                user.UpdateHighestCashInGame(amount);
+                user.UpdateTotalProfit(amount);
                 TotalChip += amount;
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
@@ -123,6 +125,11 @@ namespace TexasHoldem.Logic.Users
                 toReturn = false;
             }
             return toReturn;
+        }
+
+        public void Lose()
+        {
+            user.LoseNum++;
         }
 
         public List<Card> GetCards()
