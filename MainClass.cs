@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
 
 namespace TexasHoldem
 {
@@ -15,8 +16,9 @@ namespace TexasHoldem
         {
             //init instances:
             ICommunicationHandler commHandler = CommunicationHandler.GetInstance();
-            GameCenter gameCenter = GameCenter.Instance;
-            SystemControl sysControl = SystemControl.SystemControlInstance;
+            LogControl logControl = new LogControl();
+            SystemControl sysControl = new SystemControl(logControl);
+            GameCenter gameCenter = new GameCenter(sysControl, logControl);
 
             Task commTask = Task.Factory.StartNew(commHandler.Start);
             Console.WriteLine("starting comm");

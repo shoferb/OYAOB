@@ -16,29 +16,14 @@ namespace TexasHoldem.Logic.Game_Control
     {
         private List<IUser> users;
 
-        private static SystemControl systemControlInstance = null;
         private static readonly object padlock = new object();
-        private LogControl logControl = LogControl.Instance;
+        private LogControl logControl;
 
-        public static SystemControl SystemControlInstance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (systemControlInstance == null)
-                    {
-                        systemControlInstance = new SystemControl();
-                    }
-                    return systemControlInstance;
-                }
-            }
-        }
 
-        private SystemControl()
+        public SystemControl(LogControl log)
         {
             this.users = new List<IUser>();
-            
+            this.logControl = log;
             var ServiceTimer = new System.Timers.Timer();
             ServiceTimer.Enabled = true;
             ServiceTimer.Interval = (1000 * 60 * 60 * 24 * 7);//once a week

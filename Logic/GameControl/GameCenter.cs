@@ -21,35 +21,20 @@ namespace TexasHoldem.Logic.Game_Control
         private List<IGame> games;
 
         private static int roomIdCounter = 1;
-        private SystemControl _systemControl = SystemControl.SystemControlInstance;
+        private SystemControl _systemControl ;
         private GameServiceHandler gameServiceHandler;
-        private static GameCenter instance;
-        private LogControl logControl = LogControl.Instance;
+        private LogControl logControl;
 
         private static readonly object padlock = new object();
 
-        private GameCenter()
+        public GameCenter(SystemControl sys, LogControl log)
         {
+            _systemControl = sys;
+            logControl = log;
             this.logs = new List<Log>();
             this.games = new List<IGame>();
             gameServiceHandler = new GameServiceHandler();
         }
-
-        public static GameCenter Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new GameCenter();
-                    }
-                    return instance;
-                }
-            }
-        }
-
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {

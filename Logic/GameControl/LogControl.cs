@@ -14,30 +14,12 @@ namespace TexasHoldem.Logic.GameControl
         private List<ErrorLog> errorLog;
         private List<SystemLog> systemLog;
 
-        private static LogControl instance = null;
-
-
         private static readonly object padlock = new object();
 
-        private LogControl()
+        public LogControl()
         {
             this.errorLog = new List<ErrorLog>();
             this.systemLog = new List<SystemLog>();
-        }
-
-        public static LogControl Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new LogControl();
-                    }
-                    return instance;
-                }
-            }
         }
 
         
