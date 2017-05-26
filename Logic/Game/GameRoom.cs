@@ -565,9 +565,9 @@ namespace TexasHoldem.Logic.Game
             }
             var winningPlayers = Winners.ConvertAll(win => win._player);
             var loosingPlayers = Players.Except(winningPlayers);
-            foreach (var looser in loosingPlayers)
+            foreach (var loser in loosingPlayers)
             {
-                looser.Lose();
+                loser.Lose();
             }
             playersLeftInGame = new List<Player>();
             foreach (Player player in this.Players)
@@ -620,7 +620,7 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-    private bool NextCurrentPlayer(int startingIndex)
+        private bool NextCurrentPlayer(int startingIndex)
         {
             while(startingIndex <= Players.Count)
             {
