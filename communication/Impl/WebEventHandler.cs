@@ -5,7 +5,7 @@ using TexasHoldemShared.Parser;
 namespace TexasHoldem.communication.Impl
 {
     //TODO: add encryption here
-    class WebEventHandler : IWebEventHandler
+    public class WebEventHandler : IWebEventHandler
     {
         private readonly ICommMsgXmlParser _parser;
         private readonly ServerEventHandler _serverHandler;

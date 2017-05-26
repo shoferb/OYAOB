@@ -23,8 +23,9 @@ namespace TexasHoldemTests.communication
     [TestFixture]
     public class WebEventHandlerTest
     {
-        private ServerEventHandler _eventHandler;
+        private ServerEventHandler _serverEventHandler;
         private UserServiceHandler _userService;
+        private WebEventHandler _webEventHandler;
         private readonly ParserImplementation _parser = new ParserImplementation();
 
         private void Init()
@@ -34,7 +35,8 @@ namespace TexasHoldemTests.communication
             ReplayManager rm = new ReplayManager();
             GameCenter gc = new GameCenter(sc, lc, rm);
             _userService = new UserServiceHandler(gc, sc);
-            _eventHandler = new ServerEventHandler(null, gc, sc, lc, rm, CommunicationHandler.GetInstance());
+            _serverEventHandler = new ServerEventHandler(null, gc, sc, lc, rm, CommunicationHandler.GetInstance());
+            _webEventHandler = new WebEventHandler(_serverEventHandler);
         }
 
         [SetUp]
@@ -45,7 +47,7 @@ namespace TexasHoldemTests.communication
         [TearDown]
         public void Teardown()
         {
-            _eventHandler = null;
+            _serverEventHandler = null;
         }
 
 
@@ -95,8 +97,7 @@ namespace TexasHoldemTests.communication
             Assert.True(response.Equals(parsed[0]));
         }
 
-        [TestCase]
-        public void HandleRawMsgLeaderBoardGood()
+        private void RegisterTwoUsers()
         {
             Init();
             _userService.RegisterToSystem(1, "Oded", "Oded", "123456789", 1000, "bla@bla.com");
@@ -111,11 +112,36 @@ namespace TexasHoldemTests.communication
             _userService.GetUserById(2).LoseNum = 1;
             _userService.GetUserById(2).TotalProfit = 10;
             _userService.GetUserById(2).HighestCashGainInGame = 130;
+        }
+
+        [TestCase]
+        public void HandleEventLeaderBoardGood()
+        {
+            RegisterTwoUsers();
 
             LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
-            var result = _eventHandler.HandleEvent(lbcm);
+            var result = _serverEventHandler.HandleEvent(lbcm);
             Console.WriteLine(result);
+            Assert.NotNull(result);
+            Assert.AreEqual("", result);
         }
+
+        [TestCase]
+        public void HandleRawMsgsLeaderBoardGood()
+        {
+            RegisterTwoUsers();
+
+            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+            var xml = _parser.SerializeMsg(lbcm, false);
+            var json = _parser.XmlToJson(xml);
+            var result = _webEventHandler.HandleRawMsg(json);
+            Console.WriteLine(result);
+
+            Assert.NotNull(result);
+            Assert.AreEqual(1, result.Count);
+        }
+
+
 
 
     }
