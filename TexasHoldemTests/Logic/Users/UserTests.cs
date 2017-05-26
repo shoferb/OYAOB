@@ -11,6 +11,8 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Replay;
 
 namespace TexasHoldem.Logic.Users.Tests
 {
@@ -21,8 +23,12 @@ namespace TexasHoldem.Logic.Users.Tests
         private IUser orelie = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
         private Notification toSend1 = new Notification(11, "joind");
         private Notification toSend2 = new Notification(11, "Exit");
+        private static LogControl logControl = new LogControl();
+        private static SystemControl sysControl = new SystemControl(logControl);
+        private static ReplayManager replayManager = new ReplayManager();
+        private GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
 
-     
+
 
 
         [TestMethod()]
@@ -411,7 +417,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             user.AddRoomToActiveGameList(gameRoom);
             Assert.IsTrue(user.RemoveRoomFromActiveGameList(gameRoom));
         }
@@ -427,7 +433,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
         }
 
@@ -452,7 +458,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Spectetor spectetor = new Spectetor(user2, roomID);
             user2.AddRoomToSpectetorGameList(gameRoom);
             Assert.IsTrue(user2.RemoveRoomFromSpectetorGameList(gameRoom));
@@ -469,7 +475,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Assert.IsFalse(user2.RemoveRoomFromSpectetorGameList(gameRoom));
         }
 
@@ -491,7 +497,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             user.AddRoomToActiveGameList(gameRoom);
             Assert.IsTrue(user.HasThisActiveGame(gameRoom));
         }
@@ -506,7 +512,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Assert.IsFalse(user.HasThisActiveGame(gameRoom));
         }
 
@@ -531,7 +537,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Spectetor spectetor = new Spectetor(user2, roomID);
             user2.AddRoomToSpectetorGameList(gameRoom);
             Assert.IsTrue(user2.HasThisSpectetorGame(gameRoom));
@@ -549,7 +555,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Spectetor spectetor = new Spectetor(user2, roomID);
             Assert.IsFalse(user2.HasThisSpectetorGame(gameRoom));
         }
@@ -574,7 +580,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Assert.IsTrue(user.AddRoomToActiveGameList(gameRoom));
         }
 
@@ -599,7 +605,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             user.AddRoomToActiveGameList(gameRoom);
             Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
         }
@@ -617,7 +623,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Spectetor spectetor = new Spectetor(user2, roomID);
             Assert.IsTrue(user2.AddRoomToSpectetorGameList(gameRoom));
         }
@@ -642,7 +648,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
             Spectetor spectetor = new Spectetor(user2, roomID);
             user2.AddRoomToSpectetorGameList(gameRoom);
             Assert.IsFalse(user2.AddRoomToSpectetorGameList(gameRoom));
