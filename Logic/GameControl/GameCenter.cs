@@ -128,7 +128,7 @@ namespace TexasHoldem.Logic.Game_Control
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
-                GameRoom room = new GameRoom(players, roomId, decorator);
+                GameRoom room = new GameRoom(players, roomId, decorator, this, logControl, replayManager);
                 return AddRoom(room);
             }
         }
