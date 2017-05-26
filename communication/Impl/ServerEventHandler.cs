@@ -153,7 +153,7 @@ namespace TexasHoldem.communication.Impl
             ResponeCommMessage response;
             if (_socket != null)
             {
-                CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket);
+                _commHandler.AddUserId(msg.UserId, _socket);
             }
             if (success)
             {
@@ -178,7 +178,7 @@ namespace TexasHoldem.communication.Impl
 
             if (_socket != null)
             {
-                CommunicationHandler.GetInstance().AddUserId(msg.UserId, _socket); 
+                _commHandler.AddUserId(msg.UserId, _socket); 
             }
             ResponeCommMessage response = new RegisterResponeCommMessage(msg.UserId,msg.Name,msg.MemberName,msg.Password,
                 "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,"unKnow",success,msg);
