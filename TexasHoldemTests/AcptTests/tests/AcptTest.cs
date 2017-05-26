@@ -32,7 +32,7 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             UserBridge = new UserBridge(gameCenter, sysControl, logControl, replayManager);
             GameBridge = new GameBridge(gameCenter, sysControl, logControl, replayManager);
-            ReplayBridge = new ReplayBridge();
+            ReplayBridge = new ReplayBridge(gameCenter, sysControl, logControl, replayManager);
             Users = new List<int>();
 
             User1Name = "Oded";
