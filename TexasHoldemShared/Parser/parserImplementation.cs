@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -257,6 +259,25 @@ namespace TexasHoldemShared.Parser
         public string[] SeperateByDelimiter(string msg)
         {
             return msg.Split(DelimArr, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        public string XmlToJson(string xml)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(xml);
+            return JsonConvert.SerializeXmlNode(xmlDoc);
+        }
+
+        public string JsonToXml(string json)
+        {
+            XmlDocument doc = JsonConvert.DeserializeXmlNode(json);
+            using (var stringWriter = new StringWriter())
+            using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+            {
+                doc.WriteTo(xmlTextWriter);
+                xmlTextWriter.Flush();
+                return stringWriter.GetStringBuilder().ToString();
+            }
         }
 
         private JoinResponseCommMessage DeserializeJoinResponseCommMessage(string XmlText)

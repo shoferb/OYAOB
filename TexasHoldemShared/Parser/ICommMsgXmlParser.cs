@@ -10,5 +10,7 @@ namespace TexasHoldemShared.Parser
         List<CommunicationMessage> ParseString(string msg, bool removeDelimiter);
         string AddDelimiter(string msg);
         string[] SeperateByDelimiter(string msg);
+        string XmlToJson(string xml);
+        string JsonToXml(string json);
     }
 }

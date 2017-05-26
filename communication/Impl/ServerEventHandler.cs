@@ -270,16 +270,39 @@ namespace TexasHoldem.communication.Impl
             return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
+        private LeaderboardLineData UserToLineData(IUser user)
+        {
+            return new LeaderboardLineData(user.Id(), user.MemberName(), user.Points(),
+                user.TotalProfit, user.HighestCashGainInGame, user.WinNum + user.LoseNum);
+        }
+
         //TODO
         public string HandleEvent(UserStatisticsCommMessage msg)
         {
             throw new NotImplementedException();
         }
 
-        //TODO:
         public string HandleEvent(LeaderboardCommMessage msg)
         {
-            throw new NotImplementedException();
+            var sortOption = msg.SortedBy;
+            List<IUser> userLst;
+            switch (sortOption)
+            {
+                case LeaderboardCommMessage.SortingOption.TotalGrossProfit:
+                    userLst = _userService.GetUsersByTotalProfit();
+                    break;
+                case LeaderboardCommMessage.SortingOption.HighestCashGain:
+                    userLst = _userService.GetUsersByHighestCash();
+                    break;
+                case LeaderboardCommMessage.SortingOption.NumGamesPlayes:
+                    userLst = _userService.GetUsersByNumOfGames();
+                    break;
+                default:
+                    return "";
+            }
+            var leaderboradLines = userLst.ConvertAll(UserToLineData);
+            var response = new LeaderboardResponseCommMessage(msg.UserId, true, msg, leaderboradLines);
+            return _parser.SerializeMsg(response, ShouldUseDelim);
         }
 
         //this is done differently then other types of msgs because it is called from service

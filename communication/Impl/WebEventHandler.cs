@@ -17,9 +17,13 @@ namespace TexasHoldem.communication.Impl
 
         public List<string> HandleRawMsg(string msg)
         {
-            var parsedLst = _parser.ParseString(msg, false);
+            var parsedLst = _parser.ParseString(_parser.JsonToXml(msg), false);
             List<string> resultList = new List<string>();
-            parsedLst.ForEach(commMsg => resultList.Add(commMsg.Handle(_serverHandler)));
+            parsedLst.ForEach(commMsg =>
+            {
+                var xmlStr = commMsg.Handle(_serverHandler);
+                resultList.Add(_parser.XmlToJson(xmlStr));
+            });
 
             return resultList;
         }

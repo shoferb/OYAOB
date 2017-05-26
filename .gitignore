@@ -76,3 +76,6 @@ packages/Moq.4.5.28/lib/net45/Moq.xml
 packages/
 /TexasHoldemTests/app.config
 /TexasHoldemTests/app.config
+TexasHoldemShared/packages.config
+TexasHoldemTests/packages.config
+packages.config

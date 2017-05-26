@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldemShared.CommMessages.ServerToClient
 {
-    class LeaderboardResponseCommMessage : ResponeCommMessage
+    public class LeaderboardResponseCommMessage : ResponeCommMessage
     {
         public List<LeaderboardLineData> Results;
 
