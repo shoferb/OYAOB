@@ -4,6 +4,9 @@ using NUnit.Framework;
 using TexasHoldemTests.AcptTests.Bridges;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 using TexasHoldemTests.AcptTests.Bridges;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Replay;
 
 namespace TexasHoldemTests.AcptTests.tests
 {
@@ -20,6 +23,10 @@ namespace TexasHoldemTests.AcptTests.tests
         protected int RoomId; //room1 must NOT exist when tests start.
         protected List<int> Users; //list holding all user ids used for testing
         protected string UserEmailGood1;
+        protected static LogControl logControl = new LogControl();
+        protected static SystemControl sysControl = new SystemControl(logControl);
+        protected static ReplayManager replayManager = new ReplayManager();
+        protected static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
 
         protected AcptTest()
         {

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared.CommMessages;
@@ -15,10 +17,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private readonly GameServiceHandler _gameService;
         private const int RegisterMoney = 1000;
 
-        public UserBridge()
+        public UserBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            _gameService = new GameServiceHandler();
-            _userService = new UserServiceHandler();
+            _gameService = new GameServiceHandler(gc, sys, log, replay);
+            _userService = new UserServiceHandler(gc, sys);
         }
 
         public bool IsUserLoggedIn(int userId)
