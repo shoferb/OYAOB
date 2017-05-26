@@ -18,11 +18,11 @@ namespace TexasHoldem.communication.Impl
         private readonly CommunicationHandler _commHandler;
 
 
-        public MessageEventHandler()
+        public MessageEventHandler(CommunicationHandler comm)
         {
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
-            _commHandler = CommunicationHandler.GetInstance();
+            _commHandler = comm;
         }
 
         public void HandleIncomingMsgs()
