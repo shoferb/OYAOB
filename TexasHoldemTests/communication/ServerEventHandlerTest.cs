@@ -39,12 +39,12 @@ namespace TexasHoldemTests.communication
         }
 
 
-        //print jsons o show Ysrden
+        //print jsons o show Yarden
         [TestCase]
         public void TestJson()
         {
             LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
-            var xml = _parser.SerializeMsg(lbcm, false).Substring(1);
+            var xml = _parser.SerializeMsg(lbcm, false);
             var json = _parser.XmlToJson(xml);
             Console.WriteLine(json);
             List<LeaderboardLineData> data = new List<LeaderboardLineData>
@@ -54,7 +54,7 @@ namespace TexasHoldemTests.communication
             };
             LeaderboardResponseCommMessage response = new LeaderboardResponseCommMessage(1,
                 true, lbcm, data);
-            xml = _parser.SerializeMsg(response, false).Substring(1);
+            xml = _parser.SerializeMsg(response, false);
             json = _parser.XmlToJson(xml);
             Console.WriteLine(json);
         }

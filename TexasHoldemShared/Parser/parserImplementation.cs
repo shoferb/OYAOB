@@ -264,7 +264,11 @@ namespace TexasHoldemShared.Parser
         public string XmlToJson(string xml)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(xml);
+            if (xml[0] != '<') //a char was added to the xml
+            {
+                xml = xml.Substring(1);
+            }
+            xmlDoc.LoadXml(xml); 
             return JsonConvert.SerializeXmlNode(xmlDoc);
         }
 
