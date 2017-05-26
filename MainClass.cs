@@ -24,7 +24,7 @@ namespace TexasHoldem
 
             Task commTask = Task.Factory.StartNew(commHandler.Start);
             Console.WriteLine("starting comm");
-            MessageEventHandler eventHandler = new MessageEventHandler(commHandler);
+            MessageEventHandler eventHandler = new MessageEventHandler(commHandler, gameCenter, sysControl, logControl, replayManager);
             Task eventTask = Task.Factory.StartNew(eventHandler.HandleIncomingMsgs);
             commTask.Wait();
         }
