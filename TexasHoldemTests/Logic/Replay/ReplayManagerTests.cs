@@ -24,7 +24,7 @@ namespace TexasHoldem.Logic.Replay.Tests
             User user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
             List<int> ids = new List<int>();
             ids.Add(1);
-            _testRM = ReplayManager.ReplayManagerInstance;
+            _testRM = new ReplayManager();
             _testGR = new GameReplay(1, 1);
             _testAction = new CallAction(new Player(user1, 1000, 1 ),
                 new Card(Suits.Hearts, 1), new Card(Suits.Hearts, 2), 10);
