@@ -10,7 +10,12 @@ namespace TexasHoldem.Service
 {
     public class ReplayHandler
     {
-        private ReplayManager _RM = ReplayManager.ReplayManagerInstance;
+        private ReplayManager _RM ;
+
+        public ReplayHandler(ReplayManager replays)
+        {
+            _RM = replays;
+        }
 
         public GameReplay GetGameReplayForUser(int gameRoomID, int gameNumber, int userID)
         {
