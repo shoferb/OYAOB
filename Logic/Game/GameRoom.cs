@@ -52,7 +52,7 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
-        public GameRoom(List<Player> players, int ID, Decorator decorator)
+        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, ReplayManager replay)
         {
             MyDecorator = decorator;
             SetTheBlinds();
@@ -66,10 +66,10 @@ namespace TexasHoldem.Logic.Game
             Spectatores = new List<Spectetor>();
             SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
-            logControl = LogControl.Instance;
+            logControl = log;
             league = GetLeagueFromPlayer(Players);
-            ReplayManager = ReplayManager.ReplayManagerInstance;
-            GameCenter = GameCenter.Instance;
+            ReplayManager = replay;
+            GameCenter = gc;
             lastRaiseInRound = 0;
             ReduceFeeAndStatringChipFromPlayers();
             useCommunication = true;
