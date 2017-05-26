@@ -9,7 +9,7 @@ using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Users;
 using Moq;
 using TexasHoldem.Logic.GameControl;
-
+using TexasHoldem.Logic.Replay;
 
 namespace TexasHoldem.Service.Tests
 {
@@ -17,11 +17,17 @@ namespace TexasHoldem.Service.Tests
     public class UserServiceHandlerTests
     {
         private SystemControl sc;
+        private LogControl logs;
+        private GameCenter games;
+        private ReplayManager replays;
         private UserServiceHandler userService;
         private void Init()
         {
-            sc = SystemControl.SystemControlInstance;
-            userService = new UserServiceHandler();
+            logs = new LogControl();
+            sc = new SystemControl(logs);
+            replays = new ReplayManager();
+            games = new GameCenter(sc, logs, replays);
+            userService = new UserServiceHandler(games, sc);
             sc.Users = new List<Logic.Users.IUser>();
         }
 
