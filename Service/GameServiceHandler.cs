@@ -4,6 +4,7 @@ using System.Windows.Documents;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared;
@@ -16,14 +17,17 @@ namespace TexasHoldem.Service
     public class GameServiceHandler
     {
         
-        private static GameCenter _gameCenter = GameCenter.Instance;
+        private static GameCenter _gameCenter;
         private SystemControl _systemControl;
         private ReplayManager _replayManager;
+        private LogControl _logControl;
         private static ServerEventHandler _serverHandler = new ServerEventHandler();
 
-        public GameServiceHandler()
+        public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log)
         {
-            _systemControl = SystemControl.SystemControlInstance;
+            _gameCenter = gc;
+            _systemControl = sys;
+            _logControl = log;
             _replayManager = ReplayManager.ReplayManagerInstance;
         }
 

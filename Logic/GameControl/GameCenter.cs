@@ -33,7 +33,7 @@ namespace TexasHoldem.Logic.Game_Control
             logControl = log;
             this.logs = new List<Log>();
             this.games = new List<IGame>();
-            gameServiceHandler = new GameServiceHandler();
+            gameServiceHandler = new GameServiceHandler(this, sys, log);
         }
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
