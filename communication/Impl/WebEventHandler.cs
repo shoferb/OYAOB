@@ -9,10 +9,10 @@ namespace TexasHoldem.communication.Impl
     {
         private readonly ICommMsgXmlParser _parser;
         private readonly ServerEventHandler _serverHandler;
-        public WebEventHandler()
+        public WebEventHandler(ServerEventHandler serverHandler)
         {
+            _serverHandler = serverHandler;
             _parser = new ParserImplementation();
-            _serverHandler = new ServerEventHandler {ShouldUseDelim = true};
         }
 
         public List<string> HandleRawMsg(string msg)

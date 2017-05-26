@@ -14,12 +14,12 @@ namespace Client.Handler
 {
     public class ClientEventHandler : IEventHandler
     {
-        private readonly CommunicationHandler _handler;
+        private readonly ClientCommunicationHandler _handler;
         private ClientLogic _logic;
         private readonly ParserImplementation _xmlParser;
         private bool _shouldClose;
 
-        public ClientEventHandler(CommunicationHandler handler)
+        public ClientEventHandler(ClientCommunicationHandler handler)
         {
             _handler = handler;
             _xmlParser = new ParserImplementation();

@@ -27,8 +27,21 @@ namespace TexasHoldem.communication.Impl
         protected readonly IDictionary<TcpClient, int> _socketToUserId; //sockets to user ids
         protected readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
         protected List<Task> taskList;
+        private static CommunicationHandler _instance;
+        
+        public static CommunicationHandler GetInstance()
+        {
+            lock (Padlock)
+            {
+                if (_instance == null)
+                {
+                    _instance = new CommunicationHandler();
+                }
+                return _instance;
+            }
+        }
 
-        public CommunicationHandler()
+        protected CommunicationHandler()
         {
             Selector = new ListenerSelector();
             _socketsQueue = new ConcurrentQueue<TcpClient>();
@@ -97,6 +110,18 @@ namespace TexasHoldem.communication.Impl
                 }
                 return lst;
             }
+        }
+
+        public TcpClient GetSocketById(int id)
+        {
+            foreach (var keyVal in _socketToUserId)
+            {
+                if (keyVal.Value == id && keyVal.Key.Connected)
+                {
+                    return keyVal.Key;
+                }
+            }
+            return null;
         }
 
         public bool AddMsgToSend(string msg, int userId)

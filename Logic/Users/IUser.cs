@@ -42,7 +42,7 @@ namespace TexasHoldem.Logic.Users
 
         List<IGame> SpectateGameList();
 
-        int WinNum { get; }
+        int WinNum { get; set; }
 
         bool IncWinNum();
 
@@ -50,9 +50,9 @@ namespace TexasHoldem.Logic.Users
 
         int LoseNum { get; set; }
 
-        int HighestCashGainInGame { get; }
+        int HighestCashGainInGame { get; set; }
 
-        int TotalProfit { get; }
+        int TotalProfit { get; set; }
 
         double GetAvgProft();
 

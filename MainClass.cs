@@ -16,15 +16,14 @@ namespace TexasHoldem
         public static void Main()
         {
             //init instances:
-            ICommunicationHandler commHandler = new CommunicationHandler();
             LogControl logControl = new LogControl();
             SystemControl sysControl = new SystemControl(logControl);
             ReplayManager replayManager = new ReplayManager();
             GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
-
+            var commHandler = CommunicationHandler.GetInstance();
             Task commTask = Task.Factory.StartNew(commHandler.Start);
             Console.WriteLine("starting comm");
-            MessageEventHandler eventHandler = new MessageEventHandler(commHandler, gameCenter, sysControl, logControl, replayManager);
+            MessageEventHandler eventHandler = new MessageEventHandler(gameCenter, sysControl, logControl, replayManager);
             Task eventTask = Task.Factory.StartNew(eventHandler.HandleIncomingMsgs);
             commTask.Wait();
         }

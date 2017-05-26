@@ -26,16 +26,13 @@ namespace TexasHoldem.communication.Impl
 
         private readonly TcpClient _socket;
 
-        public ServerEventHandler(TcpClient socket, GameCenter game, SystemControl sys, LogControl log, ReplayManager replay, ICommunicationHandler comm)
+        public ServerEventHandler(TcpClient socket, GameCenter game, SystemControl sys, 
+            LogControl log, ReplayManager replay, ICommunicationHandler comm)
         {
             _socket = socket;
             _gameService = new GameServiceHandler(game, sys, log, replay);
             _userService = new UserServiceHandler(game, sys);
             _commHandler = comm;
-        }
-
-        public ServerEventHandler()
-        {
         }
 
         public void SetCommHandler(ICommunicationHandler handler)

@@ -9,7 +9,7 @@ using TexasHoldemShared.Parser;
 
 namespace Client.Handler
 {
-    public class CommunicationHandler
+    public class ClientCommunicationHandler
     {
         
         protected readonly ConcurrentQueue<string> _receivedMsgQueue;
@@ -19,7 +19,7 @@ namespace Client.Handler
         protected readonly string _server;
         private bool _shouldClose;
 
-        public CommunicationHandler(string server)
+        public ClientCommunicationHandler(string server)
         {
 
             _receivedMsgQueue = new ConcurrentQueue<string>();

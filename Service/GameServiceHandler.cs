@@ -21,7 +21,7 @@ namespace TexasHoldem.Service
         private SystemControl _systemControl;
         private ReplayManager _replayManager;
         private LogControl _logControl;
-        private static ServerEventHandler _serverHandler = new ServerEventHandler();
+        private MessageEventHandler _eventHandler;
 
         public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
@@ -29,6 +29,7 @@ namespace TexasHoldem.Service
             _systemControl = sys;
             _logControl = log;
             _replayManager = replay;
+            _eventHandler = new MessageEventHandler(gc, sys, log, replay);
         }
 
         public bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId)
@@ -203,13 +204,7 @@ namespace TexasHoldem.Service
 
         public void SendMessageToClientGameData(GameDataCommMessage gameDataMes)
         {
-            _serverHandler.HandleEvent(gameDataMes);
-        }
-
-        //TODO: not used. maybe remove?
-        public void SendMessageToClientResponse(ResponeCommMessage resp)
-        {
-            _serverHandler.HandleEvent(resp);
+            _eventHandler.SendGameDataToClient(gameDataMes);
         }
 
         //check player is in the game room 

@@ -24,13 +24,13 @@ namespace TexasHoldem.GuiScreen
         private LoginScreen loginScreen;
         private RegisterScreen registerScreen;
         private ClientLogic cl;
-        private CommunicationHandler _commHandler;
+        private ClientCommunicationHandler _commHandler;
         private ClientEventHandler _eventHandler;
         public WellcomeScreen()
         {
             InitializeComponent();
             cl = new ClientLogic();
-            _commHandler = new CommunicationHandler("192.168.43.143");
+            _commHandler = new ClientCommunicationHandler("192.168.43.143");
             _eventHandler = new ClientEventHandler(_commHandler);
             _eventHandler.Init(cl);
             cl.Init(_eventHandler, _commHandler);

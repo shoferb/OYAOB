@@ -203,9 +203,9 @@ namespace TexasHoldem.Logic.Users
 
         public int LoseNum { get; set; }
 
-        public int HighestCashGainInGame { get; }
+        public int HighestCashGainInGame { get; set; }
 
-        public int TotalProfit { get; }
+        public int TotalProfit { get; set; }
 
         public double GetAvgProft()
         {

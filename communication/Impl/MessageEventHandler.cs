@@ -9,6 +9,7 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Replay;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
+using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
 
 //takes msgs from msgQueue in CommHandler and deals with them using EventHandlers
@@ -26,7 +27,7 @@ namespace TexasHoldem.communication.Impl
         private ReplayManager replays;
 
 
-        public MessageEventHandler(ICommunicationHandler comm, GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
+        public MessageEventHandler(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
             gameCenter = gc;
             system = sys;
@@ -34,7 +35,7 @@ namespace TexasHoldem.communication.Impl
             replays = replay;
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
-            _commHandler = comm;
+            _commHandler = CommunicationHandler.GetInstance();
         }
 
         public void HandleIncomingMsgs()
@@ -53,6 +54,17 @@ namespace TexasHoldem.communication.Impl
                     allMsgs.ForEach(HandleRawMsgs); 
                 }
             }
+        }
+
+        public bool SendGameDataToClient(GameDataCommMessage data)
+        {
+            if (_userIdToEventHandlerMap.ContainsKey(data.UserId))
+            {
+                var serverHandler = _userIdToEventHandlerMap[data.UserId];
+                serverHandler.HandleEvent(data);
+                return true;
+            }
+            return false;
         }
 
         private void HandleRawMsgs(Tuple<string, TcpClient> msg)

@@ -16,10 +16,10 @@ namespace TexasHoldem.communication.Impl
         private static readonly string[] Prefixes = {"http://*:8080/"}; //TODO: maybe add more / change
         private readonly IWebEventHandler _eventHandler;
 
-        public WebCommHandler()
+        public WebCommHandler(WebEventHandler eventHandler)
         {
             _listener = new HttpListener();
-            _eventHandler = new WebEventHandler();
+            _eventHandler = eventHandler;
             foreach (var prefix in Prefixes)
             {
                 _listener.Prefixes.Add(prefix);

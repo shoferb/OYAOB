@@ -146,7 +146,7 @@
       <DependentUpon>WellcomeScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Handler\ClientEventHandler.cs" />
-    <Compile Include="Handler\CommunicationHandler.cs" />
+    <Compile Include="Handler\ClientCommunicationHandler.cs" />
     <Compile Include="Logic\ClientLogic.cs" />
     <Compile Include="Logic\ClientUser.cs" />
     <Compile Include="Logic\GameReplayClientReview.cs" />

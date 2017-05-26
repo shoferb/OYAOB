@@ -18,7 +18,7 @@ namespace Client.Handler.ClientTests
         {
            TcpListener server = new TcpListener(IPAddress.Any, 2000);
             var task = Task.Factory.StartNew(() => server.Start());
-            CommunicationHandler commHandler = new CommunicationHandler(IPAddress.Loopback.ToString());
+            ClientCommunicationHandler commHandler = new ClientCommunicationHandler(IPAddress.Loopback.ToString());
             commHandler.Connect();
            Assert.IsTrue(commHandler.IsSocketConnect());
             

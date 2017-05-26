@@ -14,7 +14,7 @@ namespace Client.Logic
     {
         
         private ClientEventHandler _eventHandler;
-        private CommunicationHandler _handler;
+        private ClientCommunicationHandler _handler;
         public List<Tuple<CommunicationMessage, bool, bool,ResponeCommMessage>> messagesSentObserver =  new List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>>(); //first bool = is response received, second bool = is succeeded
         private readonly Object listLock;
         public List<GameScreen> _games { get; }
@@ -64,7 +64,7 @@ namespace Client.Logic
         }
        
         //needed to be call after create new ClientEventHandler and a new client logic
-        public void Init(ClientEventHandler eventHandler, CommunicationHandler handler)
+        public void Init(ClientEventHandler eventHandler, ClientCommunicationHandler handler)
         {
             _eventHandler = eventHandler;
             _handler = handler;
