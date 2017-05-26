@@ -2,10 +2,11 @@
 {
     class UserStatisticsResponseCommMessage : ResponeCommMessage
     {
-        public int AvgCashGain;
-        public int AvgGrossProfit;
+        public double AvgCashGain;
+        public double AvgGrossProfit;
 
-        public UserStatisticsResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, int avgCashGain, int avgGrossProfit) 
+        public UserStatisticsResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, 
+            double avgCashGain, double avgGrossProfit) 
             : base(id, success, originalMsg)
         {
             AvgCashGain = avgCashGain;
@@ -23,8 +24,8 @@
             if (other.GetType() == typeof(UserStatisticsResponseCommMessage))
             {
                 var afterCast = (UserStatisticsResponseCommMessage)other;
-                ans = base.Equals(afterCast) && AvgCashGain == afterCast.AvgCashGain &&
-                      AvgGrossProfit == afterCast.AvgGrossProfit;
+                ans = base.Equals(afterCast) && Equals(AvgCashGain, afterCast.AvgCashGain) &&
+                      Equals(AvgGrossProfit, afterCast.AvgGrossProfit);
             }
             return ans;
         }

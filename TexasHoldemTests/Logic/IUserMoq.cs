@@ -49,12 +49,12 @@ namespace Client.Logic.Tests
             var mock = new Mock<IUser>(MockBehavior.Strict);
             Player p = new Player(mock.Object, 100, 100);
             int calls = 100;
-            mock.Setup(foo => foo.WinNum())
+            mock.Setup(foo => foo.WinNum)
                 .Returns(() => calls)
                 .Callback(() => calls++);
 
-            Assert.IsTrue(p.user.WinNum()==100);
-            Assert.IsTrue(p.user.WinNum() == 101);
+            Assert.IsTrue(p.user.WinNum==100);
+            Assert.IsTrue(p.user.WinNum== 101);
 
         }
 
@@ -66,7 +66,7 @@ namespace Client.Logic.Tests
             mock.Setup(foo => foo.IncWinNum()).Returns(true);
             mock.Setup(foo => foo.EditUserPoints(10100)).Returns(true);
             mock.Setup(foo => foo.Money()).Returns(10000);
-            mock.Setup(foo => foo.WinNum()).Returns(100);
+            mock.Setup(foo => foo.WinNum).Returns(100);
 
 
             Assert.IsTrue(p.Win(1000));
