@@ -10,6 +10,8 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
     {
         public List<LeaderboardLineData> Results;
 
+        public LeaderboardResponseCommMessage() { }
+
         public LeaderboardResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, 
             List<LeaderboardLineData> results) : base(id, success, originalMsg)
         {

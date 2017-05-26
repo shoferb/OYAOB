@@ -11,6 +11,8 @@
 
         public SortingOption SortedBy;
 
+        public LeaderboardCommMessage() : base(-1) { }
+
         public LeaderboardCommMessage(int id, SortingOption sortBy) : base(id)
         {
             SortedBy = sortBy;

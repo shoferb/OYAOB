@@ -1,9 +1,11 @@
 ﻿namespace TexasHoldemShared.CommMessages.ServerToClient
 {
-    class UserStatisticsResponseCommMessage : ResponeCommMessage
+    public class UserStatisticsResponseCommMessage : ResponeCommMessage
     {
         public double AvgCashGain;
         public double AvgGrossProfit;
+
+        public UserStatisticsResponseCommMessage() { }
 
         public UserStatisticsResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, 
             double avgCashGain, double avgGrossProfit) 

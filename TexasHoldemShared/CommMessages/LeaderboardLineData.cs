@@ -9,6 +9,9 @@
         public int HighestCashGain;
         public int NumOfGamesPlayed;
 
+        //for parsing
+        public LeaderboardLineData() { }
+
         public LeaderboardLineData(int id, string name, int points, int totalGrossProfit, int highestCashGain, int numOfGamesPlayed)
         {
             Id = id;
