@@ -20,10 +20,18 @@ namespace TexasHoldem.communication.Impl
         private readonly ConcurrentDictionary<int, IEventHandler> _userIdToEventHandlerMap;
         private bool _shouldStop = false;
         private readonly ICommunicationHandler _commHandler;
+        private GameCenter gameCenter;
+        private SystemControl system;
+        private LogControl logs;
+        private ReplayManager replays;
 
 
         public MessageEventHandler(ICommunicationHandler comm, GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
+            gameCenter = gc;
+            system = sys;
+            logs = log;
+            replays = replay;
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
             _commHandler = comm;
@@ -59,7 +67,7 @@ namespace TexasHoldem.communication.Impl
             int userId = parsedMsg.UserId;
             if (!_userIdToEventHandlerMap.ContainsKey(userId))
             {
-                ServerEventHandler handler = new ServerEventHandler(tcpClient);
+                ServerEventHandler handler = new ServerEventHandler(tcpClient, gameCenter, system, logs, replays, _commHandler);
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
             }
 
