@@ -18,7 +18,7 @@ namespace TexasHoldem.communication.Impl
 {
     public class ServerEventHandler : IEventHandler
     {
-        private readonly UserServiceHandler _userService = new UserServiceHandler();
+        private readonly UserServiceHandler _userService ;
         private readonly  GameServiceHandler _gameService;
         private ICommunicationHandler _commHandler;
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
@@ -30,6 +30,7 @@ namespace TexasHoldem.communication.Impl
         {
             _socket = socket;
             _gameService = new GameServiceHandler(game, sys, log, replay);
+            _userService = new UserServiceHandler(game, sys);
             _commHandler = comm;
         }
 

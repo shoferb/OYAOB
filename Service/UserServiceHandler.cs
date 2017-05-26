@@ -12,10 +12,15 @@ namespace TexasHoldem.Service
 {
     public class UserServiceHandler 
     {
-        private SystemControl sc = SystemControl.SystemControlInstance;
-        private GameCenter gc = GameCenter.Instance;
+        private SystemControl sc;
+        private GameCenter gc;
 
-        
+        public UserServiceHandler (GameCenter game, SystemControl system)
+        {
+            sc = system;
+            gc = game;
+        }
+
         //Use-Case: user can login to system
 
         public bool LoginUser(string username, string password)
