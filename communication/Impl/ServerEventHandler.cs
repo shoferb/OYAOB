@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared;
@@ -16,16 +19,18 @@ namespace TexasHoldem.communication.Impl
     public class ServerEventHandler : IEventHandler
     {
         private readonly UserServiceHandler _userService = new UserServiceHandler();
-        private readonly  GameServiceHandler _gameService = new GameServiceHandler();
-        private ICommunicationHandler _commHandler = CommunicationHandler.GetInstance();
+        private readonly  GameServiceHandler _gameService;
+        private ICommunicationHandler _commHandler;
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
         public bool ShouldUseDelim { get; set; } = false;
 
         private readonly TcpClient _socket;
 
-        public ServerEventHandler(TcpClient socket)
+        public ServerEventHandler(TcpClient socket, GameCenter game, SystemControl sys, LogControl log, ReplayManager replay, ICommunicationHandler comm)
         {
             _socket = socket;
+            _gameService = new GameServiceHandler(game, sys, log, replay);
+            _commHandler = comm;
         }
 
         public ServerEventHandler()
