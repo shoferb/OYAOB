@@ -20,7 +20,7 @@ namespace TexasHoldem
             LogControl logControl = new LogControl();
             SystemControl sysControl = new SystemControl(logControl);
             ReplayManager replayManager = new ReplayManager();
-            GameCenter gameCenter = new GameCenter(sysControl, logControl);
+            GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
 
             Task commTask = Task.Factory.StartNew(commHandler.Start);
             Console.WriteLine("starting comm");
