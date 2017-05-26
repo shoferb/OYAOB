@@ -28,7 +28,7 @@ namespace TexasHoldem.Service
             _gameCenter = gc;
             _systemControl = sys;
             _logControl = log;
-            _replayManager = ReplayManager.ReplayManagerInstance;
+            _replayManager = replay;
         }
 
         public bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId)

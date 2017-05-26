@@ -7,6 +7,7 @@ using TexasHoldem.communication.Impl;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Replay;
 
 namespace TexasHoldem
 {
@@ -18,6 +19,7 @@ namespace TexasHoldem
             ICommunicationHandler commHandler = new CommunicationHandler();
             LogControl logControl = new LogControl();
             SystemControl sysControl = new SystemControl(logControl);
+            ReplayManager replayManager = new ReplayManager();
             GameCenter gameCenter = new GameCenter(sysControl, logControl);
 
             Task commTask = Task.Factory.StartNew(commHandler.Start);
