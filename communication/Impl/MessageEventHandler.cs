@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.Parser;
@@ -15,10 +16,10 @@ namespace TexasHoldem.communication.Impl
         private readonly ICommMsgXmlParser _parser;
         private readonly ConcurrentDictionary<int, IEventHandler> _userIdToEventHandlerMap;
         private bool _shouldStop = false;
-        private readonly CommunicationHandler _commHandler;
+        private readonly ICommunicationHandler _commHandler;
 
 
-        public MessageEventHandler(CommunicationHandler comm)
+        public MessageEventHandler(ICommunicationHandler comm)
         {
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
