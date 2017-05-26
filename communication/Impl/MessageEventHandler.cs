@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
 using TexasHoldem.communication.Interfaces;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Replay;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.Parser;
@@ -19,7 +22,7 @@ namespace TexasHoldem.communication.Impl
         private readonly ICommunicationHandler _commHandler;
 
 
-        public MessageEventHandler(ICommunicationHandler comm)
+        public MessageEventHandler(ICommunicationHandler comm, GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
