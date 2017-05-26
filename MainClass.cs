@@ -15,7 +15,7 @@ namespace TexasHoldem
         public static void Main()
         {
             //init instances:
-            ICommunicationHandler commHandler = CommunicationHandler.GetInstance();
+            ICommunicationHandler commHandler = new CommunicationHandler();
             LogControl logControl = new LogControl();
             SystemControl sysControl = new SystemControl(logControl);
             GameCenter gameCenter = new GameCenter(sysControl, logControl);
