@@ -14,7 +14,6 @@ namespace TexasHoldem.communication.Impl
 
     public class CommunicationHandler : ICommunicationHandler
     {
-        private static CommunicationHandler _instance;
         private const int LocalPort = 2000;
         protected bool ShouldClose = false;
         protected bool WasShutDown = false; //used only for testing
@@ -29,17 +28,7 @@ namespace TexasHoldem.communication.Impl
         protected readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
         protected List<Task> taskList;
 
-        public static CommunicationHandler GetInstance()
-        {
-            if (_instance != null)
-            {
-                return _instance;
-            }
-            _instance = new CommunicationHandler();
-            return _instance;
-        }
-
-        protected CommunicationHandler()
+        public CommunicationHandler()
         {
             Selector = new ListenerSelector();
             _socketsQueue = new ConcurrentQueue<TcpClient>();
