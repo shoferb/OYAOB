@@ -10,26 +10,9 @@ namespace TexasHoldem.Logic.Replay
     public class ReplayManager
     {
         public Dictionary<GameReplay, List<int>> _gamesActions { set; get; }
-        private static ReplayManager replayInstance = null;
         private static readonly object padlock = new object();
 
-
-        public static ReplayManager ReplayManagerInstance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (replayInstance == null)
-                    {
-                        replayInstance = new ReplayManager();
-                    }
-                    return replayInstance;
-                }
-            }
-        }
-
-        private ReplayManager()
+        public ReplayManager()
         {
             _gamesActions = new Dictionary<GameReplay, List<int>>();
         }
