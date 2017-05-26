@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared;
@@ -24,16 +25,18 @@ namespace TexasHoldem.Logic.Game_Control
         private SystemControl _systemControl ;
         private GameServiceHandler gameServiceHandler;
         private LogControl logControl;
+        private ReplayManager replayManager;
 
         private static readonly object padlock = new object();
 
-        public GameCenter(SystemControl sys, LogControl log)
+        public GameCenter(SystemControl sys, LogControl log, ReplayManager replay)
         {
+            replayManager = replay;
             _systemControl = sys;
             logControl = log;
             this.logs = new List<Log>();
             this.games = new List<IGame>();
-            gameServiceHandler = new GameServiceHandler(this, sys, log);
+            gameServiceHandler = new GameServiceHandler(this, sys, log, replay);
         }
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)

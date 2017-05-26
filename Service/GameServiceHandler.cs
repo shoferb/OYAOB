@@ -23,7 +23,7 @@ namespace TexasHoldem.Service
         private LogControl _logControl;
         private static ServerEventHandler _serverHandler = new ServerEventHandler();
 
-        public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log)
+        public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
             _gameCenter = gc;
             _systemControl = sys;
