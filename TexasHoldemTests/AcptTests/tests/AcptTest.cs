@@ -31,7 +31,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected AcptTest()
         {
             UserBridge = new UserBridge(gameCenter, sysControl, logControl, replayManager);
-            GameBridge = new GameBridge();
+            GameBridge = new GameBridge(gameCenter, sysControl, logControl, replayManager);
             ReplayBridge = new ReplayBridge();
             Users = new List<int>();
 

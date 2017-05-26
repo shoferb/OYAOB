@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
 using TexasHoldemShared;
@@ -15,10 +18,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
 
-        public GameBridge()
+        public GameBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            _gameService = new GameServiceHandler();
-            _userService = new UserServiceHandler();
+            _gameService = new GameServiceHandler(gc, sys, log, replay);
+            _userService = new UserServiceHandler(gc, sys);
         }
 
         private int MakeRoomHelper(int userId, int startingCheap)
