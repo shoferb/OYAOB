@@ -12,6 +12,7 @@ using static TexasHoldemShared.CommMessages.CommunicationMessage;
 using TexasHoldem.Logic.Replay;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
+using TexasHoldem.Logic.Game_Control;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
@@ -24,6 +25,11 @@ namespace TexasHoldem.Logic.Game.Tests
         private int roomID ;
         private GameRoom gameRoom;
         private bool useCommunication;
+        private static LogControl logControl = new LogControl();
+        private static SystemControl sysControl = new SystemControl(logControl);
+        private static ReplayManager replayManager = new ReplayManager();
+        private static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
+
 
         [TestInitialize()]
         public void Initialize()
@@ -37,7 +43,7 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco);
+            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager);
 
         }
 
@@ -74,8 +80,8 @@ namespace TexasHoldem.Logic.Game.Tests
             players = null;
             player1 = null;
             gameRoom = null;
-            ReplayManager.ReplayManagerInstance.DeleteGameReplay(roomID, 0);
-            ReplayManager.ReplayManagerInstance.DeleteGameReplay(roomID, 1);
+            replayManager.DeleteGameReplay(roomID, 0);
+            replayManager.DeleteGameReplay(roomID, 1);
         }
 
         [TestMethod()]
