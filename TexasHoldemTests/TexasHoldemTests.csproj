@@ -81,7 +81,7 @@
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
     <Compile Include="communication\CommHandlerChildForTests.cs" />
     <Compile Include="communication\CommunicationHandlerTest.cs" />
-    <Compile Include="communication\ServerEventHandlerTest.cs" />
+    <Compile Include="communication\WebEventHandlerTest.cs" />
     <Compile Include="Handler\CommunicationHandlerTests.cs" />
     <Compile Include="Logic\IUserMoq.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />

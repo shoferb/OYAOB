@@ -21,5 +21,12 @@
             HighestCashGain = highestCashGain;
             NumOfGamesPlayed = numOfGamesPlayed;
         }
+
+        public bool Equals(LeaderboardLineData other)
+        {
+            return Id == other.Id && Name.Equals(other.Name) && Points == other.Points &&
+                   TotalGrossProfit == other.TotalGrossProfit && HighestCashGain == other.HighestCashGain &&
+                   NumOfGamesPlayed == other.NumOfGamesPlayed;
+        }
     }
 }

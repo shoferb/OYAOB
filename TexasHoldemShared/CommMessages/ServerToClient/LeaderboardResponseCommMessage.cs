@@ -29,7 +29,11 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             if (other.GetType() == typeof(LeaderboardResponseCommMessage))
             {
                 var afterCast = (LeaderboardResponseCommMessage)other;
-                ans = base.Equals(afterCast) && Results.TrueForAll(line => afterCast.Results.Contains(line));
+                ans = UserId == afterCast.UserId && Results.TrueForAll(line =>
+                {
+                    //check if all items of Results exist in afterCast.Results
+                    return afterCast.Results.Find(elem => elem.Equals(line)) != null;
+                });
             }
             return ans;
         }
