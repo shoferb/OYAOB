@@ -7,6 +7,7 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared;
 
 namespace TexasHoldem.Service
 {
@@ -259,6 +260,14 @@ namespace TexasHoldem.Service
             return sc.GetUsersByNumOfGames();
         }
 
-
+        public UserStatistics GetUserStatistics(int userId)
+        {
+            IUser user = GetUserById(userId);
+            if (user != null)
+            {
+                return new UserStatistics(user.GetAvgCashGainPerGame(), user.GetAvgProfit());
+            }
+            return null;
+        }
     }
 }

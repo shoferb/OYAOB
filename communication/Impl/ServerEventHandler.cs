@@ -276,7 +276,14 @@ namespace TexasHoldem.communication.Impl
         //TODO
         public string HandleEvent(UserStatisticsCommMessage msg)
         {
-            throw new NotImplementedException();
+            UserStatistics stats = _userService.GetUserStatistics(msg.UserId);
+            if (stats != null)
+            {
+                var response = new UserStatisticsResponseCommMessage(msg.UserId, true, 
+                    msg, stats.AvgCashGain, stats.AvgGrossProfit);
+                return _parser.SerializeMsg(response, ShouldUseDelim);
+            }
+            return "";
         }
 
         public string HandleEvent(LeaderboardCommMessage msg)
