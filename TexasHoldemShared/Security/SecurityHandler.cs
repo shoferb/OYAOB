@@ -57,6 +57,12 @@ namespace TexasHoldemShared.Security
             return encrypted;
         }
 
+        public string EncryptString(string data)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            return Encoding.UTF8.GetString(Encrypt(bytes));
+        }
+
         public string Decrypt(byte[] data)
         {
             string plainText;

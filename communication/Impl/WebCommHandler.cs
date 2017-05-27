@@ -3,9 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared.Parser;
+using TexasHoldemShared.Security;
 
 namespace TexasHoldem.communication.Impl
 {
@@ -15,6 +17,7 @@ namespace TexasHoldem.communication.Impl
         private bool _shouldStop = false;
         private static readonly string[] Prefixes = {"http://*:8080/"}; //TODO: maybe add more / change
         private readonly IWebEventHandler _eventHandler;
+        private readonly ISecurity _security = new SecurityHandler();
 
         public WebCommHandler(WebEventHandler eventHandler)
         {
@@ -47,6 +50,9 @@ namespace TexasHoldem.communication.Impl
             var request = context.Request;
             var msgStr = new StreamReader(request.InputStream,
                 context.Request.ContentEncoding).ReadToEnd();
+            request.InputStream.Close();
+            byte[] msgbytes = _security.Encrypt(Encoding.UTF8.GetBytes(msgStr));
+            msgStr = _security.Decrypt(msgbytes);
             var resultLst = _eventHandler.HandleRawMsg(msgStr);
             if (resultLst.Count > 1)
             {
@@ -56,7 +62,8 @@ namespace TexasHoldem.communication.Impl
             {
                 var res = resultLst[0];
                 var response = context.Response;
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(res);
+                byte[] bytes = Encoding.UTF8.GetBytes(res);
+                bytes = _security.Encrypt(bytes);
                 response.ContentLength64 = bytes.Length;
                 Stream output = response.OutputStream;
                 output.Write(bytes, 0, bytes.Length);
