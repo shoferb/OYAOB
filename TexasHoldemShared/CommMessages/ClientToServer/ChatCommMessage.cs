@@ -8,24 +8,24 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class ChatCommMessage : CommunicationMessage
     {
-        public int idSender;
-        public int roomId;
+        public int IdSender;
+        public int RoomId;
         public string ReciverUsername;
-        public string msgToSend;
-        public ActionType chatType;
+        public string MsgToSend;
+        public ActionType ChatType;
 
 
-        public ChatCommMessage() : base(-1){ }//for parsing
+        public ChatCommMessage() : base(-1, -1){ }//for parsing
 
 
-        public ChatCommMessage(int _idSender, int _roomId, string _ReciverUsername, string _msgToSend,
-      ActionType _chatType) : base(_idSender)
+        public ChatCommMessage(int _idSender, int _roomId, long sid, string _ReciverUsername, 
+            string _msgToSend, ActionType _chatType) : base(_idSender, sid)
         {
-            idSender = _idSender;
-            roomId = _roomId;
+            IdSender = _idSender;
+            RoomId = _roomId;
             ReciverUsername = _ReciverUsername;
-            msgToSend = _msgToSend;
-            chatType = _chatType;
+            MsgToSend = _msgToSend;
+            ChatType = _chatType;
 
         }
 
@@ -41,8 +41,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             if (other != null && other.GetType() == typeof(ChatCommMessage))
             {
                 var afterCasting = (ChatCommMessage)other;
-                return idSender == afterCasting.idSender && roomId == afterCasting.roomId && UserId == afterCasting.UserId &&
-                    chatType == afterCasting.chatType && msgToSend.Equals(afterCasting.msgToSend);
+                return IdSender == afterCasting.IdSender && RoomId == afterCasting.RoomId && UserId == afterCasting.UserId &&
+                    ChatType == afterCasting.ChatType && MsgToSend.Equals(afterCasting.MsgToSend);
             }
             return false;
         }

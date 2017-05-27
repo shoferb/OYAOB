@@ -4,26 +4,27 @@
     {
         
 
-        public string name;
-        public string username;
-        public string password;
-        public string avatar;//- image path
-        public int money;
-        public string email;
-        public string leauge;
+        public string Name;
+        public string Username;
+        public string Password;
+        public string Avatar;//- image path
+        public int Money;
+        public string Email;
+        public string Leauge;
 
         public LoginResponeCommMessage() : base(-1) { } //for parsing
 
-        public LoginResponeCommMessage(int id, string _name, string _username, string _password,
-            string _avatar, int _money, string _email,string _leauge, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+        public LoginResponeCommMessage(int id, long sid, string _name, string _username, 
+            string _password, string _avatar, int _money, string _email, string _leauge,
+            bool success, CommunicationMessage originalMsg) : base(id, sid, success, originalMsg)
         {
-            this.name = _name;
-            this.username = _username;
-            this.password = _password;
-            this.avatar = _avatar;
-            this.money = _money;
-            this.email = _email;
-            this.leauge = _leauge;
+            this.Name = _name;
+            this.Username = _username;
+            this.Password = _password;
+            this.Avatar = _avatar;
+            this.Money = _money;
+            this.Email = _email;
+            this.Leauge = _leauge;
         }
 
         //visitor pattern
@@ -38,10 +39,10 @@
             {
                 var afterCasting = (LoginResponeCommMessage)other;
                 return Success == afterCasting.Success && OriginalMsg.Equals(afterCasting.OriginalMsg) &&
-                       UserId == afterCasting.UserId && name.Equals(afterCasting.name) &&
-                       username.Equals(afterCasting.username) && password.Equals(afterCasting.password) &&
-                       avatar.Equals(afterCasting.avatar) && email.Equals(afterCasting.email) &&
-                       leauge.Equals(afterCasting.leauge) && money == afterCasting.money;
+                       UserId == afterCasting.UserId && Name.Equals(afterCasting.Name) &&
+                       Username.Equals(afterCasting.Username) && Password.Equals(afterCasting.Password) &&
+                       Avatar.Equals(afterCasting.Avatar) && Email.Equals(afterCasting.Email) &&
+                       Leauge.Equals(afterCasting.Leauge) && Money == afterCasting.Money;
             }
             return false;
         }

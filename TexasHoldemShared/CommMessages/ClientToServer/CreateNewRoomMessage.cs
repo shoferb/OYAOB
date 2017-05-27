@@ -10,9 +10,10 @@
         public int _minPlayer;
         public int _maxPlayers;
 
-        public CreateNewRoomMessage() : base(-1) { } //for parsing
+        public CreateNewRoomMessage() : base(-1, -1) { } //for parsing
 
-        public CreateNewRoomMessage(int id, GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec, int minPlayers, int maxPlayers) : base(id)
+        public CreateNewRoomMessage(int id, long sid, GameMode mode, int minBet, int chipPol, 
+            int buyInPol, bool canSpec, int minPlayers, int maxPlayers) : base(id, sid)
         {
             this._mode = mode;
             this._minBet = minBet;

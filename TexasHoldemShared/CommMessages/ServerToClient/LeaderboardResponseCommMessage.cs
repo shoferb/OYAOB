@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TexasHoldemShared.CommMessages.ServerToClient
 {
@@ -10,10 +6,10 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
     {
         public List<LeaderboardLineData> Results;
 
-        public LeaderboardResponseCommMessage() { }
+        public LeaderboardResponseCommMessage() : base(-1) { }
 
-        public LeaderboardResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, 
-            List<LeaderboardLineData> results) : base(id, success, originalMsg)
+        public LeaderboardResponseCommMessage(int id, long sid, bool success, CommunicationMessage originalMsg,
+            List<LeaderboardLineData> results) : base(id, sid, success, originalMsg)
         {
             Results = results;
         }

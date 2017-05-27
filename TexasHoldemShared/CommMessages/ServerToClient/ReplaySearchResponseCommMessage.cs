@@ -2,14 +2,15 @@
 {
     public class ReplaySearchResponseCommMessage : ResponeCommMessage
     {
-        public int roomID;
-        public string replay;
+        public int RoomId;
+        public string Replay;
 
         public ReplaySearchResponseCommMessage() : base(-1) { } //for parsing
 
-        public ReplaySearchResponseCommMessage(int roomID, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+        public ReplaySearchResponseCommMessage(int roomId, int id, long sid, bool success, CommunicationMessage originalMsg)
+            : base(id, sid, success, originalMsg)
         {
-            this.roomID = roomID;
+            RoomId = roomId;
 
         }
         //visitor pattern
@@ -23,7 +24,7 @@
             if (other != null && other.GetType() == typeof(ReplaySearchResponseCommMessage))
             {
                 var afterCasting = (ReplaySearchResponseCommMessage)other;
-                bool same = afterCasting.roomID == roomID && afterCasting.UserId == UserId;
+                bool same = afterCasting.RoomId == RoomId && afterCasting.UserId == UserId;
                 return same;
             }
             return false;

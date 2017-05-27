@@ -7,9 +7,8 @@
 
         public UserStatisticsResponseCommMessage() { }
 
-        public UserStatisticsResponseCommMessage(int id, bool success, CommunicationMessage originalMsg, 
-            double avgCashGain, double avgGrossProfit) 
-            : base(id, success, originalMsg)
+        public UserStatisticsResponseCommMessage(int id, long sid, bool success, CommunicationMessage originalMsg, 
+            double avgCashGain, double avgGrossProfit) : base(id, sid, success, originalMsg)
         {
             AvgCashGain = avgCashGain;
             AvgGrossProfit = avgGrossProfit;

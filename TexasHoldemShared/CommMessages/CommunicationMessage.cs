@@ -46,10 +46,10 @@ namespace TexasHoldemShared.CommMessages
         public int UserId;
         public long SessionId;
 
-        protected CommunicationMessage(int id, long sessionId)
+        protected CommunicationMessage(int id, long sid)
         {
             UserId = id;
-            SessionId = sessionId;
+            SessionId = sid;
         }
 
         public abstract string Handle(IEventHandler handler);

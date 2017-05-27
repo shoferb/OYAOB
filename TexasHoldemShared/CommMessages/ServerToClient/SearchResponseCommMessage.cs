@@ -5,13 +5,14 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 {
     public class SearchResponseCommMessage : ResponeCommMessage
     {
-        public List<ClientGame> games;
+        public List<ClientGame> Games;
 
         public SearchResponseCommMessage() : base(-1){ }//for parsing
 
-        public SearchResponseCommMessage(List<ClientGame> _games, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+        public SearchResponseCommMessage(List<ClientGame> _games, long sid, int id, bool success, 
+            CommunicationMessage originalMsg) : base(id, sid, success, originalMsg)
         {
-            this.games = _games;
+            Games = _games;
         }
 
         //visitor pattern
@@ -27,7 +28,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
                 var afterCasting = (SearchResponseCommMessage)other;
                 return Success == afterCasting.Success && OriginalMsg.Equals(afterCasting.OriginalMsg) &&
                        UserId == afterCasting.UserId && 
-                       games.TrueForAll(g => afterCasting.games.Contains(g));
+                       Games.TrueForAll(g => afterCasting.Games.Contains(g));
             }
             return false;
         }

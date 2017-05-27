@@ -7,11 +7,11 @@
         public string UserName;
         public string Password;
 
-        public LoginCommMessage() : base(-1)
+        public LoginCommMessage() : base(-1, -1)
         {
         } //for parsing
 
-        public LoginCommMessage(int userId, bool isLogin, string name, string passWord) : base(userId)
+        public LoginCommMessage(int userId, bool isLogin, string name, string passWord) : base(userId, -1)
         {
             IsLogin = isLogin;
             UserName = name;

@@ -1,6 +1,6 @@
 ﻿namespace TexasHoldemShared.Security
 {
-    interface ISecurity
+    public interface ISecurity
     {
         long GenerateNewSessionId(); //unique session id
 

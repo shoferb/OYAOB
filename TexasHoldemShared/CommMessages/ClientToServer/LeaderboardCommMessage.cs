@@ -14,9 +14,9 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 
         public SortingOption SortedBy;
 
-        public LeaderboardCommMessage() : base(-1) { }
+        public LeaderboardCommMessage() : base(-1, -1) { }
 
-        public LeaderboardCommMessage(int id, SortingOption sortBy) : base(id)
+        public LeaderboardCommMessage(int id, long sid, SortingOption sortBy) : base(id, TODO)
         {
             SortedBy = sortBy;
         }

@@ -27,13 +27,13 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         public string SbName;
 
         public string CurrPlayerTurn;
-        public bool isSucceed;
+        public bool IsSucceed;
 
-        public GameDataCommMessage() : base(-1) { } //for parsing
+        public GameDataCommMessage() : base(-1, -1) { } //for parsing
 
-        public GameDataCommMessage(int userId, int roomId, Card card1, Card card2,
-            List<Card> tableCards, int chips, int pot, List<string> allPlayerNames, string dealerName,
-            string bbName, string sbName, bool success ,string currPlayer, string actionPlayer, int bet, ActionType actionType) : base(userId)
+        public GameDataCommMessage(int userId, int roomId, long sid, Card card1, Card card2, List<Card> tableCards, 
+            int chips, int pot, List<string> allPlayerNames, string dealerName, string bbName, string sbName, bool success, 
+            string currPlayer, string actionPlayer, int bet, ActionType actionType) : base(userId, sid)
         {
             RoomId = roomId;
             TableCards = tableCards;
@@ -45,11 +45,12 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             DealerName = dealerName;
             BbName = bbName;
             SbName = sbName;
-            isSucceed = success;
+            IsSucceed = success;
             CurrPlayerTurn = currPlayer;
             actionPlayerName = actionPlayer;
             betAmount = bet;
             action = actionType;
+            SessionId = sid;
         }
        
         //visitor pattern
@@ -63,7 +64,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             if (other != null && other.GetType() == typeof(GameDataCommMessage))
             {
                 var afterCasting = (GameDataCommMessage)other;
-                bool good = isSucceed == afterCasting.isSucceed && DealerName.Equals(afterCasting.DealerName) &&
+                bool good = IsSucceed == afterCasting.IsSucceed && DealerName.Equals(afterCasting.DealerName) &&
                        UserId == afterCasting.UserId && PotSize == afterCasting.PotSize &&
                        TotalChips == afterCasting.TotalChips && BbName.Equals(afterCasting.BbName) &&
                        SbName.Equals(afterCasting.SbName) && CurrPlayerTurn.Equals(afterCasting.CurrPlayerTurn);

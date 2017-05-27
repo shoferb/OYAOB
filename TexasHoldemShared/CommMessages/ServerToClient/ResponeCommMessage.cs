@@ -5,14 +5,14 @@
         public bool Success;
         public CommunicationMessage OriginalMsg;
 
-        public ResponeCommMessage() : base(-1) { } //for parsing
+        public ResponeCommMessage() : base(-1, -1) { } //for parsing
 
-        public ResponeCommMessage(int id) : base(id)
+        public ResponeCommMessage(int id) : base(id, -1)
         {
             
         }
 
-        public ResponeCommMessage(int id, bool success, CommunicationMessage originalMsg) : base(id)
+        public ResponeCommMessage(int id, long sid, bool success, CommunicationMessage originalMsg) : base(id, sid)
         {
             Success = success;
             OriginalMsg = originalMsg;

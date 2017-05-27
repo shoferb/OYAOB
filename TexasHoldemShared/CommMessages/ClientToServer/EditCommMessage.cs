@@ -17,11 +17,11 @@
         public EditField FieldToEdit;
         public string NewValue;
 
-        public EditCommMessage() : base(-1)
+        public EditCommMessage() : base(-1, -1)
         {
         } //for parsing
 
-        public EditCommMessage(int userId, EditField field, string value) : base(userId)
+        public EditCommMessage(int userId, long sid, EditField field, string value) : base(userId, sid)
         {
             FieldToEdit = field;
             NewValue = value;

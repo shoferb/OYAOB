@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TexasHoldemShared.CommMessages.ServerToClient
+﻿namespace TexasHoldemShared.CommMessages.ServerToClient
 {
     public class JoinResponseCommMessage : ResponeCommMessage
     {
@@ -14,8 +8,8 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             {
             }
 
-            public JoinResponseCommMessage(int id, bool success, CommunicationMessage originalMsg,
-                GameDataCommMessage gameData) : base(id, success, originalMsg)
+            public JoinResponseCommMessage(long sid, int id, bool success, CommunicationMessage originalMsg, 
+                GameDataCommMessage gameData) : base(id, sid, success, originalMsg)
             {
                 GameData = gameData;
             }

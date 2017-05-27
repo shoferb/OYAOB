@@ -21,18 +21,20 @@
 
         
         public SearchType searchType;
-        public string searchByString;
-        public int searchByInt;
-        public GameMode searchByGameMode;
+        public string SearchByString;
+        public int SearchByInt;
+        public GameMode SearchByGameMode;
 
-        public SearchCommMessage() : base(-1) { } //for parsing
+        public SearchCommMessage() : base(-1, -1) { } //for parsing
 
-        public SearchCommMessage(int userId, SearchType _searchType, string _searchByString, int _searchByInt,GameMode _searchByGameMode) : base(userId)
+        public SearchCommMessage(int userId, long sid, SearchType _searchType, string _searchByString,
+            int _searchByInt, GameMode _searchByGameMode) : base(userId, sid)
         {
-            this.searchByGameMode = _searchByGameMode;
-            this.searchByInt = _searchByInt;
-            this.searchByString = _searchByString;
-            this.searchType = _searchType;
+            SearchByGameMode = _searchByGameMode;
+            SearchByInt = _searchByInt;
+            SearchByString = _searchByString;
+            searchType = _searchType;
+            SessionId = sid;
         }
 
         //visitor pattern
@@ -46,8 +48,8 @@
             if (other != null && other.GetType() == typeof(SearchCommMessage))
             {
                 var afterCasting = (SearchCommMessage)other;
-                return searchType == afterCasting.searchType && searchByString.Equals(afterCasting.searchByString) &&
-                       UserId == afterCasting.UserId && searchByInt == afterCasting.searchByInt;
+                return searchType == afterCasting.searchType && SearchByString.Equals(afterCasting.SearchByString) &&
+                       UserId == afterCasting.UserId && SearchByInt == afterCasting.SearchByInt;
             }
             return false;
         }

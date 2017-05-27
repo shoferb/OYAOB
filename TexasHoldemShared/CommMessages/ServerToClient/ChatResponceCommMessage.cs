@@ -16,7 +16,9 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public ChatResponceCommMessage() : base(-1){ }//for parsing
 
-        public ChatResponceCommMessage(int _roomId, int _idReciver, string _senderngUsername, ActionType _chatType ,string _msgToSend, int id, bool success, CommunicationMessage originalMsg) : base(id, success, originalMsg)
+        public ChatResponceCommMessage(int _roomId, int _idReciver, long sid, 
+            string _senderngUsername, ActionType _chatType, string _msgToSend,
+            int id, bool success, CommunicationMessage originalMsg) : base(id, sid, success, originalMsg)
         {
             idReciver = _idReciver;
             senderngUsername = _senderngUsername;
