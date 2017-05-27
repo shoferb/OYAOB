@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldemShared.Security
 {
-    class SecurityHandler : ISecurity
+    public class SecurityHandler : ISecurity
     {
         public long GenerateNewSessionId()
         {

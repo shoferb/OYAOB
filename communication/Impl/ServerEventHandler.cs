@@ -37,6 +37,7 @@ namespace TexasHoldem.communication.Impl
             _userService = new UserServiceHandler(game, sys);
             _commHandler = comm;
             _sessionIdHandler = sidHandler;
+            _security = new SecurityHandler();
         }
 
         public void SetSessionIdHandler(ISessionIdHandler handler)
