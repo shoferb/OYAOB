@@ -58,9 +58,9 @@ namespace TexasHoldem.Logic.Users
 
         void UpdateTotalProfit(int profit);
 
-        double GetAvgProft();
+        double GetAvgProfit();
 
-        double GetWinRate();
+        double GetAvgCashGainPerGame();
 
         bool Login();
 
@@ -110,6 +110,5 @@ namespace TexasHoldem.Logic.Users
 
         bool HasEnoughMoney(int startingChip, int fee);
 
-        
     }
 }

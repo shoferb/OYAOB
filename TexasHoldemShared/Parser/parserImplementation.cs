@@ -451,8 +451,8 @@ namespace TexasHoldemShared.Parser
         {
             using (StringReader stringReader = new StringReader(xmlText))
             {
-                var serializer = new XmlSerializer(typeof(UserStatisticsCommMessage));
-                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+                var serializer = new XmlSerializer(typeof(UserStatisticsResponseCommMessage));
+                return (UserStatisticsResponseCommMessage)serializer.Deserialize(stringReader);
             }
         }
 
@@ -460,8 +460,8 @@ namespace TexasHoldemShared.Parser
         {
             using (StringReader stringReader = new StringReader(xmlText))
             {
-                var serializer = new XmlSerializer(typeof(UserStatisticsResponseCommMessage));
-                return (GameDataCommMessage)serializer.Deserialize(stringReader);
+                var serializer = new XmlSerializer(typeof(UserStatisticsCommMessage));
+                return (UserStatisticsCommMessage)serializer.Deserialize(stringReader);
             }
         }
 

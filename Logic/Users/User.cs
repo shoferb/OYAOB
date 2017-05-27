@@ -220,14 +220,16 @@ namespace TexasHoldem.Logic.Users
             TotalProfit += profit;
         }
 
-        public double GetAvgProft()
+        //avg profit per win
+        public double GetAvgProfit()
         {
-            return (double) TotalProfit / (WinNum + LoseNum);
+            return (double) TotalProfit / WinNum;
         }
 
-        public double GetWinRate()
+        //avg profit in all games
+        public double GetAvgCashGainPerGame()
         {
-            return (double) WinNum / (WinNum + LoseNum);
+            return (double)TotalProfit / (WinNum + LoseNum);
         }
 
         public bool IncWinNum()

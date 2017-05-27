@@ -55,10 +55,10 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void TestJson()
         {
-            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
-            var xml = _parser.SerializeMsg(lbcm, false);
-            var json = _parser.XmlToJson(xml);
-            Console.WriteLine(json);
+            //LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+            //var xml = _parser.SerializeMsg(lbcm, false);
+            //var json = _parser.XmlToJson(xml);
+            //Console.WriteLine(json);
             //var lb = _parser.ParseString(_parser.JsonToXml(json), false);
 
             //List<LeaderboardLineData> data = new List<LeaderboardLineData>
@@ -71,6 +71,12 @@ namespace TexasHoldemTests.communication
             //xml = _parser.SerializeMsg(response, false);
             //json = _parser.XmlToJson(xml);
             //Console.WriteLine(json);
+
+            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1);
+            UserStatisticsResponseCommMessage response = new UserStatisticsResponseCommMessage(1, true, commMessage, 0, 0);
+            var xml = _parser.SerializeMsg(response, false);
+            var json = _parser.XmlToJson(xml);
+            Console.WriteLine(json);
         }
 
         [TestCase]
@@ -139,6 +145,32 @@ namespace TexasHoldemTests.communication
 
             Assert.NotNull(result);
             Assert.AreEqual(1, result.Count);
+        }
+
+        [TestCase]
+        public void ParseStatisticsGood()
+        {
+            RegisterTwoUsers();
+
+            var expectedMessage =
+                "t{\"?xml\":{\"@version\":\"1.0\",\"@encoding\":\"utf-16\"}," +
+                "\"UserStatisticsCommMessage\":{\"@xmlns:xsd\":\"http://www.w3.org/2001/XMLSchema\"," +
+                "\"@xmlns:xsi\":\"http://www.w3.org/2001/XMLSchema-instance\",\"UserId\":\"1\"}}";
+
+            var expectedResponse =
+                "u{\"?xml\":{\"@version\":\"1.0\",\"@encoding\":\"utf-16\"}," +
+                "\"UserStatisticsResponseCommMessage\":{\"@xmlns:xsd\":" +
+                "\"http://www.w3.org/2001/XMLSchema\",\"@xmlns:xsi\":\"http://www.w3.org/2001/XMLSchema-instance\"," +
+                "\"UserId\":\"1\",\"Success\":\"true\",\"OriginalMsg\":{\"@xsi:type\":\"UserStatisticsCommMessage\"," +
+                "\"UserId\":\"1\"},\"AvgCashGain\":\"83.333333333333329\",\"AvgGrossProfit\":\"90.9090909090909\"}}";
+
+            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1);
+            var xml = _parser.SerializeMsg(commMessage, false);
+            var json = _parser.XmlToJson(xml);
+            Assert.AreEqual(expectedMessage, json);
+            var result = _webEventHandler.HandleRawMsg(json);
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual(expectedResponse, result[0]);
         }
 
 
