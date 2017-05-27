@@ -73,6 +73,7 @@ namespace TexasHoldem.Logic.Game
             lastRaiseInRound = 0;
             ReduceFeeAndStatringChipFromPlayers();
             useCommunication = true;
+            clientSender = new ServerToClientSender(gc, )
         }
 
         private void ReduceFeeAndStatringChipFromPlayers()
