@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
 using TexasHoldemShared.Parser;
+using TexasHoldemShared.Security;
 
 namespace Client.Handler
 {
@@ -18,6 +19,7 @@ namespace Client.Handler
         protected NetworkStream _stream;
         protected readonly string _server;
         private bool _shouldClose;
+        private readonly ISecurity _security = new SecurityHandler();
 
         public ClientCommunicationHandler(string server)
         {
@@ -29,7 +31,6 @@ namespace Client.Handler
           
 
         }
-     
        
         public bool IsSocketConnect()//for testing
         {
@@ -77,6 +78,7 @@ namespace Client.Handler
                         _toSendMsgQueue.TryDequeue(out msg);
                         // Translate the passed message into ASCII and store it as a Byte array.
                         Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
+                        data = _security.Encrypt(data);
                         // Send the message to the connected TcpServer. 
                         _stream.Write(data, 0, data.Length);
                     }
@@ -89,9 +91,7 @@ namespace Client.Handler
             }
         }
 
-      
-
-        //returns new msg as string, or eempty string if there's no new msg
+        //returns new msg as string, or empty string if there's no new msg
         private void ReceiveMessages()
         {
             byte[] buffer = new byte[1];
@@ -121,15 +121,14 @@ namespace Client.Handler
                     //add msg string to queue
                     if (data.Count > 0)
                     {
-                        _receivedMsgQueue.Enqueue(Encoding.UTF8.GetString(data.ToArray()));
+                        var decrypted = _security.Decrypt(data.ToArray());
+                        _receivedMsgQueue.Enqueue(decrypted);
                     } 
                 }
             }
           
 
         }
-
-
 
         public bool Close()
         {
@@ -148,9 +147,6 @@ namespace Client.Handler
             }
         }
 
-
-
-
         public void Start()
         {
             Task task = new Task(ReceiveMessages);
@@ -166,6 +162,5 @@ namespace Client.Handler
                 Console.WriteLine("cant connect to server");
             }
         }
-
     }
 }
