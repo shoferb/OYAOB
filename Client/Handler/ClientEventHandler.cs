@@ -39,6 +39,11 @@ namespace Client.Handler
 
         }
 
+        private bool CheckSessionId(long sidToCheck)
+        {
+            return sidToCheck != -1 && sidToCheck == _logic.GetSessionId();
+        }
+
         private void GotClientToServerMsg(CommunicationMessage msg)
         {
             //handle error here
@@ -63,6 +68,7 @@ namespace Client.Handler
             string parsedMsg = _xmlParser.SerializeMsg(msg, true);
             _handler.addMsgToSend(parsedMsg);
         }
+
         public string HandleEvent(ActionCommMessage msg)
         {
             GotClientToServerMsg(msg);
@@ -95,41 +101,47 @@ namespace Client.Handler
 
         public string HandleEvent(LeaderboardCommMessage msg)
         {
-            throw new NotImplementedException();
+            GotClientToServerMsg(msg);
+            return "";
         }
 
         public string HandleEvent(GameDataCommMessage msg)
         {
-            _logic.GameUpdateReceived(msg);
+            if (CheckSessionId(msg.SessionId))
+            {
+                _logic.GameUpdateReceived(msg); 
+            }
             return "";
         }
 
         public string HandleEvent(ResponeCommMessage msg)
         {
-            if (msg.GetType() == typeof(ChatResponceCommMessage))
+            if (CheckSessionId(msg.SessionId))
             {
-                _logic.gotMsg((ChatResponceCommMessage)msg);
-            }
-            else
-            {
-                _logic.NotifyResponseReceived(msg);
+                if (msg.GetType() == typeof(ChatResponceCommMessage))
+                {
+                    _logic.GotMsg((ChatResponceCommMessage)msg);
+                }
+                else
+                {
+                    _logic.NotifyResponseReceived(msg);
+                } 
             }
             return "";
 
         }
+
         public void Start()
         {
             Task task = new Task(HandleMessages);
             task.Start();
         }
 
-
         public string HandleEvent(CreateNewRoomMessage msg)
         {
             GotClientToServerMsg(msg);
             return "";
         }
-
 
         public string HandleEvent(ChatCommMessage msg)
         {

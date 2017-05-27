@@ -14,7 +14,7 @@ namespace TexasHoldem.Logic
 {
     public class ServerToClientSender
     {
-        private MessageEventHandler _eventHandler;
+        private readonly MessageEventHandler _eventHandler;
 
         public ServerToClientSender(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
@@ -37,5 +37,9 @@ namespace TexasHoldem.Logic
             }
         }
 
+        public long GetSessionIdByUserId(int userId)
+        {
+            return _eventHandler.GetSessionIdByUserId(userId);
+        }
     }
 }

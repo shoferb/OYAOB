@@ -67,10 +67,12 @@
     <Compile Include="communication\Impl\MessageEventHandler.cs" />
     <Compile Include="communication\Impl\communicationHandler.cs" />
     <Compile Include="communication\Impl\ServerEventHandler.cs" />
+    <Compile Include="communication\Impl\SessionIdHandler.cs" />
     <Compile Include="communication\Impl\WebCommHandler.cs" />
     <Compile Include="communication\Impl\WebEventHandler.cs" />
     <Compile Include="communication\Interfaces\IListenerSelector.cs" />
     <Compile Include="communication\Interfaces\ICommunicationHandler.cs" />
+    <Compile Include="communication\Interfaces\ISessionIdHandler.cs" />
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
     <Compile Include="Logic\Actions\Action.cs" />

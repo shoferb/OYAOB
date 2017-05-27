@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TexasHoldem.communication.Interfaces;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
 using TexasHoldem.Logic.GameControl;
@@ -52,7 +53,8 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
-        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, ReplayManager replay, ServerToClientSender sender)
+        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, 
+            ReplayManager replay, ServerToClientSender sender)
         {
             MyDecorator = decorator;
             SetTheBlinds();
@@ -250,9 +252,9 @@ namespace TexasHoldem.Logic.Game
                 money = player.TotalChip;
             }
             List<string> allPlayerNames = GetPlayersNames();
-            GameDataCommMessage gd = new GameDataCommMessage(userId, Id, card1, card2,
-            PublicCards , money, PotCount , allPlayerNames, dealerName,
-            bbName, sbName, success, currName , playerName, bet, action);
+            GameDataCommMessage gd = new GameDataCommMessage(userId, Id, clientSender.GetSessionIdByUserId(userId), card1, card2,
+                PublicCards , money, PotCount , allPlayerNames, dealerName,
+                bbName, sbName, success, currName , playerName, bet, action);
             return gd;
         }
 

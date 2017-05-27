@@ -8,15 +8,13 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class ReplayCommMessage : CommunicationMessage
     {
-        public int roomId;
+        public int RoomId;
        
+        public ReplayCommMessage() : base(-1, -1) { } //for parsing
 
-
-        public ReplayCommMessage() : base(-1) { } //for parsing
-
-        public ReplayCommMessage(int _userid, int _roomId ) : base(_userid)
+        public ReplayCommMessage(int _userid, long sid, int _roomId) : base(_userid, sid)
         {
-            this.roomId = _roomId;
+            RoomId = _roomId;
            
         }
 
@@ -30,7 +28,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             if (other != null && other.GetType() == typeof(ReplayCommMessage))
             {
                 var afterCasting = (ReplayCommMessage)other;
-                return roomId == afterCasting.roomId &&
+                return RoomId == afterCasting.RoomId &&
                        UserId == afterCasting.UserId;
             }
             return false;

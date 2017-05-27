@@ -4,9 +4,9 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class UserStatisticsCommMessage : CommunicationMessage
     {
-        public UserStatisticsCommMessage() : base(-1) { }
+        public UserStatisticsCommMessage() : base(-1, -1) { }
 
-        public UserStatisticsCommMessage(int id) : base(id)
+        public UserStatisticsCommMessage(int id, long sid) : base(id, sid)
         {
         }
 

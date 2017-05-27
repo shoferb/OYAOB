@@ -1,20 +1,11 @@
 ﻿using Client.Logic;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TexasHoldem;
 using TexasHoldem.GuiScreen;
-using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
@@ -150,7 +141,7 @@ namespace Client.GuiScreen
             
             this.TotalChips = msg.TotalChips;
             this.ChipAmountLabel.Content = msg.TotalChips;
-            if (msg.isSucceed)
+            if (msg.IsSucceed)
             {
                 string msgToChat = "";
                 if (msg.action.Equals(CommunicationMessage.ActionType.Bet))

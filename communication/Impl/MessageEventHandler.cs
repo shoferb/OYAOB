@@ -15,24 +15,24 @@ using TexasHoldemShared.Parser;
 //takes msgs from msgQueue in CommHandler and deals with them using EventHandlers
 namespace TexasHoldem.communication.Impl
 {
-    public class MessageEventHandler
+    public class MessageEventHandler : SessionIdHandler
     {
         private readonly ICommMsgXmlParser _parser;
         private readonly ConcurrentDictionary<int, IEventHandler> _userIdToEventHandlerMap;
         private bool _shouldStop = false;
         private readonly ICommunicationHandler _commHandler;
-        private GameCenter gameCenter;
-        private SystemControl system;
-        private LogControl logs;
-        private ReplayManager replays;
+        private readonly GameCenter _gameCenter;
+        private readonly SystemControl _system;
+        private readonly LogControl _logs;
+        private readonly ReplayManager _replays;
 
 
         public MessageEventHandler(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            gameCenter = gc;
-            system = sys;
-            logs = log;
-            replays = replay;
+            _gameCenter = gc;
+            _system = sys;
+            _logs = log;
+            _replays = replay;
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
             _commHandler = CommunicationHandler.GetInstance();
@@ -40,13 +40,12 @@ namespace TexasHoldem.communication.Impl
 
         public void HandleIncomingMsgs()
         {
-
             while (!_shouldStop)
             {
                 var allMsgs = _commHandler.GetReceivedMessages();
                 if (allMsgs.Count == 0)
                 {
-                    Thread.Sleep(25);
+                    Thread.Sleep(10);
                 }
                 else
                 {
@@ -79,7 +78,7 @@ namespace TexasHoldem.communication.Impl
             int userId = parsedMsg.UserId;
             if (!_userIdToEventHandlerMap.ContainsKey(userId))
             {
-                ServerEventHandler handler = new ServerEventHandler(tcpClient, gameCenter, system, logs, replays, _commHandler);
+                ServerEventHandler handler = new ServerEventHandler(this, tcpClient, _gameCenter, _system, _logs, _replays, _commHandler);
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
             }
 

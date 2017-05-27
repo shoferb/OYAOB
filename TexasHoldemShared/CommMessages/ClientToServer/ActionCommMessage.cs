@@ -7,9 +7,9 @@
         public int Amount; //only filled when relevant
         public int RoomId;
 
-        public ActionCommMessage() : base(-1) { } //for parsing
+        public ActionCommMessage() : base(-1, -1) { } //for parsing
 
-        public ActionCommMessage(int id, ActionType moveType, int amount, int roomId) : base(id)
+        public ActionCommMessage(int id, long sid, ActionType moveType, int amount, int roomId) : base(id, sid)
         {
             MoveType = moveType;
             Amount = amount;

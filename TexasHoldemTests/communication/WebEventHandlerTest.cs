@@ -35,7 +35,7 @@ namespace TexasHoldemTests.communication
             ReplayManager rm = new ReplayManager();
             GameCenter gc = new GameCenter(sc, lc, rm);
             _userService = new UserServiceHandler(gc, sc);
-            _serverEventHandler = new ServerEventHandler(null, gc, sc, lc, rm, CommunicationHandler.GetInstance());
+            _serverEventHandler = new ServerEventHandler(null, null, gc, sc, lc, rm, CommunicationHandler.GetInstance());
             _webEventHandler = new WebEventHandler(_serverEventHandler);
         }
 
@@ -72,8 +72,8 @@ namespace TexasHoldemTests.communication
             //json = _parser.XmlToJson(xml);
             //Console.WriteLine(json);
 
-            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1);
-            UserStatisticsResponseCommMessage response = new UserStatisticsResponseCommMessage(1, true, commMessage, 0, 0);
+            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1, -1);
+            UserStatisticsResponseCommMessage response = new UserStatisticsResponseCommMessage(1, -1, true, commMessage, 0, 0);
             var xml = _parser.SerializeMsg(response, false);
             var json = _parser.XmlToJson(xml);
             Console.WriteLine(json);
@@ -82,13 +82,13 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void ParseLeaderboarrdRespTestGood()
         {
-            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, -1, LeaderboardCommMessage.SortingOption.HighestCashGain);
             List<LeaderboardLineData> data = new List<LeaderboardLineData>
             {
                 new LeaderboardLineData(1, "Oded", 100, 1000, 13, 12),
                 new LeaderboardLineData(1, "Jordy", 1000, 10, 130, 11)
             };
-            LeaderboardResponseCommMessage response = new LeaderboardResponseCommMessage(1,
+            LeaderboardResponseCommMessage response = new LeaderboardResponseCommMessage(1, -1,
                 true, lbcm, data);
             string msgStr =
                 "r{\"?xml\":{\"@version\":\"1.0\",\"@encoding\":\"utf-16\"}," +
@@ -125,7 +125,7 @@ namespace TexasHoldemTests.communication
         {
             RegisterTwoUsers();
 
-            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, -1, LeaderboardCommMessage.SortingOption.HighestCashGain);
             var result = _serverEventHandler.HandleEvent(lbcm);
             Console.WriteLine(result);
             Assert.NotNull(result);
@@ -137,7 +137,7 @@ namespace TexasHoldemTests.communication
         {
             RegisterTwoUsers();
 
-            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+            LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, -1, LeaderboardCommMessage.SortingOption.HighestCashGain);
             var xml = _parser.SerializeMsg(lbcm, false);
             var json = _parser.XmlToJson(xml);
             var result = _webEventHandler.HandleRawMsg(json);
@@ -164,7 +164,7 @@ namespace TexasHoldemTests.communication
                 "\"UserId\":\"1\",\"Success\":\"true\",\"OriginalMsg\":{\"@xsi:type\":\"UserStatisticsCommMessage\"," +
                 "\"UserId\":\"1\"},\"AvgCashGain\":\"83.333333333333329\",\"AvgGrossProfit\":\"90.9090909090909\"}}";
 
-            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1);
+            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1, -1);
             var xml = _parser.SerializeMsg(commMessage, false);
             var json = _parser.XmlToJson(xml);
             Assert.AreEqual(expectedMessage, json);
