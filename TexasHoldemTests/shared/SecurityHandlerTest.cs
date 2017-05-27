@@ -15,7 +15,7 @@ namespace TexasHoldemTests.shared
         public void EncryptTest()
         {
             var ptBytes = Encoding.UTF8.GetBytes("This is a plaintext msg");
-            var result = _security.Encrypt(ptBytes);
+            var result = _security.Encrypt("This is a plaintext msg");
             Assert.False(CompareArrays(result, ptBytes));
             Console.WriteLine("plainText: " + Encoding.UTF8.GetString(ptBytes));
             Console.WriteLine("result: " + Encoding.UTF8.GetString(result));
@@ -25,7 +25,7 @@ namespace TexasHoldemTests.shared
         public void DecryptionTest()
         {
             var ptBytes = Encoding.UTF8.GetBytes("This is a plaintext msg");
-            var encrypted = _security.Encrypt(ptBytes);
+            var encrypted = _security.Encrypt(Encoding.UTF8.GetString(ptBytes));
             var s = Encoding.UTF8.GetString(encrypted);
             s = _security.Decrypt(encrypted);
             Console.WriteLine(s);

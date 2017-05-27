@@ -268,7 +268,7 @@ namespace TexasHoldem.communication.Impl
                 string msg;
                 msgQueue.TryDequeue(out msg);
                 byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
-                bytesToSend = _security.Encrypt(bytesToSend);
+                bytesToSend = _security.Encrypt(msg);
                 tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
             }
         }

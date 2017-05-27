@@ -51,7 +51,7 @@ namespace TexasHoldem.communication.Impl
             var msgStr = new StreamReader(request.InputStream,
                 context.Request.ContentEncoding).ReadToEnd();
             request.InputStream.Close();
-            byte[] msgbytes = _security.Encrypt(Encoding.UTF8.GetBytes(msgStr));
+            byte[] msgbytes = _security.Encrypt(msgStr);
             msgStr = _security.Decrypt(msgbytes);
             var resultLst = _eventHandler.HandleRawMsg(msgStr);
             if (resultLst.Count > 1)
@@ -63,7 +63,7 @@ namespace TexasHoldem.communication.Impl
                 var res = resultLst[0];
                 var response = context.Response;
                 byte[] bytes = Encoding.UTF8.GetBytes(res);
-                bytes = _security.Encrypt(bytes);
+                bytes = _security.Encrypt(res);
                 response.ContentLength64 = bytes.Length;
                 Stream output = response.OutputStream;
                 output.Write(bytes, 0, bytes.Length);

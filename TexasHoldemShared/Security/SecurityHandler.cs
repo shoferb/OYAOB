@@ -40,7 +40,7 @@ namespace TexasHoldemShared.Security
             return DateTime.Now.ToFileTime();
         }
 
-        public byte[] Encrypt(byte[] data)
+        public byte[] Encrypt(string data)
         {
             byte[] encrypted;
             //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key })
@@ -52,7 +52,12 @@ namespace TexasHoldemShared.Security
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
                     {
-                        csEncrypt.Write(data, 0, data.Length);
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+
+                            //Write all data to the stream.
+                            swEncrypt.Write(data);
+                        }
                     }
                     encrypted = msEncrypt.ToArray();
                 } 
@@ -94,14 +99,28 @@ namespace TexasHoldemShared.Security
             //    aes.KeySize = 128;
             //    var decryptor = aes.CreateDecryptor();
 
-                using (MemoryStream msDecrypt = new MemoryStream(data))
+            //using (MemoryStream msDecrypt = new MemoryStream(data))
+            //{
+            //    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, _decryptor, CryptoStreamMode.Write))
+            //    {
+            //        csDecrypt.Write(data, 0, data.Length);
+            //    }
+            //    plainText = Encoding.UTF8.GetString(msDecrypt.ToArray());
+            //} 
+
+            using (MemoryStream msDecrypt = new MemoryStream(data))
+            {
+                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, _decryptor, CryptoStreamMode.Read))
                 {
-                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, _decryptor, CryptoStreamMode.Write))
+                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
                     {
-                        csDecrypt.Write(data, 0, data.Length);
+
+                        // Read the decrypted bytes from the decrypting stream 
+                        // and place them in a string.
+                        plainText = srDecrypt.ReadToEnd();
                     }
-                    plainText = Encoding.UTF8.GetString(msDecrypt.ToArray());
-                } 
+                }
+            }
             //}
             return plainText;
         }

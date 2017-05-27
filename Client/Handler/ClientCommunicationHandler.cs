@@ -79,7 +79,7 @@ namespace Client.Handler
                         // Translate the passed message into ASCII and store it as a Byte array.
                         byte[] data = Encoding.UTF8.GetBytes(msg);
                         string  s = Encoding.UTF8.GetString(data);
-                        byte[] encrypted = _security.Encrypt(data);
+                        byte[] encrypted = _security.Encrypt(s);
                         s = Encoding.UTF8.GetString(encrypted);
                         s = _security.Decrypt(encrypted);
                         // Send the message to the connected TcpServer. 
