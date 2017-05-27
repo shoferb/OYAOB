@@ -129,7 +129,7 @@ namespace TexasHoldemTests.communication
             var result = _serverEventHandler.HandleEvent(lbcm);
             Console.WriteLine(result);
             Assert.NotNull(result);
-            Assert.AreEqual("", result);
+            Assert.AreNotEqual("", result);
         }
 
         [TestCase]
