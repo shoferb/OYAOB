@@ -116,7 +116,7 @@ namespace Client.Handler
 
         public string HandleEvent(ResponeCommMessage msg)
         {
-            if (CheckSessionId(msg.SessionId))
+            if (SetSetionId(msg.SessionId))
             {
                 if (msg.GetType() == typeof(ChatResponceCommMessage))
                 {
@@ -129,6 +129,11 @@ namespace Client.Handler
             }
             return "";
 
+        }
+
+        private bool SetSetionId(long sid)
+        {
+            return _logic.SetSessionId(sid);
         }
 
         public void Start()

@@ -34,6 +34,16 @@ namespace Client.Logic
             return _sessionId;
         }
 
+        public bool SetSessionId(long sid)
+        {
+            if (sid != -1)
+            {
+                _sessionId = sid;
+                return true;
+            }
+            return false;
+        }
+
         //TODO Add specs
         public void AddNewRoom(GameScreen newWin)
         {
