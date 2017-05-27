@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game
     {
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
-
+        private ServerToClientSender clientSender;
         private List<Player> Players;
         private List<Spectetor> Spectatores;
         private int DealerPos;
