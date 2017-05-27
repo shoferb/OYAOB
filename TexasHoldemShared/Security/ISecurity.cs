@@ -4,6 +4,7 @@
     {
         long GenerateNewSessionId(); //unique session id
 
-        //TODO: add methods for encryption here
+        byte[] Encrypt(byte[] data);
+        string Decrypt(byte[] data);
     }
 }
