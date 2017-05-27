@@ -11,27 +11,24 @@ namespace TexasHoldemShared.Security
     public class SecurityHandler : ISecurity
     {
         private const string IvStr = "4DC9F8AFA6D2Cahd";
-        private readonly byte[] _iv;
         private const string KeyStr = "25B4895DF77AFtkv";
-        private readonly byte[] _key;
-        private readonly AesManaged _aes;
         private readonly ICryptoTransform _encryptor;
         private readonly ICryptoTransform _decryptor;
 
         public SecurityHandler()
         {
-            _iv = Encoding.UTF8.GetBytes(IvStr);
-            _key = Encoding.UTF8.GetBytes(KeyStr);
+            var iv = Encoding.UTF8.GetBytes(IvStr);
+            var key = Encoding.UTF8.GetBytes(KeyStr);
 
-            _aes = new AesManaged
+            var aes = new AesManaged
             {
                 Padding = PaddingMode.PKCS7,
                 KeySize = 128,
-                Key = _key,
-                IV = _iv,
+                Key = key,
+                IV = iv,
             };
-            _encryptor = _aes.CreateEncryptor();
-            _decryptor = _aes.CreateDecryptor();
+            _encryptor = aes.CreateEncryptor();
+            _decryptor = aes.CreateDecryptor();
         }
 
         public long GenerateNewSessionId()
