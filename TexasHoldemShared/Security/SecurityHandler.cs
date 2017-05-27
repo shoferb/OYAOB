@@ -10,9 +10,9 @@ namespace TexasHoldemShared.Security
 {
     public class SecurityHandler : ISecurity
     {
-        private const string IvStr = "4DC9F8AFA6D2C";
+        private const string IvStr = "4DC9F8AFA6D2Cahd";
         private readonly byte[] _iv;
-        private const string KeyStr = "25B4895DF77AF";
+        private const string KeyStr = "25B4895DF77AFtkv";
         private readonly byte[] _key;
         private readonly AesManaged _aes;
         private readonly ICryptoTransform _encryptor;

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Interfaces;
+using TexasHoldemShared.Security;
 
 namespace TexasHoldem.communication.Impl
 {
@@ -28,6 +29,7 @@ namespace TexasHoldem.communication.Impl
         protected readonly ManualResetEvent _connectionCleanerMre = new ManualResetEvent(false);
         protected List<Task> taskList;
         private static CommunicationHandler _instance;
+        private readonly ISecurity _security = new SecurityHandler();
         
         public static CommunicationHandler GetInstance()
         {
@@ -200,8 +202,11 @@ namespace TexasHoldem.communication.Impl
                     if (data.Count > 0)
                     {
                         Console.WriteLine("comm: done getting bytes. putting to arr");
-                        string msgStr = Encoding.UTF8.GetString(data.ToArray());
-                        _receivedMsgQueue.Enqueue(new Tuple<string, TcpClient>(msgStr, tcpClient));
+                        string msgStr = _security.Decrypt(data.ToArray());
+                        lock (_receivedMsgQueue)
+                        {
+                            _receivedMsgQueue.Enqueue(new Tuple<string, TcpClient>(msgStr, tcpClient));
+                        }
                         Console.WriteLine("comm: msg is: " + Encoding.UTF8.GetString(data.ToArray()));
                     }
                 } 
@@ -266,6 +271,7 @@ namespace TexasHoldem.communication.Impl
                 string msg;
                 msgQueue.TryDequeue(out msg);
                 byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
+                bytesToSend = _security.Encrypt(bytesToSend);
                 tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
             }
         }
