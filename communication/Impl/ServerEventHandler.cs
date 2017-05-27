@@ -39,8 +39,6 @@ namespace TexasHoldem.communication.Impl
             _sessionIdHandler = sidHandler;
         }
 
-
-
         public void SetSessionIdHandler(ISessionIdHandler handler)
         {
             _sessionIdHandler = handler;
@@ -49,40 +47,43 @@ namespace TexasHoldem.communication.Impl
         public string HandleEvent(ActionCommMessage msg)
         {
             bool success = false;
-            ResponeCommMessage response = null;
-            switch (msg.MoveType)
+            if (_sessionIdHandler != null)
             {
-                case CommunicationMessage.ActionType.Bet:
-                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                    break;
-                case CommunicationMessage.ActionType.Fold:
-                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                    break;
-                case CommunicationMessage.ActionType.HandCard:
-                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                    break;
-                case CommunicationMessage.ActionType.Join:
-                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    IGame room = _gameService.GetGameById(msg.RoomId);
-                    GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, room.GetPublicCards(), msg.Amount,
-                        room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
-                    response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg,data);
-                    break;
-                case CommunicationMessage.ActionType.Leave:
-                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                    break;
-                case CommunicationMessage.ActionType.StartGame:
-                    success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                    response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                    break;
-            }
-            if (response != null)
-            {
-                return _parser.SerializeMsg(response, ShouldUseDelim); 
+                ResponeCommMessage response = null;
+                switch (msg.MoveType)
+                {
+                    case CommunicationMessage.ActionType.Bet:
+                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        break;
+                    case CommunicationMessage.ActionType.Fold:
+                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        break;
+                    case CommunicationMessage.ActionType.HandCard:
+                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        break;
+                    case CommunicationMessage.ActionType.Join:
+                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        IGame room = _gameService.GetGameById(msg.RoomId);
+                        GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, room.GetPublicCards(), msg.Amount,
+                            room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+                        response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg, data);
+                        break;
+                    case CommunicationMessage.ActionType.Leave:
+                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        break;
+                    case CommunicationMessage.ActionType.StartGame:
+                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        break;
+                }
+                if (response != null)
+                {
+                    return _parser.SerializeMsg(response, ShouldUseDelim);
+                } 
             }
             return "";
         }
@@ -100,54 +101,58 @@ namespace TexasHoldem.communication.Impl
         public string HandleEvent(EditCommMessage msg)
         {
             bool success;
-            switch (msg.FieldToEdit)
+            if (_sessionIdHandler != null)
             {
-                case EditCommMessage.EditField.UserName:
-                    success = _userService.EditUserName(msg.UserId, msg.NewValue);
-                    break;
-                case EditCommMessage.EditField.Password:
-                    success = _userService.EditUserPassword(msg.UserId, msg.NewValue);
-                    break;
-                case EditCommMessage.EditField.Avatar:
-                    success = _userService.EditUserAvatar(msg.UserId, msg.NewValue);
-                    break;
-                case EditCommMessage.EditField.Email:
-                    success = _userService.EditUserEmail(msg.UserId, msg.NewValue);
-                    break;
-                case EditCommMessage.EditField.Money:
-                    string temp = msg.NewValue;
-                    int newMoney;
-                    bool isValid = int.TryParse(temp, out newMoney);
-                    if (isValid)
-                    {
-                        success = _userService.EditMoney(msg.UserId, newMoney);
-                    }
-                    else
-                    {
-                        success = false;
-                    }
-                    break;
-                case EditCommMessage.EditField.Name:
-                    success = _userService.EditName(msg.UserId, msg.NewValue);
-                    break;
-                case EditCommMessage.EditField.Id:
-                    string temp2 = msg.NewValue;
-                    int newId;
-                    bool isValid2 = int.TryParse(temp2, out newId);
-                    if (isValid2)
-                    {
-                        success = _userService.EditId(msg.UserId, newId);
-                    }
-                    else
-                    {
-                        success = false;
-                    }
-                    break;
-                default:
-                    return "";
+                switch (msg.FieldToEdit)
+                {
+                    case EditCommMessage.EditField.UserName:
+                        success = _userService.EditUserName(msg.UserId, msg.NewValue);
+                        break;
+                    case EditCommMessage.EditField.Password:
+                        success = _userService.EditUserPassword(msg.UserId, msg.NewValue);
+                        break;
+                    case EditCommMessage.EditField.Avatar:
+                        success = _userService.EditUserAvatar(msg.UserId, msg.NewValue);
+                        break;
+                    case EditCommMessage.EditField.Email:
+                        success = _userService.EditUserEmail(msg.UserId, msg.NewValue);
+                        break;
+                    case EditCommMessage.EditField.Money:
+                        string temp = msg.NewValue;
+                        int newMoney;
+                        bool isValid = int.TryParse(temp, out newMoney);
+                        if (isValid)
+                        {
+                            success = _userService.EditMoney(msg.UserId, newMoney);
+                        }
+                        else
+                        {
+                            success = false;
+                        }
+                        break;
+                    case EditCommMessage.EditField.Name:
+                        success = _userService.EditName(msg.UserId, msg.NewValue);
+                        break;
+                    case EditCommMessage.EditField.Id:
+                        string temp2 = msg.NewValue;
+                        int newId;
+                        bool isValid2 = int.TryParse(temp2, out newId);
+                        if (isValid2)
+                        {
+                            success = _userService.EditId(msg.UserId, newId);
+                        }
+                        else
+                        {
+                            success = false;
+                        }
+                        break;
+                    default:
+                        return "";
+                } 
+                ResponeCommMessage response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                return _parser.SerializeMsg(response, ShouldUseDelim);
             }
-            ResponeCommMessage response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-            return _parser.SerializeMsg(response, ShouldUseDelim);
+            return "";
         }
 
         private long GenerateSid(int userId)
@@ -163,128 +168,140 @@ namespace TexasHoldem.communication.Impl
 
         public string HandleEvent(LoginCommMessage msg)
         {
-            
-            bool success = _userService.LoginUser(msg.UserName, msg.Password);
-            ResponeCommMessage response;
-            if (_socket != null)
+
+            if (_sessionIdHandler != null)
             {
-                _commHandler.AddUserId(msg.UserId, _socket);
+                bool success = _userService.LoginUser(msg.UserName, msg.Password);
+                ResponeCommMessage response;
+                if (_socket != null)
+                {
+                    _commHandler.AddUserId(msg.UserId, _socket);
+                }
+                if (success)
+                {
+                    long sid = GenerateSid(msg.UserId);
+                    IUser user = _userService.GetIUserByUserName(msg.UserName);
+                    response = new LoginResponeCommMessage(user.Id(), sid, user.Name(), user.MemberName(),
+                        user.Password(), user.Avatar(), user.Money(),
+                        user.Email(), user.GetLeague().ToString(), success, msg);
+                }
+                else
+                {
+                    response = new LoginResponeCommMessage(-1, -1, "", "",
+                        "", "", -1, "", "", success, msg);
+                }
+                return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
-            if (success)
-            {
-                long sid = GenerateSid(msg.UserId);
-                IUser user = _userService.GetIUserByUserName(msg.UserName);
-                response = new LoginResponeCommMessage(user.Id(), sid, user.Name(), user.MemberName(),
-                    user.Password(), user.Avatar(), user.Money(),
-                    user.Email(),user.GetLeague().ToString(), success, msg);
-            }
-            else
-            {
-                response = new LoginResponeCommMessage(-1, -1, "", "",
-                    "", "", -1 , "","", success, msg);
-            }
-            return _parser.SerializeMsg(response, ShouldUseDelim);
-           
+            return "";
+
         }
 
         public string HandleEvent(RegisterCommMessage msg)
         {
-            bool success = _userService.RegisterToSystem(msg.UserId, msg.Name, msg.MemberName, msg.Password, msg.Money,
-                msg.Email);
-
-            if (_socket != null)
+            if (_sessionIdHandler != null)
             {
-                _commHandler.AddUserId(msg.UserId, _socket); 
-            }
-            long sid = GenerateSid(msg.UserId);
-            
-            ResponeCommMessage response = new RegisterResponeCommMessage(sid, msg.UserId,msg.Name,msg.MemberName,msg.Password,
-                "/GuiScreen/Photos/Avatar/devil.png",msg.Money,msg.Email,"unKnow",success,msg);
+                bool success = _userService.RegisterToSystem(msg.UserId, msg.Name, msg.MemberName, msg.Password, msg.Money,
+                        msg.Email);
 
-            return _parser.SerializeMsg(response, ShouldUseDelim);
+                if (_socket != null)
+                {
+                    _commHandler.AddUserId(msg.UserId, _socket);
+                }
+                long sid = GenerateSid(msg.UserId);
+
+                ResponeCommMessage response = new RegisterResponeCommMessage(sid, msg.UserId, msg.Name, msg.MemberName, msg.Password,
+                    "/GuiScreen/Photos/Avatar/devil.png", msg.Money, msg.Email, "unKnow", success, msg);
+
+                return _parser.SerializeMsg(response, ShouldUseDelim); 
+            }
+            return "";
         }
 
         public string HandleEvent(SearchCommMessage msg)
         {
-            bool success;
-            List<IGame> temp = new List<IGame>();
-            List<ClientGame> toSend = new List<ClientGame>();
-            switch (msg.searchType)
+            if (_sessionIdHandler != null)
             {
-                case SearchCommMessage.SearchType.ActiveGamesByUserName:
-                    temp = _userService.GetActiveGamesByUserName(msg.SearchByString);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.SpectetorGameByUserName:
-                    temp = _userService.GetSpectetorGamesByUserName(msg.SearchByString);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByRoomId:
-                    IGame game = _gameService.GetGameById(msg.SearchByInt);
-                    if (game != null)
-                    {
-                        temp.Add(game);
+                bool success;
+                List<IGame> temp = new List<IGame>();
+                List<ClientGame> toSend = new List<ClientGame>();
+                switch (msg.searchType)
+                {
+                    case SearchCommMessage.SearchType.ActiveGamesByUserName:
+                        temp = _userService.GetActiveGamesByUserName(msg.SearchByString);
                         toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0; 
-                    }
-                    else
-                    {
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.SpectetorGameByUserName:
+                        temp = _userService.GetSpectetorGamesByUserName(msg.SearchByString);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByRoomId:
+                        IGame game = _gameService.GetGameById(msg.SearchByInt);
+                        if (game != null)
+                        {
+                            temp.Add(game);
+                            toSend = ToClientGameList(temp);
+                            success = toSend.Count != 0;
+                        }
+                        else
+                        {
+                            success = false;
+                        }
+                        break;
+                    case SearchCommMessage.SearchType.AllSepctetorGame:
+                        temp = _gameService.GetSpectateableGames();
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.GamesUserCanJoin:
+                        temp = _gameService.GetAllActiveGamesAUserCanJoin(msg.UserId);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByPotSize:
+                        temp = _gameService.GetGamesByPotSize(msg.SearchByInt);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByGameMode:
+                        temp = _gameService.GetGamesByGameMode(msg.SearchByGameMode);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByBuyInPolicy:
+                        temp = _gameService.GetGamesByBuyInPolicy(msg.SearchByInt);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByMinPlayer:
+                        temp = _gameService.GetGamesByMinPlayer(msg.SearchByInt);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByMaxPlayer:
+                        temp = _gameService.GetGamesByMaxPlayer(msg.SearchByInt);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByStartingChip:
+                        temp = _gameService.GetGamesByStartingChip(msg.SearchByInt);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    case SearchCommMessage.SearchType.ByMinBet:
+                        temp = _gameService.GetGamesByMinBet(msg.SearchByInt);
+                        toSend = ToClientGameList(temp);
+                        success = toSend.Count != 0;
+                        break;
+                    default:
                         success = false;
-                    }
-                    break;
-                case SearchCommMessage.SearchType.AllSepctetorGame:
-                    temp = _gameService.GetSpectateableGames();
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.GamesUserCanJoin:
-                    temp = _gameService.GetAllActiveGamesAUserCanJoin(msg.UserId);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByPotSize:
-                    temp = _gameService.GetGamesByPotSize(msg.SearchByInt);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByGameMode:
-                    temp = _gameService.GetGamesByGameMode(msg.SearchByGameMode);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByBuyInPolicy:
-                    temp = _gameService.GetGamesByBuyInPolicy(msg.SearchByInt);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByMinPlayer:
-                    temp = _gameService.GetGamesByMinPlayer(msg.SearchByInt);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByMaxPlayer:
-                    temp = _gameService.GetGamesByMaxPlayer(msg.SearchByInt);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByStartingChip:
-                    temp = _gameService.GetGamesByStartingChip(msg.SearchByInt);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                case SearchCommMessage.SearchType.ByMinBet:
-                    temp = _gameService.GetGamesByMinBet(msg.SearchByInt);
-                    toSend = ToClientGameList(temp);
-                    success = toSend.Count != 0;
-                    break;
-                default:
-                    success = false;
-                    break;
+                        break;
+                }
+                ResponeCommMessage response = new SearchResponseCommMessage(toSend, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg);
+                return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
-            ResponeCommMessage response = new SearchResponseCommMessage(toSend, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg);
-            return _parser.SerializeMsg(response, ShouldUseDelim);
+            return "";
         }
 
         private LeaderboardLineData UserToLineData(IUser user)
@@ -293,82 +310,100 @@ namespace TexasHoldem.communication.Impl
                 user.TotalProfit, user.HighestCashGainInGame, user.WinNum + user.LoseNum);
         }
 
-        //TODO
         public string HandleEvent(UserStatisticsCommMessage msg)
         {
-            UserStatistics stats = _userService.GetUserStatistics(msg.UserId);
-            if (stats != null)
+            if (_sessionIdHandler != null)
             {
-                var response = new UserStatisticsResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), true, 
-                    msg, stats.AvgCashGain, stats.AvgGrossProfit);
-                return _parser.SerializeMsg(response, ShouldUseDelim);
+                UserStatistics stats = _userService.GetUserStatistics(msg.UserId);
+                if (stats != null)
+                {
+                    var response = new UserStatisticsResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), true,
+                        msg, stats.AvgCashGain, stats.AvgGrossProfit);
+                    return _parser.SerializeMsg(response, ShouldUseDelim);
+                } 
             }
             return "";
         }
 
         public string HandleEvent(LeaderboardCommMessage msg)
         {
-            var sortOption = msg.SortedBy;
-            List<IUser> userLst;
-            switch (sortOption)
+            if (_sessionIdHandler != null)
             {
-                case LeaderboardCommMessage.SortingOption.TotalGrossProfit:
-                    userLst = _userService.GetUsersByTotalProfit();
-                    break;
-                case LeaderboardCommMessage.SortingOption.HighestCashGain:
-                    userLst = _userService.GetUsersByHighestCash();
-                    break;
-                case LeaderboardCommMessage.SortingOption.NumGamesPlayes:
-                    userLst = _userService.GetUsersByNumOfGames();
-                    break;
-                default:
-                    return "";
+                var sortOption = msg.SortedBy;
+                List<IUser> userLst;
+                switch (sortOption)
+                {
+                    case LeaderboardCommMessage.SortingOption.TotalGrossProfit:
+                        userLst = _userService.GetUsersByTotalProfit();
+                        break;
+                    case LeaderboardCommMessage.SortingOption.HighestCashGain:
+                        userLst = _userService.GetUsersByHighestCash();
+                        break;
+                    case LeaderboardCommMessage.SortingOption.NumGamesPlayes:
+                        userLst = _userService.GetUsersByNumOfGames();
+                        break;
+                    default:
+                        return "";
+                }
+                var leaderboradLines = userLst.ConvertAll(UserToLineData);
+                var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
+                    true, msg, leaderboradLines);
+                return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
-            var leaderboradLines = userLst.ConvertAll(UserToLineData);
-            var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), 
-                true, msg, leaderboradLines);
-            return _parser.SerializeMsg(response, ShouldUseDelim);
+            return "";
         }
 
         //this is done differently then other types of msgs because it is called from service
         public string HandleEvent(GameDataCommMessage msg)
         {
-            var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
-            _commHandler.AddMsgToSend(parsed, msg.UserId);
-            return parsed;
+            if (_sessionIdHandler != null)
+            {
+                var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
+                _commHandler.AddMsgToSend(parsed, msg.UserId);
+                return parsed; 
+            }
+            return "";
         }
 
         //_sessionIdHandler.GetSessionIdByUserId(msg.UserId): maybe problematic
         public string HandleEvent(ResponeCommMessage msg)
         {
-            var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
-            _commHandler.AddMsgToSend(parsed, msg.UserId);
-            return parsed;
+            if (_sessionIdHandler != null)
+            {
+                var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
+                _commHandler.AddMsgToSend(parsed, msg.UserId);
+                return parsed; 
+            }
+            return "";
         }
 
         public string HandleEvent(CreateNewRoomMessage msg)
         {
-            int roomId = _gameService.CreateNewRoom(msg.UserId,msg._chipPolicy,
-                msg._canSpectate, msg._mode , msg._minPlayer , msg._maxPlayers ,
-                msg._buyInPolicy , msg._minBet);
-            var success = roomId != -1;
+            if (_sessionIdHandler != null)
+            {
+                int roomId = _gameService.CreateNewRoom(msg.UserId, msg._chipPolicy,
+                        msg._canSpectate, msg._mode, msg._minPlayer, msg._maxPlayers,
+                        msg._buyInPolicy, msg._minBet);
+                var success = roomId != -1;
 
-            CreateNewGameResponse respons;
-            if (success)
-            {
-                List<string> names = new List<string>();
-                IUser user = _userService.GetUserById(msg.UserId);
-                names.Add(user.MemberName());
-                var gameData = new GameDataCommMessage(msg.UserId, roomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, new List<Card>(),
-                    msg._chipPolicy, 0,names , null, null, null, success,
-                    "","",0,CommunicationMessage.ActionType.CreateRoom);
-                respons = new CreateNewGameResponse(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg, gameData);
+                CreateNewGameResponse respons;
+                if (success)
+                {
+                    List<string> names = new List<string>();
+                    IUser user = _userService.GetUserById(msg.UserId);
+                    names.Add(user.MemberName());
+                    var gameData = new GameDataCommMessage(msg.UserId, roomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, new List<Card>(),
+                        msg._chipPolicy, 0, names, null, null, null, success,
+                        "", "", 0, CommunicationMessage.ActionType.CreateRoom);
+                    respons = new CreateNewGameResponse(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg, gameData);
+                }
+                else
+                {
+                    respons = new CreateNewGameResponse();
+                }
+                return _parser.SerializeMsg(respons, ShouldUseDelim);  
             }
-            else
-            {
-                respons = new CreateNewGameResponse();
-            }
-            return _parser.SerializeMsg(respons, ShouldUseDelim); 
+            return "";
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
@@ -389,36 +424,40 @@ namespace TexasHoldem.communication.Impl
 
         public string HandleEvent(ChatCommMessage msg)
         {
-            bool success =false;
-            int idReciver= _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
-            string usernameSender = _userService.GetUserById(msg.IdSender).MemberName(); //to get from id;
-
-            switch (msg.ChatType)
+            if (_sessionIdHandler != null)
             {
-                case CommunicationMessage.ActionType.PlayerBrodcast:
-                    success = _gameService.CanSendPlayerBrodcast(msg.IdSender,msg.RoomId);
-                    idReciver = msg.IdSender;
-                    usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
-                    break;
-                case CommunicationMessage.ActionType.PlayerWhisper:
-                    success = _gameService.CanSendPlayerWhisper(msg.IdSender,msg.ReciverUsername, msg.RoomId);
-                    idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
-                    usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
-                    break;
-                case CommunicationMessage.ActionType.SpectetorBrodcast:
-                    success = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
-                    idReciver = msg.IdSender;
-                    usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
-                    break;
-                case CommunicationMessage.ActionType.SpectetorWhisper:
-                    success = _gameService.CanSendSpectetorWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
-                    idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
-                    usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
-                    break;
+                bool success = false;
+                int idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
+                string usernameSender = _userService.GetUserById(msg.IdSender).MemberName(); //to get from id;
 
+                switch (msg.ChatType)
+                {
+                    case CommunicationMessage.ActionType.PlayerBrodcast:
+                        success = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
+                        idReciver = msg.IdSender;
+                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
+                        break;
+                    case CommunicationMessage.ActionType.PlayerWhisper:
+                        success = _gameService.CanSendPlayerWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
+                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
+                        break;
+                    case CommunicationMessage.ActionType.SpectetorBrodcast:
+                        success = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
+                        idReciver = msg.IdSender;
+                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
+                        break;
+                    case CommunicationMessage.ActionType.SpectetorWhisper:
+                        success = _gameService.CanSendSpectetorWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
+                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
+                        break;
+
+                }
+                ResponeCommMessage response = new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
+                return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
-            ResponeCommMessage response = new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
-            return _parser.SerializeMsg(response, ShouldUseDelim);
+            return "";
         }
 
         //TODO:

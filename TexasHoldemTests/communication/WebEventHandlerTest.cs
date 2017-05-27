@@ -37,6 +37,7 @@ namespace TexasHoldemTests.communication
             _userService = new UserServiceHandler(gc, sc);
             _serverEventHandler = new ServerEventHandler(null, null, gc, sc, lc, rm, CommunicationHandler.GetInstance());
             _webEventHandler = new WebEventHandler(_serverEventHandler);
+            _serverEventHandler.SetSessionIdHandler(_webEventHandler);
         }
 
         [SetUp]
@@ -155,14 +156,14 @@ namespace TexasHoldemTests.communication
             var expectedMessage =
                 "t{\"?xml\":{\"@version\":\"1.0\",\"@encoding\":\"utf-16\"}," +
                 "\"UserStatisticsCommMessage\":{\"@xmlns:xsd\":\"http://www.w3.org/2001/XMLSchema\"," +
-                "\"@xmlns:xsi\":\"http://www.w3.org/2001/XMLSchema-instance\",\"UserId\":\"1\"}}";
+                "\"@xmlns:xsi\":\"http://www.w3.org/2001/XMLSchema-instance\",\"UserId\":\"1\",\"SessionId\":\"-1\"}}";
 
             var expectedResponse =
                 "u{\"?xml\":{\"@version\":\"1.0\",\"@encoding\":\"utf-16\"}," +
                 "\"UserStatisticsResponseCommMessage\":{\"@xmlns:xsd\":" +
                 "\"http://www.w3.org/2001/XMLSchema\",\"@xmlns:xsi\":\"http://www.w3.org/2001/XMLSchema-instance\"," +
-                "\"UserId\":\"1\",\"Success\":\"true\",\"OriginalMsg\":{\"@xsi:type\":\"UserStatisticsCommMessage\"," +
-                "\"UserId\":\"1\"},\"AvgCashGain\":\"83.333333333333329\",\"AvgGrossProfit\":\"90.9090909090909\"}}";
+                "\"UserId\":\"1\",\"SessionId\":\"-1\",\"Success\":\"true\",\"OriginalMsg\":{\"@xsi:type\":\"UserStatisticsCommMessage\"," +
+                "\"UserId\":\"1\",\"SessionId\":\"-1\"},\"AvgCashGain\":\"83.333333333333329\",\"AvgGrossProfit\":\"90.9090909090909\"}}";
 
             UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1, -1);
             var xml = _parser.SerializeMsg(commMessage, false);
