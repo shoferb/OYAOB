@@ -77,10 +77,13 @@ namespace Client.Handler
                     {
                         _toSendMsgQueue.TryDequeue(out msg);
                         // Translate the passed message into ASCII and store it as a Byte array.
-                        Byte[] data = System.Text.Encoding.UTF8.GetBytes(msg);
-                        data = _security.Encrypt(data);
+                        byte[] data = Encoding.UTF8.GetBytes(msg);
+                        string  s = Encoding.UTF8.GetString(data);
+                        byte[] encrypted = _security.Encrypt(data);
+                        s = Encoding.UTF8.GetString(encrypted);
+                        s = _security.Decrypt(encrypted);
                         // Send the message to the connected TcpServer. 
-                        _stream.Write(data, 0, data.Length);
+                        _stream.Write(encrypted, 0, encrypted.Length);
                     }
                 }
                 catch (SocketException e)

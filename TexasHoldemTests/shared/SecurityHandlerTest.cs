@@ -21,6 +21,16 @@ namespace TexasHoldemTests.shared
             Console.WriteLine("result: " + Encoding.UTF8.GetString(result));
         }
 
+        [TestCase]
+        public void DecryptionTest()
+        {
+            var ptBytes = Encoding.UTF8.GetBytes("This is a plaintext msg");
+            var encrypted = _security.Encrypt(ptBytes);
+            var s = Encoding.UTF8.GetString(encrypted);
+            s = _security.Decrypt(encrypted);
+            Console.WriteLine(s);
+        }
+
         private bool CompareArrays<T>(IReadOnlyList<T> arr1, IReadOnlyList<T> arr2)
         {
             bool ans = true;

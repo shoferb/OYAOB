@@ -26,8 +26,10 @@ namespace TexasHoldemShared.Security
 
             _aes = new AesManaged
             {
+                Padding = PaddingMode.PKCS7,
+                KeySize = 128,
+                Key = _key,
                 IV = _iv,
-                Key = _key
             };
             _encryptor = _aes.CreateEncryptor();
             _decryptor = _aes.CreateDecryptor();
@@ -41,41 +43,66 @@ namespace TexasHoldemShared.Security
         public byte[] Encrypt(byte[] data)
         {
             byte[] encrypted;
-            using (MemoryStream msEncrypt = new MemoryStream())
-            {
-                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
-                {
-                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                    {
+            //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key })
+            //{
+                
+                //var encryptor = aes.CreateEncryptor();
 
-                        //Write all data to the stream.
-                        swEncrypt.Write(data);
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
+                    {
+                        csEncrypt.Write(data, 0, data.Length);
                     }
                     encrypted = msEncrypt.ToArray();
-                }
-            }
+                } 
+            //}
             return encrypted;
         }
 
         public string EncryptString(string data)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(data);
-            return Encoding.UTF8.GetString(Encrypt(bytes));
+            byte[] encrypted;
+            //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key})
+            //{
+            //    aes.Padding = PaddingMode.PKCS7;
+            //    var encryptor = aes.CreateEncryptor();
+
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
+                    {
+                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
+                        {
+
+                            //Write all data to the stream.
+                            swEncrypt.Write(data);
+                        }
+                        encrypted = msEncrypt.ToArray();
+                    }
+                } 
+            //}
+            return Encoding.UTF8.GetString(encrypted);
         }
 
         public string Decrypt(byte[] data)
         {
             string plainText;
-            using (MemoryStream msDecrypt = new MemoryStream(data))
-            {
-                using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, _decryptor, CryptoStreamMode.Read))
+            //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key })
+            //{
+            //    aes.Padding = PaddingMode.PKCS7;
+            //    aes.KeySize = 128;
+            //    var decryptor = aes.CreateDecryptor();
+
+                using (MemoryStream msDecrypt = new MemoryStream(data))
                 {
-                    using (StreamReader srDecrypt = new StreamReader(csDecrypt))
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, _decryptor, CryptoStreamMode.Write))
                     {
-                        plainText = srDecrypt.ReadToEnd();
+                        csDecrypt.Write(data, 0, data.Length);
                     }
-                }
-            }
+                    plainText = Encoding.UTF8.GetString(msDecrypt.ToArray());
+                } 
+            //}
             return plainText;
         }
     }

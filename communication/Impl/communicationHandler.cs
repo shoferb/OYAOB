@@ -203,10 +203,7 @@ namespace TexasHoldem.communication.Impl
                     {
                         Console.WriteLine("comm: done getting bytes. putting to arr");
                         string msgStr = _security.Decrypt(data.ToArray());
-                        lock (_receivedMsgQueue)
-                        {
-                            _receivedMsgQueue.Enqueue(new Tuple<string, TcpClient>(msgStr, tcpClient));
-                        }
+                        _receivedMsgQueue.Enqueue(new Tuple<string, TcpClient>(msgStr, tcpClient));
                         Console.WriteLine("comm: msg is: " + Encoding.UTF8.GetString(data.ToArray()));
                     }
                 } 
