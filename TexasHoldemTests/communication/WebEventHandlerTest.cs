@@ -174,6 +174,18 @@ namespace TexasHoldemTests.communication
             Assert.AreEqual(expectedResponse, result[0]);
         }
 
+        [TestCase]
+        public void RegisterSidGood()
+        {
+            Init();
+
+            RegisterCommMessage registerMsg = new RegisterCommMessage(1, "Oded", "Oded", "123456789", 1000, "some@mail.com");
+            var responseStr = _serverEventHandler.HandleEvent(registerMsg);
+            var respLst = _parser.ParseString(responseStr, false);
+            Assert.AreEqual(1, respLst.Count);
+            Assert.AreNotEqual(-1, respLst[0].SessionId);
+        }
+
 
 
 
