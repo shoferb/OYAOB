@@ -202,11 +202,6 @@ namespace TexasHoldem.Service
             return toReturn;
         }
 
-        public void SendMessageToClientGameData(GameDataCommMessage gameDataMes)
-        {
-            _eventHandler.SendGameDataToClient(gameDataMes);
-        }
-
         //check player is in the game room 
         public bool CanSendPlayerBrodcast(int playerId, int roomId)
         {
