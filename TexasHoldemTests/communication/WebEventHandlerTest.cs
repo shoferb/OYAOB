@@ -148,7 +148,7 @@ namespace TexasHoldemTests.communication
         }
 
         [TestCase]
-        public void HandleRawMsgsStatisticsGood()
+        public void ParseStatisticsGood()
         {
             RegisterTwoUsers();
 
