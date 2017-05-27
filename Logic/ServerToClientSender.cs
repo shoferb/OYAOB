@@ -15,6 +15,7 @@ namespace TexasHoldem.Logic
     public class ServerToClientSender
     {
         private MessageEventHandler _eventHandler;
+
         public ServerToClientSender(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
             _eventHandler = new MessageEventHandler(gc, sys, log, replay);
