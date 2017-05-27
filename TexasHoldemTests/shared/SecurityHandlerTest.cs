@@ -29,6 +29,7 @@ namespace TexasHoldemTests.shared
             var s = Encoding.UTF8.GetString(encrypted);
             s = _security.Decrypt(encrypted);
             Console.WriteLine(s);
+            Assert.AreEqual(s, "This is a plaintext msg");
         }
 
         private bool CompareArrays<T>(IReadOnlyList<T> arr1, IReadOnlyList<T> arr2)

@@ -20,7 +20,6 @@ namespace TexasHoldemShared.Security
 
         public SecurityHandler()
         {
-            //generate 128 bit key and IV from the strings
             _iv = Encoding.UTF8.GetBytes(IvStr);
             _key = Encoding.UTF8.GetBytes(KeyStr);
 
@@ -43,70 +42,44 @@ namespace TexasHoldemShared.Security
         public byte[] Encrypt(string data)
         {
             byte[] encrypted;
-            //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key })
-            //{
-                
-                //var encryptor = aes.CreateEncryptor();
-
-                using (MemoryStream msEncrypt = new MemoryStream())
+            using (MemoryStream msEncrypt = new MemoryStream())
+            {
+                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
+                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
 
-                            //Write all data to the stream.
-                            swEncrypt.Write(data);
-                        }
+                        //Write all data to the stream.
+                        swEncrypt.Write(data);
                     }
-                    encrypted = msEncrypt.ToArray();
-                } 
-            //}
+                }
+                encrypted = msEncrypt.ToArray();
+            } 
             return encrypted;
         }
 
-        public string EncryptString(string data)
+        public string EncryptToString(string data)
         {
             byte[] encrypted;
-            //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key})
-            //{
-            //    aes.Padding = PaddingMode.PKCS7;
-            //    var encryptor = aes.CreateEncryptor();
-
-                using (MemoryStream msEncrypt = new MemoryStream())
+            using (MemoryStream msEncrypt = new MemoryStream())
+            {
+                using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
                 {
-                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, _encryptor, CryptoStreamMode.Write))
+                    using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
                     {
-                        using (StreamWriter swEncrypt = new StreamWriter(csEncrypt))
-                        {
 
-                            //Write all data to the stream.
-                            swEncrypt.Write(data);
-                        }
-                        encrypted = msEncrypt.ToArray();
+                        //Write all data to the stream.
+                        swEncrypt.Write(data);
                     }
-                } 
-            //}
+                    encrypted = msEncrypt.ToArray();
+                }
+            } 
             return Encoding.UTF8.GetString(encrypted);
         }
 
         public string Decrypt(byte[] data)
         {
             string plainText;
-            //using (AesManaged aes = new AesManaged { IV = _iv, Key = _key })
-            //{
-            //    aes.Padding = PaddingMode.PKCS7;
-            //    aes.KeySize = 128;
-            //    var decryptor = aes.CreateDecryptor();
-
-            //using (MemoryStream msDecrypt = new MemoryStream(data))
-            //{
-            //    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, _decryptor, CryptoStreamMode.Write))
-            //    {
-            //        csDecrypt.Write(data, 0, data.Length);
-            //    }
-            //    plainText = Encoding.UTF8.GetString(msDecrypt.ToArray());
-            //} 
 
             using (MemoryStream msDecrypt = new MemoryStream(data))
             {
@@ -121,7 +94,6 @@ namespace TexasHoldemShared.Security
                     }
                 }
             }
-            //}
             return plainText;
         }
     }
