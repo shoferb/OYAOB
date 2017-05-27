@@ -84,7 +84,14 @@ namespace TexasHoldem.communication.Impl
 
             //call to visitor pattern
             var res = parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
-            _commHandler.AddMsgToSend(res, userId);
+            if (String.IsNullOrEmpty(res))
+            {
+                _commHandler.AddMsgToSend(res, userId);
+            }
+            else
+            {
+                Console.WriteLine("There was a problem with server event handler. got empty result.");
+            }
         }
     }
 }

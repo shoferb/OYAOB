@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared.Parser;
 
@@ -22,7 +23,14 @@ namespace TexasHoldem.communication.Impl
             parsedLst.ForEach(commMsg =>
             {
                 var xmlStr = commMsg.Handle(_serverHandler);
-                resultList.Add(_parser.XmlToJson(xmlStr));
+                if (String.IsNullOrEmpty(xmlStr))
+                {
+                    resultList.Add(_parser.XmlToJson(xmlStr)); 
+                }
+                else
+                {
+                    Console.WriteLine("There was a problem with server event handler. got empty result.");
+                }
             });
 
             return resultList;
