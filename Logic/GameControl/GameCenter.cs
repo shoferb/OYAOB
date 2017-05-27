@@ -23,7 +23,6 @@ namespace TexasHoldem.Logic.Game_Control
 
         private static int roomIdCounter = 1;
         private SystemControl _systemControl ;
-        private GameServiceHandler gameServiceHandler;
         private LogControl logControl;
         private ReplayManager replayManager;
 
@@ -36,7 +35,6 @@ namespace TexasHoldem.Logic.Game_Control
             logControl = log;
             this.logs = new List<Log>();
             this.games = new List<IGame>();
-            gameServiceHandler = new GameServiceHandler(this, sys, log, replay);
         }
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)

@@ -52,7 +52,7 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
-        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, ReplayManager replay)
+        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, ReplayManager replay, ServerToClientSender sender)
         {
             MyDecorator = decorator;
             SetTheBlinds();
@@ -73,7 +73,7 @@ namespace TexasHoldem.Logic.Game
             lastRaiseInRound = 0;
             ReduceFeeAndStatringChipFromPlayers();
             useCommunication = true;
-            clientSender = new ServerToClientSender(gc, )
+            clientSender = sender;
         }
 
         private void ReduceFeeAndStatringChipFromPlayers()
