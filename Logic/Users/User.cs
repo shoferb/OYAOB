@@ -24,7 +24,10 @@ namespace TexasHoldem.Logic.Users
         private List<IGame> spectateGameList;
         private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
         private LeagueName league;
-
+        public int WinNum { get; set; }
+        public int LoseNum { get; set; }
+        public int HighestCashGainInGame { get; set; }
+        public int TotalProfit { get; set; }
         //for syncronize
         private static readonly object padlock = new object();
 
@@ -199,11 +202,7 @@ namespace TexasHoldem.Logic.Users
             return spectateGameList;
         }
 
-        public int WinNum { get; set; }
-
-        public int LoseNum { get; set; }
-
-        public int HighestCashGainInGame { get; set; }
+       
 
         public void UpdateHighestCashInGame(int cashToChck)
         {
@@ -213,7 +212,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public int TotalProfit { get; set; }
+       
 
         public void UpdateTotalProfit(int profit)
         {
