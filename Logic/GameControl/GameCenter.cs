@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.Logic.Game;
-using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
-using TexasHoldem.Service;
-using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
-using TexasHoldemShared.CommMessages.ClientToServer;
-using TexasHoldemShared.CommMessages.ServerToClient;
 
-
-namespace TexasHoldem.Logic.Game_Control
+namespace TexasHoldem.Logic.GameControl
 {
     public class GameCenter
     {
@@ -185,8 +180,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-       
-
         public List<IGame> GetAllActiveGamesAUserCanJoin(IUser user)
         {
             List<IGame> toReturn = new List<IGame>();
@@ -229,8 +222,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-       
-
         //return true if there is a room with this Id
         public bool IsRoomExist(int roomId)
         {
@@ -247,8 +238,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
-       
 
         //return all games in the system 0 active and non active
         public List<IGame> GetGames()
@@ -402,7 +391,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
         //return list of games by max player in room
         public List<IGame> GetGamesByMaxPlayer(int max)
         {
@@ -433,8 +421,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
-
 
         //return list of games by min bet in room
         //syncronized - due to for
@@ -468,7 +454,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
 
         //return list of games by starting chip policy
         //return null if startingChup <=0
@@ -517,7 +502,6 @@ namespace TexasHoldem.Logic.Game_Control
             return toReturn;
         }
 
-
         //check if game is active game
         public bool IsGameActive(int roomId)
         {
@@ -529,7 +513,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
             return toReturn;
         }
-
 
         public List<IGame> GetAllGames()
         {
@@ -559,27 +542,6 @@ namespace TexasHoldem.Logic.Game_Control
                 return toReturn;
             }
         }
-
-      
-
-        //TODO delete this
-        public int LeagueGap
-        {
-            get
-            {
-                return leagueGap;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    leagueGap = value;
-                }
-            }
-        }
-
-
 
         public List<IGame> Games
         {
@@ -611,7 +573,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
         public bool CanSendSpectetorBrodcast(IUser user, int roomId)
         {
             lock (padlock)
@@ -625,7 +586,6 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-
         public bool CanSendPlayerWhisper(IUser sender, IUser reciver, int roomId)
         {
             lock (padlock)
@@ -636,8 +596,9 @@ namespace TexasHoldem.Logic.Game_Control
                     return false;
                 }
                 bool isSenderPlayer = game.IsPlayerInRoom(sender);
+                bool isReceiverActive = reciver.IsLogin();
                 bool isReciverSectetorOrPlayer = game.IsPlayerInRoom(reciver) || game.IsSpectetorInRoom(reciver);
-                return isSenderPlayer && isReciverSectetorOrPlayer;
+                return isSenderPlayer && isReciverSectetorOrPlayer && isReceiverActive;
             }
         }
 
@@ -651,8 +612,9 @@ namespace TexasHoldem.Logic.Game_Control
                     return false;
                 }
                 bool isSenderSpectetor = game.IsSpectetorInRoom(sender);
+                bool isReceiverActive = reciver.IsLogin();
                 bool isReciverSpector = game.IsSpectetorInRoom(reciver);
-                return isSenderSpectetor && isReciverSpector;
+                return isSenderSpectetor && isReciverSpector && isReceiverActive;
             }
         }
     }
