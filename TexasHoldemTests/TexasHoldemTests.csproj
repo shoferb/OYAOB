@@ -82,14 +82,6 @@
     <Compile Include="communication\CommHandlerChildForTests.cs" />
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\WebEventHandlerTest.cs" />
-    <Compile Include="Database\DatabaseObject\gameDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\LogDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\ReplayDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\userDatabaseOb.cs" />
-    <Compile Include="Database\GameDB.cs" />
-    <Compile Include="Database\LogDB.cs" />
-    <Compile Include="Database\ReplayDB.cs" />
-    <Compile Include="Database\UserDB.cs" />
     <Compile Include="Database\UserDBTest.cs" />
     <Compile Include="Handler\CommunicationHandlerTests.cs" />
     <Compile Include="Logic\IUserMoq.cs" />
@@ -129,27 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logic\Client\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database\scriptDatabaseCreate.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.AddNewUser.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditAvatar.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditEmail.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditName.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditPassword.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserId.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserIsActive.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserLeagueName.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserMoney.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUsername.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserPoints.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserTotalProfit.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserWinNum.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetAllUser.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserId.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserName.StoredProcedure.sql" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
