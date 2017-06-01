@@ -79,3 +79,6 @@ packages/
 TexasHoldemShared/packages.config
 TexasHoldemTests/packages.config
 packages.config
+/App.config
+*.config
+*.config
