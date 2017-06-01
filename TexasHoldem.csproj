@@ -78,6 +78,7 @@
     <Compile Include="communication\Interfaces\ISessionIdHandler.cs" />
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
+    <Compile Include="Database\UserDB.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
