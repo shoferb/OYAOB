@@ -51,6 +51,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -85,6 +86,11 @@
     <Compile Include="Database\DatabaseObject\userDatabaseOb.cs" />
     <Compile Include="Database\GameDB.cs" />
     <Compile Include="Database\LogDB.cs" />
+    <Compile Include="Database\mappingLinq\SadnaDB.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SadnaDB.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Database\ReplayDB.cs" />
     <Compile Include="Database\UserDB.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
@@ -143,10 +149,19 @@
     <Compile Include="Service\GameServiceHandler.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
+    <None Include="App.config" />
+    <None Include="Database\mappingLinq\SadnaDB.dbml.layout">
+      <DependentUpon>SadnaDB.dbml</DependentUpon>
+    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Database\mappingLinq\SadnaDB.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>SadnaDB.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -180,6 +195,9 @@
     <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetAllUser.StoredProcedure.sql" />
     <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserId.StoredProcedure.sql" />
     <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserName.StoredProcedure.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataBaseSadna" Class="SadnaDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ORELIE-PC\SQLEXPRESS;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Card" Member="Cards">
+    <Type Name="Card">
+      <Column Name="[Card Value]" Member="Card_Value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[Card Shpe]" Member="Card_Shpe" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Card Real Value]" Member="Card_Real_Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Card_Card" Member="Card2" ThisKey="Card_Value" OtherKey="Card_Value" Type="Card" Cardinality="One" />
+      <Association Name="Card_Deck" Member="Decks" ThisKey="Card_Value" OtherKey="card_value" Type="Deck" />
+      <Association Name="Card_Public_Card" Member="Public_Cards" ThisKey="Card_Value" OtherKey="card" Type="Public_Card" />
+      <Association Name="Card_Card" Member="Card1" ThisKey="Card_Value" OtherKey="Card_Value" Type="Card" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Deck" Member="Decks">
+    <Type Name="Deck">
+      <Column Name="[index]" Member="index" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[card value]" Member="card_value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Card_Deck" Member="Card" ThisKey="card_value" OtherKey="Card_Value" Type="Card" IsForeignKey="true" />
+      <Association Name="GameRoom_Deck" Member="GameRoom" ThisKey="room_Id,game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ErrorLog" Member="ErrorLogs">
+    <Type Name="ErrorLog">
+      <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="msg" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Association Name="Log_ErrorLog" Member="Log" ThisKey="logId" OtherKey="LogId" Type="Log" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GameMode" Member="GameModes">
+    <Type Name="GameMode">
+      <Column Name="[Game mode value]" Member="Game_mode_value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[game mode name]" Member="game_mode_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="GameMode_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="Game_mode_value" OtherKey="Game_Mode" Type="GameRoomPreferance" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GameReplay" Member="GameReplays">
+    <Type Name="GameReplay">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[index]" Member="index" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="replay" Type="System.String" DbType="VarChar(5000) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GameRoom" Member="GameRooms">
+    <Type Name="GameRoom">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[game id]" Member="game_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[Dealer position]" Member="Dealer_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Max Bet In Round]" Member="Max_Bet_In_Round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Pot count]" Member="Pot_count" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Bb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[is Active Game]" Member="is_Active_Game" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[curr Player]" Member="curr_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Dealer Player]" Member="Dealer_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Bb Player]" Member="Bb_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[SB player]" Member="SB_player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[hand step]" Member="hand_step" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[First Player In round]" Member="First_Player_In_round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[curr player position]" Member="curr_player_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[first player in round position]" Member="first_player_in_round_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[last rise in round]" Member="last_rise_in_round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[league name]" Member="league_name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameRoom_Deck" Member="Decks" ThisKey="room_Id,game_id" OtherKey="room_Id,game_Id" Type="Deck" />
+      <Association Name="GameRoom_GamesReplay" Member="GamesReplays" ThisKey="room_Id,game_id" OtherKey="room_Id,game_Id" Type="GamesReplay" />
+      <Association Name="GameRoom_Player" Member="Players" ThisKey="room_Id,game_id" OtherKey="room_Id,Game_Id" Type="Player" />
+      <Association Name="GameRoom_Public_Card" Member="Public_Card" ThisKey="room_Id,game_id" OtherKey="room_Id,Game_Id" Type="Public_Card" Cardinality="One" />
+      <Association Name="GameRoom_ReplayManager" Member="ReplayManagers" ThisKey="room_Id,game_id" OtherKey="roomId,gameId" Type="ReplayManager" />
+      <Association Name="GameRoom_SpectetorGamesOfUser" Member="SpectetorGamesOfUsers" ThisKey="room_Id,game_id" OtherKey="roomId,Game_Id" Type="SpectetorGamesOfUser" />
+      <Association Name="GameRoom_SystemLog" Member="SystemLogs" ThisKey="room_Id,game_id" OtherKey="roomId,game_Id" Type="SystemLog" />
+      <Association Name="GameRoom_UserActiveGame" Member="UserActiveGames" ThisKey="room_Id,game_id" OtherKey="roomId,Game_Id" Type="UserActiveGame" />
+      <Association Name="GameRoom_UserReplaySavedGame" Member="UserReplaySavedGame" ThisKey="room_Id,game_id" OtherKey="roomId,gameId" Type="UserReplaySavedGame" Cardinality="One" />
+      <Association Name="HandStep_GameRoom" Member="HandStep" ThisKey="hand_step" OtherKey="hand_Step_value" Type="HandStep" IsForeignKey="true" />
+      <Association Name="LeagueName_GameRoom" Member="LeagueName" ThisKey="league_name" OtherKey="League_Value" Type="LeagueName" IsForeignKey="true" />
+      <Association Name="UserTable_GameRoom" Member="UserTable" ThisKey="curr_Player" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+      <Association Name="UserTable_GameRoom1" Member="UserTable1" ThisKey="Dealer_Player" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+      <Association Name="UserTable_GameRoom2" Member="UserTable2" ThisKey="First_Player_In_round" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+      <Association Name="UserTable_GameRoom3" Member="UserTable3" ThisKey="SB_player" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+      <Association Name="UserTable_GameRoom4" Member="UserTable4" ThisKey="Bb_Player" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GameRoomPreferance" Member="GameRoomPreferances">
+    <Type Name="GameRoomPreferance">
+      <Column Name="[room id]" Member="room_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[is Spectetor]" Member="is_Spectetor" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="[Min player in room]" Member="Min_player_in_room" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[max player in room]" Member="max_player_in_room" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[enter paying money]" Member="enter_paying_money" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[starting chip]" Member="starting_chip" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Bb" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sb" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[League name]" Member="League_name" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Game Mode]" Member="Game_Mode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameMode_GameRoomPreferance" Member="GameMode" ThisKey="Game_Mode" OtherKey="Game_mode_value" Type="GameMode" IsForeignKey="true" />
+      <Association Name="LeagueName_GameRoomPreferance" Member="LeagueName" ThisKey="League_name" OtherKey="League_Value" Type="LeagueName" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.GamesReplays" Member="GamesReplays">
+    <Type Name="GamesReplay">
+      <Column Name="[user Id]" Member="user_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="GameRoom_GamesReplay" Member="GameRoom" ThisKey="room_Id,game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="UserTable_GamesReplay" Member="UserTable" ThisKey="user_Id" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HandStep" Member="HandSteps">
+    <Type Name="HandStep">
+      <Column Name="[hand Step value]" Member="hand_Step_value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[hand Step name]" Member="hand_Step_name" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="HandStep_GameRoom" Member="GameRooms" ThisKey="hand_Step_value" OtherKey="hand_step" Type="GameRoom" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LeagueName" Member="LeagueNames">
+    <Type Name="LeagueName">
+      <Column Name="[League Value]" Member="League_Value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[League Name]" Member="League_Name" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Association Name="LeagueName_GameRoom" Member="GameRooms" ThisKey="League_Value" OtherKey="league_name" Type="GameRoom" />
+      <Association Name="LeagueName_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="League_Value" OtherKey="League_name" Type="GameRoomPreferance" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Log]" Member="Logs">
+    <Type Name="Log">
+      <Column Name="LogId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LogPriority" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Log_ErrorLog" Member="ErrorLog" ThisKey="LogId" OtherKey="logId" Type="ErrorLog" Cardinality="One" />
+      <Association Name="Log_SystemLog" Member="SystemLog" ThisKey="LogId" OtherKey="logId" Type="SystemLog" Cardinality="One" />
+      <Association Name="PriorityLogEnum_Log" Member="PriorityLogEnum" ThisKey="LogPriority" OtherKey="PriorityValue" Type="PriorityLogEnum" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Players" Member="Players">
+    <Type Name="Player">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[user Id]" Member="user_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="[is player active]" Member="is_player_active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[player name]" Member="player_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Total chip]" Member="Total_chip" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Round chip bet]" Member="Round_chip_bet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Player action the round]" Member="Player_action_the_round" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[first card]" Member="first_card" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[secund card]" Member="secund_card" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameRoom_Player" Member="GameRoom" ThisKey="room_Id,Game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="UserTable_Player" Member="UserTable" ThisKey="user_Id" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PriorityLogEnum" Member="PriorityLogEnums">
+    <Type Name="PriorityLogEnum">
+      <Column Name="PriorityValue" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ProprityName" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="PriorityLogEnum_Log" Member="Logs" ThisKey="PriorityValue" OtherKey="LogPriority" Type="Log" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Public Cards]" Member="Public_Cards">
+    <Type Name="Public_Card">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="card" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Card_Public_Card" Member="Card1" ThisKey="card" OtherKey="Card_Value" Type="Card" IsForeignKey="true" />
+      <Association Name="GameRoom_Public_Card" Member="GameRoom" ThisKey="room_Id,Game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ReplayManager" Member="ReplayManagers">
+    <Type Name="ReplayManager">
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gameId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="GameRoom_ReplayManager" Member="GameRoom" ThisKey="roomId,gameId" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="UserTable_ReplayManager" Member="UserTable" ThisKey="userId" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SpectetorGamesOfUser" Member="SpectetorGamesOfUsers">
+    <Type Name="SpectetorGamesOfUser">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameRoom_SpectetorGamesOfUser" Member="GameRoom" ThisKey="roomId,Game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="UserTable_SpectetorGamesOfUser" Member="UserTable" ThisKey="userId" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.SystemLog" Member="SystemLogs">
+    <Type Name="SystemLog">
+      <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="msg" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameRoom_SystemLog" Member="GameRoom" ThisKey="roomId,game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="Log_SystemLog" Member="Log" ThisKey="logId" OtherKey="LogId" Type="Log" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserActiveGames" Member="UserActiveGames">
+    <Type Name="UserActiveGame">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameRoom_UserActiveGame" Member="GameRoom" ThisKey="roomId,Game_Id" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="UserTable_UserActiveGame" Member="UserTable" ThisKey="userId" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserReplaySavedGames" Member="UserReplaySavedGames">
+    <Type Name="UserReplaySavedGame">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gameId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="GameRoom_UserReplaySavedGame" Member="GameRoom" ThisKey="roomId,gameId" OtherKey="room_Id,game_id" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="UserTable_UserReplaySavedGame" Member="UserTable" ThisKey="userId" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserTable" Member="UserTables">
+    <Type Name="UserTable">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="username" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="email" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="avatar" Type="System.String" DbType="VarChar(150) NOT NULL" CanBeNull="false" />
+      <Column Name="points" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="money" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="gamesPlayed" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="leagueName" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="winNum" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="HighestCashGainInGame" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="TotalProfit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="inActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="UserTable_GameRoom" Member="GameRooms" ThisKey="userId" OtherKey="curr_Player" Type="GameRoom" />
+      <Association Name="UserTable_GameRoom1" Member="GameRooms1" ThisKey="userId" OtherKey="Dealer_Player" Type="GameRoom" />
+      <Association Name="UserTable_GameRoom2" Member="GameRooms2" ThisKey="userId" OtherKey="First_Player_In_round" Type="GameRoom" />
+      <Association Name="UserTable_GameRoom3" Member="GameRooms3" ThisKey="userId" OtherKey="SB_player" Type="GameRoom" />
+      <Association Name="UserTable_GameRoom4" Member="GameRooms4" ThisKey="userId" OtherKey="Bb_Player" Type="GameRoom" />
+      <Association Name="UserTable_GamesReplay" Member="GamesReplays" ThisKey="userId" OtherKey="user_Id" Type="GamesReplay" />
+      <Association Name="UserTable_Player" Member="Players" ThisKey="userId" OtherKey="user_Id" Type="Player" />
+      <Association Name="UserTable_ReplayManager" Member="ReplayManagers" ThisKey="userId" OtherKey="userId" Type="ReplayManager" />
+      <Association Name="UserTable_SpectetorGamesOfUser" Member="SpectetorGamesOfUser" ThisKey="userId" OtherKey="userId" Type="SpectetorGamesOfUser" Cardinality="One" />
+      <Association Name="UserTable_UserActiveGame" Member="UserActiveGame" ThisKey="userId" OtherKey="userId" Type="UserActiveGame" Cardinality="One" />
+      <Association Name="UserTable_UserReplaySavedGame" Member="UserReplaySavedGames" ThisKey="userId" OtherKey="userId" Type="UserReplaySavedGame" />
+    </Type>
+  </Table>
+</Database>
