@@ -100,7 +100,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\UserServiceHandlerTests.cs" />
     <Compile Include="shared\SecurityHandlerTest.cs" />
-    <Compile Include="UserDBTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\Client.csproj">

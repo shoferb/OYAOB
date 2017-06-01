@@ -78,14 +78,6 @@
     <Compile Include="communication\Interfaces\ISessionIdHandler.cs" />
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
-    <Compile Include="Database\DatabaseObject\gameDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\LogDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\ReplayDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\userDatabaseOb.cs" />
-    <Compile Include="Database\GameDB.cs" />
-    <Compile Include="Database\LogDB.cs" />
-    <Compile Include="Database\ReplayDB.cs" />
-    <Compile Include="Database\UserDB.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
@@ -158,9 +150,6 @@
       <Project>{22888c95-40ac-4271-8d39-ec1ff358afbd}</Project>
       <Name>TexasHoldemShared</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database\scriptDatabaseCreate.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
