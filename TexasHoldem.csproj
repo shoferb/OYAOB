@@ -78,6 +78,10 @@
     <Compile Include="communication\Interfaces\ISessionIdHandler.cs" />
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
+    <Compile Include="Database\DatabaseObject\gameDatabaseOb.cs" />
+    <Compile Include="Database\DatabaseObject\LogDatabaseOb.cs" />
+    <Compile Include="Database\DatabaseObject\ReplayDatabaseOb.cs" />
+    <Compile Include="Database\DatabaseObject\userDatabaseOb.cs" />
     <Compile Include="Database\GameDB.cs" />
     <Compile Include="Database\LogDB.cs" />
     <Compile Include="Database\ReplayDB.cs" />
