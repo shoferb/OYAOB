@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Database;
-
+using TexasHoldem.Database.DatabaseObject;
 
 namespace TexasHoldemTests.Database
 {
@@ -15,6 +15,7 @@ namespace TexasHoldemTests.Database
     public class UserDBTests
     {
 
+        userDatabaseOb toCompare = new userDatabaseOb()
 
         [TestMethod()]
         public void GetAllUserTest()
