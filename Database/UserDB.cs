@@ -94,15 +94,19 @@ namespace TexasHoldem.Database
                 (ConfigurationManager.ConnectionStrings
                     ["DataBaseSadna"].ConnectionString))
                 {
+                    Console.WriteLine("before Open");
                     db.Open();
+                    Console.WriteLine("after Open");
                     string readSp = "AddNewUser";
                     db.Execute(readSp, objUser, commandType: CommandType.StoredProcedure);
+                    Console.WriteLine("error after adding");
                     db.Close();
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine("error add new User query");
+                Console.WriteLine(e);
                 return;
             }
            

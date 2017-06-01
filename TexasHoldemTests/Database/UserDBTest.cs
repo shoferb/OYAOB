@@ -14,13 +14,16 @@ namespace TexasHoldemTests.Database
     [TestClass()]
     public class UserDBTests
     {
-
-        userDatabaseOb toCompare = new userDatabaseOb()
-
+       
+      
         [TestMethod()]
-        public void GetAllUserTest()
+        public void GetAllUserTest_good_id()
         {
-            Assert.Fail();
+            UserDB usd = new UserDB();
+            userDatabaseOb toAdd  = new userDatabaseOb(305077901, "orelie26", "orelie", "orelie@post.bgu.ac.il",
+                "123456789", "/GuiScreen/Photos/Avatar/devil.png", 0, 1000, 0, 1, 0, 0, 0, true);
+            usd.AddNewUser(toAdd);
+           Assert.IsTrue(true);
         }
 
         [TestMethod()]
