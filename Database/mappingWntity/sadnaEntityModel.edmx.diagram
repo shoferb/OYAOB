@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="94ea089cc442484aa08c5bb9af8adfcc" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="DataBaseSadnaModel.Card" Width="1.5" PointX="3.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.Deck" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.ErrorLog" Width="1.5" PointX="8.25" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.GameMode" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.GameReplay" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.GameRoom" Width="1.5" PointX="6" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.GameRoomPreferance" Width="1.5" PointX="3" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.HandStep" Width="1.5" PointX="3.75" PointY="14.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.LeagueName" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.Log" Width="1.5" PointX="6" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.Player" Width="1.5" PointX="10.5" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.PriorityLogEnum" Width="1.5" PointX="3.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.SystemLog" Width="1.5" PointX="8.25" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DataBaseSadnaModel.UserTable" Width="1.5" PointX="8.25" PointY="18.875" IsExpanded="true" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_Card_Card" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_Deck_Card" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_Deck_GameRoom" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_ErrorLog_Log" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoomPreferance_GameMode" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_HandStep" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_LeagueName" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_User_id_curr_player" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_User_id_dealer_player" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_User_id_first_player_in_round" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_User_id_sb_player" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoom_User_user_Id_BB_Player" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_Players_GameRoom" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_SystemLog_GameRoom" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_GameRoomPreferance_LeagueName" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_Log_PriorityLogEnum" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_SystemLog_Log" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.FK_Players_User" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.GamesReplays" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.Public_Cards" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.ReplayManager" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.SpectetorGamesOfUser" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.UserActiveGames" ManuallyRouted="false" />
+        <AssociationConnector Association="DataBaseSadnaModel.UserReplaySavedGames" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
