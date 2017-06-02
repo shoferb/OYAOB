@@ -13,6 +13,7 @@ using TexasHoldemShared.Security;
 namespace TexasHoldem.communication.Impl
 {
 
+
     public class CommunicationHandler : ICommunicationHandler
     {
         private const int LocalPort = 2000;
