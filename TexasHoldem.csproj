@@ -104,78 +104,77 @@
     <Compile Include="Database\DataControlers\LogDataControler.cs" />
     <Compile Include="Database\DataControlers\ReplayDataControler.cs" />
     <Compile Include="Database\DataControlers\UserDataControler.cs" />
-    <Compile Include="Database\EntityNewTry\Card.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Card.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\Deck.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Deck.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\ErrorLog.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\ErrorLog.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GameMode.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GameMode.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GameReplay.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GameReplay.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GameRoom.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GameRoom.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GameRoomPreferance.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GameRoomPreferance.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GetAllUser_Result.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GetAllUser_Result.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GetUserByUserId_Result.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GetUserByUserId_Result.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\GetUserByUserName_Result.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\GetUserByUserName_Result.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\HandStep.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\HandStep.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\LeagueName.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\LeagueName.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\Log.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Log.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\Player.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Player.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\PriorityLogEnum.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\PriorityLogEnum.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\Sadna.Context.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Sadna.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\Sadna.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\Sadna.Designer.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Sadna.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\SystemLog.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\SystemLog.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityNewTry\UserTable.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityNewTry\UserTable.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\BackupOldFrameworks\LastTry\connectionsLinq.designer.cs">
+    <Compile Include="Database\LinqToSql\connectionsLinq.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Database\BackupOldFrameworks\LastTry\UserDatabase.cs" />
     <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\Card.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
@@ -301,19 +300,19 @@
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
     <None Include="App.config" />
-    <EntityDeploy Include="Database\EntityNewTry\Sadna.edmx">
+    <EntityDeploy Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Sadna.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Database\EntityNewTry\Sadna.edmx.diagram">
+    <None Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.edmx.diagram">
       <DependentUpon>Sadna.edmx</DependentUpon>
     </None>
-    <None Include="Database\BackupOldFrameworks\LastTry\connectionsLinq.dbml">
+    <None Include="Database\LinqToSql\connectionsLinq.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>connectionsLinq.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Database\BackupOldFrameworks\LastTry\connectionsLinq.dbml.layout">
+    <None Include="Database\LinqToSql\connectionsLinq.dbml.layout">
       <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -351,12 +350,12 @@
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
       <LastGenOutput>databaseSadnaModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\EntityNewTry\Sadna.Context.tt">
+    <Content Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Sadna.edmx</DependentUpon>
       <LastGenOutput>Sadna.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\EntityNewTry\Sadna.tt">
+    <Content Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Sadna.edmx</DependentUpon>
       <LastGenOutput>Sadna.cs</LastGenOutput>
