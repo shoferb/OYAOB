@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.communication.Interfaces;
+using TexasHoldemShared;
 using TexasHoldemShared.Parser;
 
 namespace TexasHoldem.communication.Impl
@@ -9,8 +10,8 @@ namespace TexasHoldem.communication.Impl
     public class WebEventHandler : SessionIdHandler, IWebEventHandler
     {
         private readonly ICommMsgXmlParser _parser;
-        private readonly ServerEventHandler _serverHandler;
-        public WebEventHandler(ServerEventHandler serverHandler)
+        private readonly IEventHandler _serverHandler;
+        public WebEventHandler(IEventHandler serverHandler)
         {
             _serverHandler = serverHandler;
             _parser = new ParserImplementation();

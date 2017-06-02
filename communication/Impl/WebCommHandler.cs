@@ -11,13 +11,15 @@ using TexasHoldemShared.Security;
 
 namespace TexasHoldem.communication.Impl
 {
-    class WebCommHandler : IWebCommHandler
+    public class WebCommHandler : IWebCommHandler
     {
         private readonly HttpListener _listener;
         private bool _shouldStop = false;
-        private static readonly string[] Prefixes = {"http://*:8080/"}; //TODO: maybe add more / change
+        private static readonly string[] Prefixes = {/*"http://*:8080/",*/ "http://127.0.0.1:8080/"}; //TODO: maybe add more / change
         private readonly IWebEventHandler _eventHandler;
         private readonly ISecurity _security = new SecurityHandler();
+        private readonly ConcurrentQueue<HttpListenerContext> _receivedContextsQueue; //for tests
+        private readonly ConcurrentQueue<string> _resultsQueue; //for tests
 
         public WebCommHandler(WebEventHandler eventHandler)
         {
@@ -27,6 +29,19 @@ namespace TexasHoldem.communication.Impl
             {
                 _listener.Prefixes.Add(prefix);
             }
+
+            _receivedContextsQueue = new ConcurrentQueue<HttpListenerContext>();
+            _resultsQueue = new ConcurrentQueue<string>();
+        }
+
+        public ConcurrentQueue<HttpListenerContext> GetReceivedContexts()
+        {
+            return _receivedContextsQueue;
+        }
+
+        public ConcurrentQueue<string> GetResults()
+        {
+            return _resultsQueue;
         }
 
         private void Accept()
