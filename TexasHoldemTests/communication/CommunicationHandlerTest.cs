@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
+using TexasHoldemShared.Security;
 
 namespace TexasHoldemTests.communication
 {
@@ -23,7 +24,8 @@ namespace TexasHoldemTests.communication
 
         private CommHandlerChildForTests _commHandler;
         private TcpClient _client;
-        private Thread _serverThread;
+        private ISecurity _security = new SecurityHandler();
+
 
         [SetUp]
         public void SetUp()
@@ -81,7 +83,7 @@ namespace TexasHoldemTests.communication
 
             msgs.ForEach(m =>
             {
-                byte[] bytes = System.Text.Encoding.UTF8.GetBytes(m);
+                byte[] bytes = _security.Encrypt(m);
                 stream.Write(bytes, 0, bytes.Length);
             });
         }
@@ -99,7 +101,7 @@ namespace TexasHoldemTests.communication
             _client = ConnectSocketLoopback();
 
             SendMsgs(new List<string> { ShortMsg });
-
+            Thread.Sleep(1000);
             CloseHandlerAndClient();
 
             task.Wait();
