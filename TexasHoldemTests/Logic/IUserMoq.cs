@@ -66,7 +66,10 @@ namespace Client.Logic.Tests
             mock.Setup(foo => foo.IncWinNum()).Returns(true);
             mock.Setup(foo => foo.EditUserPoints(10100)).Returns(true);
             mock.Setup(foo => foo.Money()).Returns(10000);
+            mock.Setup(foo => foo.UpdateHighestCashInGame(1000));
+            mock.Setup(foo => foo.UpdateTotalProfit(1000));
             mock.Setup(foo => foo.WinNum).Returns(100);
+
 
 
             Assert.IsTrue(p.Win(1000));
