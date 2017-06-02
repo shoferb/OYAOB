@@ -95,6 +95,7 @@
     <Compile Include="Database\Dapper\DatabaseObject\userDatabaseOb.cs" />
     <Compile Include="Database\Dapper\GameDB.cs" />
     <Compile Include="Database\Dapper\LogDB.cs" />
+    <Compile Include="Database\EntityFramework\Controller\UserController.cs" />
     <Compile Include="Database\mappingLinq\SadnaDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

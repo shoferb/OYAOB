@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Database;
 using TexasHoldem.Database.DatabaseObject;
+using TexasHoldem.Database.EntityFramework.Controller;
+using TexasHoldem.Database.EntityFramework.Model;
 
 namespace TexasHoldemTests.Database
 {
@@ -19,10 +21,24 @@ namespace TexasHoldemTests.Database
         [TestMethod()]
         public void GetAllUserTest_good_id()
         {
-            UserDB usd = new UserDB();
-            userDatabaseOb toAdd  = new userDatabaseOb(305077901, "orelie26", "orelie", "orelie@post.bgu.ac.il",
-                "123456789", "/GuiScreen/Photos/Avatar/devil.png", 0, 1000, 0, 1, 0, 0, 0, true);
-            usd.AddNewUser(toAdd);
+            UserController uco = new UserController();
+            UserTable ut = new UserTable();
+            ut.userId = 305077901;
+            ut.HighestCashGainInGame = 0;
+            ut.TotalProfit = 0;
+            ut.avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            ut.email = "orelie@post.bgu.ac.il";
+            ut.gamesPlayed = 0;
+            ut.inActive = true;
+            ut.leagueName = 1;
+            ut.money = 0;
+            ut.name = "orelie";
+            ut.HighestCashGainInGame = 0;
+           
+            uco.AddNewUser(ut);
+           
+           
+           
            Assert.IsTrue(true);
         }
 
