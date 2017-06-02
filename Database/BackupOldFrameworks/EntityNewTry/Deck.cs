@@ -7,16 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.EntityNewTry
+namespace TexasHoldem.Database.BackupOldFrameworks.EntityNewTry
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ErrorLog
+    public partial class Deck
     {
-        public int logId { get; set; }
-        public string msg { get; set; }
+        public int index { get; set; }
+        public int room_Id { get; set; }
+        public int game_Id { get; set; }
+        public int card_value { get; set; }
     
-        public virtual Log Log { get; set; }
+        public virtual Card Card { get; set; }
+        public virtual GameRoom GameRoom { get; set; }
     }
 }

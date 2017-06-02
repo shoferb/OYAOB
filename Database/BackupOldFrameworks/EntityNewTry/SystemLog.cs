@@ -7,18 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.EntityNewTry
+namespace TexasHoldem.Database.BackupOldFrameworks.EntityNewTry
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class GameReplay
+    public partial class SystemLog
     {
-        public int room_Id { get; set; }
+        public int logId { get; set; }
+        public string msg { get; set; }
+        public int roomId { get; set; }
         public int game_Id { get; set; }
-        public int index { get; set; }
-        public string replay { get; set; }
     
         public virtual GameRoom GameRoom { get; set; }
+        public virtual Log Log { get; set; }
     }
 }

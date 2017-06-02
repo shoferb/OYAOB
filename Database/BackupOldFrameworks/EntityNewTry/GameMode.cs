@@ -7,29 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.EntityNewTry
+namespace TexasHoldem.Database.BackupOldFrameworks.EntityNewTry
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Card
+    public partial class GameMode
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Card()
+        public GameMode()
         {
-            this.Decks = new HashSet<Deck>();
-            this.GameRooms = new HashSet<GameRoom>();
+            this.GameRoomPreferances = new HashSet<GameRoomPreferance>();
         }
     
-        public int Card_Value { get; set; }
-        public string Card_Shpe { get; set; }
-        public int Card_Real_Value { get; set; }
+        public int Game_mode_value { get; set; }
+        public string game_mode_name { get; set; }
     
-        public virtual Card Card1 { get; set; }
-        public virtual Card Card2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Deck> Decks { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GameRoom> GameRooms { get; set; }
+        public virtual ICollection<GameRoomPreferance> GameRoomPreferances { get; set; }
     }
 }

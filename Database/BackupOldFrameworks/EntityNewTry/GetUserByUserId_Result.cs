@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.EntityNewTry
+namespace TexasHoldem.Database.BackupOldFrameworks.EntityNewTry
 {
     using System;
     

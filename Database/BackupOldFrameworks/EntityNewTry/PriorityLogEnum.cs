@@ -7,23 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.EntityNewTry
+namespace TexasHoldem.Database.BackupOldFrameworks.EntityNewTry
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class HandStep
+    public partial class PriorityLogEnum
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public HandStep()
+        public PriorityLogEnum()
         {
-            this.GameRooms = new HashSet<GameRoom>();
+            this.Logs = new HashSet<Log>();
         }
     
-        public int hand_Step_value { get; set; }
-        public string hand_Step_name { get; set; }
+        public int PriorityValue { get; set; }
+        public string ProprityName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GameRoom> GameRooms { get; set; }
+        public virtual ICollection<Log> Logs { get; set; }
     }
 }

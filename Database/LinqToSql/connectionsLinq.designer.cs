@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.BackupOldFrameworks.LastTry
+namespace TexasHoldem.Database.LinqToSql
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;

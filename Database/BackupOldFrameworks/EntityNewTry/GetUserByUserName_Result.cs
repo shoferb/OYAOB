@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.EntityNewTry
+namespace TexasHoldem.Database.BackupOldFrameworks.EntityNewTry
 {
     using System;
     
-    public partial class GetAllUser_Result
+    public partial class GetUserByUserName_Result
     {
         public int userId { get; set; }
         public string username { get; set; }
