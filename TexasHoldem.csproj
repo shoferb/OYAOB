@@ -89,87 +89,153 @@
     <Compile Include="communication\Interfaces\ISessionIdHandler.cs" />
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
-    <Compile Include="Database\Dapper\DatabaseObject\gameDatabaseOb.cs" />
-    <Compile Include="Database\Dapper\DatabaseObject\LogDatabaseOb.cs" />
-    <Compile Include="Database\Dapper\DatabaseObject\ReplayDatabaseOb.cs" />
-    <Compile Include="Database\Dapper\DatabaseObject\userDatabaseOb.cs" />
-    <Compile Include="Database\Dapper\GameDB.cs" />
-    <Compile Include="Database\Dapper\LogDB.cs" />
-    <Compile Include="Database\EntityFramework\Controller\UserController.cs" />
-    <Compile Include="Database\LastTry\connectionsLinq.designer.cs">
+    <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\gameDatabaseOb.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\LogDatabaseOb.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\ReplayDatabaseOb.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\userDatabaseOb.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\GameDB.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\LogDB.cs" />
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Controller\UserController.cs" />
+    <Compile Include="Database\EntityNewTry\Card.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\Deck.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\ErrorLog.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GameMode.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GameReplay.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GameRoom.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GameRoomPreferance.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GetAllUser_Result.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GetUserByUserId_Result.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\GetUserByUserName_Result.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\HandStep.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\LeagueName.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\Log.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\Player.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\PriorityLogEnum.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\Sadna.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sadna.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\Sadna.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\Sadna.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Sadna.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\SystemLog.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\EntityNewTry\UserTable.cs">
+      <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\BackupOldFrameworks\LastTry\connectionsLinq.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Database\LastTry\UserDatabase.cs" />
-    <Compile Include="Database\EntityFramework\Model\Card.cs">
+    <Compile Include="Database\BackupOldFrameworks\LastTry\UserDatabase.cs" />
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\Card.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\databaseSadnaModel.Context.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>databaseSadnaModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\databaseSadnaModel.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\databaseSadnaModel.Designer.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\Deck.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\Deck.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\ErrorLog.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\ErrorLog.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GameMode.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GameMode.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GameReplay.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GameReplay.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GameRoom.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GameRoom.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GameRoomPreferance.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GameRoomPreferance.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GetAllUser_Result.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GetAllUser_Result.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GetUserByUserId_Result.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GetUserByUserId_Result.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\GetUserByUserName_Result.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\GetUserByUserName_Result.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\HandStep.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\HandStep.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\LeagueName.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\LeagueName.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\Log.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\Log.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\Player.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\Player.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\PriorityLogEnum.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\PriorityLogEnum.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\SystemLog.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\SystemLog.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\EntityFramework\Model\UserTable.cs">
+    <Compile Include="Database\BackupOldFrameworks\EntityFramework\Model\UserTable.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Dapper\ReplayDB.cs" />
-    <Compile Include="Database\Dapper\UserDB.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\ReplayDB.cs" />
+    <Compile Include="Database\BackupOldFrameworks\Dapper\UserDB.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
@@ -227,23 +293,30 @@
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
     <None Include="App.config" />
-    <None Include="Database\LastTry\connectionsLinq.dbml">
+    <EntityDeploy Include="Database\EntityNewTry\Sadna.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Sadna.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Database\EntityNewTry\Sadna.edmx.diagram">
+      <DependentUpon>Sadna.edmx</DependentUpon>
+    </None>
+    <None Include="Database\BackupOldFrameworks\LastTry\connectionsLinq.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>connectionsLinq.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Database\LastTry\connectionsLinq.dbml.layout">
+    <None Include="Database\BackupOldFrameworks\LastTry\connectionsLinq.dbml.layout">
       <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="Database\EntityFramework\Model\databaseSadnaModel.edmx">
+    <EntityDeploy Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>databaseSadnaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Database\EntityFramework\Model\databaseSadnaModel.edmx.diagram">
+    <None Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.edmx.diagram">
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
@@ -260,35 +333,45 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\EntityFramework\Model\databaseSadnaModel.Context.tt">
+    <Content Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
       <LastGenOutput>databaseSadnaModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\EntityFramework\Model\databaseSadnaModel.tt">
+    <Content Include="Database\BackupOldFrameworks\EntityFramework\Model\databaseSadnaModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
       <LastGenOutput>databaseSadnaModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\GuiBackUp\scriptDatabaseCreate.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.AddNewUser.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditAvatar.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditEmail.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditName.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditPassword.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserId.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserIsActive.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserLeagueName.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserMoney.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUsername.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserPoints.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserTotalProfit.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserWinNum.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.GetAllUser.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserId.StoredProcedure.sql" />
-    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserName.StoredProcedure.sql" />
+    <Content Include="Database\EntityNewTry\Sadna.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Sadna.edmx</DependentUpon>
+      <LastGenOutput>Sadna.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Database\EntityNewTry\Sadna.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Sadna.edmx</DependentUpon>
+      <LastGenOutput>Sadna.cs</LastGenOutput>
+    </Content>
+    <Content Include="Database\GuiBackUp\DatabaseCreationScript.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.AddNewUser.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditAvatar.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditEmail.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditName.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditPassword.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserId.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserIsActive.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserLeagueName.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserMoney.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUsername.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserPoints.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserTotalProfit.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditUserWinNum.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.GetAllUser.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.GetUserByUserId.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.GetUserByUserName.StoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

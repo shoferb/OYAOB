@@ -12,10 +12,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Database;
 using TexasHoldem.Database.DatabaseObject;
 using TexasHoldem.Database.EntityFramework.Controller;
-using TexasHoldem.Database.EntityFramework.Model;
+using TexasHoldem.Database.BackupOldFrameworks.EntityFramework.Model;
+using TexasHoldem.Database.EntityNewTry;
 using TexasHoldem.Database.LastTry;
 
-using UserTable = TexasHoldem.Database.LastTry.UserTable;
+using UserTable = TexasHoldem.Database.BackupOldFrameworks.LastTry.UserTable;
+using TexasHoldem.Database.BackupOldFrameworks.LastTry;
 
 namespace TexasHoldemTests.Database
 {
@@ -23,14 +25,14 @@ namespace TexasHoldemTests.Database
     public class UserDBTests
     {
 
-        public void AddNewUser(TexasHoldem.Database.EntityFramework.Model.UserTable objUser)
+        public void AddNewUser(TexasHoldem.Database.BackupOldFrameworks.EntityFramework.Model.UserTable objUser)
         {
             try
             {
                 using (var context = new DataBaseSadnaEntitiesNewest())
                 {
 
-                    var ob = new TexasHoldem.Database.EntityFramework.Model.UserTable
+                    var ob = new TexasHoldem.Database.BackupOldFrameworks.EntityFramework.Model.UserTable
                     {
                         userId = objUser.userId,
                         username = objUser.username,
@@ -69,7 +71,7 @@ namespace TexasHoldemTests.Database
 
                 connectionsLinqDataContext con = new connectionsLinqDataContext();
                 
-                var ob = new TexasHoldem.Database.LastTry.UserTable
+                var ob = new TexasHoldem.Database.BackupOldFrameworks.LastTry.UserTable
                     {
                         userId = objUser.userId,
                         username = objUser.username,
@@ -101,11 +103,48 @@ namespace TexasHoldemTests.Database
 
 
         }
+
+
+        public void AddNewUserEntityFrameWork(TexasHoldem.Database.EntityNewTry.UserTable objUser)
+        {
+            try
+            {
+                using (var context = new SadnaEntities())
+                {
+                    var ob = new TexasHoldem.Database.EntityNewTry.UserTable
+                    {
+                        userId = objUser.userId,
+                        username = objUser.username,
+                        name = objUser.name,
+                        email = objUser.email,
+                        password = objUser.password,
+                        avatar = objUser.avatar,
+                        points = objUser.points,
+                        money = objUser.money,
+                        gamesPlayed = objUser.gamesPlayed,
+                        leagueName = objUser.leagueName,
+                        winNum = objUser.winNum,
+                        HighestCashGainInGame = objUser.HighestCashGainInGame,
+                        TotalProfit = objUser.TotalProfit,
+                        inActive = objUser.inActive
+                    };
+                    context.UserTables.Add(ob);
+                    context.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error add new User query entityFramework");
+                Console.WriteLine(e);
+                return;
+            }
+        }
+
         [TestMethod()]
         public void GetAllUserTest_good_id()
         {
-            
-            TexasHoldem.Database.LastTry.UserTable ut = new TexasHoldem.Database.LastTry.UserTable();
+
+            TexasHoldem.Database.EntityNewTry.UserTable ut = new TexasHoldem.Database.EntityNewTry.UserTable();
             ut.userId = 305077901;
             ut.HighestCashGainInGame = 0;
             ut.TotalProfit = 0;
@@ -120,7 +159,7 @@ namespace TexasHoldemTests.Database
             ut.password = "123456789";
             ut.HighestCashGainInGame = 0;
 
-            AddNewUserLinq(ut);
+            AddNewUserEntityFrameWork(ut);
            
            
            
@@ -130,8 +169,9 @@ namespace TexasHoldemTests.Database
         [TestMethod()]
         public void GetUserByIdTest()
         {
-            TexasHoldem.Database.LastTry.UserTable ut = new TexasHoldem.Database.LastTry.UserTable();
-            ut.userId = 305077901;
+
+            TexasHoldem.Database.BackupOldFrameworks.LastTry.UserTable ut = new TexasHoldem.Database.BackupOldFrameworks.LastTry.UserTable();
+            ut.userId = 3050771;
             ut.HighestCashGainInGame = 0;
             ut.TotalProfit = 0;
             ut.avatar = "/GuiScreen/Photos/Avatar/devil.png";
@@ -141,7 +181,7 @@ namespace TexasHoldemTests.Database
             ut.leagueName = 1;
             ut.money = 0;
             ut.name = "orelie";
-            ut.username = "orelie26";
+            ut.username = "entity FrameWork";
             ut.password = "123456789";
             ut.HighestCashGainInGame = 0;
 
