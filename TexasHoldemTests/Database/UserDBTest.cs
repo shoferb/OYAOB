@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dapper;
+
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.Database;
@@ -14,7 +14,7 @@ using TexasHoldem.Database.DatabaseObject;
 using TexasHoldem.Database.EntityFramework.Controller;
 using TexasHoldem.Database.EntityFramework.Model;
 using TexasHoldem.Database.LastTry;
-using TexasHoldem.Database.NewEntity;
+
 using UserTable = TexasHoldem.Database.LastTry.UserTable;
 
 namespace TexasHoldemTests.Database
@@ -23,14 +23,14 @@ namespace TexasHoldemTests.Database
     public class UserDBTests
     {
 
-        public void AddNewUser(TexasHoldem.Database.NewEntity.UserTable objUser)
+        public void AddNewUser(TexasHoldem.Database.EntityFramework.Model.UserTable objUser)
         {
             try
             {
-                using (var context = new DataBaseSadnaEntities())
+                using (var context = new DataBaseSadnaEntitiesNewest())
                 {
 
-                    var ob = new TexasHoldem.Database.NewEntity.UserTable
+                    var ob = new TexasHoldem.Database.EntityFramework.Model.UserTable
                     {
                         userId = objUser.userId,
                         username = objUser.username,
@@ -153,30 +153,6 @@ namespace TexasHoldemTests.Database
 
         }
 
-        public void AddNewUser(userDatabaseOb objUser)
-        {
-            try
-            {
-                using (IDbConnection db = new SqlConnection
-                (ConfigurationManager.ConnectionStrings
-                    ["DataBaseSadna"].ConnectionString))
-                {
-                    Console.WriteLine("before Open");
-                    db.Open();
-                    Console.WriteLine("after Open");
-                    string readSp = "AddNewUser";
-                    db.Execute(readSp, objUser, commandType: CommandType.StoredProcedure);
-                    Console.WriteLine("error after adding");
-                    db.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("error add new User query");
-                Console.WriteLine(e);
-                return;
-            }
-        }
 
         [TestMethod()]
         public void GetUserByUserNameTest()

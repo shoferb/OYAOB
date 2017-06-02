@@ -11,7 +11,7 @@ using Dapper;
 
 using System.Windows.Documents;
 using TexasHoldem.Database.EntityFramework.Model;
-using TexasHoldem.Database.NewEntity;
+
 using UserTable = TexasHoldem.Database.EntityFramework.Model.UserTable;
 
 namespace TexasHoldem.Database.EntityFramework.Controller
@@ -19,14 +19,14 @@ namespace TexasHoldem.Database.EntityFramework.Controller
     public class UserController 
     {
 
-        public void AddNewUser(NewEntity.UserTable objUser)
+        public void AddNewUser(EntityFramework.Model.UserTable objUser)
         {
             try
             {
-                using (var context = new DataBaseSadnaEntities())
+                using (var context = new DataBaseSadnaEntitiesNewest())
                 {
                     
-                        var ob = new NewEntity.UserTable
+                        var ob = new EntityFramework.Model.UserTable
                     {
                         userId  = objUser.userId,
                     username =   objUser.username,name =  objUser.name,email =  objUser.email,
