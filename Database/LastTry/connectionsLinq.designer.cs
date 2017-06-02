@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TexasHoldem.Database.mappingLinq
+namespace TexasHoldem.Database.LastTry
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
@@ -23,7 +23,7 @@ namespace TexasHoldem.Database.mappingLinq
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="DataBaseSadna")]
-	public partial class SadnaDBDataContext : System.Data.Linq.DataContext
+	public partial class connectionsLinqDataContext : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -92,31 +92,31 @@ namespace TexasHoldem.Database.mappingLinq
     partial void DeleteUserTable(UserTable instance);
     #endregion
 		
-		public SadnaDBDataContext() : 
+		public connectionsLinqDataContext() : 
 				base(global::TexasHoldem.Properties.Settings.Default.DataBaseSadnaConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public SadnaDBDataContext(string connection) : 
+		public connectionsLinqDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public SadnaDBDataContext(System.Data.IDbConnection connection) : 
+		public connectionsLinqDataContext(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public SadnaDBDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public connectionsLinqDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public SadnaDBDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public connectionsLinqDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
@@ -280,6 +280,132 @@ namespace TexasHoldem.Database.mappingLinq
 			{
 				return this.GetTable<UserTable>();
 			}
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddNewUser")]
+		public int AddNewUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string username, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string avatar, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> points, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> money, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gamesPlayed, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> leagueName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> winNum, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> highestCashGainInGame, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> totalProfit, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> isActive)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, username, name, email, password, avatar, points, money, gamesPlayed, leagueName, winNum, highestCashGainInGame, totalProfit, isActive);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditAvatar")]
+		public int EditAvatar([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string newAvatar)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newAvatar);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditEmail")]
+		public int EditEmail([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string newEmail)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newEmail);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditName")]
+		public int EditName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string newName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditPassword")]
+		public int EditPassword([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string newPassword)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newPassword);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserHighestCashGainInGame")]
+		public int EditUserHighestCashGainInGame([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newHighestCashGainInGame)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newHighestCashGainInGame);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserId")]
+		public int EditUserId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="NewUserId", DbType="Int")] System.Nullable<int> newUserId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> oldUserId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newUserId, oldUserId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserIsActive")]
+		public int EditUserIsActive([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> newIsActive)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newIsActive);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserLeagueName")]
+		public int EditUserLeagueName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newLeague)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newLeague);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserMoney")]
+		public int EditUserMoney([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newMoney)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newMoney);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUsername")]
+		public int EditUsername([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string newUserName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newUserName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserNumOfGamesPlayed")]
+		public int EditUserNumOfGamesPlayed([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newNumOfGame)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newNumOfGame);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserPoints")]
+		public int EditUserPoints([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newPoints)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newPoints);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserTotalProfit")]
+		public int EditUserTotalProfit([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newTotalProfit)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newTotalProfit);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.EditUserWinNum")]
+		public int EditUserWinNum([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newWinNum)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, newWinNum);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllUser")]
+		public ISingleResult<GetAllUserResult> GetAllUser()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllUserResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetUserByUserId")]
+		public ISingleResult<GetUserByUserIdResult> GetUserByUserId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((ISingleResult<GetUserByUserIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetUserByUserName")]
+		public ISingleResult<GetUserByUserNameResult> GetUserByUserName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string username)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), username);
+			return ((ISingleResult<GetUserByUserNameResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -983,6 +1109,8 @@ namespace TexasHoldem.Database.mappingLinq
 		
 		private string _replay;
 		
+		private EntityRef<GameRoom> _GameRoom;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -999,6 +1127,7 @@ namespace TexasHoldem.Database.mappingLinq
 		
 		public GameReplay()
 		{
+			this._GameRoom = default(EntityRef<GameRoom>);
 			OnCreated();
 		}
 		
@@ -1082,6 +1211,42 @@ namespace TexasHoldem.Database.mappingLinq
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameReplay", Storage="_GameRoom", ThisKey="room_Id,game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
+		public GameRoom GameRoom
+		{
+			get
+			{
+				return this._GameRoom.Entity;
+			}
+			set
+			{
+				GameRoom previousValue = this._GameRoom.Entity;
+				if (((previousValue != value) 
+							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GameRoom.Entity = null;
+						previousValue.GameReplay = null;
+					}
+					this._GameRoom.Entity = value;
+					if ((value != null))
+					{
+						value.GameReplay = this;
+						this._room_Id = value.room_Id;
+						this._game_Id = value.game_id;
+					}
+					else
+					{
+						this._room_Id = default(int);
+						this._game_Id = default(int);
+					}
+					this.SendPropertyChanged("GameRoom");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1146,6 +1311,8 @@ namespace TexasHoldem.Database.mappingLinq
 		private int _league_name;
 		
 		private EntitySet<Deck> _Decks;
+		
+		private EntityRef<GameReplay> _GameReplay;
 		
 		private EntitySet<GamesReplay> _GamesReplays;
 		
@@ -1222,6 +1389,7 @@ namespace TexasHoldem.Database.mappingLinq
 		public GameRoom()
 		{
 			this._Decks = new EntitySet<Deck>(new Action<Deck>(this.attach_Decks), new Action<Deck>(this.detach_Decks));
+			this._GameReplay = default(EntityRef<GameReplay>);
 			this._GamesReplays = new EntitySet<GamesReplay>(new Action<GamesReplay>(this.attach_GamesReplays), new Action<GamesReplay>(this.detach_GamesReplays));
 			this._Players = new EntitySet<Player>(new Action<Player>(this.attach_Players), new Action<Player>(this.detach_Players));
 			this._Public_Card = default(EntityRef<Public_Card>);
@@ -1610,6 +1778,35 @@ namespace TexasHoldem.Database.mappingLinq
 			set
 			{
 				this._Decks.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameReplay", Storage="_GameReplay", ThisKey="room_Id,game_id", OtherKey="room_Id,game_Id", IsUnique=true, IsForeignKey=false)]
+		public GameReplay GameReplay
+		{
+			get
+			{
+				return this._GameReplay.Entity;
+			}
+			set
+			{
+				GameReplay previousValue = this._GameReplay.Entity;
+				if (((previousValue != value) 
+							|| (this._GameReplay.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GameReplay.Entity = null;
+						previousValue.GameRoom = null;
+					}
+					this._GameReplay.Entity = value;
+					if ((value != null))
+					{
+						value.GameRoom = this;
+					}
+					this.SendPropertyChanged("GameReplay");
+				}
 			}
 		}
 		
@@ -5448,6 +5645,786 @@ namespace TexasHoldem.Database.mappingLinq
 		{
 			this.SendPropertyChanging();
 			entity.UserTable = null;
+		}
+	}
+	
+	public partial class GetAllUserResult
+	{
+		
+		private int _userId;
+		
+		private string _username;
+		
+		private string _name;
+		
+		private string _email;
+		
+		private string _password;
+		
+		private string _avatar;
+		
+		private int _points;
+		
+		private int _money;
+		
+		private int _gamesPlayed;
+		
+		private int _leagueName;
+		
+		private int _winNum;
+		
+		private int _HighestCashGainInGame;
+		
+		private int _TotalProfit;
+		
+		private bool _inActive;
+		
+		public GetAllUserResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this._username = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this._name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this._email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this._password = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string avatar
+		{
+			get
+			{
+				return this._avatar;
+			}
+			set
+			{
+				if ((this._avatar != value))
+				{
+					this._avatar = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_points", DbType="Int NOT NULL")]
+		public int points
+		{
+			get
+			{
+				return this._points;
+			}
+			set
+			{
+				if ((this._points != value))
+				{
+					this._points = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_money", DbType="Int NOT NULL")]
+		public int money
+		{
+			get
+			{
+				return this._money;
+			}
+			set
+			{
+				if ((this._money != value))
+				{
+					this._money = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gamesPlayed", DbType="Int NOT NULL")]
+		public int gamesPlayed
+		{
+			get
+			{
+				return this._gamesPlayed;
+			}
+			set
+			{
+				if ((this._gamesPlayed != value))
+				{
+					this._gamesPlayed = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_leagueName", DbType="Int NOT NULL")]
+		public int leagueName
+		{
+			get
+			{
+				return this._leagueName;
+			}
+			set
+			{
+				if ((this._leagueName != value))
+				{
+					this._leagueName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_winNum", DbType="Int NOT NULL")]
+		public int winNum
+		{
+			get
+			{
+				return this._winNum;
+			}
+			set
+			{
+				if ((this._winNum != value))
+				{
+					this._winNum = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HighestCashGainInGame", DbType="Int NOT NULL")]
+		public int HighestCashGainInGame
+		{
+			get
+			{
+				return this._HighestCashGainInGame;
+			}
+			set
+			{
+				if ((this._HighestCashGainInGame != value))
+				{
+					this._HighestCashGainInGame = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalProfit", DbType="Int NOT NULL")]
+		public int TotalProfit
+		{
+			get
+			{
+				return this._TotalProfit;
+			}
+			set
+			{
+				if ((this._TotalProfit != value))
+				{
+					this._TotalProfit = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_inActive", DbType="Bit NOT NULL")]
+		public bool inActive
+		{
+			get
+			{
+				return this._inActive;
+			}
+			set
+			{
+				if ((this._inActive != value))
+				{
+					this._inActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetUserByUserIdResult
+	{
+		
+		private int _userId;
+		
+		private string _username;
+		
+		private string _name;
+		
+		private string _email;
+		
+		private string _password;
+		
+		private string _avatar;
+		
+		private int _points;
+		
+		private int _money;
+		
+		private int _gamesPlayed;
+		
+		private int _leagueName;
+		
+		private int _winNum;
+		
+		private int _HighestCashGainInGame;
+		
+		private int _TotalProfit;
+		
+		private bool _inActive;
+		
+		public GetUserByUserIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this._username = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this._name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this._email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this._password = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string avatar
+		{
+			get
+			{
+				return this._avatar;
+			}
+			set
+			{
+				if ((this._avatar != value))
+				{
+					this._avatar = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_points", DbType="Int NOT NULL")]
+		public int points
+		{
+			get
+			{
+				return this._points;
+			}
+			set
+			{
+				if ((this._points != value))
+				{
+					this._points = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_money", DbType="Int NOT NULL")]
+		public int money
+		{
+			get
+			{
+				return this._money;
+			}
+			set
+			{
+				if ((this._money != value))
+				{
+					this._money = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gamesPlayed", DbType="Int NOT NULL")]
+		public int gamesPlayed
+		{
+			get
+			{
+				return this._gamesPlayed;
+			}
+			set
+			{
+				if ((this._gamesPlayed != value))
+				{
+					this._gamesPlayed = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_leagueName", DbType="Int NOT NULL")]
+		public int leagueName
+		{
+			get
+			{
+				return this._leagueName;
+			}
+			set
+			{
+				if ((this._leagueName != value))
+				{
+					this._leagueName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_winNum", DbType="Int NOT NULL")]
+		public int winNum
+		{
+			get
+			{
+				return this._winNum;
+			}
+			set
+			{
+				if ((this._winNum != value))
+				{
+					this._winNum = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HighestCashGainInGame", DbType="Int NOT NULL")]
+		public int HighestCashGainInGame
+		{
+			get
+			{
+				return this._HighestCashGainInGame;
+			}
+			set
+			{
+				if ((this._HighestCashGainInGame != value))
+				{
+					this._HighestCashGainInGame = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalProfit", DbType="Int NOT NULL")]
+		public int TotalProfit
+		{
+			get
+			{
+				return this._TotalProfit;
+			}
+			set
+			{
+				if ((this._TotalProfit != value))
+				{
+					this._TotalProfit = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_inActive", DbType="Bit NOT NULL")]
+		public bool inActive
+		{
+			get
+			{
+				return this._inActive;
+			}
+			set
+			{
+				if ((this._inActive != value))
+				{
+					this._inActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetUserByUserNameResult
+	{
+		
+		private int _userId;
+		
+		private string _username;
+		
+		private string _name;
+		
+		private string _email;
+		
+		private string _password;
+		
+		private string _avatar;
+		
+		private int _points;
+		
+		private int _money;
+		
+		private int _gamesPlayed;
+		
+		private int _leagueName;
+		
+		private int _winNum;
+		
+		private int _HighestCashGainInGame;
+		
+		private int _TotalProfit;
+		
+		private bool _inActive;
+		
+		public GetUserByUserNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this._username = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this._name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this._email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this._password = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string avatar
+		{
+			get
+			{
+				return this._avatar;
+			}
+			set
+			{
+				if ((this._avatar != value))
+				{
+					this._avatar = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_points", DbType="Int NOT NULL")]
+		public int points
+		{
+			get
+			{
+				return this._points;
+			}
+			set
+			{
+				if ((this._points != value))
+				{
+					this._points = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_money", DbType="Int NOT NULL")]
+		public int money
+		{
+			get
+			{
+				return this._money;
+			}
+			set
+			{
+				if ((this._money != value))
+				{
+					this._money = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gamesPlayed", DbType="Int NOT NULL")]
+		public int gamesPlayed
+		{
+			get
+			{
+				return this._gamesPlayed;
+			}
+			set
+			{
+				if ((this._gamesPlayed != value))
+				{
+					this._gamesPlayed = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_leagueName", DbType="Int NOT NULL")]
+		public int leagueName
+		{
+			get
+			{
+				return this._leagueName;
+			}
+			set
+			{
+				if ((this._leagueName != value))
+				{
+					this._leagueName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_winNum", DbType="Int NOT NULL")]
+		public int winNum
+		{
+			get
+			{
+				return this._winNum;
+			}
+			set
+			{
+				if ((this._winNum != value))
+				{
+					this._winNum = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HighestCashGainInGame", DbType="Int NOT NULL")]
+		public int HighestCashGainInGame
+		{
+			get
+			{
+				return this._HighestCashGainInGame;
+			}
+			set
+			{
+				if ((this._HighestCashGainInGame != value))
+				{
+					this._HighestCashGainInGame = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalProfit", DbType="Int NOT NULL")]
+		public int TotalProfit
+		{
+			get
+			{
+				return this._TotalProfit;
+			}
+			set
+			{
+				if ((this._TotalProfit != value))
+				{
+					this._TotalProfit = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_inActive", DbType="Bit NOT NULL")]
+		public bool inActive
+		{
+			get
+			{
+				return this._inActive;
+			}
+			set
+			{
+				if ((this._inActive != value))
+				{
+					this._inActive = value;
+				}
+			}
 		}
 	}
 }

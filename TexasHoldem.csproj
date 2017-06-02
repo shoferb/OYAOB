@@ -96,11 +96,12 @@
     <Compile Include="Database\Dapper\GameDB.cs" />
     <Compile Include="Database\Dapper\LogDB.cs" />
     <Compile Include="Database\EntityFramework\Controller\UserController.cs" />
-    <Compile Include="Database\mappingLinq\SadnaDB.designer.cs">
+    <Compile Include="Database\LastTry\connectionsLinq.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SadnaDB.dbml</DependentUpon>
+      <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Database\LastTry\UserDatabase.cs" />
     <Compile Include="Database\EntityFramework\Model\Card.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
@@ -226,18 +227,18 @@
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
     <None Include="App.config" />
-    <None Include="Database\mappingLinq\SadnaDB.dbml.layout">
-      <DependentUpon>SadnaDB.dbml</DependentUpon>
+    <None Include="Database\LastTry\connectionsLinq.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>connectionsLinq.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Database\LastTry\connectionsLinq.dbml.layout">
+      <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Database\mappingLinq\SadnaDB.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>SadnaDB.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <EntityDeploy Include="Database\EntityFramework\Model\databaseSadnaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>databaseSadnaModel.Designer.cs</LastGenOutput>
