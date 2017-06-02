@@ -89,12 +89,12 @@
     <Compile Include="communication\Interfaces\ISessionIdHandler.cs" />
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
-    <Compile Include="Database\DatabaseObject\gameDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\LogDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\ReplayDatabaseOb.cs" />
-    <Compile Include="Database\DatabaseObject\userDatabaseOb.cs" />
-    <Compile Include="Database\GameDB.cs" />
-    <Compile Include="Database\LogDB.cs" />
+    <Compile Include="Database\Dapper\DatabaseObject\gameDatabaseOb.cs" />
+    <Compile Include="Database\Dapper\DatabaseObject\LogDatabaseOb.cs" />
+    <Compile Include="Database\Dapper\DatabaseObject\ReplayDatabaseOb.cs" />
+    <Compile Include="Database\Dapper\DatabaseObject\userDatabaseOb.cs" />
+    <Compile Include="Database\Dapper\GameDB.cs" />
+    <Compile Include="Database\Dapper\LogDB.cs" />
     <Compile Include="Database\mappingLinq\SadnaDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -166,8 +166,8 @@
     <Compile Include="Database\Model\UserTable.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\ReplayDB.cs" />
-    <Compile Include="Database\UserDB.cs" />
+    <Compile Include="Database\Dapper\ReplayDB.cs" />
+    <Compile Include="Database\Dapper\UserDB.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
@@ -268,25 +268,25 @@
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
       <LastGenOutput>databaseSadnaModel.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\scriptDatabaseCreate.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.AddNewUser.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditAvatar.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditEmail.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditName.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditPassword.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserId.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserIsActive.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserLeagueName.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserMoney.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUsername.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserPoints.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserTotalProfit.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditUserWinNum.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetAllUser.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserId.StoredProcedure.sql" />
-    <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserName.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\scriptDatabaseCreate.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.AddNewUser.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditAvatar.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditEmail.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditName.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditPassword.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserId.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserIsActive.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserLeagueName.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserMoney.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUsername.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserPoints.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserTotalProfit.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.EditUserWinNum.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.GetAllUser.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserId.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\StoredProcedure\UserStoredProcedure\dbo.GetUserByUserName.StoredProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
