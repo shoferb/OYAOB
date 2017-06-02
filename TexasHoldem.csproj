@@ -93,72 +93,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SadnaDB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Database\mappingWntity\Card.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\Deck.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\ErrorLog.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GameMode.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GameReplay.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GameRoom.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GameRoomPreferance.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GetAllUser_Result.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GetUserByUserId_Result.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\GetUserByUserName_Result.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\HandStep.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\LeagueName.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\Log.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\Player.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\PriorityLogEnum.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\sadnaEntityModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>sadnaEntityModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\sadnaEntityModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\sadnaEntityModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>sadnaEntityModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\SystemLog.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\mappingWntity\UserTable.cs">
-      <DependentUpon>sadnaEntityModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Database\ReplayDB.cs" />
     <Compile Include="Database\UserDB.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
@@ -230,13 +164,6 @@
       <LastGenOutput>SadnaDB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="Database\mappingWntity\sadnaEntityModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>sadnaEntityModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Database\mappingWntity\sadnaEntityModel.edmx.diagram">
-      <DependentUpon>sadnaEntityModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -251,16 +178,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\mappingWntity\sadnaEntityModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>sadnaEntityModel.edmx</DependentUpon>
-      <LastGenOutput>sadnaEntityModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Database\mappingWntity\sadnaEntityModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>sadnaEntityModel.edmx</DependentUpon>
-      <LastGenOutput>sadnaEntityModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Database\scriptDatabaseCreate.sql" />
     <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.AddNewUser.StoredProcedure.sql" />
     <Content Include="Database\StoredProcedure\UserStoredProcedure\dbo.EditAvatar.StoredProcedure.sql" />
