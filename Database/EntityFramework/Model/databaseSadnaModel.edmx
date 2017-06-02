@@ -1,0 +1,1869 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DataBaseSadnaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Card Value" />
+          </Key>
+          <Property Name="Card Value" Type="int" Nullable="false" />
+          <Property Name="Card Shpe" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Card Real Value" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Deck">
+          <Key>
+            <PropertyRef Name="index" />
+            <PropertyRef Name="room Id" />
+            <PropertyRef Name="game Id" />
+          </Key>
+          <Property Name="index" Type="int" Nullable="false" />
+          <Property Name="room Id" Type="int" Nullable="false" />
+          <Property Name="game Id" Type="int" Nullable="false" />
+          <Property Name="card value" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ErrorLog">
+          <Key>
+            <PropertyRef Name="logId" />
+          </Key>
+          <Property Name="logId" Type="int" Nullable="false" />
+          <Property Name="msg" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="GameMode">
+          <Key>
+            <PropertyRef Name="Game mode value" />
+          </Key>
+          <Property Name="Game mode value" Type="int" Nullable="false" />
+          <Property Name="game mode name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameReplay">
+          <Key>
+            <PropertyRef Name="room Id" />
+            <PropertyRef Name="game Id" />
+          </Key>
+          <Property Name="room Id" Type="int" Nullable="false" />
+          <Property Name="game Id" Type="int" Nullable="false" />
+          <Property Name="index" Type="int" Nullable="false" />
+          <Property Name="replay" Type="varchar" MaxLength="5000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameRoom">
+          <Key>
+            <PropertyRef Name="room Id" />
+            <PropertyRef Name="game id" />
+          </Key>
+          <Property Name="room Id" Type="int" Nullable="false" />
+          <Property Name="game id" Type="int" Nullable="false" />
+          <Property Name="Dealer position" Type="int" Nullable="false" />
+          <Property Name="Max Bet In Round" Type="int" Nullable="false" />
+          <Property Name="Pot count" Type="int" Nullable="false" />
+          <Property Name="Bb" Type="int" Nullable="false" />
+          <Property Name="Sb" Type="int" Nullable="false" />
+          <Property Name="is Active Game" Type="bit" Nullable="false" />
+          <Property Name="curr Player" Type="int" Nullable="false" />
+          <Property Name="Dealer Player" Type="int" Nullable="false" />
+          <Property Name="Bb Player" Type="int" Nullable="false" />
+          <Property Name="SB player" Type="int" Nullable="false" />
+          <Property Name="hand step" Type="int" Nullable="false" />
+          <Property Name="First Player In round" Type="int" Nullable="false" />
+          <Property Name="curr player position" Type="int" Nullable="false" />
+          <Property Name="first player in round position" Type="int" Nullable="false" />
+          <Property Name="last rise in round" Type="int" Nullable="false" />
+          <Property Name="league name" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GameRoomPreferance">
+          <Key>
+            <PropertyRef Name="room id" />
+          </Key>
+          <Property Name="room id" Type="int" Nullable="false" />
+          <Property Name="is Spectetor" Type="bit" />
+          <Property Name="Min player in room" Type="int" />
+          <Property Name="max player in room" Type="int" />
+          <Property Name="enter paying money" Type="int" />
+          <Property Name="starting chip" Type="int" />
+          <Property Name="Bb" Type="int" />
+          <Property Name="Sb" Type="int" />
+          <Property Name="League name" Type="int" />
+          <Property Name="Game Mode" Type="int" />
+          <Property Name="Game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GamesReplays">
+          <Key>
+            <PropertyRef Name="user Id" />
+            <PropertyRef Name="room Id" />
+            <PropertyRef Name="game Id" />
+          </Key>
+          <Property Name="user Id" Type="int" Nullable="false" />
+          <Property Name="room Id" Type="int" Nullable="false" />
+          <Property Name="game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HandStep">
+          <Key>
+            <PropertyRef Name="hand Step value" />
+          </Key>
+          <Property Name="hand Step value" Type="int" Nullable="false" />
+          <Property Name="hand Step name" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeagueName">
+          <Key>
+            <PropertyRef Name="League Value" />
+          </Key>
+          <Property Name="League Value" Type="int" Nullable="false" />
+          <Property Name="League Name" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="int" Nullable="false" />
+          <Property Name="LogPriority" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Players">
+          <Key>
+            <PropertyRef Name="room Id" />
+            <PropertyRef Name="user Id" />
+          </Key>
+          <Property Name="room Id" Type="int" Nullable="false" />
+          <Property Name="user Id" Type="int" Nullable="false" />
+          <Property Name="is player active" Type="bit" Nullable="false" />
+          <Property Name="player name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Total chip" Type="int" Nullable="false" />
+          <Property Name="Round chip bet" Type="int" Nullable="false" />
+          <Property Name="Player action the round" Type="bit" Nullable="false" />
+          <Property Name="first card" Type="int" Nullable="false" />
+          <Property Name="secund card" Type="int" Nullable="false" />
+          <Property Name="Game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PriorityLogEnum">
+          <Key>
+            <PropertyRef Name="PriorityValue" />
+          </Key>
+          <Property Name="PriorityValue" Type="int" Nullable="false" />
+          <Property Name="ProprityName" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Public Cards">
+          <Key>
+            <PropertyRef Name="room Id" />
+            <PropertyRef Name="Game Id" />
+          </Key>
+          <Property Name="room Id" Type="int" Nullable="false" />
+          <Property Name="card" Type="int" Nullable="false" />
+          <Property Name="Game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ReplayManager">
+          <Key>
+            <PropertyRef Name="roomId" />
+            <PropertyRef Name="gameId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="roomId" Type="int" Nullable="false" />
+          <Property Name="gameId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpectetorGamesOfUser">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="roomId" Type="int" Nullable="false" />
+          <Property Name="Game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="logId" />
+          </Key>
+          <Property Name="logId" Type="int" Nullable="false" />
+          <Property Name="msg" Type="varchar" MaxLength="150" />
+          <Property Name="roomId" Type="int" Nullable="false" />
+          <Property Name="game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserActiveGames">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="roomId" Type="int" Nullable="false" />
+          <Property Name="Game Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserReplaySavedGames">
+          <Key>
+            <PropertyRef Name="roomId" />
+            <PropertyRef Name="gameId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="roomId" Type="int" Nullable="false" />
+          <Property Name="gameId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="avatar" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="points" Type="int" Nullable="false" />
+          <Property Name="money" Type="int" Nullable="false" />
+          <Property Name="gamesPlayed" Type="int" Nullable="false" />
+          <Property Name="leagueName" Type="int" Nullable="false" />
+          <Property Name="winNum" Type="int" Nullable="false" />
+          <Property Name="HighestCashGainInGame" Type="int" Nullable="false" />
+          <Property Name="TotalProfit" Type="int" Nullable="false" />
+          <Property Name="inActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Card_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="Card1" Type="Self.Card" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Card Value" />
+            </Principal>
+            <Dependent Role="Card1">
+              <PropertyRef Name="Card Value" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deck_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="Deck" Type="Self.Deck" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Card Value" />
+            </Principal>
+            <Dependent Role="Deck">
+              <PropertyRef Name="card value" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deck_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="Deck" Type="Self.Deck" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="Deck">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ErrorLog_Log">
+          <End Role="Log" Type="Self.Log" Multiplicity="1" />
+          <End Role="ErrorLog" Type="Self.ErrorLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="LogId" />
+            </Principal>
+            <Dependent Role="ErrorLog">
+              <PropertyRef Name="logId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameReplay_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="GameReplay" Type="Self.GameReplay" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="GameReplay">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_HandStep">
+          <End Role="HandStep" Type="Self.HandStep" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HandStep">
+              <PropertyRef Name="hand Step value" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="hand step" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_LeagueName">
+          <End Role="LeagueName" Type="Self.LeagueName" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeagueName">
+              <PropertyRef Name="League Value" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="league name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_curr_player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="curr Player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_dealer_player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="Dealer Player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_first_player_in_round">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="First Player In round" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_sb_player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="SB player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_user_Id_BB_Player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="Bb Player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoomPreferance_GameMode">
+          <End Role="GameMode" Type="Self.GameMode" Multiplicity="0..1" />
+          <End Role="GameRoomPreferance" Type="Self.GameRoomPreferance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameMode">
+              <PropertyRef Name="Game mode value" />
+            </Principal>
+            <Dependent Role="GameRoomPreferance">
+              <PropertyRef Name="Game Mode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoomPreferance_LeagueName">
+          <End Role="LeagueName" Type="Self.LeagueName" Multiplicity="0..1" />
+          <End Role="GameRoomPreferance" Type="Self.GameRoomPreferance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeagueName">
+              <PropertyRef Name="League Value" />
+            </Principal>
+            <Dependent Role="GameRoomPreferance">
+              <PropertyRef Name="League name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GamesReplays_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="GamesReplays" Type="Self.GamesReplays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="GamesReplays">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GamesReplays_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GamesReplays" Type="Self.GamesReplays" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GamesReplays">
+              <PropertyRef Name="user Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_PriorityLogEnum">
+          <End Role="PriorityLogEnum" Type="Self.PriorityLogEnum" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityLogEnum">
+              <PropertyRef Name="PriorityValue" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="LogPriority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Players_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="Players" Type="Self.Players" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="Game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Players_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="Players" Type="Self.Players" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="user Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Public Cards_Cards">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="Public Cards" Type="Self.Public Cards" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Card Value" />
+            </Principal>
+            <Dependent Role="Public Cards">
+              <PropertyRef Name="card" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Public Cards_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="Public Cards" Type="Self.Public Cards" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="Public Cards">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="Game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReplayManager_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="ReplayManager" Type="Self.ReplayManager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="ReplayManager">
+              <PropertyRef Name="roomId" />
+              <PropertyRef Name="gameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReplayManager_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="ReplayManager" Type="Self.ReplayManager" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="ReplayManager">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpectetorGamesOfUser_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="SpectetorGamesOfUser" Type="Self.SpectetorGamesOfUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="SpectetorGamesOfUser">
+              <PropertyRef Name="roomId" />
+              <PropertyRef Name="Game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SpectetorGamesOfUser_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="SpectetorGamesOfUser" Type="Self.SpectetorGamesOfUser" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="SpectetorGamesOfUser">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemLog_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="roomId" />
+              <PropertyRef Name="game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemLog_Log">
+          <End Role="Log" Type="Self.Log" Multiplicity="1" />
+          <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="LogId" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="logId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserActiveGames_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="UserActiveGames" Type="Self.UserActiveGames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="UserActiveGames">
+              <PropertyRef Name="roomId" />
+              <PropertyRef Name="Game Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserActiveGames_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="UserActiveGames" Type="Self.UserActiveGames" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="UserActiveGames">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserReplaySavedGames_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="UserReplaySavedGames" Type="Self.UserReplaySavedGames" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room Id" />
+              <PropertyRef Name="game id" />
+            </Principal>
+            <Dependent Role="UserReplaySavedGames">
+              <PropertyRef Name="roomId" />
+              <PropertyRef Name="gameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserReplaySavedGames_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="UserReplaySavedGames" Type="Self.UserReplaySavedGames" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="UserReplaySavedGames">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddNewUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="avatar" Type="varchar" Mode="In" />
+          <Parameter Name="points" Type="int" Mode="In" />
+          <Parameter Name="money" Type="int" Mode="In" />
+          <Parameter Name="gamesPlayed" Type="int" Mode="In" />
+          <Parameter Name="leagueName" Type="int" Mode="In" />
+          <Parameter Name="winNum" Type="int" Mode="In" />
+          <Parameter Name="highestCashGainInGame" Type="int" Mode="In" />
+          <Parameter Name="totalProfit" Type="int" Mode="In" />
+          <Parameter Name="isActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="EditAvatar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newAvatar" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EditEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newEmail" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EditName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EditPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newPassword" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EditUserHighestCashGainInGame" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newHighestCashGainInGame" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NewUserId" Type="int" Mode="In" />
+          <Parameter Name="oldUserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUserIsActive" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newIsActive" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="EditUserLeagueName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newLeague" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUserMoney" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newMoney" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUsername" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newUserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="EditUserNumOfGamesPlayed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newNumOfGame" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUserPoints" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newPoints" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUserTotalProfit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newTotalProfit" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EditUserWinNum" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="newWinNum" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetUserByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUserByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="DataBaseSadnaModelStoreContainer">
+          <EntitySet Name="Card" EntityType="Self.Card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deck" EntityType="Self.Deck" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameMode" EntityType="Self.GameMode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameReplay" EntityType="Self.GameReplay" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameRoom" EntityType="Self.GameRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GameRoomPreferance" EntityType="Self.GameRoomPreferance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GamesReplays" EntityType="Self.GamesReplays" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HandStep" EntityType="Self.HandStep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeagueName" EntityType="Self.LeagueName" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Players" EntityType="Self.Players" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PriorityLogEnum" EntityType="Self.PriorityLogEnum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Public Cards" EntityType="Self.Public Cards" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReplayManager" EntityType="Self.ReplayManager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpectetorGamesOfUser" EntityType="Self.SpectetorGamesOfUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemLog" EntityType="Self.SystemLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserActiveGames" EntityType="Self.UserActiveGames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserReplaySavedGames" EntityType="Self.UserReplaySavedGames" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Card_Card" Association="Self.FK_Card_Card">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="Card1" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deck_Card" Association="Self.FK_Deck_Card">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="Deck" EntitySet="Deck" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deck_GameRoom" Association="Self.FK_Deck_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="Deck" EntitySet="Deck" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ErrorLog_Log" Association="Self.FK_ErrorLog_Log">
+            <End Role="Log" EntitySet="Log" />
+            <End Role="ErrorLog" EntitySet="ErrorLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameReplay_GameRoom" Association="Self.FK_GameReplay_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="GameReplay" EntitySet="GameReplay" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_HandStep" Association="Self.FK_GameRoom_HandStep">
+            <End Role="HandStep" EntitySet="HandStep" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_LeagueName" Association="Self.FK_GameRoom_LeagueName">
+            <End Role="LeagueName" EntitySet="LeagueName" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_curr_player" Association="Self.FK_GameRoom_User_id_curr_player">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_dealer_player" Association="Self.FK_GameRoom_User_id_dealer_player">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_first_player_in_round" Association="Self.FK_GameRoom_User_id_first_player_in_round">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_sb_player" Association="Self.FK_GameRoom_User_id_sb_player">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_user_Id_BB_Player" Association="Self.FK_GameRoom_User_user_Id_BB_Player">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="GameRoom" EntitySet="GameRoom" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoomPreferance_GameMode" Association="Self.FK_GameRoomPreferance_GameMode">
+            <End Role="GameMode" EntitySet="GameMode" />
+            <End Role="GameRoomPreferance" EntitySet="GameRoomPreferance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoomPreferance_LeagueName" Association="Self.FK_GameRoomPreferance_LeagueName">
+            <End Role="LeagueName" EntitySet="LeagueName" />
+            <End Role="GameRoomPreferance" EntitySet="GameRoomPreferance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GamesReplays_GameRoom" Association="Self.FK_GamesReplays_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="GamesReplays" EntitySet="GamesReplays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GamesReplays_User" Association="Self.FK_GamesReplays_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="GamesReplays" EntitySet="GamesReplays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_PriorityLogEnum" Association="Self.FK_Log_PriorityLogEnum">
+            <End Role="PriorityLogEnum" EntitySet="PriorityLogEnum" />
+            <End Role="Log" EntitySet="Log" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Players_GameRoom" Association="Self.FK_Players_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Players_User" Association="Self.FK_Players_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Public Cards_Cards" Association="Self.FK_Public Cards_Cards">
+            <End Role="Card" EntitySet="Card" />
+            <End Role="Public Cards" EntitySet="Public Cards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Public Cards_GameRoom" Association="Self.FK_Public Cards_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="Public Cards" EntitySet="Public Cards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReplayManager_GameRoom" Association="Self.FK_ReplayManager_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="ReplayManager" EntitySet="ReplayManager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReplayManager_User" Association="Self.FK_ReplayManager_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="ReplayManager" EntitySet="ReplayManager" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpectetorGamesOfUser_GameRoom" Association="Self.FK_SpectetorGamesOfUser_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="SpectetorGamesOfUser" EntitySet="SpectetorGamesOfUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SpectetorGamesOfUser_User" Association="Self.FK_SpectetorGamesOfUser_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="SpectetorGamesOfUser" EntitySet="SpectetorGamesOfUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_GameRoom" Association="Self.FK_SystemLog_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="SystemLog" EntitySet="SystemLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_Log" Association="Self.FK_SystemLog_Log">
+            <End Role="Log" EntitySet="Log" />
+            <End Role="SystemLog" EntitySet="SystemLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserActiveGames_GameRoom" Association="Self.FK_UserActiveGames_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="UserActiveGames" EntitySet="UserActiveGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserActiveGames_User" Association="Self.FK_UserActiveGames_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserActiveGames" EntitySet="UserActiveGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserReplaySavedGames_GameRoom" Association="Self.FK_UserReplaySavedGames_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRoom" />
+            <End Role="UserReplaySavedGames" EntitySet="UserReplaySavedGames" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserReplaySavedGames_User" Association="Self.FK_UserReplaySavedGames_User">
+            <End Role="UserTable" EntitySet="UserTable" />
+            <End Role="UserReplaySavedGames" EntitySet="UserReplaySavedGames" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataBaseSadnaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Card">
+          <Key>
+            <PropertyRef Name="Card_Value" />
+          </Key>
+          <Property Name="Card_Value" Type="Int32" Nullable="false" />
+          <Property Name="Card_Shpe" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Card_Real_Value" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Card1" Relationship="Self.FK_Card_Card" FromRole="Card" ToRole="Card1" />
+          <NavigationProperty Name="Card2" Relationship="Self.FK_Card_Card" FromRole="Card1" ToRole="Card" />
+          <NavigationProperty Name="Decks" Relationship="Self.FK_Deck_Card" FromRole="Card" ToRole="Deck" />
+          <NavigationProperty Name="GameRooms" Relationship="Self.Public_Cards" FromRole="Card" ToRole="GameRoom" />
+        </EntityType>
+        <EntityType Name="Deck">
+          <Key>
+            <PropertyRef Name="index" />
+            <PropertyRef Name="room_Id" />
+            <PropertyRef Name="game_Id" />
+          </Key>
+          <Property Name="index" Type="Int32" Nullable="false" />
+          <Property Name="room_Id" Type="Int32" Nullable="false" />
+          <Property Name="game_Id" Type="Int32" Nullable="false" />
+          <Property Name="card_value" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Card" Relationship="Self.FK_Deck_Card" FromRole="Deck" ToRole="Card" />
+          <NavigationProperty Name="GameRoom" Relationship="Self.FK_Deck_GameRoom" FromRole="Deck" ToRole="GameRoom" />
+        </EntityType>
+        <EntityType Name="ErrorLog">
+          <Key>
+            <PropertyRef Name="logId" />
+          </Key>
+          <Property Name="logId" Type="Int32" Nullable="false" />
+          <Property Name="msg" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Log" Relationship="Self.FK_ErrorLog_Log" FromRole="ErrorLog" ToRole="Log" />
+        </EntityType>
+        <EntityType Name="GameMode">
+          <Key>
+            <PropertyRef Name="Game_mode_value" />
+          </Key>
+          <Property Name="Game_mode_value" Type="Int32" Nullable="false" />
+          <Property Name="game_mode_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="GameRoomPreferances" Relationship="Self.FK_GameRoomPreferance_GameMode" FromRole="GameMode" ToRole="GameRoomPreferance" />
+        </EntityType>
+        <EntityType Name="GameReplay">
+          <Key>
+            <PropertyRef Name="room_Id" />
+            <PropertyRef Name="game_Id" />
+          </Key>
+          <Property Name="room_Id" Type="Int32" Nullable="false" />
+          <Property Name="game_Id" Type="Int32" Nullable="false" />
+          <Property Name="index" Type="Int32" Nullable="false" />
+          <Property Name="replay" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="GameRoom" Relationship="Self.FK_GameReplay_GameRoom" FromRole="GameReplay" ToRole="GameRoom" />
+        </EntityType>
+        <EntityType Name="GameRoom">
+          <Key>
+            <PropertyRef Name="room_Id" />
+            <PropertyRef Name="game_id" />
+          </Key>
+          <Property Name="room_Id" Type="Int32" Nullable="false" />
+          <Property Name="game_id" Type="Int32" Nullable="false" />
+          <Property Name="Dealer_position" Type="Int32" Nullable="false" />
+          <Property Name="Max_Bet_In_Round" Type="Int32" Nullable="false" />
+          <Property Name="Pot_count" Type="Int32" Nullable="false" />
+          <Property Name="Bb" Type="Int32" Nullable="false" />
+          <Property Name="Sb" Type="Int32" Nullable="false" />
+          <Property Name="is_Active_Game" Type="Boolean" Nullable="false" />
+          <Property Name="curr_Player" Type="Int32" Nullable="false" />
+          <Property Name="Dealer_Player" Type="Int32" Nullable="false" />
+          <Property Name="Bb_Player" Type="Int32" Nullable="false" />
+          <Property Name="SB_player" Type="Int32" Nullable="false" />
+          <Property Name="hand_step" Type="Int32" Nullable="false" />
+          <Property Name="First_Player_In_round" Type="Int32" Nullable="false" />
+          <Property Name="curr_player_position" Type="Int32" Nullable="false" />
+          <Property Name="first_player_in_round_position" Type="Int32" Nullable="false" />
+          <Property Name="last_rise_in_round" Type="Int32" Nullable="false" />
+          <Property Name="league_name" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Decks" Relationship="Self.FK_Deck_GameRoom" FromRole="GameRoom" ToRole="Deck" />
+          <NavigationProperty Name="GameReplay" Relationship="Self.FK_GameReplay_GameRoom" FromRole="GameRoom" ToRole="GameReplay" />
+          <NavigationProperty Name="HandStep" Relationship="Self.FK_GameRoom_HandStep" FromRole="GameRoom" ToRole="HandStep" />
+          <NavigationProperty Name="LeagueName" Relationship="Self.FK_GameRoom_LeagueName" FromRole="GameRoom" ToRole="LeagueName" />
+          <NavigationProperty Name="UserTable" Relationship="Self.FK_GameRoom_User_id_curr_player" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable1" Relationship="Self.FK_GameRoom_User_id_dealer_player" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable2" Relationship="Self.FK_GameRoom_User_id_first_player_in_round" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable3" Relationship="Self.FK_GameRoom_User_id_sb_player" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable4" Relationship="Self.FK_GameRoom_User_user_Id_BB_Player" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="Players" Relationship="Self.FK_Players_GameRoom" FromRole="GameRoom" ToRole="Players" />
+          <NavigationProperty Name="SystemLogs" Relationship="Self.FK_SystemLog_GameRoom" FromRole="GameRoom" ToRole="SystemLog" />
+          <NavigationProperty Name="UserTables" Relationship="Self.GamesReplays" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="Card" Relationship="Self.Public_Cards" FromRole="GameRoom" ToRole="Card" />
+          <NavigationProperty Name="UserTables1" Relationship="Self.ReplayManager" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTables2" Relationship="Self.SpectetorGamesOfUser" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTables3" Relationship="Self.UserActiveGames" FromRole="GameRoom" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable5" Relationship="Self.UserReplaySavedGames" FromRole="GameRoom" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="GameRoomPreferance">
+          <Key>
+            <PropertyRef Name="room_id" />
+          </Key>
+          <Property Name="room_id" Type="Int32" Nullable="false" />
+          <Property Name="is_Spectetor" Type="Boolean" />
+          <Property Name="Min_player_in_room" Type="Int32" />
+          <Property Name="max_player_in_room" Type="Int32" />
+          <Property Name="enter_paying_money" Type="Int32" />
+          <Property Name="starting_chip" Type="Int32" />
+          <Property Name="Bb" Type="Int32" />
+          <Property Name="Sb" Type="Int32" />
+          <Property Name="League_name" Type="Int32" />
+          <Property Name="Game_Mode" Type="Int32" />
+          <Property Name="Game_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameMode" Relationship="Self.FK_GameRoomPreferance_GameMode" FromRole="GameRoomPreferance" ToRole="GameMode" />
+          <NavigationProperty Name="LeagueName" Relationship="Self.FK_GameRoomPreferance_LeagueName" FromRole="GameRoomPreferance" ToRole="LeagueName" />
+        </EntityType>
+        <EntityType Name="HandStep">
+          <Key>
+            <PropertyRef Name="hand_Step_value" />
+          </Key>
+          <Property Name="hand_Step_value" Type="Int32" Nullable="false" />
+          <Property Name="hand_Step_name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="GameRooms" Relationship="Self.FK_GameRoom_HandStep" FromRole="HandStep" ToRole="GameRoom" />
+        </EntityType>
+        <EntityType Name="LeagueName">
+          <Key>
+            <PropertyRef Name="League_Value" />
+          </Key>
+          <Property Name="League_Value" Type="Int32" Nullable="false" />
+          <Property Name="League_Name" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="GameRooms" Relationship="Self.FK_GameRoom_LeagueName" FromRole="LeagueName" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRoomPreferances" Relationship="Self.FK_GameRoomPreferance_LeagueName" FromRole="LeagueName" ToRole="GameRoomPreferance" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int32" Nullable="false" />
+          <Property Name="LogPriority" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ErrorLog" Relationship="Self.FK_ErrorLog_Log" FromRole="Log" ToRole="ErrorLog" />
+          <NavigationProperty Name="PriorityLogEnum" Relationship="Self.FK_Log_PriorityLogEnum" FromRole="Log" ToRole="PriorityLogEnum" />
+          <NavigationProperty Name="SystemLog" Relationship="Self.FK_SystemLog_Log" FromRole="Log" ToRole="SystemLog" />
+        </EntityType>
+        <EntityType Name="Player">
+          <Key>
+            <PropertyRef Name="room_Id" />
+            <PropertyRef Name="user_Id" />
+          </Key>
+          <Property Name="room_Id" Type="Int32" Nullable="false" />
+          <Property Name="user_Id" Type="Int32" Nullable="false" />
+          <Property Name="is_player_active" Type="Boolean" Nullable="false" />
+          <Property Name="player_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Total_chip" Type="Int32" Nullable="false" />
+          <Property Name="Round_chip_bet" Type="Int32" Nullable="false" />
+          <Property Name="Player_action_the_round" Type="Boolean" Nullable="false" />
+          <Property Name="first_card" Type="Int32" Nullable="false" />
+          <Property Name="secund_card" Type="Int32" Nullable="false" />
+          <Property Name="Game_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameRoom" Relationship="Self.FK_Players_GameRoom" FromRole="Players" ToRole="GameRoom" />
+          <NavigationProperty Name="UserTable" Relationship="Self.FK_Players_User" FromRole="Players" ToRole="UserTable" />
+        </EntityType>
+        <EntityType Name="PriorityLogEnum">
+          <Key>
+            <PropertyRef Name="PriorityValue" />
+          </Key>
+          <Property Name="PriorityValue" Type="Int32" Nullable="false" />
+          <Property Name="ProprityName" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Logs" Relationship="Self.FK_Log_PriorityLogEnum" FromRole="PriorityLogEnum" ToRole="Log" />
+        </EntityType>
+        <EntityType Name="SystemLog">
+          <Key>
+            <PropertyRef Name="logId" />
+          </Key>
+          <Property Name="logId" Type="Int32" Nullable="false" />
+          <Property Name="msg" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="roomId" Type="Int32" Nullable="false" />
+          <Property Name="game_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="GameRoom" Relationship="Self.FK_SystemLog_GameRoom" FromRole="SystemLog" ToRole="GameRoom" />
+          <NavigationProperty Name="Log" Relationship="Self.FK_SystemLog_Log" FromRole="SystemLog" ToRole="Log" />
+        </EntityType>
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="avatar" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="points" Type="Int32" Nullable="false" />
+          <Property Name="money" Type="Int32" Nullable="false" />
+          <Property Name="gamesPlayed" Type="Int32" Nullable="false" />
+          <Property Name="leagueName" Type="Int32" Nullable="false" />
+          <Property Name="winNum" Type="Int32" Nullable="false" />
+          <Property Name="HighestCashGainInGame" Type="Int32" Nullable="false" />
+          <Property Name="TotalProfit" Type="Int32" Nullable="false" />
+          <Property Name="inActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="GameRooms" Relationship="Self.FK_GameRoom_User_id_curr_player" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRooms1" Relationship="Self.FK_GameRoom_User_id_dealer_player" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRooms2" Relationship="Self.FK_GameRoom_User_id_first_player_in_round" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRooms3" Relationship="Self.FK_GameRoom_User_id_sb_player" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRooms4" Relationship="Self.FK_GameRoom_User_user_Id_BB_Player" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="Players" Relationship="Self.FK_Players_User" FromRole="UserTable" ToRole="Players" />
+          <NavigationProperty Name="GameRooms5" Relationship="Self.GamesReplays" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRooms6" Relationship="Self.ReplayManager" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRoom" Relationship="Self.SpectetorGamesOfUser" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRoom1" Relationship="Self.UserActiveGames" FromRole="UserTable" ToRole="GameRoom" />
+          <NavigationProperty Name="GameRooms7" Relationship="Self.UserReplaySavedGames" FromRole="UserTable" ToRole="GameRoom" />
+        </EntityType>
+        <Association Name="FK_Card_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="Card1" Type="Self.Card" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Card_Value" />
+            </Principal>
+            <Dependent Role="Card1">
+              <PropertyRef Name="Card_Value" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deck_Card">
+          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+          <End Role="Deck" Type="Self.Deck" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card">
+              <PropertyRef Name="Card_Value" />
+            </Principal>
+            <Dependent Role="Deck">
+              <PropertyRef Name="card_value" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Deck_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="Deck" Type="Self.Deck" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="game_id" />
+            </Principal>
+            <Dependent Role="Deck">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="game_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ErrorLog_Log">
+          <End Role="Log" Type="Self.Log" Multiplicity="1" />
+          <End Role="ErrorLog" Type="Self.ErrorLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="LogId" />
+            </Principal>
+            <Dependent Role="ErrorLog">
+              <PropertyRef Name="logId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoomPreferance_GameMode">
+          <End Role="GameMode" Type="Self.GameMode" Multiplicity="0..1" />
+          <End Role="GameRoomPreferance" Type="Self.GameRoomPreferance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameMode">
+              <PropertyRef Name="Game_mode_value" />
+            </Principal>
+            <Dependent Role="GameRoomPreferance">
+              <PropertyRef Name="Game_Mode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameReplay_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="GameReplay" Type="Self.GameReplay" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="game_id" />
+            </Principal>
+            <Dependent Role="GameReplay">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="game_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_HandStep">
+          <End Role="HandStep" Type="Self.HandStep" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HandStep">
+              <PropertyRef Name="hand_Step_value" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="hand_step" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_LeagueName">
+          <End Role="LeagueName" Type="Self.LeagueName" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeagueName">
+              <PropertyRef Name="League_Value" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="league_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_curr_player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="curr_Player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_dealer_player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="Dealer_Player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_first_player_in_round">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="First_Player_In_round" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_id_sb_player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="SB_player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoom_User_user_Id_BB_Player">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="GameRoom">
+              <PropertyRef Name="Bb_Player" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Players_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="Players" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="game_id" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="Game_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemLog_GameRoom">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="1" />
+          <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GameRoom">
+              <PropertyRef Name="room_Id" />
+              <PropertyRef Name="game_id" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="roomId" />
+              <PropertyRef Name="game_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GameRoomPreferance_LeagueName">
+          <End Role="LeagueName" Type="Self.LeagueName" Multiplicity="0..1" />
+          <End Role="GameRoomPreferance" Type="Self.GameRoomPreferance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LeagueName">
+              <PropertyRef Name="League_Value" />
+            </Principal>
+            <Dependent Role="GameRoomPreferance">
+              <PropertyRef Name="League_name" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Log_PriorityLogEnum">
+          <End Role="PriorityLogEnum" Type="Self.PriorityLogEnum" Multiplicity="1" />
+          <End Role="Log" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriorityLogEnum">
+              <PropertyRef Name="PriorityValue" />
+            </Principal>
+            <Dependent Role="Log">
+              <PropertyRef Name="LogPriority" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SystemLog_Log">
+          <End Role="Log" Type="Self.Log" Multiplicity="1" />
+          <End Role="SystemLog" Type="Self.SystemLog" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Log">
+              <PropertyRef Name="LogId" />
+            </Principal>
+            <Dependent Role="SystemLog">
+              <PropertyRef Name="logId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Players_User">
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="1" />
+          <End Role="Players" Type="Self.Player" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="Players">
+              <PropertyRef Name="user_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GamesReplays">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
+        </Association>
+        <Association Name="Public_Cards">
+          <End Role="Card" Type="Self.Card" Multiplicity="0..1" />
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+        </Association>
+        <Association Name="ReplayManager">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
+        </Association>
+        <Association Name="SpectetorGamesOfUser">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="0..1" />
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
+        </Association>
+        <Association Name="UserActiveGames">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="0..1" />
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="*" />
+        </Association>
+        <Association Name="UserReplaySavedGames">
+          <End Role="GameRoom" Type="Self.GameRoom" Multiplicity="*" />
+          <End Role="UserTable" Type="Self.UserTable" Multiplicity="0..1" />
+        </Association>
+        <EntityContainer Name="DataBaseSadnaEntitiesNewest" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cards" EntityType="Self.Card" />
+          <EntitySet Name="Decks" EntityType="Self.Deck" />
+          <EntitySet Name="ErrorLogs" EntityType="Self.ErrorLog" />
+          <EntitySet Name="GameModes" EntityType="Self.GameMode" />
+          <EntitySet Name="GameReplays" EntityType="Self.GameReplay" />
+          <EntitySet Name="GameRooms" EntityType="Self.GameRoom" />
+          <EntitySet Name="GameRoomPreferances" EntityType="Self.GameRoomPreferance" />
+          <EntitySet Name="HandSteps" EntityType="Self.HandStep" />
+          <EntitySet Name="LeagueNames" EntityType="Self.LeagueName" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="Players" EntityType="Self.Player" />
+          <EntitySet Name="PriorityLogEnums" EntityType="Self.PriorityLogEnum" />
+          <EntitySet Name="SystemLogs" EntityType="Self.SystemLog" />
+          <EntitySet Name="UserTables" EntityType="Self.UserTable" />
+          <AssociationSet Name="FK_Card_Card" Association="Self.FK_Card_Card">
+            <End Role="Card" EntitySet="Cards" />
+            <End Role="Card1" EntitySet="Cards" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deck_Card" Association="Self.FK_Deck_Card">
+            <End Role="Card" EntitySet="Cards" />
+            <End Role="Deck" EntitySet="Decks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Deck_GameRoom" Association="Self.FK_Deck_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="Deck" EntitySet="Decks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ErrorLog_Log" Association="Self.FK_ErrorLog_Log">
+            <End Role="Log" EntitySet="Logs" />
+            <End Role="ErrorLog" EntitySet="ErrorLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoomPreferance_GameMode" Association="Self.FK_GameRoomPreferance_GameMode">
+            <End Role="GameMode" EntitySet="GameModes" />
+            <End Role="GameRoomPreferance" EntitySet="GameRoomPreferances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameReplay_GameRoom" Association="Self.FK_GameReplay_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="GameReplay" EntitySet="GameReplays" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_HandStep" Association="Self.FK_GameRoom_HandStep">
+            <End Role="HandStep" EntitySet="HandSteps" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_LeagueName" Association="Self.FK_GameRoom_LeagueName">
+            <End Role="LeagueName" EntitySet="LeagueNames" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_curr_player" Association="Self.FK_GameRoom_User_id_curr_player">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_dealer_player" Association="Self.FK_GameRoom_User_id_dealer_player">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_first_player_in_round" Association="Self.FK_GameRoom_User_id_first_player_in_round">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_id_sb_player" Association="Self.FK_GameRoom_User_id_sb_player">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoom_User_user_Id_BB_Player" Association="Self.FK_GameRoom_User_user_Id_BB_Player">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Players_GameRoom" Association="Self.FK_Players_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_GameRoom" Association="Self.FK_SystemLog_GameRoom">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="SystemLog" EntitySet="SystemLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GameRoomPreferance_LeagueName" Association="Self.FK_GameRoomPreferance_LeagueName">
+            <End Role="LeagueName" EntitySet="LeagueNames" />
+            <End Role="GameRoomPreferance" EntitySet="GameRoomPreferances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Log_PriorityLogEnum" Association="Self.FK_Log_PriorityLogEnum">
+            <End Role="PriorityLogEnum" EntitySet="PriorityLogEnums" />
+            <End Role="Log" EntitySet="Logs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SystemLog_Log" Association="Self.FK_SystemLog_Log">
+            <End Role="Log" EntitySet="Logs" />
+            <End Role="SystemLog" EntitySet="SystemLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Players_User" Association="Self.FK_Players_User">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="Players" EntitySet="Players" />
+          </AssociationSet>
+          <AssociationSet Name="GamesReplays" Association="Self.GamesReplays">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <AssociationSet Name="Public_Cards" Association="Self.Public_Cards">
+            <End Role="Card" EntitySet="Cards" />
+            <End Role="GameRoom" EntitySet="GameRooms" />
+          </AssociationSet>
+          <AssociationSet Name="ReplayManager" Association="Self.ReplayManager">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <AssociationSet Name="SpectetorGamesOfUser" Association="Self.SpectetorGamesOfUser">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <AssociationSet Name="UserActiveGames" Association="Self.UserActiveGames">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <AssociationSet Name="UserReplaySavedGames" Association="Self.UserReplaySavedGames">
+            <End Role="GameRoom" EntitySet="GameRooms" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          <FunctionImport Name="AddNewUser">
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="avatar" Mode="In" Type="String" />
+            <Parameter Name="points" Mode="In" Type="Int32" />
+            <Parameter Name="money" Mode="In" Type="Int32" />
+            <Parameter Name="gamesPlayed" Mode="In" Type="Int32" />
+            <Parameter Name="leagueName" Mode="In" Type="Int32" />
+            <Parameter Name="winNum" Mode="In" Type="Int32" />
+            <Parameter Name="highestCashGainInGame" Mode="In" Type="Int32" />
+            <Parameter Name="totalProfit" Mode="In" Type="Int32" />
+            <Parameter Name="isActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="EditAvatar">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newAvatar" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EditEmail">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newEmail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EditName">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EditPassword">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newPassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserHighestCashGainInGame">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newHighestCashGainInGame" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserId">
+            <Parameter Name="NewUserId" Mode="In" Type="Int32" />
+            <Parameter Name="oldUserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserIsActive">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newIsActive" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserLeagueName">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newLeague" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserMoney">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newMoney" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUsername">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newUserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserNumOfGamesPlayed">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newNumOfGame" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserPoints">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newPoints" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserTotalProfit">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newTotalProfit" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="EditUserWinNum">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="newWinNum" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllUser" ReturnType="Collection(DataBaseSadnaModel.GetAllUser_Result)" />
+          <FunctionImport Name="GetUserByUserId" ReturnType="Collection(DataBaseSadnaModel.GetUserByUserId_Result)">
+            <Parameter Name="userId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetUserByUserName" ReturnType="Collection(DataBaseSadnaModel.GetUserByUserName_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetAllUser_Result">
+          <Property Type="Int32" Name="userId" Nullable="false" />
+          <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="avatar" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="points" Nullable="false" />
+          <Property Type="Int32" Name="money" Nullable="false" />
+          <Property Type="Int32" Name="gamesPlayed" Nullable="false" />
+          <Property Type="Int32" Name="leagueName" Nullable="false" />
+          <Property Type="Int32" Name="winNum" Nullable="false" />
+          <Property Type="Int32" Name="HighestCashGainInGame" Nullable="false" />
+          <Property Type="Int32" Name="TotalProfit" Nullable="false" />
+          <Property Type="Boolean" Name="inActive" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUserByUserId_Result">
+          <Property Type="Int32" Name="userId" Nullable="false" />
+          <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="avatar" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="points" Nullable="false" />
+          <Property Type="Int32" Name="money" Nullable="false" />
+          <Property Type="Int32" Name="gamesPlayed" Nullable="false" />
+          <Property Type="Int32" Name="leagueName" Nullable="false" />
+          <Property Type="Int32" Name="winNum" Nullable="false" />
+          <Property Type="Int32" Name="HighestCashGainInGame" Nullable="false" />
+          <Property Type="Int32" Name="TotalProfit" Nullable="false" />
+          <Property Type="Boolean" Name="inActive" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="GetUserByUserName_Result">
+          <Property Type="Int32" Name="userId" Nullable="false" />
+          <Property Type="String" Name="username" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="password" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="avatar" Nullable="false" MaxLength="150" />
+          <Property Type="Int32" Name="points" Nullable="false" />
+          <Property Type="Int32" Name="money" Nullable="false" />
+          <Property Type="Int32" Name="gamesPlayed" Nullable="false" />
+          <Property Type="Int32" Name="leagueName" Nullable="false" />
+          <Property Type="Int32" Name="winNum" Nullable="false" />
+          <Property Type="Int32" Name="HighestCashGainInGame" Nullable="false" />
+          <Property Type="Int32" Name="TotalProfit" Nullable="false" />
+          <Property Type="Boolean" Name="inActive" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataBaseSadnaModelStoreContainer" CdmEntityContainer="DataBaseSadnaEntitiesNewest">
+          <EntitySetMapping Name="Cards">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.Card">
+              <MappingFragment StoreEntitySet="Card">
+                <ScalarProperty Name="Card_Value" ColumnName="Card Value" />
+                <ScalarProperty Name="Card_Shpe" ColumnName="Card Shpe" />
+                <ScalarProperty Name="Card_Real_Value" ColumnName="Card Real Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Decks">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.Deck">
+              <MappingFragment StoreEntitySet="Deck">
+                <ScalarProperty Name="index" ColumnName="index" />
+                <ScalarProperty Name="room_Id" ColumnName="room Id" />
+                <ScalarProperty Name="game_Id" ColumnName="game Id" />
+                <ScalarProperty Name="card_value" ColumnName="card value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorLogs">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.ErrorLog">
+              <MappingFragment StoreEntitySet="ErrorLog">
+                <ScalarProperty Name="logId" ColumnName="logId" />
+                <ScalarProperty Name="msg" ColumnName="msg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameModes">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.GameMode">
+              <MappingFragment StoreEntitySet="GameMode">
+                <ScalarProperty Name="Game_mode_value" ColumnName="Game mode value" />
+                <ScalarProperty Name="game_mode_name" ColumnName="game mode name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameReplays">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.GameReplay">
+              <MappingFragment StoreEntitySet="GameReplay">
+                <ScalarProperty Name="room_Id" ColumnName="room Id" />
+                <ScalarProperty Name="game_Id" ColumnName="game Id" />
+                <ScalarProperty Name="index" ColumnName="index" />
+                <ScalarProperty Name="replay" ColumnName="replay" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameRooms">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.GameRoom">
+              <MappingFragment StoreEntitySet="GameRoom">
+                <ScalarProperty Name="room_Id" ColumnName="room Id" />
+                <ScalarProperty Name="game_id" ColumnName="game id" />
+                <ScalarProperty Name="Dealer_position" ColumnName="Dealer position" />
+                <ScalarProperty Name="Max_Bet_In_Round" ColumnName="Max Bet In Round" />
+                <ScalarProperty Name="Pot_count" ColumnName="Pot count" />
+                <ScalarProperty Name="Bb" ColumnName="Bb" />
+                <ScalarProperty Name="Sb" ColumnName="Sb" />
+                <ScalarProperty Name="is_Active_Game" ColumnName="is Active Game" />
+                <ScalarProperty Name="curr_Player" ColumnName="curr Player" />
+                <ScalarProperty Name="Dealer_Player" ColumnName="Dealer Player" />
+                <ScalarProperty Name="Bb_Player" ColumnName="Bb Player" />
+                <ScalarProperty Name="SB_player" ColumnName="SB player" />
+                <ScalarProperty Name="hand_step" ColumnName="hand step" />
+                <ScalarProperty Name="First_Player_In_round" ColumnName="First Player In round" />
+                <ScalarProperty Name="curr_player_position" ColumnName="curr player position" />
+                <ScalarProperty Name="first_player_in_round_position" ColumnName="first player in round position" />
+                <ScalarProperty Name="last_rise_in_round" ColumnName="last rise in round" />
+                <ScalarProperty Name="league_name" ColumnName="league name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GameRoomPreferances">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.GameRoomPreferance">
+              <MappingFragment StoreEntitySet="GameRoomPreferance">
+                <ScalarProperty Name="room_id" ColumnName="room id" />
+                <ScalarProperty Name="is_Spectetor" ColumnName="is Spectetor" />
+                <ScalarProperty Name="Min_player_in_room" ColumnName="Min player in room" />
+                <ScalarProperty Name="max_player_in_room" ColumnName="max player in room" />
+                <ScalarProperty Name="enter_paying_money" ColumnName="enter paying money" />
+                <ScalarProperty Name="starting_chip" ColumnName="starting chip" />
+                <ScalarProperty Name="Bb" ColumnName="Bb" />
+                <ScalarProperty Name="Sb" ColumnName="Sb" />
+                <ScalarProperty Name="League_name" ColumnName="League name" />
+                <ScalarProperty Name="Game_Mode" ColumnName="Game Mode" />
+                <ScalarProperty Name="Game_Id" ColumnName="Game Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HandSteps">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.HandStep">
+              <MappingFragment StoreEntitySet="HandStep">
+                <ScalarProperty Name="hand_Step_value" ColumnName="hand Step value" />
+                <ScalarProperty Name="hand_Step_name" ColumnName="hand Step name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeagueNames">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.LeagueName">
+              <MappingFragment StoreEntitySet="LeagueName">
+                <ScalarProperty Name="League_Value" ColumnName="League Value" />
+                <ScalarProperty Name="League_Name" ColumnName="League Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="LogPriority" ColumnName="LogPriority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Players">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.Player">
+              <MappingFragment StoreEntitySet="Players">
+                <ScalarProperty Name="room_Id" ColumnName="room Id" />
+                <ScalarProperty Name="user_Id" ColumnName="user Id" />
+                <ScalarProperty Name="is_player_active" ColumnName="is player active" />
+                <ScalarProperty Name="player_name" ColumnName="player name" />
+                <ScalarProperty Name="Total_chip" ColumnName="Total chip" />
+                <ScalarProperty Name="Round_chip_bet" ColumnName="Round chip bet" />
+                <ScalarProperty Name="Player_action_the_round" ColumnName="Player action the round" />
+                <ScalarProperty Name="first_card" ColumnName="first card" />
+                <ScalarProperty Name="secund_card" ColumnName="secund card" />
+                <ScalarProperty Name="Game_Id" ColumnName="Game Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PriorityLogEnums">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.PriorityLogEnum">
+              <MappingFragment StoreEntitySet="PriorityLogEnum">
+                <ScalarProperty Name="PriorityValue" ColumnName="PriorityValue" />
+                <ScalarProperty Name="ProprityName" ColumnName="ProprityName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemLogs">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.SystemLog">
+              <MappingFragment StoreEntitySet="SystemLog">
+                <ScalarProperty Name="logId" ColumnName="logId" />
+                <ScalarProperty Name="msg" ColumnName="msg" />
+                <ScalarProperty Name="roomId" ColumnName="roomId" />
+                <ScalarProperty Name="game_Id" ColumnName="game Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTables">
+            <EntityTypeMapping TypeName="DataBaseSadnaModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTable">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="gamesPlayed" ColumnName="gamesPlayed" />
+                <ScalarProperty Name="leagueName" ColumnName="leagueName" />
+                <ScalarProperty Name="winNum" ColumnName="winNum" />
+                <ScalarProperty Name="HighestCashGainInGame" ColumnName="HighestCashGainInGame" />
+                <ScalarProperty Name="TotalProfit" ColumnName="TotalProfit" />
+                <ScalarProperty Name="inActive" ColumnName="inActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="GamesReplays" TypeName="DataBaseSadnaModel.GamesReplays" StoreEntitySet="GamesReplays">
+            <EndProperty Name="GameRoom">
+              <ScalarProperty Name="room_Id" ColumnName="room Id" />
+              <ScalarProperty Name="game_id" ColumnName="game Id" />
+            </EndProperty>
+            <EndProperty Name="UserTable">
+              <ScalarProperty Name="userId" ColumnName="user Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="Public_Cards" TypeName="DataBaseSadnaModel.Public_Cards" StoreEntitySet="Public Cards">
+            <EndProperty Name="Card">
+              <ScalarProperty Name="Card_Value" ColumnName="card" />
+            </EndProperty>
+            <EndProperty Name="GameRoom">
+              <ScalarProperty Name="room_Id" ColumnName="room Id" />
+              <ScalarProperty Name="game_id" ColumnName="Game Id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ReplayManager" TypeName="DataBaseSadnaModel.ReplayManager" StoreEntitySet="ReplayManager">
+            <EndProperty Name="GameRoom">
+              <ScalarProperty Name="room_Id" ColumnName="roomId" />
+              <ScalarProperty Name="game_id" ColumnName="gameId" />
+            </EndProperty>
+            <EndProperty Name="UserTable">
+              <ScalarProperty Name="userId" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="SpectetorGamesOfUser" TypeName="DataBaseSadnaModel.SpectetorGamesOfUser" StoreEntitySet="SpectetorGamesOfUser">
+            <EndProperty Name="GameRoom">
+              <ScalarProperty Name="room_Id" ColumnName="roomId" />
+              <ScalarProperty Name="game_id" ColumnName="Game Id" />
+            </EndProperty>
+            <EndProperty Name="UserTable">
+              <ScalarProperty Name="userId" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserActiveGames" TypeName="DataBaseSadnaModel.UserActiveGames" StoreEntitySet="UserActiveGames">
+            <EndProperty Name="GameRoom">
+              <ScalarProperty Name="room_Id" ColumnName="roomId" />
+              <ScalarProperty Name="game_id" ColumnName="Game Id" />
+            </EndProperty>
+            <EndProperty Name="UserTable">
+              <ScalarProperty Name="userId" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UserReplaySavedGames" TypeName="DataBaseSadnaModel.UserReplaySavedGames" StoreEntitySet="UserReplaySavedGames">
+            <EndProperty Name="GameRoom">
+              <ScalarProperty Name="room_Id" ColumnName="roomId" />
+              <ScalarProperty Name="game_id" ColumnName="gameId" />
+            </EndProperty>
+            <EndProperty Name="UserTable">
+              <ScalarProperty Name="userId" ColumnName="userId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="AddNewUser" FunctionName="DataBaseSadnaModel.Store.AddNewUser" />
+          <FunctionImportMapping FunctionImportName="EditAvatar" FunctionName="DataBaseSadnaModel.Store.EditAvatar" />
+          <FunctionImportMapping FunctionImportName="EditEmail" FunctionName="DataBaseSadnaModel.Store.EditEmail" />
+          <FunctionImportMapping FunctionImportName="EditName" FunctionName="DataBaseSadnaModel.Store.EditName" />
+          <FunctionImportMapping FunctionImportName="EditPassword" FunctionName="DataBaseSadnaModel.Store.EditPassword" />
+          <FunctionImportMapping FunctionImportName="EditUserHighestCashGainInGame" FunctionName="DataBaseSadnaModel.Store.EditUserHighestCashGainInGame" />
+          <FunctionImportMapping FunctionImportName="EditUserId" FunctionName="DataBaseSadnaModel.Store.EditUserId" />
+          <FunctionImportMapping FunctionImportName="EditUserIsActive" FunctionName="DataBaseSadnaModel.Store.EditUserIsActive" />
+          <FunctionImportMapping FunctionImportName="EditUserLeagueName" FunctionName="DataBaseSadnaModel.Store.EditUserLeagueName" />
+          <FunctionImportMapping FunctionImportName="EditUserMoney" FunctionName="DataBaseSadnaModel.Store.EditUserMoney" />
+          <FunctionImportMapping FunctionImportName="EditUsername" FunctionName="DataBaseSadnaModel.Store.EditUsername" />
+          <FunctionImportMapping FunctionImportName="EditUserNumOfGamesPlayed" FunctionName="DataBaseSadnaModel.Store.EditUserNumOfGamesPlayed" />
+          <FunctionImportMapping FunctionImportName="EditUserPoints" FunctionName="DataBaseSadnaModel.Store.EditUserPoints" />
+          <FunctionImportMapping FunctionImportName="EditUserTotalProfit" FunctionName="DataBaseSadnaModel.Store.EditUserTotalProfit" />
+          <FunctionImportMapping FunctionImportName="EditUserWinNum" FunctionName="DataBaseSadnaModel.Store.EditUserWinNum" />
+          <FunctionImportMapping FunctionImportName="GetAllUser" FunctionName="DataBaseSadnaModel.Store.GetAllUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataBaseSadnaModel.GetAllUser_Result">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="gamesPlayed" ColumnName="gamesPlayed" />
+                <ScalarProperty Name="leagueName" ColumnName="leagueName" />
+                <ScalarProperty Name="winNum" ColumnName="winNum" />
+                <ScalarProperty Name="HighestCashGainInGame" ColumnName="HighestCashGainInGame" />
+                <ScalarProperty Name="TotalProfit" ColumnName="TotalProfit" />
+                <ScalarProperty Name="inActive" ColumnName="inActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserByUserId" FunctionName="DataBaseSadnaModel.Store.GetUserByUserId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataBaseSadnaModel.GetUserByUserId_Result">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="gamesPlayed" ColumnName="gamesPlayed" />
+                <ScalarProperty Name="leagueName" ColumnName="leagueName" />
+                <ScalarProperty Name="winNum" ColumnName="winNum" />
+                <ScalarProperty Name="HighestCashGainInGame" ColumnName="HighestCashGainInGame" />
+                <ScalarProperty Name="TotalProfit" ColumnName="TotalProfit" />
+                <ScalarProperty Name="inActive" ColumnName="inActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUserByUserName" FunctionName="DataBaseSadnaModel.Store.GetUserByUserName">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DataBaseSadnaModel.GetUserByUserName_Result">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="avatar" ColumnName="avatar" />
+                <ScalarProperty Name="points" ColumnName="points" />
+                <ScalarProperty Name="money" ColumnName="money" />
+                <ScalarProperty Name="gamesPlayed" ColumnName="gamesPlayed" />
+                <ScalarProperty Name="leagueName" ColumnName="leagueName" />
+                <ScalarProperty Name="winNum" ColumnName="winNum" />
+                <ScalarProperty Name="HighestCashGainInGame" ColumnName="HighestCashGainInGame" />
+                <ScalarProperty Name="TotalProfit" ColumnName="TotalProfit" />
+                <ScalarProperty Name="inActive" ColumnName="inActive" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

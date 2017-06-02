@@ -100,70 +100,70 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SadnaDB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\Card.cs">
+    <Compile Include="Database\EntityFramework\Model\Card.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\databaseSadnaModel.Context.cs">
+    <Compile Include="Database\EntityFramework\Model\databaseSadnaModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>databaseSadnaModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\databaseSadnaModel.cs">
+    <Compile Include="Database\EntityFramework\Model\databaseSadnaModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\databaseSadnaModel.Designer.cs">
+    <Compile Include="Database\EntityFramework\Model\databaseSadnaModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\Deck.cs">
+    <Compile Include="Database\EntityFramework\Model\Deck.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\ErrorLog.cs">
+    <Compile Include="Database\EntityFramework\Model\ErrorLog.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GameMode.cs">
+    <Compile Include="Database\EntityFramework\Model\GameMode.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GameReplay.cs">
+    <Compile Include="Database\EntityFramework\Model\GameReplay.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GameRoom.cs">
+    <Compile Include="Database\EntityFramework\Model\GameRoom.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GameRoomPreferance.cs">
+    <Compile Include="Database\EntityFramework\Model\GameRoomPreferance.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GetAllUser_Result.cs">
+    <Compile Include="Database\EntityFramework\Model\GetAllUser_Result.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GetUserByUserId_Result.cs">
+    <Compile Include="Database\EntityFramework\Model\GetUserByUserId_Result.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\GetUserByUserName_Result.cs">
+    <Compile Include="Database\EntityFramework\Model\GetUserByUserName_Result.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\HandStep.cs">
+    <Compile Include="Database\EntityFramework\Model\HandStep.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\LeagueName.cs">
+    <Compile Include="Database\EntityFramework\Model\LeagueName.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\Log.cs">
+    <Compile Include="Database\EntityFramework\Model\Log.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\Player.cs">
+    <Compile Include="Database\EntityFramework\Model\Player.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\PriorityLogEnum.cs">
+    <Compile Include="Database\EntityFramework\Model\PriorityLogEnum.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\SystemLog.cs">
+    <Compile Include="Database\EntityFramework\Model\SystemLog.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Model\UserTable.cs">
+    <Compile Include="Database\EntityFramework\Model\UserTable.cs">
       <DependentUpon>databaseSadnaModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Dapper\ReplayDB.cs" />
@@ -237,11 +237,11 @@
       <LastGenOutput>SadnaDB.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="Database\Model\databaseSadnaModel.edmx">
+    <EntityDeploy Include="Database\EntityFramework\Model\databaseSadnaModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>databaseSadnaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Database\Model\databaseSadnaModel.edmx.diagram">
+    <None Include="Database\EntityFramework\Model\databaseSadnaModel.edmx.diagram">
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
@@ -258,12 +258,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\Model\databaseSadnaModel.Context.tt">
+    <Content Include="Database\EntityFramework\Model\databaseSadnaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
       <LastGenOutput>databaseSadnaModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Database\Model\databaseSadnaModel.tt">
+    <Content Include="Database\EntityFramework\Model\databaseSadnaModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
       <LastGenOutput>databaseSadnaModel.cs</LastGenOutput>
