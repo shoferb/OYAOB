@@ -43,5 +43,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool RemoveSpectatorFromRoom(int userId, int roomId);
         bool DividLeage();
         List<IUser> GetUsersByNumOfGames();
+        List<IUser> GetUsersByHighestCash();
     }
 }

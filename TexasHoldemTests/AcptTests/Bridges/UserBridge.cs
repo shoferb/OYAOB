@@ -301,6 +301,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _userService.GetUsersByNumOfGames();
         }
 
+        public List<IUser> GetUsersByHighestCash()
+        {
+            return _userService.GetUsersByHighestCash();
+        }
 
 
     }

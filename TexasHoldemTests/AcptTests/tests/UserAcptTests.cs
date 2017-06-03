@@ -972,7 +972,7 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void LeaderBoardTestGood()
+        public void LeaderBoardByNumOfGamesTestGood()
         {
             RestartSystem();
             SetupUser1();
@@ -1002,6 +1002,79 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.IsTrue(users[3] == user3);
             Assert.IsTrue(users[4] == user2);
             Assert.IsTrue(users[5] == user1);
+        }
+
+        [TestCase]
+        public void LeaderBoardByNumOfGamesTestSad()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            IncWinAndPoints(user1, 100, 1100, 1);
+
+            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            Assert.IsTrue(users[0] == user1);
+        }
+
+        [TestCase]
+        public void LeaderBoardByNumOfGamesTestBad()
+        {
+            RestartSystem();
+            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            Assert.IsEmpty(users);
+        }
+
+        [TestCase]
+        public void LeaderBoardByHighestCashTestGood()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            IUser user2 = UserBridge.getUserById(_userId2);
+            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
+            IUser user3 = UserBridge.getUserById(_userId3);
+            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
+            IUser user4 = UserBridge.getUserById(_userId4);
+            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
+            IUser user5 = UserBridge.getUserById(_userId5);
+            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
+            IUser user6 = UserBridge.getUserById(_userId6);
+
+            IncWinAndPoints(user1, 100, 1100, 1);
+            IncWinAndPoints(user2, 200, 1200, 2);
+            IncWinAndPoints(user3, 300, 1300, 3);
+            IncWinAndPoints(user4, 400, 1400, 4);
+            IncWinAndPoints(user5, 500, 1500, 5);
+            IncWinAndPoints(user6, 600, 1600, 6);
+
+            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            Assert.IsTrue(users[0] == user6);
+            Assert.IsTrue(users[1] == user5);
+            Assert.IsTrue(users[2] == user4);
+            Assert.IsTrue(users[3] == user3);
+            Assert.IsTrue(users[4] == user2);
+            Assert.IsTrue(users[5] == user1);
+        }
+
+        [TestCase]
+        public void LeaderBoardByHighestCashTestSad()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            IncWinAndPoints(user1, 100, 1100, 1);
+
+            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            Assert.IsTrue(users[0] == user1);
+        }
+
+        [TestCase]
+        public void LeaderBoardByHighestCashTestBad()
+        {
+            RestartSystem();
+            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            Assert.IsEmpty(users);
         }
 
         private void IncWinAndPoints(IUser user, int amount, int points, int numOfWins)
