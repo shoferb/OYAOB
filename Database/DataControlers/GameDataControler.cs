@@ -29,13 +29,9 @@ namespace TexasHoldem.Database.DataControlers
                         toAdd = SetGameReplayToGame(toAdd, toAddGameReplay);
                         LinqToSql.LeagueName toAddLeagueName = ConvertToLeague(db.GetLeagueNameByVal(toAdd.league_name));
                         toAdd = SetLeagueToGame(toAdd, toAddLeagueName);
-
                         LinqToSql.HandStep toAddHandStep = ConvertToHandStep(db.GetHandStepNameByVal(toAdd.hand_step));
-                       
                         toAdd = SetHandStepToGame(toAdd , toAddHandStep);
-
                         // toAdd = SetPlayersToGame(toAdd); //TODO NOT HERE
-
                         // toAdd = SetPublicCardsToGame(toAdd); //TODO NOT HERE
                         // toAdd = SetReplayManagerToGame(toAdd); //TODO NOT HERE
                         //  toAdd = SetSpectetorsToGame(toAdd);  //TODO NOT HERE
