@@ -522,4 +522,12 @@
       <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetSpecsByRoomId" Method="GetSpecsByRoomId">
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetSpecsByRoomIdResult">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
