@@ -98,7 +98,7 @@ namespace TexasHoldem.Database.DataControlers
            }
            catch (Exception e)
            {
-               Console.WriteLine("error Add new User");
+               Console.WriteLine("error Add new User exeaption: "+e);
                return;
            }
         }
@@ -348,6 +348,39 @@ namespace TexasHoldem.Database.DataControlers
            }
         }
 
+        public void EditUserPoints(int Id, int newPoints)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.EditUserPoints(Id, newPoints);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user win num");
+                return;
+            }
+        }
+
+        public void EditUserAvatar(int Id, string newAvatar)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.EditAvatar(Id, newAvatar);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user avatar");
+                return;
+            }
+        }
         private UserTable convertToUser(GetAllUserResult v)
         {
             UserTable toReturn = new UserTable();

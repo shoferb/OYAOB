@@ -213,10 +213,10 @@ namespace TexasHoldem.DatabaseProxy
             try
             {
                 UserTable toAddUT = convertToUserT(toAdd);
-                string passwordToEncrypt = toAddUT.password;
-                byte[] bytes = Encoding.UTF8.GetBytes(passwordToEncrypt);
-                bytes = _security.Encrypt(passwordToEncrypt);
-                toAddUT.password = bytes.ToString();
+               // string passwordToEncrypt = toAddUT.password;
+                //byte[] bytes = Encoding.UTF8.GetBytes(passwordToEncrypt);
+                //bytes = _security.Encrypt(passwordToEncrypt);
+                //toAddUT.password = bytes.ToString();
                 userDataControler.AddNewUser(toAddUT);
             }
             catch (Exception e)
@@ -241,6 +241,31 @@ namespace TexasHoldem.DatabaseProxy
             }
         }
 
+        public void EditUserPoints(int Id, int newPoints)
+        {
+            try
+            {
+                userDataControler.EditUserPoints(Id,newPoints);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user points proxy");
+                return;
+            }
+        }
+        public void EditUserAvatar(int Id, string newAvatar)
+        {
+            try
+            {
+                userDataControler.EditUserAvatar(Id, newAvatar);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit user avatar in proxy");
+                return;
+            }
+        }
         public void EditUserName(int Id, string newUserName)
         {
             try
