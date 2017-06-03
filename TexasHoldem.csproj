@@ -362,6 +362,8 @@
     </Content>
     <Content Include="Database\GuiBackUp\DatabaseCreationScript.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.AddNewUser.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.DeleteUserById.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.DeleteUserByUserName.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditAvatar.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditEmail.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditName.StoredProcedure.sql" />

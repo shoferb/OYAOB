@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.DatabaseProxy
 {
-    class UserDataProxy
+    public class UserDataProxy
     {
     }
 }
