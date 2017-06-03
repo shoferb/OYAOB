@@ -484,6 +484,20 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
 			return ((ISingleResult<GetPublicCardsByRoomIdResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSpecsByRoomId")]
+		public ISingleResult<GetSpecsByRoomIdResult> GetSpecsByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetSpecsByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSpectetorByRoomIdAndUserId")]
+		public ISingleResult<GetSpectetorByRoomIdAndUserIdResult> GetSpectetorByRoomIdAndUserId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId);
+			return ((ISingleResult<GetSpectetorByRoomIdAndUserIdResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
@@ -8084,6 +8098,130 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._card != value))
 				{
 					this._card = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetSpecsByRoomIdResult
+	{
+		
+		private int _userId;
+		
+		private int _roomId;
+		
+		private int _Game_Id;
+		
+		public GetSpecsByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetSpectetorByRoomIdAndUserIdResult
+	{
+		
+		private int _userId;
+		
+		private int _roomId;
+		
+		private int _Game_Id;
+		
+		public GetSpectetorByRoomIdAndUserIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
 				}
 			}
 		}

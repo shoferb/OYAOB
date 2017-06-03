@@ -530,4 +530,13 @@
       <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetSpectetorByRoomIdAndUserId" Method="GetSpectetorByRoomIdAndUserId">
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetSpectetorByRoomIdAndUserIdResult">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
