@@ -144,26 +144,51 @@ namespace TexasHoldemTests.AcptTests.tests
             thread3.Join();
         }
 
+        [TestCase]
+        public void RegisterAndLoginLoopTest1()
+        {
+            RestartSystem();
+
+            //bomb the game
+            Thread thread1 = new Thread(new ThreadStart(RegisterAndLoginLoop));
+            Thread thread2 = new Thread(new ThreadStart(RegisterAndLoginLoop));
+            Thread thread3 = new Thread(new ThreadStart(RegisterAndLoginLoop));
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+
+            Thread.Sleep(3); //let the threads work
+            //wait for threads
+            thread1.Join();
+            thread2.Join();
+            thread3.Join();
+        }
+
         private void RegisterLoop()
         {
             string pass = "goodPw1234";
             string email = "test@test.com";
+            string name = Thread.CurrentThread.ManagedThreadId.ToString();
             for (int i = 0; i < 5000; i++)
             {
-                Assert.True(UserBridge.RegisterUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), pass, email) != -1);
-                UserBridge.DeleteUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), User1Pw);
+                Assert.True(UserBridge.RegisterUser(i + name, pass, email) != -1);
+                UserBridge.DeleteUser(i + name, User1Pw);
             }
         }
 
         private void RegisterAndLoginLoop()
         {
-
             string pass = "goodPw1234";
             string email = "test@test.com";
+            string name = Thread.CurrentThread.ManagedThreadId.ToString();
+            int id ;
             for (int i = 0; i < 5000; i++)
             {
-                Assert.True(UserBridge.RegisterUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), pass, email) != -1);
-                UserBridge.DeleteUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), User1Pw);
+                id = UserBridge.RegisterUser(i + name, pass, email);
+                Assert.True(id != -1);
+                Assert.True(UserBridge.LoginUser(i + name, pass));
+                Assert.True(UserBridge.LogoutUser(id));
+                UserBridge.DeleteUser(i + name, pass);
             }
         }
 
