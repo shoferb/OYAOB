@@ -5,11 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Database.LinqToSql;
+using TexasHoldem.Database.DataControlers;
 
 namespace TexasHoldem.Database.DataControlers
 {
     class GameDataControler
     {
+
+        public GameDataControler() { }
 
         public List<GameRoom> getAllGames()
         {
