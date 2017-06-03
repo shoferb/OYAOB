@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
@@ -8,6 +9,7 @@ using TexasHoldem.communication.Impl;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldemShared.Parser;
 using TexasHoldemShared.Security;
 
 namespace TexasHoldemTests.communication
@@ -20,6 +22,7 @@ namespace TexasHoldemTests.communication
         private Mock<IEventHandler> _serverEventHandlerMock;
         private string _url = "http://127.0.0.1:8080/";
         private HttpWebRequest _request;
+        private ICommMsgXmlParser _parser = new ParserImplementation();
         private const string ShortMessage = "ShortMsg";
         private const string LoginJsonMessage = "c{\"?xml\":{\"@version\":\"1.0\",\"@encoding\"" +
                                                 ":\"utf-16\"},\"LoginCommMessage\":{\"@xmlns:xsd\"" +
@@ -89,6 +92,18 @@ namespace TexasHoldemTests.communication
             _serverEventHandlerMock.Setup(m => m.HandleEvent(It.IsAny<LoginCommMessage>())).Returns(LoginRespXml);
             var response = SendWebMsg(LoginJsonMessage);
             Assert.IsNotNull(response);
+            string data = "";
+            using (var respStreamReader = new StreamReader(response.GetResponseStream()))
+            {
+                data = respStreamReader.ReadToEnd();
+            }
+            Assert.False(String.IsNullOrEmpty(data));
+            var respXml = _parser.JsonToXml(data);
+            //Assert.False(data.Equals(LoginRespXml)); //should be encrypted
+            Assert.True(respXml.Equals(LoginRespXml)); //should be encrypted
+            //var bytes = Encoding.UTF8.GetBytes(data);
+            //var decrypted = _security.Decrypt(bytes);
+            //Assert.True(decrypted.Equals(LoginRespXml));
         }
 
     }

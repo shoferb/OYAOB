@@ -66,9 +66,9 @@ namespace TexasHoldem.communication.Impl
             var msgStr = new StreamReader(request.InputStream,
                 context.Request.ContentEncoding).ReadToEnd();
             request.InputStream.Close();
-            byte[] msgbytes = _security.Encrypt(msgStr);
-            msgStr = _security.Decrypt(msgbytes);
-            var resultLst = _eventHandler.HandleRawMsg(msgStr);
+            //byte[] msgbytes = _security.Encrypt(msgStr);
+            //msgStr = _security.Decrypt(msgbytes); //decrypt received msg
+            var resultLst = _eventHandler.HandleRawMsg(msgStr); //handle the incoming msg
             if (resultLst.Count > 1)
             {
                 Console.WriteLine("WebCommHandler: msg contained more than one task");
@@ -76,11 +76,11 @@ namespace TexasHoldem.communication.Impl
             else
             {
                 var res = resultLst[0];
-                var response = context.Response;
-                byte[] bytes = Encoding.UTF8.GetBytes(res);
-                bytes = _security.Encrypt(res);
-                response.ContentLength64 = bytes.Length;
-                Stream output = response.OutputStream;
+                var listenerResponse = context.Response;
+                //var bytes = _security.Encrypt(res);
+                var bytes = Encoding.UTF8.GetBytes(res);
+                listenerResponse.ContentLength64 = bytes.Length;
+                Stream output = listenerResponse.OutputStream;
                 output.Write(bytes, 0, bytes.Length);
                 output.Close();
             }
