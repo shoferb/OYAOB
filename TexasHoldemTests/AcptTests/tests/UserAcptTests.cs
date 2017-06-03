@@ -1048,7 +1048,7 @@ namespace TexasHoldemTests.AcptTests.tests
             IncWinAndPoints(user5, 500, 1500, 5);
             IncWinAndPoints(user6, 600, 1600, 6);
 
-            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            List<IUser> users = UserBridge.GetUsersByHighestCash();
             Assert.IsTrue(users[0] == user6);
             Assert.IsTrue(users[1] == user5);
             Assert.IsTrue(users[2] == user4);
@@ -1065,7 +1065,7 @@ namespace TexasHoldemTests.AcptTests.tests
             IUser user1 = UserBridge.getUserById(UserId);
             IncWinAndPoints(user1, 100, 1100, 1);
 
-            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            List<IUser> users = UserBridge.GetUsersByHighestCash();
             Assert.IsTrue(users[0] == user1);
         }
 
@@ -1073,7 +1073,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void LeaderBoardByHighestCashTestBad()
         {
             RestartSystem();
-            List<IUser> users = UserBridge.GetUsersByNumOfGames();
+            List<IUser> users = UserBridge.GetUsersByHighestCash();
             Assert.IsEmpty(users);
         }
 
