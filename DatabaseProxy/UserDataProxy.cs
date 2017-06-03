@@ -134,5 +134,21 @@ namespace TexasHoldem.DatabaseProxy
             }
             return toreturn;
         }
+
+        public void DeleteUserByUserName(string username)
+        {
+            userDataControler.DeleteUserByUsername(username);
+        }
+
+        public void DeleteUserById(int Id)
+        {
+            userDataControler.DeleteUserById(Id);
+        }
+
+        public void AddNewUser(IUser toAdd)
+        {
+            UserTable toAddUT = convertToUserT(toAdd);
+            userDataControler.AddNewUser(toAddUT);
+        }
     }
 }

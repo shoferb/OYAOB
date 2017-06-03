@@ -83,23 +83,22 @@ namespace TexasHoldem.Logic.Game_Control
         public bool RemoveUserByUserNameAndPassword(string username, string password)
         {
             bool toReturn = false;
-            IUser toRemove = null;
+            IUser toRemove = userProxy.GetUserByUserName(username);
             bool found = false;
             lock (padlock)
             {
-                foreach (IUser u in users)
-                {
-                    if ((u.Password().Equals(password)) && (u.MemberName().Equals(username)))
+
+                
+                    if ((toRemove.Password().Equals(password)))
                     {
-                        toRemove = u;
                         found = true; 
                     }
-                }
+                
                 try
                 {
                     if (found)
                     {
-                        users.Remove(toRemove);
+                        userProxy.DeleteUserByUserName(username);
                         toReturn = true;
                         return toReturn;
                     }
@@ -129,7 +128,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    users.Remove(toRemove);
+                   userProxy.DeleteUserById(toRemove.Id());
                     toReturn = true;
                 }
                 catch (Exception e)
@@ -211,7 +210,9 @@ namespace TexasHoldem.Logic.Game_Control
                     }
 
                     IUser newUser = new User(id, name, memberName, password, 0,  money, email);
-                    users.Add(newUser);
+
+                    userProxy.AddNewUser(newUser);
+                    // users.Add(newUser);
                     toReturn = true;
                    
                 }catch(Exception e)
