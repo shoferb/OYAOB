@@ -453,4 +453,27 @@
       <Column Name="replay" Type="System.String" DbType="VarChar(5000) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetGameRoomByRoomId" Method="GetGameRoomByRoomId">
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetGameRoomByRoomIdResult">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[game id]" Member="game_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Dealer position]" Member="Dealer_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Max Bet In Round]" Member="Max_Bet_In_Round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Pot count]" Member="Pot_count" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Bb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[is Active Game]" Member="is_Active_Game" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[curr Player]" Member="curr_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Dealer Player]" Member="Dealer_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Bb Player]" Member="Bb_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[SB player]" Member="SB_player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[hand step]" Member="hand_step" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[First Player In round]" Member="First_Player_In_round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[curr player position]" Member="curr_player_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[first player in round position]" Member="first_player_in_round_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[last rise in round]" Member="last_rise_in_round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[league name]" Member="league_name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
