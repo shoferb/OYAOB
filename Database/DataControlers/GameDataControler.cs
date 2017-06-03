@@ -65,6 +65,8 @@ namespace TexasHoldem.Database.DataControlers
                         toRet.room_id = v.room_id;
                         toRet.Sb = v.Sb;
                         toRet.starting_chip = v.starting_chip;
+                        toRet.enter_paying_money = v.enter_paying_money;
+                        toRet.Bb = v.Bb;
                     }
                     return toRet;
                 }

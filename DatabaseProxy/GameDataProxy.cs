@@ -85,8 +85,9 @@ namespace TexasHoldem.DatabaseProxy
                         dealerPlayer = p;
                     }
                 }
+                Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
                 GameRoomPreferance  pref = _controller.GetPrefByRoomId(g.room_Id);
-                Decorator decorator = _gameCenter.CreateDecorator(minBet, pref.starting_chip, pref.is_Spectetor, pref.Min_player_in_room, pref.max_player_in_room, enterPayingMoney, gameModeChosen, user.GetLeague());
+                Decorator decorator = _gameCenter.CreateDecorator(pref.Bb, pref.starting_chip, pref.is_Spectetor, pref.Min_player_in_room, pref.max_player_in_room, pref.enter_paying_money, gameModeChosen, user.GetLeague());
                 Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, decorator, _gameCenter, _logControl,
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
                  pubCards, SpecssLst,  dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round,
@@ -95,6 +96,37 @@ namespace TexasHoldem.DatabaseProxy
             }
 
             return toRet;
+        }
+
+        private Logic.GameControl.LeagueName ConvertSpecsList(Database.LinqToSql.LeagueName leagueDB)
+        {
+            if(leagueDB.League_Name.Equals("A"))
+            {
+                return Logic.GameControl.LeagueName.A;
+            }
+            else if (leagueDB.League_Name.Equals("B"))
+            {
+                return Logic.GameControl.LeagueName.B;
+            }
+            else if (leagueDB.League_Name.Equals("C"))
+            {
+                return Logic.GameControl.LeagueName.C;
+            }
+            else if (leagueDB.League_Name.Equals("D"))
+            {
+                return Logic.GameControl.LeagueName.D;
+            }
+            else if (leagueDB.League_Name.Equals("E"))
+            {
+                return Logic.GameControl.LeagueName.E;
+            }
+            else 
+            {
+                return Logic.GameControl.LeagueName.Unknow;
+            }
+
+
+
         }
 
         private List<Logic.Users.Spectetor> ConvertSpecsList(List<Database.LinqToSql.SpectetorGamesOfUser> dbSpecs)
