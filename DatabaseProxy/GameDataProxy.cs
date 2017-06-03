@@ -44,8 +44,14 @@ namespace TexasHoldem.DatabaseProxy
                 }
                 List<Logic.Users.Player> playersLst = ConvertPlayerList(dbPlayers);
 
+                List<Card> pubCards = new List<Card>();
+                List<Database.LinqToSql.Card> dbPubCards = _controller.GetPublicCardsByRoomId(g.room_Id);
+                foreach(var aCard in dbPubCards)
+                {
+                    pubCards.Add(getCardByVal(aCard.Card_Value));
+                }
 
-            Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(/*List < Player >*/ playersLst, g.room_Id, /*Decorator*/ decorator, _gameCenter, _logControl,
+            Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom( playersLst, g.room_Id, /*Decorator*/ decorator, _gameCenter, _logControl,
            _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
             /*List < Card >*/ pubCards, /*List < Spectetor >*/ specs, /*Player*/ dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round)
                 //deck
@@ -63,9 +69,8 @@ namespace TexasHoldem.DatabaseProxy
                 User user; //= UserDataProxy.GetUserById(dbPlayer.user_Id);
                 Card fCard = getCardByVal(dbPlayer.first_card);
                 Card sCard = getCardByVal(dbPlayer.secund_card);
-
                 Logic.Users.Player toAdd = new Logic.Users.Player(/*IUser user*/ null, dbPlayer.Total_chip, dbPlayer.room_Id, dbPlayer.Round_chip_bet,
-                    dbPlayer.is_player_active, /*Card*/ fCard, /*Card*/ sCard, dbPlayer.Player_action_the_round);
+                    dbPlayer.is_player_active, fCard, sCard, dbPlayer.Player_action_the_round);
             }
             return toRet;
         }
