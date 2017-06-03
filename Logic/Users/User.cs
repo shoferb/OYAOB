@@ -222,6 +222,10 @@ namespace TexasHoldem.Logic.Users
         //avg profit per win
         public double GetAvgProfit()
         {
+            if (WinNum == 0)
+            {
+                return 0;
+            }
             return (double) TotalProfit / WinNum;
         }
 
