@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -29,16 +28,6 @@ namespace TexasHoldemTests.AcptTests.tests
         private string _user4Name;
         private string _user4Pw;
         private string _user4EmailGood;
-        private int _userId5 = -1;
-        private string _user5Name;
-        private string _user5Pw;
-        private string _user5EmailGood;
-        private int _userId6 = -1;
-        private string _user6Name;
-        private string _user6Pw;
-        private string _user6EmailGood;
-        private string _userPwBad;
-        private string _userEmailBad;
 
         //setup: (called from case)
         protected override void SubClassInit()
@@ -58,22 +47,9 @@ namespace TexasHoldemTests.AcptTests.tests
             _user4EmailGood = "YRD@gmail.com";
             _user4Pw = "123456789";
 
-            _userId5 = 305509069;
-            _user5Name = "Orellie";
-            _user5EmailGood = "o@gmail.com";
-            _user5Pw = "12345555";
-
-            _userId6 = 305509000;
-            _user6Name = "bar";
-            _user6EmailGood = "b@gmail.com";
-            _user6Pw = "9191919191";
-
-
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
             RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
-
-
         }
 
 
@@ -182,7 +158,7 @@ namespace TexasHoldemTests.AcptTests.tests
             string email = "test@test.com";
             string name = Thread.CurrentThread.ManagedThreadId.ToString();
             int id ;
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 id = UserBridge.RegisterUser(i + name, pass, email);
                 Assert.True(id != -1);
@@ -232,6 +208,52 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(GameBridge.GetPlayersInRoom(RoomId).Contains(player3));
             Assert.True(player2.isPlayerActive);
             Assert.True(player3.isPlayerActive);
+        }
+
+        [TestCase]
+        public void CreateRoomLoadTest1()
+        {
+            RestartSystem();
+
+            //bomb the game
+            Thread thread1 = new Thread(new ThreadStart(CreateRoomLoop1));
+            Thread thread2 = new Thread(new ThreadStart(CreateRoomLoop1));
+            Thread thread3 = new Thread(new ThreadStart(CreateRoomLoop1));
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+
+            Thread.Sleep(3); //let the threads work
+            //wait for threads
+            thread1.Join();
+            thread2.Join();
+            thread3.Join();
+        }
+
+        private void CreateRoomLoop1()
+        {
+            string pass = "goodPw1234";
+            string email = "test@test.com";
+            string name = "99999" + Thread.CurrentThread.ManagedThreadId.ToString();
+            int id = UserBridge.RegisterUser(name, pass, email);
+            Assert.True(id != -1);
+            Assert.True(UserBridge.LoginUser(name, pass));
+            int RoomID;
+            List<int> roomIDS = new List<int>();
+
+            for (int i = 0; i < 10000; i++)
+            {
+                RoomID = GameBridge.CreateGameRoom(id, 100);
+                roomIDS.Add(RoomID);
+            }
+
+            for (int i = 0; i < roomIDS.Count; i++)
+            {
+                GameBridge.DoAction(id, CommunicationMessage.ActionType.Leave, 0, roomIDS[i]);
+            }
+
+            Assert.True(UserBridge.LogoutUser(id));
+            UserBridge.DeleteUser(name, pass);
         }
 
         private void doAction2()
