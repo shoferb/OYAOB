@@ -512,48 +512,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
         
  
-//no use any more
-        public List<IUser> SortByRank()
-        {
-            lock (padlock)
-            {
-                List<IUser> sort = GetAllUser();
-                sort.Sort(delegate(IUser x, IUser y)
-                {
-                    return y.Points().CompareTo(x.Points());
-                });
-                return sort;
-            }
-        }
 
-        
-     
-        public List<IUser> GetAllUnKnowUsers()
-        {
-            List<IUser> toReturn = new List<IUser>();
-            lock (padlock)
-            {
-                try
-                {
-                    foreach (IUser u in users)
-                    {
-                        if (u.IsUnKnow())
-                        {
-                            toReturn.Add(u);
-                        }
-                    }
-                }
-                catch
-                {
-
-                    ErrorLog log = new ErrorLog("Error: while trying get ALL UNKNOW  users");
-                    logControl.AddErrorLog(log);
-                    return toReturn;
-                }
-               
-            }
-            return toReturn;
-        }
 
         private bool IsValidInputNotSmallerZero(int toCheck)
         {
@@ -676,20 +635,23 @@ namespace TexasHoldem.Logic.Game_Control
 
         public List<IUser> GetUsersByTotalProfit()
         {
-            return new List<IUser>(Users.OrderByDescending(user => user.TotalProfit)
-                .Take(Math.Min(20, Users.Count)));
+            List<IUser> temp = userProxy.GetAllUser();
+            return new List<IUser>(temp.OrderByDescending(user => user.TotalProfit)
+                .Take(Math.Min(20, temp.Count)));
         }
 
         public List<IUser> GetUsersByHighestCash()
         {
-            return new List<IUser>(Users.OrderByDescending(user => user.HighestCashGainInGame)
-                .Take(Math.Min(20, Users.Count)));
+            List<IUser> temp = userProxy.GetAllUser();
+            return new List<IUser>(temp.OrderByDescending(user => user.HighestCashGainInGame)
+                .Take(Math.Min(20, temp.Count)));
         }
 
         public List<IUser> GetUsersByNumOfGames()
         {
-            return new List<IUser>(Users.OrderByDescending(user => user.WinNum + user.LoseNum)
-                .Take(Math.Min(20, Users.Count)));
+            List<IUser> temp = userProxy.GetAllUser();
+            return new List<IUser>(temp.OrderByDescending(user => user.WinNum + user.LoseNum)
+                .Take(Math.Min(20, temp.Count)));
         }
     }
 }
