@@ -56,28 +56,22 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void TestJson()
         {
-            //LeaderboardCommMessage lbcm = new LeaderboardCommMessage(1, LeaderboardCommMessage.SortingOption.HighestCashGain);
-            //var xml = _parser.SerializeMsg(lbcm, false);
-            //var json = _parser.XmlToJson(xml);
-            //Console.WriteLine(json);
-            //var lb = _parser.ParseString(_parser.JsonToXml(json), false);
+            LoginCommMessage login = new LoginCommMessage(1, true, "Oded", "12345689");
+            LoginResponeCommMessage response = new LoginResponeCommMessage(1, 123, "Oded", "Oded",
+                "123456789", "Avatar", 123, "bla@bla.com", "League", false, login);
 
-            //List<LeaderboardLineData> data = new List<LeaderboardLineData>
-            //{
-            //    new LeaderboardLineData(1, "Oded", 100, 1000, 13, 12),
-            //    new LeaderboardLineData(1, "Jordy", 1000, 10, 130, 11)
-            //};
-            //LeaderboardResponseCommMessage response = new LeaderboardResponseCommMessage(1,
-            //    true, lbcm, data);
-            //xml = _parser.SerializeMsg(response, false);
-            //json = _parser.XmlToJson(xml);
-            //Console.WriteLine(json);
-
-            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1, -1);
-            UserStatisticsResponseCommMessage response = new UserStatisticsResponseCommMessage(1, -1, true, commMessage, 0, 0);
-            var xml = _parser.SerializeMsg(response, false);
+            var xml = _parser.SerializeMsg(login, false);
             var json = _parser.XmlToJson(xml);
-            Console.WriteLine(json);
+
+            var respXml = _parser.SerializeMsg(response, false);
+            //var parsed = _parser.ParseString("c{\"?xml\":{\"@version\":\"1.0\",\"" +
+            //                                 "@encoding\":\"utf-16\"},\"LoginCommMessage\"" +
+            //                                 ":{\"@xmlns:xsd\":\"http://www.w3.org/2001/XMLSchema\"," +
+            //                                 "\"@xmlns:xsi\":\"http://www.w3.org/2001/XMLSchema-instance\"," +
+            //                                 "\"UserId\":\"1\",\"SessionId\":\"-1\",\"IsLogin\":\"true\"," +
+            //                                 "\"UserName\":\"Oded\",\"Password\":\"12345689\"}}", false);
+
+            Console.WriteLine(respXml);
         }
 
         [TestCase]

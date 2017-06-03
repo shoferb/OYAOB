@@ -24,7 +24,7 @@ namespace TexasHoldem.communication.Impl
             parsedLst.ForEach(commMsg =>
             {
                 var xmlStr = commMsg.Handle(_serverHandler);
-                if (String.IsNullOrEmpty(xmlStr))
+                if (!String.IsNullOrEmpty(xmlStr))
                 {
                     resultList.Add(_parser.XmlToJson(xmlStr)); 
                 }
