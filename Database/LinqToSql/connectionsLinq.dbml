@@ -413,4 +413,13 @@
       <Column Name="[Card Real Value]" Member="Card_Real_Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetDeckByRoomId" Method="GetDeckByRoomId">
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetDeckByRoomIdResult">
+      <Column Name="[index]" Member="index" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[card value]" Member="card_value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
