@@ -228,6 +228,10 @@ namespace TexasHoldem.Logic.Users
         //avg profit in all games
         public double GetAvgCashGainPerGame()
         {
+            if (WinNum + LoseNum == 0)
+            {
+                return 0;
+            }
             return (double)TotalProfit / (WinNum + LoseNum);
         }
 

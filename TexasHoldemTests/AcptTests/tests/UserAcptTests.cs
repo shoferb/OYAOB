@@ -1130,6 +1130,32 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.IsEmpty(users);
         }
 
+        [TestCase]
+        public void AverageCashTestGood()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            IUser user2 = UserBridge.getUserById(_userId2);
+            IncWinAndPoints(user1, 100, 1100, 1);
+            IncWinAndPoints(user2, 500, 1200, 2);
+            Assert.IsTrue(user1.GetAvgCashGainPerGame() == 100);
+            Assert.IsTrue(user2.GetAvgCashGainPerGame() == 250);
+        }
+
+        [TestCase]
+        public void AverageCashTestBad()
+        {
+            RestartSystem();
+            SetupUser1();
+            IUser user1 = UserBridge.getUserById(UserId);
+            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            IUser user2 = UserBridge.getUserById(_userId2);
+            Assert.IsTrue(user1.GetAvgCashGainPerGame() == 0.0);
+            Assert.IsTrue(user2.GetAvgCashGainPerGame() == 0.0);
+        }
+
         private void IncWinAndPoints(IUser user, int amount, int points, int numOfWins)
         {
             for (int i=0; i < numOfWins; i++)
