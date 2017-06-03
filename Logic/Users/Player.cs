@@ -37,7 +37,20 @@ namespace TexasHoldem.Logic.Users
             this.isPlayerActive = false;
             this.PlayedAnActionInTheRound = false;
         }
-        
+
+        public Player(IUser User, int totalChip, int RoomId, int roundChipBet, bool isPlayerActivee, Card fCard, Card sCard, bool playedAnActionInTheRound)
+        {
+            this.user = User;
+            this.roomId = RoomId;
+            this.TotalChip = totalChip;
+            this.RoundChipBet = roundChipBet;
+            this.isPlayerActive = isPlayerActivee;
+            this._firstCard = fCard;
+            this._secondCard = sCard;
+            this.isPlayerActive = isPlayerActivee;
+            this.PlayedAnActionInTheRound = playedAnActionInTheRound;
+        }
+
         public void InitForNewGame()
         {
             isPlayerActive = true;

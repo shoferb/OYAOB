@@ -98,7 +98,7 @@ namespace TexasHoldem.Logic.Game
             ReplayManager = replay;
             GameCenter = gc;
             lastRaiseInRound = lastRaiseInRoundd;
-            useCommunication = isuseCommunication;
+            useCommunication = true;
             clientSender = sender;
         }
 
