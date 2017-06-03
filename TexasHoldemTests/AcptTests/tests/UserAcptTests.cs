@@ -1184,7 +1184,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.IsTrue(user2.GetAvgProfit() == 0);
         }
 
-
         private void IncWinAndPoints(IUser user, int amount, int points, int numOfWins)
         {
             for (int i=0; i < numOfWins; i++)
