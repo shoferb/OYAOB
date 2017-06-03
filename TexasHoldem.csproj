@@ -38,6 +38,15 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
@@ -62,6 +71,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -304,6 +315,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Sadna.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.edmx.diagram">
       <DependentUpon>Sadna.edmx</DependentUpon>
     </None>
@@ -327,6 +341,7 @@
       <DependentUpon>databaseSadnaModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -264,12 +264,12 @@ namespace Client.Logic
             LoginCommMessage toSend = new LoginCommMessage(user.id, false, userName, password);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false, new ResponeCommMessage(user.id)); MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
             {
                 var t = Task.Run(async delegate { await Task.Delay(10); });
                 t.Wait();
             }
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
             MessagesSentObserver.Remove(messageToList);
             return toRet;
 
