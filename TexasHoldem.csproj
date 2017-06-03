@@ -387,6 +387,7 @@
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetGamePreferencesByRoomId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetGameReplayByRoomId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetGameRoomByRoomId.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetHandStepNameByVal.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetLeagueNameByVal.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetPlayerByRoomIdAndUserId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetPlayerssByRoomId.StoredProcedure.sql" />

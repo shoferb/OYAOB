@@ -539,4 +539,11 @@
       <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetHandStepNameByVal" Method="GetHandStepNameByVal">
+    <Parameter Name="Val" Parameter="val" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetHandStepNameByValResult">
+      <Column Name="[hand Step value]" Member="hand_Step_value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[hand Step name]" Member="hand_Step_name" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
