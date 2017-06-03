@@ -85,8 +85,8 @@ namespace TexasHoldem.DatabaseProxy
                         dealerPlayer = p;
                     }
                 }
-
-                Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, /*Decorator*/ decorator, _gameCenter, _logControl,
+                Decorator decorator = _gameCenter.CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
+                Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, decorator, _gameCenter, _logControl,
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
                  pubCards, SpecssLst,  dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round,
                 /* Player*/ currentPlayer, /*Player*/ bbPlayer,/* Player*/ sbPlayer, /*Player*/ firstPlayerInRound, g.Bb ,g.Sb,

@@ -111,7 +111,7 @@ namespace TexasHoldem.Logic.GameControl
             }
         }
 
-        private Decorator CreateDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)
+        public Decorator CreateDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)
         {
             Decorator mid = new MiddleGameDecorator(gameModeChosen, minBet, minBet / 2);
             Decorator before = new BeforeGameDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, league);

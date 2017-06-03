@@ -46,6 +46,37 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        public LinqToSql.GameRoomPreferance GetPrefByRoomId(int roomId)
+        {
+            LinqToSql.GameRoomPreferance toRet = new GameRoomPreferance();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGamePreferencesByRoomId(roomId).ToList();
+                    foreach (var v in temp)
+                    {
+                        toRet.Game_Id = v.Game_Id;
+                        toRet.Game_Mode = v.Game_Mode;
+                        toRet.is_Spectetor = v.is_Spectetor;
+                        toRet.League_name = v.League_name;
+                        toRet.max_player_in_room = v.max_player_in_room;
+                        toRet.Min_player_in_room = v.Min_player_in_room;
+                        toRet.room_id = v.room_id;
+                        toRet.Sb = v.Sb;
+                        toRet.starting_chip = v.starting_chip;
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+
+        }
+
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
