@@ -349,15 +349,8 @@ namespace TexasHoldem.communication.Impl
                     default:
                         return "";
                 }
-                var leaderboradLines = new List<LeaderboardLineData> {
-                    new LeaderboardLineData(1, "Bla", 100, 1000, 12, 2),
-                    new LeaderboardLineData(1, "BlaBla", 10, 10, 2, 232),
-                    new LeaderboardLineData(1, "BlaBlaBla", 10320, 104300, 1232, 21),
-                };
-                //var leaderboradLines = userLst.ConvertAll(UserToLineData);
-                //var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
-                //    true, msg, leaderboradLines);
-                var response = new LeaderboardResponseCommMessage(msg.UserId, 2,
+                var leaderboradLines = userLst.ConvertAll(UserToLineData);
+                var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
                     true, msg, leaderboradLines);
                 return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
