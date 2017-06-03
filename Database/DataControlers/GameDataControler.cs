@@ -21,19 +21,16 @@ namespace TexasHoldem.Database.DataControlers
                     var temp = db.GetAllGames().ToList();
                     foreach (var v in temp)
                     {
-
                         GameRoom toAdd = ConvertToGameRoom(v);
-                       // LinqToSql.Deck toAddDeck = ConvertToDeck(db.GetDeckByRoomId(toAdd.room_Id));
-                        //  toAdd = SetDeckToGame(toAdd); //TODO NOT HERE
                         LinqToSql.GameReplay toAddGameReplay = ConvertToReplay(db.GetGameReplayByRoomId(toAdd.room_Id));
                         toAdd = SetGameReplayToGame(toAdd, toAddGameReplay);
                         LinqToSql.LeagueName toAddLeagueName = ConvertToLeague(db.GetLeagueNameByVal(toAdd.league_name));
                         toAdd = SetLeagueToGame(toAdd, toAddLeagueName);
                         LinqToSql.HandStep toAddHandStep = ConvertToHandStep(db.GetHandStepNameByVal(toAdd.hand_step));
                         toAdd = SetHandStepToGame(toAdd , toAddHandStep);
+                        //  toAdd = SetDeckToGame(toAdd); //TODO NOT HERE
                         // toAdd = SetPlayersToGame(toAdd); //TODO NOT HERE
                         // toAdd = SetPublicCardsToGame(toAdd); //TODO NOT HERE
-                        // toAdd = SetReplayManagerToGame(toAdd); //TODO NOT HERE
                         //  toAdd = SetSpectetorsToGame(toAdd);  //TODO NOT HERE
                         toRet.Add(toAdd);
                     }
