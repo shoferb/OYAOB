@@ -428,6 +428,20 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
 			return ((ISingleResult<GetDeckByRoomIdResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeNameByVal")]
+		public ISingleResult<GetGameModeNameByValResult> GetGameModeNameByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetGameModeNameByValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGamePreferencesByRoomId")]
+		public ISingleResult<GetGamePreferencesByRoomIdResult> GetGamePreferencesByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetGamePreferencesByRoomIdResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
@@ -6918,6 +6932,238 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._card_value != value))
 				{
 					this._card_value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameModeNameByValResult
+	{
+		
+		private string _game_mode_name;
+		
+		public GetGameModeNameByValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game mode name]", Storage="_game_mode_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string game_mode_name
+		{
+			get
+			{
+				return this._game_mode_name;
+			}
+			set
+			{
+				if ((this._game_mode_name != value))
+				{
+					this._game_mode_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGamePreferencesByRoomIdResult
+	{
+		
+		private int _room_id;
+		
+		private System.Nullable<bool> _is_Spectetor;
+		
+		private System.Nullable<int> _Min_player_in_room;
+		
+		private System.Nullable<int> _max_player_in_room;
+		
+		private System.Nullable<int> _enter_paying_money;
+		
+		private System.Nullable<int> _starting_chip;
+		
+		private System.Nullable<int> _Bb;
+		
+		private System.Nullable<int> _Sb;
+		
+		private System.Nullable<int> _League_name;
+		
+		private System.Nullable<int> _Game_Mode;
+		
+		private int _Game_Id;
+		
+		public GetGamePreferencesByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room id]", Storage="_room_id", DbType="Int NOT NULL")]
+		public int room_id
+		{
+			get
+			{
+				return this._room_id;
+			}
+			set
+			{
+				if ((this._room_id != value))
+				{
+					this._room_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Spectetor]", Storage="_is_Spectetor", DbType="Bit")]
+		public System.Nullable<bool> is_Spectetor
+		{
+			get
+			{
+				return this._is_Spectetor;
+			}
+			set
+			{
+				if ((this._is_Spectetor != value))
+				{
+					this._is_Spectetor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Min player in room]", Storage="_Min_player_in_room", DbType="Int")]
+		public System.Nullable<int> Min_player_in_room
+		{
+			get
+			{
+				return this._Min_player_in_room;
+			}
+			set
+			{
+				if ((this._Min_player_in_room != value))
+				{
+					this._Min_player_in_room = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max player in room]", Storage="_max_player_in_room", DbType="Int")]
+		public System.Nullable<int> max_player_in_room
+		{
+			get
+			{
+				return this._max_player_in_room;
+			}
+			set
+			{
+				if ((this._max_player_in_room != value))
+				{
+					this._max_player_in_room = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[enter paying money]", Storage="_enter_paying_money", DbType="Int")]
+		public System.Nullable<int> enter_paying_money
+		{
+			get
+			{
+				return this._enter_paying_money;
+			}
+			set
+			{
+				if ((this._enter_paying_money != value))
+				{
+					this._enter_paying_money = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[starting chip]", Storage="_starting_chip", DbType="Int")]
+		public System.Nullable<int> starting_chip
+		{
+			get
+			{
+				return this._starting_chip;
+			}
+			set
+			{
+				if ((this._starting_chip != value))
+				{
+					this._starting_chip = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int")]
+		public System.Nullable<int> Bb
+		{
+			get
+			{
+				return this._Bb;
+			}
+			set
+			{
+				if ((this._Bb != value))
+				{
+					this._Bb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int")]
+		public System.Nullable<int> Sb
+		{
+			get
+			{
+				return this._Sb;
+			}
+			set
+			{
+				if ((this._Sb != value))
+				{
+					this._Sb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League name]", Storage="_League_name", DbType="Int")]
+		public System.Nullable<int> League_name
+		{
+			get
+			{
+				return this._League_name;
+			}
+			set
+			{
+				if ((this._League_name != value))
+				{
+					this._League_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Mode]", Storage="_Game_Mode", DbType="Int")]
+		public System.Nullable<int> Game_Mode
+		{
+			get
+			{
+				return this._Game_Mode;
+			}
+			set
+			{
+				if ((this._Game_Mode != value))
+				{
+					this._Game_Mode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
 				}
 			}
 		}

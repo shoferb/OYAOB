@@ -428,4 +428,20 @@
       <Column Name="[game mode name]" Member="game_mode_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetGamePreferencesByRoomId" Method="GetGamePreferencesByRoomId">
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetGamePreferencesByRoomIdResult">
+      <Column Name="[room id]" Member="room_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[is Spectetor]" Member="is_Spectetor" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="[Min player in room]" Member="Min_player_in_room" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[max player in room]" Member="max_player_in_room" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[enter paying money]" Member="enter_paying_money" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[starting chip]" Member="starting_chip" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Bb" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sb" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[League name]" Member="League_name" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Game Mode]" Member="Game_Mode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
