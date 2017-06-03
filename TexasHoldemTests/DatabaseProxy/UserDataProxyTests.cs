@@ -14,6 +14,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
     [TestClass()]
     public class UserDataProxyTests
     {
+        //ewfwef
         private UserDataProxy userDataProxy = new UserDataProxy();
         private readonly ISecurity _security = new SecurityHandler();
         private UserDataControler userDataControler = new UserDataControler();
