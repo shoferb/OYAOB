@@ -30,7 +30,9 @@ namespace TexasHoldem.Database.DataControlers
                         LinqToSql.LeagueName toAddLeagueName = ConvertToLeague(db.GetLeagueNameByVal(toAdd.league_name));
                         toAdd = SetLeagueToGame(toAdd, toAddLeagueName);
 
-                        //toAdd = SetHandStepToGame(toAdd);//TODO
+                        LinqToSql.HandStep toAddHandStep = ConvertToHandStep(db.GetHandStepNameByVal(toAdd.hand_step));
+                       
+                        toAdd = SetHandStepToGame(toAdd , toAddHandStep);
 
                         // toAdd = SetPlayersToGame(toAdd); //TODO NOT HERE
 
@@ -46,6 +48,24 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return null;
             }
+        }
+
+        private GameRoom SetHandStepToGame(GameRoom g, HandStep h)
+        {
+            g.HandStep.hand_Step_name = h.hand_Step_name;
+            g.HandStep.hand_Step_value = h.hand_Step_value;
+            return g;
+        }
+
+        private HandStep ConvertToHandStep(ISingleResult<GetHandStepNameByValResult> singleResult)
+        {
+            HandStep toAddHandStep = new HandStep();
+            foreach (var v in singleResult)
+            {
+                toAddHandStep.hand_Step_name = v.hand_Step_name;
+                toAddHandStep.hand_Step_value = v.hand_Step_value;
+            }
+            return toAddHandStep;
         }
 
         private GameRoom SetLeagueToGame(GameRoom g, LeagueName l)
