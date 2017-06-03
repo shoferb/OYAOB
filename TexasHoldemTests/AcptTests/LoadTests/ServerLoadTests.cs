@@ -157,6 +157,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
         private void RegisterAndLoginLoop()
         {
+
             string pass = "goodPw1234";
             string email = "test@test.com";
             for (int i = 0; i < 5000; i++)
