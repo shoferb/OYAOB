@@ -78,6 +78,31 @@ namespace TexasHoldem.Logic.Game
             clientSender = sender;
         }
 
+        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log,
+           ReplayManager replay, ServerToClientSender sender, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
+            List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd, bool isuseCommunication)
+        {
+            MyDecorator = decorator;
+            Id = ID;
+            GameNumber = gameNum;
+            IsActiveGame = isActiveGame;
+            PotCount = potCount;
+            maxBetInRound = mmaxBetInRound;
+            PublicCards = pubCards;
+            Players = players;
+            Spectatores = specs;
+            SidePots = new List<Tuple<int, Player>>();
+            DealerPlayer = dealerPlayer;
+            logControl = log;
+            league = leagueOf;
+            ReplayManager = replay;
+            GameCenter = gc;
+            lastRaiseInRound = lastRaiseInRoundd;
+            useCommunication = isuseCommunication;
+            clientSender = sender;
+        }
+
+
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
