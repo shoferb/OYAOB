@@ -422,4 +422,10 @@
       <Column Name="[card value]" Member="card_value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetGameModeNameByVal" Method="GetGameModeNameByVal">
+    <Parameter Name="Val" Parameter="val" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetGameModeNameByValResult">
+      <Column Name="[game mode name]" Member="game_mode_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
