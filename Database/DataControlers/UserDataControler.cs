@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Database.LinqToSql;
+using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
 
 namespace TexasHoldem.Database.DataControlers
 {
@@ -89,7 +90,7 @@ namespace TexasHoldem.Database.DataControlers
 
                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                {
-                    // db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
+                    db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
                     db.UserTables.InsertOnSubmit(toAddUser);
                     db.SubmitChanges();
                 }
@@ -100,8 +101,45 @@ namespace TexasHoldem.Database.DataControlers
                return;
            }
         }
-        
-       public void EditUserId(int oldId, int newId)
+
+        public void DeleteUserById(int userId)
+        {
+            
+            try
+            {
+
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    // db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
+                    db.DeleteUserById(userId);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error Delete user By Id");
+                return;
+            }
+        }
+
+        public void DeleteUserByUsername(string username)
+        {
+
+            try
+            {
+
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    // db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
+                    db.DeleteUserByUserName(username);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error Delete user By Id");
+                return;
+            }
+        }
+        public void EditUserId(int oldId, int newId)
        {
            try
            {
@@ -221,7 +259,7 @@ namespace TexasHoldem.Database.DataControlers
            }
         }
       
-       public void EditUserLeagueName(int Id, LeagueName newLeagueName)
+       public void EditUserLeagueName(int Id, LinqToSql.LeagueName newLeagueName)
        {
            try
            {
