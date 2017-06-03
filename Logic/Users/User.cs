@@ -22,7 +22,7 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private readonly List<IGame> activeGameList;
         private List<IGame> spectateGameList;
-        private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
+        public int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
         private LeagueName league;
         public int WinNum { get; set; }
         public int LoseNum { get; set; }
@@ -55,7 +55,7 @@ namespace TexasHoldem.Logic.Users
         }
 
         public User(int id, string name, string memberName, string password, int points, int money, 
-            string email, int winNum, int loseNum, int highestCashGainInGame, int totalProfit)
+            string email, int winNum, int loseNum, int highestCashGainInGame, int totalProfit,string _avatar, int gamesPlayed, bool _isActive,LeagueName _league)
         {
             this.id = id;
             this.name = name;
@@ -69,16 +69,19 @@ namespace TexasHoldem.Logic.Users
             HighestCashGainInGame = highestCashGainInGame;
             TotalProfit = totalProfit;
             waitListNotification = new List<Notification>();
-            isActive = false;
-            avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            isActive = _isActive;
+            avatar = _avatar;
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
-            unknowGamesPlay = 0;
-            league = LeagueName.Unknow; //TODO change to default one or something
+            unknowGamesPlay = gamesPlayed;
+            league = _league;
         }
 
-
+        public int GetNumberOfGamesUserPlay()
+        {
+            return unknowGamesPlay;
+        }
         //return true if play in ess than 11 games.
         public bool IsUnKnow()
         {
