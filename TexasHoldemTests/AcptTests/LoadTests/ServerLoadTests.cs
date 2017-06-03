@@ -43,8 +43,6 @@ namespace TexasHoldemTests.AcptTests.tests
         //setup: (called from case)
         protected override void SubClassInit()
         {
-            _userEmailBad = "אבי חיון איז היר";
-            _userPwBad = "-~~~~~~~~~~~~~~~~~~~~~~~~~~~~`";
             _userId2 = new Random().Next() + 9292;
             _user2Name = "yarden";
             _user2EmailGood = "yarden@gmail.com";
@@ -126,6 +124,47 @@ namespace TexasHoldemTests.AcptTests.tests
             }
         }
 
+        [TestCase]
+        public void RegisterLoadTest1()
+        {
+            RestartSystem();
+
+            //bomb the game
+            Thread thread1 = new Thread(new ThreadStart(RegisterLoop));
+            Thread thread2 = new Thread(new ThreadStart(RegisterLoop));
+            Thread thread3 = new Thread(new ThreadStart(RegisterLoop));
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+
+            Thread.Sleep(3); //let the threads work
+            //wait for threads
+            thread1.Join();
+            thread2.Join();
+            thread3.Join();
+        }
+
+        private void RegisterLoop()
+        {
+            string pass = "goodPw1234";
+            string email = "test@test.com";
+            for (int i = 0; i < 5000; i++)
+            {
+                Assert.True(UserBridge.RegisterUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), pass, email) != -1);
+                UserBridge.DeleteUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), User1Pw);
+            }
+        }
+
+        private void RegisterAndLoginLoop()
+        {
+            string pass = "goodPw1234";
+            string email = "test@test.com";
+            for (int i = 0; i < 5000; i++)
+            {
+                Assert.True(UserBridge.RegisterUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), pass, email) != -1);
+                UserBridge.DeleteUser(i + Thread.CurrentThread.ManagedThreadId.ToString(), User1Pw);
+            }
+        }
 
         [TestCase]
         public void DoActionLoadTest1()
@@ -157,7 +196,6 @@ namespace TexasHoldemTests.AcptTests.tests
 
             Thread.Sleep(3); //let the threads work
                              //wait for threads
-                             //while (!thread1.IsAlive || !thread2.IsAlive || !thread3.IsAlive) ;
             thread1.Join();
             thread2.Join();
             thread3.Join();
