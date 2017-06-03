@@ -8,5 +8,7 @@ namespace TexasHoldem.DatabaseProxy
 {
     class GameDataProxy
     {
+
+       
     }
 }
