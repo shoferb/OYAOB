@@ -488,8 +488,6 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-    
-
         public bool RemoveRoomFromActiveGameList(IGame game)
         {
             lock (padlock)
