@@ -92,8 +92,8 @@ namespace TexasHoldem.Database.DataControlers
                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                {
                     db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
-                    db.UserTables.InsertOnSubmit(toAddUser);
-                    db.SubmitChanges();
+                    //db.UserTables.InsertOnSubmit(toAddUser);
+                //    db.SubmitChanges();
                 }
            }
            catch (Exception e)

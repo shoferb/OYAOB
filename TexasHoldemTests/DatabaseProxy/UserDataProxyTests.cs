@@ -7,14 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
+using TexasHoldem.Database.Security;
+using TexasHoldem.Logic.Users;
 using TexasHoldemShared.Security;
+using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
 
 namespace TexasHoldem.DatabaseProxy.Tests
 {
     [TestClass()]
     public class UserDataProxyTests
     {
-        //ewfwef
         private UserDataProxy userDataProxy = new UserDataProxy();
         private readonly ISecurity _security = new SecurityHandler();
         private UserDataControler userDataControler = new UserDataControler();
@@ -41,20 +43,24 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void enpcrptpasswordTest()
         {
-            Assert.Fail();
-            UserTable toAddUT = CreateUser(305077907,"orelie5d5");
-            string passwordToEncrypt = toAddUT.password;
-            byte[] bytes = Encoding.UTF8.GetBytes(passwordToEncrypt);
-            bytes = _security.Encrypt(passwordToEncrypt);
-           
-            var str = System.Text.Encoding.Default.GetString(bytes);
-            byte[] after = System.Text.Encoding.UTF8.GetBytes(str);
-            
-            str = _security.Decrypt(bytes);
-            toAddUT.password = str;
+
+            UserTable toAddUT = CreateUser(305077937, "o3relie5d5");
+            Console.WriteLine("password before encription:" + toAddUT.password);
+            string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
+            toAddUT.password = encryptedstring;
+            Console.WriteLine("password encription:" + toAddUT.password);
+            Assert.AreNotEqual(toAddUT.password, "123456789");
+
+            string decryptedstring = PasswordSecurity.Decrypt(encryptedstring, "securityPassword");
+            toAddUT.password = decryptedstring;
+            Console.WriteLine("password after deription:" + toAddUT.password);
+            Assert.AreEqual(toAddUT.password, "123456789");
+
             userDataControler.AddNewUser(toAddUT);
-            //userDataControler.DeleteUserById(305077901);
+
+            userDataControler.DeleteUserById(305077937);
         }
+
 
         [TestMethod()]
         public void LoginTest()
@@ -97,11 +103,61 @@ namespace TexasHoldem.DatabaseProxy.Tests
         {
             Assert.Fail();
         }
+        private IUser convertToIUser(UserTable user)
+        {
+  
+            IUser toResturn = new User(user.userId, user.name, user.username, user.password, user.points,
+                user.money, user.email, user.winNum, 0, user.HighestCashGainInGame, user.TotalProfit, user.avatar
+                , user.gamesPlayed, user.inActive, GetLeagueName(user.leagueName));
+            return toResturn;
+        }
+        private Logic.GameControl.LeagueName GetLeagueName(int league)
+        {
+            Logic.GameControl.LeagueName toReturn = 0;
+            switch (league)
+            {
+                case 1:
+                    toReturn = Logic.GameControl.LeagueName.A;
+                    break;
+                case 2:
+                    toReturn = Logic.GameControl.LeagueName.B;
+                    break;
+                case 3:
+                    toReturn = Logic.GameControl.LeagueName.C;
+                    break;
+                case 4:
+                    toReturn = Logic.GameControl.LeagueName.D;
+                    break;
+                case 5:
+                    toReturn = Logic.GameControl.LeagueName.E;
+                    break;
+                case 6:
+                    toReturn = LeagueName.Unknow;
+                    break;
+
+            }
+            return toReturn;
+        }
 
         [TestMethod()]
         public void AddNewUserTest()
         {
-            Assert.Fail();
+            UserTable ut = new UserTable();
+            ut.userId = 333333;
+            ut.HighestCashGainInGame = 0;
+            ut.TotalProfit = 0;
+            ut.avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            ut.email = "orelie@post.bgu.ac.il";
+            ut.gamesPlayed = 0;
+            ut.inActive = true;
+            ut.leagueName = 1;
+            ut.money = 0;
+            ut.name = "orelie";
+            ut.username = "newwwwww";
+            ut.password = "password";
+            ut.HighestCashGainInGame = 0;
+            userDataProxy.AddNewUser(convertToIUser(ut));
+            userDataProxy.DeleteUserById(333333);
         }
 
         [TestMethod()]
@@ -166,6 +222,132 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
         [TestMethod()]
         public void EditUserWinNumTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void LoginTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void LogoutTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetUserByIdTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetUserByUserNameTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void GetAllUserTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void DeleteUserByUserNameTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void DeleteUserByIdTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void AddNewUserTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserIdTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserPointsTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserAvatarTest()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserNameTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditNameTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditEmailTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditPasswordTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserHighestCashGainInGameTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserLeagueNameTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserMoneyTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserNumOfGamesPlayedTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserTotalProfitTest1()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void EditUserWinNumTest1()
         {
             Assert.Fail();
         }

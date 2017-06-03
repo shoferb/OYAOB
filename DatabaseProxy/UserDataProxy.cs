@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
+using TexasHoldem.Database.Security;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.Security;
 using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
@@ -108,11 +109,13 @@ namespace TexasHoldem.DatabaseProxy
 
         private IUser convertToIUser(UserTable user)
         {
-            IUser toResturn = new User(user.userId, user.name, user.username, user.password, user.points,
+            string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
+            IUser toResturn = new User(user.userId, user.name, user.username, decryptpassword, user.points,
                 user.money, user.email, user.winNum, 0, user.HighestCashGainInGame, user.TotalProfit,user.avatar
                 ,user.gamesPlayed,user.inActive,GetLeagueName(user.leagueName));
             return toResturn;
         }
+
         public void Logout(IUser user)
         {
             try
@@ -135,6 +138,7 @@ namespace TexasHoldem.DatabaseProxy
             {
                 UserTable temp = userDataControler.GetUserById(userid);
                 toReturn = convertToIUser(temp);
+
                 return toReturn;
             }
             catch (Exception e)
@@ -213,10 +217,8 @@ namespace TexasHoldem.DatabaseProxy
             try
             {
                 UserTable toAddUT = convertToUserT(toAdd);
-               // string passwordToEncrypt = toAddUT.password;
-                //byte[] bytes = Encoding.UTF8.GetBytes(passwordToEncrypt);
-                //bytes = _security.Encrypt(passwordToEncrypt);
-                //toAddUT.password = bytes.ToString();
+                string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
+                toAddUT.password = encryptedstring;
                 userDataControler.AddNewUser(toAddUT);
             }
             catch (Exception e)
@@ -309,7 +311,8 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-              userDataControler.EditPassword(Id,newPassword);
+                string encryptedPassword = PasswordSecurity.Encrypt(newPassword, "securityPassword");
+                userDataControler.EditPassword(Id, encryptedPassword);
             }
             catch (Exception e)
             {
