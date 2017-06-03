@@ -483,4 +483,20 @@
       <Column Name="[League Name]" Member="League_Name" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetPlayerByRoomIdAndUserId" Method="GetPlayerByRoomIdAndUserId">
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetPlayerByRoomIdAndUserIdResult">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[user Id]" Member="user_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[is player active]" Member="is_player_active" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[player name]" Member="player_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="[Total chip]" Member="Total_chip" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Round chip bet]" Member="Round_chip_bet" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Player action the round]" Member="Player_action_the_round" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[first card]" Member="first_card" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[secund card]" Member="secund_card" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
