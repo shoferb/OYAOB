@@ -15,12 +15,17 @@ namespace TexasHoldem.DatabaseProxy
     {
         private GameDataControler _controller;
         private SystemControl _systemControl;
-        private LogControl logControl;
-        private ReplayManager replayManager;
+        private LogControl _logControl;
+        private ReplayManager _replayManager;
+        private GameCenter _gameCencer;
 
-        public GameDataProxy()
+        public GameDataProxy(SystemControl sysCon, LogControl lc, ReplayManager rm, GameCenter gc)
         {
             _controller = new GameDataControler();
+            _systemControl = sysCon;
+            _logControl = lc;
+            _replayManager = rm;
+            _gameCencer = gc;
         }
         public List<IGame> GetAllGames()
         {
@@ -28,7 +33,9 @@ namespace TexasHoldem.DatabaseProxy
             List<Database.LinqToSql.GameRoom> dbGames= _controller.getAllGames();
             foreach(Database.LinqToSql.GameRoom g in dbGames)
             {
-                Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(_players,g.room_Id,_decorator,gameCenter,LogDataControler,repManager,sender)
+                Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(List < Player > players, int ID, Decorator decorator, GameCenter gc, LogControl log,
+           ReplayManager replay, ServerToClientSender sender, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
+            List < Card > pubCards, List < Spectetor > specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd, bool isuseCommunication)
                 //deck
                 //public cards 
             }
