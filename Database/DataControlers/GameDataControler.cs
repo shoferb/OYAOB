@@ -46,7 +46,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
+        public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
             try
@@ -57,6 +57,31 @@ namespace TexasHoldem.Database.DataControlers
                     foreach (var v in temp)
                     {
                         toRet.Add(getDBCardByVal(v.card));
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public List<SpectetorGamesOfUser> GetSpectOfRoom(int roomId)
+        {
+            List<SpectetorGamesOfUser> toRet = new List<SpectetorGamesOfUser>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetSpecsByRoomId(roomId).ToList();
+                    foreach (var v in temp)
+                    {
+                        SpectetorGamesOfUser toAdd = new SpectetorGamesOfUser();
+                        toAdd.Game_Id= v.Game_Id;
+                        toAdd.roomId = v.roomId;
+                        toAdd.userId = v.userId;
+                        toRet.Add(toAdd);
                     }
                     return toRet;
                 }

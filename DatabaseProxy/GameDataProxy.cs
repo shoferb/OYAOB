@@ -50,14 +50,30 @@ namespace TexasHoldem.DatabaseProxy
                 {
                     pubCards.Add(getCardByVal(aCard.Card_Value));
                 }
-
-            Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom( playersLst, g.room_Id, /*Decorator*/ decorator, _gameCenter, _logControl,
-           _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
-            /*List < Card >*/ pubCards, /*List < Spectetor >*/ specs, /*Player*/ dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round)
+                List<Database.LinqToSql.SpectetorGamesOfUser> dbSpecs = _controller.GetSpectOfRoom(g.room_Id);
+                if (dbSpecs == null)
+                {
+                    return null;
+                }
+                List<Logic.Users.Spectetor> SpecssLst = ConvertSpecsList(dbSpecs);
+                Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, /*Decorator*/ decorator, _gameCenter, _logControl,
+               _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
+                /*List < Card >*/ pubCards, /*List < Spectetor >*/ SpecssLst, /*Player*/ dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round);
                 //deck
                 //public cards 
             }
 
+            return toRet;
+        }
+
+        private List<Logic.Users.Spectetor> ConvertSpecsList(List<Database.LinqToSql.SpectetorGamesOfUser> dbSpecs)
+        {
+            List<Logic.Users.Spectetor> toRet = new List<Logic.Users.Spectetor>();
+            foreach (Database.LinqToSql.SpectetorGamesOfUser s in dbSpecs)
+            {
+                User user; //= UserDataProxy.GetUserById(dbPlayer.user_Id);
+                Logic.Users.Spectetor toAdd = new Logic.Users.Spectetor(user, s.roomId);
+            }
             return toRet;
         }
 
