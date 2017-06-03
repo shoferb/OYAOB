@@ -72,8 +72,29 @@ namespace TexasHoldem.DatabaseProxy
 
         private Card getCardByVal(int val)
         {
-            Database.LinqToSql.Card dbCard = _controller.getDBCardByVal(val)
-                //TODO
+            Database.LinqToSql.Card dbCard = _controller.getDBCardByVal(val);
+            Suits s = new Suits();
+            if(dbCard.Card_Shpe.Equals("Clubs"))
+            {
+                s = Suits.Clubs;
+            }
+            else if (dbCard.Card_Shpe.Equals("Diamonds"))
+            {
+                s = Suits.Diamonds;
+            }
+            else if (dbCard.Card_Shpe.Equals("Hearts"))
+            {
+                s = Suits.Hearts;
+            }
+            else if (dbCard.Card_Shpe.Equals("Spades"))
+            {
+                s = Suits.Spades;
+            }
+            else if (dbCard.Card_Shpe.Equals("None"))
+            {
+                s = Suits.None;
+            }
+            return new Card(s, dbCard.Card_Real_Value);
         }
     }
 }
