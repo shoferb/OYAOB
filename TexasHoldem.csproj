@@ -93,6 +93,11 @@
     <Compile Include="DatabaseProxy\LogDataProxy.cs" />
     <Compile Include="DatabaseProxy\ReplayDataProxy.cs" />
     <Compile Include="DatabaseProxy\UserDataProxy.cs" />
+    <Compile Include="DataBaseSadnaDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataBaseSadnaDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\gameDatabaseOb.cs" />
     <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\LogDatabaseOb.cs" />
     <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\ReplayDatabaseOb.cs" />
@@ -169,6 +174,9 @@
     </Compile>
     <Compile Include="Database\BackupOldFrameworks\EntityNewTry\UserTable.cs">
       <DependentUpon>Sadna.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\LinqToSql\connectionsLinq.cs">
+      <DependentUpon>connectionsLinq.dbml</DependentUpon>
     </Compile>
     <Compile Include="Database\LinqToSql\connectionsLinq.designer.cs">
       <AutoGen>True</AutoGen>
@@ -304,6 +312,17 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Sadna.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="DataBaseSadnaDataSet.xsc">
+      <DependentUpon>DataBaseSadnaDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="DataBaseSadnaDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataBaseSadnaDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataBaseSadnaDataSet.xss">
+      <DependentUpon>DataBaseSadnaDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.edmx.diagram">
       <DependentUpon>Sadna.edmx</DependentUpon>
     </None>
@@ -361,6 +380,7 @@
       <LastGenOutput>Sadna.cs</LastGenOutput>
     </Content>
     <Content Include="Database\GuiBackUp\DatabaseCreationScript.sql" />
+    <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetAllGames.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.AddNewUser.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditAvatar.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditEmail.StoredProcedure.sql" />

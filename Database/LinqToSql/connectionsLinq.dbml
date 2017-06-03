@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataBaseSadna" Class="connectionsLinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=ORELIE-PC\SQLEXPRESS;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=BARI;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Card" Member="Cards">
     <Type Name="Card">
       <Column Name="[Card Value]" Member="Card_Value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -381,6 +381,28 @@
       <Column Name="HighestCashGainInGame" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="TotalProfit" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="inActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetAllGames" Method="GetAllGames">
+    <ElementType Name="GetAllGamesResult">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[game id]" Member="game_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Dealer position]" Member="Dealer_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Max Bet In Round]" Member="Max_Bet_In_Round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Pot count]" Member="Pot_count" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Bb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Sb" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[is Active Game]" Member="is_Active_Game" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="[curr Player]" Member="curr_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Dealer Player]" Member="Dealer_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Bb Player]" Member="Bb_Player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[SB player]" Member="SB_player" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[hand step]" Member="hand_step" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[First Player In round]" Member="First_Player_In_round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[curr player position]" Member="curr_player_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[first player in round position]" Member="first_player_in_round_position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[last rise in round]" Member="last_rise_in_round" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[league name]" Member="league_name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
 </Database>
