@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media.Animation;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
@@ -32,10 +33,13 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
-            if (user.Login())
+            UserDataProxy userDataProxy = new UserDataProxy();
+            userDataProxy.Login(user);
+            toReturn = true;
+           /* if (user.Login())
             {
                 toReturn = true;
-            }
+            }*/
             return toReturn;
         }
 
@@ -49,7 +53,10 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
-            toReturn = user.Logout();
+            UserDataProxy userDataProxy = new UserDataProxy();
+            userDataProxy.Logout(user);
+            toReturn = true;
+            // toReturn = user.Logout();
             return toReturn;
         }
 

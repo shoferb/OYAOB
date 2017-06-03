@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -18,11 +19,12 @@ namespace TexasHoldem.Logic.Game_Control
 
         private static readonly object padlock = new object();
         private LogControl logControl;
-
+        private UserDataProxy userProxy;
 
         public SystemControl(LogControl log)
         {
             this.users = new List<IUser>();
+            userProxy = new UserDataProxy();
             this.logControl = log;
             var ServiceTimer = new System.Timers.Timer();
             ServiceTimer.Enabled = true;
@@ -156,14 +158,16 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    foreach (User u in users)
+                   /* foreach (User u in users)
                     {
                         if (u.MemberName().Equals(username))
                         {
                             toRerutn = u;
                             return toRerutn;
                         }
-                    }
+                        
+                    }*/
+                    toRerutn = userProxy.GetUserByUserName(username);
                 }
                 catch
                 {
@@ -206,7 +210,7 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    User newUser = new User(id, name, memberName, password, 0, money, email, 0, 0, 0, 0);
+                    IUser newUser = new User(id, name, memberName, password, 0,  money, email);;
                     users.Add(newUser);
                     toReturn = true;
                    
@@ -223,10 +227,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        internal IUser GetUserByUserName(string userName)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public bool CanCreateNewUser(int id, string memberName,
             string password, string email)
