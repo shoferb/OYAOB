@@ -252,6 +252,7 @@
     </Compile>
     <Compile Include="Database\BackupOldFrameworks\Dapper\ReplayDB.cs" />
     <Compile Include="Database\BackupOldFrameworks\Dapper\UserDB.cs" />
+    <Compile Include="Database\Security\PasswordSecurity.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
