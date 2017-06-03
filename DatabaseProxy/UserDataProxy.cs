@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared.Security;
 using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
 
 namespace TexasHoldem.DatabaseProxy
@@ -13,11 +14,20 @@ namespace TexasHoldem.DatabaseProxy
     public class UserDataProxy
     {
         UserDataControler userDataControler = new UserDataControler();
+        private readonly ISecurity _security = new SecurityHandler();
+
         public void Login(IUser user)
         {
-            UserTable toLogin = convertToUserT(user);
-            userDataControler.EditUserIsActive(toLogin.userId,true);
-
+            try
+            {
+                UserTable toLogin = convertToUserT(user);
+                userDataControler.EditUserIsActive(toLogin.userId, true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy login fail");
+                return;
+            }
         }
 
         private int GetLeagueNum(LeagueName league)
@@ -74,6 +84,8 @@ namespace TexasHoldem.DatabaseProxy
             }
             return toReturn;
         }
+
+
         private UserTable convertToUserT(IUser user)
         {
             UserTable toReturn = new UserTable();
@@ -103,52 +115,271 @@ namespace TexasHoldem.DatabaseProxy
         }
         public void Logout(IUser user)
         {
-            UserTable toLogin = convertToUserT(user);
-            userDataControler.EditUserIsActive(toLogin.userId, false);
+            try
+            {
+                UserTable toLogin = convertToUserT(user);
+                userDataControler.EditUserIsActive(toLogin.userId, false);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy logout fails");
+                return;
+            }
         }
 
         public IUser GetUserById(int userid)
         {
+
             IUser toReturn = null;
-            UserTable temp = userDataControler.GetUserById(userid);
-            toReturn = convertToIUser(temp);
-            return toReturn;
+            try
+            {
+                UserTable temp = userDataControler.GetUserById(userid);
+                toReturn = convertToIUser(temp);
+                return toReturn;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy get user by id fails");
+                return toReturn;
+            }
         }
 
         public IUser GetUserByUserName(string username)
         {
             IUser toReturn = null;
-            UserTable temp = userDataControler.GetUserByUserName(username);
-            toReturn = convertToIUser(temp);
-            return toReturn;
+            try
+            {
+                UserTable temp = userDataControler.GetUserByUserName(username);
+                toReturn = convertToIUser(temp);
+                return toReturn;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error user proxy get user by user name fails");
+                return toReturn;
+            }
         }
 
         public List<IUser> GetAllUser()
         {
+
             List<IUser> toreturn = new List<IUser>();
-            List<UserTable> temp = userDataControler.GetAllUser();
-            foreach (UserTable user in temp)
+            try
             {
-                IUser toAdd = convertToIUser(user);
-                toreturn.Add(toAdd);
+                List<UserTable> temp = userDataControler.GetAllUser();
+                foreach (UserTable user in temp)
+                {
+                    IUser toAdd = convertToIUser(user);
+                    toreturn.Add(toAdd);
+                }
+                return toreturn;
             }
-            return toreturn;
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy: get all user fails");
+                return toreturn;
+            }
         }
 
         public void DeleteUserByUserName(string username)
         {
-            userDataControler.DeleteUserByUsername(username);
+            try
+            {
+                userDataControler.DeleteUserByUsername(username);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy: Delete user by user name fails");
+                return;
+            }
+
         }
 
         public void DeleteUserById(int Id)
         {
-            userDataControler.DeleteUserById(Id);
+            try
+            {
+                userDataControler.DeleteUserById(Id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy: Delete user by user Id fails");
+                return;
+            }
         }
 
         public void AddNewUser(IUser toAdd)
         {
-            UserTable toAddUT = convertToUserT(toAdd);
-            userDataControler.AddNewUser(toAddUT);
+            try
+            {
+                UserTable toAddUT = convertToUserT(toAdd);
+                string passwordToEncrypt = toAddUT.password;
+                byte[] bytes = Encoding.UTF8.GetBytes(passwordToEncrypt);
+                bytes = _security.Encrypt(passwordToEncrypt);
+                toAddUT.password = bytes.ToString();
+                userDataControler.AddNewUser(toAddUT);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in user proxy: add new user fails fails");
+                return;
+            }
+
+        }
+
+        public void EditUserId(int oldId, int newId)
+        {
+            try
+            {
+               userDataControler.EditUserId(oldId,newId);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user Id in proxy");
+                return;
+            }
+        }
+
+        public void EditUserName(int Id, string newUserName)
+        {
+            try
+            {
+               userDataControler.EditUserName(Id,newUserName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  username in proxy");
+                return;
+            }
+        }
+
+        public void EditName(int Id, string newName)
+        {
+            try
+            {
+                userDataControler.EditName(Id,newName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  name");
+                return;
+            }
+        }
+
+        public void EditEmail(int Id, string newEmail)
+        {
+            try
+            {
+                userDataControler.EditEmail(Id,newEmail);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user email");
+                return;
+            }
+        }
+
+        public void EditPassword(int Id, string newPassword)
+        {
+            try
+            {
+              userDataControler.EditPassword(Id,newPassword);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user passsword");
+                return;
+            }
+        }
+
+        public void EditUserHighestCashGainInGame(int Id, int newHighestCashGainInGame)
+        {
+            try
+            {
+                userDataControler.EditUserHighestCashGainInGame(Id,newHighestCashGainInGame);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user Highest Cash Gain In Game");
+                return;
+            }
+        }
+
+
+      
+
+        public void EditUserLeagueName(int Id, LeagueName newLeagueName)
+        {
+            try
+            {
+                Database.LinqToSql.LeagueName league = new Database.LinqToSql.LeagueName();
+                league.League_Value = GetLeagueNum(newLeagueName);
+                
+               userDataControler.EditUserLeagueName(Id,league);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user League name");
+                return;
+            }
+        }
+
+
+        public void EditUserMoney(int Id, int newMoney)
+        {
+            try
+            {
+                userDataControler.EditUserMoney(Id,newMoney);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user money");
+                return;
+            }
+        }
+
+
+
+        public void EditUserNumOfGamesPlayed(int Id, int newEditUserNumOfGamesPlayed)
+        {
+            try
+            {
+                userDataControler.EditUserNumOfGamesPlayed(Id,newEditUserNumOfGamesPlayed);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user num og games played");
+                return;
+            }
+        }
+
+
+        public void EditUserTotalProfit(int Id, int newTotalProfit)
+        {
+            try
+            {
+                userDataControler.EditUserTotalProfit(Id,newTotalProfit);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user Total profit");
+                return;
+            }
+        }
+
+        public void EditUserWinNum(int Id, int newWinNum)
+        {
+            try
+            {
+               userDataControler.EditUserWinNum(Id,newWinNum);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error edit  user win num");
+                return;
+            }
         }
     }
 }
