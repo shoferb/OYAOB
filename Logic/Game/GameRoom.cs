@@ -80,7 +80,9 @@ namespace TexasHoldem.Logic.Game
 
         public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log,
            ReplayManager replay, ServerToClientSender sender, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
-            List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd, bool isuseCommunication)
+            List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd,
+            Player currentPlayer, Player bbPlayer,Player sbPlayer,Player firstPlayerInRound, int bb, int sb,
+            int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d)
         {
             MyDecorator = decorator;
             Id = ID;
@@ -100,6 +102,18 @@ namespace TexasHoldem.Logic.Game
             lastRaiseInRound = lastRaiseInRoundd;
             useCommunication = true;
             clientSender = sender;
+            this.CurrentPlayer = currentPlayer;
+            this.BbPlayer = bbPlayer;
+            this.SbPlayer = sbPlayer;
+            this.FirstPlayerInRound = firstPlayerInRound;
+            this.Bb = bb;
+            this.Sb = sb;
+            this.DealerPos = dealerPos;
+            this.currentPlayerPos = currentPlayerPoss;
+            this.firstPlayerInRoundPoistion = firstPlayerInRoundPoistionn;
+            this.GameReplay = gr;
+            this.Hand_Step = hs;
+            this.Deck = d;
         }
 
 
