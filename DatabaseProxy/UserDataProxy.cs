@@ -8,5 +8,6 @@ namespace TexasHoldem.DatabaseProxy
 {
     public class UserDataProxy
     {
+
     }
 }

@@ -244,6 +244,8 @@ namespace TexasHoldem.Database.DataControlers.Tests
             userDataControler.DeleteUserById(305077901);
         }
 
+     
+
         [TestMethod()]
         public void EditUserNumOfGamesPlayedTest()
         {

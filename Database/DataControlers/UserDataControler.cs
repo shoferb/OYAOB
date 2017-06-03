@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Animation;
 using TexasHoldem.Database.LinqToSql;
 using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
 
@@ -293,7 +294,9 @@ namespace TexasHoldem.Database.DataControlers
            }
         }
 
-       public void EditUserNumOfGamesPlayed(int Id, int newEditUserNumOfGamesPlayed)
+       
+
+        public void EditUserNumOfGamesPlayed(int Id, int newEditUserNumOfGamesPlayed)
        {
            try
            {
