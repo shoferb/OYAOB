@@ -514,4 +514,12 @@
       <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetPublicCardsByRoomId" Method="GetPublicCardsByRoomId">
+    <Parameter Name="RoomId" Parameter="roomId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetPublicCardsByRoomIdResult">
+      <Column Name="[room Id]" Member="room_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="card" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
