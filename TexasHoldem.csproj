@@ -45,7 +45,7 @@
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
@@ -315,6 +315,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Sadna.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Database\BackupOldFrameworks\EntityNewTry\Sadna.edmx.diagram">
       <DependentUpon>Sadna.edmx</DependentUpon>
     </None>
