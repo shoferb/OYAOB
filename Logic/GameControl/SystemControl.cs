@@ -210,7 +210,7 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    IUser newUser = new User(id, name, memberName, password, 0,  money, email);;
+                    IUser newUser = new User(id, name, memberName, password, 0,  money, email);
                     users.Add(newUser);
                     toReturn = true;
                    
@@ -271,15 +271,16 @@ namespace TexasHoldem.Logic.Game_Control
                     toReturn = false;
                     return toReturn;
                 }
-                foreach (IUser u in users)
+               /* foreach (IUser u in users)
                 {
                     if (u.MemberName().Equals(username))
                     {
                         toReturn = false;
                         return toReturn;
                     }
-                }
-                return toReturn;
+                }*/
+                IUser toCheck = userProxy.GetUserByUserName(username);
+                return toCheck==null;
             }
         }
 
@@ -296,15 +297,16 @@ namespace TexasHoldem.Logic.Game_Control
                     toReturn = false;
                     return toReturn;
                 }
-                foreach (IUser u in users)
+               /* foreach (IUser u in users)
                 {
                     if (u.Id() ==  ID)
                     {
                         toReturn = false;
                         return toReturn;
                     }
-                }
-                return toReturn;
+                }*/
+                IUser tocheack = userProxy.GetUserById(ID);
+                return tocheack==null;
             }
         }
 
@@ -317,15 +319,8 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    foreach (IUser u in users)
-                    {
-                        if (u.Id() == id)
-                        {
-                            toReturn = true;
-                            return toReturn;
-                        }
-
-                    }
+                    IUser toCheck = userProxy.GetUserById(id);
+                    return toCheck != null;
                 }
                 catch(Exception e)
                 {
@@ -355,14 +350,15 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    foreach (IUser u in users)
+                   /* foreach (IUser u in users)
                     {
                         if (u.Id() == id)
                         {
                             toReturn = u;
                             return toReturn;
                         }
-                    }
+                    }*/
+                    toReturn = userProxy.GetUserById(id);
                 }catch(Exception e)
                 {
                     ErrorLog log = new ErrorLog("Error: while Get uset whith id" + id );
@@ -511,7 +507,7 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                return users;
+                return userProxy.GetAllUser();
             }
         }
         
