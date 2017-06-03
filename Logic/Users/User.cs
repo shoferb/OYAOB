@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Mail;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -22,7 +23,7 @@ namespace TexasHoldem.Logic.Users
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
         private readonly List<IGame> activeGameList;
         private List<IGame> spectateGameList;
-        private int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
+        public int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
         private LeagueName league;
         public int WinNum { get; set; }
         public int LoseNum { get; set; }
@@ -30,7 +31,7 @@ namespace TexasHoldem.Logic.Users
         public int TotalProfit { get; set; }
         //for syncronize
         private static readonly object padlock = new object();
-
+        UserDataProxy userproxy = new UserDataProxy();
         public User(int id, string name, string memberName, string password, int points, int money, string email)
         {
             this.id = id;
@@ -55,7 +56,7 @@ namespace TexasHoldem.Logic.Users
         }
 
         public User(int id, string name, string memberName, string password, int points, int money, 
-            string email, int winNum, int loseNum, int highestCashGainInGame, int totalProfit)
+            string email, int winNum, int loseNum, int highestCashGainInGame, int totalProfit,string _avatar, int gamesPlayed, bool _isActive,LeagueName _league)
         {
             this.id = id;
             this.name = name;
@@ -69,22 +70,28 @@ namespace TexasHoldem.Logic.Users
             HighestCashGainInGame = highestCashGainInGame;
             TotalProfit = totalProfit;
             waitListNotification = new List<Notification>();
-            isActive = false;
-            avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            isActive = _isActive;
+            avatar = _avatar;
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
-            unknowGamesPlay = 0;
-            league = LeagueName.Unknow; //TODO change to default one or something
+            unknowGamesPlay = gamesPlayed;
+            league = _league;
+            
         }
 
-
+        private UserDataProxy userDataProxy = new UserDataProxy();
+        public int GetNumberOfGamesUserPlay()
+        {
+            return unknowGamesPlay;
+        }
         //return true if play in ess than 11 games.
         public bool IsUnKnow()
         {
             lock (padlock)
             {
-                return unknowGamesPlay <= 10;
+                return userDataProxy.GetUserById(id).GetNumberOfGamesUserPlay() <= 10;
+          //      return unknowGamesPlay <= 10;
             }
         }
 
@@ -93,6 +100,7 @@ namespace TexasHoldem.Logic.Users
             if (amount > 0)
             {
                 points += amount;
+                userDataProxy.EditUserPoints(id,points);
                 return true;
             }
 
@@ -104,10 +112,13 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
+                userDataProxy.EditUserNumOfGamesPlayed(id, unknowGamesPlay+1);
                 unknowGamesPlay++;
+                
                 if (unknowGamesPlay > 10 && league == LeagueName.Unknow)
                 {
                     league = LeagueName.E;
+                    userDataProxy.EditUserLeagueName(id,LeagueName.E);
                 }
                 return true;
             }
@@ -209,6 +220,7 @@ namespace TexasHoldem.Logic.Users
             if (HighestCashGainInGame < cashToChck)
             {
                 HighestCashGainInGame = cashToChck;
+                userDataProxy.EditUserHighestCashGainInGame(id,cashToChck);
             }
         }
 
@@ -217,26 +229,21 @@ namespace TexasHoldem.Logic.Users
         public void UpdateTotalProfit(int profit)
         {
             TotalProfit += profit;
+            userDataProxy.EditUserTotalProfit(id,TotalProfit);
         }
 
         //avg profit per win
         public double GetAvgProfit()
         {
-            if (WinNum == 0)
-            {
-                return 0;
-            }
-            return (double) TotalProfit / WinNum;
+            IUser t = userDataProxy.GetUserById(id);
+            return (double) t.TotalProfit / t.WinNum;
         }
 
         //avg profit in all games
         public double GetAvgCashGainPerGame()
         {
-            if (WinNum + LoseNum == 0)
-            {
-                return 0;
-            }
-            return (double)TotalProfit / (WinNum + LoseNum);
+            IUser t = userDataProxy.GetUserById(id);
+            return (double)t.TotalProfit / (t.GetNumberOfGamesUserPlay());
         }
 
         public bool IncWinNum()
@@ -245,7 +252,9 @@ namespace TexasHoldem.Logic.Users
             {
                 try
                 {
+
                     WinNum++;
+                    userDataProxy.EditUserWinNum(id, WinNum);
                     return true;
                 }
                 catch
@@ -459,6 +468,7 @@ namespace TexasHoldem.Logic.Users
                 if (money - amount >= 0)
                 {
                     money -= amount;
+                    userDataProxy.EditUserMoney(id,money);
                     return true;
                 }
                 return false;
@@ -470,6 +480,7 @@ namespace TexasHoldem.Logic.Users
             lock (padlock)
             {
                 money += amount;
+                userDataProxy.EditUserMoney(id,money);
             }
         }
 
@@ -495,6 +506,8 @@ namespace TexasHoldem.Logic.Users
                 }
             }
         }
+
+    
 
         public bool RemoveRoomFromActiveGameList(IGame game)
         {
@@ -712,7 +725,8 @@ namespace TexasHoldem.Logic.Users
 
         public bool HasEnoughMoney(int startingChip, int fee)
         {
-            return (money - startingChip - fee >= 0);
+            IUser t = userDataProxy.GetUserById(id);
+            return (t.Money() - startingChip - fee >= 0);
         }
     }
 }

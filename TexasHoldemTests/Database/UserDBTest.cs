@@ -15,6 +15,7 @@ using TexasHoldem.Database.EntityFramework.Controller;
 using TexasHoldem.Database.BackupOldFrameworks.EntityFramework.Model;
 using TexasHoldem.Database.BackupOldFrameworks.EntityNewTry;
 using TexasHoldem.Database.BackupOldFrameworks.EntityNewTry;
+using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
 
 using UserTable = TexasHoldem.Database.LinqToSql;
@@ -141,13 +142,15 @@ namespace TexasHoldemTests.Database
         [TestMethod()]
         public void GetUserByUserNameTest()
         {
-            Assert.Fail();
+            UserDataControler t = new UserDataControler();
+            var res = t.GetAllUser();
         }
 
         [TestMethod()]
         public void AddNewUserTest()
         {
-            Assert.Fail();
+            UserDataControler t = new UserDataControler();
+            var res = t.GetUserById(305077901);
         }
 
         [TestMethod()]
