@@ -56,11 +56,41 @@ namespace TexasHoldem.DatabaseProxy
                     return null;
                 }
                 List<Logic.Users.Spectetor> SpecssLst = ConvertSpecsList(dbSpecs);
+                Logic.Users.Player currentPlayer = playersLst.First();
+                Logic.Users.Player bbPlayer = playersLst.First();
+                Logic.Users.Player sbPlayer = playersLst.First();
+                Logic.Users.Player firstPlayerInRound = playersLst.First();
+                Logic.Users.Player dealerPlayer = playersLst.First();
+
+                foreach (Logic.Users.Player p in playersLst)
+                {
+                    if(p.user.Id()==g.curr_Player)
+                    {
+                        currentPlayer = p;
+                    }
+                    if (p.user.Id() == g.Bb_Player)
+                    {
+                        bbPlayer = p;
+                    }
+                    if (p.user.Id() == g.SB_player)
+                    {
+                        sbPlayer = p;
+                    }
+                    if (p.user.Id() == g.First_Player_In_round)
+                    {
+                        firstPlayerInRound = p;
+                    }
+                    if (p.user.Id() == g.Dealer_Player)
+                    {
+                        dealerPlayer = p;
+                    }
+                }
+
                 Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, /*Decorator*/ decorator, _gameCenter, _logControl,
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
-                /*List < Card >*/ pubCards, /*List < Spectetor >*/ SpecssLst, /*Player*/ dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round);
-                //deck
-                //public cards 
+                 pubCards, SpecssLst,  dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round,
+                /* Player*/ currentPlayer, /*Player*/ bbPlayer,/* Player*/ sbPlayer, /*Player*/ firstPlayerInRound, g.Bb ,g.Sb,
+                g.Dealer_position, g.curr_player_position, g.first_player_in_round_position, /*GameReplay */gr, /*GameRoom.HandStep*/ hs, /*Deck*/ d);
             }
 
             return toRet;
