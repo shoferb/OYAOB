@@ -85,6 +85,7 @@
     <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
     <Compile Include="AcptTests\Bridges\ReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\UserBridge.cs" />
+    <Compile Include="AcptTests\LoadTests\ServerLoadTests.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
