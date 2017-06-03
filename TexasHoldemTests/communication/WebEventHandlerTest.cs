@@ -56,14 +56,25 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void TestJson()
         {
-            LoginCommMessage login = new LoginCommMessage(1, true, "Oded", "12345689");
-            LoginResponeCommMessage response = new LoginResponeCommMessage(1, 123, "Oded", "Oded",
-                "123456789", "Avatar", 123, "bla@bla.com", "League", false, login);
+            //LoginCommMessage login = new LoginCommMessage(1, true, "Oded", "12345689");
+            //LoginResponeCommMessage response = new LoginResponeCommMessage(1, 123, "Oded", "Oded",
+            //    "123456789", "Avatar", 123, "bla@bla.com", "League", false, login);
 
-            var xml = _parser.SerializeMsg(login, false);
+            //UserStatisticsCommMessage msg = new UserStatisticsCommMessage(1, 1);
+            //UserStatisticsResponseCommMessage resp = new UserStatisticsResponseCommMessage(1, 1, true, msg, 2.2, 23.1);
+
+            LeaderboardCommMessage msg = new LeaderboardCommMessage(1, 1, LeaderboardCommMessage.SortingOption.HighestCashGain);
+
+            var xml = _parser.SerializeMsg(msg, false);
             var json = _parser.XmlToJson(xml);
-
-            var respXml = _parser.SerializeMsg(response, false);
+            Console.WriteLine(json);
+            //xml = _parser.SerializeMsg(resp, false);
+            //json = _parser.XmlToJson(xml);
+            //Console.WriteLine(json);
+            //xml = _parser.JsonToXml(json);
+            //var parsed = _parser.ParseString(xml, false);
+            //Console.WriteLine(xml);
+            //var respXml = _parser.SerializeMsg(response, false);
             //var parsed = _parser.ParseString("c{\"?xml\":{\"@version\":\"1.0\",\"" +
             //                                 "@encoding\":\"utf-16\"},\"LoginCommMessage\"" +
             //                                 ":{\"@xmlns:xsd\":\"http://www.w3.org/2001/XMLSchema\"," +
@@ -71,7 +82,7 @@ namespace TexasHoldemTests.communication
             //                                 "\"UserId\":\"1\",\"SessionId\":\"-1\",\"IsLogin\":\"true\"," +
             //                                 "\"UserName\":\"Oded\",\"Password\":\"12345689\"}}", false);
 
-            Console.WriteLine(respXml);
+            //Console.WriteLine(respXml);
         }
 
         [TestCase]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Impl;
@@ -21,11 +22,16 @@ namespace TexasHoldem
             ReplayManager replayManager = new ReplayManager();
             GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
             var commHandler = CommunicationHandler.GetInstance();
-            Task commTask = Task.Factory.StartNew(commHandler.Start);
-            Console.WriteLine("starting comm");
             MessageEventHandler eventHandler = new MessageEventHandler(gameCenter, sysControl, logControl, replayManager);
+            var webEventHandler = new WebEventHandler(new ServerEventHandler(eventHandler, null, 
+                gameCenter, sysControl, logControl, replayManager, null));
+            WebCommHandler webCommHandler = new WebCommHandler(webEventHandler);
+            Task commTask = Task.Factory.StartNew(commHandler.Start);
+            Task webCommTask = Task.Factory.StartNew(webCommHandler.Start);
+            Console.WriteLine("starting comm");
             Task eventTask = Task.Factory.StartNew(eventHandler.HandleIncomingMsgs);
             commTask.Wait();
+            webCommTask.Wait();
         }
     }
 }

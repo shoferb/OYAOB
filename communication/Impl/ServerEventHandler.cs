@@ -321,8 +321,11 @@ namespace TexasHoldem.communication.Impl
                     var response = new UserStatisticsResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), true,
                         msg, stats.AvgCashGain, stats.AvgGrossProfit);
                     return _parser.SerializeMsg(response, ShouldUseDelim);
-                } 
+                }
             }
+            //UserStatisticsCommMessage sts = new UserStatisticsCommMessage(1, 1);
+            //var resp = new UserStatisticsResponseCommMessage(1, 1, true, sts, 2.2, 23.1);
+            //return _parser.SerializeMsg(resp, ShouldUseDelim);
             return "";
         }
 
@@ -346,8 +349,15 @@ namespace TexasHoldem.communication.Impl
                     default:
                         return "";
                 }
-                var leaderboradLines = userLst.ConvertAll(UserToLineData);
-                var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
+                var leaderboradLines = new List<LeaderboardLineData> {
+                    new LeaderboardLineData(1, "Bla", 100, 1000, 12, 2),
+                    new LeaderboardLineData(1, "BlaBla", 10, 10, 2, 232),
+                    new LeaderboardLineData(1, "BlaBlaBla", 10320, 104300, 1232, 21),
+                };
+                //var leaderboradLines = userLst.ConvertAll(UserToLineData);
+                //var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
+                //    true, msg, leaderboradLines);
+                var response = new LeaderboardResponseCommMessage(msg.UserId, 2,
                     true, msg, leaderboradLines);
                 return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
