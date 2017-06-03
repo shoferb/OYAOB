@@ -44,5 +44,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool DividLeage();
         List<IUser> GetUsersByNumOfGames();
         List<IUser> GetUsersByHighestCash();
+        List<IUser> GetUsersByTotalProfit();
     }
 }
