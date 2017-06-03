@@ -30,7 +30,7 @@ namespace TexasHoldem.GuiScreen
         {
             InitializeComponent();
             cl = new ClientLogic();
-            _commHandler = new ClientCommunicationHandler("localhost");
+            _commHandler = new ClientCommunicationHandler("192.168.43.20");
             _eventHandler = new ClientEventHandler(_commHandler);
             _eventHandler.Init(cl);
             cl.Init(_eventHandler, _commHandler);
