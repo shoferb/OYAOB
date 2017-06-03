@@ -405,4 +405,12 @@
       <Column Name="[league name]" Member="league_name" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetCardByVal" Method="GetCardByVal">
+    <Parameter Name="Val" Parameter="val" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetCardByValResult">
+      <Column Name="[Card Value]" Member="Card_Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Card Shpe]" Member="Card_Shpe" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="[Card Real Value]" Member="Card_Real_Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
