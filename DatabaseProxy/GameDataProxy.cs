@@ -60,9 +60,20 @@ namespace TexasHoldem.DatabaseProxy
             List<Logic.Users.Player> toRet = new List<Logic.Users.Player>();
             foreach (Database.LinqToSql.Player dbPlayer in dbPlayers)
             {
-                Logic.Users.Player toAdd = new Logic.Users.Player()
+                User user; //= UserDataProxy.GetUserById(dbPlayer.user_Id);
+                Card fCard = getCardByVal(dbPlayer.first_card);
+                Card sCard = getCardByVal(dbPlayer.secund_card);
+
+                Logic.Users.Player toAdd = new Logic.Users.Player(/*IUser user*/ null, dbPlayer.Total_chip, dbPlayer.room_Id, dbPlayer.Round_chip_bet,
+                    dbPlayer.is_player_active, /*Card*/ fCard, /*Card*/ sCard, dbPlayer.Player_action_the_round);
             }
             return toRet;
+        }
+
+        private Card getCardByVal(int val)
+        {
+            Database.LinqToSql.Card dbCard = _controller.getDBCardByVal(val)
+                //TODO
         }
     }
 }
