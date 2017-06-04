@@ -94,7 +94,20 @@ namespace TexasHoldem.Database.DataControlers
 
         public bool InsertPref(GameRoomPreferance toAdd)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.InsertPrefToDb(toAdd.room_id, toAdd.is_Spectetor, toAdd.Min_player_in_room,
+                        toAdd.max_player_in_room, toAdd.enter_paying_money, toAdd.starting_chip,
+                        toAdd.Bb, toAdd.Sb, toAdd.League_name, toAdd.Game_Mode, toAdd.Game_Id);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public int GetGameModeValByName(string v)
