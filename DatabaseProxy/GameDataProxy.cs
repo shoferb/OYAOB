@@ -77,6 +77,7 @@ namespace TexasHoldem.DatabaseProxy
                 Database.LinqToSql.Player toAdd = new Database.LinqToSql.Player();
                 toAdd.Game_Id= v.getGameNum();
                 toAdd.room_Id = v.Id;
+                toAdd.user_Id = aPlayer.user.Id();
                 toAdd.is_player_active = aPlayer.isPlayerActive;
                 toAdd.player_name = aPlayer.name;
                 toAdd.Total_chip = aPlayer.TotalChip;
