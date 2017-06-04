@@ -306,13 +306,13 @@ namespace Client.GuiScreen
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {
-            _logic.StartTheGame(this.RoomId);
+            _logic.LeaveTheGame(this.RoomId);
 
         }
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
         {
-            _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.StartGame, -1, this.RoomId);
+            _logic.StartTheGame(this.RoomId);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -6,6 +6,7 @@ using Client.Handler;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
+using System.Windows.Forms;
 
 namespace Client.Logic
 {
@@ -50,7 +51,7 @@ namespace Client.Logic
             _games.Add(newWin);
         }
 
-        public void GameUpdateReceived(GameDataCommMessage msg)
+        public async void GameUpdateReceived(GameDataCommMessage msg)
         {
             bool isNewGame = true;
             foreach (GameScreen game in _games)
@@ -58,12 +59,16 @@ namespace Client.Logic
                 if (game.RoomId == msg.RoomId)
                 {
                     isNewGame = false;
-                    game.UpdateGame(msg);
+
+                    new Task(() => UpdateGame(game, msg));
                 }
             }
-           
         }
 
+        private async Task UpdateGame(GameScreen game, GameDataCommMessage msg)
+        {
+            game.UpdateGame(msg);
+        }
         public bool SpectateRoom(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate, -1, roomId);
