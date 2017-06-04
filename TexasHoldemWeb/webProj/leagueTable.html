@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>League Table</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:30pt;
+            color: #30faff;
+        }
+
+        p.data {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:10pt;
+            color: #3e2fff;
+        }
+        th, td {
+
+            border: 1px solid;
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            color: white;
+        }
+        th {
+            background-color: #3e2fff;
+            color: white;
+            font-weight : bold;
+        }
+        table {
+            border-collapse: collapse;
+            text-align:center;
+            margin-left:auto;
+            margin-right:auto;
+            width:100px;
+
+        }
+        body {
+            background: url("download.png");
+            background-size: 2000px 2000px;
+            background-repeat: no-repeat;
+            padding-top: 40px;
+        }
+        #mytable,td{
+            border:10px solid #30faff;;
+            color: white;
+        }
+    </style>
+</head>
+<body style="text-align:center;">
+<h1>League Table</h1>
+<p class="data">
+    <button type="button" onclick="goBack()">Back</button>
+    <button type="button" onclick="goLogOut()">Log Out</button>
+</p>
+<form id="checkBox" class="data" action="myActions">
+    <select name="type" id="type1">
+        <option value="TotalGrossProfit">Total Gross Profit</option>
+        <option value="HighestCashGain">Highest Cash Gain</option>
+        <option value="NumGamesPlayes">Number of Games Playes</option>
+    </select>
+    <br><br>
+    <button type="button" id="type" onclick="sendData()">Submit</button>
+</form>
+<p></p>
+
+<div id="progressDiv">Loading . . .
+    <p>
+        <img src="circleChip.webp"></img>
+    </p>
+</div>
+
+<div id="div1">
+</div>
+<script>
+    $('#progressDiv').show();
+    $('#div1').hide();
+
+    function sendData() {
+        var objectData =
+            {
+                "?xml": {
+                    "@version": "1.0",
+                    "@encoding": "utf-16"
+                },
+                "LeaderboardCommMessage": {
+                    "@xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+                    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                    "UserId": "1",
+                    "SessionId": "-1",
+                    "IsLogin": "true",
+                    "UserId": localStorage.getItem("UserId"),
+                    "SessionId":  localStorage.getItem("SeesionId"),
+                    "SortedBy": document.getElementById('type1').value
+                }
+            };
+
+        var objectDataString = JSON.stringify(objectData);
+        $.ajax({
+            type: "POST",
+            url: "http://172.20.10.12:8080",
+            data: "s" + objectDataString,
+            dataType: "json",
+            success: OnSuccess,
+            error: OnErrorCall
+        });
+        function OnSuccess(response){
+            var len = response.LeaderboardResponseCommMessage.Results.LeaderboardLineData.length;
+            var obj = response.LeaderboardResponseCommMessage.Results.LeaderboardLineData;
+            var tbl=$("<table/>").attr("id","mytable");
+            $("#div1").append(tbl);
+            var tr="<tr>";
+            var td1="<td>"+"ID"+"</td>";
+            var td2="<td>"+"Name"+"</td>";
+            var td3="<td>"+"Num of Games Played"+"</td>";
+            var td4="<td>"+"Gross Profit"+"</td>";
+            var td5="<td>"+"Points"+"</td></tr>";
+            $("#mytable").append(tr+td1+td2+td3+td4+td5);
+
+            for(var i=0;i<len;i++)
+            {
+                var tr="<tr>";
+                var td1="<td>"+obj[i]["Id"]+"</td>";
+                var td2="<td>"+obj[i]["Name"]+"</td>";
+                var td3="<td>"+obj[i]["NumOfGamesPlayed"]+"</td>";
+                var td4="<td>"+obj[i]["TotalGrossProfit"]+"</td>";
+                var td5="<td>"+obj[i]["Points"]+"</td></tr>";
+
+                $("#mytable").append(tr+td1+td2+td3+td4+td5);
+
+            }
+            $("#div1").show();
+            $("#progressDiv").hide();
+            $("#checkBox").hide();
+
+            /*
+            var len = response.LeaderboardResponseCommMessage.Results.LeaderboardLineData.length;
+            for(i=0; i < len; i++){
+                $('#number').html("The" + i + "Player data is")
+                $('#id').html(response.LeaderboardResponseCommMessage.Results.LeaderboardLineData[i].Id.valueOf());
+                $("#name" ).html(response.LeaderboardResponseCommMessage.Results.LeaderboardLineData[i].Name.valueOf());
+                $('#points').html(response.LeaderboardResponseCommMessage.Results.LeaderboardLineData[i].Points.valueOf());
+                $("#gross" ).html(response.LeaderboardResponseCommMessage.Results.LeaderboardLineData[i].TotalGrossProfit.valueOf());
+                $('#cash' ).html(response.LeaderboardResponseCommMessage.Results.LeaderboardLineData[i].HighestCashGain.valueOf());
+                $("#played").html(response.LeaderboardResponseCommMessage.Results.LeaderboardLineData[i].NumOfGamesPlayed.valueOf());
+                $("#resDev").show();
+                $("#progressDiv").hide();
+                $("#checkBox").hide();
+            }*/
+
+
+        }
+
+        function OnErrorCall(){
+            alert("ERROR");
+        }
+
+    }
+
+
+    function goBack() {
+        window.location="playerPage.html";
+    }
+    function goLogOut() {
+        window.location="logOut.html";
+    }
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>My statistics</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:30pt;
+            color: #30faff;
+        }
+
+        p.data {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:10pt;
+            color: #3e2fff;
+        }
+        body {
+            background: url("download.png");
+            background-size: 1350px 700px;
+            background-repeat: no-repeat;
+            padding-top: 40px;
+            text-align: center;
+            font-size:10pt;
+            color: #fff9fc;
+            font-family:Comic Sans Ms;
+        }
+
+        p.res {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:30pt;
+            color: #30faff;
+
+        }
+
+
+    </style>
+</head>
+<body>
+<h1>My statistics</h1>
+<p class="data">
+    <button type="button" onclick="goBack()">Back</button>
+    <button type="button" onclick="goLogOut()">Log Out</button>
+</p>
+<div id="progressDiv">Loading your Average Cash Gain
+<p>
+    <img src="circleChip.webp"></img>
+</p>
+</div>
+<p class="res">
+<div id="pointsDiv">Your Average Cash Gain is:
+    <span id="points" style="font-size:30pt;"></span>
+</div>
+<p></p>
+<div id="progressDiv2">Loading your Average Gross Profit
+    <p>
+        <img src="200.webp"></img>
+    </p>
+</div>
+<div id="rankDiv">Your Average Gross Profit is: <span id="rank" style="font-size:30pt;"></span></div>
+</p>
+<script>
+    $('#progressDiv').show();
+    $('#pointsDiv').hide();
+
+    $('#progressDiv2').show();
+    $('#rankDiv').hide();
+
+    $(document).ready(function(){
+        var objectData =
+            {
+                "?xml": {
+                    "@version": "1.0",
+                    "@encoding": "utf-16"
+                },
+                "UserStatisticsCommMessage": {
+                    "@xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+                    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                    "UserId": localStorage.getItem("UserId"),
+                    "SessionId":  localStorage.getItem("SeesionId")
+
+                }
+            };
+
+        var objectDataString = JSON.stringify(objectData);
+        $.ajax({
+            type: "POST",
+            url: "http://172.20.10.12:8080",
+            data: "t" + objectDataString,
+            dataType: "json",
+            success: OnSuccess,
+            error: OnErrorCall
+        });
+        function OnSuccess(response){
+            $('#points').html(response.UserStatisticsResponseCommMessage.AvgCashGain.valueOf());
+            $("#rank").html(response.UserStatisticsResponseCommMessage.AvgGrossProfit.valueOf());
+            $("#pointsDiv").show();
+            $("#progressDiv").hide();
+            $('#progressDiv2').hide();
+            $('#rankDiv').show();
+        }
+
+        function OnErrorCall(){
+            alert("error occurred");
+        }
+
+
+    });
+    function goBack() {
+        window.location="playerPage.html";
+    }
+    function goLogOut() {
+        window.location="logOut.html";
+    }
+</script>
+</body>
+</html>

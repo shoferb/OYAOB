@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/ricmoo/aes-js/e27b99df/index.js"></script>
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+    <script type="text/javascript" src="bower_components/crypto-js/crypto-js.js"></script>
+
+</head>
+
+    <title>
+        Login page
+    </title>
+    <style>
+            h1 {
+                text-align: center;
+                font-family:Comic Sans Ms;
+                font-size:35pt;
+                color: #30faff;
+            }
+
+            p.login {
+                text-align: center;
+                font-family:Comic Sans Ms;
+                font-size:15pt;
+                color: #3e2fff;
+            }
+            body {
+                background: url("download.png");
+                background-size: 1350px 700px;
+                background-repeat: no-repeat;
+                padding-top: 40px;
+            }
+
+    </style>
+
+</head>
+<body>
+<h1>Texas Holdem Log In</h1>
+<form name="form1" id="form1">
+<p class="login">
+Username<input id = "userName" type="userName" name="userName"/>
+Password<input id= "password" type="password" name="password"/>
+<button type="button" onclick="sendData()">Log in</button>
+    <button id="resetBtn" type="reset" value="Reset">Reset</button>
+</p>
+    </form>
+<p class="login">
+    <img src="login1.webp"></img>
+</p>
+<script type="text/javascript">
+    function Reset() {
+        document.getElementById("login").reset();
+    }
+    function sendData() {
+
+
+        var objectData =
+            {
+                    "?xml": {
+                        "@version": "1.0",
+                        "@encoding": "utf-16"
+                    },
+                    "LoginCommMessage": {
+                        "@xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+                        "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                        "UserId": "1",
+                        "SessionId": "-1",
+                        "IsLogin": "true",
+                        "UserName": document.getElementById('userName').value,
+                        "Password": document.getElementById('password').value
+                    }
+            };
+        var key = CryptoJS.enc.Utf8.parse('25B4895DF77AFtkv');
+        var iv = CryptoJS.enc.Utf8.parse('4DC9F8AFA6D2Cahd');
+
+        var encryptedlogin = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(JSON.stringify(objectData)), key,
+            {
+                keySize: 128 / 8,
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+
+
+       var r = 1;
+
+        var objectDataString = JSON.stringify(objectData);
+
+        $.ajax({
+            type: "POST",
+            url: "http://172.20.10.12:8080",
+            data: "c" + objectDataString,
+            dataType: "json",
+            success: OnSuccess,
+            error: OnErrorCall
+        });
+        function OnSuccess(response){
+            localStorage.setItem("UserId", response.LoginResponeCommMessage.UserId.valueOf());
+            localStorage.setItem("SeesionId", response.LoginResponeCommMessage.SessionId.valueOf());
+           /* if (response.LoginResponeCommMessage.Success.valueOf().localeCompare("true") > 0)
+            {*/
+                window.location="playerPage.html";
+            /*}
+            else{
+                alert("The system can't recognized you. Please try again");
+                document.getElementById("login").reset();
+            }*/
+
+        }
+
+        function OnErrorCall(){
+            alert("ERROR");
+        }
+
+    }
+
+
+
+</script>
+</head>
+</body>
+</html>

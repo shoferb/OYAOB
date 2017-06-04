@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <title>
+        Logout page
+    </title>
+    <style>
+        h1 {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:30pt;
+            color: #30faff;
+        }
+
+        p.logout {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:10pt;
+            color: #3e2fff;
+        }
+        body {
+            background: url("download.png");
+            background-size: 1350px 700px;
+            background-repeat: no-repeat;
+            padding-top: 40px;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<h1>Texas Holdem Log Out</h1>
+<form name="form1" id="form1">
+<p class="logout">
+    Username<input type="userName" name="userName"/>
+    <button type="button" onclick="sendData()">Log out</button>
+    <input type="reset" value="Reset"/>
+</p>
+<p class="logout">
+    <img src="login2.gif"></img>
+</p>
+</form>
+<script>
+    function Reset() {
+        document.getElementById("login").reset();
+    }
+    function sendData() {
+        var objectData =
+            {
+                "?xml": {
+                    "@version": "1.0",
+                    "@encoding": "utf-16"
+                },
+                "LoginCommMessage": {
+                    "@xmlns:xsd": "http://www.w3.org/2001/XMLSchema",
+                    "@xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+                    "UserId": localStorage.getItem("UserId"),
+                    "SessionId": "-1",
+                    "IsLogin": "false",
+                    "UserName": document.getElementById('userName').value,
+                    "Password": "-1"
+                }
+            };
+
+        var objectDataString = JSON.stringify(objectData);
+        $.ajax({
+            type: "POST",
+            url: "http://172.20.10.12:8080",
+            data: "c" + objectDataString,
+            dataType: "json",
+            success: OnSuccess,
+            error: OnErrorCall
+        });
+        function OnSuccess(response){
+
+                window.location="playerPage.html";
+        }
+
+        function OnErrorCall(){
+            alert("ERROR");
+        }
+
+    }
+
+</script>
+</head>
+</body>
+</html>
