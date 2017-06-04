@@ -605,4 +605,10 @@
     <Parameter Name="SB_player" Parameter="sB_player" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.InserPubCardToDb" Method="InserPubCardToDb">
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="card" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
