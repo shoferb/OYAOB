@@ -340,5 +340,10 @@ namespace TexasHoldem.Database.DataControlers
             return toRet;
 
         }
+
+        public int GetLeagueValByName(string name)
+        {
+
+        }
     }
 }
