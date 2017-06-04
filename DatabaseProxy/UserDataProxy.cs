@@ -109,8 +109,8 @@ namespace TexasHoldem.DatabaseProxy
 
         private IUser convertToIUser(UserTable user)
         {
-            string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
-            IUser toResturn = new User(user.userId, user.name, user.username, decryptpassword, user.points,
+           // string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
+            IUser toResturn = new User(user.userId, user.name, user.username, user.password, user.points,
                 user.money, user.email, user.winNum, 0, user.HighestCashGainInGame, user.TotalProfit,user.avatar
                 ,user.gamesPlayed,user.inActive,GetLeagueName(user.leagueName));
             return toResturn;
@@ -137,7 +137,8 @@ namespace TexasHoldem.DatabaseProxy
             {
                 UserTable user = userDataControler.GetUserById(userid);
                 Console.WriteLine("inside proxy get user by id ut Id " + user.userId);
-                string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
+                Console.WriteLine("!!inside proxy get user by ut password " + user.password);
+               // string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
                 IUser toResturn = convertToIUser(user);
                 
                 Console.WriteLine("Iuser Id "+ toResturn.Id());

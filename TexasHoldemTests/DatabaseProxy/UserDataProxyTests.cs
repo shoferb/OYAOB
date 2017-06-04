@@ -79,8 +79,11 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
             userDataProxy.AddNewUser(user);
             userDataProxy.Login(user);
+            Console.WriteLine(user.Id() +  user.Name() +  user.MemberName() + user.Password()+  user.Points() +
+                user.Money() + user.Email()+ user.WinNum +  0 + user.HighestCashGainInGame + user.TotalProfit + user.Avatar() +
+                 user.GetNumberOfGamesUserPlay() + user.IsLogin() + user.GetLeague());
             IUser t = userDataProxy.GetUserById(88);
-            Console.WriteLine("!!!!Iuserrr    " +t==null);
+            Console.WriteLine("!!!!Iuserrr  password  " +t.Password());
             Assert.AreEqual(t.Id(),88);
             userDataProxy.DeleteUserById(88);
         }
