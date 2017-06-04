@@ -403,6 +403,7 @@
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertGameReplayToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertGameRoomToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertPlayerToDb.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertPrefToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertSpecToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.AddNewUser.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditAvatar.StoredProcedure.sql" />
