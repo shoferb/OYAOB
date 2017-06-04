@@ -99,7 +99,7 @@ namespace TexasHoldem.Database.DataControlers
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
                     var temp = db.GetGameModeValByName(v);
-                    return temp.First().hand_Step_value;
+                    return temp.First().Game_mode_value;
                 }
             }
             catch (Exception e)
