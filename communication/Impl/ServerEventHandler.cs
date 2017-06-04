@@ -323,9 +323,9 @@ namespace TexasHoldem.communication.Impl
                     return _parser.SerializeMsg(response, ShouldUseDelim);
                 }
             }
-            //UserStatisticsCommMessage sts = new UserStatisticsCommMessage(1, 1);
-            //var resp = new UserStatisticsResponseCommMessage(1, 1, true, sts, 2.2, 23.1);
-            //return _parser.SerializeMsg(resp, ShouldUseDelim);
+            UserStatisticsCommMessage sts = new UserStatisticsCommMessage(1, 1);
+            var resp = new UserStatisticsResponseCommMessage(1, 1, true, sts, 2.2, 23.1);
+            return _parser.SerializeMsg(resp, ShouldUseDelim);
             return "";
         }
 
