@@ -109,8 +109,8 @@ namespace TexasHoldem.DatabaseProxy
 
         private IUser convertToIUser(UserTable user)
         {
-            string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
-            IUser toResturn = new User(user.userId, user.name, user.username, decryptpassword, user.points,
+           // string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
+            IUser toResturn = new User(user.userId, user.name, user.username, user.password, user.points,
                 user.money, user.email, user.winNum, 0, user.HighestCashGainInGame, user.TotalProfit,user.avatar
                 ,user.gamesPlayed,user.inActive,GetLeagueName(user.leagueName));
             return toResturn;
@@ -137,10 +137,15 @@ namespace TexasHoldem.DatabaseProxy
             {
                 UserTable user = userDataControler.GetUserById(userid);
                 Console.WriteLine("inside proxy get user by id ut Id " + user.userId);
-                string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
+                Console.WriteLine("!!inside proxy get user by ut password " + user.password);
+              
                 IUser toResturn = convertToIUser(user);
-                
-                Console.WriteLine("Iuser Id "+ toResturn.Id());
+                string toDec = user.password;
+                Console.WriteLine("!!inside proxy get user by IUSER password " + toResturn.Password());
+                //string decryptpassword = PasswordSecurity.Decrypt(toDec, "securityPassword");
+                //Console.WriteLine("!!inside proxy get user by id DEC PASSWORD " + decryptpassword);
+                //toResturn.EditPassword(decryptpassword);
+                //Console.WriteLine("!!inside proxy get user by id IUSER  DEC PASSWORD " + toResturn.Password());
                 return toResturn;
             }
             catch (Exception e)
@@ -220,8 +225,9 @@ namespace TexasHoldem.DatabaseProxy
             try
             {
                 UserTable toAddUT = convertToUserT(toAdd);
-                string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
-                toAddUT.password = encryptedstring;
+               // string pass = toAdd.Password();
+                //string encryptedstring = PasswordSecurity.Encrypt(pass, "securityPassword");
+                //toAddUT.password = encryptedstring;
                 userDataControler.AddNewUser(toAddUT);
             }
             catch (Exception e)
@@ -314,8 +320,9 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-                string encryptedPassword = PasswordSecurity.Encrypt(newPassword, "securityPassword");
-                userDataControler.EditPassword(Id, encryptedPassword);
+                // string encryptedPassword = PasswordSecurity.Encrypt(newPassword, "securityPassword");
+                //  userDataControler.EditPassword(Id, encryptedPassword);
+                userDataControler.EditPassword(Id, newPassword);
             }
             catch (Exception e)
             {
