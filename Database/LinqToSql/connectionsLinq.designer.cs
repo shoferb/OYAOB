@@ -512,6 +512,20 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
 			return ((ISingleResult<GetLeageValByNameResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHandStepNameByVal")]
+		public ISingleResult<GetHandStepNameByValResult1> GetHandStepNameByVal1([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetHandStepNameByValResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHandStepValByName")]
+		public ISingleResult<GetHandStepValByNameResult> GetHandStepValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetHandStepValByNameResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
@@ -8322,6 +8336,76 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._League_Value != value))
 				{
 					this._League_Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHandStepNameByValResult1
+	{
+		
+		private int _hand_Step_value;
+		
+		private string _hand_Step_name;
+		
+		public GetHandStepNameByValResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step value]", Storage="_hand_Step_value", DbType="Int NOT NULL")]
+		public int hand_Step_value
+		{
+			get
+			{
+				return this._hand_Step_value;
+			}
+			set
+			{
+				if ((this._hand_Step_value != value))
+				{
+					this._hand_Step_value = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step name]", Storage="_hand_Step_name", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string hand_Step_name
+		{
+			get
+			{
+				return this._hand_Step_name;
+			}
+			set
+			{
+				if ((this._hand_Step_name != value))
+				{
+					this._hand_Step_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHandStepValByNameResult
+	{
+		
+		private int _hand_Step_value;
+		
+		public GetHandStepValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step value]", Storage="_hand_Step_value", DbType="Int NOT NULL")]
+		public int hand_Step_value
+		{
+			get
+			{
+				return this._hand_Step_value;
+			}
+			set
+			{
+				if ((this._hand_Step_value != value))
+				{
+					this._hand_Step_value = value;
 				}
 			}
 		}

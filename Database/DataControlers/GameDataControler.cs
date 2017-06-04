@@ -363,8 +363,8 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    var temp = db.GetLeageValByName(name);
-                    return temp.First().League_Value;
+                    var temp = db.GetHandStepValByName(name);
+                    return temp.First().hand_Step_value;
                 }
             }
             catch (Exception e)

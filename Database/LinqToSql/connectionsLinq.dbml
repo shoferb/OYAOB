@@ -559,4 +559,10 @@
       <Column Name="[hand Step name]" Member="hand_Step_name" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetHandStepValByName" Method="GetHandStepValByName">
+    <Parameter Name="name" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="GetHandStepValByNameResult">
+      <Column Name="[hand Step value]" Member="hand_Step_value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
