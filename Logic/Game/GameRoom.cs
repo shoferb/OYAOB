@@ -155,6 +155,16 @@ namespace TexasHoldem.Logic.Game
             return this.GameNumber;
         }
 
+        public int GetMaxBetInRound()
+        {
+            return this.maxBetInRound;
+        }
+     
+        public bool getisActive()
+        {
+            return this.IsActiveGame;
+        }
+
         public int getFirstPlayerInRound()
         {
             return this.FirstPlayerInRound.user.Id();
