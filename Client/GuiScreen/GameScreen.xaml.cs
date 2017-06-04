@@ -128,7 +128,7 @@ namespace Client.GuiScreen
 
                 if (msg.TableCards != null)
                 {
-                    ListViewPublicCards.Items.Clear();
+                    //ListViewPublicCards.Items.Clear();
                     this.TableCards = msg.TableCards;
                     List<ViewObj> pCards = new List<ViewObj>();
                     foreach (Card aCard in TableCards)
@@ -383,6 +383,106 @@ namespace Client.GuiScreen
         private void DoActiomBotton_Click_1(object sender, RoutedEventArgs e)
         {
             //TODO Bar
+        }
+
+        private void DoActiomBotton_Click_2(object sender, RoutedEventArgs e)
+        {
+            string action = ActionChosenComboBox.SelectedValue.ToString();
+            if (action.Equals(""))
+            {
+                MessageBox.Show("please Choose an action");
+            }
+            else
+            {
+                if ((action.Equals("Call")) || (action.Equals("Raise")))
+                {
+                    int amount = 0;
+                    string temp = InputForActionTextBox.Text;
+                    bool isValid = int.TryParse(temp, out amount);
+                    if (!isValid)
+                    {
+                        MessageBox.Show("Invalid Amount");
+                    }
+                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                }
+                if (action.Equals("Check"))
+                {
+                    int amount = 0;
+                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                }
+                if (action.Equals("Fold"))
+                {
+                    int amount = -1;
+                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                }
+                if (action.Equals("Send A New Broadcast Chat Message"))
+                {
+                    string msgToSend = InputForActionTextBox.Text;
+                    if (SpecOrPlay == true)
+                    {
+
+                        bool ans = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    else
+                    {
+                        bool ans = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                }
+                if (action.Equals("Send A New Whisper Chat Message"))
+                {
+                    string msgToSend = InputForActionTextBox.Text;
+                    string receiverName = WhisperReceiverTextBox_Copy.Text;
+                    if (SpecOrPlay == true)
+                    {
+
+                        bool ans = _logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.PlayerWhisper);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    else
+                    {
+                        bool ans = _logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.SpectetorWhisper);
+                        if (!ans)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                }
+            }
         }
     }
 }
