@@ -92,6 +92,11 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertPref(GameRoomPreferance toAdd)
+        {
+            throw new NotImplementedException();
+        }
+
         public int GetGameModeValByName(string v)
         {
             try
@@ -108,9 +113,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-    
-
-    internal bool InsertSpec(SpectetorGamesOfUser toAdd)
+        internal bool InsertSpec(SpectetorGamesOfUser toAdd)
         {
             try
             {
