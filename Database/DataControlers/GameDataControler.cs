@@ -92,6 +92,11 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertPublicCard(Public_Card toAdd)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
