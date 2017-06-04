@@ -51,7 +51,7 @@ namespace Client.Logic
             _games.Add(newWin);
         }
 
-        public async void GameUpdateReceived(GameDataCommMessage msg)
+        public void GameUpdateReceived(GameDataCommMessage msg)
         {
             bool isNewGame = true;
             foreach (GameScreen game in _games)
@@ -59,16 +59,12 @@ namespace Client.Logic
                 if (game.RoomId == msg.RoomId)
                 {
                     isNewGame = false;
-
-                    new Task(() => UpdateGame(game, msg));
+                    game.UpdateGame(msg);
                 }
             }
         }
 
-        private async Task UpdateGame(GameScreen game, GameDataCommMessage msg)
-        {
-            game.UpdateGame(msg);
-        }
+       
         public bool SpectateRoom(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate, -1, roomId);
