@@ -153,6 +153,24 @@ namespace TexasHoldem.Database.DataControlers
 
         }
 
+        public GameMode GetGameModeByVal(int val)
+        {
+            GameMode toRet = new GameMode();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameModeNameByVal(val).ToList();
+                    toRet.game_mode_name = temp.First().game_mode_name;
+                    return toRet;
+                }                
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
 
         public Database.LinqToSql.Card getDBCardByVal(int val)
         {
