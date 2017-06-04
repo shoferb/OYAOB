@@ -92,6 +92,22 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertPublicCard(Public_Card toAdd)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.InserPubCardToDb(toAdd.room_Id, toAdd.card, toAdd.Game_Id);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
@@ -143,7 +159,6 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return false;
             }
-
         }
 
         internal int GetCardValByShapeAndRealVal(string v, int value)

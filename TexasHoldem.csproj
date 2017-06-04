@@ -397,6 +397,7 @@
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetPublicCardsByRoomId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetSpecsByRoomId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetSpectetorByRoomIdAndUserId.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InserPubCardToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertDeckToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertGameReplayToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertGameRoomToDb.StoredProcedure.sql" />
