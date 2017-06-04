@@ -92,7 +92,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal int GetGameModeValByName(string v)
+        public int GetGameModeValByName(string v)
         {
             try
             {
