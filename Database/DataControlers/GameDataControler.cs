@@ -145,7 +145,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertPlayer(Player toAdd)
+        public bool InsertPlayer(Player toAdd)
         {
             try
             {
