@@ -46,7 +46,7 @@ namespace TexasHoldem.Logic.Users
             HighestCashGainInGame = 0;
             TotalProfit = 0;
             waitListNotification = new List<Notification>();
-            isActive = false;
+            isActive = true;
             avatar = "/GuiScreen/Photos/Avatar/devil.png";
             _gamesAvailableToReplay = new List<Tuple<int, int>>();
             activeGameList = new List<IGame>();

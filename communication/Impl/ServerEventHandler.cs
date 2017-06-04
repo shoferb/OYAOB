@@ -172,7 +172,15 @@ namespace TexasHoldem.communication.Impl
 
             if (_sessionIdHandler != null)
             {
-                bool success = _userService.LoginUser(msg.UserName, msg.Password);
+                bool success;
+                if (msg.IsLogin)
+                {
+                    success = _userService.LoginUser(msg.UserName, msg.Password);
+                }
+                else
+                {
+                    success = _userService.LogoutUser(msg.UserId);
+                }
                 ResponeCommMessage response;
                 if (_socket != null)
                 {

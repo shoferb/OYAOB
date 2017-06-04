@@ -43,15 +43,15 @@ namespace TexasHoldem.Database.DataControlers
 
         public UserTable GetUserById(int id)
        {
-           UserTable toReturn = null;
+           
            try
            {
 
                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                {
                    var temp = db.GetUserByUserId(id).ToList().First();
-                   toReturn = convertToUser(temp);
-                    //Console.WriteLine("in data user ,user id: "+toReturn.userId);
+                   UserTable toReturn = convertToUser(temp);
+                    Console.WriteLine("@@@@@@@@@@@@@@@in data user ,user id: "+toReturn.userId);
                    //Console.WriteLine("in data user ,user password id: " + toReturn.password);
                    //Console.WriteLine("in data user ,%%%%%% Try dec password");
                    //string toDec = toReturn.password;
@@ -119,7 +119,6 @@ namespace TexasHoldem.Database.DataControlers
 
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    // db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
                     db.DeleteUserById(userId);
                 }
             }
@@ -138,7 +137,6 @@ namespace TexasHoldem.Database.DataControlers
 
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    // db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
                     db.DeleteUserByUserName(username);
                 }
             }
