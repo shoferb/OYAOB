@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TexasHoldem.Database.Security
 {
-    public class PasswordSecurity
+    public static class PasswordSecurity
     {
 
         private const int Keysize = 256;

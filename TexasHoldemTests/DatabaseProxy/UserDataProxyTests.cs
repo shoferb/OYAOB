@@ -61,10 +61,10 @@ namespace TexasHoldem.DatabaseProxy.Tests
             string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
             toAddUT.password = encryptedstring;
             Console.WriteLine("password encription:" + toAddUT.password);
-            string decryptedstring = PasswordSecurity.Decrypt(encryptedstring, "securityPassword");
+            string decryptedstring = PasswordSecurity.Decrypt(toAddUT.password, "securityPassword");
             toAddUT.password = decryptedstring;
             Console.WriteLine("password after deription:" + toAddUT.password);
-            Assert.AreEqual(toAddUT.password, "123456789");
+            Assert.AreEqual(toAddUT.password, "password");
 
            
         }
@@ -83,35 +83,102 @@ namespace TexasHoldem.DatabaseProxy.Tests
                 user.Money() + user.Email()+ user.WinNum +  0 + user.HighestCashGainInGame + user.TotalProfit + user.Avatar() +
                  user.GetNumberOfGamesUserPlay() + user.IsLogin() + user.GetLeague());
             IUser t = userDataProxy.GetUserById(88);
-            Console.WriteLine("!!!!Iuserrr  password  " +t.Password());
-            Assert.AreEqual(t.Id(),88);
+            Console.WriteLine("!!!!Iuserrr  in test password  " + t.Password());
+            Assert.IsTrue(t.IsLogin());
             userDataProxy.DeleteUserById(88);
         }
 
         [TestMethod()]
         public void LogoutTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(89, "eeeo");
+            IUser user = convertToIUser(ut);
+
+            userDataProxy.AddNewUser(user);
+            userDataProxy.Logout(user);
+            Console.WriteLine(user.Id() + user.Name() + user.MemberName() + user.Password() + user.Points() +
+                              user.Money() + user.Email() + user.WinNum + 0 + user.HighestCashGainInGame + user.TotalProfit + user.Avatar() +
+                              user.GetNumberOfGamesUserPlay() + user.IsLogin() + user.GetLeague());
+            IUser t = userDataProxy.GetUserById(89);
+
+            Assert.IsFalse(t.IsLogin());
+            userDataProxy.DeleteUserById(89);
         }
 
         [TestMethod()]
         public void GetUserByIdTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(49, "eeo");
+            IUser user = convertToIUser(ut);
+
+            userDataProxy.AddNewUser(user);
+            IUser t = userDataProxy.GetUserById(49);
+
+            Assert.AreEqual(t.Id(),49);
+            userDataProxy.DeleteUserById(49);
         }
 
         [TestMethod()]
         public void GetUserByUserNameTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(78, "toFind");
+            IUser user = convertToIUser(ut);
+
+            userDataProxy.AddNewUser(user);
+            IUser t = userDataProxy.GetUserById(78);
+
+            Assert.AreEqual(t.Id(), 78);
+            userDataProxy.DeleteUserById(78);
         }
 
         [TestMethod()]
-        public void GetAllUserTest()
+        public void GetAllUserTest_good_count()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(45, "toFind");
+            UserTable ut2 = CreateUser(46, "toFind2");
+            IUser user = convertToIUser(ut);
+            IUser user2 = convertToIUser(ut2);
+            userDataProxy.AddNewUser(user);
+            userDataProxy.AddNewUser(user2);
+            List<IUser> temp = userDataProxy.GetAllUser();
+
+            Assert.AreEqual(temp.Count, 2);
+            userDataProxy.DeleteUserById(45);
+            userDataProxy.DeleteUserById(46);
         }
 
+
+        [TestMethod()]
+        public void GetAllUserTest_good_firstId()
+        {
+            UserTable ut = CreateUser(47, "toFind");
+            UserTable ut2 = CreateUser(48, "toFind2");
+            IUser user = convertToIUser(ut);
+            IUser user2 = convertToIUser(ut2);
+            userDataProxy.AddNewUser(user);
+            userDataProxy.AddNewUser(user2);
+            List<IUser> temp = userDataProxy.GetAllUser();
+
+            Assert.AreEqual(temp[0].Id(), 47);
+            userDataProxy.DeleteUserById(47);
+            userDataProxy.DeleteUserById(48);
+        }
+
+        [TestMethod()]
+        public void GetAllUserTest_good_secId()
+        {
+            UserTable ut = CreateUser(32, "toFind");
+            UserTable ut2 = CreateUser(33, "toFind2");
+            IUser user = convertToIUser(ut);
+            IUser user2 = convertToIUser(ut2);
+            userDataProxy.AddNewUser(user);
+            userDataProxy.AddNewUser(user2);
+            List<IUser> temp = userDataProxy.GetAllUser();
+
+            Assert.AreEqual(temp[1].Id(), 33);
+            userDataProxy.DeleteUserById(32);
+            userDataProxy.DeleteUserById(33);
+        }
         [TestMethod()]
         public void DeleteUserByUserNameTest()
         {

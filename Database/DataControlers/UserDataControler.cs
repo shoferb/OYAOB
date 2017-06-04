@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
 using TexasHoldem.Database.LinqToSql;
+using TexasHoldem.Database.Security;
 using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
 
 namespace TexasHoldem.Database.DataControlers
@@ -50,8 +51,15 @@ namespace TexasHoldem.Database.DataControlers
                {
                    var temp = db.GetUserByUserId(id).ToList().First();
                    toReturn = convertToUser(temp);
-                    Console.WriteLine(toReturn.userId);
-                   return toReturn;
+                    //Console.WriteLine("in data user ,user id: "+toReturn.userId);
+                   //Console.WriteLine("in data user ,user password id: " + toReturn.password);
+                   //Console.WriteLine("in data user ,%%%%%% Try dec password");
+                   //string toDec = toReturn.password;
+                  // string decryptpassword = PasswordSecurity.Decrypt(toDec, "securityPassword");
+
+                   //Console.WriteLine("in data user ,%%%%%% AFTER &&&&&& dec password");
+                   //toReturn.password = decryptpassword;
+                    return toReturn;
                }
            }
            catch (Exception e)
