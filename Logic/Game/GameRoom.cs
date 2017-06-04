@@ -310,6 +310,7 @@ namespace TexasHoldem.Logic.Game
                 if (user.ReduceMoneyIfPossible(moneyToReduce)){
                     Players.Add(p);
                     List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
+                    idsToSend.Remove(user.Id());
                     gameData = GetGameData(p, amount, true, ActionType.Join);
                     clientSender.SendMessageToClient(gameData, idsToSend, useCommunication);
                     return true;
@@ -359,6 +360,7 @@ namespace TexasHoldem.Logic.Game
             logControl.AddSystemLog(log2);
             gameData = GetGameData(player, 0, true, ActionType.StartGame);
             ids = GetAllPlayersAndSpectatoresIds();
+            ids.Remove(player.user.Id());
             clientSender.SendMessageToClient(gameData, ids, useCommunication);
             maxBetInRound = Bb;
 
