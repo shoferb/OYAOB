@@ -129,25 +129,45 @@ namespace TexasHoldem.Logic.Game
 
         public int getBb()
         {
+            if (BbPlayer == null)
+            {
+                return 0;
+            }
             return this.Bb;
         }
         public int getBbPlayer()
         {
+            if(BbPlayer == null)
+            {
+                return 0;
+            }
             return this.BbPlayer.user.Id();
         }
 
         public int getCurrPlayer()
         {
+            if (CurrentPlayer == null)
+            {
+                return 0;
+            }
             return this.CurrentPlayer.user.Id();
         }
 
         public int getCurrPlayerPos()
         {
+            if (currentPlayerPos == null)
+            {
+                return 0;
+            }
             return this.currentPlayerPos;
         }
 
         public int getDealerPlayer()
         {
+            if (DealerPlayer == null)
+            {
+                return 0;
+            }
             return this.DealerPlayer.user.Id();
         }
 
@@ -193,6 +213,10 @@ namespace TexasHoldem.Logic.Game
 
         public int GetSbPlayer()
         {
+            if (SbPlayer == null)
+            {
+                return 0;
+            }
             return this.SbPlayer.user.Id();
         }
 
@@ -213,6 +237,10 @@ namespace TexasHoldem.Logic.Game
 
         public int getFirstPlayerInRound()
         {
+            if (FirstPlayerInRound == null)
+            {
+                return 0;
+            }
             return this.FirstPlayerInRound.user.Id();
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
 using TexasHoldem.Logic;
@@ -16,6 +17,7 @@ namespace TexasHoldem.DatabaseProxy
 {
     public class GameDataProxy
     {
+       
         private GameDataControler _controller;
         private SystemControl _systemControl;
         private LogControl _logControl;
@@ -23,8 +25,14 @@ namespace TexasHoldem.DatabaseProxy
         private GameCenter _gameCenter;
         private ServerToClientSender _sender;
 
+        public GameDataProxy()
+        {
+            _controller = new GameDataControler();
+        }
+
         public GameDataProxy(SystemControl sysCon, LogControl lc, Logic.Replay.ReplayManager rm, GameCenter gc)
         {
+           
             _controller = new GameDataControler();
             _systemControl = sysCon;
             _logControl = lc;
@@ -32,9 +40,10 @@ namespace TexasHoldem.DatabaseProxy
             _gameCenter = gc;
            _sender = new ServerToClientSender(_gameCenter, _systemControl, _logControl, _replayManager);
         }
-
+       
         public bool AddNewGameToDB(Logic.Game.GameRoom gr)
         {
+           
             bool ans = false;
            ans = InsertGameRoom(gr);
             return ans;
@@ -63,8 +72,14 @@ namespace TexasHoldem.DatabaseProxy
             toIns.hand_step = _controller.GetHandStepValByName(v.GetHandStep().ToString());
             bool didSucceed = _controller.InsertGameRoom(toIns);
             bool successRel = true;
-            successRel = successRel & InsertGameDeck(v) & InsertGameReplay(v) & InsertGamePublicCards(v)
-                & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGamePref(v);
+            bool deckSuccess = InsertGameDeck(v);
+            bool gameRepSuccess = InsertGameReplay(v);
+            bool pubCardsSuccess = InsertGamePublicCards(v);
+            bool playersSuccess = InsertGamePlayers(v);
+            bool SpecsSuccess = InsertGameSpecs(v);
+            bool prefsSuccess = InsertGamePref(v);
+          successRel = didSucceed & successRel & deckSuccess & gameRepSuccess & pubCardsSuccess
+                & playersSuccess & SpecsSuccess & prefsSuccess;
             return successRel;  
         }
 
@@ -91,14 +106,17 @@ namespace TexasHoldem.DatabaseProxy
         private bool InsertGameSpecs(Logic.Game.GameRoom v)
         {
             bool ans = true;
-            List<Logic.Users.Spectetor> specss = v.GetSpectetorInRoom();
-            foreach (var aSpec in specss)
+            if (v.GetSpectetorInRoom() != null)
             {
-                Database.LinqToSql.SpectetorGamesOfUser toAdd = new Database.LinqToSql.SpectetorGamesOfUser();
-                toAdd.Game_Id = v.getGameNum();
-                toAdd.roomId = v.Id;
-                toAdd.userId = aSpec.user.Id();
-                ans = ans & (_controller.InsertSpec(toAdd));
+                List<Logic.Users.Spectetor> specss = v.GetSpectetorInRoom();
+                foreach (var aSpec in specss)
+                {
+                    Database.LinqToSql.SpectetorGamesOfUser toAdd = new Database.LinqToSql.SpectetorGamesOfUser();
+                    toAdd.Game_Id = v.getGameNum();
+                    toAdd.roomId = v.Id;
+                    toAdd.userId = aSpec.user.Id();
+                    ans = ans & (_controller.InsertSpec(toAdd));
+                }
             }
             return ans;
         }
@@ -107,20 +125,33 @@ namespace TexasHoldem.DatabaseProxy
         {
             bool ans = true;
             List<Logic.Users.Player> players = v.GetPlayers();
-            foreach (var aPlayer in players)
-            {
-                Database.LinqToSql.Player toAdd = new Database.LinqToSql.Player();
-                toAdd.Game_Id= v.getGameNum();
-                toAdd.room_Id = v.Id;
-                toAdd.user_Id = aPlayer.user.Id();
-                toAdd.is_player_active = aPlayer.isPlayerActive;
-                toAdd.player_name = aPlayer.name;
-                toAdd.Total_chip = aPlayer.TotalChip;
-                toAdd.Round_chip_bet = aPlayer.RoundChipBet;
-                toAdd.Player_action_the_round = aPlayer.PlayedAnActionInTheRound;
-                toAdd.first_card = _controller.GetCardValByShapeAndRealVal(aPlayer._firstCard._suit.ToString(), aPlayer._firstCard._value);
-                toAdd.first_card = _controller.GetCardValByShapeAndRealVal(aPlayer._secondCard._suit.ToString(), aPlayer._secondCard._value);
-                ans = ans & (_controller.InsertPlayer(toAdd));
+           
+                ans = true;
+                foreach (var aPlayer in players)
+                {
+                if (aPlayer != null)
+                {
+                    Database.LinqToSql.Player toAdd = new Database.LinqToSql.Player();
+                    toAdd.Game_Id = v.getGameNum();
+                    toAdd.room_Id = v.Id;
+                    toAdd.user_Id = aPlayer.user.Id();
+                    toAdd.is_player_active = aPlayer.isPlayerActive;
+                    toAdd.player_name = aPlayer.name;
+                    toAdd.Total_chip = aPlayer.TotalChip;
+                    toAdd.Round_chip_bet = aPlayer.RoundChipBet;
+                    toAdd.Player_action_the_round = aPlayer.PlayedAnActionInTheRound;
+                    try
+                    {
+                        toAdd.first_card = _controller.GetCardValByShapeAndRealVal(aPlayer._firstCard._suit.ToString(), aPlayer._firstCard._value);
+                        toAdd.secund_card = _controller.GetCardValByShapeAndRealVal(aPlayer._secondCard._suit.ToString(), aPlayer._secondCard._value);
+                    }
+                    catch(Exception e)
+                    {
+                        toAdd.first_card = 0;
+                        toAdd.secund_card = 0;
+                    }
+                    ans = ans & (_controller.InsertPlayer(toAdd));
+                }
             }
             return ans;
         }
@@ -128,14 +159,17 @@ namespace TexasHoldem.DatabaseProxy
         private bool InsertGamePublicCards(Logic.Game.GameRoom v)
         {
             bool ans = true;
-            List<Card> pubCards = v.GetPublicCards();
-            foreach (var aCard in pubCards)
+            if (v.GetPublicCards() != null)
             {
-                Database.LinqToSql.Public_Card toAdd = new Database.LinqToSql.Public_Card();
-                toAdd.room_Id = v.Id;
-                toAdd.Game_Id = v.getGameNum();
-                toAdd.card = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
-                ans = ans & (_controller.InsertPublicCard(toAdd));
+                List<Card> pubCards = v.GetPublicCards();
+                foreach (var aCard in pubCards)
+                {
+                    Database.LinqToSql.Public_Card toAdd = new Database.LinqToSql.Public_Card();
+                    toAdd.room_Id = v.Id;
+                    toAdd.Game_Id = v.getGameNum();
+                    toAdd.card = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
+                    ans = ans & (_controller.InsertPublicCard(toAdd));
+                }
             }
             return ans;
         }
@@ -144,11 +178,15 @@ namespace TexasHoldem.DatabaseProxy
         {
             bool ans = true;
             Logic.Replay.GameReplay gameRep = v.GetGameReplay();
-            Database.LinqToSql.GameReplay toAdd = new Database.LinqToSql.GameReplay();
-            toAdd.game_Id = gameRep._gameNumber;
-            toAdd.room_Id = gameRep._gameRoomID;
-            toAdd.replay = gameRep.ToString();
-            ans = ans & (_controller.InsertGameReply(toAdd));
+            if (gameRep != null)
+            {
+                ans = true;
+                Database.LinqToSql.GameReplay toAdd = new Database.LinqToSql.GameReplay();
+                toAdd.game_Id = gameRep._gameNumber;
+                toAdd.room_Id = gameRep._gameRoomID;
+                toAdd.replay = gameRep.ToString();
+                ans = ans & (_controller.InsertGameReply(toAdd));
+            }
             return ans;
         }
 
@@ -156,14 +194,18 @@ namespace TexasHoldem.DatabaseProxy
         {
             bool ans = true;
             Deck deck = v.GetDeck();
+            if (deck != null)
+            {
+                ans = true;
             foreach (var aCard in v.GetDeck()._deck)
             {
                 Database.LinqToSql.Deck toAdd = new Database.LinqToSql.Deck();
                 toAdd.room_Id = v.Id;
                 toAdd.game_Id = v.getGameNum();
                 toAdd.card_value = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
-                 ans = ans & (_controller.InsertDeck(toAdd));
+                ans = ans & (_controller.InsertDeck(toAdd));
             }
+        }
             return ans;
         }
 
