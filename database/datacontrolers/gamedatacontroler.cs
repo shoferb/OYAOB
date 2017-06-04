@@ -92,7 +92,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertPref(GameRoomPreferance toAdd)
+        public bool InsertPref(GameRoomPreferance toAdd)
         {
             throw new NotImplementedException();
         }
@@ -145,7 +145,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertPlayer(Player toAdd)
+        public bool InsertPlayer(Player toAdd)
         {
             try
             {
