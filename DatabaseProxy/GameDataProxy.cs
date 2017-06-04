@@ -137,7 +137,7 @@ namespace TexasHoldem.DatabaseProxy
             }
             else if (hsDB.hand_Step_name.Equals("Turn"))
             {
-                return Logic.Game.GameRoom.HandStep.Turn
+                return Logic.Game.GameRoom.HandStep.Turn;
             }
             else
             {
@@ -183,8 +183,9 @@ namespace TexasHoldem.DatabaseProxy
             List<Logic.Users.Spectetor> toRet = new List<Logic.Users.Spectetor>();
             foreach (Database.LinqToSql.SpectetorGamesOfUser s in dbSpecs)
             {
+                //TODO
                 User user; //= UserDataProxy.GetUserById(dbPlayer.user_Id);
-                Logic.Users.Spectetor toAdd = new Logic.Users.Spectetor(user, s.roomId);
+                Logic.Users.Spectetor toAdd = new Logic.Users.Spectetor(/*user*/ null, s.roomId);
             }
             return toRet;
         }
@@ -194,6 +195,7 @@ namespace TexasHoldem.DatabaseProxy
             List<Logic.Users.Player> toRet = new List<Logic.Users.Player>();
             foreach (Database.LinqToSql.Player dbPlayer in dbPlayers)
             {
+                //TODO
                 User user; //= UserDataProxy.GetUserById(dbPlayer.user_Id);
                 Card fCard = getCardByVal(dbPlayer.first_card);
                 Card sCard = getCardByVal(dbPlayer.secund_card);
