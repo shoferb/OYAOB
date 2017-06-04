@@ -295,6 +295,22 @@ namespace TexasHoldemTests.AcptTests.Bridges
         {
             return ChangeUserMoney(userId, amount);
         }
-        
+
+        public List<IUser> GetUsersByNumOfGames()
+        {
+            return _userService.GetUsersByNumOfGames();
+        }
+
+        public List<IUser> GetUsersByHighestCash()
+        {
+            return _userService.GetUsersByHighestCash();
+        }
+
+        public List<IUser> GetUsersByTotalProfit()
+        {
+            return _userService.GetUsersByTotalProfit();
+        }
+
+
     }
 }

@@ -85,13 +85,17 @@
     <Compile Include="AcptTests\Bridges\Interface\IUserBridge.cs" />
     <Compile Include="AcptTests\Bridges\ReplayBridge.cs" />
     <Compile Include="AcptTests\Bridges\UserBridge.cs" />
+    <Compile Include="AcptTests\LoadTests\ServerLoadTests.cs" />
     <Compile Include="AcptTests\tests\AcptTest.cs" />
     <Compile Include="AcptTests\tests\GameAcptTests.cs" />
     <Compile Include="AcptTests\tests\ReplayAcptTest.cs" />
     <Compile Include="AcptTests\tests\UserAcptTests.cs" />
     <Compile Include="communication\CommHandlerChildForTests.cs" />
     <Compile Include="communication\CommunicationHandlerTest.cs" />
+    <Compile Include="communication\WebCommHandlerTests.cs" />
     <Compile Include="communication\WebEventHandlerTest.cs" />
+    <Compile Include="DatabaseProxy\UserDataProxyTests.cs" />
+    <Compile Include="Database\DataControlers\UserDataControlerTests.cs" />
     <Compile Include="Database\UserDBTest.cs" />
     <Compile Include="Handler\CommunicationHandlerTests.cs" />
     <Compile Include="Logic\IUserMoq.cs" />
@@ -109,6 +113,11 @@
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Service\UserServiceHandlerTests.cs" />
     <Compile Include="shared\SecurityHandlerTest.cs" />
   </ItemGroup>
@@ -129,6 +138,10 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Logic\Client\" />

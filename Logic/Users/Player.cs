@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 
@@ -118,6 +119,8 @@ namespace TexasHoldem.Logic.Users
                 TotalChip += amount;
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
+                UserDataProxy p = new UserDataProxy();
+                p.EditUserPoints(user.Id(),newPoint);
                 toReturn = true;
             }
             catch (Exception e)

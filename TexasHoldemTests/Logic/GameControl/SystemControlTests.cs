@@ -314,55 +314,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
 
 
 
-        [TestMethod()]
-        public void GetAllUnKnowUsersTest_good_1()
-        {
-            sc.Users = new List<IUser>();
-            string name = "";
-            for (int i = 1; i < 5; i++)
-            {
-                name = "" + i;
-                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
-
-                sc.GetUserWithId(i).EditUserPoints(i);
-            }
-
-            for (int i = 3; i < 5; i++)
-            {
-                for (int j = 0; j < 15; j++)
-                {
-                    sc.GetUserWithId(i).IncGamesPlay();
-                }
-            }
-            List<IUser> un = sc.GetAllUnKnowUsers();
-            Assert.IsTrue(un.Count == 2);
-        }
-
-        [TestMethod()]
-        public void GetAllUnKnowUsersTest_good_2()
-        {
-            sc.Users = new List<IUser>();
-            string name = "";
-            for (int i = 1; i < 5; i++)
-            {
-                name = "" + i;
-                sc.RegisterToSystem(i, "orelie", name, "123456789", 15000, "orelie@post.bgu.ac.il");
-
-                sc.GetUserWithId(i).EditUserPoints(i);
-            }
-
-            for (int i = 3; i < 5; i++)
-            {
-                for (int j = 0; j < 15; j++)
-                {
-                    sc.GetUserWithId(i).IncGamesPlay();
-                }
-            }
-            List<IUser> un = sc.GetAllUnKnowUsers();
-            IUser u = sc.GetUserWithId(1);
-            Assert.IsTrue(un.Contains(u));
-        }
-
+      
 
 
         [TestMethod()]
