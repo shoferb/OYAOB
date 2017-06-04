@@ -584,4 +584,25 @@
     <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.InsertGameRoomToDb" Method="InsertGameRoomToDb">
+    <Parameter Name="Bb" Parameter="bb" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Bb_Player" Parameter="bb_Player" Type="System.Int32" DbType="Int" />
+    <Parameter Name="curr_Player" Type="System.Int32" DbType="Int" />
+    <Parameter Name="curr_player_position" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Dealer_Player" Parameter="dealer_Player" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Dealer_position" Parameter="dealer_position" Type="System.Int32" DbType="Int" />
+    <Parameter Name="First_Player_In_round" Parameter="first_Player_In_round" Type="System.Int32" DbType="Int" />
+    <Parameter Name="first_player_in_round_position" Type="System.Int32" DbType="Int" />
+    <Parameter Name="game_id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="hand_step" Type="System.Int32" DbType="Int" />
+    <Parameter Name="is_Active_Game" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="last_rise_in_round" Type="System.Int32" DbType="Int" />
+    <Parameter Name="league_name" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Max_Bet_In_Round" Parameter="max_Bet_In_Round" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Pot_count" Parameter="pot_count" Type="System.Int32" DbType="Int" />
+    <Parameter Name="room_Id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Sb" Parameter="sb" Type="System.Int32" DbType="Int" />
+    <Parameter Name="SB_player" Parameter="sB_player" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
