@@ -96,7 +96,19 @@ namespace TexasHoldem.Database.DataControlers
 
         internal bool InsertDeck(LinqToSql.Deck toAdd)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.InsertDeckToDb(toAdd.card_value, toAdd.game_Id, toAdd.room_Id, toAdd.card_value);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
 
         internal int GetCardValByShapeAndRealVal(string v, int value)
