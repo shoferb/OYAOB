@@ -382,6 +382,7 @@
     <Content Include="Database\GuiBackUp\DatabaseCreationScript.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetAllGames.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetCardByVal.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetCardValByShapeAndRealVal.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetDeckByRoomId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetGameModeNameByVal.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetGamePreferencesByRoomId.StoredProcedure.sql" />
