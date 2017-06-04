@@ -73,7 +73,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertGameRoom(GameRoom toIns)
+        public bool InsertGameRoom(GameRoom toIns)
         {
             try
             {
@@ -145,7 +145,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertDeck(LinqToSql.Deck toAdd)
+        public bool InsertDeck(LinqToSql.Deck toAdd)
         {
             try
             {
@@ -161,7 +161,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal int GetCardValByShapeAndRealVal(string v, int value)
+        public int GetCardValByShapeAndRealVal(string v, int value)
         {
             try
             {
