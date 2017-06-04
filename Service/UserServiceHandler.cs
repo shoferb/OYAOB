@@ -35,13 +35,14 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
-            
-           
-           if (user.Login())
+            Console.WriteLine("in login user login?:"+user.IsLogin());
+
+            if (user.Login())
             {
+                Console.WriteLine("before login db");
                 toReturn = true;
                 userDataProxy.Login(user);
-               
+                Console.WriteLine("after login db");
             }
             return toReturn;
         }
