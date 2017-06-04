@@ -611,4 +611,17 @@
     <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.InsertPlayerToDb" Method="InsertPlayerToDb">
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="user_Id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="is_player_active" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="player_name" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="Total_chip" Parameter="total_chip" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Round_chip_bet" Parameter="round_chip_bet" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Player_action_the_round" Parameter="player_action_the_round" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="first_card" Type="System.Int32" DbType="Int" />
+    <Parameter Name="secund_card" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Game_Id" Parameter="game_Id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

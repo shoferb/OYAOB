@@ -129,7 +129,7 @@
         <classShapeMoniker Id="53d4799b-a4b2-4829-ad0d-079b8a692c6f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 7.19314697265625); (5.85416666666667 : 7.19314697265625 : JumpStart); (6.02083333333333 : 7.19314697265625 : JumpEnd); (6.25 : 7.19314697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.5 : 7.19314697265625); (6.25 : 7.19314697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/Card/Card_Deck" />
       <nodes>
         <classShapeMoniker Id="53d4799b-a4b2-4829-ad0d-079b8a692c6f" />
@@ -143,7 +143,7 @@
         <classShapeMoniker Id="40abc918-782d-4442-a45b-ac26e3c78007" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.48153846153846 : 15.3958154296875); (5.90625 : 15.820526968149); (5.90625 : 28.4142976888021); (6.25 : 28.4142976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.48153846153846 : 15.3958154296875); (5.56607443490112 : 15.4803514030502 : JumpStart); (5.68392556509888 : 15.5982025332479 : JumpEnd); (5.90625 : 15.820526968149); (5.90625 : 28.4142976888021); (6.25 : 28.4142976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/GameRoom/GameRoom_GameReplay" />
       <nodes>
         <classShapeMoniker Id="2e257bcd-8792-4339-900d-8aa3e8c6cfea" />
@@ -185,7 +185,7 @@
         <classShapeMoniker Id="81952373-4387-4f62-a4a2-b06540caa43d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 19.7868455607472); (5.84732443490112 : 20.1341699956483 : JumpStart); (5.96517556509888 : 20.2520211258461 : JumpEnd); (6.15625 : 20.4430955607472); (6.15625 : 21.53125); (6.25 : 21.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.5 : 19.7868455607472); (6.15625 : 20.4430955607472); (6.15625 : 21.53125); (6.25 : 21.625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/Log/Log_ErrorLog" />
       <nodes>
         <classShapeMoniker Id="ded8b5e5-cfb0-4725-bbd0-fe87782bc27f" />
@@ -199,14 +199,14 @@
         <classShapeMoniker Id="08c684fa-403c-4c3a-b2ea-3d7a8619cc74" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 19.2219962565104); (3.04166666666667 : 19.2219962565104 : JumpStart); (3.20833333333333 : 19.2219962565104 : JumpEnd); (3.5 : 19.2219962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 19.2219962565104); (3.5 : 19.2219962565104)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/PriorityLogEnum/PriorityLogEnum_Log" />
       <nodes>
         <classShapeMoniker Id="0eb1ef23-7190-497b-8959-b5dccc2fce07" />
         <classShapeMoniker Id="ded8b5e5-cfb0-4725-bbd0-fe87782bc27f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.81840602801983 : 7.8862939453125); (3.81840602801983 : 10.1931469726562); (5.66666666666667 : 10.1931469726562 : JumpStart); (5.83333333333333 : 10.1931469726562 : JumpEnd); (5.85416666666667 : 10.1931469726562 : JumpStart); (6.02083333333333 : 10.1931469726562 : JumpEnd); (6.04166666666667 : 10.1931469726562 : JumpStart); (6.20833333333333 : 10.1931469726562 : JumpEnd); (6.25 : 10.1931469726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(3.81840602801983 : 7.8862939453125); (3.81840602801983 : 10.1931469726562); (5.85416666666667 : 10.1931469726562 : JumpStart); (6.02083333333333 : 10.1931469726562 : JumpEnd); (6.25 : 10.1931469726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/Card/Card_Public_Card" />
       <nodes>
         <classShapeMoniker Id="53d4799b-a4b2-4829-ad0d-079b8a692c6f" />
@@ -220,7 +220,7 @@
         <classShapeMoniker Id="779d55f7-cd78-4b13-b882-191b026f53c8" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(4.98437375 : 15.3958154296875); (4.98437375 : 16.1931469726563); (5.54166666666667 : 16.1931469726563 : JumpStart); (5.70833333333333 : 16.1931469726563 : JumpEnd); (5.82291666666667 : 16.1931469726563 : JumpStart); (6.14583333333333 : 16.1931469726563 : JumpEnd); (6.25 : 16.1931469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(4.98437375 : 15.3958154296875); (4.98437375 : 16.1931469726563); (5.54166666666667 : 16.1931469726563 : JumpStart); (5.70833333333333 : 16.1931469726563 : JumpEnd); (6.25 : 16.1931469726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/GameRoom/GameRoom_ReplayManager" />
       <nodes>
         <classShapeMoniker Id="2e257bcd-8792-4339-900d-8aa3e8c6cfea" />
@@ -234,7 +234,7 @@
         <classShapeMoniker Id="82c3b4bd-cfec-450c-9475-0aa314b19177" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 15.3958154296875); (6.0625 : 15.9583154296875); (6.0625 : 19.1642976888021); (6.25 : 19.1642976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.5 : 15.3958154296875); (5.56607443490112 : 15.4618898645886 : JumpStart); (5.68392556509888 : 15.5797409947864 : JumpEnd); (6.0625 : 15.9583154296875); (6.0625 : 19.1642976888021); (6.25 : 19.1642976888021)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/GameRoom/GameRoom_SystemLog" />
       <nodes>
         <classShapeMoniker Id="2e257bcd-8792-4339-900d-8aa3e8c6cfea" />
@@ -297,42 +297,42 @@
         <classShapeMoniker Id="2e257bcd-8792-4339-900d-8aa3e8c6cfea" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 11.5); (1.75 : 10.875); (3.04166666666667 : 10.875 : JumpStart); (3.20833333333333 : 10.875 : JumpEnd); (4.93229291666667 : 10.875 : JumpStart); (5.09895958333333 : 10.875 : JumpEnd); (5.61743589743588 : 10.875 : JumpStart); (5.83333333333333 : 10.875 : JumpEnd); (6.125 : 10.875); (6.125 : 12.8153214863281); (6.25 : 12.8153214863281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.75 : 11.5); (1.75 : 10.875); (3.04166666666667 : 10.875 : JumpStart); (3.20833333333333 : 10.875 : JumpEnd); (4.38541416666667 : 10.875 : JumpStart); (4.55208083333333 : 10.875 : JumpEnd); (5.61743589743588 : 10.875 : JumpStart); (5.83333333333333 : 10.875 : JumpEnd); (6.125 : 10.875); (6.125 : 12.8153214863281); (6.25 : 12.8153214863281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/UserTable/UserTable_GamesReplay" />
       <nodes>
         <classShapeMoniker Id="34c1ebf4-4e82-49e7-9e6a-c320e88c3eec" />
         <classShapeMoniker Id="6689d258-e7c6-4396-ae6e-133dc9f6b0b1" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 11.5015374615385); (3.125 : 11.1265374615385); (3.125 : 9.35740397135417); (5.85416666666667 : 9.35740397135417 : JumpStart); (6.02083333333333 : 9.35740397135417 : JumpEnd); (6.04166666666667 : 9.35740397135417 : JumpStart); (6.20833333333333 : 9.35740397135417 : JumpEnd); (8.53384515384615 : 9.35740397135417); (9.28384515384615 : 8.60740397135417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.75 : 11.5015374615385); (3.125 : 11.1265374615385); (3.125 : 9.35740397135417); (8.53384515384615 : 9.35740397135417); (9.28384515384615 : 8.60740397135417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/UserTable/UserTable_Player" />
       <nodes>
         <classShapeMoniker Id="34c1ebf4-4e82-49e7-9e6a-c320e88c3eec" />
         <classShapeMoniker Id="08c684fa-403c-4c3a-b2ea-3d7a8619cc74" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.75 : 15.0016097005208); (1.75 : 15.8153214863281); (4.38541416666667 : 15.8153214863281 : JumpStart); (4.55208083333333 : 15.8153214863281 : JumpEnd); (5.83617272330727 : 15.8153214863281 : JumpStart); (6.00283938997393 : 15.8153214863281 : JumpEnd); (6.25 : 15.8153214863281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.75 : 15.0016097005208); (1.75 : 15.8153214863281); (2.19791866666667 : 15.8153214863281 : JumpStart); (2.36458533333333 : 15.8153214863281 : JumpEnd); (4.90104041666667 : 15.8153214863281 : JumpStart); (5.06770708333333 : 15.8153214863281 : JumpEnd); (5.54166666666667 : 15.8153214863281 : JumpStart); (5.70833333333333 : 15.8153214863281 : JumpEnd); (6.25 : 15.8153214863281)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/UserTable/UserTable_ReplayManager" />
       <nodes>
         <classShapeMoniker Id="34c1ebf4-4e82-49e7-9e6a-c320e88c3eec" />
         <classShapeMoniker Id="99d7518f-10bb-4be0-8625-890f2bcab1ed" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.281252 : 11.5); (2.281252 : 11); (3.04166666666667 : 11 : JumpStart); (3.20833333333333 : 11 : JumpEnd); (5.49243589743589 : 11 : JumpStart); (5.75756310256413 : 11 : JumpEnd); (6 : 11); (6 : 11.1362939453125); (8.875 : 11.1362939453125); (8.875 : 13.1931469726562); (9.25 : 13.1931469726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.281252 : 11.5); (2.281252 : 11); (5.59089643589747 : 11 : JumpStart); (5.75756310256413 : 11 : JumpEnd); (6 : 11); (6 : 11.1362939453125); (8.875 : 11.1362939453125); (8.875 : 13.1931469726562); (9.25 : 13.1931469726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/UserTable/UserTable_SpectetorGamesOfUser" />
       <nodes>
         <classShapeMoniker Id="34c1ebf4-4e82-49e7-9e6a-c320e88c3eec" />
         <classShapeMoniker Id="82c3b4bd-cfec-450c-9475-0aa314b19177" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(1.218748 : 11.5); (1.218748 : 10.3181469726562); (3.04166666666667 : 10.3181469726562 : JumpStart); (3.20833333333333 : 10.3181469726562 : JumpEnd); (5.75 : 10.3181469726562); (5.75 : 9.125); (5.85416666666667 : 9.125 : JumpStart); (6.02083333333333 : 9.125 : JumpEnd); (6.04166666666667 : 9.125 : JumpStart); (6.20833333333333 : 9.125 : JumpEnd); (8.68291579186698 : 9.125 : JumpStart); (8.84958245853365 : 9.125 : JumpEnd); (8.875 : 9.125); (8.875 : 10.1618949726562); (9.25 : 10.1618949726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(1.218748 : 11.5); (1.218748 : 10.3181469726562); (3.04166666666667 : 10.3181469726562 : JumpStart); (3.20833333333333 : 10.3181469726562 : JumpEnd); (4.38541416666667 : 10.3181469726562 : JumpStart); (4.55208083333333 : 10.3181469726562 : JumpEnd); (5.75 : 10.3181469726562); (5.75 : 9.125); (5.85416666666667 : 9.125 : JumpStart); (6.02083333333333 : 9.125 : JumpEnd); (6.04166666666667 : 9.125 : JumpStart); (6.20833333333333 : 9.125 : JumpEnd); (8.68291579186698 : 9.125 : JumpStart); (8.84958245853365 : 9.125 : JumpEnd); (8.875 : 9.125); (8.875 : 10.1618949726562); (9.25 : 10.1618949726562)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/UserTable/UserTable_UserActiveGame" />
       <nodes>
         <classShapeMoniker Id="34c1ebf4-4e82-49e7-9e6a-c320e88c3eec" />
         <classShapeMoniker Id="3eb9d504-b39e-49a4-aeb4-e2fc50814421" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.281252 : 15.0016097005208); (2.281252 : 16.3181469726563); (4.38541416666667 : 16.3181469726563 : JumpStart); (4.55208083333333 : 16.3181469726563 : JumpEnd); (5.625 : 16.3181469726563); (5.625 : 15.25); (8.875 : 15.25); (8.875 : 16.2243989726563); (9.25 : 16.2243989726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(2.281252 : 15.0016097005208); (2.281252 : 16.3181469726563); (5.625 : 16.3181469726563); (5.625 : 15.25); (8.875 : 15.25); (8.875 : 16.2243989726563); (9.25 : 16.2243989726563)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/connectionsLinqDataContext/UserTable/UserTable_UserReplaySavedGame" />
       <nodes>
         <classShapeMoniker Id="34c1ebf4-4e82-49e7-9e6a-c320e88c3eec" />
