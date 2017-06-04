@@ -265,6 +265,23 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        public LinqToSql.Deck getDeckByRoomId(int roomId)
+        {
+            
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetDeckByRoomId(roomId);
+                    return ConvertToDeck(temp);
+                 }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         private LinqToSql.Deck ConvertToDeck(ISingleResult<GetDeckByRoomIdResult> singleResult)
         {
             LinqToSql.Deck deck = new LinqToSql.Deck();
