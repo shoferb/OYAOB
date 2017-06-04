@@ -58,8 +58,8 @@ namespace TexasHoldem.DatabaseProxy
             toIns.Max_Bet_In_Round = v.GetMaxBetInRound();
             toIns.Pot_count = v.GetPotCount();
             toIns.room_Id = v.Id;
-            toIns.Sb = v.Sb;
-            toIns.SB_player = v.SB_player;
+            toIns.Sb = v.GetSb();
+            toIns.SB_player = v.GetSbPlayer;
         }
 
         public List<IGame> GetAllGames()

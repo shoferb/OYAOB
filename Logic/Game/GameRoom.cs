@@ -160,6 +160,17 @@ namespace TexasHoldem.Logic.Game
             return this.maxBetInRound;
         }
 
+
+        public int GetSb()
+        {
+            return this.Sb;
+        }
+
+        public int GetSbPlayer()
+        {
+            return this.SbPlayer.user.Id();
+        }
+
         public int GetPotCount()
         {
             return this.PotCount;
