@@ -73,6 +73,25 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertGameRoom(GameRoom toIns)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.InsertGameRoomToDb(toIns.Bb, toIns.Bb_Player, toIns.curr_Player, toIns.curr_player_position,
+                        toIns.Dealer_Player, toIns.Dealer_position, toIns.First_Player_In_round, toIns.first_player_in_round_position,
+                        toIns.game_id, toIns.hand_step, toIns.is_Active_Game, toIns.last_rise_in_round, toIns.league_name,
+                        toIns.Max_Bet_In_Round, toIns.Pot_count, toIns.room_Id, toIns.Sb, toIns.SB_player);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
