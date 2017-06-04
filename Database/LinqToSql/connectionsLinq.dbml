@@ -624,4 +624,10 @@
     <Parameter Name="Game_Id" Parameter="game_Id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.InsertSpecToDb" Method="InsertSpecToDb">
+    <Parameter Name="user_Id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Game_Id" Parameter="game_Id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
