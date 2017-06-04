@@ -50,7 +50,7 @@ namespace Client.GuiScreen
                 string path = _logic.user.avatar;
                 Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
                 ActionChosenComboBox.Items.Clear();
-                if (_logic.user.name.Equals(CurrPlayerTurn))
+                if (_logic.user.username.Equals(CurrPlayerTurn))
                 {
                     ComboBoxItem callItem = new ComboBoxItem();
                     callItem.Content = "Call";
@@ -73,7 +73,7 @@ namespace Client.GuiScreen
                 ActionChosenComboBox.Items.Add(whisperchatMsgItem);
 
                 this.RoomId = msg.RoomId;
-                RoomNum.Content = "";
+                
                 RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
                 if (msg.SbName != null)
                 {
