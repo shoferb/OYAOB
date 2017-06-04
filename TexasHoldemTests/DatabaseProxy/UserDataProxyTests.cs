@@ -41,31 +41,48 @@ namespace TexasHoldem.DatabaseProxy.Tests
         }
 
         [TestMethod()]
-        public void enpcrptpasswordTest()
+        public void enpcrptpasswordTest_good()
         {
 
-            UserTable toAddUT = CreateUser(305077937, "o3relie5d5");
+            UserTable toAddUT = CreateUser(305077937, "orelie");
             Console.WriteLine("password before encription:" + toAddUT.password);
             string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
             toAddUT.password = encryptedstring;
             Console.WriteLine("password encription:" + toAddUT.password);
             Assert.AreNotEqual(toAddUT.password, "123456789");
+        }
 
+        [TestMethod()]
+        public void decpcrptpasswordTest_good()
+        {
+
+            UserTable toAddUT = CreateUser(305077938, "orelie");
+            Console.WriteLine("password before encription:" + toAddUT.password);
+            string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
+            toAddUT.password = encryptedstring;
+            Console.WriteLine("password encription:" + toAddUT.password);
             string decryptedstring = PasswordSecurity.Decrypt(encryptedstring, "securityPassword");
             toAddUT.password = decryptedstring;
             Console.WriteLine("password after deription:" + toAddUT.password);
             Assert.AreEqual(toAddUT.password, "123456789");
 
-            userDataControler.AddNewUser(toAddUT);
-
-            userDataControler.DeleteUserById(305077937);
+           
         }
-
 
         [TestMethod()]
         public void LoginTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(88, "oo5o");
+            ut.inActive = false;
+
+            IUser user = convertToIUser(ut);
+
+            userDataProxy.AddNewUser(user);
+            userDataProxy.Login(user);
+            IUser t = userDataProxy.GetUserById(88);
+            Console.WriteLine("!!!!Iuserrr    " +t==null);
+            Assert.AreEqual(t.Id(),88);
+            userDataProxy.DeleteUserById(88);
         }
 
         [TestMethod()]
@@ -142,21 +159,9 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void AddNewUserTest()
         {
-            UserTable ut = new UserTable();
-            ut.userId = 333333;
-            ut.HighestCashGainInGame = 0;
-            ut.TotalProfit = 0;
-            ut.avatar = "/GuiScreen/Photos/Avatar/devil.png";
-            ut.email = "orelie@post.bgu.ac.il";
-            ut.gamesPlayed = 0;
-            ut.inActive = true;
-            ut.leagueName = 1;
-            ut.money = 0;
-            ut.name = "orelie";
-            ut.username = "newwwwww";
-            ut.password = "password";
-            ut.HighestCashGainInGame = 0;
+            UserTable ut = CreateUser(333333, "ooo");
             userDataProxy.AddNewUser(convertToIUser(ut));
+            Assert.AreEqual(userDataProxy.GetAllUser().Count,1);
             userDataProxy.DeleteUserById(333333);
         }
 

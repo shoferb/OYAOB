@@ -132,19 +132,22 @@ namespace TexasHoldem.DatabaseProxy
 
         public IUser GetUserById(int userid)
         {
-
-            IUser toReturn = null;
+ 
             try
             {
-                UserTable temp = userDataControler.GetUserById(userid);
-                toReturn = convertToIUser(temp);
-
-                return toReturn;
+                UserTable user = userDataControler.GetUserById(userid);
+                Console.WriteLine("inside proxy get user by id ut Id " + user.userId);
+                string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
+                IUser toResturn = convertToIUser(user);
+                
+                Console.WriteLine("Iuser Id "+ toResturn.Id());
+                return toResturn;
             }
             catch (Exception e)
             {
                 Console.WriteLine("error in user proxy get user by id fails");
-                return toReturn;
+                Console.WriteLine("exeption: "+e);
+                return null;
             }
         }
 
