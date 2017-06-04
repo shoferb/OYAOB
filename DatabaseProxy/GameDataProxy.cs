@@ -68,7 +68,20 @@ namespace TexasHoldem.DatabaseProxy
             return successRel;  
         }
 
-
+        private bool InsertGameReplay(Logic.Game.GameRoom v)
+        {
+            bool ans = true;
+            GameReplay gameRep = v.getG;
+            foreach (var aCard in v.GetDeck()._deck)
+            {
+                Database.LinqToSql.Deck toAdd = new Database.LinqToSql.Deck();
+                toAdd.room_Id = v.Id;
+                toAdd.game_Id = v.getGameNum();
+                toAdd.card_value = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
+                ans = ans & (_controller.InsertDeck(toAdd));
+            }
+            return ans;
+        }
 
         private bool InsertGameDeck(Logic.Game.GameRoom v)
         {
