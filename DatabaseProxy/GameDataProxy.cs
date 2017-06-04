@@ -72,8 +72,15 @@ namespace TexasHoldem.DatabaseProxy
 
         private bool InsertGameDeck(Logic.Game.GameRoom v)
         {
-            foreach(var aCard in v.get )
-            Database.LinqToSql.Deck toAdd = new Database.LinqToSql.Deck();
+            Deck deck = v.GetDeck();
+            foreach (var aCard in v.GetDeck()._deck)
+            {
+                Database.LinqToSql.Deck toAdd = new Database.LinqToSql.Deck();
+                toAdd.room_Id = v.Id;
+                toAdd.game_Id = v.getGameNum();
+                toAdd.card_value = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
+                _controller.InsertDeck(toAdd);
+            }
         }
 
         public List<IGame> GetAllGames()
