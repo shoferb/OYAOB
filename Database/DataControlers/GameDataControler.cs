@@ -100,7 +100,7 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.InsertDeckToDb(toAdd.card_value, toAdd.game_Id, toAdd.room_Id, toAdd.card_value);
+                    db.InsertDeckToDb(toAdd.card_value, toAdd.game_Id, toAdd.room_Id);
                     return true;
                 }
             }
