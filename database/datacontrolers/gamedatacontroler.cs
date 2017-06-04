@@ -145,7 +145,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertDeck(LinqToSql.Deck toAdd)
+        public bool InsertDeck(LinqToSql.Deck toAdd)
         {
             try
             {
