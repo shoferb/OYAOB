@@ -64,7 +64,10 @@ namespace Client.Logic
             }
         }
 
+<<<<<<< HEAD
+=======
        
+>>>>>>> 79c3b8bbd09b8ee104a6e633ba5a54bf0add6da5
         public bool SpectateRoom(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate, -1, roomId);
