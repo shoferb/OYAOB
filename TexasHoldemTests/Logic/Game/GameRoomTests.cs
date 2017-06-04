@@ -43,7 +43,8 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            ServerToClientSender sender = new ServerToClientSender(gameCenter, sysControl, logControl, replayManager);
+            //TODO: first arg is null
+            ServerToClientSender sender = new ServerToClientSender(null, gameCenter, sysControl, logControl, replayManager);
             gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
 
         }

@@ -306,13 +306,28 @@ namespace Client.GuiScreen
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {
-            _logic.LeaveTheGame(this.RoomId);
-
+            bool res = _logic.LeaveTheGame(this.RoomId);
+            if (res)
+            {
+                MessageBox.Show("game leave OK!!!");
+            }
+            else
+            {
+                MessageBox.Show("game leave FAIL!!!");
+            }
         }
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
         {
-            _logic.StartTheGame(this.RoomId);
+            bool res = _logic.StartTheGame(this.RoomId);
+            if (res)
+            {
+                MessageBox.Show("game start OK!!!");
+            }
+            else
+            {
+                MessageBox.Show("game start FAIL!!!");
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

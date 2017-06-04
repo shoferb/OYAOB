@@ -16,9 +16,10 @@ namespace TexasHoldem.Logic
     {
         private readonly MessageEventHandler _eventHandler;
 
-        public ServerToClientSender(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
+        public ServerToClientSender(MessageEventHandler messageEventHandler, 
+            GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            _eventHandler = new MessageEventHandler(gc, sys, log, replay);
+            _eventHandler = messageEventHandler;
         }
 
         public void SendMessageToClient(GameDataCommMessage gmData, List<int> idsToSend, bool useCommunication)
