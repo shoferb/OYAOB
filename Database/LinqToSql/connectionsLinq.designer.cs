@@ -540,6 +540,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardVal, gameId, roomId);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertGameReplayToDb")]
+		public int InsertGameReplayToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(5000)")] string repStr, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), repStr, gameId, roomId);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]

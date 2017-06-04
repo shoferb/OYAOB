@@ -578,4 +578,10 @@
     <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.InsertGameReplayToDb" Method="InsertGameReplayToDb">
+    <Parameter Name="repStr" Type="System.String" DbType="VarChar(5000)" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
