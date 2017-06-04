@@ -100,14 +100,13 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    var temp = db.GetCardByVal(val);
-                    toRet = ConvertCard(temp);
-                    return toRet;
+                    var temp = db.GetCardValByShapeAndRealVal(v,value);
+                    return temp.First().Card_Value;
                 }
             }
             catch (Exception e)
             {
-                return null;
+                return -1;
             }
 
         }
