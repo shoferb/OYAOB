@@ -547,6 +547,31 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), repStr, gameId, roomId);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertGameRoomToDb")]
+		public int InsertGameRoomToDb(
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Bb", DbType="Int")] System.Nullable<int> bb, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Bb_Player", DbType="Int")] System.Nullable<int> bb_Player, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> curr_Player, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> curr_player_position, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Dealer_Player", DbType="Int")] System.Nullable<int> dealer_Player, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Dealer_position", DbType="Int")] System.Nullable<int> dealer_position, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="First_Player_In_round", DbType="Int")] System.Nullable<int> first_Player_In_round, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> first_player_in_round_position, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> game_id, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> hand_step, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_Active_Game, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> last_rise_in_round, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> league_name, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Max_Bet_In_Round", DbType="Int")] System.Nullable<int> max_Bet_In_Round, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Pot_count", DbType="Int")] System.Nullable<int> pot_count, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> room_Id, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sb", DbType="Int")] System.Nullable<int> sb, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="SB_player", DbType="Int")] System.Nullable<int> sB_player)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), bb, bb_Player, curr_Player, curr_player_position, dealer_Player, dealer_position, first_Player_In_round, first_player_in_round_position, game_id, hand_step, is_Active_Game, last_rise_in_round, league_name, max_Bet_In_Round, pot_count, room_Id, sb, sB_player);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]

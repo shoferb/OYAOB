@@ -68,6 +68,21 @@ namespace TexasHoldem.DatabaseProxy
             return successRel;  
         }
 
+        private bool InsertGamePublicCards(Logic.Game.GameRoom v)
+        {
+            bool ans = true;
+            List<Card> pubCards = v.GetPublicCards();
+            foreach (var aCard in pubCards)
+            {
+                Database.LinqToSql.Public_Card toAdd = new Database.LinqToSql.Public_Card();
+                toAdd.room_Id = v.Id;
+                toAdd.Game_Id = v.getGameNum();
+                toAdd.card = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
+                ans = ans & (_controller.InsertPublicCard(toAdd));
+            }
+            return ans;
+        }
+
         private bool InsertGameReplay(Logic.Game.GameRoom v)
         {
             bool ans = true;
