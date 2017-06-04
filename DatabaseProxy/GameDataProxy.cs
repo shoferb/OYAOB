@@ -67,6 +67,20 @@ namespace TexasHoldem.DatabaseProxy
                 & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGamePref(v);
             return successRel;  
         }
+        private bool InsertGameSpecs(Logic.Game.GameRoom v)
+        {
+            bool ans = true;
+            List<Logic.Users.Spectetor> specss = v.GetSpectetorInRoom();
+            foreach (var aSpec in specss)
+            {
+                Database.LinqToSql.SpectetorGamesOfUser toAdd = new Database.LinqToSql.SpectetorGamesOfUser();
+                toAdd.Game_Id = v.getGameNum();
+                toAdd.roomId = v.Id;
+                toAdd.userId = aSpec.user.Id();
+                ans = ans & (_controller.InsertSpec(toAdd));
+            }
+            return ans;
+        }
 
         private bool InsertGamePlayers(Logic.Game.GameRoom v)
         {

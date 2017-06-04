@@ -579,6 +579,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, card, gameId);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertPlayerToDb")]
+		public int InsertPlayerToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> user_Id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_player_active, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string player_name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Total_chip", DbType="Int")] System.Nullable<int> total_chip, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Round_chip_bet", DbType="Int")] System.Nullable<int> round_chip_bet, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Player_action_the_round", DbType="Bit")] System.Nullable<bool> player_action_the_round, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> first_card, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> secund_card, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Id", DbType="Int")] System.Nullable<int> game_Id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, user_Id, is_player_active, player_name, total_chip, round_chip_bet, player_action_the_round, first_card, secund_card, game_Id);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
