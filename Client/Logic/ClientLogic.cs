@@ -201,6 +201,7 @@ namespace Client.Logic
                 t.Wait();
             }
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            GameUpdateReceived((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4.GameData);
             MessagesSentObserver.Remove(messageToList);
             return toRet;
         }
