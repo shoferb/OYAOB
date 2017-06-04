@@ -67,6 +67,19 @@ namespace TexasHoldem.DatabaseProxy
                 & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGamePref(v);
             return successRel;  
         }
+
+        private bool InsertGamePref(Logic.Game.GameRoom v)
+        {
+            bool ans = true;
+            Database.LinqToSql.GameRoomPreferance toAdd= new GameRoomPreferance();
+                toAdd.Game_Id = v.getGameNum();
+                toAdd.Bb = v.de
+                toAdd.userId = aSpec.user.Id();
+                ans = ans & (_controller.InsertSpec(toAdd));
+            }
+            return ans;
+        }
+
         private bool InsertGameSpecs(Logic.Game.GameRoom v)
         {
             bool ans = true;

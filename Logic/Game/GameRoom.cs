@@ -159,6 +159,10 @@ namespace TexasHoldem.Logic.Game
         {
             return this.Players;
         }
+        public Decorator GetDecorator()
+        {
+            return this.MyDecorator;
+        }
 
         public int getDealerPos()
         {
