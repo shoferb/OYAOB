@@ -124,6 +124,16 @@ namespace TexasHoldem.Logic.Game
         {
             return this.BbPlayer.user.Id();
         }
+
+        public int getCurrPlayer()
+        {
+            return this.CurrentPlayer.user.Id();
+        }
+
+        public int getCurrPlayerPos()
+        {
+            return this.currentPlayerPos;
+        }
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
