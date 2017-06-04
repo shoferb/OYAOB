@@ -14,7 +14,7 @@ using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.DatabaseProxy
 {
-    class GameDataProxy
+    public class GameDataProxy
     {
         private GameDataControler _controller;
         private SystemControl _systemControl;
