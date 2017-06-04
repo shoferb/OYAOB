@@ -113,7 +113,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertSpec(SpectetorGamesOfUser toAdd)
+        public bool InsertSpec(SpectetorGamesOfUser toAdd)
         {
             try
             {
