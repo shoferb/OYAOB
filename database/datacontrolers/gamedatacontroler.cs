@@ -161,7 +161,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal int GetCardValByShapeAndRealVal(string v, int value)
+        public int GetCardValByShapeAndRealVal(string v, int value)
         {
             try
             {

@@ -64,8 +64,13 @@ namespace TexasHoldem.DatabaseProxy
             bool didSucceed = _controller.InsertGameRoom(toIns);
             bool successRel = true;
             successRel = successRel & InsertGameDeck(v) & InsertGameReplay(v) & InsertGamePublicCards(v)
-                & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGameSpecs(v) & InsertGamePref(v);
+                & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGamePref(v);
             return successRel;  
+        }
+
+        private bool InsertGamePlayers(Logic.Game.GameRoom v)
+        {
+            throw new NotImplementedException();
         }
 
         private bool InsertGamePublicCards(Logic.Game.GameRoom v)
