@@ -92,6 +92,22 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertSpec(SpectetorGamesOfUser toAdd)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.InsertSpecToDb(toAdd.userId, toAdd.roomId,toAdd.Game_Id);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public bool InsertPublicCard(Public_Card toAdd)
         {
             try
