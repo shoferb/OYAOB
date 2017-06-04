@@ -22,32 +22,32 @@ namespace TexasHoldem.Logic.Game
         public enum HandStep { PreFlop, Flop, Turn, River }
         public int Id { get; set; }
         private ServerToClientSender clientSender;
-        private List<Player> Players { get; set; }
-        private List<Spectetor> Spectatores { get; set; }
-        private int DealerPos { get; set; }
-        private int maxBetInRound { get; set; }
-        private int PotCount { get; set; }
-        private int Bb { get; set; }
-        private int Sb { get; set; }
-        private Deck Deck { get; set; }
-        private GameRoom.HandStep Hand_Step { get; set; }
-        private List<Card> PublicCards { get; set; }
-        private bool IsActiveGame { get; set; }
+        private List<Player> Players; 
+        private List<Spectetor> Spectatores; 
+        private int DealerPos;
+        private int maxBetInRound;
+        private int PotCount;
+        private int Bb; 
+        private int Sb;
+        private Deck Deck;
+        private GameRoom.HandStep Hand_Step;
+        private List<Card> PublicCards;
+        private bool IsActiveGame; 
         private List<Tuple<int, Player>> SidePots; //TODO use that in all in
-        private GameReplay GameReplay { get; set; }
-        private ReplayManager ReplayManager { get; set; }
+        private GameReplay GameReplay;
+        private ReplayManager ReplayManager;
         private GameCenter GameCenter;
-        private Player CurrentPlayer { get; set; }
-        private Player DealerPlayer { get; set; }
-        private Player BbPlayer { get; set; }
-        private Player SbPlayer { get; set; }
+        private Player CurrentPlayer;
+        private Player DealerPlayer;
+        private Player BbPlayer;
+        private Player SbPlayer;
         private Decorator MyDecorator;
-        private LogControl logControl { get; set; }
-        private int GameNumber { get; set; }
-        private Player FirstPlayerInRound { get; set; }
-        private int currentPlayerPos { get; set; }
-        private int firstPlayerInRoundPoistion { get; set; }
-        private int lastRaiseInRound { get; set; }
+        private LogControl logControl; 
+        private int GameNumber;
+        private Player FirstPlayerInRound;
+        private int currentPlayerPos;
+        private int firstPlayerInRoundPoistion;
+        private int lastRaiseInRound;
         private bool useCommunication;
 
         private LeagueName league;
@@ -116,7 +116,10 @@ namespace TexasHoldem.Logic.Game
             this.Deck = d;
         }
 
-
+        public int getBb()
+        {
+            return this.Bb;
+        }
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
@@ -1053,13 +1056,10 @@ namespace TexasHoldem.Logic.Game
             return this.Players;
         }
 
-
         public List<Spectetor> GetSpectetorInRoom()
         {
             return this.Spectatores;
         }
-
-      
 
         //Getters for search display in GUI
         public int GetMinPlayer()
