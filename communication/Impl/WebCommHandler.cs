@@ -73,8 +73,9 @@ namespace TexasHoldem.communication.Impl
                 context.Request.ContentEncoding).ReadToEnd();
             Console.WriteLine("received msg is: " + msgStr);
             request.InputStream.Close();
-            byte[] msgbytes = _security.Encrypt(msgStr);
-            msgStr = _security.Decrypt(msgbytes); //decrypt received msg
+            byte[] msgbytes = Encoding.UTF8.GetBytes(msgStr);
+            //msgStr = _security.Decrypt(msgbytes); //decrypt received msg
+            //msgStr = _security.Decrypt(msgbytes); //decrypt received msg
             var resultLst = _eventHandler.HandleRawMsg(msgStr); //handle the incoming msg
             if (resultLst.Count > 1)
             {
@@ -91,8 +92,8 @@ namespace TexasHoldem.communication.Impl
                 listenerResponse.AddHeader("Access-Control-Max-Age", "86400");
 
 
-                var bytes = _security.Encrypt(res);
-                //var bytes = Encoding.UTF8.GetBytes(res);
+                //var bytes = _security.Encrypt(res);
+                var bytes = Encoding.UTF8.GetBytes(res);
                 listenerResponse.ContentLength64 = bytes.Length;
                 Stream output = listenerResponse.OutputStream;
                 output.Write(bytes, 0, bytes.Length);
