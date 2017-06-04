@@ -533,6 +533,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), shape, val);
 			return ((ISingleResult<GetCardValByShapeAndRealValResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertDeckToDb")]
+		public int InsertDeckToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> cardVal, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardVal, gameId, roomId);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
