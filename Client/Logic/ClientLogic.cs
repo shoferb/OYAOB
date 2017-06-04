@@ -125,13 +125,9 @@ namespace Client.Logic
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             if (toRet)
             {
-               
-                        JoinResponseCommMessage res = (JoinResponseCommMessage)(MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
-                        return res;
-                    
-                
-
-                
+                JoinResponseCommMessage res = (JoinResponseCommMessage)(MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                GameUpdateReceived(res.GameData);
+                return res;    
             }
             return null;
         }
