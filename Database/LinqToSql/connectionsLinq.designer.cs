@@ -526,6 +526,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
 			return ((ISingleResult<GetHandStepValByNameResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetCardValByShapeAndRealVal")]
+		public ISingleResult<GetCardValByShapeAndRealValResult> GetCardValByShapeAndRealVal([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string shape, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), shape, val);
+			return ((ISingleResult<GetCardValByShapeAndRealValResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
@@ -8406,6 +8413,32 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._hand_Step_value != value))
 				{
 					this._hand_Step_value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetCardValByShapeAndRealValResult
+	{
+		
+		private int _Card_Value;
+		
+		public GetCardValByShapeAndRealValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Value]", Storage="_Card_Value", DbType="Int NOT NULL")]
+		public int Card_Value
+		{
+			get
+			{
+				return this._Card_Value;
+			}
+			set
+			{
+				if ((this._Card_Value != value))
+				{
+					this._Card_Value = value;
 				}
 			}
 		}
