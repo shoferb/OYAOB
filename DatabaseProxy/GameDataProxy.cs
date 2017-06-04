@@ -86,13 +86,14 @@ namespace TexasHoldem.DatabaseProxy
                     }
                 }
                 Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
+                Logic.Replay.GameReplay gr = ConvertGameReplay(g.GameReplay);
                 GameRoomPreferance  pref = _controller.GetPrefByRoomId(g.room_Id);
                 Decorator decorator = _gameCenter.CreateDecorator(pref.Bb, pref.starting_chip, pref.is_Spectetor, pref.Min_player_in_room, pref.max_player_in_room, pref.enter_paying_money, gameModeChosen, leagueOf);
                 Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, decorator, _gameCenter, _logControl,
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
-                 pubCards, SpecssLst,  dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round,
-                /* Player*/ currentPlayer, /*Player*/ bbPlayer,/* Player*/ sbPlayer, /*Player*/ firstPlayerInRound, g.Bb ,g.Sb,
-                g.Dealer_position, g.curr_player_position, g.first_player_in_round_position, /*GameReplay */gr, /*GameRoom.HandStep*/ hs, /*Deck*/ d);
+                 pubCards, SpecssLst,  dealerPlayer,  leagueOf, g.last_rise_in_round, currentPlayer,  bbPlayer, sbPlayer,  
+                 firstPlayerInRound, g.Bb ,g.Sb, g.Dealer_position, g.curr_player_position, g.first_player_in_round_position, 
+                 gr, /*GameRoom.HandStep*/ hs, /*Deck*/ d);
             }
 
             return toRet;
@@ -106,7 +107,30 @@ namespace TexasHoldem.DatabaseProxy
             return toRet;
                 
         }
-            private Logic.GameControl.LeagueName ConvertSpecsList(Database.LinqToSql.LeagueName leagueDB)
+
+        private Logic.Game.GameRoom.HandStep ConvertSpecsList(Database.LinqToSql.HandStep hsDB)
+        {
+            if (hsDB.hand_Step_name.Equals("Pre-Flop"))
+            {
+                return Logic.Game.GameRoom.HandStep.PreFlop;
+            }
+            else if (hsDB.hand_Step_name.Equals("River"))
+            {
+                return Logic.Game.GameRoom.HandStep.River;
+            }
+            else if (hsDB.hand_Step_name.Equals("Turn"))
+            {
+                return Logic.Game.GameRoom.HandStep.Turn
+            }
+            else
+            {
+                return Logic.Game.GameRoom.HandStep.Flop;
+            }
+           
+        }
+
+
+        private Logic.GameControl.LeagueName ConvertSpecsList(Database.LinqToSql.LeagueName leagueDB)
         {
             if(leagueDB.League_Name.Equals("A"))
             {
