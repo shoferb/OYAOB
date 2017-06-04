@@ -94,6 +94,11 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertGameReply(GameReplay toAdd)
+        {
+            throw new NotImplementedException();
+        }
+
         internal bool InsertDeck(LinqToSql.Deck toAdd)
         {
             try
