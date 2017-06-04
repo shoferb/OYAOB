@@ -630,4 +630,10 @@
     <Parameter Name="Game_Id" Parameter="game_Id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.GetGameModeValByName" Method="GetGameModeValByName">
+    <Parameter Name="name" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="GetGameModeValByNameResult">
+      <Column Name="[Game mode value]" Member="Game_mode_value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>

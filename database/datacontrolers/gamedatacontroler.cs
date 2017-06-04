@@ -92,7 +92,25 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertSpec(SpectetorGamesOfUser toAdd)
+        internal int GetGameModeValByName(string v)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameModeValByName(v);
+                    return temp.First().hand_Step_value;
+                }
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+    
+
+    internal bool InsertSpec(SpectetorGamesOfUser toAdd)
         {
             try
             {
