@@ -398,6 +398,7 @@
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetSpecsByRoomId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetSpectetorByRoomIdAndUserId.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertDeckToDb.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertGameReplayToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.AddNewUser.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditAvatar.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditEmail.StoredProcedure.sql" />
