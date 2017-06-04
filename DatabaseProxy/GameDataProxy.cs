@@ -87,7 +87,7 @@ namespace TexasHoldem.DatabaseProxy
                 }
                 Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
                 GameRoomPreferance  pref = _controller.GetPrefByRoomId(g.room_Id);
-                Decorator decorator = _gameCenter.CreateDecorator(pref.Bb, pref.starting_chip, pref.is_Spectetor, pref.Min_player_in_room, pref.max_player_in_room, pref.enter_paying_money, gameModeChosen, user.GetLeague());
+                Decorator decorator = _gameCenter.CreateDecorator(pref.Bb, pref.starting_chip, pref.is_Spectetor, pref.Min_player_in_room, pref.max_player_in_room, pref.enter_paying_money, gameModeChosen, leagueOf);
                 Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, decorator, _gameCenter, _logControl,
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
                  pubCards, SpecssLst,  dealerPlayer, /*LeagueName*/ leagueOf, g.last_rise_in_round,
@@ -97,8 +97,16 @@ namespace TexasHoldem.DatabaseProxy
 
             return toRet;
         }
-
-        private Logic.GameControl.LeagueName ConvertSpecsList(Database.LinqToSql.LeagueName leagueDB)
+        private Logic.Replay.GameReplay ConvertGameReplay(Database.LinqToSql.GameReplay repDB)
+        {
+            Logic.Replay.GameReplay toRet = new Logic.Replay.GameReplay();
+            toRet._gameRoomID = repDB.room_Id;
+            toRet._gameNumber = repDB.game_Id;
+            //TODO: string of actions???
+            return toRet;
+                
+        }
+            private Logic.GameControl.LeagueName ConvertSpecsList(Database.LinqToSql.LeagueName leagueDB)
         {
             if(leagueDB.League_Name.Equals("A"))
             {
