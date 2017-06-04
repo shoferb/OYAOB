@@ -73,7 +73,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertGameRoom(GameRoom toIns)
+        public bool InsertGameRoom(GameRoom toIns)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertPublicCard(Public_Card toAdd)
+        public bool InsertPublicCard(Public_Card toAdd)
         {
             try
             {
