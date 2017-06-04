@@ -600,6 +600,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
 			return ((ISingleResult<GetGameModeValByNameResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertPrefToDb")]
+		public int InsertPrefToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> room_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_Spectetor, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Min_player_in_room", DbType="Int")] System.Nullable<int> min_player_in_room, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> max_player_in_room, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> enter_paying_money, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> starting_chip, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Bb", DbType="Int")] System.Nullable<int> bb, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sb", DbType="Int")] System.Nullable<int> sb, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="League_name", DbType="Int")] System.Nullable<int> league_name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Mode", DbType="Int")] System.Nullable<int> game_Mode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Id", DbType="Int")] System.Nullable<int> game_Id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), room_id, is_Spectetor, min_player_in_room, max_player_in_room, enter_paying_money, starting_chip, bb, sb, league_name, game_Mode, game_Id);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
