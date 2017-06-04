@@ -75,7 +75,7 @@ namespace TexasHoldem.DatabaseProxy
             toAdd.Game_Id = v.getGameNum();
             toAdd.Bb = v.getBb();
             toAdd.enter_paying_money = v.GetBuyInPolicy();
-            toAdd.Game_Mode = _controller.getGameModeValByName(v.GetGameMode());
+            toAdd.Game_Mode = _controller.GetGameModeValByName(v.GetGameMode().ToString());
             toAdd.is_Spectetor = v.IsSpectatable();
             toAdd.League_name = _controller.GetLeagueValByName(v.GetLeagueName().ToString());
             toAdd.max_player_in_room = v.GetMaxPlayer();
