@@ -358,10 +358,10 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(Id, startAction.ToString());
             logControl.AddSystemLog(log2);
-            gameData = GetGameData(player, 0, true, ActionType.StartGame);
-            ids = GetAllPlayersAndSpectatoresIds();
-            ids.Remove(player.user.Id());
-            clientSender.SendMessageToClient(gameData, ids, useCommunication);
+            //gameData = GetGameData(player, 0, true, ActionType.StartGame);
+            //ids = GetAllPlayersAndSpectatoresIds();
+            //ids.Remove(player.user.Id());
+            //clientSender.SendMessageToClient(gameData, ids, useCommunication);
             maxBetInRound = Bb;
 
             HandCardsAndInitPlayers(player);
