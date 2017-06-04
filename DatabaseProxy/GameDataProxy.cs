@@ -72,6 +72,7 @@ namespace TexasHoldem.DatabaseProxy
 
         private bool InsertGameDeck(Logic.Game.GameRoom v)
         {
+            bool ans = true;
             Deck deck = v.GetDeck();
             foreach (var aCard in v.GetDeck()._deck)
             {
@@ -79,7 +80,7 @@ namespace TexasHoldem.DatabaseProxy
                 toAdd.room_Id = v.Id;
                 toAdd.game_Id = v.getGameNum();
                 toAdd.card_value = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
-                _controller.InsertDeck(toAdd);
+                 ans = ans & (_controller.InsertDeck(toAdd));
             }
         }
 
