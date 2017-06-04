@@ -82,6 +82,7 @@ namespace TexasHoldem.DatabaseProxy
                 toAdd.card_value = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
                  ans = ans & (_controller.InsertDeck(toAdd));
             }
+            return ans;
         }
 
         public List<IGame> GetAllGames()
