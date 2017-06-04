@@ -71,14 +71,20 @@ namespace TexasHoldem.DatabaseProxy
         private bool InsertGamePlayers(Logic.Game.GameRoom v)
         {
             bool ans = true;
-            List<Player> players = v.getP();
-            foreach (var aCard in pubCards)
+            List<Logic.Users.Player> players = v.GetPlayers();
+            foreach (var aPlayer in players)
             {
-                Database.LinqToSql.Public_Card toAdd = new Database.LinqToSql.Public_Card();
+                Database.LinqToSql.Player toAdd = new Database.LinqToSql.Player();
+                toAdd.Game_Id= v.getGameNum();
                 toAdd.room_Id = v.Id;
-                toAdd.Game_Id = v.getGameNum();
-                toAdd.card = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
-                ans = ans & (_controller.InsertPublicCard(toAdd));
+                toAdd.is_player_active = aPlayer.isPlayerActive;
+                toAdd.player_name = aPlayer.name;
+                toAdd.Total_chip = aPlayer.TotalChip;
+                toAdd.Round_chip_bet = aPlayer.RoundChipBet;
+                toAdd.Player_action_the_round = aPlayer.PlayedAnActionInTheRound;
+                toAdd.first_card = _controller.GetCardValByShapeAndRealVal(aPlayer._firstCard._suit.ToString(), aPlayer._firstCard._value);
+                toAdd.first_card = _controller.GetCardValByShapeAndRealVal(aPlayer._secondCard._suit.ToString(), aPlayer._secondCard._value);
+                ans = ans & (_controller.InsertPlayer(toAdd));
             }
             return ans;
         }
