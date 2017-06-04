@@ -73,8 +73,6 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-
-
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
@@ -171,7 +169,6 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-
         public Database.LinqToSql.Card getDBCardByVal(int val)
         {
             Database.LinqToSql.Card toRet = new LinqToSql.Card();
@@ -189,8 +186,6 @@ namespace TexasHoldem.Database.DataControlers
                 return null;
             }
         }
-
-        
 
         private LinqToSql.Card ConvertCard(ISingleResult<GetCardByValResult> temp)
         {
@@ -311,8 +306,6 @@ namespace TexasHoldem.Database.DataControlers
             }
             return deck;
         }
-
-    
 
         private GameRoom ConvertToGameRoom(GetAllGamesResult v)
         {

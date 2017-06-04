@@ -32,6 +32,40 @@ namespace TexasHoldem.DatabaseProxy
             _gameCenter = gc;
            _sender = new ServerToClientSender(_gameCenter, _systemControl, _logControl, _replayManager);
         }
+
+        public bool AddNewGameToDB(Logic.Game.GameRoom gr)
+        {
+            bool ans = false;
+           ans = InsertGameRoom(gr);
+            return ans;
+        }
+
+        private bool InsertGameRoom(Logic.Game.GameRoom v)
+        {
+            Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
+            toIns.Bb = v.;
+            toIns.Bb_Player = v.Bb_Player;
+            toIns.curr_Player = v.curr_Player;
+            toIns.curr_player_position = v.curr_player_position;
+            toIns.Dealer_Player = v.Dealer_Player;
+            toIns.Dealer_position = v.Dealer_position;
+            toIns.First_Player_In_round = v.First_Player_In_round;
+            toIns.first_player_in_round_position = v.first_player_in_round_position;
+            toIns.game_id = v.game_id;
+            toIns.hand_step = v.hand_step;
+            toIns.is_Active_Game = v.is_Active_Game;
+            toIns.last_rise_in_round = v.last_rise_in_round;
+            toIns.league_name = v.league_name;
+            toIns.Max_Bet_In_Round = v.Max_Bet_In_Round;
+            toIns.Pot_count = v.Pot_count;
+            toIns.room_Id = v.room_Id;
+            toIns.Sb = v.Sb;
+            toIns.SB_player = v.SB_player;
+
+
+
+        }
+
         public List<IGame> GetAllGames()
         {
             List<IGame> toRet = new List<IGame>();
