@@ -140,6 +140,16 @@ namespace TexasHoldem.Logic.Game
             return this.DealerPlayer.user.Id();
         }
 
+        public int getDealerPos()
+        {
+            return this.DealerPos;
+        }
+
+        public int getFirstPlayerInRound()
+        {
+            return this.FirstPlayerInRound.user.Id();
+        }
+
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)

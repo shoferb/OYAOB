@@ -48,8 +48,8 @@ namespace TexasHoldem.DatabaseProxy
             toIns.curr_Player = v.getCurrPlayer();
             toIns.curr_player_position = v.getCurrPlayerPos();
             toIns.Dealer_Player = v.getDealerPlayer();
-            toIns.Dealer_position = v.Dealer_position;
-            toIns.First_Player_In_round = v.First_Player_In_round;
+            toIns.Dealer_position = v.getDealerPos();
+            toIns.First_Player_In_round = v.getFirstPlayerInRound();
             toIns.first_player_in_round_position = v.first_player_in_round_position;
             toIns.game_id = v.game_id;
             toIns.hand_step = v.hand_step;
@@ -61,9 +61,6 @@ namespace TexasHoldem.DatabaseProxy
             toIns.room_Id = v.room_Id;
             toIns.Sb = v.Sb;
             toIns.SB_player = v.SB_player;
-
-
-
         }
 
         public List<IGame> GetAllGames()
