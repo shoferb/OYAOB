@@ -10,6 +10,7 @@ using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.DatabaseProxy
 {
@@ -85,12 +86,14 @@ namespace TexasHoldem.DatabaseProxy
                         dealerPlayer = p;
                     }
                 }
+                
                 Deck d = ConverDBDeck(_controller.getDeckByRoomId(g.room_Id),_controller.getDeckCards(g.room_Id));
                 Logic.Game.GameRoom.HandStep hs = ConvertSpecsList(g.HandStep);
                 Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
                 Logic.Replay.GameReplay gr = ConvertGameReplay(g.GameReplay);
                 GameRoomPreferance  pref = _controller.GetPrefByRoomId(g.room_Id);
-                Decorator decorator = _gameCenter.CreateDecorator(pref.Bb, pref.starting_chip, pref.is_Spectetor, pref.Min_player_in_room, pref.max_player_in_room, pref.enter_paying_money, gameModeChosen, leagueOf);
+
+                Decorator decorator = _gameCenter.CreateDecorator(pref.Bb.Value, pref.starting_chip.Value, pref.is_Spectetor.Value, pref.Min_player_in_room.Value, pref.max_player_in_room.Value, pref.enter_paying_money.Value, ConvertGameModeChosen(_controller.GetGameModeByVal(pref.Game_Mode.Value)), leagueOf);
                 Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, decorator, _gameCenter, _logControl,
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
                  pubCards, SpecssLst,  dealerPlayer,  leagueOf, g.last_rise_in_round, currentPlayer,  bbPlayer, sbPlayer,  
@@ -99,6 +102,22 @@ namespace TexasHoldem.DatabaseProxy
             }
 
             return toRet;
+        }
+
+        private TexasHoldemShared.CommMessages.GameMode ConvertGameModeChosen(Database.LinqToSql.GameMode gameMode)
+        {
+            if(gameMode.game_mode_name.Equals("Limit"))
+            {
+                return TexasHoldemShared.CommMessages.GameMode.Limit;
+            }
+            else if (gameMode.game_mode_name.Equals("NoLimit"))
+            {
+                return TexasHoldemShared.CommMessages.GameMode.NoLimit;
+            }
+            else
+            {
+                return TexasHoldemShared.CommMessages.GameMode.PotLimit;
+            }
         }
 
         private Deck ConverDBDeck(Database.LinqToSql.Deck deck, List<Database.LinqToSql.Card> list)
