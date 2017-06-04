@@ -38,6 +38,13 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Castle.Core">
       <HintPath>packages\Castle.Core.4.0.0\lib\net45\Castle.Core.dll</HintPath>
@@ -62,6 +69,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -251,6 +260,7 @@
     </Compile>
     <Compile Include="Database\BackupOldFrameworks\Dapper\ReplayDB.cs" />
     <Compile Include="Database\BackupOldFrameworks\Dapper\UserDB.cs" />
+    <Compile Include="Database\Security\PasswordSecurity.cs" />
     <Compile Include="Logic\Actions\Action.cs" />
     <Compile Include="Logic\Actions\CallAction.cs" />
     <Compile Include="Logic\Actions\CheckAction.cs" />
@@ -379,6 +389,27 @@
       <DependentUpon>Sadna.edmx</DependentUpon>
       <LastGenOutput>Sadna.cs</LastGenOutput>
     </Content>
+    <Content Include="Database\GitBackUp\DatabaseCreationScript.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.AddNewUser.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserById.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserByUserName.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditAvatar.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditEmail.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditName.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditPassword.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserId.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserIsActive.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserLeagueName.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserMoney.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUsername.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserPoints.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserTotalProfit.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserWinNum.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetAllUser.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetUserByUserId.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetUserByUserName.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\DatabaseCreationScript.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetAllGames.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.GetCardByVal.StoredProcedure.sql" />
@@ -406,6 +437,10 @@
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertPrefToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\GameStoredProcedures\dbo.InsertSpecToDb.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.AddNewUser.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserById.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserByUserName.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.DeleteUserById.StoredProcedure.sql" />
+    <Content Include="Database\GuiBackUp\storeProcedure\dbo.DeleteUserByUserName.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditAvatar.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditEmail.StoredProcedure.sql" />
     <Content Include="Database\GuiBackUp\storeProcedure\dbo.EditName.StoredProcedure.sql" />

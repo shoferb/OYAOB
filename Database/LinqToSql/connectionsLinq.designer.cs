@@ -607,6 +607,20 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), room_id, is_Spectetor, min_player_in_room, max_player_in_room, enter_paying_money, starting_chip, bb, sb, league_name, game_Mode, game_Id);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserById")]
+		public int DeleteUserById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserByUserName")]
+		public int DeleteUserByUserName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(50)")] string userName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName);
+			return ((int)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
