@@ -37,11 +37,11 @@ namespace Client.Logic
 
         public bool SetSessionId(long sid)
         {
-            if (sid != -1)
-            {
-                _sessionId = sid;
-                return true;
-            }
+            _sessionId = sid;
+            return true;
+            //if (sid != -1)
+            //{
+            //}
             return false;
         }
 

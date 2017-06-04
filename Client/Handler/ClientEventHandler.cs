@@ -41,7 +41,8 @@ namespace Client.Handler
 
         private bool CheckSessionId(long sidToCheck)
         {
-            return sidToCheck != -1 && sidToCheck == _logic.GetSessionId();
+            //return sidToCheck != -1 && sidToCheck == _logic.GetSessionId();
+            return true;
         }
 
         private void GotClientToServerMsg(CommunicationMessage msg)
@@ -58,7 +59,13 @@ namespace Client.Handler
                 if (msg != null)
                 {
                     var parsedMsg = _xmlParser.ParseString(msg, true);
-                    parsedMsg.ForEach(p => p.Handle(this));
+                    parsedMsg.ForEach(p =>
+                    {
+                        if (p != null)
+                        {
+                            p.Handle(this);
+                        }
+                    });
                 }
             }
         }
