@@ -61,13 +61,19 @@ namespace TexasHoldem.DatabaseProxy
             toIns.SB_player = v.GetSbPlayer();
             toIns.league_name = _controller.GetLeagueValByName(v.GetLeagueName().ToString());
             toIns.hand_step = _controller.GetHandStepValByName(v.GetHandStep().ToString());
-           
             bool didSucceed = _controller.InsertGameRoom(toIns);
             bool successRel = true;
             successRel = successRel & InsertGameDeck(v) & InsertGameReplay(v) & InsertGamePublicCards(v)
                 & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGameSpecs(v) & InsertGamePref(v);
-            return successRel;
-            
+            return successRel;  
+        }
+
+
+
+        private bool InsertGameDeck(Logic.Game.GameRoom v)
+        {
+            foreach(var aCard in v.get )
+            Database.LinqToSql.Deck toAdd = new Database.LinqToSql.Deck();
         }
 
         public List<IGame> GetAllGames()
