@@ -108,6 +108,24 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool InsertPlayer(Player toAdd)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.InsertPlayerToDb(toAdd.room_Id, toAdd.user_Id, toAdd.is_player_active,
+                        toAdd.player_name, toAdd.Total_chip, toAdd.Round_chip_bet, toAdd.Player_action_the_round,
+                        toAdd.first_card, toAdd.secund_card, toAdd.Game_Id);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
             List<LinqToSql.Card> toRet = new List<LinqToSql.Card>();
