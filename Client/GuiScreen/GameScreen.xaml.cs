@@ -40,17 +40,15 @@ namespace Client.GuiScreen
             Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
 
         }
-        //todo refrash name
-        /*
-         *  UserID.Content = _logic.user.id;
-            UserName.Content = _logic.user.username;
-            string path = _logic.user.avatar;
-            Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
-            */
+       
         public void UpdateGame(GameDataCommMessage msg)
         {
             Dispatcher.Invoke((Action)(() =>
             {
+                UserID.Content = _logic.user.id;
+                UserName.Content = _logic.user.username;
+                string path = _logic.user.avatar;
+                Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
                 ActionChosenComboBox.Items.Clear();
                 if (_logic.user.name.Equals(CurrPlayerTurn))
                 {
@@ -75,6 +73,7 @@ namespace Client.GuiScreen
                 ActionChosenComboBox.Items.Add(whisperchatMsgItem);
 
                 this.RoomId = msg.RoomId;
+                RoomNum.Content = "";
                 RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
                 if (msg.SbName != null)
                 {
@@ -85,6 +84,7 @@ namespace Client.GuiScreen
                 {
                     this.AllPlayerNames = msg.AllPlayerNames;
                     List<ViewObj> players = new List<ViewObj>();
+                    this.ListViewPlayers.Items.Clear();
                     foreach (string aString in AllPlayerNames)
                     {
                         ListViewItem toAdd = new ListViewItem();
@@ -100,6 +100,7 @@ namespace Client.GuiScreen
                         }
                     }
                 }
+                
                 if (msg.BbName != null)
                 {
                     this.BbName = msg.BbName;
@@ -127,6 +128,7 @@ namespace Client.GuiScreen
 
                 if (msg.TableCards != null)
                 {
+                    ListViewPublicCards.Items.Clear();
                     this.TableCards = msg.TableCards;
                     List<ViewObj> pCards = new List<ViewObj>();
                     foreach (Card aCard in TableCards)
@@ -175,7 +177,7 @@ namespace Client.GuiScreen
                     }
                     else if (msg.action.Equals(CommunicationMessage.ActionType.CreateRoom))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " created the room game.");
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " game  was created.");
                     }
 
 
