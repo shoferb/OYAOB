@@ -155,6 +155,11 @@ namespace TexasHoldem.Logic.Game
             return this.GameReplay;
         }
 
+        public List<Player> GetPlayers()
+        {
+            return this.Players;
+        }
+
         public int getDealerPos()
         {
             return this.DealerPos;

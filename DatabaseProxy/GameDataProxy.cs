@@ -70,7 +70,17 @@ namespace TexasHoldem.DatabaseProxy
 
         private bool InsertGamePlayers(Logic.Game.GameRoom v)
         {
-            throw new NotImplementedException();
+            bool ans = true;
+            List<Player> players = v.getP();
+            foreach (var aCard in pubCards)
+            {
+                Database.LinqToSql.Public_Card toAdd = new Database.LinqToSql.Public_Card();
+                toAdd.room_Id = v.Id;
+                toAdd.Game_Id = v.getGameNum();
+                toAdd.card = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
+                ans = ans & (_controller.InsertPublicCard(toAdd));
+            }
+            return ans;
         }
 
         private bool InsertGamePublicCards(Logic.Game.GameRoom v)
