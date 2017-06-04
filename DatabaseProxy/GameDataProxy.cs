@@ -54,12 +54,20 @@ namespace TexasHoldem.DatabaseProxy
             toIns.game_id = v.getGameNum();
             toIns.is_Active_Game = v.IsGameActive();
             toIns.last_rise_in_round = v.GetLastRaiseInRound();
-           
             toIns.Max_Bet_In_Round = v.GetMaxBetInRound();
             toIns.Pot_count = v.GetPotCount();
             toIns.room_Id = v.Id;
             toIns.Sb = v.GetSb();
-            toIns.SB_player = v.GetSbPlayer;
+            toIns.SB_player = v.GetSbPlayer();
+            //league
+            //hand step
+            //players with roles
+            bool didSucceed = _controller.InsertGameRoom(toIns);
+            bool successRel = true;
+            successRel = successRel & InsertGameDeck(v) & InsertGameReplay(v) & InsertGamePublicCards(v)
+                & InsertGamePlayers(v) & InsertGameSpecs(v) & InsertGameSpecs(v) & InsertGamePref(v);
+            return successRel;
+            
         }
 
         public List<IGame> GetAllGames()
