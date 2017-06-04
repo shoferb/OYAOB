@@ -294,7 +294,7 @@ namespace TexasHoldem.Logic.Users
                 toReturn = false;
                 return toReturn;
             }
-            return toReturn;
+          
         }
 
         public bool Logout()
