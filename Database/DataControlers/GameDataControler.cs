@@ -343,7 +343,18 @@ namespace TexasHoldem.Database.DataControlers
 
         public int GetLeagueValByName(string name)
         {
-
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetLeageValByName(name);
+                    return temp.First().League_Value;
+                }
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
         }
     }
 }

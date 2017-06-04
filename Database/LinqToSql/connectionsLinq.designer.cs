@@ -505,6 +505,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
 			return ((ISingleResult<GetHandStepNameByValResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLeageValByName")]
+		public ISingleResult<GetLeageValByNameResult> GetLeageValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetLeageValByNameResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
@@ -8289,6 +8296,32 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._hand_Step_name != value))
 				{
 					this._hand_Step_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetLeageValByNameResult
+	{
+		
+		private int _League_Value;
+		
+		public GetLeageValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League Value]", Storage="_League_Value", DbType="Int NOT NULL")]
+		public int League_Value
+		{
+			get
+			{
+				return this._League_Value;
+			}
+			set
+			{
+				if ((this._League_Value != value))
+				{
+					this._League_Value = value;
 				}
 			}
 		}
