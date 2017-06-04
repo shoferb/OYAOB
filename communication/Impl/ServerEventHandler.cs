@@ -45,12 +45,20 @@ namespace TexasHoldem.communication.Impl
             _sessionIdHandler = handler;
         }
 
+        private GameDataCommMessage GetGameDataForRoom(IGame room, ActionCommMessage msg, bool success)
+        {
+            return new GameDataCommMessage(msg.UserId, msg.RoomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, room.GetPublicCards(), msg.Amount,
+                room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+        }
+
         public string HandleEvent(ActionCommMessage msg)
         {
             bool success = false;
             if (_sessionIdHandler != null)
             {
                 ResponeCommMessage response = null;
+                GameDataCommMessage data;
+                IGame room;
                 switch (msg.MoveType)
                 {
                     case CommunicationMessage.ActionType.Bet:
@@ -67,9 +75,10 @@ namespace TexasHoldem.communication.Impl
                         break;
                     case CommunicationMessage.ActionType.Join:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                        IGame room = _gameService.GetGameById(msg.RoomId);
-                        GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, room.GetPublicCards(), msg.Amount,
-                            room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg, data);
                         break;
                     case CommunicationMessage.ActionType.Leave:
@@ -78,7 +87,12 @@ namespace TexasHoldem.communication.Impl
                         break;
                     case CommunicationMessage.ActionType.StartGame:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                 }
                 if (response != null)
