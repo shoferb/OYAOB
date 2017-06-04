@@ -176,7 +176,7 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
-            idsToSend.Add(player.user.Id());
+            //idsToSend.Add(player.user.Id());
             GameDataCommMessage gameData = GetGameData(player, 0 , true, ActionType.Leave);
             clientSender.SendMessageToClient(gameData, idsToSend, useCommunication);
             Players = relevantPlayers;
@@ -194,7 +194,7 @@ namespace TexasHoldem.Logic.Game
                 FixRoles(player);
                 if (AllDoneWithTurn())
                 {
-                    return NextRound();
+                    return NextRound(player);
                 }
             }
             return true; 
@@ -364,7 +364,7 @@ namespace TexasHoldem.Logic.Game
             clientSender.SendMessageToClient(gameData, ids, useCommunication);
             maxBetInRound = Bb;
 
-            HandCardsAndInitPlayers();
+            HandCardsAndInitPlayers(player);
             MoveBbnSBtoPot();
             IncGamesCounterForPlayers();
             IsActiveGame = true;
@@ -430,8 +430,10 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             gameData = GetGameData(player, bet, true, ActionType.Bet);
+            ids = GetAllPlayersAndSpectatoresIds();
+            ids.Remove(player.user.Id());
             clientSender.SendMessageToClient(gameData, ids, useCommunication);
-            return AfterAction();
+            return AfterAction(player);
         }
 
         private bool Call(Player player, int bet)
@@ -447,8 +449,9 @@ namespace TexasHoldem.Logic.Game
             logControl.AddSystemLog(log);
             GameDataCommMessage gameData = GetGameData(player, bet, true, ActionType.Bet);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
+            ids.Remove(player.user.Id());
             clientSender.SendMessageToClient(gameData, ids, useCommunication);
-            return AfterAction();
+            return AfterAction(player);
         }
 
         private bool Check(Player player)
@@ -465,8 +468,9 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(check);
             GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.Bet);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
+            ids.Remove(player.user.Id());
             clientSender.SendMessageToClient(gameData, ids, useCommunication);
-            return AfterAction();
+            return AfterAction(player);
         }
 
         private bool Fold(Player player)
@@ -480,12 +484,13 @@ namespace TexasHoldem.Logic.Game
             logControl.AddSystemLog(log);
             GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.Fold);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
+            ids.Remove(player.user.Id());
             clientSender.SendMessageToClient(gameData, ids, useCommunication);
 
-            return AfterAction();
+            return AfterAction(player);
         }
 
-        private bool AfterAction()
+        private bool AfterAction(Player doNotSend)
         {
             if (IsGameOver())
             {
@@ -493,12 +498,12 @@ namespace TexasHoldem.Logic.Game
             }
             if (AllDoneWithTurn() )
             {
-                return NextRound();
+                return NextRound(doNotSend);
             }
             return NextCurrentPlayer(1);
         }
 
-        private bool NextRound()
+        private bool NextRound(Player doNotSend)
         {
             lastRaiseInRound = 0;
             maxBetInRound = 0;
@@ -509,7 +514,7 @@ namespace TexasHoldem.Logic.Game
                 return EndGame(); 
             }
 
-            ProgressHand();
+            ProgressHand(doNotSend);
             FindFirstPlayerInRound();
             return true;
         }
@@ -589,7 +594,7 @@ namespace TexasHoldem.Logic.Game
             return true;
         }
 
-        private void ProgressHand()
+        private void ProgressHand(Player doNotSend)
         {
             int nextStep = (int)Hand_Step + 1;
             Hand_Step = (HandStep)nextStep;
@@ -601,14 +606,14 @@ namespace TexasHoldem.Logic.Game
                 case HandStep.Flop:
                     for (int i = 0; i <= 2; i++)
                     {
-                       AddNewPublicCard();
+                       AddNewPublicCard(doNotSend);
                     }
                     break;
                 case HandStep.Turn:
-                    AddNewPublicCard();
+                    AddNewPublicCard(doNotSend);
                     break;
                 case HandStep.River:
-                    AddNewPublicCard();
+                    AddNewPublicCard(doNotSend);
                     break;
 
                 default:
@@ -617,7 +622,7 @@ namespace TexasHoldem.Logic.Game
 
             if (ActivePlayersInGame() - PlayersAllIn() < 2)
             {
-                ProgressHand(); // recursive, runs until we'll hit the river
+                ProgressHand(doNotSend); // recursive, runs until we'll hit the river
             }
         }
 
@@ -688,7 +693,7 @@ namespace TexasHoldem.Logic.Game
             CurrentPlayer = FirstPlayerInRound;          
         }
 
-        private void HandCardsAndInitPlayers()
+        private void HandCardsAndInitPlayers(Player doNotSend)
         {
             foreach (Player player in Players)
             {
@@ -699,14 +704,16 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(Id, hand.ToString());
                 logControl.AddSystemLog(log);
-                GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.HandCard);
-                List<int> ids = new List<int>();
-                ids.Add(player.user.Id());
-                clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                if (player.user.Id() != doNotSend.user.Id())
+                {
+                    GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.HandCard);
+                    List<int> ids = new List<int> {player.user.Id()};
+                    clientSender.SendMessageToClient(gameData, ids, useCommunication); 
+                }
             }
         }
         
-       private void AddNewPublicCard()
+       private void AddNewPublicCard(Player doNotSend)
         {
             GameDataCommMessage gameData;
             List<int> ids = new List<int>();
@@ -715,10 +722,13 @@ namespace TexasHoldem.Logic.Game
             {
                 player.AddPublicCardToPlayer(c);
                 gameData = GetGameData(player, 0, true, ActionType.HandCard);
-                ids.Add(player.user.Id());
-                ///send new public card for only 1 user
-                clientSender.SendMessageToClient(gameData, ids, useCommunication);
-                ids.Remove(player.user.Id());
+                if (player.user.Id() != doNotSend.user.Id())
+                {
+                    ids.Add(player.user.Id());
+                    ///send new public card for only 1 user
+                    clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                    ids.Remove(player.user.Id()); 
+                }
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
@@ -1067,6 +1077,21 @@ namespace TexasHoldem.Logic.Game
         }
 
         //for chat
+        public Player GetSb()
+        {
+            return SbPlayer;
+        }
+
+        public Player GetCurrPlayer()
+        {
+            return CurrentPlayer;
+        }
+
+        public int GetCurrPosition()
+        {
+            return currentPlayerPos;
+        }
+
         public bool IsPlayerInRoom(IUser user)
         {
             bool toReturn = false;
@@ -1106,6 +1131,14 @@ namespace TexasHoldem.Logic.Game
             return PublicCards;
         }
 
-     
+        public Player GetDealer()
+        {
+            return DealerPlayer;
+        }
+
+        public Player GetBb()
+        {
+            return BbPlayer;
+        }
     }
 }

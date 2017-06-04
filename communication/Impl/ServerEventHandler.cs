@@ -47,8 +47,21 @@ namespace TexasHoldem.communication.Impl
 
         private GameDataCommMessage GetGameDataForRoom(IGame room, ActionCommMessage msg, bool success)
         {
-            return new GameDataCommMessage(msg.UserId, msg.RoomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, room.GetPublicCards(), msg.Amount,
-                room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+            Player player = room.GetPlayersInRoom().Find(p => p.user.Id() == msg.UserId);
+            Player currPlayer = room.GetCurrPlayer();
+            string currPlayerName = currPlayer != null ? currPlayer.user.MemberName() : "";
+            Player bb = room.GetBb();
+            string bbName = bb != null ? bb.user.MemberName() : "";
+            Player sb = room.GetSb();
+            string sbName = sb != null ? sb.user.MemberName() : "";
+            Player dealer = room.GetDealer();
+            string dealerName = dealer != null ? dealer.user.MemberName() : "";
+
+            return new GameDataCommMessage(msg.UserId, room.Id, msg.SessionId, player._firstCard, player._secondCard,
+                room.GetPublicCards(), player.TotalChip, room.GetPotSize(), 
+                room.GetPlayersInRoom().ConvertAll(p => p.user.MemberName()), 
+                dealerName, bbName, sbName, success, currPlayerName, 
+                player.user.MemberName(), msg.Amount, msg.MoveType);
         }
 
         public string HandleEvent(ActionCommMessage msg)

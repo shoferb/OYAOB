@@ -45,6 +45,11 @@ namespace TexasHoldem.Logic.Game
         List<Player> GetPlayersInRoom();
         List<Spectetor> GetSpectetorInRoom();
         List<Card> GetPublicCards();
+        Player GetDealer();
+        Player GetBb();
+        Player GetSb();
+        Player GetCurrPlayer();
+        int GetCurrPosition();
 
         //methods for chat
         bool IsPlayerInRoom(IUser user);
