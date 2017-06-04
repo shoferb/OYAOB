@@ -51,7 +51,7 @@ namespace TexasHoldem.DatabaseProxy
             toIns.Dealer_position = v.getDealerPos();
             toIns.First_Player_In_round = v.getFirstPlayerInRound();
             toIns.first_player_in_round_position = v.getFirstPlayerInRoundPos();
-            toIns.game_id = v.game_id;
+            toIns.game_id = v.getGameNum();
             toIns.hand_step = v.hand_step;
             toIns.is_Active_Game = v.is_Active_Game;
             toIns.last_rise_in_round = v.last_rise_in_round;
