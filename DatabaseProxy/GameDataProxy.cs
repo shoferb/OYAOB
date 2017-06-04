@@ -85,6 +85,7 @@ namespace TexasHoldem.DatabaseProxy
                         dealerPlayer = p;
                     }
                 }
+                Deck d = ConverDBDeck(_controller.getDeckByRoomId(g.room_Id),_controller.getDeckCards(g.room_Id));
                 Logic.Game.GameRoom.HandStep hs = ConvertSpecsList(g.HandStep);
                 Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
                 Logic.Replay.GameReplay gr = ConvertGameReplay(g.GameReplay);
@@ -94,11 +95,26 @@ namespace TexasHoldem.DatabaseProxy
                _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
                  pubCards, SpecssLst,  dealerPlayer,  leagueOf, g.last_rise_in_round, currentPlayer,  bbPlayer, sbPlayer,  
                  firstPlayerInRound, g.Bb ,g.Sb, g.Dealer_position, g.curr_player_position, g.first_player_in_round_position, 
-                 gr, /*GameRoom.HandStep*/ hs, /*Deck*/ d);
+                 gr,  hs,  d);
             }
 
             return toRet;
         }
+
+        private Deck ConverDBDeck(Database.LinqToSql.Deck deck, List<Database.LinqToSql.Card> list)
+        {
+            Deck toRet = new Deck();
+            toRet._numOfCards = list.Count;
+            List<Card> lst = new List<Card>();
+            foreach (var aCard in list)
+            {
+                lst.Add(getCardByVal(aCard.Card_Value));
+            }
+            toRet._deck = lst;
+            //todo cardRank????
+            return toRet;
+        }
+
         private Logic.Replay.GameReplay ConvertGameReplay(Database.LinqToSql.GameReplay repDB)
         {
             Logic.Replay.GameReplay toRet = new Logic.Replay.GameReplay();
