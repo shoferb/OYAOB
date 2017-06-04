@@ -94,6 +94,24 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal int GetCardValByShapeAndRealVal(string v, int value)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetCardByVal(val);
+                    toRet = ConvertCard(temp);
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
         public List<SpectetorGamesOfUser> GetSpectOfRoom(int roomId)
         {
             List<SpectetorGamesOfUser> toRet = new List<SpectetorGamesOfUser>();
