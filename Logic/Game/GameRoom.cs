@@ -159,7 +159,17 @@ namespace TexasHoldem.Logic.Game
         {
             return this.maxBetInRound;
         }
-     
+
+        public int GetPotCount()
+        {
+            return this.PotCount;
+        }
+
+        public int GetLastRaiseInRound()
+        {
+            return this.lastRaiseInRound;
+        }
+
         public bool getisActive()
         {
             return this.IsActiveGame;

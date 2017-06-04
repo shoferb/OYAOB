@@ -53,10 +53,10 @@ namespace TexasHoldem.DatabaseProxy
             toIns.first_player_in_round_position = v.getFirstPlayerInRoundPos();
             toIns.game_id = v.getGameNum();
             toIns.is_Active_Game = v.IsGameActive();
-            toIns.last_rise_in_round = v.;
+            toIns.last_rise_in_round = v.GetLastRaiseInRound();
            
             toIns.Max_Bet_In_Round = v.GetMaxBetInRound();
-            toIns.Pot_count = v.Pot_count;
+            toIns.Pot_count = v.GetPotCount();
             toIns.room_Id = v.Id;
             toIns.Sb = v.Sb;
             toIns.SB_player = v.SB_player;
