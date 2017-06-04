@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="js/aes.js"></script>
+    <script type="text/javascript" src="js/pbkdf2.js"></script>
+    <script type="text/javascript" src="js/mode-cfb.js"></script>
+    <script type="text/javascript" src="js/mode-ctr.js"></script>
+    <script type="text/javascript" src="js/mode-ecb.js"></script>
+    <script type="text/javascript" src="js/mode-ofb.js"></script>
+    <script type="text/javascript" src="js/pad-ansix923.js"></script>
+    <script type="text/javascript" src="js/pad-iso10126.js"></script>
+    <script type="text/javascript" src="js/pad-iso97971.js"></script>
+    <script type="text/javascript" src="js/pad-nopadding.js"></script>
+    <script type="text/javascript" src="js/pad-zeropadding.js"></script>
+    <script type="text/javascript">
+
+        /*** encrypt */
+        var json = CryptoJS.AES.encrypt("plaintext", "Secret Passphrase", options);
+        var ciphertext = json.ciphertext.toString(CryptoJS.enc.Base64);
+
+
+        /*** decrypt */
+        var decrypted = CryptoJS.AES.decrypt(json, "Secret Passphrase", options);
+        var plaintext = decrypted.toString(CryptoJS.enc.Utf8);
+
+    </script>
+        <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var text = "#rawString#";
+    var key = CryptoJS.enc.Base64.parse("#base64Key#");
+    var iv  = CryptoJS.enc.Base64.parse("#base64IV#");
+
+    var encrypted = CryptoJS.AES.encrypt(text, key, {iv: iv});
+    console.log(encrypted.toString());
+
+    var decrypted = CryptoJS.AES.decrypt(encrypted, key, {iv: iv});
+    console.log(decrypted.toString(CryptoJS.enc.Utf8));
+</script>
+</body>
+</html>

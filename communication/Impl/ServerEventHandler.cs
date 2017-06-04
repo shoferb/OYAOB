@@ -321,8 +321,11 @@ namespace TexasHoldem.communication.Impl
                     var response = new UserStatisticsResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), true,
                         msg, stats.AvgCashGain, stats.AvgGrossProfit);
                     return _parser.SerializeMsg(response, ShouldUseDelim);
-                } 
+                }
             }
+            //UserStatisticsCommMessage sts = new UserStatisticsCommMessage(1, 1);
+            //var resp = new UserStatisticsResponseCommMessage(1, 1, true, sts, 2.2, 23.1);
+            //return _parser.SerializeMsg(resp, ShouldUseDelim);
             return "";
         }
 

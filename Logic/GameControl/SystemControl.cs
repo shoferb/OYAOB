@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -18,11 +19,12 @@ namespace TexasHoldem.Logic.Game_Control
 
         private static readonly object padlock = new object();
         private LogControl logControl;
-
+        private UserDataProxy userProxy;
 
         public SystemControl(LogControl log)
         {
             this.users = new List<IUser>();
+            userProxy = new UserDataProxy();
             this.logControl = log;
             var ServiceTimer = new System.Timers.Timer();
             ServiceTimer.Enabled = true;
@@ -81,23 +83,22 @@ namespace TexasHoldem.Logic.Game_Control
         public bool RemoveUserByUserNameAndPassword(string username, string password)
         {
             bool toReturn = false;
-            IUser toRemove = null;
+            IUser toRemove = userProxy.GetUserByUserName(username);
             bool found = false;
             lock (padlock)
             {
-                foreach (IUser u in users)
-                {
-                    if ((u.Password().Equals(password)) && (u.MemberName().Equals(username)))
+
+                
+                    if ((toRemove.Password().Equals(password)))
                     {
-                        toRemove = u;
                         found = true; 
                     }
-                }
+                
                 try
                 {
                     if (found)
                     {
-                        users.Remove(toRemove);
+                        userProxy.DeleteUserByUserName(username);
                         toReturn = true;
                         return toReturn;
                     }
@@ -127,7 +128,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    users.Remove(toRemove);
+                   userProxy.DeleteUserById(toRemove.Id());
                     toReturn = true;
                 }
                 catch (Exception e)
@@ -156,14 +157,16 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    foreach (User u in users)
+                   /* foreach (User u in users)
                     {
                         if (u.MemberName().Equals(username))
                         {
                             toRerutn = u;
                             return toRerutn;
                         }
-                    }
+                        
+                    }*/
+                    toRerutn = userProxy.GetUserByUserName(username);
                 }
                 catch
                 {
@@ -206,8 +209,10 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    User newUser = new User(id, name, memberName, password, 0, money, email, 0, 0, 0, 0);
-                    users.Add(newUser);
+                    IUser newUser = new User(id, name, memberName, password, 0,  money, email);
+
+                    userProxy.AddNewUser(newUser);
+                    // users.Add(newUser);
                     toReturn = true;
                    
                 }catch(Exception e)
@@ -223,10 +228,7 @@ namespace TexasHoldem.Logic.Game_Control
             }
         }
 
-        internal IUser GetUserByUserName(string userName)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public bool CanCreateNewUser(int id, string memberName,
             string password, string email)
@@ -270,15 +272,16 @@ namespace TexasHoldem.Logic.Game_Control
                     toReturn = false;
                     return toReturn;
                 }
-                foreach (IUser u in users)
+               /* foreach (IUser u in users)
                 {
                     if (u.MemberName().Equals(username))
                     {
                         toReturn = false;
                         return toReturn;
                     }
-                }
-                return toReturn;
+                }*/
+                IUser toCheck = userProxy.GetUserByUserName(username);
+                return toCheck==null;
             }
         }
 
@@ -295,15 +298,16 @@ namespace TexasHoldem.Logic.Game_Control
                     toReturn = false;
                     return toReturn;
                 }
-                foreach (IUser u in users)
+               /* foreach (IUser u in users)
                 {
                     if (u.Id() ==  ID)
                     {
                         toReturn = false;
                         return toReturn;
                     }
-                }
-                return toReturn;
+                }*/
+                IUser tocheack = userProxy.GetUserById(ID);
+                return tocheack==null;
             }
         }
 
@@ -316,15 +320,8 @@ namespace TexasHoldem.Logic.Game_Control
                 bool toReturn = false;
                 try
                 {
-                    foreach (IUser u in users)
-                    {
-                        if (u.Id() == id)
-                        {
-                            toReturn = true;
-                            return toReturn;
-                        }
-
-                    }
+                    IUser toCheck = userProxy.GetUserById(id);
+                    return toCheck != null;
                 }
                 catch(Exception e)
                 {
@@ -354,14 +351,15 @@ namespace TexasHoldem.Logic.Game_Control
                         return toReturn;
                     }
 
-                    foreach (IUser u in users)
+                   /* foreach (IUser u in users)
                     {
                         if (u.Id() == id)
                         {
                             toReturn = u;
                             return toReturn;
                         }
-                    }
+                    }*/
+                    toReturn = userProxy.GetUserById(id);
                 }catch(Exception e)
                 {
                     ErrorLog log = new ErrorLog("Error: while Get uset whith id" + id );
@@ -510,53 +508,12 @@ namespace TexasHoldem.Logic.Game_Control
         {
             lock (padlock)
             {
-                return users;
+                return userProxy.GetAllUser();
             }
         }
         
  
-//no use any more
-        public List<IUser> SortByRank()
-        {
-            lock (padlock)
-            {
-                List<IUser> sort = GetAllUser();
-                sort.Sort(delegate(IUser x, IUser y)
-                {
-                    return y.Points().CompareTo(x.Points());
-                });
-                return sort;
-            }
-        }
 
-        
-     
-        public List<IUser> GetAllUnKnowUsers()
-        {
-            List<IUser> toReturn = new List<IUser>();
-            lock (padlock)
-            {
-                try
-                {
-                    foreach (IUser u in users)
-                    {
-                        if (u.IsUnKnow())
-                        {
-                            toReturn.Add(u);
-                        }
-                    }
-                }
-                catch
-                {
-
-                    ErrorLog log = new ErrorLog("Error: while trying get ALL UNKNOW  users");
-                    logControl.AddErrorLog(log);
-                    return toReturn;
-                }
-               
-            }
-            return toReturn;
-        }
 
         private bool IsValidInputNotSmallerZero(int toCheck)
         {
@@ -679,20 +636,23 @@ namespace TexasHoldem.Logic.Game_Control
 
         public List<IUser> GetUsersByTotalProfit()
         {
-            return new List<IUser>(Users.OrderByDescending(user => user.TotalProfit)
-                .Take(Math.Min(20, Users.Count)));
+            List<IUser> temp = userProxy.GetAllUser();
+            return new List<IUser>(temp.OrderByDescending(user => user.TotalProfit)
+                .Take(Math.Min(20, temp.Count)));
         }
 
         public List<IUser> GetUsersByHighestCash()
         {
-            return new List<IUser>(Users.OrderByDescending(user => user.HighestCashGainInGame)
-                .Take(Math.Min(20, Users.Count)));
+            List<IUser> temp = userProxy.GetAllUser();
+            return new List<IUser>(temp.OrderByDescending(user => user.HighestCashGainInGame)
+                .Take(Math.Min(20, temp.Count)));
         }
 
         public List<IUser> GetUsersByNumOfGames()
         {
-            return new List<IUser>(Users.OrderByDescending(user => user.WinNum + user.LoseNum)
-                .Take(Math.Min(20, Users.Count)));
+            List<IUser> temp = userProxy.GetAllUser();
+            return new List<IUser>(temp.OrderByDescending(user => user.WinNum + user.LoseNum)
+                .Take(Math.Min(20, temp.Count)));
         }
     }
 }

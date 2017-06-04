@@ -110,5 +110,6 @@ namespace TexasHoldem.Logic.Users
 
         bool HasEnoughMoney(int startingChip, int fee);
 
+        int GetNumberOfGamesUserPlay();
     }
 }

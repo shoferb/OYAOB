@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media.Animation;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
@@ -15,11 +16,13 @@ namespace TexasHoldem.Service
     {
         private SystemControl sc;
         private GameCenter gc;
+        private UserDataProxy userDataProxy;
 
         public UserServiceHandler (GameCenter game, SystemControl system)
         {
             sc = system;
             gc = game;
+            userDataProxy = new UserDataProxy();
         }
 
         //Use-Case: user can login to system
@@ -32,9 +35,14 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
+            Console.WriteLine("in login user login?:"+user.IsLogin());
+
             if (user.Login())
             {
+                Console.WriteLine("before login db");
                 toReturn = true;
+                userDataProxy.Login(user);
+                Console.WriteLine("after login db");
             }
             return toReturn;
         }
@@ -49,7 +57,12 @@ namespace TexasHoldem.Service
             {
                 return toReturn;
             }
+
             toReturn = user.Logout();
+            if (toReturn)
+            {
+                userDataProxy.Logout(user);
+            }
             return toReturn;
         }
 
@@ -94,6 +107,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditUserPoints(newPoints);
+            if (toReturn)
+            {
+                userDataProxy.EditUserPoints(userId,newPoints);
+            }
             return toReturn;
         }
 
@@ -107,6 +124,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditPassword(newPassword);
+            if (toReturn)
+            {
+                userDataProxy.EditPassword(userId,newPassword);
+            }
             return toReturn;
         }
 
@@ -121,6 +142,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditEmail(newEmail);
+            if (toReturn)
+            {
+                userDataProxy.EditEmail(userId,newEmail);
+            }
             return toReturn;
         }
 
@@ -134,6 +159,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditUserName(newName);
+            if (toReturn)
+            {
+                userDataProxy.EditUserName(userId, newName);
+            }
             return toReturn;
         }
 
@@ -147,6 +176,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditName(newName);
+            if (toReturn)
+            {
+                userDataProxy.EditName(userId, newName);
+            }
             return toReturn;
         }
 
@@ -161,6 +194,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditId(newId);
+            if (toReturn)
+            {
+                userDataProxy.EditUserId(userId, newId);
+            }
             return toReturn;
         }
 
@@ -174,6 +211,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditUserMoney(newmoney);
+            if (toReturn)
+            {
+                userDataProxy.EditUserMoney(userId, newmoney);
+            }
             return toReturn;
         }
  
@@ -202,6 +243,10 @@ namespace TexasHoldem.Service
                 return toReturn;
             }
             toReturn = user.EditAvatar(newAvatarPath);
+            if (toReturn)
+            {
+                userDataProxy.EditUserAvatar(id, newAvatarPath);
+            }
             return toReturn;
         }
 

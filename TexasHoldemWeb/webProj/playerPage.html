@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Player personal page</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:30pt;
+            color: #30faff;
+        }
+
+        p.choose {
+            text-align: center;
+            font-family:Comic Sans Ms;
+            font-size:12pt;
+            color: #3e2fff;
+        }
+
+        body {
+            background: url("download.png");
+            background-size: 1350px 700px;
+            background-repeat: no-repeat;
+            padding-top: 40px;
+        }
+    </style>
+</head>
+<body>
+<h1>Texas Holdem Player Page</h1>
+<p class="choose">
+    <button type="button" onclick="sendDataSati()">personal statistics</button>
+    <button type="button" onclick="sendDataLeague()">league table</button>
+</p>
+<p class="choose">
+    <button type="button" onclick="goLogOut()">Log Out</button>
+</p>
+<p class="choose">
+    <img src="drangMa.webp"></img>
+</p>
+
+
+<script>
+    function sendDataSati() {
+        window.location="myStatistics.html";
+    }
+    function sendDataLeague() {
+        window.location="leagueTable.html";
+    }
+    function goLogOut() {
+        window.location="logOut.html";
+    }
+</script>
+</body>
+</html>

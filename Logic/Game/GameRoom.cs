@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TexasHoldem.communication.Interfaces;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Actions;
 using TexasHoldem.Logic.Game.Evaluator;
 using TexasHoldem.Logic.GameControl;
@@ -219,6 +220,7 @@ namespace TexasHoldem.Logic.Game
         {
             foreach (Player p in Players)
             {
+                
                 p.user.ReduceMoneyIfPossible(MyDecorator.GetStartingChip() +
                     MyDecorator.GetEnterPayingMoney());
             }
