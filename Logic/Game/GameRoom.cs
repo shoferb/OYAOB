@@ -340,12 +340,12 @@ namespace TexasHoldem.Logic.Game
             List<int> ids = new List<int> {player.user.Id()};
             if (!MyDecorator.CanStartTheGame(Players.Count))
             {
-                clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                //clientSender.SendMessageToClient(gameData, ids, useCommunication);
                 return false;
             }
             if (IsActiveGame) //can't start an already active game
             {
-                clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                //clientSender.SendMessageToClient(gameData, ids, useCommunication);
                 return false;
             }
             Hand_Step = HandStep.PreFlop;
@@ -364,8 +364,8 @@ namespace TexasHoldem.Logic.Game
             //clientSender.SendMessageToClient(gameData, ids, useCommunication);
             maxBetInRound = Bb;
 
-            HandCardsAndInitPlayers(player);
             MoveBbnSBtoPot();
+            HandCardsAndInitPlayers(player);
             IncGamesCounterForPlayers();
             IsActiveGame = true;
             return true;
