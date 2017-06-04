@@ -92,7 +92,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool InsertPref(GameRoomPreferance toAdd)
+        public bool InsertPref(GameRoomPreferance toAdd)
         {
             throw new NotImplementedException();
         }
