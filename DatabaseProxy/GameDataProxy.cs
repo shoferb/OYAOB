@@ -44,7 +44,7 @@ namespace TexasHoldem.DatabaseProxy
         {
             Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
             toIns.Bb = v.getBb();
-            toIns.Bb_Player = v.;
+            toIns.Bb_Player = v.getBbPlayer();
             toIns.curr_Player = v.curr_Player;
             toIns.curr_player_position = v.curr_player_position;
             toIns.Dealer_Player = v.Dealer_Player;

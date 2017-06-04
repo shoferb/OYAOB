@@ -120,6 +120,10 @@ namespace TexasHoldem.Logic.Game
         {
             return this.Bb;
         }
+        public int getBbPlayer()
+        {
+            return this.BbPlayer.user.Id();
+        }
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
