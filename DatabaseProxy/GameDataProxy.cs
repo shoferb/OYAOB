@@ -85,6 +85,7 @@ namespace TexasHoldem.DatabaseProxy
                         dealerPlayer = p;
                     }
                 }
+                Logic.Game.GameRoom.HandStep hs = ConvertSpecsList(g.HandStep);
                 Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
                 Logic.Replay.GameReplay gr = ConvertGameReplay(g.GameReplay);
                 GameRoomPreferance  pref = _controller.GetPrefByRoomId(g.room_Id);

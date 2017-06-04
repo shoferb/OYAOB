@@ -31,10 +31,6 @@ namespace TexasHoldem.Database.DataControlers
                         toAdd = SetLeagueToGame(toAdd, toAddLeagueName);
                         LinqToSql.HandStep toAddHandStep = ConvertToHandStep(db.GetHandStepNameByVal(toAdd.hand_step));
                         toAdd = SetHandStepToGame(toAdd , toAddHandStep);
-                        //  toAdd = SetDeckToGame(toAdd); //TODO NOT HERE
-                        // toAdd = SetPlayersToGame(toAdd); //TODO NOT HERE
-                        // toAdd = SetPublicCardsToGame(toAdd); //TODO NOT HERE
-                        //  toAdd = SetSpectetorsToGame(toAdd);  //TODO NOT HERE
                         toRet.Add(toAdd);
                     }
                     return toRet;
@@ -75,9 +71,9 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return null;
             }
-
-
         }
+
+
 
         public List<LinqToSql.Card> GetPublicCardsByRoomId(int roomId)
         {
@@ -247,9 +243,29 @@ namespace TexasHoldem.Database.DataControlers
             return toAddRep;
         }
 
-       
+        public List<LinqToSql.Card> getDeckCards(int roomId)
+        {
+            List<Database.LinqToSql.Card> toRet = new List<LinqToSql.Card>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetDeckByRoomId(roomId);
+                    foreach (var aCard in temp)
+                    {
+                        Database.LinqToSql.Card toAdd = getDBCardByVal(aCard.card_value);
+                        toRet.Add(toAdd);
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
 
-    /*    private LinqToSql.Deck ConvertToDeck(ISingleResult<GetDeckByRoomIdResult> singleResult)
+        private LinqToSql.Deck ConvertToDeck(ISingleResult<GetDeckByRoomIdResult> singleResult)
         {
             LinqToSql.Deck deck = new LinqToSql.Deck();
             foreach (var v in singleResult)
@@ -257,8 +273,9 @@ namespace TexasHoldem.Database.DataControlers
                 deck.room_Id = v.room_Id;
                 deck.index = v.index;
                 deck.game_Id = v.game_Id;
-                deck.
-            }*/
+            }
+            return deck;
+        }
 
     
 
