@@ -134,6 +134,12 @@ namespace TexasHoldem.Logic.Game
         {
             return this.currentPlayerPos;
         }
+
+        public int getDealerPlayer()
+        {
+            return this.DealerPlayer.user.Id();
+        }
+
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
