@@ -145,6 +145,16 @@ namespace TexasHoldem.Logic.Game
             return this.DealerPos;
         }
 
+        public int getFirstPlayerInRoundPos()
+        {
+            return this.firstPlayerInRoundPoistion;
+        }
+
+        public int getGameNum()
+        {
+            return this.GameNumber;
+        }
+
         public int getFirstPlayerInRound()
         {
             return this.FirstPlayerInRound.user.Id();
