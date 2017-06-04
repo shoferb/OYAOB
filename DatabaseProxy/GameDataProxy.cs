@@ -59,8 +59,8 @@ namespace TexasHoldem.DatabaseProxy
             toIns.room_Id = v.Id;
             toIns.Sb = v.GetSb();
             toIns.SB_player = v.GetSbPlayer();
-            //league
-            //hand step
+            toIns.league_name = _controller.getLeagueValByName(v.GetLeagueName().ToString());
+            toIns.hand_step = _controller.getHandStepValByName(v.GetHandStep().ToString());
             //players with roles
             bool didSucceed = _controller.InsertGameRoom(toIns);
             bool successRel = true;

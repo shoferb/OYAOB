@@ -116,6 +116,11 @@ namespace TexasHoldem.Logic.Game
             this.Deck = d;
         }
 
+        public string GetHandStep()
+        {
+            return this.Hand_Step.ToString();
+        }
+
         public int getBb()
         {
             return this.Bb;
