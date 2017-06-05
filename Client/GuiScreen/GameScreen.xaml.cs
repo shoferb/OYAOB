@@ -74,8 +74,9 @@ namespace Client.GuiScreen
                 ActionChosenComboBox.Items.Add(whisperchatMsgItem);
                 */
                 this.RoomId = msg.RoomId;
+                string pre = "Room Number: ";
                 
-                RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
+                RoomNum.Content = string.Concat(pre, RoomId);
                 if (msg.SbName != null)
                 {
                     this.SbName = msg.SbName;
@@ -120,8 +121,10 @@ namespace Client.GuiScreen
                 if ((msg.PlayerCards[0] != null) || (msg.PlayerCards[1] != null))
                 {
                     this.PlayerCards = msg.PlayerCards;
-                    this.Card1Labek.Content = string.Concat(Card1Labek.Content, (msg.PlayerCards[0]).ToString());
-                    this.Card2Label.Content = string.Concat(Card2Label.Content, (msg.PlayerCards[1]).ToString());
+                    string pre1 = "First Card is :    ";
+                    string pre2 = "Second Card is : ";
+                    this.Card1Labek.Content = string.Concat(pre1, (msg.PlayerCards[0]).ToString());
+                    this.Card2Label.Content = string.Concat(pre2, (msg.PlayerCards[1]).ToString());
                 }
 
                 this.PotSize = msg.PotSize;
