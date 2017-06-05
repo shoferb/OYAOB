@@ -52,7 +52,7 @@ namespace Client.GuiScreen
                 //ActionChosenComboBox.Items.Clear();
                 if (_logic.user.username.Equals(msg.CurrPlayerTurn))
                 {
-                    
+                    //ActionChosenComboBox.IsVisible = false;
                     /*ComboBoxItem callItem = new ComboBoxItem();
                     callItem.Content = "Call";
                     ActionChosenComboBox.Items.Add(callItem);
