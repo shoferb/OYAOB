@@ -177,8 +177,6 @@ namespace TexasHoldem.Logic.Game
             }
             List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
             //idsToSend.Add(player.user.Id());
-            GameDataCommMessage gameData = GetGameData(player, 0 , true, ActionType.Leave);
-            clientSender.SendMessageToClient(gameData, idsToSend, useCommunication);
             Players = relevantPlayers;
             if (Players.Count == 0)
             {
@@ -197,6 +195,8 @@ namespace TexasHoldem.Logic.Game
                     return NextRound(player);
                 }
             }
+            GameDataCommMessage gameData = GetGameData(player, 0 , true, ActionType.Leave);
+            clientSender.SendMessageToClient(this, gameData, idsToSend, useCommunication);
             return true; 
         }
 
@@ -301,7 +301,7 @@ namespace TexasHoldem.Logic.Game
             idsTosend.Add(user.Id());
             if (IsUserASpectator(user))
             {
-                clientSender.SendMessageToClient(gameData, idsTosend, useCommunication);
+                clientSender.SendMessageToClient(this, gameData, idsTosend, useCommunication);
                 return false;
             }
             if (MyDecorator.CanJoin(Players.Count , amount, user))
@@ -312,13 +312,13 @@ namespace TexasHoldem.Logic.Game
                     List<int> idsToSend = GetAllPlayersAndSpectatoresIds();
                     idsToSend.Remove(user.Id());
                     gameData = GetGameData(p, amount, true, ActionType.Join);
-                    clientSender.SendMessageToClient(gameData, idsToSend, useCommunication);
+                    clientSender.SendMessageToClient(this, gameData, idsToSend, useCommunication);
                     return true;
                 }
-                clientSender.SendMessageToClient(gameData, idsTosend, useCommunication);
+                clientSender.SendMessageToClient(this, gameData, idsTosend, useCommunication);
                 return false;
             }
-            clientSender.SendMessageToClient(gameData, idsTosend, useCommunication);
+            clientSender.SendMessageToClient(this, gameData, idsTosend, useCommunication);
             return false;
         }
 
@@ -399,17 +399,17 @@ namespace TexasHoldem.Logic.Game
         {
             GameDataCommMessage gameData = GetGameData(player, bet, false, ActionType.Bet);
             List<int> ids = new List<int>();
-            ids.Add(player.user.Id());
+            //ids.Add(player.user.Id());
             int currentPlayerBet = player.RoundChipBet + bet;
             int currentPlayerRaise = currentPlayerBet - maxBetInRound;
             if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, PotCount, Hand_Step))
             {
-                clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                //clientSender.SendMessageToClient(gameData, ids, useCommunication);
                 return false;
             }
             if (player.TotalChip < bet) //not enough chips for bet maybe change to all in 
             {
-                clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                //clientSender.SendMessageToClient(gameData, ids, useCommunication);
                 return false;  
             }
             maxBetInRound = currentPlayerBet;
@@ -429,11 +429,12 @@ namespace TexasHoldem.Logic.Game
                     p.PlayedAnActionInTheRound = false;
                 }
             }
-            gameData = GetGameData(player, bet, true, ActionType.Bet);
             ids = GetAllPlayersAndSpectatoresIds();
+            bool afterAction = AfterAction(player);
+            gameData = GetGameData(player, bet, true, ActionType.Bet);
             ids.Remove(player.user.Id());
-            clientSender.SendMessageToClient(gameData, ids, useCommunication);
-            return AfterAction(player);
+            clientSender.SendMessageToClient(this, gameData, ids, useCommunication);
+            return afterAction;
         }
 
         private bool Call(Player player, int bet)
@@ -447,11 +448,12 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(call);
             SystemLog log = new SystemLog(Id, call.ToString());
             logControl.AddSystemLog(log);
-            GameDataCommMessage gameData = GetGameData(player, bet, true, ActionType.Bet);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
             ids.Remove(player.user.Id());
-            clientSender.SendMessageToClient(gameData, ids, useCommunication);
-            return AfterAction(player);
+            bool afterAction = AfterAction(player);
+            GameDataCommMessage gameData = GetGameData(player, bet, true, ActionType.Bet);
+            clientSender.SendMessageToClient(this, gameData, ids, useCommunication);
+            return afterAction;
         }
 
         private bool Check(Player player)
@@ -466,11 +468,12 @@ namespace TexasHoldem.Logic.Game
             SystemLog log = new SystemLog(Id, check.ToString());
             logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
-            GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.Bet);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
             ids.Remove(player.user.Id());
-            clientSender.SendMessageToClient(gameData, ids, useCommunication);
-            return AfterAction(player);
+            bool afterAction = AfterAction(player);
+            GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.Bet);
+            clientSender.SendMessageToClient(this, gameData, ids, useCommunication);
+            return afterAction;
         }
 
         private bool Fold(Player player)
@@ -482,12 +485,13 @@ namespace TexasHoldem.Logic.Game
             GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(Id, fold.ToString());
             logControl.AddSystemLog(log);
-            GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.Fold);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
             ids.Remove(player.user.Id());
-            clientSender.SendMessageToClient(gameData, ids, useCommunication);
+            bool afterAction = AfterAction(player);
+            GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.Fold);
+            clientSender.SendMessageToClient(this, gameData, ids, useCommunication);
 
-            return AfterAction(player);
+            return afterAction;
         }
 
         private bool AfterAction(Player doNotSend)
@@ -708,7 +712,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     GameDataCommMessage gameData = GetGameData(player, 0, true, ActionType.HandCard);
                     List<int> ids = new List<int> {player.user.Id()};
-                    clientSender.SendMessageToClient(gameData, ids, useCommunication); 
+                    clientSender.SendMessageToClient(this, gameData, ids, useCommunication); 
                 }
             }
         }
@@ -725,8 +729,7 @@ namespace TexasHoldem.Logic.Game
                 if (player.user.Id() != doNotSend.user.Id())
                 {
                     ids.Add(player.user.Id());
-                    ///send new public card for only 1 user
-                    clientSender.SendMessageToClient(gameData, ids, useCommunication);
+                    clientSender.SendMessageToClient(this, gameData, ids, useCommunication);
                     ids.Remove(player.user.Id()); 
                 }
             }

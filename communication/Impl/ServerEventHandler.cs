@@ -75,16 +75,28 @@ namespace TexasHoldem.communication.Impl
                 switch (msg.MoveType)
                 {
                     case CommunicationMessage.ActionType.Bet:
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.Fold:
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.HandCard:
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.Join:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
@@ -96,7 +108,12 @@ namespace TexasHoldem.communication.Impl
                         break;
                     case CommunicationMessage.ActionType.Leave:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.StartGame:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);

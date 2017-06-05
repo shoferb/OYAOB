@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Impl;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Replay;
+using TexasHoldem.Logic.Users;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
@@ -22,16 +24,22 @@ namespace TexasHoldem.Logic
             _eventHandler = messageEventHandler;
         }
 
-        public void SendMessageToClient(GameDataCommMessage gmData, List<int> idsToSend, bool useCommunication)
+        public void SendMessageToClient(IGame room, GameDataCommMessage gmData, List<int> idsToSend, bool useCommunication)
         {
             if (useCommunication)
             {
+                gmData.TableCards = room.GetPublicCards();
                 foreach (int id in idsToSend)
                 {
                     if (id == gmData.UserId && gmData.action == CommunicationMessage.ActionType.Join)
                     {
                         continue;
                     }
+                    
+                    Player player = room.GetPlayersInRoom().Find(p => p.user.Id() == id);
+                    gmData.PlayerCards[0] = player._firstCard;
+                    gmData.PlayerCards[1] = player._secondCard;
+
                     gmData.UserId = id; //id of the user to send 
                     _eventHandler.SendGameDataToClient(gmData);
                 }
