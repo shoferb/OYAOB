@@ -32,8 +32,15 @@
         <Label Content="Chat:" HorizontalAlignment="Left" Height="26" Margin="513,14,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Label Content="My Chips:" HorizontalAlignment="Left" Height="30" Margin="761,102,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="14" RenderTransformOrigin="-1.04,1.1"/>
         <Label x:Name="ChipAmountLabel" Content="50" HorizontalAlignment="Left" Height="44" Margin="774,129,0,0" Grid.Row="1" VerticalAlignment="Top" Width="65" FontWeight="Bold" FontSize="24" Foreground="#FFFFE803"/>
-        <ComboBox x:Name="ActionChosenComboBox" HorizontalAlignment="Left" Height="30" Margin="669,219,0,0" VerticalAlignment="Top" Width="230" Grid.RowSpan="2" />
-        <Label Content="Perform Action:" HorizontalAlignment="Left" Height="30" Margin="529,187,0,0" VerticalAlignment="Top" Width="140" FontWeight="Bold" Foreground="#FF020000" FontSize="16"/>
+        <ComboBox x:Name="ActionChosenComboBox" HorizontalAlignment="Left" Height="30" Margin="669,219,0,0" VerticalAlignment="Top" Width="230" Grid.RowSpan="2"  >
+        <ComboBoxItem Name="Call" Content="Call" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected"/>
+        <ComboBoxItem Content="Raise" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_1"/>
+        <ComboBoxItem Content="Fold" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_2"/>
+        <ComboBoxItem Content="Check" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_3"/>
+        <ComboBoxItem Content="Send A New Broadcast Chat Message" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_4"/>
+        <ComboBoxItem Content="Send A New Whisper Chat Message" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_5"/>
+        </ComboBox>
+            <Label Content="Perform Action:" HorizontalAlignment="Left" Height="30" Margin="529,187,0,0" VerticalAlignment="Top" Width="140" FontWeight="Bold" Foreground="#FF020000" FontSize="16"/>
         <TextBox x:Name="InputForActionTextBox" HorizontalAlignment="Left" Height="30" Margin="669,1.4,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
         <Label Content="Players:" HorizontalAlignment="Left" Height="30" Margin="22,204,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16"/>
         <ListView x:Name="ListViewPlayers" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="167" Margin="23,230,0,0" Grid.RowSpan="2">

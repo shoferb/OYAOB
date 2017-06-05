@@ -49,10 +49,11 @@ namespace Client.GuiScreen
                 UserName.Content = _logic.user.username;
                 string path = _logic.user.avatar;
                 Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
-                ActionChosenComboBox.Items.Clear();
-                if (_logic.user.username.Equals(CurrPlayerTurn))
+                //ActionChosenComboBox.Items.Clear();
+                if (_logic.user.username.Equals(msg.CurrPlayerTurn))
                 {
-                    ComboBoxItem callItem = new ComboBoxItem();
+                    
+                    /*ComboBoxItem callItem = new ComboBoxItem();
                     callItem.Content = "Call";
                     ActionChosenComboBox.Items.Add(callItem);
                     ComboBoxItem raiseItem = new ComboBoxItem();
@@ -63,15 +64,15 @@ namespace Client.GuiScreen
                     ActionChosenComboBox.Items.Add(checkItem);
                     ComboBoxItem foldItem = new ComboBoxItem();
                     foldItem.Content = "Fold";
-                    ActionChosenComboBox.Items.Add(foldItem);
+                    ActionChosenComboBox.Items.Add(foldItem);*/
                 }
-                ComboBoxItem broadcastChatMsgItem = new ComboBoxItem();
+               /* ComboBoxItem broadcastChatMsgItem = new ComboBoxItem();
                 broadcastChatMsgItem.Content = "Send A New Broadcast Chat Message";
                 ActionChosenComboBox.Items.Add(broadcastChatMsgItem);
                 ComboBoxItem whisperchatMsgItem = new ComboBoxItem();
                 whisperchatMsgItem.Content = "Send A New Whisper Chat Message";
                 ActionChosenComboBox.Items.Add(whisperchatMsgItem);
-
+                */
                 this.RoomId = msg.RoomId;
                 
                 RoomNum.Content = string.Concat(RoomNum.Content, RoomId);
@@ -387,6 +388,111 @@ namespace Client.GuiScreen
 
         private void DoActiomBotton_Click_2(object sender, RoutedEventArgs e)
         {
+            switch (field)
+            {
+                case 1://call
+                    int amount = 0;
+                    string temp = InputForActionTextBox.Text;
+                    bool isValid = int.TryParse(temp, out amount);
+                    if (!isValid)
+                    {
+                        MessageBox.Show("Invalid Amount");
+                    }
+                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (ans)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                    break;
+                case 2://raise
+                    int amountw = 0;
+                    string tempw = InputForActionTextBox.Text;
+                    bool isValidw = int.TryParse(tempw, out amount);
+                    if (!isValidw)
+                    {
+                        MessageBox.Show("Invalid Amount");
+                    }
+                    bool answ = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    if (answ)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                    break;
+                case 3://fold
+                    int amountd = -1;
+                    bool ansd = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amountd, RoomId);
+                    if (ansd)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                    break;
+                case 4://cheack
+                    int amounte = 0;
+                    bool anse = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amounte, RoomId);
+                    if (anse)
+                    {
+                        MessageBox.Show("Action Succeeded");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Action Failed");
+                    }
+                    break;
+                case 5://brodcast
+                    string msgToSend = InputForActionTextBox.Text;
+                    if (SpecOrPlay == true)
+                    {
+
+                        bool ansf = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
+                        if (!ansf)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    else
+                    {
+                        bool ansf = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
+                        if (!ansf)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    break;
+                case 6://whisper
+                    string msgToSendx = InputForActionTextBox.Text;
+                    string receiverName = WhisperReceiverTextBox_Copy.Text;
+                    if (SpecOrPlay == true)
+                    {
+
+                        bool ansx = _logic.SendChatMsg(RoomId, receiverName, msgToSendx, CommunicationMessage.ActionType.PlayerWhisper);
+                        if (!ansx)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+                    else
+                    {
+                        bool ansx = _logic.SendChatMsg(RoomId, receiverName, msgToSendx, CommunicationMessage.ActionType.SpectetorWhisper);
+                        if (!ansx)
+                        {
+                            MessageBox.Show("Cant send this message!");
+                        }
+                    }
+            
+            break;
+            }/*
             string action = ActionChosenComboBox.SelectedValue.ToString();
             if (action.Equals(""))
             {
@@ -482,7 +588,39 @@ namespace Client.GuiScreen
                         }
                     }
                 }
-            }
+            }*/
+        }
+
+        private int field;
+       
+        private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+            field = 1; //call
+        }
+
+        private void ComboBoxItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+            field = 2;//raise
+        }
+
+        private void ComboBoxItem_Selected_2(object sender, RoutedEventArgs e)
+        {
+            field = 3;//fold
+        }
+
+        private void ComboBoxItem_Selected_3(object sender, RoutedEventArgs e)
+        {
+            field = 4;//cheack
+        }
+
+        private void ComboBoxItem_Selected_4(object sender, RoutedEventArgs e)
+        {
+            field = 5;//brodcast
+        }
+
+        private void ComboBoxItem_Selected_5(object sender, RoutedEventArgs e)
+        {
+            field = 6;//whisper
         }
     }
 }
