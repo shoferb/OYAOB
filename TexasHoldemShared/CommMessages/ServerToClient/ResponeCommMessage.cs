@@ -4,12 +4,18 @@
     {
         public bool Success;
         public CommunicationMessage OriginalMsg;
+        public GameDataCommMessage GameData;
 
         public ResponeCommMessage() : base(-1, -1) { } //for parsing
 
         public ResponeCommMessage(int id) : base(id, -1)
         {
             
+        }
+
+        public void SetGameData(GameDataCommMessage gameData)
+        {
+            GameData = gameData;
         }
 
         public ResponeCommMessage(int id, long sid, bool success, CommunicationMessage originalMsg) : base(id, sid)

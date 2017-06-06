@@ -23,6 +23,7 @@ namespace TexasHoldem
             GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
             var commHandler = CommunicationHandler.GetInstance();
             MessageEventHandler eventHandler = new MessageEventHandler(gameCenter, sysControl, logControl, replayManager);
+            gameCenter.SetMessageHandler(eventHandler);
             var webEventHandler = new WebEventHandler(new ServerEventHandler(eventHandler, null, 
                 gameCenter, sysControl, logControl, replayManager, null));
             WebCommHandler webCommHandler = new WebCommHandler(webEventHandler);

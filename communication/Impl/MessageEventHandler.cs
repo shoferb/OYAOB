@@ -79,6 +79,7 @@ namespace TexasHoldem.communication.Impl
             if (!_userIdToEventHandlerMap.ContainsKey(userId))
             {
                 ServerEventHandler handler = new ServerEventHandler(this, tcpClient, _gameCenter, _system, _logs, _replays, _commHandler);
+                handler.ShouldUseDelim = true;
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
             }
 

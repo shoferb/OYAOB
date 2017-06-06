@@ -45,40 +45,84 @@ namespace TexasHoldem.communication.Impl
             _sessionIdHandler = handler;
         }
 
+        private GameDataCommMessage GetGameDataForRoom(IGame room, ActionCommMessage msg, bool success)
+        {
+            Player player = room.GetPlayersInRoom().Find(p => p.user.Id() == msg.UserId);
+            Player currPlayer = room.GetCurrPlayer();
+            string currPlayerName = currPlayer != null ? currPlayer.user.MemberName() : "";
+            Player bb = room.GetBb();
+            string bbName = bb != null ? bb.user.MemberName() : "";
+            Player sb = room.GetSb();
+            string sbName = sb != null ? sb.user.MemberName() : "";
+            Player dealer = room.GetDealer();
+            string dealerName = dealer != null ? dealer.user.MemberName() : "";
+
+            return new GameDataCommMessage(msg.UserId, room.Id, msg.SessionId, player._firstCard, player._secondCard,
+                room.GetPublicCards(), player.TotalChip, room.GetPotSize(), 
+                room.GetPlayersInRoom().ConvertAll(p => p.user.MemberName()), 
+                dealerName, bbName, sbName, success, currPlayerName, 
+                player.user.MemberName(), msg.Amount, msg.MoveType);
+        }
+
         public string HandleEvent(ActionCommMessage msg)
         {
             bool success = false;
             if (_sessionIdHandler != null)
             {
                 ResponeCommMessage response = null;
+                GameDataCommMessage data;
+                IGame room;
                 switch (msg.MoveType)
                 {
                     case CommunicationMessage.ActionType.Bet:
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.Fold:
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.HandCard:
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.Join:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                        IGame room = _gameService.GetGameById(msg.RoomId);
-                        GameDataCommMessage data = new GameDataCommMessage(msg.UserId, msg.RoomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, room.GetPublicCards(), msg.Amount,
-                            room.GetPotSize(), GetNamesFromList(room.GetPlayersInRoom()), "", "", "", success, "", "", 0, CommunicationMessage.ActionType.Join);
+
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg, data);
                         break;
                     case CommunicationMessage.ActionType.Leave:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                     case CommunicationMessage.ActionType.StartGame:
                         success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+
+                        room = _gameService.GetGameById(msg.RoomId);
+                        data = GetGameDataForRoom(room, msg, success);
+
                         response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
+                        response.SetGameData(data);
                         break;
                 }
                 if (response != null)
@@ -172,7 +216,15 @@ namespace TexasHoldem.communication.Impl
 
             if (_sessionIdHandler != null)
             {
-                bool success = _userService.LoginUser(msg.UserName, msg.Password);
+                bool success;
+                if (msg.IsLogin)
+                {
+                    success = _userService.LoginUser(msg.UserName, msg.Password);
+                }
+                else
+                {
+                    success = _userService.LogoutUser(msg.UserId);
+                }
                 ResponeCommMessage response;
                 if (_socket != null)
                 {

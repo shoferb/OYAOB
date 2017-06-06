@@ -27,7 +27,8 @@ namespace TexasHoldem.Logic.Users.Tests
         private static SystemControl sysControl = new SystemControl(logControl);
         private static ReplayManager replayManager = new ReplayManager();
         private static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
-        private ServerToClientSender sender = new ServerToClientSender(gameCenter, sysControl, logControl, replayManager);
+        //TODO: first arg is null
+        private ServerToClientSender sender = new ServerToClientSender(null, gameCenter, sysControl, logControl, replayManager);
 
 
 

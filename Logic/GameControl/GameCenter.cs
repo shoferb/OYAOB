@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -16,10 +17,11 @@ namespace TexasHoldem.Logic.GameControl
         public int leagueGap { get; set; }
         private List<IGame> games;
 
-        private static int roomIdCounter = 1;
-        private SystemControl _systemControl ;
-        private LogControl logControl;
-        private ReplayManager replayManager;
+        private static int _roomIdCounter = 1;
+        private readonly SystemControl _systemControl ;
+        private readonly LogControl logControl;
+        private readonly ReplayManager replayManager;
+        private MessageEventHandler _messageEventHandler;
 
         private static readonly object padlock = new object();
 
@@ -30,6 +32,11 @@ namespace TexasHoldem.Logic.GameControl
             logControl = log;
             this.logs = new List<Log>();
             this.games = new List<IGame>();
+        }
+
+        public void SetMessageHandler(MessageEventHandler handler)
+        {
+            _messageEventHandler = handler;
         }
 
         public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
@@ -105,7 +112,8 @@ namespace TexasHoldem.Logic.GameControl
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
-                ServerToClientSender sender = new ServerToClientSender(this, _systemControl, logControl, replayManager);
+                ServerToClientSender sender = new ServerToClientSender(_messageEventHandler, this,
+                    _systemControl, logControl, replayManager);
                 GameRoom room = new GameRoom(players, roomId, decorator, this, logControl, replayManager, sender);
                 return AddRoom(room);
             }
@@ -124,14 +132,14 @@ namespace TexasHoldem.Logic.GameControl
         {
             lock (padlock)
             {
-                int toReturn = System.Threading.Interlocked.Increment(ref roomIdCounter);
+                int toReturn = System.Threading.Interlocked.Increment(ref _roomIdCounter);
                 return toReturn;
             }
         }
 
         private int CurrRoomId()
         {
-            return roomIdCounter;
+            return _roomIdCounter;
         }
         //Add new room the games list
         public bool AddRoom(GameRoom roomToAdd)
