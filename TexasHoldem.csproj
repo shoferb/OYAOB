@@ -281,9 +281,9 @@
     <Compile Include="Logic\Game\GameRoom.cs" />
     <Compile Include="Logic\Game\IGame.cs" />
     <Compile Include="Logic\Game\MiddleGameDecorator.cs" />
-    <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />
-    <Compile Include="Logic\Notifications And Logs\Log.cs" />
-    <Compile Include="Logic\Notifications And Logs\SystemLog.cs" />
+    <Compile Include="Logic\Logs\ErrorLog.cs" />
+    <Compile Include="Logic\Logs\Log.cs" />
+    <Compile Include="Logic\Logs\SystemLog.cs" />
     <Compile Include="Logic\Replay\GameReplay.cs" />
     <Compile Include="Logic\Replay\ReplayManager.cs" />
     <Compile Include="Logic\ServerToClientSender.cs" />

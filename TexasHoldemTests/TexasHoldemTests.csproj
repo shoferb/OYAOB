@@ -105,10 +105,9 @@
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Game\GameRoomTests.cs" />
     <Compile Include="Logic\Game\HandTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\ErrorLogTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\LogTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\NotificationTests.cs" />
-    <Compile Include="Logic\Notifications And Logs\SystemLogTests.cs" />
+    <Compile Include="Logic\Logs\ErrorLogTests.cs" />
+    <Compile Include="Logic\Logs\LogTests.cs" />
+    <Compile Include="Logic\Logs\SystemLogTests.cs" />
     <Compile Include="Logic\Replay\GameReplayTests.cs" />
     <Compile Include="Logic\Replay\ReplayManagerTests.cs" />
     <Compile Include="Logic\Users\UserTests.cs" />

@@ -28,6 +28,16 @@ namespace TexasHoldem.Logic.GameControl
             {
                 try
                 {
+                    int nextLogId = logDataProxy.GetNextLogId();
+                    if (nextLogId == -2)
+                    {
+                        log.LogId = 1;
+                    }
+                    else if (nextLogId == -1)
+                    {
+                        return;
+                    }
+                    log.LogId = nextLogId;
                     logDataProxy.AddSystemLog(log);
                 }
                 catch (Exception e)

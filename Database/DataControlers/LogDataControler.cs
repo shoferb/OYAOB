@@ -65,6 +65,10 @@ namespace TexasHoldem.Database.DataControlers
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
                     List<Log> allLogs = db.Logs.ToList();
+                    if (allLogs.Count == 0)
+                    {
+                        return -2;
+                    }
                     allLogs.OrderByDescending(log => log.LogId);
                     return allLogs.First().LogId;
                 }

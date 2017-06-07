@@ -21,8 +21,7 @@ namespace TexasHoldem.Logic.Users.Tests
     {
 
         private IUser orelie = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
-        private Notification toSend1 = new Notification(11, "joind");
-        private Notification toSend2 = new Notification(11, "Exit");
+     
         private static LogControl logControl = new LogControl();
         private static SystemControl sysControl = new SystemControl(logControl);
         private static ReplayManager replayManager = new ReplayManager();
@@ -32,21 +31,6 @@ namespace TexasHoldem.Logic.Users.Tests
 
 
 
-
-        [TestMethod()]
-        public void SendNotificationTest()
-        {
-            Assert.IsTrue(orelie.SendNotification(toSend1));
-
-
-        }
-
-        [TestMethod()]
-        public void AddNotificationToListTest()
-        {
-            Assert.IsTrue(orelie.AddNotificationToList(toSend1));
-
-        }
 
 
         [TestMethod()]
@@ -82,24 +66,6 @@ namespace TexasHoldem.Logic.Users.Tests
 
       
 
-        [TestMethod()]
-        public void WaitListNotificationTest_Good_inc_size_onCreate()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Notification toSend1 = new Notification(11, "joind");
-            Assert.AreEqual(user.WaitListNotification().Count, 0);
-         
-        }
-
-        [TestMethod()]
-        public void WaitListNotificationTest_Good_Added_notifiction()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Notification toSend1 = new Notification(11, "joind");
-            user.SendNotification(toSend1);
-            Assert.IsTrue(user.WaitListNotification().Contains(toSend1));
-
-        }
 
         [TestMethod()]
         public void EmailTest_Good()
