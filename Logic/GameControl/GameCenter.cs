@@ -6,6 +6,7 @@ using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Logic.GameControl
@@ -22,16 +23,18 @@ namespace TexasHoldem.Logic.GameControl
         private readonly LogControl logControl;
         private readonly ReplayManager replayManager;
         private MessageEventHandler _messageEventHandler;
+        private readonly SessionIdHandler sidHandler;
 
         private static readonly object padlock = new object();
 
-        public GameCenter(SystemControl sys, LogControl log, ReplayManager replay)
+        public GameCenter(SystemControl sys, LogControl log, ReplayManager replay, SessionIdHandler sidH)
         {
             replayManager = replay;
             _systemControl = sys;
             logControl = log;
             this.logs = new List<Log>();
             this.games = new List<IGame>();
+            sidHandler = sidH;
         }
 
         public void SetMessageHandler(MessageEventHandler handler)
@@ -39,7 +42,7 @@ namespace TexasHoldem.Logic.GameControl
             _messageEventHandler = handler;
         }
 
-        public bool DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
+        public IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {
             IGame gm = GetRoomById(roomId);
 
@@ -112,9 +115,7 @@ namespace TexasHoldem.Logic.GameControl
                 Player player = new Player(user, startingChip , roomId);
                 players.Add(player);
                 Decorator decorator = CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, user.GetLeague());
-                ServerToClientSender sender = new ServerToClientSender(_messageEventHandler, this,
-                    _systemControl, logControl, replayManager);
-                GameRoom room = new GameRoom(players, roomId, decorator, this, logControl, replayManager, sender);
+                GameRoom room = new GameRoom(players, roomId, decorator, this, logControl, replayManager, sidHandler);
                 return AddRoom(room);
             }
         }

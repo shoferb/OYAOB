@@ -22,17 +22,21 @@ namespace TexasHoldem.Service
         private ReplayManager _replayManager;
         private LogControl _logControl;
         private MessageEventHandler _eventHandler;
+        private SessionIdHandler _sidHandler;
 
-        public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
+        public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, 
+            ReplayManager replay, SessionIdHandler sidHandler)
         {
             _gameCenter = gc;
             _systemControl = sys;
             _logControl = log;
             _replayManager = replay;
-            _eventHandler = new MessageEventHandler(gc, sys, log, replay);
+            this._sidHandler = sidHandler;
+            _eventHandler = new MessageEventHandler(gc, sys, log, replay, sidHandler);
         }
 
-        public bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId)
+        public IEnumerator<ActionResultInfo> DoAction(int userId, CommunicationMessage.ActionType action,
+            int amount, int roomId)
         {
             IUser user = _systemControl.GetUserWithId(userId);
             return _gameCenter.DoAction(user, action, amount, roomId);

@@ -20,11 +20,13 @@ namespace TexasHoldem
             LogControl logControl = new LogControl();
             SystemControl sysControl = new SystemControl(logControl);
             ReplayManager replayManager = new ReplayManager();
-            GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
+            SessionIdHandler sidHandler = new SessionIdHandler();
+            GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager, sidHandler);
             var commHandler = CommunicationHandler.GetInstance();
-            MessageEventHandler eventHandler = new MessageEventHandler(gameCenter, sysControl, logControl, replayManager);
+            MessageEventHandler eventHandler = new MessageEventHandler(gameCenter, sysControl, 
+                logControl, replayManager, sidHandler);
             gameCenter.SetMessageHandler(eventHandler);
-            var webEventHandler = new WebEventHandler(new ServerEventHandler(eventHandler, null, 
+            var webEventHandler = new WebEventHandler(new ServerEventHandler(sidHandler, null, 
                 gameCenter, sysControl, logControl, replayManager, null));
             WebCommHandler webCommHandler = new WebCommHandler(webEventHandler);
             Task commTask = Task.Factory.StartNew(commHandler.Start);
