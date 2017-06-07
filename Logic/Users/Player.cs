@@ -130,7 +130,10 @@ namespace TexasHoldem.Logic.Users
             return toReturn;
         }
 
-    
+        public void Lose()
+        {
+            user.LoseNum++;
+        }
 
         public List<Card> GetCards()
         {

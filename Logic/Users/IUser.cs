@@ -32,8 +32,7 @@ namespace TexasHoldem.Logic.Users
      
         int Money();
 
-      
-
+        
         string Email();
 
         List<Tuple<int, int>> GamesAvailableToReplay();
@@ -46,8 +45,9 @@ namespace TexasHoldem.Logic.Users
 
         bool IncWinNum();
 
-        
-       
+        bool IncLoseNum();
+
+        int LoseNum { get; set; }
 
         int HighestCashGainInGame { get; set; }
 
@@ -99,8 +99,7 @@ namespace TexasHoldem.Logic.Users
 
         void AddMoney(int amount);
 
-     
-
+   
         LeagueName GetLeague();
 
         void SetLeague(LeagueName league);

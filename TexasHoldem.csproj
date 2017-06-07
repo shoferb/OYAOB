@@ -283,7 +283,6 @@
     <Compile Include="Logic\Game\MiddleGameDecorator.cs" />
     <Compile Include="Logic\Notifications And Logs\ErrorLog.cs" />
     <Compile Include="Logic\Notifications And Logs\Log.cs" />
-    <Compile Include="Logic\Notifications And Logs\Notification.cs" />
     <Compile Include="Logic\Notifications And Logs\SystemLog.cs" />
     <Compile Include="Logic\Replay\GameReplay.cs" />
     <Compile Include="Logic\Replay\ReplayManager.cs" />
