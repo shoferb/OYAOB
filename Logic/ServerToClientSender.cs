@@ -39,6 +39,7 @@ namespace TexasHoldem.Logic
                     Player player = room.GetPlayersInRoom().Find(p => p.user.Id() == id);
                     gmData.PlayerCards[0] = player._firstCard;
                     gmData.PlayerCards[1] = player._secondCard;
+                    gmData.TotalChips = player.TotalChip;
 
                     gmData.UserId = id; //id of the user to send 
                     _eventHandler.SendGameDataToClient(gmData);

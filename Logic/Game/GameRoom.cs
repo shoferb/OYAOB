@@ -365,7 +365,7 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = Bb;
 
             MoveBbnSBtoPot();
-            HandCardsAndInitPlayers(player);
+            HandCardsAndInitPlayers(player); //also sends game data.
             IncGamesCounterForPlayers();
             IsActiveGame = true;
             return true;
@@ -430,9 +430,9 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             ids = GetAllPlayersAndSpectatoresIds();
+            ids.Remove(player.user.Id());
             bool afterAction = AfterAction(player);
             gameData = GetGameData(player, bet, true, ActionType.Bet);
-            ids.Remove(player.user.Id());
             clientSender.SendMessageToClient(this, gameData, ids, useCommunication);
             return afterAction;
         }
