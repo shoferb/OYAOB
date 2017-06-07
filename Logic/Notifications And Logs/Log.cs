@@ -11,9 +11,11 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
         private static int counter = 0;
         private int logId;
         public enum LogPriority { Info, Warn, Error }
+        public LogPriority Priority { get; set; }
         public Log()
         {
             this.logId = System.Threading.Interlocked.Increment(ref counter);
+            this.Priority = LogPriority.Info;
         }
 
         public static int getNextId()
