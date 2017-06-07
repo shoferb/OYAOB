@@ -38,7 +38,7 @@ namespace TexasHoldem.Logic.GameControl
                         return;
                     }
                     log.LogId = nextLogId;
-                    logDataProxy.AddSystemLog(log);
+                    logDataProxy.AddSysLog(log);
                 }
                 catch (Exception e)
                 {
