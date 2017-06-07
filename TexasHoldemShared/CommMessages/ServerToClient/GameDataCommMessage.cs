@@ -31,6 +31,27 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public GameDataCommMessage() : base(-1, -1) { } //for parsing
 
+        public GameDataCommMessage(GameDataCommMessage other) : base(other.UserId, other.SessionId)
+        {
+            RoomId = other.RoomId;
+            TotalChips = other.TotalChips;
+            PotSize = other.PotSize;
+            PlayerCards[0] = other.PlayerCards[0];
+            PlayerCards[1] = other.PlayerCards[1];
+            DealerName = other.DealerName;
+            BbName = other.BbName;
+            SbName = other.SbName;
+            IsSucceed = other.IsSucceed;
+            CurrPlayerTurn = other.CurrPlayerTurn;
+            actionPlayerName = other.actionPlayerName;
+            betAmount = other.betAmount;
+            action = other.action;
+            SessionId = other.SessionId;
+            TableCards = new List<Card>();
+            AllPlayerNames = other.AllPlayerNames;
+            other.TableCards.ForEach(c => TableCards.Add(c));
+        }
+
         public GameDataCommMessage(int userId, int roomId, long sid, Card card1, Card card2, List<Card> tableCards, 
             int chips, int pot, List<string> allPlayerNames, string dealerName, string bbName, string sbName, bool success, 
             string currPlayer, string actionPlayer, int bet, ActionType actionType) : base(userId, sid)

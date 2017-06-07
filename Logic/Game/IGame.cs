@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using TexasHoldem.Logic.Game.Evaluator;
+﻿using System.Collections.Generic;
 using TexasHoldem.Logic.GameControl;
-using TexasHoldem.Logic.Game_Control;
-using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
-using TexasHoldemShared.CommMessages.ClientToServer;
 
 namespace TexasHoldem.Logic.Game
 {
     public interface IGame
     {
         int Id { get; set; }
-        bool DoAction(IUser user, TexasHoldemShared.CommMessages.CommunicationMessage.ActionType action, int amount, bool useCommunication);
+        IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, bool useCommunication);
         bool AddSpectetorToRoom(IUser user);
         bool RemoveSpectetorFromRoom(IUser user);
         bool CanJoin(IUser user);
