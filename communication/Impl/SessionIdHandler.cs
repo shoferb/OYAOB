@@ -3,7 +3,7 @@ using TexasHoldem.communication.Interfaces;
 
 namespace TexasHoldem.communication.Impl
 {
-    public abstract class SessionIdHandler : ISessionIdHandler
+    public class SessionIdHandler : ISessionIdHandler
     {
         private readonly IDictionary<int, long> _uidToSidMap = new Dictionary<int, long>();
 

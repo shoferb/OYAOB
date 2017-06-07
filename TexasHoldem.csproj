@@ -286,7 +286,6 @@
     <Compile Include="Logic\Logs\SystemLog.cs" />
     <Compile Include="Logic\Replay\GameReplay.cs" />
     <Compile Include="Logic\Replay\ReplayManager.cs" />
-    <Compile Include="Logic\ServerToClientSender.cs" />
     <Compile Include="Logic\Users\IUser.cs" />
     <Compile Include="Logic\Users\Player.cs" />
     <Compile Include="Logic\Users\Spectetor.cs" />

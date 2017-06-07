@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionResultInfo.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CommMessages\ClientToServer\ActionCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\ChatCommMessage.cs" />

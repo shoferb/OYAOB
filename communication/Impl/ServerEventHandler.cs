@@ -29,11 +29,11 @@ namespace TexasHoldem.communication.Impl
 
         private readonly TcpClient _socket;
 
-        public ServerEventHandler(ISessionIdHandler sidHandler, TcpClient socket, GameCenter game, SystemControl sys, 
+        public ServerEventHandler(SessionIdHandler sidHandler, TcpClient socket, GameCenter game, SystemControl sys, 
             LogControl log, ReplayManager replay, ICommunicationHandler comm)
         {
             _socket = socket;
-            _gameService = new GameServiceHandler(game, sys, log, replay);
+            _gameService = new GameServiceHandler(game, sys, log, replay, sidHandler);
             _userService = new UserServiceHandler(game, sys);
             _commHandler = comm;
             _sessionIdHandler = sidHandler;
@@ -45,84 +45,67 @@ namespace TexasHoldem.communication.Impl
             _sessionIdHandler = handler;
         }
 
-        private GameDataCommMessage GetGameDataForRoom(IGame room, ActionCommMessage msg, bool success)
+        private ResponeCommMessage SendMessages(int userId, IEnumerator<ActionResultInfo> iterator, CommunicationMessage originalMsg)
         {
-            Player player = room.GetPlayersInRoom().Find(p => p.user.Id() == msg.UserId);
-            Player currPlayer = room.GetCurrPlayer();
-            string currPlayerName = currPlayer != null ? currPlayer.user.MemberName() : "";
-            Player bb = room.GetBb();
-            string bbName = bb != null ? bb.user.MemberName() : "";
-            Player sb = room.GetSb();
-            string sbName = sb != null ? sb.user.MemberName() : "";
-            Player dealer = room.GetDealer();
-            string dealerName = dealer != null ? dealer.user.MemberName() : "";
+            ResponeCommMessage response = null;
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                if (curr != null && curr.Id != userId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(curr.GameData, ShouldUseDelim), curr.Id);
+                }
+                else if (curr != null)
+                {
+                    response = new ResponeCommMessage(userId, _sessionIdHandler.GetSessionIdByUserId(userId),
+                        curr.GameData.IsSucceed, originalMsg);
+                    response.SetGameData(curr.GameData);
+                }
+            }
+            return response;
+        }
 
-            return new GameDataCommMessage(msg.UserId, room.Id, msg.SessionId, player._firstCard, player._secondCard,
-                room.GetPublicCards(), player.TotalChip, room.GetPotSize(), 
-                room.GetPlayersInRoom().ConvertAll(p => p.user.MemberName()), 
-                dealerName, bbName, sbName, success, currPlayerName, 
-                player.user.MemberName(), msg.Amount, msg.MoveType);
+        private JoinResponseCommMessage SendMessagesJoin(int userId, IEnumerator<ActionResultInfo> iterator,
+            CommunicationMessage originalMsg)
+        {
+            JoinResponseCommMessage response = null;
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                if (curr != null && curr.Id != userId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(curr.GameData, ShouldUseDelim), curr.Id);
+                }
+                else if (curr != null)
+                {
+                    response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(userId), userId,
+                        curr.GameData.IsSucceed, originalMsg, curr.GameData);
+                    response.SetGameData(curr.GameData);
+                }
+            }
+            return response;
         }
 
         public string HandleEvent(ActionCommMessage msg)
         {
-            bool success = false;
             if (_sessionIdHandler != null)
             {
                 ResponeCommMessage response = null;
-                GameDataCommMessage data;
-                IGame room;
+                IEnumerator<ActionResultInfo> iter;
                 switch (msg.MoveType)
                 {
                     case CommunicationMessage.ActionType.Bet:
-                        room = _gameService.GetGameById(msg.RoomId);
-                        data = GetGameDataForRoom(room, msg, success);
-
-                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                        response.SetGameData(data);
-                        break;
                     case CommunicationMessage.ActionType.Fold:
-                        room = _gameService.GetGameById(msg.RoomId);
-                        data = GetGameDataForRoom(room, msg, success);
-
-                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                        response.SetGameData(data);
-                        break;
                     case CommunicationMessage.ActionType.HandCard:
-                        room = _gameService.GetGameById(msg.RoomId);
-                        data = GetGameDataForRoom(room, msg, success);
-
-                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                        response.SetGameData(data);
+                    case CommunicationMessage.ActionType.Leave:
+                    case CommunicationMessage.ActionType.StartGame:
+                        iter = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        response = SendMessages(msg.UserId, iter, msg);
                         break;
                     case CommunicationMessage.ActionType.Join:
-                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
+                        iter = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
 
-                        room = _gameService.GetGameById(msg.RoomId);
-                        data = GetGameDataForRoom(room, msg, success);
-
-                        response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg, data);
-                        break;
-                    case CommunicationMessage.ActionType.Leave:
-                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-
-                        room = _gameService.GetGameById(msg.RoomId);
-                        data = GetGameDataForRoom(room, msg, success);
-
-                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                        response.SetGameData(data);
-                        break;
-                    case CommunicationMessage.ActionType.StartGame:
-                        success = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
-
-                        room = _gameService.GetGameById(msg.RoomId);
-                        data = GetGameDataForRoom(room, msg, success);
-
-                        response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                        response.SetGameData(data);
+                        response = SendMessagesJoin(msg.UserId, iter, msg);
                         break;
                 }
                 if (response != null)
