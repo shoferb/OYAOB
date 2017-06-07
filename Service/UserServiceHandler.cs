@@ -220,18 +220,7 @@ namespace TexasHoldem.Service
  
 
 
-        public List<Notification> GetUserNotifications(int userId)
-        {
-            List<Notification> toReturn = null;
-            IUser user = sc.GetUserWithId(userId);
-            if (user == null)
-            {
-                return toReturn;
-            }
- 
-            toReturn = user.WaitListNotification();
-            return toReturn;
-        }
+     
 
         //use-case: user can edit is avatar
         public bool EditUserAvatar(int id, string newAvatarPath)

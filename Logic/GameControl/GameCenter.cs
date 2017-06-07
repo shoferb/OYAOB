@@ -540,16 +540,7 @@ namespace TexasHoldem.Logic.GameControl
             return toCheck >= 0;
         }
         
-        //seand notification to user
-        public bool SendNotification(User reciver, Notification toSend)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                reciver.SendNotification(toSend);
-                return toReturn;
-            }
-        }
+     
 
         public List<IGame> Games
         {

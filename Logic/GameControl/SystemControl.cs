@@ -651,7 +651,7 @@ namespace TexasHoldem.Logic.Game_Control
         public List<IUser> GetUsersByNumOfGames()
         {
             List<IUser> temp = userProxy.GetAllUser();
-            return new List<IUser>(temp.OrderByDescending(user => user.WinNum + user.LoseNum)
+            return new List<IUser>(temp.OrderByDescending(user => user.GetNumberOfGamesUserPlay())
                 .Take(Math.Min(20, temp.Count)));
         }
     }

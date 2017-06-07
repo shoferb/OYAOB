@@ -32,7 +32,7 @@ namespace TexasHoldem.Logic.Users
      
         int Money();
 
-         List<Notification> WaitListNotification();
+      
 
         string Email();
 
@@ -99,9 +99,7 @@ namespace TexasHoldem.Logic.Users
 
         void AddMoney(int amount);
 
-        bool SendNotification(Notification toSend);
-
-        bool AddNotificationToList(Notification toAdd);
+     
 
         LeagueName GetLeague();
 

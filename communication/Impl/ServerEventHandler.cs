@@ -360,7 +360,7 @@ namespace TexasHoldem.communication.Impl
         private LeaderboardLineData UserToLineData(IUser user)
         {
             return new LeaderboardLineData(user.Id(), user.MemberName(), user.Points(),
-                user.TotalProfit, user.HighestCashGainInGame, user.WinNum + user.LoseNum);
+                user.TotalProfit, user.HighestCashGainInGame, user.GetNumberOfGamesUserPlay());
         }
 
         public string HandleEvent(UserStatisticsCommMessage msg)

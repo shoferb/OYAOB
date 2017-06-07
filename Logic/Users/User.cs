@@ -17,7 +17,7 @@ namespace TexasHoldem.Logic.Users
         private String avatar;//- image path
         private int points;
         private int money;
-        private readonly List<Notification> waitListNotification;
+       
         private string email;
         private bool isActive;
         public List<Tuple<int, int>> _gamesAvailableToReplay { get; set; }
@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Users
         public int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
         private LeagueName league;
         public int WinNum { get; set; }
-       // public int LoseNum { get; set; }
+      
         public int HighestCashGainInGame { get; set; }
         public int TotalProfit { get; set; }
         //for syncronize
@@ -42,10 +42,10 @@ namespace TexasHoldem.Logic.Users
             this.money = money;
             this.email = email;
             WinNum = 0;
-           // LoseNum = 0;
+           
             HighestCashGainInGame = 0;
             TotalProfit = 0;
-            waitListNotification = new List<Notification>();
+            
             isActive = true;
             avatar = "/GuiScreen/Photos/Avatar/devil.png";
             _gamesAvailableToReplay = new List<Tuple<int, int>>();
@@ -66,10 +66,10 @@ namespace TexasHoldem.Logic.Users
             this.money = money;
             this.email = email;
             WinNum = winNum;
-          //  LoseNum = loseNum;
+         
             HighestCashGainInGame = highestCashGainInGame;
             TotalProfit = totalProfit;
-            waitListNotification = new List<Notification>();
+           
             isActive = _isActive;
             avatar = _avatar;
             _gamesAvailableToReplay = new List<Tuple<int,int>>();
@@ -124,34 +124,10 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        //function to recive notificaion - return the notification.
-        public bool SendNotification(Notification toSend)
-        {
-            lock (padlock)
-            {
-                bool toReturn = false;
-                if (AddNotificationToList(toSend))
-                {
-                    toReturn = true;
-                }
-                else
-                {
-                    return toReturn;
-                }
-                return toReturn;
-            }
-        }
+      
 
 
-        //private method - add the notification to list so can print when not in game
-        public bool AddNotificationToList(Notification toAdd)
-        {
-            lock (padlock)
-            {
-                waitListNotification.Add(toAdd);
-                return true;
-            }
-        }
+ 
 
         public int Id()
         {
@@ -188,11 +164,7 @@ namespace TexasHoldem.Logic.Users
             return money;
         }
 
-        public List<Notification> WaitListNotification()
-        {
-            return waitListNotification;
-        }
-
+    
         public string Email()
         {
             return email;
