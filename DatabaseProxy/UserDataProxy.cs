@@ -15,8 +15,7 @@ namespace TexasHoldem.DatabaseProxy
     public class UserDataProxy
     {
         UserDataControler userDataControler = new UserDataControler();
-        private readonly ISecurity _security = new SecurityHandler();
-
+        
         public void Login(IUser user)
         {
             try
