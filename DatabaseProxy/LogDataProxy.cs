@@ -89,19 +89,6 @@ namespace TexasHoldem.DatabaseProxy
             return toReturn;
         }
 
-        public void AddSystemLog(Logic.Notifications_And_Logs.SystemLog sysLog)
-        {
-
-            try
-            {
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("error in lod data control : system log insert fail");
-                return;
-            }
-
-        }
+     
     }
 }
