@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Users
         public int unknowGamesPlay; //counter for "unknow use case if played less than 10 than his an "unknow"
         private LeagueName league;
         public int WinNum { get; set; }
-        public int LoseNum { get; set; }
+       // public int LoseNum { get; set; }
         public int HighestCashGainInGame { get; set; }
         public int TotalProfit { get; set; }
         //for syncronize
@@ -42,7 +42,7 @@ namespace TexasHoldem.Logic.Users
             this.money = money;
             this.email = email;
             WinNum = 0;
-            LoseNum = 0;
+           // LoseNum = 0;
             HighestCashGainInGame = 0;
             TotalProfit = 0;
             waitListNotification = new List<Notification>();
@@ -66,7 +66,7 @@ namespace TexasHoldem.Logic.Users
             this.money = money;
             this.email = email;
             WinNum = winNum;
-            LoseNum = loseNum;
+          //  LoseNum = loseNum;
             HighestCashGainInGame = highestCashGainInGame;
             TotalProfit = totalProfit;
             waitListNotification = new List<Notification>();
@@ -264,21 +264,7 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-        public bool IncLoseNum()
-        {
-            lock (padlock)
-            {
-                try
-                {
-                    LoseNum++;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
+      
 
         public bool Login()
         {

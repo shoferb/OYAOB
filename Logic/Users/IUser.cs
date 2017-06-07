@@ -46,9 +46,8 @@ namespace TexasHoldem.Logic.Users
 
         bool IncWinNum();
 
-        bool IncLoseNum();
-
-        int LoseNum { get; set; }
+        
+       
 
         int HighestCashGainInGame { get; set; }
 

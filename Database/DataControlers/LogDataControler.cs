@@ -57,5 +57,24 @@ namespace TexasHoldem.Database.DataControlers
             }
 
         }
+
+        public int GetNextLogId()
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    List<Log> allLogs = db.Logs.ToList();
+                    allLogs.OrderByDescending(log => log.LogId);
+                    return allLogs.First().LogId;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in lod data control : system log insert fail");
+                return -1;
+            }
+
+        }
     }
 }
