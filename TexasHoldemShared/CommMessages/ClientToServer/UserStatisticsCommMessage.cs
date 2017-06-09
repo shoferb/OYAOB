@@ -1,4 +1,5 @@
 ﻿using System;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldemShared.CommMessages.ClientToServer
 {
@@ -10,7 +11,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         {
         }
 
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

@@ -27,7 +27,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             roomId = _roomId;
         }
         //visitor pattern
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

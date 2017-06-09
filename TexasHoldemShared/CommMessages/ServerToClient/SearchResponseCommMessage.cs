@@ -16,7 +16,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         }
 
         //visitor pattern
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

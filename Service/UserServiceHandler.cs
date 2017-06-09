@@ -27,43 +27,41 @@ namespace TexasHoldem.Service
 
         //Use-Case: user can login to system
 
-        public bool LoginUser(string username, string password)
+        public IUser LoginUser(string username, string password)
         {
-            bool toReturn = false;
             IUser user = sc.GetIUSerByUsername(username);
             if (user == null || !user.Password().Equals(password))
             {
-                return toReturn;
+                return user;
             }
             Console.WriteLine("in login user login?:"+user.IsLogin());
 
             if (user.Login())
             {
                 Console.WriteLine("before login db");
-                toReturn = true;
                 userDataProxy.Login(user);
                 Console.WriteLine("after login db");
             }
-            return toReturn;
+            return user;
         }
 
 
         //Use-Case: user can logput from system
-        public bool LogoutUser(int userId)
+        public IUser LogoutUser(int userId)
         {
-            bool toReturn = false;
             IUser user = sc.GetUserWithId(userId);
             if (user == null || !user.IsLogin())
             {
-                return toReturn;
+                return user;
             }
 
-            toReturn = user.Logout();
+            var toReturn = user.Logout();
             if (toReturn)
             {
                 userDataProxy.Logout(user);
+                return user;
             }
-            return toReturn;
+            return null;
         }
 
         

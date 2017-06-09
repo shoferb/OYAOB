@@ -76,52 +76,52 @@ namespace Client.Handler
             _handler.addMsgToSend(parsedMsg);
         }
 
-        public string HandleEvent(ActionCommMessage msg)
+        public ResponeCommMessage HandleEvent(ActionCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(EditCommMessage msg)
+        public ResponeCommMessage HandleEvent(EditCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(LoginCommMessage msg)
+        public ResponeCommMessage HandleEvent(LoginCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(RegisterCommMessage msg)
+        public ResponeCommMessage HandleEvent(RegisterCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(SearchCommMessage msg)
+        public ResponeCommMessage HandleEvent(SearchCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(LeaderboardCommMessage msg)
+        public ResponeCommMessage HandleEvent(LeaderboardCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(GameDataCommMessage msg)
+        public ResponeCommMessage HandleEvent(GameDataCommMessage msg)
         {
             if (CheckSessionId(msg.SessionId))
             {
                 _logic.GameUpdateReceived(msg); 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(ResponeCommMessage msg)
+        public ResponeCommMessage HandleEvent(ResponeCommMessage msg)
         {
             if (SetSetionId(msg.SessionId))
             {
@@ -134,7 +134,7 @@ namespace Client.Handler
                     _logic.NotifyResponseReceived(msg);
                 } 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
 
         }
 
@@ -149,28 +149,28 @@ namespace Client.Handler
             task.Start();
         }
 
-        public string HandleEvent(CreateNewRoomMessage msg)
+        public ResponeCommMessage HandleEvent(CreateNewRoomMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(ChatCommMessage msg)
+        public ResponeCommMessage HandleEvent(ChatCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(ReplayCommMessage msg)
+        public ResponeCommMessage HandleEvent(ReplayCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(UserStatisticsCommMessage msg)
+        public ResponeCommMessage HandleEvent(UserStatisticsCommMessage msg)
         {
             GotClientToServerMsg(msg);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
     }
 }

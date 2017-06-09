@@ -21,7 +21,7 @@ namespace TexasHoldem.communication.Impl
     {
         private readonly UserServiceHandler _userService ;
         private readonly  GameServiceHandler _gameService;
-        private ICommunicationHandler _commHandler;
+        private readonly ICommunicationHandler _commHandler;
         private readonly ICommMsgXmlParser _parser = new ParserImplementation();
         public bool ShouldUseDelim { get; set; } = false;
         private ISessionIdHandler _sessionIdHandler;
@@ -86,7 +86,7 @@ namespace TexasHoldem.communication.Impl
             return response;
         }
 
-        public string HandleEvent(ActionCommMessage msg)
+        public ResponeCommMessage HandleEvent(ActionCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
@@ -110,27 +110,30 @@ namespace TexasHoldem.communication.Impl
                 }
                 if (response != null)
                 {
-                    return _parser.SerializeMsg(response, ShouldUseDelim);
+                    return response;
                 } 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        private List<string> GetNamesFromList(List<Player> players)
-        {
-            List<string> names = new List<string>();
-            foreach (Player p in players)
-            {
-                names.Add(p.user.MemberName());
-            }
-            return names;
-        }
+        //TODO: maybe delete
+        //private List<string> GetNamesFromList(List<Player> players)
+        //{
+        //    List<string> names = new List<string>();
+        //    foreach (Player p in players)
+        //    {
+        //        names.Add(p.user.MemberName());
+        //    }
+        //    return names;
+        //}
 
-        public string HandleEvent(EditCommMessage msg)
+        public ResponeCommMessage HandleEvent(EditCommMessage msg)
         {
-            bool success;
             if (_sessionIdHandler != null)
             {
+                bool success;
+                int newMoney;
+                int newId;
                 switch (msg.FieldToEdit)
                 {
                     case EditCommMessage.EditField.UserName:
@@ -147,7 +150,6 @@ namespace TexasHoldem.communication.Impl
                         break;
                     case EditCommMessage.EditField.Money:
                         string temp = msg.NewValue;
-                        int newMoney;
                         bool isValid = int.TryParse(temp, out newMoney);
                         if (isValid)
                         {
@@ -163,7 +165,6 @@ namespace TexasHoldem.communication.Impl
                         break;
                     case EditCommMessage.EditField.Id:
                         string temp2 = msg.NewValue;
-                        int newId;
                         bool isValid2 = int.TryParse(temp2, out newId);
                         if (isValid2)
                         {
@@ -175,12 +176,12 @@ namespace TexasHoldem.communication.Impl
                         }
                         break;
                     default:
-                        return "";
+                        return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
                 } 
-                ResponeCommMessage response = new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg);
-                return _parser.SerializeMsg(response, ShouldUseDelim);
+                return new ResponeCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
+                    success, msg);
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
         private long GenerateSid(int userId)
@@ -194,45 +195,42 @@ namespace TexasHoldem.communication.Impl
             return sid;
         }
 
-        public string HandleEvent(LoginCommMessage msg)
+        public ResponeCommMessage HandleEvent(LoginCommMessage msg)
         {
 
             if (_sessionIdHandler != null)
             {
-                bool success;
+                IUser user;
                 if (msg.IsLogin)
                 {
-                    success = _userService.LoginUser(msg.UserName, msg.Password);
+                    user = _userService.LoginUser(msg.UserName, msg.Password);
                 }
                 else
                 {
-                    success = _userService.LogoutUser(msg.UserId);
+                    user = _userService.LogoutUser(msg.UserId);
                 }
                 ResponeCommMessage response;
-                if (_socket != null)
+                if (_socket != null && user != null)
                 {
-                    _commHandler.AddUserId(msg.UserId, _socket);
-                }
-                if (success)
-                {
+                    _commHandler.AddUserId(user.Id(), _socket);
+
                     long sid = GenerateSid(msg.UserId);
-                    IUser user = _userService.GetIUserByUserName(msg.UserName);
                     response = new LoginResponeCommMessage(user.Id(), sid, user.Name(), user.MemberName(),
                         user.Password(), user.Avatar(), user.Money(),
-                        user.Email(), user.GetLeague().ToString(), success, msg);
+                        user.Email(), user.GetLeague().ToString(), true, msg);
                 }
                 else
                 {
                     response = new LoginResponeCommMessage(-1, -1, "", "",
-                        "", "", -1, "", "", success, msg);
+                        "", "", -1, "", "", false, msg);
                 }
-                return _parser.SerializeMsg(response, ShouldUseDelim); 
+                return response; 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
 
         }
 
-        public string HandleEvent(RegisterCommMessage msg)
+        public ResponeCommMessage HandleEvent(RegisterCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
@@ -248,12 +246,12 @@ namespace TexasHoldem.communication.Impl
                 ResponeCommMessage response = new RegisterResponeCommMessage(sid, msg.UserId, msg.Name, msg.MemberName, msg.Password,
                     "/GuiScreen/Photos/Avatar/devil.png", msg.Money, msg.Email, "unKnow", success, msg);
 
-                return _parser.SerializeMsg(response, ShouldUseDelim); 
+                return response; 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(SearchCommMessage msg)
+        public ResponeCommMessage HandleEvent(SearchCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
@@ -334,10 +332,10 @@ namespace TexasHoldem.communication.Impl
                         success = false;
                         break;
                 }
-                ResponeCommMessage response = new SearchResponseCommMessage(toSend, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), msg.UserId, success, msg);
-                return _parser.SerializeMsg(response, ShouldUseDelim); 
+                return new SearchResponseCommMessage(toSend, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), 
+                    msg.UserId, success, msg);
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
         private LeaderboardLineData UserToLineData(IUser user)
@@ -346,25 +344,21 @@ namespace TexasHoldem.communication.Impl
                 user.TotalProfit, user.HighestCashGainInGame, user.GetNumberOfGamesUserPlay());
         }
 
-        public string HandleEvent(UserStatisticsCommMessage msg)
+        public ResponeCommMessage HandleEvent(UserStatisticsCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
                 UserStatistics stats = _userService.GetUserStatistics(msg.UserId);
                 if (stats != null)
                 {
-                    var response = new UserStatisticsResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), true,
+                    return new UserStatisticsResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), true,
                         msg, stats.AvgCashGain, stats.AvgGrossProfit);
-                    return _parser.SerializeMsg(response, ShouldUseDelim);
                 }
             }
-            //UserStatisticsCommMessage sts = new UserStatisticsCommMessage(1, 1);
-            //var resp = new UserStatisticsResponseCommMessage(1, 1, true, sts, 2.2, 23.1);
-            //return _parser.SerializeMsg(resp, ShouldUseDelim);
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(LeaderboardCommMessage msg)
+        public ResponeCommMessage HandleEvent(LeaderboardCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
@@ -382,41 +376,40 @@ namespace TexasHoldem.communication.Impl
                         userLst = _userService.GetUsersByNumOfGames();
                         break;
                     default:
-                        return "";
+                        return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
                 }
                 var leaderboradLines = userLst.ConvertAll(UserToLineData);
-                var response = new LeaderboardResponseCommMessage(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
+                return new LeaderboardResponseCommMessage(msg.UserId, 
+                    _sessionIdHandler.GetSessionIdByUserId(msg.UserId),
                     true, msg, leaderboradLines);
-                return _parser.SerializeMsg(response, ShouldUseDelim); 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
         //this is done differently then other types of msgs because it is called from service
-        public string HandleEvent(GameDataCommMessage msg)
+        public ResponeCommMessage HandleEvent(GameDataCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
                 var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
                 _commHandler.AddMsgToSend(parsed, msg.UserId);
-                return parsed; 
+                return new ResponeCommMessage(msg.UserId, msg.SessionId, true, msg); //is not used 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        //_sessionIdHandler.GetSessionIdByUserId(msg.UserId): maybe problematic
-        public string HandleEvent(ResponeCommMessage msg)
+        public ResponeCommMessage HandleEvent(ResponeCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
                 var parsed = _parser.SerializeMsg(msg, ShouldUseDelim);
                 _commHandler.AddMsgToSend(parsed, msg.UserId);
-                return parsed; 
+                return new ResponeCommMessage(msg.UserId, msg.SessionId, true, msg); //is not used 
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
-        public string HandleEvent(CreateNewRoomMessage msg)
+        public ResponeCommMessage HandleEvent(CreateNewRoomMessage msg)
         {
             if (_sessionIdHandler != null)
             {
@@ -432,7 +425,7 @@ namespace TexasHoldem.communication.Impl
                     IUser user = _userService.GetUserById(msg.UserId);
                     names.Add(user.MemberName());
                     var gameData = new GameDataCommMessage(msg.UserId, roomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, new List<Card>(),
-                        msg._chipPolicy, 0, names, null, null, null, success,
+                        msg._chipPolicy, 0, names, null, null, null, true,
                         "", "", 0, CommunicationMessage.ActionType.CreateRoom);
                     respons = new CreateNewGameResponse(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg, gameData);
                 }
@@ -440,9 +433,9 @@ namespace TexasHoldem.communication.Impl
                 {
                     respons = new CreateNewGameResponse();
                 }
-                return _parser.SerializeMsg(respons, ShouldUseDelim);  
+                return respons;  
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
         private List<ClientGame> ToClientGameList(List<IGame> toChange)
@@ -461,7 +454,7 @@ namespace TexasHoldem.communication.Impl
             return toReturn;
         }
 
-        public string HandleEvent(ChatCommMessage msg)
+        public ResponeCommMessage HandleEvent(ChatCommMessage msg)
         {
             if (_sessionIdHandler != null)
             {
@@ -493,17 +486,16 @@ namespace TexasHoldem.communication.Impl
                         break;
 
                 }
-                ResponeCommMessage response = new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
-                return _parser.SerializeMsg(response, ShouldUseDelim); 
+                return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
             }
-            return "";
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
         //TODO:
-        public string HandleEvent(ReplayCommMessage msg)
-        {           
-           // _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);   
-            return "";
+        public ResponeCommMessage HandleEvent(ReplayCommMessage msg)
+        {
+            // _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);   
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
     }
 }

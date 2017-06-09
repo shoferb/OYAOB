@@ -104,7 +104,7 @@ namespace TexasHoldem.Logic.GameControl
                 List<Player> players = new List<Player>();
                 if (enterPayingMoney > 0)
                 {
-                    int newMoney = user.Money() - enterPayingMoney;
+                    //int newMoney = user.Money() - enterPayingMoney;
                     if (!user.ReduceMoneyIfPossible(enterPayingMoney))
                     {
                         ErrorLog log = new ErrorLog("not enough money to pay the fee for user id: " + user.Id());

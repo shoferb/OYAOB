@@ -14,7 +14,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             Results = results;
         }
 
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

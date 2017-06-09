@@ -1,4 +1,6 @@
 ﻿
+using TexasHoldemShared.CommMessages.ServerToClient;
+
 namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     //Sent from client to server and represents a user's wish to register to the system
@@ -22,7 +24,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         }
 
         //visitor pattern
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

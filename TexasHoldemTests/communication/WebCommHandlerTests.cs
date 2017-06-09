@@ -9,6 +9,7 @@ using TexasHoldem.communication.Impl;
 using TexasHoldem.communication.Interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
+using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
 using TexasHoldemShared.Security;
 
@@ -89,7 +90,9 @@ namespace TexasHoldemTests.communication
         [TestCase]
         public void AcceptTest()
         {
-            _serverEventHandlerMock.Setup(m => m.HandleEvent(It.IsAny<LoginCommMessage>())).Returns(LoginRespXml);
+            var respToRet = _parser.ParseString(LoginRespXml, false);
+            _serverEventHandlerMock.Setup(m => 
+                m.HandleEvent(It.IsAny<LoginCommMessage>())).Returns((ResponeCommMessage) respToRet[0]);
             var response = SendWebMsg(LoginJsonMessage);
             Assert.IsNotNull(response);
             string data = "";

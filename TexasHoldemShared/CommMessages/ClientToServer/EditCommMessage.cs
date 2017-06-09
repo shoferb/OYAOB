@@ -1,4 +1,6 @@
-﻿namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿using TexasHoldemShared.CommMessages.ServerToClient;
+
+namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     //sent from client to server and represents a user's wish to change the value of a field, as in User Name, Password, etc.
     public class EditCommMessage : CommunicationMessage
@@ -28,7 +30,7 @@
         }
 
         //visitor pattern
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

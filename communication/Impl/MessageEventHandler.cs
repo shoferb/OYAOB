@@ -25,7 +25,7 @@ namespace TexasHoldem.communication.Impl
         private readonly SystemControl _system;
         private readonly LogControl _logs;
         private readonly ReplayManager _replays;
-        private readonly SessionIdHandler sidHandler;
+        private readonly SessionIdHandler _sidHandler;
 
         public MessageEventHandler(GameCenter gc, SystemControl sys, LogControl log, 
             ReplayManager replay, SessionIdHandler sidHandler)
@@ -34,7 +34,7 @@ namespace TexasHoldem.communication.Impl
             _system = sys;
             _logs = log;
             _replays = replay;
-            this.sidHandler = sidHandler;
+            this._sidHandler = sidHandler;
             _parser = new ParserImplementation();
             _userIdToEventHandlerMap = new ConcurrentDictionary<int, IEventHandler>();
             _commHandler = CommunicationHandler.GetInstance();
@@ -80,16 +80,28 @@ namespace TexasHoldem.communication.Impl
             int userId = parsedMsg.UserId;
             if (!_userIdToEventHandlerMap.ContainsKey(userId))
             {
-                ServerEventHandler handler = new ServerEventHandler(sidHandler, tcpClient, 
+                ServerEventHandler handler = new ServerEventHandler(_sidHandler, tcpClient, 
                     _gameCenter, _system, _logs,_replays, _commHandler) {ShouldUseDelim = true};
                 _userIdToEventHandlerMap.TryAdd(userId, handler);
             }
 
             //call to visitor pattern
             var res = parsedMsg.Handle(_userIdToEventHandlerMap[userId]);
-            if (!String.IsNullOrEmpty(res))
+            if (res != null)
             {
-                _commHandler.AddMsgToSend(res, userId);
+                var resStr = _parser.SerializeMsg(res, true);
+                if (userId == -1) //user id is temporary, remove from queue
+                {
+                    _userIdToEventHandlerMap.TryRemove(userId, out IEventHandler handler);
+                }
+                if (!String.IsNullOrEmpty(resStr))
+                {
+                    _commHandler.AddMsgToSend(resStr, res.UserId);
+                }
+                else
+                {
+                    Console.WriteLine("Got an empty parsed string.");
+                }
             }
             else
             {

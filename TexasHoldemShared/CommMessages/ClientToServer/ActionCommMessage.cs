@@ -1,4 +1,6 @@
-﻿namespace TexasHoldemShared.CommMessages.ClientToServer
+﻿using TexasHoldemShared.CommMessages.ServerToClient;
+
+namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     //Sent from Client to Server and represents a player's action, as in Fold, Raise, Join a game, etc.
     public class ActionCommMessage : CommunicationMessage
@@ -17,7 +19,7 @@
         }
 
         //visitor pattern
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

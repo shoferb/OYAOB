@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldemShared.CommMessages.ClientToServer
 {
@@ -21,7 +22,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
             SortedBy = sortBy;
         }
 
-        public override string Handle(IEventHandler handler)
+        public override ResponeCommMessage Handle(IEventHandler handler)
         {
             return handler.HandleEvent(this);
         }

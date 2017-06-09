@@ -52,7 +52,7 @@ namespace TexasHoldemShared.CommMessages
             SessionId = sid;
         }
 
-        public abstract string Handle(IEventHandler handler);
+        public abstract ResponeCommMessage Handle(IEventHandler handler);
 
         public abstract bool Equals(CommunicationMessage other);
     }
