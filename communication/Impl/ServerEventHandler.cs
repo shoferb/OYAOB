@@ -255,83 +255,54 @@ namespace TexasHoldem.communication.Impl
         {
             if (_sessionIdHandler != null)
             {
-                bool success;
                 List<IGame> temp = new List<IGame>();
-                List<ClientGame> toSend = new List<ClientGame>();
                 switch (msg.searchType)
                 {
                     case SearchCommMessage.SearchType.ActiveGamesByUserName:
-                        temp = _userService.GetActiveGamesByUserName(msg.SearchByString);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
+                        temp = _userService.GetActiveGamesByUserName(msg.SearchByString);                        
                         break;
                     case SearchCommMessage.SearchType.SpectetorGameByUserName:
                         temp = _userService.GetSpectetorGamesByUserName(msg.SearchByString);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByRoomId:
                         IGame game = _gameService.GetGameById(msg.SearchByInt);
                         if (game != null)
                         {
                             temp.Add(game);
-                            toSend = ToClientGameList(temp);
-                            success = toSend.Count != 0;
-                        }
-                        else
-                        {
-                            success = false;
                         }
                         break;
                     case SearchCommMessage.SearchType.AllSepctetorGame:
                         temp = _gameService.GetSpectateableGames();
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.GamesUserCanJoin:
                         temp = _gameService.GetAllActiveGamesAUserCanJoin(msg.UserId);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByPotSize:
                         temp = _gameService.GetGamesByPotSize(msg.SearchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByGameMode:
                         temp = _gameService.GetGamesByGameMode(msg.SearchByGameMode);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByBuyInPolicy:
                         temp = _gameService.GetGamesByBuyInPolicy(msg.SearchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByMinPlayer:
                         temp = _gameService.GetGamesByMinPlayer(msg.SearchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByMaxPlayer:
                         temp = _gameService.GetGamesByMaxPlayer(msg.SearchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByStartingChip:
                         temp = _gameService.GetGamesByStartingChip(msg.SearchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     case SearchCommMessage.SearchType.ByMinBet:
                         temp = _gameService.GetGamesByMinBet(msg.SearchByInt);
-                        toSend = ToClientGameList(temp);
-                        success = toSend.Count != 0;
                         break;
                     default:
-                        success = false;
                         break;
                 }
+                var toSend = ToClientGameList(temp);
+                var success = toSend.Count != 0;
                 return new SearchResponseCommMessage(toSend, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), 
                     msg.UserId, success, msg);
             }
