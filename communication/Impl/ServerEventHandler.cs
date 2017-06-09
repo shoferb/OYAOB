@@ -438,22 +438,18 @@ namespace TexasHoldem.communication.Impl
                     case CommunicationMessage.ActionType.PlayerBrodcast:
                         success = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
                         idReciver = msg.IdSender;
-                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
                         success = _gameService.CanSendPlayerWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
                         idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
-                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
                         success = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
                         idReciver = msg.IdSender;
-                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
                         break;
                     case CommunicationMessage.ActionType.SpectetorWhisper:
                         success = _gameService.CanSendSpectetorWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
                         idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
-                        usernameSender = _userService.GetUserById(msg.IdSender).MemberName();
                         break;
 
                 }
