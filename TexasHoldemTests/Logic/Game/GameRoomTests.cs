@@ -89,27 +89,27 @@ namespace TexasHoldem.Logic.Game.Tests
         public void DoActionLeaveTest()
         {
             //irrelevant user
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Leave, 0, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Leave, 0, useCommunication)));
 
             //relevant user
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Leave, 0, useCommunication)));
         }
 
         [TestMethod()]
         public void DoActionLeaveTest2()
         {
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication));
-            Assert.IsTrue(gameRoom.DoAction(user1, ActionType.Leave, 0, useCommunication));
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Leave, 0, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Leave, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Leave, 0, useCommunication)));
         }
 
         [TestMethod()]
         public void DoActionJoinTest()
         {
             //already player user
-            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Join, 1000, useCommunication)));
             //new user to the game
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication)));
         }
 
         [TestMethod()]
