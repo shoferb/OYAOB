@@ -117,15 +117,15 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             SetDecoratoresLimitNoSpectatores();
             //already player user
-            Assert.IsFalse(gameRoom.DoAction(user1, ActionType.Join, 1000, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Join, 1000, useCommunication)));
             //new user not enough money in amount
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication)));
             //new user not enough money in total
             user2.EditUserMoney(10);
-            Assert.IsFalse(gameRoom.DoAction(user2, ActionType.Join, 2000, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 2000, useCommunication)));
             //user with enough money
             user2.EditUserMoney(10000);
-            Assert.IsTrue(gameRoom.DoAction(user2, ActionType.Join, 1500, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1500, useCommunication)));
         }
 
         [TestMethod()]
