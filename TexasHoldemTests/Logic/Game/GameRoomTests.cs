@@ -85,7 +85,6 @@ namespace TexasHoldem.Logic.Game.Tests
             replayManager.DeleteGameReplay(roomID, 0);
             replayManager.DeleteGameReplay(roomID, 1);
         }
-
         [TestMethod()]
         public void DoActionLeaveTest()
         {
@@ -624,7 +623,12 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(user1.Money() + user2.Money() + user3.Money() == 5000 * 3 - 20 * 3);
         }
 
-
+        private bool ActionSuccedded(IEnumerator<ActionResultInfo> results)
+        {
+            results.MoveNext();
+            ActionResultInfo result = results.Current;
+            return result.GameData.IsSucceed;
+        }
 
         private void StartGameWith3Users()
         {
