@@ -288,10 +288,10 @@ namespace TexasHoldem.Logic.Game.Tests
         public void CanJoinTest2()
         {
             //not enough money enter
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1, useCommunication)));
             Assert.IsTrue(user2.Money() == 5000);
             //an already player user
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Join, 1000, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Join, 1000, useCommunication)));
         }
 
 
