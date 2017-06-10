@@ -328,8 +328,8 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             Assert.IsTrue(gameRoom.IsPotSizeEqual(0));
 
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.StartGame, 0, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.StartGame, 0, useCommunication)));
             Assert.IsTrue(gameRoom.IsPotSizeEqual(10 + 5)); //small+big
         }
 
