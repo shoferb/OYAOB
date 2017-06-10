@@ -233,18 +233,18 @@ namespace TexasHoldem.Logic.Game.Tests
             SetDecoratoresPotLimitWithSpectatores(); //PotLimit
             StartGameWith3Users();
             //max raise now is current size of pot + call value = 25. so max bet is 10 + 25 =35 
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 40, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 35, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 40, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 35, useCommunication)));
 
             //now its user2 turn who is sb (need to add 30 for valid call) 
             // max raise is pot size + valid call = 5+10+35 + 30  = 80 => max bet is 80 +30 = 110
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 120, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 110, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 120, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 110, useCommunication)));
 
             //now its user3 turn who is bb (need to add 105 for valid call) 
             // max raise is pot size + valid call = 10+35+115 + 105  = 265 => max bet is 265 +105 = 370
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 375, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 370, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 375, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 370, useCommunication)));
         }
 
         [TestMethod()]
