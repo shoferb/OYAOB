@@ -518,16 +518,16 @@ namespace TexasHoldem.Logic.Game.Tests
             SetDecoratoresNoLimitWithSpectatores();
             StartGameWith3Users();
             //user1 turn have to bet 10 or more
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication)); //call
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication))); //call
             Assert.IsTrue(gameRoom.GetPotSize() == 25); // 5 + 10 + 10
 
             //user2 turn have to bet 5 or more
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 3, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 5, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 3, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 5, useCommunication)));
             Assert.IsTrue(gameRoom.GetPotSize() == 30); // 5 + 10 + 10 +5
 
             //add spectator
@@ -535,89 +535,89 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.AddSpectetorToRoom(user4));
 
             //user3 can check
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user4, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication)); // check
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user4, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication))); // check
             Assert.IsTrue(gameRoom.GetPotSize() == 30); // 5 + 10 + 10 +5
 
             //new round 
             Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Flop);
 
             //user1 can check
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, -10, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)); //check
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, -10, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication))); //check
             Assert.IsTrue(gameRoom.GetPotSize() == 30); //from last round
 
             //user2 turn can check but choose to bet 10
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 10, useCommunication)); //raise 10
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 10, useCommunication))); //raise 10
             Assert.IsTrue(gameRoom.GetPotSize() == 40);
 
             //user3 can call 10 or raise or fold -> choose to call
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication)); // call
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication))); // call
             Assert.IsTrue(gameRoom.GetPotSize() == 50);
 
             //same round 
             Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Flop);
 
             //user1 can call 10 or fold or raise
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication)); //call
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication))); //call
             Assert.IsTrue(gameRoom.GetPotSize() == 60); //from last round
 
             //new round 
             Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Turn);
 
             //user1 can check or fold or raise
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)); //check
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 10, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication))); //check
             Assert.IsTrue(gameRoom.GetPotSize() == 60); //from last round
 
             //user2 raise 15
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 15, useCommunication)); //raise 15
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 15, useCommunication))); //raise 15
             Assert.IsTrue(gameRoom.GetPotSize() == 75);
 
             //user3 re raise another 15
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 30, useCommunication)); //raise 15
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 30, useCommunication))); //raise 15
             Assert.IsTrue(gameRoom.GetPotSize() == 105);
 
             //user1 re raise another 15
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 45, useCommunication)); //raise 15
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 45, useCommunication))); //raise 15
             Assert.IsTrue(gameRoom.GetPotSize() == 150);
 
             //user2 call
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 30, useCommunication)); //call 
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 30, useCommunication))); //call 
             Assert.IsTrue(gameRoom.GetPotSize() == 180);
 
             //same round 
             Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.Turn);
 
             //user3 fold
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication)); //fold
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication))); //fold
             Assert.IsTrue(gameRoom.GetPotSize() == 180);
 
             //next round 
             Assert.IsTrue(gameRoom.GetStep() == GameRoom.HandStep.River);
 
             //user1 check
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)); //check
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication))); //check
             Assert.IsTrue(gameRoom.GetPotSize() == 180);
 
             //user2 check
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication)); //check
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication))); //check
             Assert.IsTrue(gameRoom.GetPotSize() == 180);
 
             //game Over
             Assert.IsFalse(gameRoom.IsGameActive());
 
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Leave, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Leave, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Leave, 0, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Leave, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Leave, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Leave, 0, useCommunication)));
             Assert.IsTrue(user3.Money() < 5000);
             //user start money = 5000, fee in room is 20
             Assert.IsTrue(user1.Money() + user2.Money() + user3.Money() == 5000 * 3 - 20 * 3);
