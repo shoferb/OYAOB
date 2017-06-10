@@ -172,20 +172,20 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             StartGameWith3Users();
             //its user1 turn 
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication)));
             // cant bet with less then bb
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 1, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 1, useCommunication)));
             //valid call = bb
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 10, useCommunication)));
             //now its user2 turn who is sb (need to add 5 for valid call)
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 3, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 5, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 3, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 5, useCommunication)));
 
             //now its user3 turn who is bb can call with 0 (check)
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 0, useCommunication)));
 
         }
 
