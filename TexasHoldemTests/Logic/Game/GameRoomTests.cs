@@ -301,7 +301,7 @@ namespace TexasHoldem.Logic.Game.Tests
             //relevant user
             Assert.IsTrue(gameRoom.AddSpectetorToRoom(user2));
             //an already spectator user
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication)));
         }
 
         [TestMethod()]
