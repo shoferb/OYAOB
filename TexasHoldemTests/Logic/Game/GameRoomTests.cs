@@ -154,16 +154,16 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             StartGameWith3Users();
             //its user1 turn
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Fold, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Fold, 0, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Fold, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Fold, 0, useCommunication)));
             //now its user2 turn
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Fold, 0, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Fold, 0, useCommunication)));
             //game should be over and not active
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Fold, 0, useCommunication));
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Fold, 0, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Fold, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Fold, 0, useCommunication)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Fold, 0, useCommunication)));
 
         }
 
