@@ -389,6 +389,7 @@
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetAllUser.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetUserByUserId.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetUserByUserName.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\UserStoresProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
