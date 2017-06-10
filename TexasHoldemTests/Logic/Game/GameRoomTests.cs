@@ -195,16 +195,16 @@ namespace TexasHoldem.Logic.Game.Tests
             SetDecoratoresNoLimitWithSpectatores(); // NoLimit
             StartGameWith3Users();
             //valid raise now is atless bb*2 = 20
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 15, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 20, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 15, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user1, ActionType.Bet, 20, useCommunication)));
 
             //now its user2 turn who is sb (need to add 15 for valid call and add (15 + 10) for min raise
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 20, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 25, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 20, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Bet, 25, useCommunication)));
 
             //now its user3 turn for min raise he need to add 30 (total of 40 - add 10 to the max of 30 last bet)
-            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 25, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 30, useCommunication));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 25, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 30, useCommunication)));
         }
 
         [TestMethod()]
