@@ -310,8 +310,8 @@ namespace TexasHoldem.Logic.Game.Tests
             //non started game
             Assert.IsFalse(gameRoom.IsGameActive());
             //join another player and start game
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication));
-            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.StartGame, 0, useCommunication));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.Join, 1000, useCommunication)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.StartGame, 0, useCommunication)));
             Assert.IsTrue(gameRoom.IsGameActive());
         }
 
