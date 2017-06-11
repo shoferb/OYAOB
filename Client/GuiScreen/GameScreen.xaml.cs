@@ -432,7 +432,7 @@ namespace Client.GuiScreen
                     break;
                 case 3://fold
                     int amountd = -1;
-                    bool ansd = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amountd, RoomId);
+                    bool ansd = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold, amountd, RoomId);
                     if (ansd)
                     {
                         MessageBox.Show("Action Succeeded");
