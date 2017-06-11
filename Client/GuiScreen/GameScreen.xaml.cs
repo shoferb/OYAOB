@@ -134,16 +134,17 @@ namespace Client.GuiScreen
                 {
                     //ListViewPublicCards.Items.Clear();
                     this.TableCards = msg.TableCards;
-                    List<ViewObj> pCards = new List<ViewObj>();
+                    //  List<ViewObj> pCards = new List<ViewObj>();
+                    this.ListViewPublicCards.Items.Clear();
                     foreach (Card aCard in TableCards)
                     {
                         if (aCard != null)
                         {
-                            ViewObj toAdd = new ViewObj(aCard.ToString());
-                            pCards.Add(toAdd);
+                       //     ViewObj toAdd = new ViewObj(aCard.ToString());
+                            this.ListViewPublicCards.Items.Add(aCard.ToString());
                         }
                     }
-                    ListViewPublicCards.ItemsSource = pCards;
+                 //   ListViewPublicCards.ItemsSource = pCards;
                 }
 
                 this.TotalChips = msg.TotalChips;
