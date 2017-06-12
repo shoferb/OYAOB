@@ -50,15 +50,14 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             return toReturn;
         }
-        public void DeleteLog(TexasHoldem.Database.LinqToSql.Log log)
+        public void DeleteLog(int logId)
         {
 
             try
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.Logs.DeleteOnSubmit(log);
-                    db.SubmitChanges();
+                    db.DeleteLogById(logId);
                 }
             }
             catch (Exception e)
@@ -69,15 +68,14 @@ namespace TexasHoldemTests.Database.DataControlers
 
         }
 
-        public void DeleteErrorLog(TexasHoldem.Database.LinqToSql.ErrorLog log)
+        public void DeleteErrorLog(int logId)
         {
 
             try
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.ErrorLogs.DeleteOnSubmit(log);
-                    db.SubmitChanges();
+                    db.DeleteErrorLogById(logId);
                 }
             }
             catch (Exception e)
@@ -88,15 +86,15 @@ namespace TexasHoldemTests.Database.DataControlers
 
         }
 
-        public void DeleteSystemLog(TexasHoldem.Database.LinqToSql.SystemLog log)
+        public void DeleteSystemLog(int logId)
         {
 
             try
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    
-                    db.SubmitChanges();
+
+                    db.DeleteSystemLogById(logId);
                 }
             }
             catch (Exception e)
