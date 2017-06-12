@@ -6,19 +6,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.Database.LinqToSql;
+using TexasHoldemTests.Database.DataControlers;
 
 namespace TexasHoldem.Database.DataControlers.Tests
 {
     [TestClass()]
     public class LogDataControlerTests
     {
+        private LogDataControler logDataControler = new LogDataControler();
+        private LogsOnlyForTest logsOnlyForTest = new LogsOnlyForTest();
         [TestMethod()]
-        public void AddErrorLogTest()
+        public void AddErrorLogTest_good_count()
         {
-           ErrorLog toAdd = new ErrorLog();
-            toAdd.Log.LogId = 1;
-            toAdd.msg = "insert error log try test ";
-
+            // ErrorLog log  = new ErrorLog("this is an error log");
+            Database.LinqToSql.ErrorLog toAdd = new Database.LinqToSql.ErrorLog();
+            Database.LinqToSql.Log logs = new Database.LinqToSql.Log();
+            logs.LogId = 1;
+            logs.LogPriority = 1;
+            toAdd.Log = logs;
+            toAdd.logId = 1;
+            toAdd.msg = "test AddErrorLogTest_good_count()";
+            logDataControler.AddErrorLog(toAdd);
+            List<Database.LinqToSql.ErrorLog> allLogs = logsOnlyForTest.GetAllErrorLogs();
+            Assert.AreEqual(allLogs.Count, 1);
         }
 
         [TestMethod()]

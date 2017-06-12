@@ -28,7 +28,7 @@ namespace TexasHoldem.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : error log insert fail");
+                Console.WriteLine("error in log data control : error log insert fail");
                 return ;
             }
 
@@ -80,5 +80,7 @@ namespace TexasHoldem.Database.DataControlers
             }
 
         }
+
+        
     }
 }
