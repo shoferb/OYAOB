@@ -98,7 +98,6 @@
     <Compile Include="DatabaseProxy\UserDataProxyTests.cs" />
     <Compile Include="Database\DataControlers\LogDataControlerTests.cs" />
     <Compile Include="Database\DataControlers\UserDataControlerTests.cs" />
-    <Compile Include="Database\UserDBTest.cs" />
     <Compile Include="Handler\CommunicationHandlerTests.cs" />
     <Compile Include="Logic\IUserMoq.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />
