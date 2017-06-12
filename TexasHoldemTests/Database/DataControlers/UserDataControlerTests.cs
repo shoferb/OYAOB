@@ -280,13 +280,6 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Assert.AreEqual(userDataControler.GetAllUser().First().winNum, 25);
             userDataControler.DeleteUserById(26);
         }
-        [TestMethod()]
-        public void AddUser()
-        {
-            UserTable toAdd1 = CreateUser(305077901, "orelie26");
-
-            userDataControler.AddNewUser(toAdd1);
-           
-        }
+      
     }
 }
