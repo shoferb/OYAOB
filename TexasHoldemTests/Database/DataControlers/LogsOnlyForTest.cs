@@ -50,7 +50,62 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             return toReturn;
         }
+        public void DeleteLog(TexasHoldem.Database.LinqToSql.Log log)
+        {
 
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.Logs.DeleteOnSubmit(log);
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in lod data control : system log insert fail");
+                return;
+            }
+
+        }
+
+        public void DeleteErrorLog(TexasHoldem.Database.LinqToSql.ErrorLog log)
+        {
+
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.ErrorLogs.DeleteOnSubmit(log);
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in lod data control : system log insert fail");
+                return;
+            }
+
+        }
+
+        public void DeleteSystemLog(TexasHoldem.Database.LinqToSql.SystemLog log)
+        {
+
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.SystemLogs.DeleteOnSubmit(log);
+                    db.SubmitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error in lod data control : system log insert fail");
+                return;
+            }
+
+        }
         public List<TexasHoldem.Database.LinqToSql.Log> GetAllLogs()
         {
 
