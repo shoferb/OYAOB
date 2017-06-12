@@ -18,17 +18,9 @@ namespace TexasHoldem.DatabaseProxy
     public class GameDataProxy
     {
        
-        private GameDataControler _controller;
-        private SystemControl _systemControl;
-        private LogControl _logControl;
-        private Logic.Replay.ReplayManager _replayManager;
-        private GameCenter _gameCenter;
-        private ServerToClientSender _sender;
+   
 
-        public GameDataProxy()
-        {
-            _controller = new GameDataControler();
-        }
+        public GameDataProxy() {  }
 
         public GameDataProxy(SystemControl sysCon, LogControl lc, Logic.Replay.ReplayManager rm, GameCenter gc)
         {
@@ -38,7 +30,7 @@ namespace TexasHoldem.DatabaseProxy
             _logControl = lc;
             _replayManager = rm;
             _gameCenter = gc;
-           _sender = new ServerToClientSender(_gameCenter, _systemControl, _logControl, _replayManager);
+         
         }
        
         public bool AddNewGameToDB(Logic.Game.GameRoom gr)
