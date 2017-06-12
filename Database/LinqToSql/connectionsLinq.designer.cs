@@ -408,6 +408,206 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((ISingleResult<GetUserByUserNameResult>)(result.ReturnValue));
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllGames")]
+		public ISingleResult<GetAllGamesResult> GetAllGames()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllGamesResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetCardByVal")]
+		public ISingleResult<GetCardByValResult> GetCardByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetCardByValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetDeckByRoomId")]
+		public ISingleResult<GetDeckByRoomIdResult> GetDeckByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetDeckByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeNameByVal")]
+		public ISingleResult<GetGameModeNameByValResult> GetGameModeNameByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetGameModeNameByValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGamePreferencesByRoomId")]
+		public ISingleResult<GetGamePreferencesByRoomIdResult> GetGamePreferencesByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetGamePreferencesByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameReplayByRoomId")]
+		public ISingleResult<GetGameReplayByRoomIdResult> GetGameReplayByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetGameReplayByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomByRoomId")]
+		public ISingleResult<GetGameRoomByRoomIdResult> GetGameRoomByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetGameRoomByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLeagueNameByVal")]
+		public ISingleResult<GetLeagueNameByValResult> GetLeagueNameByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetLeagueNameByValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetPlayerByRoomIdAndUserId")]
+		public ISingleResult<GetPlayerByRoomIdAndUserIdResult> GetPlayerByRoomIdAndUserId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId);
+			return ((ISingleResult<GetPlayerByRoomIdAndUserIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetPlayerssByRoomId")]
+		public ISingleResult<GetPlayerssByRoomIdResult> GetPlayerssByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetPlayerssByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetPublicCardsByRoomId")]
+		public ISingleResult<GetPublicCardsByRoomIdResult> GetPublicCardsByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetPublicCardsByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSpecsByRoomId")]
+		public ISingleResult<GetSpecsByRoomIdResult> GetSpecsByRoomId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((ISingleResult<GetSpecsByRoomIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSpectetorByRoomIdAndUserId")]
+		public ISingleResult<GetSpectetorByRoomIdAndUserIdResult> GetSpectetorByRoomIdAndUserId([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="RoomId", DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId);
+			return ((ISingleResult<GetSpectetorByRoomIdAndUserIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHandStepNameByVal")]
+		public ISingleResult<GetHandStepNameByValResult> GetHandStepNameByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetHandStepNameByValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLeageValByName")]
+		public ISingleResult<GetLeageValByNameResult> GetLeageValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetLeageValByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHandStepNameByVal")]
+		public ISingleResult<GetHandStepNameByValResult1> GetHandStepNameByVal1([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetHandStepNameByValResult1>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetHandStepValByName")]
+		public ISingleResult<GetHandStepValByNameResult> GetHandStepValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetHandStepValByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetCardValByShapeAndRealVal")]
+		public ISingleResult<GetCardValByShapeAndRealValResult> GetCardValByShapeAndRealVal([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string shape, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), shape, val);
+			return ((ISingleResult<GetCardValByShapeAndRealValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertDeckToDb")]
+		public int InsertDeckToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> cardVal, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), cardVal, gameId, roomId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertGameReplayToDb")]
+		public int InsertGameReplayToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(5000)")] string repStr, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), repStr, gameId, roomId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertGameRoomToDb")]
+		public int InsertGameRoomToDb(
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Bb", DbType="Int")] System.Nullable<int> bb, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Bb_Player", DbType="Int")] System.Nullable<int> bb_Player, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> curr_Player, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> curr_player_position, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Dealer_Player", DbType="Int")] System.Nullable<int> dealer_Player, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Dealer_position", DbType="Int")] System.Nullable<int> dealer_position, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="First_Player_In_round", DbType="Int")] System.Nullable<int> first_Player_In_round, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> first_player_in_round_position, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> game_id, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> hand_step, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_Active_Game, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> last_rise_in_round, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> league_name, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Max_Bet_In_Round", DbType="Int")] System.Nullable<int> max_Bet_In_Round, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Pot_count", DbType="Int")] System.Nullable<int> pot_count, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> room_Id, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sb", DbType="Int")] System.Nullable<int> sb, 
+					[global::System.Data.Linq.Mapping.ParameterAttribute(Name="SB_player", DbType="Int")] System.Nullable<int> sB_player)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), bb, bb_Player, curr_Player, curr_player_position, dealer_Player, dealer_position, first_Player_In_round, first_player_in_round_position, game_id, hand_step, is_Active_Game, last_rise_in_round, league_name, max_Bet_In_Round, pot_count, room_Id, sb, sB_player);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InserPubCardToDb")]
+		public int InserPubCardToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> card, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, card, gameId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertPlayerToDb")]
+		public int InsertPlayerToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> user_Id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_player_active, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string player_name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Total_chip", DbType="Int")] System.Nullable<int> total_chip, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Round_chip_bet", DbType="Int")] System.Nullable<int> round_chip_bet, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Player_action_the_round", DbType="Bit")] System.Nullable<bool> player_action_the_round, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> first_card, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> secund_card, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Id", DbType="Int")] System.Nullable<int> game_Id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, user_Id, is_player_active, player_name, total_chip, round_chip_bet, player_action_the_round, first_card, secund_card, game_Id);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertSpecToDb")]
+		public int InsertSpecToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> user_Id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Id", DbType="Int")] System.Nullable<int> game_Id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), user_Id, roomId, game_Id);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeValByName")]
+		public ISingleResult<GetGameModeValByNameResult> GetGameModeValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetGameModeValByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertPrefToDb")]
+		public int InsertPrefToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> room_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_Spectetor, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Min_player_in_room", DbType="Int")] System.Nullable<int> min_player_in_room, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> max_player_in_room, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> enter_paying_money, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> starting_chip, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Bb", DbType="Int")] System.Nullable<int> bb, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Sb", DbType="Int")] System.Nullable<int> sb, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="League_name", DbType="Int")] System.Nullable<int> league_name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Mode", DbType="Int")] System.Nullable<int> game_Mode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Id", DbType="Int")] System.Nullable<int> game_Id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), room_id, is_Spectetor, min_player_in_room, max_player_in_room, enter_paying_money, starting_chip, bb, sb, league_name, game_Mode, game_Id);
+			return ((int)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserById")]
 		public int DeleteUserById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId)
 		{
@@ -6437,6 +6637,1922 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._inActive != value))
 				{
 					this._inActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetAllGamesResult
+	{
+		
+		private int _room_Id;
+		
+		private int _game_id;
+		
+		private int _Dealer_position;
+		
+		private int _Max_Bet_In_Round;
+		
+		private int _Pot_count;
+		
+		private int _Bb;
+		
+		private int _Sb;
+		
+		private bool _is_Active_Game;
+		
+		private int _curr_Player;
+		
+		private int _Dealer_Player;
+		
+		private int _Bb_Player;
+		
+		private int _SB_player;
+		
+		private int _hand_step;
+		
+		private int _First_Player_In_round;
+		
+		private int _curr_player_position;
+		
+		private int _first_player_in_round_position;
+		
+		private int _last_rise_in_round;
+		
+		private int _league_name;
+		
+		public GetAllGamesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game id]", Storage="_game_id", DbType="Int NOT NULL")]
+		public int game_id
+		{
+			get
+			{
+				return this._game_id;
+			}
+			set
+			{
+				if ((this._game_id != value))
+				{
+					this._game_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Dealer position]", Storage="_Dealer_position", DbType="Int NOT NULL")]
+		public int Dealer_position
+		{
+			get
+			{
+				return this._Dealer_position;
+			}
+			set
+			{
+				if ((this._Dealer_position != value))
+				{
+					this._Dealer_position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Max Bet In Round]", Storage="_Max_Bet_In_Round", DbType="Int NOT NULL")]
+		public int Max_Bet_In_Round
+		{
+			get
+			{
+				return this._Max_Bet_In_Round;
+			}
+			set
+			{
+				if ((this._Max_Bet_In_Round != value))
+				{
+					this._Max_Bet_In_Round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Pot count]", Storage="_Pot_count", DbType="Int NOT NULL")]
+		public int Pot_count
+		{
+			get
+			{
+				return this._Pot_count;
+			}
+			set
+			{
+				if ((this._Pot_count != value))
+				{
+					this._Pot_count = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int NOT NULL")]
+		public int Bb
+		{
+			get
+			{
+				return this._Bb;
+			}
+			set
+			{
+				if ((this._Bb != value))
+				{
+					this._Bb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int NOT NULL")]
+		public int Sb
+		{
+			get
+			{
+				return this._Sb;
+			}
+			set
+			{
+				if ((this._Sb != value))
+				{
+					this._Sb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Active Game]", Storage="_is_Active_Game", DbType="Bit NOT NULL")]
+		public bool is_Active_Game
+		{
+			get
+			{
+				return this._is_Active_Game;
+			}
+			set
+			{
+				if ((this._is_Active_Game != value))
+				{
+					this._is_Active_Game = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[curr Player]", Storage="_curr_Player", DbType="Int NOT NULL")]
+		public int curr_Player
+		{
+			get
+			{
+				return this._curr_Player;
+			}
+			set
+			{
+				if ((this._curr_Player != value))
+				{
+					this._curr_Player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Dealer Player]", Storage="_Dealer_Player", DbType="Int NOT NULL")]
+		public int Dealer_Player
+		{
+			get
+			{
+				return this._Dealer_Player;
+			}
+			set
+			{
+				if ((this._Dealer_Player != value))
+				{
+					this._Dealer_Player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Bb Player]", Storage="_Bb_Player", DbType="Int NOT NULL")]
+		public int Bb_Player
+		{
+			get
+			{
+				return this._Bb_Player;
+			}
+			set
+			{
+				if ((this._Bb_Player != value))
+				{
+					this._Bb_Player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[SB player]", Storage="_SB_player", DbType="Int NOT NULL")]
+		public int SB_player
+		{
+			get
+			{
+				return this._SB_player;
+			}
+			set
+			{
+				if ((this._SB_player != value))
+				{
+					this._SB_player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand step]", Storage="_hand_step", DbType="Int NOT NULL")]
+		public int hand_step
+		{
+			get
+			{
+				return this._hand_step;
+			}
+			set
+			{
+				if ((this._hand_step != value))
+				{
+					this._hand_step = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[First Player In round]", Storage="_First_Player_In_round", DbType="Int NOT NULL")]
+		public int First_Player_In_round
+		{
+			get
+			{
+				return this._First_Player_In_round;
+			}
+			set
+			{
+				if ((this._First_Player_In_round != value))
+				{
+					this._First_Player_In_round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[curr player position]", Storage="_curr_player_position", DbType="Int NOT NULL")]
+		public int curr_player_position
+		{
+			get
+			{
+				return this._curr_player_position;
+			}
+			set
+			{
+				if ((this._curr_player_position != value))
+				{
+					this._curr_player_position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[first player in round position]", Storage="_first_player_in_round_position", DbType="Int NOT NULL")]
+		public int first_player_in_round_position
+		{
+			get
+			{
+				return this._first_player_in_round_position;
+			}
+			set
+			{
+				if ((this._first_player_in_round_position != value))
+				{
+					this._first_player_in_round_position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[last rise in round]", Storage="_last_rise_in_round", DbType="Int NOT NULL")]
+		public int last_rise_in_round
+		{
+			get
+			{
+				return this._last_rise_in_round;
+			}
+			set
+			{
+				if ((this._last_rise_in_round != value))
+				{
+					this._last_rise_in_round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[league name]", Storage="_league_name", DbType="Int NOT NULL")]
+		public int league_name
+		{
+			get
+			{
+				return this._league_name;
+			}
+			set
+			{
+				if ((this._league_name != value))
+				{
+					this._league_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetCardByValResult
+	{
+		
+		private int _Card_Value;
+		
+		private string _Card_Shpe;
+		
+		private int _Card_Real_Value;
+		
+		public GetCardByValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Value]", Storage="_Card_Value", DbType="Int NOT NULL")]
+		public int Card_Value
+		{
+			get
+			{
+				return this._Card_Value;
+			}
+			set
+			{
+				if ((this._Card_Value != value))
+				{
+					this._Card_Value = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Shpe]", Storage="_Card_Shpe", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string Card_Shpe
+		{
+			get
+			{
+				return this._Card_Shpe;
+			}
+			set
+			{
+				if ((this._Card_Shpe != value))
+				{
+					this._Card_Shpe = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Real Value]", Storage="_Card_Real_Value", DbType="Int NOT NULL")]
+		public int Card_Real_Value
+		{
+			get
+			{
+				return this._Card_Real_Value;
+			}
+			set
+			{
+				if ((this._Card_Real_Value != value))
+				{
+					this._Card_Real_Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetDeckByRoomIdResult
+	{
+		
+		private int _index;
+		
+		private int _room_Id;
+		
+		private int _game_Id;
+		
+		private int _card_value;
+		
+		public GetDeckByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[index]", Storage="_index", DbType="Int NOT NULL")]
+		public int index
+		{
+			get
+			{
+				return this._index;
+			}
+			set
+			{
+				if ((this._index != value))
+				{
+					this._index = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL")]
+		public int game_Id
+		{
+			get
+			{
+				return this._game_Id;
+			}
+			set
+			{
+				if ((this._game_Id != value))
+				{
+					this._game_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[card value]", Storage="_card_value", DbType="Int NOT NULL")]
+		public int card_value
+		{
+			get
+			{
+				return this._card_value;
+			}
+			set
+			{
+				if ((this._card_value != value))
+				{
+					this._card_value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameModeNameByValResult
+	{
+		
+		private string _game_mode_name;
+		
+		public GetGameModeNameByValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game mode name]", Storage="_game_mode_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string game_mode_name
+		{
+			get
+			{
+				return this._game_mode_name;
+			}
+			set
+			{
+				if ((this._game_mode_name != value))
+				{
+					this._game_mode_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGamePreferencesByRoomIdResult
+	{
+		
+		private int _room_id;
+		
+		private System.Nullable<bool> _is_Spectetor;
+		
+		private System.Nullable<int> _Min_player_in_room;
+		
+		private System.Nullable<int> _max_player_in_room;
+		
+		private System.Nullable<int> _enter_paying_money;
+		
+		private System.Nullable<int> _starting_chip;
+		
+		private System.Nullable<int> _Bb;
+		
+		private System.Nullable<int> _Sb;
+		
+		private System.Nullable<int> _League_name;
+		
+		private System.Nullable<int> _Game_Mode;
+		
+		private int _Game_Id;
+		
+		public GetGamePreferencesByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room id]", Storage="_room_id", DbType="Int NOT NULL")]
+		public int room_id
+		{
+			get
+			{
+				return this._room_id;
+			}
+			set
+			{
+				if ((this._room_id != value))
+				{
+					this._room_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Spectetor]", Storage="_is_Spectetor", DbType="Bit")]
+		public System.Nullable<bool> is_Spectetor
+		{
+			get
+			{
+				return this._is_Spectetor;
+			}
+			set
+			{
+				if ((this._is_Spectetor != value))
+				{
+					this._is_Spectetor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Min player in room]", Storage="_Min_player_in_room", DbType="Int")]
+		public System.Nullable<int> Min_player_in_room
+		{
+			get
+			{
+				return this._Min_player_in_room;
+			}
+			set
+			{
+				if ((this._Min_player_in_room != value))
+				{
+					this._Min_player_in_room = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max player in room]", Storage="_max_player_in_room", DbType="Int")]
+		public System.Nullable<int> max_player_in_room
+		{
+			get
+			{
+				return this._max_player_in_room;
+			}
+			set
+			{
+				if ((this._max_player_in_room != value))
+				{
+					this._max_player_in_room = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[enter paying money]", Storage="_enter_paying_money", DbType="Int")]
+		public System.Nullable<int> enter_paying_money
+		{
+			get
+			{
+				return this._enter_paying_money;
+			}
+			set
+			{
+				if ((this._enter_paying_money != value))
+				{
+					this._enter_paying_money = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[starting chip]", Storage="_starting_chip", DbType="Int")]
+		public System.Nullable<int> starting_chip
+		{
+			get
+			{
+				return this._starting_chip;
+			}
+			set
+			{
+				if ((this._starting_chip != value))
+				{
+					this._starting_chip = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int")]
+		public System.Nullable<int> Bb
+		{
+			get
+			{
+				return this._Bb;
+			}
+			set
+			{
+				if ((this._Bb != value))
+				{
+					this._Bb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int")]
+		public System.Nullable<int> Sb
+		{
+			get
+			{
+				return this._Sb;
+			}
+			set
+			{
+				if ((this._Sb != value))
+				{
+					this._Sb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League name]", Storage="_League_name", DbType="Int")]
+		public System.Nullable<int> League_name
+		{
+			get
+			{
+				return this._League_name;
+			}
+			set
+			{
+				if ((this._League_name != value))
+				{
+					this._League_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Mode]", Storage="_Game_Mode", DbType="Int")]
+		public System.Nullable<int> Game_Mode
+		{
+			get
+			{
+				return this._Game_Mode;
+			}
+			set
+			{
+				if ((this._Game_Mode != value))
+				{
+					this._Game_Mode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameReplayByRoomIdResult
+	{
+		
+		private int _room_Id;
+		
+		private int _game_Id;
+		
+		private int _index;
+		
+		private string _replay;
+		
+		public GetGameReplayByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL")]
+		public int game_Id
+		{
+			get
+			{
+				return this._game_Id;
+			}
+			set
+			{
+				if ((this._game_Id != value))
+				{
+					this._game_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[index]", Storage="_index", DbType="Int NOT NULL")]
+		public int index
+		{
+			get
+			{
+				return this._index;
+			}
+			set
+			{
+				if ((this._index != value))
+				{
+					this._index = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_replay", DbType="VarChar(5000) NOT NULL", CanBeNull=false)]
+		public string replay
+		{
+			get
+			{
+				return this._replay;
+			}
+			set
+			{
+				if ((this._replay != value))
+				{
+					this._replay = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomByRoomIdResult
+	{
+		
+		private int _room_Id;
+		
+		private int _game_id;
+		
+		private int _Dealer_position;
+		
+		private int _Max_Bet_In_Round;
+		
+		private int _Pot_count;
+		
+		private int _Bb;
+		
+		private int _Sb;
+		
+		private bool _is_Active_Game;
+		
+		private int _curr_Player;
+		
+		private int _Dealer_Player;
+		
+		private int _Bb_Player;
+		
+		private int _SB_player;
+		
+		private int _hand_step;
+		
+		private int _First_Player_In_round;
+		
+		private int _curr_player_position;
+		
+		private int _first_player_in_round_position;
+		
+		private int _last_rise_in_round;
+		
+		private int _league_name;
+		
+		public GetGameRoomByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game id]", Storage="_game_id", DbType="Int NOT NULL")]
+		public int game_id
+		{
+			get
+			{
+				return this._game_id;
+			}
+			set
+			{
+				if ((this._game_id != value))
+				{
+					this._game_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Dealer position]", Storage="_Dealer_position", DbType="Int NOT NULL")]
+		public int Dealer_position
+		{
+			get
+			{
+				return this._Dealer_position;
+			}
+			set
+			{
+				if ((this._Dealer_position != value))
+				{
+					this._Dealer_position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Max Bet In Round]", Storage="_Max_Bet_In_Round", DbType="Int NOT NULL")]
+		public int Max_Bet_In_Round
+		{
+			get
+			{
+				return this._Max_Bet_In_Round;
+			}
+			set
+			{
+				if ((this._Max_Bet_In_Round != value))
+				{
+					this._Max_Bet_In_Round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Pot count]", Storage="_Pot_count", DbType="Int NOT NULL")]
+		public int Pot_count
+		{
+			get
+			{
+				return this._Pot_count;
+			}
+			set
+			{
+				if ((this._Pot_count != value))
+				{
+					this._Pot_count = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int NOT NULL")]
+		public int Bb
+		{
+			get
+			{
+				return this._Bb;
+			}
+			set
+			{
+				if ((this._Bb != value))
+				{
+					this._Bb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int NOT NULL")]
+		public int Sb
+		{
+			get
+			{
+				return this._Sb;
+			}
+			set
+			{
+				if ((this._Sb != value))
+				{
+					this._Sb = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Active Game]", Storage="_is_Active_Game", DbType="Bit NOT NULL")]
+		public bool is_Active_Game
+		{
+			get
+			{
+				return this._is_Active_Game;
+			}
+			set
+			{
+				if ((this._is_Active_Game != value))
+				{
+					this._is_Active_Game = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[curr Player]", Storage="_curr_Player", DbType="Int NOT NULL")]
+		public int curr_Player
+		{
+			get
+			{
+				return this._curr_Player;
+			}
+			set
+			{
+				if ((this._curr_Player != value))
+				{
+					this._curr_Player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Dealer Player]", Storage="_Dealer_Player", DbType="Int NOT NULL")]
+		public int Dealer_Player
+		{
+			get
+			{
+				return this._Dealer_Player;
+			}
+			set
+			{
+				if ((this._Dealer_Player != value))
+				{
+					this._Dealer_Player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Bb Player]", Storage="_Bb_Player", DbType="Int NOT NULL")]
+		public int Bb_Player
+		{
+			get
+			{
+				return this._Bb_Player;
+			}
+			set
+			{
+				if ((this._Bb_Player != value))
+				{
+					this._Bb_Player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[SB player]", Storage="_SB_player", DbType="Int NOT NULL")]
+		public int SB_player
+		{
+			get
+			{
+				return this._SB_player;
+			}
+			set
+			{
+				if ((this._SB_player != value))
+				{
+					this._SB_player = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand step]", Storage="_hand_step", DbType="Int NOT NULL")]
+		public int hand_step
+		{
+			get
+			{
+				return this._hand_step;
+			}
+			set
+			{
+				if ((this._hand_step != value))
+				{
+					this._hand_step = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[First Player In round]", Storage="_First_Player_In_round", DbType="Int NOT NULL")]
+		public int First_Player_In_round
+		{
+			get
+			{
+				return this._First_Player_In_round;
+			}
+			set
+			{
+				if ((this._First_Player_In_round != value))
+				{
+					this._First_Player_In_round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[curr player position]", Storage="_curr_player_position", DbType="Int NOT NULL")]
+		public int curr_player_position
+		{
+			get
+			{
+				return this._curr_player_position;
+			}
+			set
+			{
+				if ((this._curr_player_position != value))
+				{
+					this._curr_player_position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[first player in round position]", Storage="_first_player_in_round_position", DbType="Int NOT NULL")]
+		public int first_player_in_round_position
+		{
+			get
+			{
+				return this._first_player_in_round_position;
+			}
+			set
+			{
+				if ((this._first_player_in_round_position != value))
+				{
+					this._first_player_in_round_position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[last rise in round]", Storage="_last_rise_in_round", DbType="Int NOT NULL")]
+		public int last_rise_in_round
+		{
+			get
+			{
+				return this._last_rise_in_round;
+			}
+			set
+			{
+				if ((this._last_rise_in_round != value))
+				{
+					this._last_rise_in_round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[league name]", Storage="_league_name", DbType="Int NOT NULL")]
+		public int league_name
+		{
+			get
+			{
+				return this._league_name;
+			}
+			set
+			{
+				if ((this._league_name != value))
+				{
+					this._league_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetLeagueNameByValResult
+	{
+		
+		private int _League_Value;
+		
+		private string _League_Name;
+		
+		public GetLeagueNameByValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League Value]", Storage="_League_Value", DbType="Int NOT NULL")]
+		public int League_Value
+		{
+			get
+			{
+				return this._League_Value;
+			}
+			set
+			{
+				if ((this._League_Value != value))
+				{
+					this._League_Value = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League Name]", Storage="_League_Name", DbType="VarChar(10)")]
+		public string League_Name
+		{
+			get
+			{
+				return this._League_Name;
+			}
+			set
+			{
+				if ((this._League_Name != value))
+				{
+					this._League_Name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetPlayerByRoomIdAndUserIdResult
+	{
+		
+		private int _room_Id;
+		
+		private int _user_Id;
+		
+		private bool _is_player_active;
+		
+		private string _player_name;
+		
+		private int _Total_chip;
+		
+		private int _Round_chip_bet;
+		
+		private bool _Player_action_the_round;
+		
+		private int _first_card;
+		
+		private int _secund_card;
+		
+		private int _Game_Id;
+		
+		public GetPlayerByRoomIdAndUserIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[user Id]", Storage="_user_Id", DbType="Int NOT NULL")]
+		public int user_Id
+		{
+			get
+			{
+				return this._user_Id;
+			}
+			set
+			{
+				if ((this._user_Id != value))
+				{
+					this._user_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is player active]", Storage="_is_player_active", DbType="Bit NOT NULL")]
+		public bool is_player_active
+		{
+			get
+			{
+				return this._is_player_active;
+			}
+			set
+			{
+				if ((this._is_player_active != value))
+				{
+					this._is_player_active = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[player name]", Storage="_player_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string player_name
+		{
+			get
+			{
+				return this._player_name;
+			}
+			set
+			{
+				if ((this._player_name != value))
+				{
+					this._player_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Total chip]", Storage="_Total_chip", DbType="Int NOT NULL")]
+		public int Total_chip
+		{
+			get
+			{
+				return this._Total_chip;
+			}
+			set
+			{
+				if ((this._Total_chip != value))
+				{
+					this._Total_chip = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Round chip bet]", Storage="_Round_chip_bet", DbType="Int NOT NULL")]
+		public int Round_chip_bet
+		{
+			get
+			{
+				return this._Round_chip_bet;
+			}
+			set
+			{
+				if ((this._Round_chip_bet != value))
+				{
+					this._Round_chip_bet = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Player action the round]", Storage="_Player_action_the_round", DbType="Bit NOT NULL")]
+		public bool Player_action_the_round
+		{
+			get
+			{
+				return this._Player_action_the_round;
+			}
+			set
+			{
+				if ((this._Player_action_the_round != value))
+				{
+					this._Player_action_the_round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[first card]", Storage="_first_card", DbType="Int NOT NULL")]
+		public int first_card
+		{
+			get
+			{
+				return this._first_card;
+			}
+			set
+			{
+				if ((this._first_card != value))
+				{
+					this._first_card = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[secund card]", Storage="_secund_card", DbType="Int NOT NULL")]
+		public int secund_card
+		{
+			get
+			{
+				return this._secund_card;
+			}
+			set
+			{
+				if ((this._secund_card != value))
+				{
+					this._secund_card = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetPlayerssByRoomIdResult
+	{
+		
+		private int _room_Id;
+		
+		private int _user_Id;
+		
+		private bool _is_player_active;
+		
+		private string _player_name;
+		
+		private int _Total_chip;
+		
+		private int _Round_chip_bet;
+		
+		private bool _Player_action_the_round;
+		
+		private int _first_card;
+		
+		private int _secund_card;
+		
+		private int _Game_Id;
+		
+		public GetPlayerssByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[user Id]", Storage="_user_Id", DbType="Int NOT NULL")]
+		public int user_Id
+		{
+			get
+			{
+				return this._user_Id;
+			}
+			set
+			{
+				if ((this._user_Id != value))
+				{
+					this._user_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is player active]", Storage="_is_player_active", DbType="Bit NOT NULL")]
+		public bool is_player_active
+		{
+			get
+			{
+				return this._is_player_active;
+			}
+			set
+			{
+				if ((this._is_player_active != value))
+				{
+					this._is_player_active = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[player name]", Storage="_player_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string player_name
+		{
+			get
+			{
+				return this._player_name;
+			}
+			set
+			{
+				if ((this._player_name != value))
+				{
+					this._player_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Total chip]", Storage="_Total_chip", DbType="Int NOT NULL")]
+		public int Total_chip
+		{
+			get
+			{
+				return this._Total_chip;
+			}
+			set
+			{
+				if ((this._Total_chip != value))
+				{
+					this._Total_chip = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Round chip bet]", Storage="_Round_chip_bet", DbType="Int NOT NULL")]
+		public int Round_chip_bet
+		{
+			get
+			{
+				return this._Round_chip_bet;
+			}
+			set
+			{
+				if ((this._Round_chip_bet != value))
+				{
+					this._Round_chip_bet = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Player action the round]", Storage="_Player_action_the_round", DbType="Bit NOT NULL")]
+		public bool Player_action_the_round
+		{
+			get
+			{
+				return this._Player_action_the_round;
+			}
+			set
+			{
+				if ((this._Player_action_the_round != value))
+				{
+					this._Player_action_the_round = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[first card]", Storage="_first_card", DbType="Int NOT NULL")]
+		public int first_card
+		{
+			get
+			{
+				return this._first_card;
+			}
+			set
+			{
+				if ((this._first_card != value))
+				{
+					this._first_card = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[secund card]", Storage="_secund_card", DbType="Int NOT NULL")]
+		public int secund_card
+		{
+			get
+			{
+				return this._secund_card;
+			}
+			set
+			{
+				if ((this._secund_card != value))
+				{
+					this._secund_card = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetPublicCardsByRoomIdResult
+	{
+		
+		private int _room_Id;
+		
+		private int _card;
+		
+		private int _Game_Id;
+		
+		public GetPublicCardsByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL")]
+		public int room_Id
+		{
+			get
+			{
+				return this._room_Id;
+			}
+			set
+			{
+				if ((this._room_Id != value))
+				{
+					this._room_Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_card", DbType="Int NOT NULL")]
+		public int card
+		{
+			get
+			{
+				return this._card;
+			}
+			set
+			{
+				if ((this._card != value))
+				{
+					this._card = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetSpecsByRoomIdResult
+	{
+		
+		private int _userId;
+		
+		private int _roomId;
+		
+		private int _Game_Id;
+		
+		public GetSpecsByRoomIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetSpectetorByRoomIdAndUserIdResult
+	{
+		
+		private int _userId;
+		
+		private int _roomId;
+		
+		private int _Game_Id;
+		
+		public GetSpectetorByRoomIdAndUserIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHandStepNameByValResult
+	{
+		
+		private int _hand_Step_value;
+		
+		private string _hand_Step_name;
+		
+		public GetHandStepNameByValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step value]", Storage="_hand_Step_value", DbType="Int NOT NULL")]
+		public int hand_Step_value
+		{
+			get
+			{
+				return this._hand_Step_value;
+			}
+			set
+			{
+				if ((this._hand_Step_value != value))
+				{
+					this._hand_Step_value = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step name]", Storage="_hand_Step_name", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string hand_Step_name
+		{
+			get
+			{
+				return this._hand_Step_name;
+			}
+			set
+			{
+				if ((this._hand_Step_name != value))
+				{
+					this._hand_Step_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetLeageValByNameResult
+	{
+		
+		private int _League_Value;
+		
+		public GetLeageValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League Value]", Storage="_League_Value", DbType="Int NOT NULL")]
+		public int League_Value
+		{
+			get
+			{
+				return this._League_Value;
+			}
+			set
+			{
+				if ((this._League_Value != value))
+				{
+					this._League_Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHandStepNameByValResult1
+	{
+		
+		private int _hand_Step_value;
+		
+		private string _hand_Step_name;
+		
+		public GetHandStepNameByValResult1()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step value]", Storage="_hand_Step_value", DbType="Int NOT NULL")]
+		public int hand_Step_value
+		{
+			get
+			{
+				return this._hand_Step_value;
+			}
+			set
+			{
+				if ((this._hand_Step_value != value))
+				{
+					this._hand_Step_value = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step name]", Storage="_hand_Step_name", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string hand_Step_name
+		{
+			get
+			{
+				return this._hand_Step_name;
+			}
+			set
+			{
+				if ((this._hand_Step_name != value))
+				{
+					this._hand_Step_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetHandStepValByNameResult
+	{
+		
+		private int _hand_Step_value;
+		
+		public GetHandStepValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step value]", Storage="_hand_Step_value", DbType="Int NOT NULL")]
+		public int hand_Step_value
+		{
+			get
+			{
+				return this._hand_Step_value;
+			}
+			set
+			{
+				if ((this._hand_Step_value != value))
+				{
+					this._hand_Step_value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetCardValByShapeAndRealValResult
+	{
+		
+		private int _Card_Value;
+		
+		public GetCardValByShapeAndRealValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Value]", Storage="_Card_Value", DbType="Int NOT NULL")]
+		public int Card_Value
+		{
+			get
+			{
+				return this._Card_Value;
+			}
+			set
+			{
+				if ((this._Card_Value != value))
+				{
+					this._Card_Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameModeValByNameResult
+	{
+		
+		private int _Game_mode_value;
+		
+		public GetGameModeValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game mode value]", Storage="_Game_mode_value", DbType="Int NOT NULL")]
+		public int Game_mode_value
+		{
+			get
+			{
+				return this._Game_mode_value;
+			}
+			set
+			{
+				if ((this._Game_mode_value != value))
+				{
+					this._Game_mode_value = value;
 				}
 			}
 		}
