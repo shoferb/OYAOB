@@ -22,16 +22,7 @@ namespace TexasHoldem.DatabaseProxy
 
         public GameDataProxy() {  }
 
-        public GameDataProxy(SystemControl sysCon, LogControl lc, Logic.Replay.ReplayManager rm, GameCenter gc)
-        {
-           
-            _controller = new GameDataControler();
-            _systemControl = sysCon;
-            _logControl = lc;
-            _replayManager = rm;
-            _gameCenter = gc;
-         
-        }
+   
        
         public bool AddNewGameToDB(Logic.Game.GameRoom gr)
         {
