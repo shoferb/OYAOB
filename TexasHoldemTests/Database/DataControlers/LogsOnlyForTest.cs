@@ -14,7 +14,7 @@ namespace TexasHoldemTests.Database.DataControlers
         {
             TexasHoldem.Database.LinqToSql.ErrorLog toReturn = new TexasHoldem.Database.LinqToSql.ErrorLog();
 
-            toReturn.Log.PriorityLogEnum = GetPriorityNum(error.Priority);
+            toReturn.Log.LogPriority = GetPriorityNum(error.Priority).PriorityValue;
             toReturn.msg = error.Msg;
             toReturn.logId = error.LogId;
             return toReturn;
@@ -62,7 +62,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : system log insert fail");
                 return;
             }
 
@@ -80,7 +79,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : system log insert fail");
                 return;
             }
 
@@ -99,8 +97,42 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : system log insert fail");
                 return;
+            }
+
+        }
+        public GetErrorLogByIdResult GetErrorLogById(int logId)
+        {
+
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    GetErrorLogByIdResult res = db.GetErrorLogById(logId).ToList().First();
+                    return res;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        public GetSystemLogByIdResult GetSystemLogById(int logId)
+        {
+
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    GetSystemLogByIdResult res = db.GetErrorLogById(logId).ToList().First();
+                    return res;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
             }
 
         }
@@ -116,7 +148,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : system log insert fail");
                 return null;
             }
 
@@ -134,7 +165,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : system log insert fail");
                 return null;
             }
 
@@ -152,7 +182,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in lod data control : system log insert fail");
                 return null;
             }
 

@@ -442,6 +442,20 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetErrorLogById")]
+		public ISingleResult<GetErrorLogByIdResult> GetErrorLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((ISingleResult<GetErrorLogByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSystemLogById")]
+		public ISingleResult<GetSystemLogByIdResult> GetSystemLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((ISingleResult<GetSystemLogByIdResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
@@ -6458,6 +6472,130 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._inActive != value))
 				{
 					this._inActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetErrorLogByIdResult
+	{
+		
+		private int _logId;
+		
+		private string _msg;
+		
+		public GetErrorLogByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_logId", DbType="Int NOT NULL")]
+		public int logId
+		{
+			get
+			{
+				return this._logId;
+			}
+			set
+			{
+				if ((this._logId != value))
+				{
+					this._logId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(150)")]
+		public string msg
+		{
+			get
+			{
+				return this._msg;
+			}
+			set
+			{
+				if ((this._msg != value))
+				{
+					this._msg = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetSystemLogByIdResult
+	{
+		
+		private int _logId;
+		
+		private string _msg;
+		
+		private int _roomId;
+		
+		private int _game_Id;
+		
+		public GetSystemLogByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_logId", DbType="Int NOT NULL")]
+		public int logId
+		{
+			get
+			{
+				return this._logId;
+			}
+			set
+			{
+				if ((this._logId != value))
+				{
+					this._logId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(150)")]
+		public string msg
+		{
+			get
+			{
+				return this._msg;
+			}
+			set
+			{
+				if ((this._msg != value))
+				{
+					this._msg = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL")]
+		public int game_Id
+		{
+			get
+			{
+				return this._game_Id;
+			}
+			set
+			{
+				if ((this._game_Id != value))
+				{
+					this._game_Id = value;
 				}
 			}
 		}

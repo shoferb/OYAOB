@@ -42,7 +42,6 @@ namespace TexasHoldem.Logic.GameControl
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("in log control : error in insert systen log control");
                     return;
                 }
             }

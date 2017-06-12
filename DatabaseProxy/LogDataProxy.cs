@@ -22,7 +22,6 @@ namespace TexasHoldem.DatabaseProxy
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in log proxy : error log insert fail");
                 return;
             }
 
@@ -38,7 +37,6 @@ namespace TexasHoldem.DatabaseProxy
             }
             catch (Exception e)
             {
-                Console.WriteLine("error in log proxy : systrm log insert fail");
                 return;
             }
 
