@@ -15,6 +15,44 @@ namespace TexasHoldem.Database.DataControlers.Tests
     {
         private LogDataControler logDataControler = new LogDataControler();
         private LogsOnlyForTest logsOnlyForTest = new LogsOnlyForTest();
+
+        [TestMethod()]
+        public void GetNextLogIdTest_good()
+        {
+            Database.LinqToSql.ErrorLog toAdd = new Database.LinqToSql.ErrorLog();
+            Database.LinqToSql.Log logs = new Database.LinqToSql.Log();
+            logs.LogId = 10;
+            logs.LogPriority = 1;
+            toAdd.Log = logs;
+            toAdd.logId = 10;
+            toAdd.msg = "test GetNextLogIdTest_good()";
+            logDataControler.AddErrorLog(toAdd);
+
+            Database.LinqToSql.ErrorLog toAdd2 = new Database.LinqToSql.ErrorLog();
+            Database.LinqToSql.Log logs2 = new Database.LinqToSql.Log();
+            logs2.LogId = 10000;
+            logs2.LogPriority = 1;
+            toAdd2.Log = logs2;
+            toAdd2.logId = 10000;
+            toAdd2.msg = "test GetNextLogIdTest_good()";
+            logDataControler.AddErrorLog(toAdd2);
+            int next = logDataControler.GetNextLogId();
+            Assert.AreEqual(next, 10001);
+            logsOnlyForTest.DeleteErrorLog(10);
+            logsOnlyForTest.DeleteLog(10);
+            logsOnlyForTest.DeleteErrorLog(10000);
+            logsOnlyForTest.DeleteLog(10000);
+        }
+
+
+        [TestMethod()]
+        public void GetNextLogIdTest_bad_no_logs()
+        {
+            
+            int next = logDataControler.GetNextLogId();
+            Assert.AreEqual(next, -2);
+         
+        }
         [TestMethod()]
         public void AddErrorLogTest_good_id()
         {
@@ -47,9 +85,10 @@ namespace TexasHoldem.Database.DataControlers.Tests
             logDataControler.AddErrorLog(toAdd);
 
             Assert.AreEqual(logsOnlyForTest.GetErrorLogById(2).msg, "test AddErrorLogTest_good_message()");
-            logsOnlyForTest.DeleteErrorLog(1);
-            logsOnlyForTest.DeleteLog(1);
+            logsOnlyForTest.DeleteErrorLog(2);
+            logsOnlyForTest.DeleteLog(2);
         }
+        /*
         [TestMethod()]
         public void AddSystemLogTest_good_id()
         {
@@ -102,33 +141,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Assert.AreEqual(logsOnlyForTest.GetSystemLogById(5).roomId,1);
             logsOnlyForTest.DeleteSystemLog(5);
             logsOnlyForTest.DeleteLog(5);
-        }
-        [TestMethod()]
-        public void GetNextLogIdTest_good()
-        {
-            Database.LinqToSql.ErrorLog toAdd = new Database.LinqToSql.ErrorLog();
-            Database.LinqToSql.Log logs = new Database.LinqToSql.Log();
-            logs.LogId = 10;
-            logs.LogPriority = 1;
-            toAdd.Log = logs;
-            toAdd.logId = 10;
-            toAdd.msg = "test GetNextLogIdTest_good()";
-            logDataControler.AddErrorLog(toAdd);
-
-            Database.LinqToSql.ErrorLog toAdd2 = new Database.LinqToSql.ErrorLog();
-            Database.LinqToSql.Log logs2 = new Database.LinqToSql.Log();
-            logs.LogId = 10000;
-            logs.LogPriority = 1;
-            toAdd.Log = logs;
-            toAdd.logId = 10000;
-            toAdd.msg = "test GetNextLogIdTest_good()";
-            logDataControler.AddErrorLog(toAdd);
-            int next = logDataControler.GetNextLogId();
-            Assert.AreEqual(next,10001);
-            logsOnlyForTest.DeleteErrorLog(10);
-            logsOnlyForTest.DeleteLog(10);
-            logsOnlyForTest.DeleteErrorLog(10000);
-            logsOnlyForTest.DeleteLog(10000);
-        }
+        }*/
+      
     }
 }

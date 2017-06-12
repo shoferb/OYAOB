@@ -126,7 +126,7 @@ namespace TexasHoldemTests.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    GetSystemLogByIdResult res = db.GetErrorLogById(logId).ToList().First();
+                    GetSystemLogByIdResult res = db.GetSystemLogById(logId).ToList().First();
                     return res;
                 }
             }

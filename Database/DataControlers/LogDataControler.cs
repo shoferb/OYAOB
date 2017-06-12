@@ -68,7 +68,7 @@ namespace TexasHoldem.Database.DataControlers
                         return -2;
                     }
                     allLogs.OrderByDescending(log => log.LogId);
-                    int currMax =  allLogs.First().LogId;
+                    int currMax =  allLogs.Last().LogId;
                     return currMax + 1;
                 }
             }
