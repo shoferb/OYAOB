@@ -95,7 +95,7 @@ namespace TexasHoldemTests.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.SystemLogs.DeleteOnSubmit(log);
+                    
                     db.SubmitChanges();
                 }
             }

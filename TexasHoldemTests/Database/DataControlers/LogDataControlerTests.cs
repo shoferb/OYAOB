@@ -18,7 +18,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void AddErrorLogTest_good_count()
         {
-            // ErrorLog log  = new ErrorLog("this is an error log");
+           
             Database.LinqToSql.ErrorLog toAdd = new Database.LinqToSql.ErrorLog();
             Database.LinqToSql.Log logs = new Database.LinqToSql.Log();
             logs.LogId = 1;
@@ -29,6 +29,8 @@ namespace TexasHoldem.Database.DataControlers.Tests
             logDataControler.AddErrorLog(toAdd);
             List<Database.LinqToSql.ErrorLog> allLogs = logsOnlyForTest.GetAllErrorLogs();
             Assert.AreEqual(allLogs.Count, 1);
+            logsOnlyForTest.DeleteErrorLog(toAdd);
+            logsOnlyForTest.DeleteLog(logs);
         }
 
         [TestMethod()]

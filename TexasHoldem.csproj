@@ -369,6 +369,7 @@
       <LastGenOutput>Sadna.cs</LastGenOutput>
     </Content>
     <Content Include="Database\GitBackUp\DatabaseCreationScript.sql" />
+    <Content Include="Database\GitBackUp\logsStoreProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.AddNewUser.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserById.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserByUserName.StoredProcedure.sql" />
