@@ -163,7 +163,7 @@ namespace TexasHoldem.Database.DataControlers
         private GameRoom ConvertToGameRoom(GetAllGamesResult v)
         {
             GameRoom toRet = new GameRoom();
-            toRet.Bb = v.Bb;
+          
             toRet.Bb_Player = v.Bb_Player;
             toRet.curr_Player = v.curr_Player;
             toRet.curr_player_position = v.curr_player_position;
@@ -174,7 +174,7 @@ namespace TexasHoldem.Database.DataControlers
             toRet.first_player_in_round_position = v.first_player_in_round_position;
           
            
-            toRet.game_id = v.game_id;
+            toRet. = v;
           
             toRet.hand_step = v.hand_step;
             toRet.is_Active_Game = v.is_Active_Game;
