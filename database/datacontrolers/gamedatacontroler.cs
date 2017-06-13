@@ -209,6 +209,5 @@ namespace TexasHoldem.Database.DataControlers
                 return -1;
             }
         }
-
     }
 }
