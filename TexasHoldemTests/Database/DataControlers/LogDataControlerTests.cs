@@ -51,7 +51,10 @@ namespace TexasHoldem.Database.DataControlers.Tests
             
             int next = logDataControler.GetNextLogId();
             Assert.AreEqual(next, -2);
-         
+            logsOnlyForTest.DeleteErrorLog(10);
+            logsOnlyForTest.DeleteLog(10);
+            logsOnlyForTest.DeleteErrorLog(10000);
+            logsOnlyForTest.DeleteLog(10000);
         }
         [TestMethod()]
         public void AddErrorLogTest_good_id()
@@ -88,7 +91,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             logsOnlyForTest.DeleteErrorLog(2);
             logsOnlyForTest.DeleteLog(2);
         }
-        /*
+        
         [TestMethod()]
         public void AddSystemLogTest_good_id()
         {
@@ -100,6 +103,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             toAdd.logId = 3;
             toAdd.msg = "test AddSystemLogTest_good_id()";
             toAdd.roomId = 1;
+            toAdd.game_Id = 1;
             logDataControler.AddSystemLog(toAdd);
 
             Assert.AreEqual(logsOnlyForTest.GetSystemLogById(3).logId, 3);
@@ -118,6 +122,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             toAdd.logId = 4;
             toAdd.msg = "test AddSystemLogTest_good_message()";
             toAdd.roomId = 1;
+            toAdd.game_Id = 1;
             logDataControler.AddSystemLog(toAdd);
 
             Assert.AreEqual(logsOnlyForTest.GetSystemLogById(4).msg, "test AddSystemLogTest_good_message()");
@@ -136,12 +141,13 @@ namespace TexasHoldem.Database.DataControlers.Tests
             toAdd.logId = 5;
             toAdd.msg = "test AddSystemLogTest_good_message()";
             toAdd.roomId = 1;
+            toAdd.game_Id = 1;
             logDataControler.AddSystemLog(toAdd);
 
             Assert.AreEqual(logsOnlyForTest.GetSystemLogById(5).roomId,1);
             logsOnlyForTest.DeleteSystemLog(5);
             logsOnlyForTest.DeleteLog(5);
-        }*/
+        }
       
     }
 }
