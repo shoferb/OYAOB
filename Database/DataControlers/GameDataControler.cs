@@ -209,22 +209,5 @@ namespace TexasHoldem.Database.DataControlers
                 return -1;
             }
         }
-
-        public int GetHandStepValByName(string name)
-        {
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetHandStepValByName(name);
-                    return temp.First().hand_Step_value;
-                }
-            }
-            catch (Exception e)
-            {
-                return -1;
-            }
-        }
-
     }
 }
