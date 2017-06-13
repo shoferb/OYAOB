@@ -122,12 +122,7 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.AreEqual(user.WinNum, 1);
         }
 
-        [TestMethod()]
-        public void LoginTest_Not_Active_on_Create()
-        {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(user.IsLogin());
-        }
+     
 
         [TestMethod()]
         public void LoginTest_good()

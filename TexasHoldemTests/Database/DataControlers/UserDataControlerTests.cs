@@ -42,8 +42,8 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void GetAllUserTest_good_count_equal()
         {
-            UserTable toAdd1 = CreateUser(1, "1");
-            UserTable toAdd2 = CreateUser(2, "2");
+            UserTable toAdd1 = CreateUser(1, "1name");
+            UserTable toAdd2 = CreateUser(2, "2name");
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.AddNewUser(toAdd2);
             Assert.AreEqual(_userDataControler.GetAllUser().Count,2);
@@ -54,7 +54,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void GetAllUserTest_good_First_Id_equal()
         {
-            UserTable toAdd1 = CreateUser(3, "3");
+            UserTable toAdd1 = CreateUser(3, "3name");
 
             _userDataControler.AddNewUser(toAdd1);
 
@@ -75,7 +75,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void GetUserByIdTest_good()
         {
-            UserTable toAdd1 = CreateUser(4, "4");
+            UserTable toAdd1 = CreateUser(4, "4name");
 
             _userDataControler.AddNewUser(toAdd1);
 
@@ -92,23 +92,23 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void GetUserByUserNameTest_good()
         {
-            UserTable toAdd1 = CreateUser(6, "6");
+            UserTable toAdd1 = CreateUser(6, "6name");
             _userDataControler.AddNewUser(toAdd1);
-            Assert.AreEqual(_userDataControler.GetUserByUserName("6").username, toAdd1.username);
+            Assert.AreEqual(_userDataControler.GetUserByUserName("6name").username, toAdd1.username);
             _userDataControler.DeleteUserById(6);
         }
 
         [TestMethod()]
         public void GetUserByUserNameTest_bad_no_user()
         {
-            Assert.AreEqual(_userDataControler.GetUserByUserName("7"), null);
+            Assert.AreEqual(_userDataControler.GetUserByUserName("7name"), null);
             ;
            
         }
         [TestMethod()]
         public void AddNewUserTest_good_count()
         {
-            UserTable toAdd1 = CreateUser(8, "8");
+            UserTable toAdd1 = CreateUser(8, "8name");
 
             _userDataControler.AddNewUser(toAdd1);
 
@@ -119,7 +119,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void AddNewUserTest_good_Id()
         {
-            UserTable toAdd1 = CreateUser(9, "9");
+            UserTable toAdd1 = CreateUser(9, "9name");
 
             _userDataControler.AddNewUser(toAdd1);
 
@@ -130,10 +130,10 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void AddNewUserTest_bad_IdTaken()
         {
-            UserTable toAdd1 = CreateUser(10, "10");
+            UserTable toAdd1 = CreateUser(10, "10name");
 
             _userDataControler.AddNewUser(toAdd1);
-            UserTable toAdd2 = CreateUser(10, "10");
+            UserTable toAdd2 = CreateUser(10, "10name");
             _userDataControler.AddNewUser(toAdd2);
             Assert.AreEqual(_userDataControler.GetAllUser().Count,1);
             _userDataControler.DeleteUserById(10);
@@ -141,7 +141,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserIdTest_good()
         {
-            UserTable toAdd1 = CreateUser(11, "11");
+            UserTable toAdd1 = CreateUser(11, "11name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserId(11,12);
@@ -154,23 +154,23 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserNameTest_good()
         {
-            UserTable toAdd1 = CreateUser(13, "13");
+            UserTable toAdd1 = CreateUser(13, "13name");
 
             _userDataControler.AddNewUser(toAdd1);
-            _userDataControler.EditUserName(13, "14");
-            Assert.AreEqual(_userDataControler.GetAllUser().First().username, "14");
+            _userDataControler.EditUserName(13, "14name");
+            Assert.AreEqual(_userDataControler.GetAllUser().First().username, "14name");
             _userDataControler.DeleteUserById(13);
         }
 
         [TestMethod()]
         public void EditNameTest_bad_userNameTaken()
         {
-            UserTable toAdd1 = CreateUser(15, "15");
-            UserTable toAdd2 = CreateUser(16, "16");
+            UserTable toAdd1 = CreateUser(15, "15name");
+            UserTable toAdd2 = CreateUser(16, "16name");
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.AddNewUser(toAdd2);
-            _userDataControler.EditUserName(15, "16");
-            Assert.AreEqual(_userDataControler.GetAllUser().First().username, "15");
+            _userDataControler.EditUserName(15, "16name");
+            Assert.AreEqual(_userDataControler.GetAllUser().First().username, "15name");
             _userDataControler.DeleteUserById(15);
             _userDataControler.DeleteUserById(16);
         }
@@ -178,7 +178,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditEmailTest_good()
         {
-            UserTable toAdd1 = CreateUser(17, "17");
+            UserTable toAdd1 = CreateUser(17, "17name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditEmail(17, "new@o.com");
@@ -190,7 +190,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditPasswordTest_good()
         {
-            UserTable toAdd1 = CreateUser(18, "18");
+            UserTable toAdd1 = CreateUser(18, "18name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditPassword(18, "newPassword");
@@ -202,7 +202,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         public void EditUserHighestCashGainInGameTest_good()
         {
 
-            UserTable toAdd1 = CreateUser(20, "20");
+            UserTable toAdd1 = CreateUser(20, "20name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserHighestCashGainInGame(20, 10);
@@ -213,7 +213,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserIsActiveTest_good()
         {
-            UserTable toAdd1 = CreateUser(21, "21");
+            UserTable toAdd1 = CreateUser(21, "21name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserIsActive(21, false);
@@ -224,7 +224,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserLeagueNameTest_good()
         {
-            UserTable toAdd1 = CreateUser(22, "22");
+            UserTable toAdd1 = CreateUser(22, "22name");
 
             _userDataControler.AddNewUser(toAdd1);
             LeagueName n = new LeagueName
@@ -240,7 +240,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserMoneyTest_good()
         {
-            UserTable toAdd1 = CreateUser(23, "23");
+            UserTable toAdd1 = CreateUser(23, "23name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserMoney(23, 10000);
@@ -253,7 +253,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserNumOfGamesPlayedTest()
         {
-            UserTable toAdd1 = CreateUser(24, "24");
+            UserTable toAdd1 = CreateUser(24, "24name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserNumOfGamesPlayed(24, 40);
@@ -264,7 +264,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserTotalProfitTest_ggod()
         {
-            UserTable toAdd1 = CreateUser(25, "25");
+            UserTable toAdd1 = CreateUser(25, "25name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserTotalProfit(25, 550);
@@ -275,7 +275,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         [TestMethod()]
         public void EditUserWinNumTest_good()
         {
-            UserTable toAdd1 = CreateUser(26, "26");
+            UserTable toAdd1 = CreateUser(26, "26name");
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserWinNum(26, 25);

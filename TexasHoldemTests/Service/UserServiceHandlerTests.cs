@@ -40,121 +40,128 @@ namespace TexasHoldem.Service.Tests
         public void RegisterToSystemTest_good()
         {
             Init();
-            Assert.IsTrue(userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            Assert.IsTrue(userService.RegisterToSystem(789987, "orelie", "orelie789987", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            userService.DeleteUserById(789987);
+
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_id_taken()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(userService.RegisterToSystem(305077901, "orelie", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            userService.RegisterToSystem(95959595, "orelie", "orelie95959595", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.RegisterToSystem(95959595, "orelie-notTaken", "orelie2", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            userService.DeleteUserById(95959595);
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_userName_taken()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(userService.RegisterToSystem(305077902, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            userService.RegisterToSystem(95959596, "orelie", "orelie95959596", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.RegisterToSystem(959595957, "orelie", "orelie95959596", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            userService.DeleteUserById(95959596);
+     
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_email()
         {
             Init();
-            Assert.IsFalse(userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "oreliepost.bgu.ac.il"));
+            Assert.IsFalse(userService.RegisterToSystem(84848485, "orelie", "orelie84848485", "123456789", 15000, "oreliepost.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_passWord()
         {
             Init();
-            Assert.IsFalse(userService.RegisterToSystem(305077901, "orelie", "orelie26", "123", 15000, "orelie@post.bgu.ac.il"));
+            Assert.IsFalse(userService.RegisterToSystem(465465487, "orelie", "orelie465465487", "123", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_Name()
         {
             Init();
-            Assert.IsFalse(userService.RegisterToSystem(305077901, " ", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            Assert.IsFalse(userService.RegisterToSystem(59595009, " ", "orelie59595009", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_Id()
         {
             Init();
-            Assert.IsFalse(userService.RegisterToSystem(-1, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il"));
+            Assert.IsFalse(userService.RegisterToSystem(-1, "orelie", "orelie26-1", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_money()
         {
             Init();
-            Assert.IsFalse(userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", -10, "orelie@post.bgu.ac.il"));
+            Assert.IsFalse(userService.RegisterToSystem(598432, "orelie", "orelie598432", "123456789", -10, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void LoginUserTest_good()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(userService.LoginUser("orelie26", "123456789").IsLogin());
-
+            userService.RegisterToSystem(585858524, "orelie", "orelie585858524", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.LoginUser("orelie585858524", "123456789").IsLogin());
+            userService.DeleteUserById(585858524);
         }
 
         [TestMethod()]
         public void LoginUserTest_bad_username()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            IUser user = userService.GetUserById(305077901);
-            userService.LogoutUser(305077901);
-            Assert.IsFalse(userService.LoginUser("orelie2", "123456789").IsLogin());
-
+            userService.RegisterToSystem(484564527, "orelie", "orelie484564527", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LogoutUser(484564527);
+            Assert.IsFalse(userService.LoginUser("orelie484564527", "123456789").IsLogin());
+            userService.DeleteUserById(484564527);
         }
 
         [TestMethod()]
         public void LoginUserTest_bad_password()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            IUser user = userService.GetUserById(305077901);
-            userService.LogoutUser(305077901);
-            Assert.IsFalse(userService.LoginUser("orelie26", "123s56789").IsLogin());
+            userService.RegisterToSystem(94949042, "orelie", "orelie94949042", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LogoutUser(94949042);
+            Assert.IsFalse(userService.LoginUser("orelie94949042", "123s56789").IsLogin());
+            userService.DeleteUserById(94949042);
         }
 
         [TestMethod()]
         public void LogoutUserTest_good()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            userService.LoginUser("orelie26", "123456789");
-            Assert.IsTrue(userService.LogoutUser(305077901).IsLogin());
+            userService.RegisterToSystem(48653256, "orelie", "orelie48653256", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LoginUser("orelie48653256", "123456789");
+            Assert.IsTrue(userService.LogoutUser(48653256).IsLogin());
+            userService.DeleteUserById(48653256);
         }
 
         [TestMethod()]
         public void LogoutUserTest_Bad_no_User()
         {
             Init();
-            Assert.IsFalse(userService.LogoutUser(305077901).IsLogin());
+            Assert.IsFalse(userService.LogoutUser(95984254).IsLogin());
         }
 
         [TestMethod()]
         public void LogoutUserTest_Bad_Id()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            userService.LoginUser("orelie26", "123456789");
-            Assert.IsFalse(userService.LogoutUser(305077902).IsLogin());
+            userService.RegisterToSystem(875875873, "orelie", "orelie875875873", "123456789", 15000, "orelie@post.bgu.ac.il");
+            userService.LoginUser("orelie875875873", "123456789");
+            Assert.IsFalse(userService.LogoutUser(875875874).IsLogin());
+            userService.DeleteUserById(875875873);
         }
 
         [TestMethod()]
         public void DeleteUserTest_good()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(userService.DeleteUser("orelie26", "123456789"));
+            userService.RegisterToSystem(87564587, "orelie", "orelie87564587", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.DeleteUser("orelie87564587", "123456789"));
+            userService.DeleteUserById(87564587);
         }
 
 
@@ -162,8 +169,9 @@ namespace TexasHoldem.Service.Tests
         public void DeleteUserTest_Bad_user_name()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(userService.DeleteUser("orelie24", "123456789"));
+            userService.RegisterToSystem(5858412, "orelie", "orelie5858412", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.DeleteUser("orelie58584no", "123456789"));
+            userService.DeleteUserById(5858412);
         }
 
 
@@ -171,16 +179,17 @@ namespace TexasHoldem.Service.Tests
         public void DeleteUserTest_Bad_password()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(userService.DeleteUser("orelie26", "1234567s9"));
+            userService.RegisterToSystem(777888558, "orelie", "orelie777888558", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.DeleteUser("orelie777888558", "1234567s9"));
+            userService.DeleteUserById(777888558);
         }
 
         [TestMethod()]
         public void DeleteUserByIdTest_good()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(userService.DeleteUserById(305077901));
+            userService.RegisterToSystem(99663356, "orelie", "orelie99663356", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.DeleteUserById(99663356));
         }
 
 
@@ -188,39 +197,41 @@ namespace TexasHoldem.Service.Tests
         public void DeleteUserByIdTest_bad_no_user()
         {
             Init();
-            Assert.IsFalse(userService.DeleteUserById(305077902));
+            Assert.IsFalse(userService.DeleteUserById(000000));
         }
 
         [TestMethod()]
         public void DeleteUserByIdTest_bad_inValid_id()
         {
             Init();
-            Assert.IsFalse(userService.DeleteUserById(-2));
+            Assert.IsFalse(userService.DeleteUserById(-2000));
         }
 
         [TestMethod()]
         public void EditUserPointsTest_good()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsTrue(userService.EditUserPoints(305077901, 10));
+            userService.RegisterToSystem(778854580, "orelie", "orelie778854580", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsTrue(userService.EditUserPoints(778854580, 778854850));
+            userService.DeleteUserById(778854580);
         }
 
         [TestMethod()]
         public void EditUserPointsTest_Bad_no_user()
         {
             Init();
-            Assert.IsFalse(userService.EditUserPoints(305077901, 10));
+            Assert.IsFalse(userService.EditUserPoints(0050505, 884858523));
         }
 
         [TestMethod()]
         public void EditUserPointsTest_Bad_Ivalid_points()
         {
             Init();
-            userService.RegisterToSystem(305077901, "orelie", "orelie26", "123456789", 15000, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(userService.EditUserPoints(305077901, -100));
+            userService.RegisterToSystem(595596522, "orelie", "orelie595596522", "123456789", 15000, "orelie@post.bgu.ac.il");
+            Assert.IsFalse(userService.EditUserPoints(595596522, -100));
+            userService.DeleteUserById(595596522);
         }
-
+        //todo FROM HERE!!!!!!
         [TestMethod()]
         public void EditUserPasswordTest_good()
         {

@@ -64,17 +64,17 @@ namespace TexasHoldem.Database.DataControlers.Tests
             var toAdd = new ErrorLog();
             var logs = new Log
             {
-                LogId = 1,
+                LogId = 10005,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 1;
+            toAdd.logId = 10005;
             toAdd.msg = "test AddErrorLogTest_good_id()";
             _logDataControler.AddErrorLog(toAdd);
             
-            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(1).logId, 1);
-            _logsOnlyForTest.DeleteErrorLog(1);
-            _logsOnlyForTest.DeleteLog(1);
+            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(10005).logId, 10005);
+            _logsOnlyForTest.DeleteErrorLog(10005);
+            _logsOnlyForTest.DeleteLog(10005);
         }
 
         [TestMethod()]
@@ -84,17 +84,17 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Database.LinqToSql.ErrorLog toAdd = new Database.LinqToSql.ErrorLog();
             Database.LinqToSql.Log logs = new Database.LinqToSql.Log
             {
-                LogId = 2,
+                LogId = 2000,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 2;
+            toAdd.logId = 2000;
             toAdd.msg = "test AddErrorLogTest_good_message()";
             _logDataControler.AddErrorLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(2).msg, "test AddErrorLogTest_good_message()");
-            _logsOnlyForTest.DeleteErrorLog(2);
-            _logsOnlyForTest.DeleteLog(2);
+            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(2000).msg, "test AddErrorLogTest_good_message()");
+            _logsOnlyForTest.DeleteErrorLog(2000);
+            _logsOnlyForTest.DeleteLog(2000);
         }
         
         [TestMethod()]
@@ -103,19 +103,19 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Database.LinqToSql.SystemLog toAdd = new Database.LinqToSql.SystemLog();
             Database.LinqToSql.Log logs = new Database.LinqToSql.Log
             {
-                LogId = 3,
+                LogId = 3555,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 3;
+            toAdd.logId = 3555;
             toAdd.msg = "test AddSystemLogTest_good_id()";
             toAdd.roomId = 1;
             toAdd.game_Id = 1;
             _logDataControler.AddSystemLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(3).logId, 3);
-            _logsOnlyForTest.DeleteSystemLog(3);
-            _logsOnlyForTest.DeleteLog(3);
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(3555).logId, 3555);
+            _logsOnlyForTest.DeleteSystemLog(3555);
+            _logsOnlyForTest.DeleteLog(3555);
         }
 
         [TestMethod()]
@@ -124,19 +124,19 @@ namespace TexasHoldem.Database.DataControlers.Tests
             var toAdd = new SystemLog();
             var logs = new Log
             {
-                LogId = 4,
+                LogId = 45555,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 4;
+            toAdd.logId = 45555;
             toAdd.msg = "test AddSystemLogTest_good_message()";
             toAdd.roomId = 1;
             toAdd.game_Id = 1;
             _logDataControler.AddSystemLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(4).msg, "test AddSystemLogTest_good_message()");
-            _logsOnlyForTest.DeleteSystemLog(4);
-            _logsOnlyForTest.DeleteLog(4);
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(45555).msg, "test AddSystemLogTest_good_message()");
+            _logsOnlyForTest.DeleteSystemLog(45555);
+            _logsOnlyForTest.DeleteLog(45555);
         }
 
         [TestMethod()]
@@ -145,19 +145,19 @@ namespace TexasHoldem.Database.DataControlers.Tests
             var toAdd = new SystemLog();
             var logs = new Log
             {
-                LogId = 5,
+                LogId = 5555555,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 5;
+            toAdd.logId = 5555555;
             toAdd.msg = "test AddSystemLogTest_good_message()";
-            toAdd.roomId = 1;
+            toAdd.roomId =55555555;
             toAdd.game_Id = 1;
             _logDataControler.AddSystemLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(5).roomId,1);
-            _logsOnlyForTest.DeleteSystemLog(5);
-            _logsOnlyForTest.DeleteLog(5);
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(5555555).roomId,1);
+            _logsOnlyForTest.DeleteSystemLog(5555555);
+            _logsOnlyForTest.DeleteLog(5555555);
         }
       
     }
