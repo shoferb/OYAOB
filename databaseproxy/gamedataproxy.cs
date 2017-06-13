@@ -69,22 +69,18 @@ namespace TexasHoldem.DatabaseProxy
        
         private bool InsertGamePref(Logic.Game.GameRoom v)
         {
-            bool ans = true;
             Database.LinqToSql.GameRoomPreferance toAdd= new GameRoomPreferance();
-            toAdd.Game_Id = v.GetGameNum();
-            toAdd.Bb = v.GetMinBet();
-            toAdd.enter_paying_money = v.GetBuyInPolicy();
-            toAdd.Game_Mode = _controller.GetGameModeValByName(v.GetGameMode().ToString());
-            toAdd.is_Spectetor = v.IsSpectatable();
-            toAdd.League_name = _controller.GetLeagueValByName(v.GetLeagueName().ToString());
-            toAdd.max_player_in_room = v.GetMaxPlayer();
-            toAdd.Min_player_in_room = v.GetMinPlayer();
-            toAdd.room_id = v.Id;
-            toAdd.Sb = v.GetSb();
-            toAdd.starting_chip = v.GetStartingChip();
-            ans = ans & (_controller.InsertPref(toAdd));
-            
-            return ans;
+            toAdd.GameId = v.GetGameNum();
+            toAdd.BuyInPolicy = v.GetBuyInPolicy();
+            toAdd.GameMode = _controller.GetGameModeValByName(v.GetGameMode().ToString());
+            toAdd.CanSpectate = v.IsSpectatable();
+            toAdd.League = _controller.GetLeagueValByName(v.GetLeagueName().ToString());
+            toAdd.MaxPlayers = v.GetMaxPlayer();
+            toAdd.MinPlayers = v.GetMinPlayer();
+            toAdd.Roomid = v.Id;
+            toAdd.EnterGamePolicy = v.GetStartingChip();
+            toAdd.MinBet = v.GetMinBet();
+            return _controller.InsertPref(toAdd);
         }
 
         private bool InsertNewGameRoom(Logic.Game.GameRoom v)
