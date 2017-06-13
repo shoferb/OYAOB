@@ -15,7 +15,7 @@ namespace TexasHoldem.Database.DataControlers
             try
             {
 
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
                     //Log log = new Log();
                     //log.LogId = error.logId;
@@ -26,7 +26,7 @@ namespace TexasHoldem.Database.DataControlers
                     db.SubmitChanges();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return ;
             }
@@ -38,7 +38,7 @@ namespace TexasHoldem.Database.DataControlers
 
             try
             {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
                     //Log log = new Log();
                     //log.LogId = error.logId;
@@ -49,7 +49,7 @@ namespace TexasHoldem.Database.DataControlers
                     db.SubmitChanges();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return;
             }
@@ -60,19 +60,19 @@ namespace TexasHoldem.Database.DataControlers
         {
             try
             {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
-                    List<Log> allLogs = db.Logs.ToList();
+                    var allLogs = db.Logs.ToList();
                     if (allLogs.Count == 0)
                     {
                         return -2;
                     }
-                    allLogs.OrderByDescending(log => log.LogId);
-                    int currMax =  allLogs.Last().LogId;
+                    var logsOrderByDescending = allLogs.OrderByDescending(log => log.LogId);
+                    int currMax = logsOrderByDescending.First().LogId;
                     return currMax + 1;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return -1;
             }

@@ -16,24 +16,23 @@ namespace TexasHoldem.Database.DataControlers
 
         public List<UserTable> GetAllUser()
         {
-            List<UserTable> toReturn = new List<UserTable>();
+            var toReturn = new List<UserTable>();
             try
             {
 
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
                     var temp = db.GetAllUser().ToList();
                     foreach (var v in temp)
                     {
-                        UserTable toAdd = convertToUser(v);
+                        UserTable toAdd = ConvertToUser(v);
                         toReturn.Add(toAdd);
                     }
                     return toReturn;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error get all user");
                 return null;
             }
 
@@ -46,12 +45,10 @@ namespace TexasHoldem.Database.DataControlers
            
            try
            {
-
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
                    var temp = db.GetUserByUserId(id).ToList().First();
-                   UserTable toReturn = convertToUser(temp);
-                    Console.WriteLine("@@@@@@@@@@@@@@@in data user ,user id: "+toReturn.userId);
+                   var toReturn = ConvertToUser(temp);
                    //Console.WriteLine("in data user ,user password id: " + toReturn.password);
                    //Console.WriteLine("in data user ,%%%%%% Try dec password");
                    //string toDec = toReturn.password;
@@ -62,9 +59,8 @@ namespace TexasHoldem.Database.DataControlers
                     return toReturn;
                }
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error get user by Id");
                return null;
            }
 
@@ -72,28 +68,25 @@ namespace TexasHoldem.Database.DataControlers
         
        public UserTable GetUserByUserName(string username)
        {
-           UserTable toReturn = null;
            try
            {
 
                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                {
                    var temp = db.GetUserByUserName(username).ToList().First();
-                   toReturn = convertToUser(temp);
+                   var toReturn = ConvertToUser(temp);
                    Console.WriteLine(toReturn.userId);
                    return toReturn;
                }
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error get user by name");
                return null;
            }
         }
         
        public void AddNewUser(UserTable toAddUser)
        {
-           UserTable toReturn = null;
            try
            {
 
@@ -104,45 +97,38 @@ namespace TexasHoldem.Database.DataControlers
                 //    db.SubmitChanges();
                 }
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error Add new User exeaption: "+e);
                return;
            }
         }
 
         public void DeleteUserById(int userId)
         {
-            
             try
             {
-
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
                     db.DeleteUserById(userId);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error Delete user By Id");
                 return;
             }
         }
 
         public void DeleteUserByUsername(string username)
         {
-
             try
             {
-
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
                     db.DeleteUserByUserName(username);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error Delete user By Id");
                 return;
             }
         }
@@ -150,83 +136,76 @@ namespace TexasHoldem.Database.DataControlers
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
                    db.EditUserId(newId, oldId);
-               }
-               
+               }  
             }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user Id");
                return;
            }
        }
         
-       public void EditUserName(int Id, string newUserName)
+       public void EditUserName(int id, string newUserName)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUsername(Id,newUserName);
+                   db.EditUsername(id,newUserName);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  username");
                return;
            }
         }
         
-       public void EditName(int Id, string newName)
+       public void EditName(int id, string newName)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditName(Id,newName);
+                   db.EditName(id,newName);
                }
-
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  name");
                return;
            }
         }
 
-       public void EditEmail(int Id, string newEmail)
+       public void EditEmail(int id, string newEmail)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditEmail(Id,newEmail);
+                   db.EditEmail(id,newEmail);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user email");
                return;
            }
         }
 
-       public void EditPassword(int Id, string newPassword)
+       public void EditPassword(int id, string newPassword)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditPassword(Id, newPassword);
+                   db.EditPassword(id, newPassword);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user passsword");
                return;
            }
         }
@@ -235,215 +214,211 @@ namespace TexasHoldem.Database.DataControlers
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
                    db.EditUserHighestCashGainInGame(Id,newHighestCashGainInGame);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user Highest Cash Gain In Game");
                return;
            }
         }
 
        
-       public void EditUserIsActive(int Id, bool newIsActive)
+       public void EditUserIsActive(int id, bool newIsActive)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUserIsActive(Id,newIsActive);
+                   db.EditUserIsActive(id,newIsActive);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user active mode");
                return;
            }
         }
       
-       public void EditUserLeagueName(int Id, LinqToSql.LeagueName newLeagueName)
+       public void EditUserLeagueName(int id, LinqToSql.LeagueName newLeagueName)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUserLeagueName(Id,newLeagueName.League_Value);
+                   db.EditUserLeagueName(id,newLeagueName.League_Value);
                }
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user League name");
                return;
            }
         }
 
 
-       public void EditUserMoney(int Id, int newMoney)
+       public void EditUserMoney(int id, int newMoney)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUserMoney(Id,newMoney);
+                   db.EditUserMoney(id,newMoney);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user money");
                return;
            }
         }
 
        
 
-        public void EditUserNumOfGamesPlayed(int Id, int newEditUserNumOfGamesPlayed)
+        public void EditUserNumOfGamesPlayed(int id, int newEditUserNumOfGamesPlayed)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUserNumOfGamesPlayed(Id, newEditUserNumOfGamesPlayed);
+                   db.EditUserNumOfGamesPlayed(id, newEditUserNumOfGamesPlayed);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user num og games played");
                return;
            }
         }
 
 
-       public void EditUserTotalProfit(int Id, int newTotalProfit)
+       public void EditUserTotalProfit(int id, int newTotalProfit)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUserTotalProfit(Id, newTotalProfit);
+                   db.EditUserTotalProfit(id, newTotalProfit);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user Total profit");
                return;
            }
         }
 
-       public void EditUserWinNum(int Id, int newWinNum)
+       public void EditUserWinNum(int id, int newWinNum)
        {
            try
            {
-               using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+               using (var db = new connectionsLinqDataContext())
                {
-                   db.EditUserWinNum(Id, newWinNum);
+                   db.EditUserWinNum(id, newWinNum);
                }
 
            }
-           catch (Exception e)
+           catch (Exception)
            {
-               Console.WriteLine("error edit  user win num");
                return;
            }
         }
 
-        public void EditUserPoints(int Id, int newPoints)
+        public void EditUserPoints(int id, int newPoints)
         {
             try
             {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
-                    db.EditUserPoints(Id, newPoints);
+                    db.EditUserPoints(id, newPoints);
                 }
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user win num");
                 return;
             }
         }
 
-        public void EditUserAvatar(int Id, string newAvatar)
+        public void EditUserAvatar(int id, string newAvatar)
         {
             try
             {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
-                    db.EditAvatar(Id, newAvatar);
+                    db.EditAvatar(id, newAvatar);
                 }
-
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user avatar");
                 return;
             }
         }
-        private UserTable convertToUser(GetAllUserResult v)
+        private static UserTable ConvertToUser(GetAllUserResult v)
         {
-            UserTable toReturn = new UserTable();
-            toReturn.userId = v.userId;
-            toReturn.username = v.username;
-            toReturn.name = v.name;
-            toReturn.password = v.password;
-            toReturn.email = v.email;
-            toReturn.HighestCashGainInGame = v.HighestCashGainInGame;
-            toReturn.TotalProfit = v.TotalProfit;
-            toReturn.avatar = v.avatar;
-            toReturn.inActive = v.inActive;
-            toReturn.leagueName = v.leagueName;
-            toReturn.gamesPlayed = v.gamesPlayed;
-            toReturn.money = v.money;
-            toReturn.winNum = v.winNum;
-            toReturn.points = v.points;
+            UserTable toReturn = new UserTable
+            {
+                userId = v.userId,
+                username = v.username,
+                name = v.name,
+                password = v.password,
+                email = v.email,
+                HighestCashGainInGame = v.HighestCashGainInGame,
+                TotalProfit = v.TotalProfit,
+                avatar = v.avatar,
+                inActive = v.inActive,
+                leagueName = v.leagueName,
+                gamesPlayed = v.gamesPlayed,
+                money = v.money,
+                winNum = v.winNum,
+                points = v.points
+            };
             return toReturn;
         }
 
-        private UserTable convertToUser(GetUserByUserIdResult v)
+        private static UserTable ConvertToUser(GetUserByUserIdResult v)
         {
-            UserTable toReturn = new UserTable();
-            toReturn.userId = v.userId;
-            toReturn.username = v.username;
-            toReturn.name = v.name;
-            toReturn.password = v.password;
-            toReturn.email = v.email;
-            toReturn.HighestCashGainInGame = v.HighestCashGainInGame;
-            toReturn.TotalProfit = v.TotalProfit;
-            toReturn.avatar = v.avatar;
-            toReturn.inActive = v.inActive;
-            toReturn.leagueName = v.leagueName;
-            toReturn.gamesPlayed = v.gamesPlayed;
-            toReturn.money = v.money;
-            toReturn.winNum = v.winNum;
-            toReturn.points = v.points;
+            var toReturn = new UserTable
+            {
+                userId = v.userId,
+                username = v.username,
+                name = v.name,
+                password = v.password,
+                email = v.email,
+                HighestCashGainInGame = v.HighestCashGainInGame,
+                TotalProfit = v.TotalProfit,
+                avatar = v.avatar,
+                inActive = v.inActive,
+                leagueName = v.leagueName,
+                gamesPlayed = v.gamesPlayed,
+                money = v.money,
+                winNum = v.winNum,
+                points = v.points
+            };
             return toReturn;
         }
 
-        private UserTable convertToUser(GetUserByUserNameResult v)
+        private static UserTable ConvertToUser(GetUserByUserNameResult v)
         {
-            UserTable toReturn = new UserTable();
-            toReturn.userId = v.userId;
-            toReturn.username = v.username;
-            toReturn.name = v.name;
-            toReturn.password = v.password;
-            toReturn.email = v.email;
-            toReturn.HighestCashGainInGame = v.HighestCashGainInGame;
-            toReturn.TotalProfit = v.TotalProfit;
-            toReturn.avatar = v.avatar;
-            toReturn.inActive = v.inActive;
-            toReturn.leagueName = v.leagueName;
-            toReturn.gamesPlayed = v.gamesPlayed;
-            toReturn.money = v.money;
-            toReturn.winNum = v.winNum;
-            toReturn.points = v.points;
+            var toReturn = new UserTable
+            {
+                userId = v.userId,
+                username = v.username,
+                name = v.name,
+                password = v.password,
+                email = v.email,
+                HighestCashGainInGame = v.HighestCashGainInGame,
+                TotalProfit = v.TotalProfit,
+                avatar = v.avatar,
+                inActive = v.inActive,
+                leagueName = v.leagueName,
+                gamesPlayed = v.gamesPlayed,
+                money = v.money,
+                winNum = v.winNum,
+                points = v.points
+            };
             return toReturn;
         }
     }
