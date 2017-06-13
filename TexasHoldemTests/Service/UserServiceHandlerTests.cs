@@ -114,7 +114,7 @@ namespace TexasHoldem.Service.Tests
             Init();
             userService.RegisterToSystem(484564527, "orelie", "orelie484564527", "123456789", 15000, "orelie@post.bgu.ac.il");
             userService.LogoutUser(484564527);
-            Assert.IsFalse(userService.LoginUser("orelie484564527", "123456789").IsLogin());
+            Assert.IsFalse(userService.LoginUser("LoginUserTest_bad_username", "123456789").IsLogin());
             userService.DeleteUserById(484564527);
         }
 
