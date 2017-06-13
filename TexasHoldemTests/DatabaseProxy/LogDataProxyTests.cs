@@ -46,7 +46,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void AddSysLogTest_good_id_match()
         {
-            var systemLog = new SystemLog(1, "AddSysLogTest_good_id_match", TODO);
+            var systemLog = new SystemLog(1, "AddSysLogTest_good_id_match", 1);
             _logDataProxy.AddSysLog(systemLog);
             var logId = systemLog.LogId;
             Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).logId, logId);
@@ -59,7 +59,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void AddSysLogTest_good_message_match()
         {
-            var systemLog = new SystemLog(1, "AddSysLogTest_good_message_match", TODO);
+            var systemLog = new SystemLog(1, "AddSysLogTest_good_message_match", 1);
             _logDataProxy.AddSysLog(systemLog);
             var logId = systemLog.LogId;
             Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).msg, "AddSysLogTest_good_message_match");
@@ -70,7 +70,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void AddSysLogTest_good_roomId_match()
         {
-            var systemLog = new SystemLog(1, "AddSysLogTest_good_message_match", TODO);
+            var systemLog = new SystemLog(1, "AddSysLogTest_good_message_match", 1);
             _logDataProxy.AddSysLog(systemLog);
             var logId = systemLog.LogId;
             Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).roomId, 1);

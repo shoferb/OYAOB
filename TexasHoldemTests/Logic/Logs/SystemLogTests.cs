@@ -15,9 +15,9 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         public void SystemLogTest()
         {
             int logId1 = Log.getNextId();
-            SystemLog sysLog = new SystemLog(1,"system log to test", TODO);
+            SystemLog sysLog = new SystemLog(1,"system log to test", 1);
             int logId2 = Log.getNextId();
-            SystemLog sysLog2 = new SystemLog(2, "system log to test2", TODO);
+            SystemLog sysLog2 = new SystemLog(2, "system log to test2", 1);
             
             
             Assert.AreEqual(sysLog.Msg, "system log to test");
@@ -39,7 +39,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         public void SystemLogTestNextIdSucces()
         {
             int logId1 = Log.getNextId();
-            SystemLog sysLog = new SystemLog(1, "system log to test", TODO);
+            SystemLog sysLog = new SystemLog(1, "system log to test", 1);
             Assert.AreEqual(sysLog.LogId, logId1);
         }
 
@@ -49,9 +49,9 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         public void SystemLogTesNotSameIdSucces()
         {
             int logId1 = Log.getNextId();
-            SystemLog sysLog = new SystemLog(1, "system log to test", TODO);
+            SystemLog sysLog = new SystemLog(1, "system log to test", 1);
             int logId2 = Log.getNextId();
-            SystemLog sysLog2 = new SystemLog(2, "system log to test2", TODO);
+            SystemLog sysLog2 = new SystemLog(2, "system log to test2", 1);
             Assert.AreNotEqual(sysLog.LogId, sysLog2.LogId);
 
         }
@@ -62,7 +62,7 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         [TestMethod()]
         public void ToStringTest()
         {
-            SystemLog sysLog = new SystemLog(1, "system log to test", TODO);
+            SystemLog sysLog = new SystemLog(1, "system log to test", 1);
            
             string toCheck1 = "Log Id is: " + sysLog.LogId + " msg is: " + sysLog.Msg +"to room Id: "+sysLog.RoomId;
             Assert.AreEqual(sysLog.ToString(), toCheck1);
