@@ -210,7 +210,5 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        
-
     }
 }
