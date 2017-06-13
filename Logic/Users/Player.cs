@@ -120,6 +120,7 @@ namespace TexasHoldem.Logic.Users
                 int newPoint = GetNewPoint();
                 user.EditUserPoints(newPoint) ;
                 UserDataProxy p = new UserDataProxy();
+                this.user.EditUserPoints(newPoint);
                 p.EditUserPoints(user.Id(),newPoint);
                 toReturn = true;
             }
