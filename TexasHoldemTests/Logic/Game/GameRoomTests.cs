@@ -233,6 +233,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user3, ActionType.Bet, 60, useCommunication)));
         }
 
+
         [TestMethod()]
         public void DoActioPotLimitRaiseTest()
         {
