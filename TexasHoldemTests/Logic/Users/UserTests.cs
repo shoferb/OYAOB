@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TexasHoldem.communication.Impl;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
@@ -686,6 +687,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IdTest_good()
         {
+            UserDataProxy userDataProxy = new UserDataProxy();
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.Id(), 305077901);
         }

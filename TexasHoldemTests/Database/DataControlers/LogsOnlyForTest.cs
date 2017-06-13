@@ -106,9 +106,9 @@ namespace TexasHoldemTests.Database.DataControlers
 
             try
             {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                using (var db = new connectionsLinqDataContext())
                 {
-                    GetErrorLogByIdResult res = db.GetErrorLogById(logId).ToList().First();
+                    var res = db.GetErrorLogById(logId).ToList().First();
                     return res;
                 }
             }

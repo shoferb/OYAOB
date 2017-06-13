@@ -1,23 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.DatabaseProxy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TexasHoldem.Database.DataControlers;
-using TexasHoldem.Database.LinqToSql;
-using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldemTests.Database.DataControlers;
 using ErrorLog = TexasHoldem.Logic.Notifications_And_Logs.ErrorLog;
-using Log = TexasHoldem.Logic.Notifications_And_Logs.Log;
-using SystemLog = TexasHoldem.Logic.Notifications_And_Logs.SystemLog;
-namespace TexasHoldem.DatabaseProxy.Tests
+
+namespace TexasHoldemTests.DatabaseProxy
 {
     [TestClass()]
     public class LogDataProxyTests
     {
-        readonly LogDataProxy _logDataProxy = new LogDataProxy();
+        private readonly LogDataProxy _logDataProxy = new LogDataProxy();
         private readonly LogsOnlyForTest _logsOnlyForTest = new LogsOnlyForTest();
 
         [TestMethod()]
@@ -26,7 +17,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
            var error = new ErrorLog("AddErrorLogTest_good_id_match");
            _logDataProxy.AddErrorLog(error);
             var logId = error.LogId;
-            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(logId).logId,logId);
+            var errorlogdb = _logsOnlyForTest.GetErrorLogById(logId);
+            Assert.AreEqual(errorlogdb.logId,logId);
             _logsOnlyForTest.DeleteErrorLog(logId);
             _logsOnlyForTest.DeleteLog(logId);
         }
@@ -42,7 +34,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             _logsOnlyForTest.DeleteErrorLog(logId);
             _logsOnlyForTest.DeleteLog(logId);
         }
-
+/*
         [TestMethod()]
         public void AddSysLogTest_good_id_match()
         {
@@ -77,13 +69,31 @@ namespace TexasHoldem.DatabaseProxy.Tests
             _logsOnlyForTest.DeleteSystemLog(logId);
             _logsOnlyForTest.DeleteLog(logId);
         }
-
+        */
         
         [TestMethod()]
-        public void GetNextLogIdTest()
+        public void GetNextLogIdTest_bad_no_logs()
         {
-            Assert.Fail();
+            var next = _logDataProxy.GetNextLogId();
+            Assert.AreEqual(next, -2);
+          
         }
-
+       
+        [TestMethod()]
+        public void GetNextLogIdTest_good()
+        {
+            var toAdd1 = new ErrorLog("GetNextLogIdTest_good first");
+            var toAdd1Id = toAdd1.LogId;
+            var toAdd2 = new ErrorLog("GetNextLogIdTest_good secound");
+            var toAdd2Id = toAdd2.LogId;
+            _logDataProxy.AddErrorLog(toAdd1);
+            _logDataProxy.AddErrorLog(toAdd2);
+            var next = _logDataProxy.GetNextLogId();
+            Assert.AreEqual(next, toAdd2Id + 1);
+            _logsOnlyForTest.DeleteErrorLog(toAdd1Id);
+            _logsOnlyForTest.DeleteLog(toAdd1Id);
+            _logsOnlyForTest.DeleteErrorLog(toAdd2Id);
+            _logsOnlyForTest.DeleteLog(toAdd2Id);
+        }
     }
 }
