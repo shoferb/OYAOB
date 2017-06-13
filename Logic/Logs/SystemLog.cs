@@ -8,13 +8,15 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
 {
     public class SystemLog : Log
     {
-        private int roomId;
-        private string msg;
+        private int _roomId;
+        private string _msg;
+        private int _gameId;
 
-        public SystemLog(int roomId, string ms) : base()
+        public SystemLog(int roomId, string ms, int gameId) : base()
         {
-            this.roomId = roomId;
-            this.msg = ms;
+            _roomId = roomId;
+            _msg = ms;
+            _gameId = gameId;
         }
 
         //getter setter
@@ -22,32 +24,44 @@ namespace TexasHoldem.Logic.Notifications_And_Logs
         {
             get
             {
-                return roomId;
+                return _roomId;
             }
 
             set
             {
-                roomId = value;
+                _roomId = value;
             }
         }
 
+        public int GameId
+        {
+            get
+            {
+                return _gameId;
+            }
+
+            set
+            {
+                _gameId = value;
+            }
+        }
         public string Msg
         {
             get
             {
-                return msg;
+                return _msg;
             }
 
             set
             {
-                msg = value;
+                _msg = value;
             }
         }
 
         public string ToString()
         {
             string toReturn = base.ToString();
-            toReturn = toReturn + " msg is: " + msg + "to room Id: " + roomId;
+            toReturn = toReturn + " msg is: " + _msg + "to room Id: " + _roomId;
             return toReturn;
         }
 

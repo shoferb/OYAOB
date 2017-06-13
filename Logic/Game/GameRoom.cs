@@ -214,7 +214,7 @@ namespace TexasHoldem.Logic.Game
                 GameReplay.AddAction(leave);
             }
             SystemLog log = new SystemLog(Id, "Player with user Id: "
-                + player.user.Id() + " left succsfully from room: " +Id);
+                                              + player.user.Id() + " left succsfully from room: " +Id, GameNumber);
             logControl.AddSystemLog(log);
             player.user.AddMoney(player.TotalChip - player.RoundChipBet);
             player.user.RemoveRoomFromActiveGameList(this);
@@ -399,12 +399,12 @@ namespace TexasHoldem.Logic.Game
             Hand_Step = HandStep.PreFlop;
             Deck = new Deck();
             GameReplay = new GameReplay(Id, GameNumber);
-            SystemLog log = new SystemLog(Id, "Game Started");
+            SystemLog log = new SystemLog(Id, "Game Started", GameNumber);
             logControl.AddSystemLog(log);
             SetRoles();
             StartGame startAction = new StartGame(Players, DealerPlayer, SbPlayer, BbPlayer);
             GameReplay.AddAction(startAction);
-            SystemLog log2 = new SystemLog(Id, startAction.ToString());
+            SystemLog log2 = new SystemLog(Id, startAction.ToString(), GameNumber);
             logControl.AddSystemLog(log2);
             maxBetInRound = Bb;
 
@@ -465,7 +465,7 @@ namespace TexasHoldem.Logic.Game
             RaiseAction raise = new RaiseAction(player, player._firstCard,
                  player._secondCard, currentPlayerBet);
             GameReplay.AddAction(raise);
-            SystemLog log = new SystemLog(Id, raise.ToString());
+            SystemLog log = new SystemLog(Id, raise.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             lastRaiseInRound = currentPlayerRaise;
             foreach (Player p in Players) //they all need to make another action in this round
@@ -489,7 +489,7 @@ namespace TexasHoldem.Logic.Game
             CallAction call = new CallAction(player, player._firstCard,
                 player._secondCard, bet);
             GameReplay.AddAction(call);
-            SystemLog log = new SystemLog(Id, call.ToString());
+            SystemLog log = new SystemLog(Id, call.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
             ids.Remove(player.user.Id());
@@ -510,7 +510,7 @@ namespace TexasHoldem.Logic.Game
             player.PlayedAnActionInTheRound = true;
             CheckAction check = new CheckAction(player, player._firstCard,
                  player._secondCard);
-            SystemLog log = new SystemLog(Id, check.ToString());
+            SystemLog log = new SystemLog(Id, check.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             GameReplay.AddAction(check);
             bool afterAction = AfterAction(player);
@@ -525,7 +525,7 @@ namespace TexasHoldem.Logic.Game
             FoldAction fold = new FoldAction(player, player._firstCard,
                 player._secondCard);
             GameReplay.AddAction(fold);
-            SystemLog log = new SystemLog(Id, fold.ToString());
+            SystemLog log = new SystemLog(Id, fold.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
             ids.Remove(player.user.Id());
@@ -747,7 +747,7 @@ namespace TexasHoldem.Logic.Game
                 HandCards hand = new HandCards(player, player._firstCard,
                     player._secondCard);
                 GameReplay.AddAction(hand);
-                SystemLog log = new SystemLog(Id, hand.ToString());
+                SystemLog log = new SystemLog(Id, hand.ToString(), GameNumber);
                 logControl.AddSystemLog(log);
                 //if (player.user.Id() != doNotSend.user.Id())
                 //{
@@ -889,7 +889,7 @@ namespace TexasHoldem.Logic.Game
                     winners[0]._player._firstCard, winners[0]._player._secondCard,
                     PotCount, table, winners[0]._relevantCards);
                 GameReplay.AddAction(win);
-                SystemLog log = new SystemLog(Id, win.ToString());
+                SystemLog log = new SystemLog(Id, win.ToString(), GameNumber);
                 logControl.AddSystemLog(log);
                 return winners;
             }
@@ -936,7 +936,7 @@ namespace TexasHoldem.Logic.Game
                      h._player._firstCard, h._player._secondCard,
                      PotCount / winners.Count, table, h._relevantCards);
                 GameReplay.AddAction(win);
-                SystemLog log = new SystemLog(Id, win.ToString());
+                SystemLog log = new SystemLog(Id, win.ToString(), GameNumber);
                 // this.this._gameCenter.AddSystemLog(log);
                 logControl.AddSystemLog(log);
             }
@@ -992,7 +992,7 @@ namespace TexasHoldem.Logic.Game
                 if (s.user.Id() == user.Id())
                 {
                     SystemLog log =
-                        new SystemLog(Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id);
+                        new SystemLog(Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id, GameNumber);
                     Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
                     return true;
