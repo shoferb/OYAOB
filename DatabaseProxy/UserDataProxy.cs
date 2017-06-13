@@ -14,25 +14,24 @@ namespace TexasHoldem.DatabaseProxy
 {
     public class UserDataProxy
     {
-        UserDataControler userDataControler = new UserDataControler();
+        readonly UserDataControler _userDataControler = new UserDataControler();
         
         public void Login(IUser user)
         {
             try
             {
-                UserTable toLogin = convertToUserT(user);
-                userDataControler.EditUserIsActive(toLogin.userId, true);
+                var toLogin = convertToUserT(user);
+                _userDataControler.EditUserIsActive(toLogin.userId, true);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy login fail");
                 return;
             }
         }
 
-        private int GetLeagueNum(LeagueName league)
+        private static int GetLeagueNum(LeagueName league)
         {
-            int toReturn = 0;
+            var toReturn = 0;
             switch (league)
             {
                     case LeagueName.A:
@@ -54,10 +53,12 @@ namespace TexasHoldem.DatabaseProxy
                     toReturn = 6;
                     break;
 
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(league), league, null);
             }
             return toReturn;
         }
-        private LeagueName GetLeagueName(int league)
+        private static LeagueName GetLeagueName(int league)
         {
            LeagueName toReturn = 0;
             switch (league)
@@ -88,25 +89,27 @@ namespace TexasHoldem.DatabaseProxy
 
         private UserTable convertToUserT(IUser user)
         {
-            UserTable toReturn = new UserTable();
-            toReturn.userId = user.Id();
-            toReturn.username = user.MemberName();
-            toReturn.name = user.Name();
-            toReturn.password = user.Password();
-            toReturn.email = user.Email();
-            toReturn.HighestCashGainInGame = user.HighestCashGainInGame;
-            toReturn.TotalProfit = user.TotalProfit;
-            toReturn.avatar = user.Avatar();
-            toReturn.inActive = user.IsLogin();
-            toReturn.leagueName = GetLeagueNum(user.GetLeague());
-            toReturn.gamesPlayed = user.GetNumberOfGamesUserPlay();
-            toReturn.money = user.Money();
-            toReturn.winNum = user.WinNum;
-            toReturn.points = user.Points();
+            var toReturn = new UserTable
+            {
+                userId = user.Id(),
+                username = user.MemberName(),
+                name = user.Name(),
+                password = user.Password(),
+                email = user.Email(),
+                HighestCashGainInGame = user.HighestCashGainInGame,
+                TotalProfit = user.TotalProfit,
+                avatar = user.Avatar(),
+                inActive = user.IsLogin(),
+                leagueName = GetLeagueNum(user.GetLeague()),
+                gamesPlayed = user.GetNumberOfGamesUserPlay(),
+                money = user.Money(),
+                winNum = user.WinNum,
+                points = user.Points()
+            };
             return toReturn;
         }
 
-        private IUser convertToIUser(UserTable user)
+        private static IUser ConvertToIUser(UserTable user)
         {
            // string decryptpassword = PasswordSecurity.Decrypt(user.password, "securityPassword");
             IUser toResturn = new User(user.userId, user.name, user.username, user.password, user.points,
@@ -119,12 +122,11 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-                UserTable toLogin = convertToUserT(user);
-                userDataControler.EditUserIsActive(toLogin.userId, false);
+                var toLogin = convertToUserT(user);
+                _userDataControler.EditUserIsActive(toLogin.userId, false);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy logout fails");
                 return;
             }
         }
@@ -134,23 +136,21 @@ namespace TexasHoldem.DatabaseProxy
  
             try
             {
-                UserTable user = userDataControler.GetUserById(userid);
-                Console.WriteLine("inside proxy get user by id ut Id " + user.userId);
-                Console.WriteLine("!!inside proxy get user by ut password " + user.password);
+                var user = _userDataControler.GetUserById(userid);
+               // Console.WriteLine("inside proxy get user by id ut Id " + user.userId);
+             //   Console.WriteLine("!!inside proxy get user by ut password " + user.password);
               
-                IUser toResturn = convertToIUser(user);
-                string toDec = user.password;
-                Console.WriteLine("!!inside proxy get user by IUSER password " + toResturn.Password());
+                var toResturn = ConvertToIUser(user);
+               // var toDec = user.password;
+               // Console.WriteLine("!!inside proxy get user by IUSER password " + toResturn.Password());
                 //string decryptpassword = PasswordSecurity.Decrypt(toDec, "securityPassword");
                 //Console.WriteLine("!!inside proxy get user by id DEC PASSWORD " + decryptpassword);
                 //toResturn.EditPassword(decryptpassword);
                 //Console.WriteLine("!!inside proxy get user by id IUSER  DEC PASSWORD " + toResturn.Password());
                 return toResturn;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy get user by id fails");
-                Console.WriteLine("exeption: "+e);
                 return null;
             }
         }
@@ -160,13 +160,12 @@ namespace TexasHoldem.DatabaseProxy
             IUser toReturn = null;
             try
             {
-                UserTable temp = userDataControler.GetUserByUserName(username);
-                toReturn = convertToIUser(temp);
+                var temp = _userDataControler.GetUserByUserName(username);
+                toReturn = ConvertToIUser(temp);
                 return toReturn;
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                Console.WriteLine("error user proxy get user by user name fails");
                 return toReturn;
             }
         }
@@ -174,20 +173,19 @@ namespace TexasHoldem.DatabaseProxy
         public List<IUser> GetAllUser()
         {
 
-            List<IUser> toreturn = new List<IUser>();
+            var toreturn = new List<IUser>();
             try
             {
-                List<UserTable> temp = userDataControler.GetAllUser();
-                foreach (UserTable user in temp)
+                var temp = _userDataControler.GetAllUser();
+                foreach (var user in temp)
                 {
-                    IUser toAdd = convertToIUser(user);
+                    var toAdd = ConvertToIUser(user);
                     toreturn.Add(toAdd);
                 }
                 return toreturn;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy: get all user fails");
                 return toreturn;
             }
         }
@@ -196,25 +194,23 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-                userDataControler.DeleteUserByUsername(username);
+                _userDataControler.DeleteUserByUsername(username);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy: Delete user by user name fails");
                 return;
             }
 
         }
 
-        public void DeleteUserById(int Id)
+        public void DeleteUserById(int id)
         {
             try
             {
-                userDataControler.DeleteUserById(Id);
+                _userDataControler.DeleteUserById(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy: Delete user by user Id fails");
                 return;
             }
         }
@@ -223,15 +219,14 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-                UserTable toAddUT = convertToUserT(toAdd);
+                UserTable toAddUt = convertToUserT(toAdd);
                // string pass = toAdd.Password();
                 //string encryptedstring = PasswordSecurity.Encrypt(pass, "securityPassword");
                 //toAddUT.password = encryptedstring;
-                userDataControler.AddNewUser(toAddUT);
+                _userDataControler.AddNewUser(toAddUt);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error in user proxy: add new user fails fails");
                 return;
             }
 
@@ -241,105 +236,96 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-               userDataControler.EditUserId(oldId,newId);
+               _userDataControler.EditUserId(oldId,newId);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user Id in proxy");
                 return;
             }
         }
 
-        public void EditUserPoints(int Id, int newPoints)
+        public void EditUserPoints(int id, int newPoints)
         {
             try
             {
-                userDataControler.EditUserPoints(Id,newPoints);
+                _userDataControler.EditUserPoints(id,newPoints);
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user points proxy");
                 return;
             }
         }
-        public void EditUserAvatar(int Id, string newAvatar)
+        public void EditUserAvatar(int id, string newAvatar)
         {
             try
             {
-                userDataControler.EditUserAvatar(Id, newAvatar);
+                _userDataControler.EditUserAvatar(id, newAvatar);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit user avatar in proxy");
                 return;
             }
         }
-        public void EditUserName(int Id, string newUserName)
+        public void EditUserName(int id, string newUserName)
         {
             try
             {
-               userDataControler.EditUserName(Id,newUserName);
+               _userDataControler.EditUserName(id,newUserName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  username in proxy");
                 return;
             }
         }
 
-        public void EditName(int Id, string newName)
+        public void EditName(int id, string newName)
         {
             try
             {
-                userDataControler.EditName(Id,newName);
+                _userDataControler.EditName(id,newName);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  name");
                 return;
             }
         }
 
-        public void EditEmail(int Id, string newEmail)
+        public void EditEmail(int id, string newEmail)
         {
             try
             {
-                userDataControler.EditEmail(Id,newEmail);
+                _userDataControler.EditEmail(id,newEmail);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user email");
                 return;
             }
         }
 
-        public void EditPassword(int Id, string newPassword)
+        public void EditPassword(int id, string newPassword)
         {
             try
             {
                 // string encryptedPassword = PasswordSecurity.Encrypt(newPassword, "securityPassword");
                 //  userDataControler.EditPassword(Id, encryptedPassword);
-                userDataControler.EditPassword(Id, newPassword);
+                _userDataControler.EditPassword(id, newPassword);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user passsword");
                 return;
             }
         }
 
-        public void EditUserHighestCashGainInGame(int Id, int newHighestCashGainInGame)
+        public void EditUserHighestCashGainInGame(int id, int newHighestCashGainInGame)
         {
             try
             {
-                userDataControler.EditUserHighestCashGainInGame(Id,newHighestCashGainInGame);
-
+                _userDataControler.EditUserHighestCashGainInGame(id,newHighestCashGainInGame);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user Highest Cash Gain In Game");
                 return;
             }
         }
@@ -347,74 +333,71 @@ namespace TexasHoldem.DatabaseProxy
 
       
 
-        public void EditUserLeagueName(int Id, LeagueName newLeagueName)
+        public void EditUserLeagueName(int id, LeagueName newLeagueName)
         {
             try
             {
-                Database.LinqToSql.LeagueName league = new Database.LinqToSql.LeagueName();
-                league.League_Value = GetLeagueNum(newLeagueName);
-                
-               userDataControler.EditUserLeagueName(Id,league);
+                var league = new Database.LinqToSql.LeagueName
+                {
+                    League_Value = GetLeagueNum(newLeagueName)
+                };
+
+                _userDataControler.EditUserLeagueName(id,league);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user League name");
                 return;
             }
         }
 
 
-        public void EditUserMoney(int Id, int newMoney)
+        public void EditUserMoney(int id, int newMoney)
         {
             try
             {
-                userDataControler.EditUserMoney(Id,newMoney);
+                _userDataControler.EditUserMoney(id,newMoney);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user money");
                 return;
             }
         }
 
 
 
-        public void EditUserNumOfGamesPlayed(int Id, int newEditUserNumOfGamesPlayed)
+        public void EditUserNumOfGamesPlayed(int id, int newEditUserNumOfGamesPlayed)
         {
             try
             {
-                userDataControler.EditUserNumOfGamesPlayed(Id,newEditUserNumOfGamesPlayed);
+                _userDataControler.EditUserNumOfGamesPlayed(id,newEditUserNumOfGamesPlayed);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user num og games played");
                 return;
             }
         }
 
 
-        public void EditUserTotalProfit(int Id, int newTotalProfit)
+        public void EditUserTotalProfit(int id, int newTotalProfit)
         {
             try
             {
-                userDataControler.EditUserTotalProfit(Id,newTotalProfit);
+                _userDataControler.EditUserTotalProfit(id,newTotalProfit);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user Total profit");
                 return;
             }
         }
 
-        public void EditUserWinNum(int Id, int newWinNum)
+        public void EditUserWinNum(int id, int newWinNum)
         {
             try
             {
-               userDataControler.EditUserWinNum(Id,newWinNum);
+               _userDataControler.EditUserWinNum(id,newWinNum);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine("error edit  user win num");
                 return;
             }
         }

@@ -16,11 +16,11 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-                LogDataControler udp = new LogDataControler();
+                var udp = new LogDataControler();
                 Database.LinqToSql.ErrorLog errorlog = ConvertErrorLog(error);
                 udp.AddErrorLog(errorlog);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return;
             }
@@ -31,11 +31,11 @@ namespace TexasHoldem.DatabaseProxy
         {
             try
             {
-                LogDataControler udp = new LogDataControler();
+                var udp = new LogDataControler();
                 Database.LinqToSql.SystemLog systemLog = ConvertSysLog(sysLog);
                 udp.AddSystemLog(systemLog);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return;
             }
@@ -43,11 +43,16 @@ namespace TexasHoldem.DatabaseProxy
         }
         private Database.LinqToSql.ErrorLog ConvertErrorLog(Logic.Notifications_And_Logs.ErrorLog error)
         {
-            Database.LinqToSql.ErrorLog toReturn = new Database.LinqToSql.ErrorLog();
-            toReturn.Log.LogId = error.LogId;
-            toReturn.Log.PriorityLogEnum = GetPriorityNum(error.Priority);
-            toReturn.msg = error.Msg;
-            toReturn.logId = error.LogId;
+            Database.LinqToSql.ErrorLog toReturn = new Database.LinqToSql.ErrorLog
+            {
+                Log =
+                {
+                    LogId = error.LogId,
+                    PriorityLogEnum = GetPriorityNum(error.Priority)
+                },
+                msg = error.Msg,
+                logId = error.LogId
+            };
             return toReturn;
         }
 
@@ -58,17 +63,22 @@ namespace TexasHoldem.DatabaseProxy
         }
         private Database.LinqToSql.SystemLog ConvertSysLog(Logic.Notifications_And_Logs.SystemLog sysLog)
         {
-            Database.LinqToSql.SystemLog toReturn = new Database.LinqToSql.SystemLog();
-            toReturn.Log.LogId = sysLog.LogId;
-            toReturn.Log.PriorityLogEnum = GetPriorityNum(sysLog.Priority);
-            toReturn.msg = sysLog.Msg;
-            toReturn.logId = sysLog.LogId;
-            toReturn.roomId = sysLog.RoomId;
+            Database.LinqToSql.SystemLog toReturn = new Database.LinqToSql.SystemLog
+            {
+                Log =
+                {
+                    LogId = sysLog.LogId,
+                    PriorityLogEnum = GetPriorityNum(sysLog.Priority)
+                },
+                msg = sysLog.Msg,
+                logId = sysLog.LogId,
+                roomId = sysLog.RoomId
+            };
             return toReturn;
         }
         private PriorityLogEnum GetPriorityNum(Logic.Notifications_And_Logs.Log.LogPriority priority)
         {
-            PriorityLogEnum toReturn = new PriorityLogEnum();
+            var toReturn = new PriorityLogEnum();
             switch (priority)
             {
                 case (Log.LogPriority.Info):
@@ -83,6 +93,8 @@ namespace TexasHoldem.DatabaseProxy
                     toReturn.PriorityValue = 3;
                     toReturn.ProprityName = "Error";
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(priority), priority, null);
             }
             return toReturn;
         }
