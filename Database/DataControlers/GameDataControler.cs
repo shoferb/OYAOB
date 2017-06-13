@@ -126,41 +126,6 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-      
-
-     
-        public List<Player> GetPlayersOfRoom(int roomId)
-        {
-            List<Player> toRet = new List<Player>();
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetPlayerssByRoomId(roomId).ToList();
-                    foreach (var v in temp)
-                    {
-                        Player toAdd = new Player();
-                        toAdd.first_card = v.first_card;
-                        toAdd.is_player_active = v.is_player_active;
-                        toAdd.Player_action_the_round = v.Player_action_the_round;
-                        toAdd.player_name = v.player_name;
-                        toAdd.room_Id = v.room_Id;
-                        toAdd.Round_chip_bet = v.Round_chip_bet;
-                        toAdd.secund_card = v.secund_card;
-                        toAdd.Total_chip = v.Total_chip;
-                        toAdd.user_Id = v.user_Id;
-                        toRet.Add(toAdd);
-                    }
-                    return toRet;
-                }
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-
-        }
-
         public GameMode GetGameModeByVal(int val)
         {
             GameMode toRet = new GameMode();
