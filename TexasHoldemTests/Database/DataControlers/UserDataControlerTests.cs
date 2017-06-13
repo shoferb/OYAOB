@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 using TexasHoldem.Database.LinqToSql;
 
 
@@ -123,7 +124,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
 
             _userDataControler.AddNewUser(toAdd1);
 
-            Assert.AreEqual(_userDataControler.GetAllUser().First().userId,toAdd1.userId);
+            Assert.AreEqual(_userDataControler.GetUserById(9).userId,toAdd1.userId);
             _userDataControler.DeleteUserById(9);
         }
 
@@ -135,7 +136,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _userDataControler.AddNewUser(toAdd1);
             UserTable toAdd2 = CreateUser(10, "10name");
             _userDataControler.AddNewUser(toAdd2);
-            Assert.AreEqual(_userDataControler.GetAllUser().Count,1);
+            Assert.AreEqual(_userDataControler.GetUserById(10),null);
             _userDataControler.DeleteUserById(10);
         }
         [TestMethod()]

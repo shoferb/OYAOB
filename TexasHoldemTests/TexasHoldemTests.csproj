@@ -99,6 +99,7 @@
     <Compile Include="Database\DataControlers\LogDataControlerTests.cs" />
     <Compile Include="Database\DataControlers\LogsOnlyForTest.cs" />
     <Compile Include="Database\DataControlers\UserDataControlerTests.cs" />
+    <Compile Include="Database\Security\PasswordSecurityTests.cs" />
     <Compile Include="Handler\CommunicationHandlerTests.cs" />
     <Compile Include="Logic\IUserMoq.cs" />
     <Compile Include="Logic\GameControl\GameCenterTests.cs" />

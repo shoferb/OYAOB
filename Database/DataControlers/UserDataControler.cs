@@ -26,6 +26,9 @@ namespace TexasHoldem.Database.DataControlers
                     foreach (var v in temp)
                     {
                         UserTable toAdd = ConvertToUser(v);
+                        var decryptedpassword = PasswordSecurity.Decrypt("securityPassword", toAdd.password, false);
+
+                        toAdd.password = decryptedpassword;
                         toReturn.Add(toAdd);
                     }
                     return toReturn;
@@ -48,14 +51,12 @@ namespace TexasHoldem.Database.DataControlers
                using (var db = new connectionsLinqDataContext())
                {
                    var temp = db.GetUserByUserId(id).ToList().First();
-                   var toReturn = ConvertToUser(temp);
-                   //Console.WriteLine("in data user ,user password id: " + toReturn.password);
-                   //Console.WriteLine("in data user ,%%%%%% Try dec password");
-                   //string toDec = toReturn.password;
-                  // string decryptpassword = PasswordSecurity.Decrypt(toDec, "securityPassword");
 
-                   //Console.WriteLine("in data user ,%%%%%% AFTER &&&&&& dec password");
-                   //toReturn.password = decryptpassword;
+                    var toReturn = ConvertToUser(temp);
+                   var decryptedpassword = PasswordSecurity.Decrypt( "securityPassword",toReturn.password,false);
+
+                    toReturn.password = decryptedpassword;
+
                     return toReturn;
                }
            }
@@ -75,8 +76,10 @@ namespace TexasHoldem.Database.DataControlers
                {
                    var temp = db.GetUserByUserName(username).ToList().First();
                    var toReturn = ConvertToUser(temp);
-                   Console.WriteLine(toReturn.userId);
-                   return toReturn;
+                   var decryptedpassword = PasswordSecurity.Decrypt("securityPassword", toReturn.password, false);
+
+                   toReturn.password = decryptedpassword;
+                    return toReturn;
                }
            }
            catch (Exception)
@@ -92,7 +95,8 @@ namespace TexasHoldem.Database.DataControlers
 
                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                {
-                    db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, toAddUser.password, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
+                   var encryptedpassword = PasswordSecurity.Encrypt( "securityPassword", toAddUser.password,false);
+                    db.AddNewUser(toAddUser.userId, toAddUser.username, toAddUser.name, toAddUser.email, encryptedpassword, toAddUser.avatar, toAddUser.points, toAddUser.money, toAddUser.gamesPlayed, toAddUser.leagueName, toAddUser.winNum, toAddUser.HighestCashGainInGame, toAddUser.TotalProfit, toAddUser.inActive);
                     //db.UserTables.InsertOnSubmit(toAddUser);
                 //    db.SubmitChanges();
                 }
@@ -200,7 +204,9 @@ namespace TexasHoldem.Database.DataControlers
            {
                using (var db = new connectionsLinqDataContext())
                {
-                   db.EditPassword(id, newPassword);
+                   var encryptedpassword = PasswordSecurity.Encrypt("securityPassword", newPassword, false);
+
+                    db.EditPassword(id, encryptedpassword);
                }
 
            }

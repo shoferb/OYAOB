@@ -38,35 +38,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             return ut;
         }
 
-        [TestMethod()]
-        public void enpcrptpasswordTest_good()
-        {
-
-            UserTable toAddUT = CreateUser(305077937, "orelie");
-            Console.WriteLine("password before encription:" + toAddUT.password);
-            string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
-            toAddUT.password = encryptedstring;
-            Console.WriteLine("password encription:" + toAddUT.password);
-            Assert.AreNotEqual(toAddUT.password, "123456789");
-        }
-
-        [TestMethod()]
-        public void decpcrptpasswordTest_good()
-        {
-
-            UserTable toAddUT = CreateUser(305077938, "orelie");
-            Console.WriteLine("password before encription:" + toAddUT.password);
-            string encryptedstring = PasswordSecurity.Encrypt(toAddUT.password, "securityPassword");
-            toAddUT.password = encryptedstring;
-            Console.WriteLine("password encription:" + toAddUT.password);
-            string decryptedstring = PasswordSecurity.Decrypt(toAddUT.password, "securityPassword");
-            toAddUT.password = decryptedstring;
-            Console.WriteLine("password after deription:" + toAddUT.password);
-            Assert.AreEqual(toAddUT.password, "password");
-
-           
-        }
-
+       
         [TestMethod()]
         public void LoginTest()
         {
