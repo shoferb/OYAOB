@@ -25,6 +25,12 @@ namespace TexasHoldem.Logic.Game
         private int maxBetInRound;
         private int PotCount;
         private int Bb;
+
+        public int GetGameNum()
+        {
+            return this.GameNumber;
+        }
+
         private int Sb;
         private Deck Deck;
         private HandStep Hand_Step;

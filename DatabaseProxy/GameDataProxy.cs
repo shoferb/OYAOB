@@ -25,29 +25,18 @@ namespace TexasHoldem.DatabaseProxy
    
        
         public bool AddNewGameToDB(Logic.Game.GameRoom gr)
-        {
-           
-            bool ans = false;
+        { 
+           bool ans = false;
            ans = InsertGameRoom(gr);
-            return ans;
+           return ans;
         }
 
         private bool InsertGameRoom(Logic.Game.GameRoom v)
         {
             Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
-            toIns.Bb = v.getBb();
-            toIns.Bb_Player = v.getBbPlayer();
-            toIns.curr_Player = v.getCurrPlayer();
-            toIns.curr_player_position = v.getCurrPlayerPos();
-            toIns.Dealer_Player = v.getDealerPlayer();
-            toIns.Dealer_position = v.getDealerPos();
-            toIns.First_Player_In_round = v.getFirstPlayerInRound();
-            toIns.first_player_in_round_position = v.getFirstPlayerInRoundPos();
-            toIns.game_id = v.getGameNum();
+            toIns.GameId = v.GetGameNum();
             toIns.is_Active_Game = v.IsGameActive();
-            toIns.last_rise_in_round = v.GetLastRaiseInRound();
-            toIns.Max_Bet_In_Round = v.GetMaxBetInRound();
-            toIns.Pot_count = v.GetPotCount();
+         
             toIns.room_Id = v.Id;
             toIns.Sb = v.GetSb();
             toIns.SB_player = v.GetSbPlayer();
