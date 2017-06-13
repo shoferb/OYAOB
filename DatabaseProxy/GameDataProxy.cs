@@ -91,69 +91,12 @@ namespace TexasHoldem.DatabaseProxy
         {
             List<IGame> toRet = new List<IGame>();
             List<Database.LinqToSql.GameRoom> dbGames= _controller.getAllGames();
-            foreach(Database.LinqToSql.GameRoom g in dbGames)
+
+            foreach (Database.LinqToSql.GameRoom g in dbGames)
             {
                 List<Database.LinqToSql.Player> dbPlayers = _controller.GetPlayersOfRoom(g.room_Id);
-                if(dbPlayers==null)
-                {
-                    return null;
-                }
-                List<Logic.Users.Player> playersLst = ConvertPlayerList(dbPlayers);
-
-                List<Card> pubCards = new List<Card>();
-                List<Database.LinqToSql.Card> dbPubCards = _controller.GetPublicCardsByRoomId(g.room_Id);
-                foreach(var aCard in dbPubCards)
-                {
-                    pubCards.Add(getCardByVal(aCard.Card_Value));
-                }
-                List<Database.LinqToSql.SpectetorGamesOfUser> dbSpecs = _controller.GetSpectOfRoom(g.room_Id);
-                if (dbSpecs == null)
-                {
-                    return null;
-                }
-                List<Logic.Users.Spectetor> SpecssLst = ConvertSpecsList(dbSpecs);
-                Logic.Users.Player currentPlayer = playersLst.First();
-                Logic.Users.Player bbPlayer = playersLst.First();
-                Logic.Users.Player sbPlayer = playersLst.First();
-                Logic.Users.Player firstPlayerInRound = playersLst.First();
-                Logic.Users.Player dealerPlayer = playersLst.First();
-
-                foreach (Logic.Users.Player p in playersLst)
-                {
-                    if(p.user.Id()==g.curr_Player)
-                    {
-                        currentPlayer = p;
-                    }
-                    if (p.user.Id() == g.Bb_Player)
-                    {
-                        bbPlayer = p;
-                    }
-                    if (p.user.Id() == g.SB_player)
-                    {
-                        sbPlayer = p;
-                    }
-                    if (p.user.Id() == g.First_Player_In_round)
-                    {
-                        firstPlayerInRound = p;
-                    }
-                    if (p.user.Id() == g.Dealer_Player)
-                    {
-                        dealerPlayer = p;
-                    }
-                }
                 
-                Deck d = ConverDBDeck(_controller.getDeckByRoomId(g.room_Id),_controller.getDeckCards(g.room_Id));
-                Logic.Game.GameRoom.HandStep hs = ConvertSpecsList(g.HandStep);
-                Logic.GameControl.LeagueName leagueOf = ConvertSpecsList(g.LeagueName);
-                Logic.Replay.GameReplay gr = ConvertGameReplay(g.GameReplay);
-                GameRoomPreferance  pref = _controller.GetPrefByRoomId(g.room_Id);
-
-                Decorator decorator = _gameCenter.CreateDecorator(pref.Bb.Value, pref.starting_chip.Value, pref.is_Spectetor.Value, pref.Min_player_in_room.Value, pref.max_player_in_room.Value, pref.enter_paying_money.Value, ConvertGameModeChosen(_controller.GetGameModeByVal(pref.Game_Mode.Value)), leagueOf);
-                Logic.Game.GameRoom toAdd = new Logic.Game.GameRoom(playersLst, g.room_Id, decorator, _gameCenter, _logControl,
-               _replayManager, _sender, g.game_id, g.is_Active_Game, g.Pot_count, g.Max_Bet_In_Round,
-                 pubCards, SpecssLst,  dealerPlayer,  leagueOf, g.last_rise_in_round, currentPlayer,  bbPlayer, sbPlayer,  
-                 firstPlayerInRound, g.Bb ,g.Sb, g.Dealer_position, g.curr_player_position, g.first_player_in_round_position, 
-                 gr,  hs,  d);
+ 
             }
 
             return toRet;
