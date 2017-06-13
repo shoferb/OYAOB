@@ -42,6 +42,7 @@ namespace TexasHoldem.DatabaseProxy
             toIns.isActive = v.IsGameActive();
             toIns.RoomId = v.Id;
             toIns.GameXML = GameRoomToXElement(v);
+            toIns.Replay = v
 
            return  _controller.InsertGameRoom(toIns);
         }
@@ -88,76 +89,8 @@ namespace TexasHoldem.DatabaseProxy
             return InsertNewGameRoom(v) & InsertGamePref(v);
         }
 
-        private bool InsertGameSpecs(Logic.Game.GameRoom v)
-        {
-            bool ans = true;
-            if (v.GetSpectetorInRoom() != null)
-            {
-                List<Logic.Users.Spectetor> specss = v.GetSpectetorInRoom();
-                foreach (var aSpec in specss)
-                {
-                    Database.LinqToSql.SpectetorGamesOfUser toAdd = new Database.LinqToSql.SpectetorGamesOfUser();
-                    toAdd.Game_Id = v.getGameNum();
-                    toAdd.roomId = v.Id;
-                    toAdd.userId = aSpec.user.Id();
-                    ans = ans & (_controller.InsertSpec(toAdd));
-                }
-            }
-            return ans;
-        }
-
-        private bool InsertGamePlayers(Logic.Game.GameRoom v)
-        {
-            bool ans = true;
-            List<Logic.Users.Player> players = v.GetPlayers();
-           
-                ans = true;
-                foreach (var aPlayer in players)
-                {
-                if (aPlayer != null)
-                {
-                    Database.LinqToSql.Player toAdd = new Database.LinqToSql.Player();
-                    toAdd.Game_Id = v.getGameNum();
-                    toAdd.room_Id = v.Id;
-                    toAdd.user_Id = aPlayer.user.Id();
-                    toAdd.is_player_active = aPlayer.isPlayerActive;
-                    toAdd.player_name = aPlayer.name;
-                    toAdd.Total_chip = aPlayer.TotalChip;
-                    toAdd.Round_chip_bet = aPlayer.RoundChipBet;
-                    toAdd.Player_action_the_round = aPlayer.PlayedAnActionInTheRound;
-                    try
-                    {
-                        toAdd.first_card = _controller.GetCardValByShapeAndRealVal(aPlayer._firstCard._suit.ToString(), aPlayer._firstCard._value);
-                        toAdd.secund_card = _controller.GetCardValByShapeAndRealVal(aPlayer._secondCard._suit.ToString(), aPlayer._secondCard._value);
-                    }
-                    catch(Exception e)
-                    {
-                        toAdd.first_card = 0;
-                        toAdd.secund_card = 0;
-                    }
-                    ans = ans & (_controller.InsertPlayer(toAdd));
-                }
-            }
-            return ans;
-        }
-
-        private bool InsertGamePublicCards(Logic.Game.GameRoom v)
-        {
-            bool ans = true;
-            if (v.GetPublicCards() != null)
-            {
-                List<Card> pubCards = v.GetPublicCards();
-                foreach (var aCard in pubCards)
-                {
-                    Database.LinqToSql.Public_Card toAdd = new Database.LinqToSql.Public_Card();
-                    toAdd.room_Id = v.Id;
-                    toAdd.Game_Id = v.getGameNum();
-                    toAdd.card = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
-                    ans = ans & (_controller.InsertPublicCard(toAdd));
-                }
-            }
-            return ans;
-        }
+     
+     
 
         private bool InsertGameReplay(Logic.Game.GameRoom v)
         {
