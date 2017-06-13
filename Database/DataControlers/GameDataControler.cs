@@ -144,53 +144,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public Database.LinqToSql.Card getDBCardByVal(int val)
-        {
-            Database.LinqToSql.Card toRet = new LinqToSql.Card();
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetCardByVal(val);
-                    toRet = ConvertCard(temp);
-                    return toRet;
-                }
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        private LinqToSql.Card ConvertCard(ISingleResult<GetCardByValResult> temp)
-        {
-            Database.LinqToSql.Card toRet = new LinqToSql.Card();
-            foreach (var cardd in temp)
-            {
-                toRet.Card_Real_Value = cardd.Card_Real_Value;
-                toRet.Card_Shpe = cardd.Card_Shpe;
-            }
-            return toRet;
-        }
-
-        private GameRoom SetHandStepToGame(GameRoom g, HandStep h)
-        {
-            g.HandStep.hand_Step_name = h.hand_Step_name;
-            g.HandStep.hand_Step_value = h.hand_Step_value;
-            return g;
-        }
-
-        private HandStep ConvertToHandStep(ISingleResult<GetHandStepNameByValResult> singleResult)
-        {
-            HandStep toAddHandStep = new HandStep();
-            foreach (var v in singleResult)
-            {
-                toAddHandStep.hand_Step_name = v.hand_Step_name;
-                toAddHandStep.hand_Step_value = v.hand_Step_value;
-            }
-            return toAddHandStep;
-        }
-
+       
         private GameRoom SetLeagueToGame(GameRoom g, LeagueName l)
         {
             g.LeagueName.League_Name = l.League_Name;
