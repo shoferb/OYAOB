@@ -42,7 +42,7 @@ namespace TexasHoldem.DatabaseProxy
             toIns.isActive = v.IsGameActive();
             toIns.RoomId = v.Id;
             toIns.GameXML = GameRoomToXElement(v);
-            toIns.Replay = v
+            toIns.Replay = v.GetGameReplay();
 
            return  _controller.InsertGameRoom(toIns);
         }
