@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Replay;
@@ -15,7 +16,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private readonly ReplayHandler _replayHandler;
         public ReplayBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            _gameService = new GameServiceHandler(gc, sys, log, replay);
+            var ses = new SessionIdHandler();
+            _gameService = new GameServiceHandler(gc, sys, log, replay,ses);
             _replayHandler = new ReplayHandler(replay);
         }
 

@@ -19,11 +19,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
     {
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
-        private readonly SessionIdHandler _ses;
+
         public GameBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            _ses = new SessionIdHandler();
-            _gameService = new GameServiceHandler(gc, sys, log, replay,_ses);
+            var ses = new SessionIdHandler();
+            _gameService = new GameServiceHandler(gc, sys, log, replay,ses);
             _userService = new UserServiceHandler(gc, sys);
             
     }
