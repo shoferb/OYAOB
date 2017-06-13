@@ -43,7 +43,6 @@ namespace TexasHoldem.DatabaseProxy
             toIns.RoomId = v.Id;
             toIns.GameXML = GameRoomToXElement(v);
             toIns.Replay = v.GetGameReplay();
-
            return  _controller.InsertGameRoom(toIns);
         }
 
@@ -59,7 +58,6 @@ namespace TexasHoldem.DatabaseProxy
                 }
             }
         }
-
 
         private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
@@ -87,44 +85,6 @@ namespace TexasHoldem.DatabaseProxy
         private bool InsertNewGameRoom(Logic.Game.GameRoom v)
         {
             return InsertNewGameRoom(v) & InsertGamePref(v);
-        }
-
-     
-     
-
-        private bool InsertGameReplay(Logic.Game.GameRoom v)
-        {
-            bool ans = true;
-            Logic.Replay.GameReplay gameRep = v.GetGameReplay();
-            if (gameRep != null)
-            {
-                ans = true;
-                Database.LinqToSql.GameReplay toAdd = new Database.LinqToSql.GameReplay();
-                toAdd.game_Id = gameRep._gameNumber;
-                toAdd.room_Id = gameRep._gameRoomID;
-                toAdd.replay = gameRep.ToString();
-                ans = ans & (_controller.InsertGameReply(toAdd));
-            }
-            return ans;
-        }
-
-        private bool InsertGameDeck(Logic.Game.GameRoom v)
-        {
-            bool ans = true;
-            Deck deck = v.GetDeck();
-            if (deck != null)
-            {
-                ans = true;
-            foreach (var aCard in v.GetDeck()._deck)
-            {
-                Database.LinqToSql.Deck toAdd = new Database.LinqToSql.Deck();
-                toAdd.room_Id = v.Id;
-                toAdd.game_Id = v.getGameNum();
-                toAdd.card_value = _controller.GetCardValByShapeAndRealVal(aCard._suit.ToString(), aCard._value);
-                ans = ans & (_controller.InsertDeck(toAdd));
-            }
-        }
-            return ans;
         }
 
         public List<IGame> GetAllGames()
