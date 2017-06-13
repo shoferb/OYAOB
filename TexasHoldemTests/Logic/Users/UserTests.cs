@@ -21,15 +21,14 @@ namespace TexasHoldem.Logic.Users.Tests
     public class UserTests
     {
 
-        private IUser orelie = new User(305077901, "orelie", "orelie26", "123456", 0, 500, "orelie@post.bgu.ac.il");
    
-        private static LogControl logControl = new LogControl();
-        private static SystemControl sysControl = new SystemControl(logControl);
-        private static ReplayManager replayManager = new ReplayManager();
+        private static readonly LogControl LogControl = new LogControl();
+        private static readonly SystemControl SysControl = new SystemControl(LogControl);
+        private static readonly ReplayManager ReplayManager = new ReplayManager();
 
         
-        private static SessionIdHandler sender = new SessionIdHandler();
-        private static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager,sender);
+        private static readonly SessionIdHandler Sender = new SessionIdHandler();
+        private static readonly GameCenter GameCenter = new GameCenter(SysControl, LogControl, ReplayManager,Sender);
 
 
 
@@ -377,13 +376,12 @@ namespace TexasHoldem.Logic.Users.Tests
         public void RemoveRoomFromActiveGameListTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             user.AddRoomToActiveGameList(gameRoom);
             Assert.IsTrue(user.RemoveRoomFromActiveGameList(gameRoom));
         }
@@ -393,13 +391,12 @@ namespace TexasHoldem.Logic.Users.Tests
         public void RemoveRoomFromActiveGameListTest_bad_dont_contain()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
         }
 
@@ -417,14 +414,13 @@ namespace TexasHoldem.Logic.Users.Tests
         public void RemoveRoomFromSpectetorGameListTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             Spectetor spectetor = new Spectetor(user2, roomID);
             user2.AddRoomToSpectetorGameList(gameRoom);
             Assert.IsTrue(user2.RemoveRoomFromSpectetorGameList(gameRoom));
@@ -434,14 +430,13 @@ namespace TexasHoldem.Logic.Users.Tests
         public void RemoveRoomFromSpectetorGameListTest_Bad_dont_contain()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             Assert.IsFalse(user2.RemoveRoomFromSpectetorGameList(gameRoom));
         }
 
@@ -457,13 +452,12 @@ namespace TexasHoldem.Logic.Users.Tests
         public void HasThisActiveGameTest_good_contain()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             user.AddRoomToActiveGameList(gameRoom);
             Assert.IsTrue(user.HasThisActiveGame(gameRoom));
         }
@@ -472,13 +466,12 @@ namespace TexasHoldem.Logic.Users.Tests
         public void HasThisActiveGameTest_good_dont_contain()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             Assert.IsFalse(user.HasThisActiveGame(gameRoom));
         }
 
@@ -503,8 +496,8 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
-            Spectetor spectetor = new Spectetor(user2, roomID);
+            gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
+          //  Spectetor spectetor = new Spectetor(user2, roomID);
             user2.AddRoomToSpectetorGameList(gameRoom);
             Assert.IsTrue(user2.HasThisSpectetorGame(gameRoom));
         }
@@ -521,8 +514,8 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
-            Spectetor spectetor = new Spectetor(user2, roomID);
+            gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
+           // Spectetor spectetor = new Spectetor(user2, roomID);
             Assert.IsFalse(user2.HasThisSpectetorGame(gameRoom));
         }
 
@@ -540,13 +533,12 @@ namespace TexasHoldem.Logic.Users.Tests
         {
 
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             int roomID = 9999;
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
             Assert.IsTrue(user.AddRoomToActiveGameList(gameRoom));
         }
 
@@ -566,12 +558,12 @@ namespace TexasHoldem.Logic.Users.Tests
 
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
             IGame gameRoom = null;
-            int roomID = 9999;
+            const int roomId = 9999;
             List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
+            Player player1 = new Player(user, 1000, roomId);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
+            gameRoom = new GameRoom(players, roomId, deco, GameCenter, LogControl, ReplayManager, Sender);
             user.AddRoomToActiveGameList(gameRoom);
             Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
         }
@@ -581,7 +573,6 @@ namespace TexasHoldem.Logic.Users.Tests
         public void AddRoomToSpectetorGameListTest_good()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom;
             IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
 
             int roomID = 9999;
@@ -589,8 +580,8 @@ namespace TexasHoldem.Logic.Users.Tests
             Player player1 = new Player(user, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
-            Spectetor spectetor = new Spectetor(user2, roomID);
+            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
+           // Spectetor spectetor = new Spectetor(user2, roomID);
             Assert.IsTrue(user2.AddRoomToSpectetorGameList(gameRoom));
         }
 
@@ -609,13 +600,13 @@ namespace TexasHoldem.Logic.Users.Tests
             IGame gameRoom = null;
             IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
 
-            int roomID = 9999;
+            const int roomId = 9999;
             List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
+            Player player1 = new Player(user, 1000, roomId);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, sender);
-            Spectetor spectetor = new Spectetor(user2, roomID);
+            gameRoom = new GameRoom(players, roomId, deco, GameCenter, LogControl, ReplayManager, Sender);
+            Spectetor spectetor = new Spectetor(user2, roomId);
             user2.AddRoomToSpectetorGameList(gameRoom);
             Assert.IsFalse(user2.AddRoomToSpectetorGameList(gameRoom));
         }
