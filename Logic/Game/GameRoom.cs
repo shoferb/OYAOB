@@ -100,7 +100,10 @@ namespace TexasHoldem.Logic.Game
             }
             return players[0].user.GetLeague();
         }
-
+        public int getSBNUM()
+        {
+            return this.Sb;
+        }
         private void SetTheBlinds()
         {
             Bb = MyDecorator.GetMinBetInRoom();

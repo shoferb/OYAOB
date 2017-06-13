@@ -33,7 +33,7 @@
     <Type Name="GameMode">
       <Column Name="[Game mode value]" Member="Game_mode_value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="[game mode name]" Member="game_mode_name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="GameMode_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="Game_mode_value" OtherKey="Game_Mode" Type="GameRoomPreferance" />
+      <Association Name="GameMode_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="Game_mode_value" OtherKey="GameMode" Type="GameRoomPreferance" />
     </Type>
   </Table>
   <Table Name="dbo.GameRoom" Member="GameRooms">
@@ -43,7 +43,7 @@
       <Column Name="Replay" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="GameXML" Type="System.Xml.Linq.XElement" DbType="Xml NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="isActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="GameRoom_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="RoomId,GameId" OtherKey="room_id,Game_Id" Type="GameRoomPreferance" />
+      <Association Name="GameRoom_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="RoomId,GameId" OtherKey="Roomid,GameId" Type="GameRoomPreferance" />
       <Association Name="GameRoom_Player" Member="Players" ThisKey="RoomId,GameId" OtherKey="room_Id,Game_Id" Type="Player" />
       <Association Name="GameRoom_SpectetorGamesOfUser" Member="SpectetorGamesOfUsers" ThisKey="RoomId,GameId" OtherKey="roomId,Game_Id" Type="SpectetorGamesOfUser" />
       <Association Name="GameRoom_SystemLog" Member="SystemLogs" ThisKey="RoomId,GameId" OtherKey="roomId,game_Id" Type="SystemLog" />
@@ -53,27 +53,26 @@
   </Table>
   <Table Name="dbo.GameRoomPreferance" Member="GameRoomPreferances">
     <Type Name="GameRoomPreferance">
-      <Column Name="[room id]" Member="room_id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="[is Spectetor]" Member="is_Spectetor" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="[Min player in room]" Member="Min_player_in_room" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[max player in room]" Member="max_player_in_room" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[enter paying money]" Member="enter_paying_money" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[starting chip]" Member="starting_chip" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Bb" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Sb" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[League name]" Member="League_name" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[Game Mode]" Member="Game_Mode" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="GameMode_GameRoomPreferance" Member="GameMode" ThisKey="Game_Mode" OtherKey="Game_mode_value" Type="GameMode" IsForeignKey="true" />
-      <Association Name="GameRoom_GameRoomPreferance" Member="GameRoom" ThisKey="room_id,Game_Id" OtherKey="RoomId,GameId" Type="GameRoom" IsForeignKey="true" />
-      <Association Name="LeagueName_GameRoomPreferance" Member="LeagueName" ThisKey="League_name" OtherKey="League_Value" Type="LeagueName" IsForeignKey="true" />
+      <Column Name="Roomid" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CanSpectate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MinPlayers" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaxPlayers" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BuyInPolicy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EnterGamePolicy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MinBet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="League" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GameMode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GameId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="GameMode_GameRoomPreferance" Member="GameMode1" ThisKey="GameMode" OtherKey="Game_mode_value" Type="GameMode" IsForeignKey="true" />
+      <Association Name="GameRoom_GameRoomPreferance" Member="GameRoom" ThisKey="Roomid,GameId" OtherKey="RoomId,GameId" Type="GameRoom" IsForeignKey="true" />
+      <Association Name="LeagueName_GameRoomPreferance" Member="LeagueName" ThisKey="League" OtherKey="League_Value" Type="LeagueName" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.LeagueName" Member="LeagueNames">
     <Type Name="LeagueName">
       <Column Name="[League Value]" Member="League_Value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="[League Name]" Member="League_Name" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
-      <Association Name="LeagueName_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="League_Value" OtherKey="League_name" Type="GameRoomPreferance" />
+      <Association Name="LeagueName_GameRoomPreferance" Member="GameRoomPreferances" ThisKey="League_Value" OtherKey="League" Type="GameRoomPreferance" />
     </Type>
   </Table>
   <Table Name="dbo.[Log]" Member="Logs">

@@ -71,8 +71,8 @@ namespace TexasHoldem.DatabaseProxy
         {
             bool ans = true;
             Database.LinqToSql.GameRoomPreferance toAdd= new GameRoomPreferance();
-            toAdd.Game_Id = v.getGameNum();
-            toAdd.Bb = v.getBb();
+            toAdd.Game_Id = v.GetGameNum();
+            toAdd.Bb = v.GetMinBet();
             toAdd.enter_paying_money = v.GetBuyInPolicy();
             toAdd.Game_Mode = _controller.GetGameModeValByName(v.GetGameMode().ToString());
             toAdd.is_Spectetor = v.IsSpectatable();
@@ -85,6 +85,11 @@ namespace TexasHoldem.DatabaseProxy
             ans = ans & (_controller.InsertPref(toAdd));
             
             return ans;
+        }
+
+        private bool InsertNewGameRoom(Logic.Game.GameRoom v)
+        {
+            return InsertNewGameRoom(v) & InsertGamePref(v);
         }
 
         private bool InsertGameSpecs(Logic.Game.GameRoom v)

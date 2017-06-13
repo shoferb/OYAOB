@@ -1035,7 +1035,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="Game_mode_value", OtherKey="Game_Mode")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="Game_mode_value", OtherKey="GameMode")]
 		public EntitySet<GameRoomPreferance> GameRoomPreferances
 		{
 			get
@@ -1071,13 +1071,13 @@ namespace TexasHoldem.Database.LinqToSql
 		private void attach_GameRoomPreferances(GameRoomPreferance entity)
 		{
 			this.SendPropertyChanging();
-			entity.GameMode = this;
+			entity.GameMode1 = this;
 		}
 		
 		private void detach_GameRoomPreferances(GameRoomPreferance entity)
 		{
 			this.SendPropertyChanging();
-			entity.GameMode = null;
+			entity.GameMode1 = null;
 		}
 	}
 	
@@ -1236,7 +1236,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="RoomId,GameId", OtherKey="room_id,Game_Id")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="RoomId,GameId", OtherKey="Roomid,GameId")]
 		public EntitySet<GameRoomPreferance> GameRoomPreferances
 		{
 			get
@@ -1417,29 +1417,27 @@ namespace TexasHoldem.Database.LinqToSql
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _room_id;
+		private int _Roomid;
 		
-		private System.Nullable<bool> _is_Spectetor;
+		private System.Nullable<bool> _CanSpectate;
 		
-		private System.Nullable<int> _Min_player_in_room;
+		private System.Nullable<int> _MinPlayers;
 		
-		private System.Nullable<int> _max_player_in_room;
+		private System.Nullable<int> _MaxPlayers;
 		
-		private System.Nullable<int> _enter_paying_money;
+		private System.Nullable<int> _BuyInPolicy;
 		
-		private System.Nullable<int> _starting_chip;
+		private System.Nullable<int> _EnterGamePolicy;
 		
-		private System.Nullable<int> _Bb;
+		private System.Nullable<int> _MinBet;
 		
-		private System.Nullable<int> _Sb;
+		private System.Nullable<int> _League;
 		
-		private System.Nullable<int> _League_name;
+		private System.Nullable<int> _GameMode;
 		
-		private System.Nullable<int> _Game_Mode;
+		private int _GameId;
 		
-		private int _Game_Id;
-		
-		private EntityRef<GameMode> _GameMode;
+		private EntityRef<GameMode> _GameMode1;
 		
 		private EntityRef<GameRoom> _GameRoom;
 		
@@ -1449,293 +1447,287 @@ namespace TexasHoldem.Database.LinqToSql
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void Onroom_idChanging(int value);
-    partial void Onroom_idChanged();
-    partial void Onis_SpectetorChanging(System.Nullable<bool> value);
-    partial void Onis_SpectetorChanged();
-    partial void OnMin_player_in_roomChanging(System.Nullable<int> value);
-    partial void OnMin_player_in_roomChanged();
-    partial void Onmax_player_in_roomChanging(System.Nullable<int> value);
-    partial void Onmax_player_in_roomChanged();
-    partial void Onenter_paying_moneyChanging(System.Nullable<int> value);
-    partial void Onenter_paying_moneyChanged();
-    partial void Onstarting_chipChanging(System.Nullable<int> value);
-    partial void Onstarting_chipChanged();
-    partial void OnBbChanging(System.Nullable<int> value);
-    partial void OnBbChanged();
-    partial void OnSbChanging(System.Nullable<int> value);
-    partial void OnSbChanged();
-    partial void OnLeague_nameChanging(System.Nullable<int> value);
-    partial void OnLeague_nameChanged();
-    partial void OnGame_ModeChanging(System.Nullable<int> value);
-    partial void OnGame_ModeChanged();
-    partial void OnGame_IdChanging(int value);
-    partial void OnGame_IdChanged();
+    partial void OnRoomidChanging(int value);
+    partial void OnRoomidChanged();
+    partial void OnCanSpectateChanging(System.Nullable<bool> value);
+    partial void OnCanSpectateChanged();
+    partial void OnMinPlayersChanging(System.Nullable<int> value);
+    partial void OnMinPlayersChanged();
+    partial void OnMaxPlayersChanging(System.Nullable<int> value);
+    partial void OnMaxPlayersChanged();
+    partial void OnBuyInPolicyChanging(System.Nullable<int> value);
+    partial void OnBuyInPolicyChanged();
+    partial void OnEnterGamePolicyChanging(System.Nullable<int> value);
+    partial void OnEnterGamePolicyChanged();
+    partial void OnMinBetChanging(System.Nullable<int> value);
+    partial void OnMinBetChanged();
+    partial void OnLeagueChanging(System.Nullable<int> value);
+    partial void OnLeagueChanged();
+    partial void OnGameModeChanging(System.Nullable<int> value);
+    partial void OnGameModeChanged();
+    partial void OnGameIdChanging(int value);
+    partial void OnGameIdChanged();
     #endregion
 		
 		public GameRoomPreferance()
 		{
-			this._GameMode = default(EntityRef<GameMode>);
+			this._GameMode1 = default(EntityRef<GameMode>);
 			this._GameRoom = default(EntityRef<GameRoom>);
 			this._LeagueName = default(EntityRef<LeagueName>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room id]", Storage="_room_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Roomid", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Roomid
 		{
 			get
 			{
-				return this._room_id;
+				return this._Roomid;
 			}
 			set
 			{
-				if ((this._room_id != value))
+				if ((this._Roomid != value))
 				{
-					this.Onroom_idChanging(value);
+					if (this._GameRoom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoomidChanging(value);
 					this.SendPropertyChanging();
-					this._room_id = value;
-					this.SendPropertyChanged("room_id");
-					this.Onroom_idChanged();
+					this._Roomid = value;
+					this.SendPropertyChanged("Roomid");
+					this.OnRoomidChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Spectetor]", Storage="_is_Spectetor", DbType="Bit")]
-		public System.Nullable<bool> is_Spectetor
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanSpectate", DbType="Bit")]
+		public System.Nullable<bool> CanSpectate
 		{
 			get
 			{
-				return this._is_Spectetor;
+				return this._CanSpectate;
 			}
 			set
 			{
-				if ((this._is_Spectetor != value))
+				if ((this._CanSpectate != value))
 				{
-					this.Onis_SpectetorChanging(value);
+					this.OnCanSpectateChanging(value);
 					this.SendPropertyChanging();
-					this._is_Spectetor = value;
-					this.SendPropertyChanged("is_Spectetor");
-					this.Onis_SpectetorChanged();
+					this._CanSpectate = value;
+					this.SendPropertyChanged("CanSpectate");
+					this.OnCanSpectateChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Min player in room]", Storage="_Min_player_in_room", DbType="Int")]
-		public System.Nullable<int> Min_player_in_room
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinPlayers", DbType="Int")]
+		public System.Nullable<int> MinPlayers
 		{
 			get
 			{
-				return this._Min_player_in_room;
+				return this._MinPlayers;
 			}
 			set
 			{
-				if ((this._Min_player_in_room != value))
+				if ((this._MinPlayers != value))
 				{
-					this.OnMin_player_in_roomChanging(value);
+					this.OnMinPlayersChanging(value);
 					this.SendPropertyChanging();
-					this._Min_player_in_room = value;
-					this.SendPropertyChanged("Min_player_in_room");
-					this.OnMin_player_in_roomChanged();
+					this._MinPlayers = value;
+					this.SendPropertyChanged("MinPlayers");
+					this.OnMinPlayersChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max player in room]", Storage="_max_player_in_room", DbType="Int")]
-		public System.Nullable<int> max_player_in_room
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxPlayers", DbType="Int")]
+		public System.Nullable<int> MaxPlayers
 		{
 			get
 			{
-				return this._max_player_in_room;
+				return this._MaxPlayers;
 			}
 			set
 			{
-				if ((this._max_player_in_room != value))
+				if ((this._MaxPlayers != value))
 				{
-					this.Onmax_player_in_roomChanging(value);
+					this.OnMaxPlayersChanging(value);
 					this.SendPropertyChanging();
-					this._max_player_in_room = value;
-					this.SendPropertyChanged("max_player_in_room");
-					this.Onmax_player_in_roomChanged();
+					this._MaxPlayers = value;
+					this.SendPropertyChanged("MaxPlayers");
+					this.OnMaxPlayersChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[enter paying money]", Storage="_enter_paying_money", DbType="Int")]
-		public System.Nullable<int> enter_paying_money
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyInPolicy", DbType="Int")]
+		public System.Nullable<int> BuyInPolicy
 		{
 			get
 			{
-				return this._enter_paying_money;
+				return this._BuyInPolicy;
 			}
 			set
 			{
-				if ((this._enter_paying_money != value))
+				if ((this._BuyInPolicy != value))
 				{
-					this.Onenter_paying_moneyChanging(value);
+					this.OnBuyInPolicyChanging(value);
 					this.SendPropertyChanging();
-					this._enter_paying_money = value;
-					this.SendPropertyChanged("enter_paying_money");
-					this.Onenter_paying_moneyChanged();
+					this._BuyInPolicy = value;
+					this.SendPropertyChanged("BuyInPolicy");
+					this.OnBuyInPolicyChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[starting chip]", Storage="_starting_chip", DbType="Int")]
-		public System.Nullable<int> starting_chip
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterGamePolicy", DbType="Int")]
+		public System.Nullable<int> EnterGamePolicy
 		{
 			get
 			{
-				return this._starting_chip;
+				return this._EnterGamePolicy;
 			}
 			set
 			{
-				if ((this._starting_chip != value))
+				if ((this._EnterGamePolicy != value))
 				{
-					this.Onstarting_chipChanging(value);
+					this.OnEnterGamePolicyChanging(value);
 					this.SendPropertyChanging();
-					this._starting_chip = value;
-					this.SendPropertyChanged("starting_chip");
-					this.Onstarting_chipChanged();
+					this._EnterGamePolicy = value;
+					this.SendPropertyChanged("EnterGamePolicy");
+					this.OnEnterGamePolicyChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int")]
-		public System.Nullable<int> Bb
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinBet", DbType="Int")]
+		public System.Nullable<int> MinBet
 		{
 			get
 			{
-				return this._Bb;
+				return this._MinBet;
 			}
 			set
 			{
-				if ((this._Bb != value))
+				if ((this._MinBet != value))
 				{
-					this.OnBbChanging(value);
+					this.OnMinBetChanging(value);
 					this.SendPropertyChanging();
-					this._Bb = value;
-					this.SendPropertyChanged("Bb");
-					this.OnBbChanged();
+					this._MinBet = value;
+					this.SendPropertyChanged("MinBet");
+					this.OnMinBetChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int")]
-		public System.Nullable<int> Sb
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_League", DbType="Int")]
+		public System.Nullable<int> League
 		{
 			get
 			{
-				return this._Sb;
+				return this._League;
 			}
 			set
 			{
-				if ((this._Sb != value))
+				if ((this._League != value))
 				{
-					this.OnSbChanging(value);
+					if (this._LeagueName.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLeagueChanging(value);
 					this.SendPropertyChanging();
-					this._Sb = value;
-					this.SendPropertyChanged("Sb");
-					this.OnSbChanged();
+					this._League = value;
+					this.SendPropertyChanged("League");
+					this.OnLeagueChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League name]", Storage="_League_name", DbType="Int")]
-		public System.Nullable<int> League_name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameMode", DbType="Int")]
+		public System.Nullable<int> GameMode
 		{
 			get
 			{
-				return this._League_name;
+				return this._GameMode;
 			}
 			set
 			{
-				if ((this._League_name != value))
+				if ((this._GameMode != value))
 				{
-					this.OnLeague_nameChanging(value);
+					if (this._GameMode1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGameModeChanging(value);
 					this.SendPropertyChanging();
-					this._League_name = value;
-					this.SendPropertyChanged("League_name");
-					this.OnLeague_nameChanged();
+					this._GameMode = value;
+					this.SendPropertyChanged("GameMode");
+					this.OnGameModeChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Mode]", Storage="_Game_Mode", DbType="Int")]
-		public System.Nullable<int> Game_Mode
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
 		{
 			get
 			{
-				return this._Game_Mode;
+				return this._GameId;
 			}
 			set
 			{
-				if ((this._Game_Mode != value))
+				if ((this._GameId != value))
 				{
-					this.OnGame_ModeChanging(value);
+					if (this._GameRoom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGameIdChanging(value);
 					this.SendPropertyChanging();
-					this._Game_Mode = value;
-					this.SendPropertyChanged("Game_Mode");
-					this.OnGame_ModeChanged();
+					this._GameId = value;
+					this.SendPropertyChanged("GameId");
+					this.OnGameIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
-		public int Game_Id
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameMode1", ThisKey="GameMode", OtherKey="Game_mode_value", IsForeignKey=true)]
+		public GameMode GameMode1
 		{
 			get
 			{
-				return this._Game_Id;
+				return this._GameMode1.Entity;
 			}
 			set
 			{
-				if ((this._Game_Id != value))
-				{
-					this.OnGame_IdChanging(value);
-					this.SendPropertyChanging();
-					this._Game_Id = value;
-					this.SendPropertyChanged("Game_Id");
-					this.OnGame_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameMode", ThisKey="Game_Mode", OtherKey="Game_mode_value", IsForeignKey=true)]
-		public GameMode GameMode
-		{
-			get
-			{
-				return this._GameMode.Entity;
-			}
-			set
-			{
-				GameMode previousValue = this._GameMode.Entity;
+				GameMode previousValue = this._GameMode1.Entity;
 				if (((previousValue != value) 
-							|| (this._GameMode.HasLoadedOrAssignedValue == false)))
+							|| (this._GameMode1.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._GameMode.Entity = null;
+						this._GameMode1.Entity = null;
 						previousValue.GameRoomPreferances.Remove(this);
 					}
-					this._GameMode.Entity = value;
+					this._GameMode1.Entity = value;
 					if ((value != null))
 					{
 						value.GameRoomPreferances.Add(this);
-						this._Game_Mode = value.Game_mode_value;
+						this._GameMode = value.Game_mode_value;
 					}
 					else
 					{
-						this._Game_Mode = default(Nullable<int>);
+						this._GameMode = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("GameMode");
+					this.SendPropertyChanged("GameMode1");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameRoomPreferance", Storage="_GameRoom", ThisKey="room_id,Game_Id", OtherKey="RoomId,GameId", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameRoomPreferance", Storage="_GameRoom", ThisKey="Roomid,GameId", OtherKey="RoomId,GameId", IsForeignKey=true)]
 		public GameRoom GameRoom
 		{
 			get
@@ -1758,20 +1750,20 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.GameRoomPreferances.Add(this);
-						this._room_id = value.RoomId;
-						this._Game_Id = value.GameId;
+						this._Roomid = value.RoomId;
+						this._GameId = value.GameId;
 					}
 					else
 					{
-						this._room_id = default(int);
-						this._Game_Id = default(int);
+						this._Roomid = default(int);
+						this._GameId = default(int);
 					}
 					this.SendPropertyChanged("GameRoom");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_LeagueName", ThisKey="League_name", OtherKey="League_Value", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_LeagueName", ThisKey="League", OtherKey="League_Value", IsForeignKey=true)]
 		public LeagueName LeagueName
 		{
 			get
@@ -1794,11 +1786,11 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.GameRoomPreferances.Add(this);
-						this._League_name = value.League_Value;
+						this._League = value.League_Value;
 					}
 					else
 					{
-						this._League_name = default(Nullable<int>);
+						this._League = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("LeagueName");
 				}
@@ -1894,7 +1886,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="League_Value", OtherKey="League_name")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="League_Value", OtherKey="League")]
 		public EntitySet<GameRoomPreferance> GameRoomPreferances
 		{
 			get
