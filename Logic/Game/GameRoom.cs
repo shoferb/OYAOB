@@ -82,6 +82,11 @@ namespace TexasHoldem.Logic.Game
             sidHandler = sidH;
         }
 
+        public string GetGameReplay()
+        {
+           return string.Concat("", this.GameReplay.ToString());
+        }
+
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
