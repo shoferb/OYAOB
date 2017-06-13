@@ -145,12 +145,6 @@ namespace TexasHoldem.Database.DataControlers
         }
 
        
-        private GameRoom SetLeagueToGame(GameRoom g, LeagueName l)
-        {
-            g.LeagueName.League_Name = l.League_Name;
-            g.LeagueName.League_Value = l.League_Value;
-            return g;
-        }
 
         private LeagueName ConvertToLeague(ISingleResult<GetLeagueNameByValResult> singleResult)
         {
@@ -163,28 +157,7 @@ namespace TexasHoldem.Database.DataControlers
             return toAddLeague;
         }
 
-        private GameRoom SetGameReplayToGame(GameRoom g, GameReplay gr)
-        {
-            g.GameReplay.room_Id = gr.room_Id;
-            g.GameReplay.replay = gr.replay;
-            g.GameReplay.index = gr.index;
-            g.GameReplay.game_Id = gr.game_Id;
-            return g;
-        }
-
-        private GameReplay ConvertToReplay(ISingleResult<GetGameReplayByRoomIdResult> singleResult)
-        {
-            GameReplay toAddRep = new GameReplay();
-            foreach( var v in singleResult)
-            {
-                toAddRep.game_Id = v.game_Id;
-                toAddRep.index = v.index;
-                toAddRep.replay = v.replay;
-                toAddRep.room_Id = v.room_Id;
-            }
-            return toAddRep;
-        }
-
+       
         public List<LinqToSql.Card> getDeckCards(int roomId)
         {
             List<Database.LinqToSql.Card> toRet = new List<LinqToSql.Card>();
