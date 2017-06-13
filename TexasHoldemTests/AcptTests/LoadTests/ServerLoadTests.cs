@@ -43,8 +43,8 @@ namespace TexasHoldemTests.AcptTests.tests
             _user3Pw = "123456789";
 
             _userId4 = new Random().Next() + 234;
-            _user4Name = "Yarden2";
-            _user4EmailGood = "YRD@gmail.com";
+            _user4Name = "orelie";
+            _user4EmailGood = "orelie@gmail.com";
             _user4Pw = "123456789";
 
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -76,7 +76,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 List<int> user2Games = UserBridge.GetUsersGameRooms(id);
                 foreach (var roomId in user2Games)
                 {
-                    UserBridge.RemoveUserFromRoom(id, RoomId);
+                    UserBridge.RemoveUserFromRoom(id, roomId);
                 }
 
                 UserBridge.DeleteUser(id);
@@ -145,7 +145,7 @@ namespace TexasHoldemTests.AcptTests.tests
             string pass = "goodPw1234";
             string email = "test@test.com";
             string name = Thread.CurrentThread.ManagedThreadId.ToString();
-            for (int i = 0; i < 5000; i++)
+            for (int i = 5850000; i < 500; i++)
             {
                 Assert.True(UserBridge.RegisterUser(i + name, pass, email) != -1);
                 UserBridge.DeleteUser(i + name, User1Pw);
@@ -158,7 +158,7 @@ namespace TexasHoldemTests.AcptTests.tests
             string email = "test@test.com";
             string name = Thread.CurrentThread.ManagedThreadId.ToString();
             int id;
-            for (int i = 0; i < 10000; i++)
+            for (int i = 6850000; i < 500; i++)
             {
                 id = UserBridge.RegisterUser(i + name, pass, email);
                 Assert.True(id != -1);
@@ -241,7 +241,7 @@ namespace TexasHoldemTests.AcptTests.tests
             int RoomID;
             List<int> roomIDS = new List<int>();
 
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 RoomID = GameBridge.CreateGameRoom(id, 100);
                 roomIDS.Add(RoomID);

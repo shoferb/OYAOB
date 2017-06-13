@@ -71,8 +71,8 @@ namespace TexasHoldemTests.DatabaseProxy
         }
         */
         
-       
-       
+       //todo - run after all test
+       /*
         [TestMethod()]
         public void GetNextLogIdTest_good()
         {
@@ -88,6 +88,6 @@ namespace TexasHoldemTests.DatabaseProxy
             _logsOnlyForTest.DeleteLog(toAdd1Id);
             _logsOnlyForTest.DeleteErrorLog(toAdd2Id);
             _logsOnlyForTest.DeleteLog(toAdd2Id);
-        }
+        }*/
     }
 }
