@@ -91,14 +91,14 @@ namespace TexasHoldem.DatabaseProxy
         {
             List<IGame> toRet = new List<IGame>();
             List<Database.LinqToSql.GameRoom> dbGames= _controller.getAllGames();
-
+            if(dbGames == null)
+            {
+                return null;
+            }
             foreach (Database.LinqToSql.GameRoom g in dbGames)
             {
-                List<Database.LinqToSql.Player> dbPlayers = _controller.GetPlayersOfRoom(g.room_Id);
-                
- 
+                toRet.Add(GameRoomFromXElement(g.GameXML));
             }
-
             return toRet;
         }
 
@@ -118,19 +118,7 @@ namespace TexasHoldem.DatabaseProxy
             }
         }
 
-        private Deck ConverDBDeck(Database.LinqToSql.Deck deck, List<Database.LinqToSql.Card> list)
-        {
-            Deck toRet = new Deck();
-            toRet._numOfCards = list.Count;
-            List<Card> lst = new List<Card>();
-            foreach (var aCard in list)
-            {
-                lst.Add(getCardByVal(aCard.Card_Value));
-            }
-            toRet._deck = lst;
-            //todo cardRank????
-            return toRet;
-        }
+
 
         private Logic.Replay.GameReplay ConvertGameReplay(Database.LinqToSql.GameReplay repDB)
         {
