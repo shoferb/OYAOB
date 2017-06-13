@@ -158,56 +158,7 @@ namespace TexasHoldem.Database.DataControlers
         }
 
        
-        public List<LinqToSql.Card> getDeckCards(int roomId)
-        {
-            List<Database.LinqToSql.Card> toRet = new List<LinqToSql.Card>();
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetDeckByRoomId(roomId);
-                    foreach (var aCard in temp)
-                    {
-                        Database.LinqToSql.Card toAdd = getDBCardByVal(aCard.card_value);
-                        toRet.Add(toAdd);
-                    }
-                    return toRet;
-                }
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        public LinqToSql.Deck getDeckByRoomId(int roomId)
-        {
-            
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetDeckByRoomId(roomId);
-                    return ConvertToDeck(temp);
-                 }
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-        private LinqToSql.Deck ConvertToDeck(ISingleResult<GetDeckByRoomIdResult> singleResult)
-        {
-            LinqToSql.Deck deck = new LinqToSql.Deck();
-            foreach (var v in singleResult)
-            {
-                deck.room_Id = v.room_Id;
-                deck.index = v.index;
-                deck.game_Id = v.game_Id;
-            }
-            return deck;
-        }
+      
 
         private GameRoom ConvertToGameRoom(GetAllGamesResult v)
         {
@@ -259,21 +210,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public int GetHandStepValByName(string name)
-        {
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetHandStepValByName(name);
-                    return temp.First().hand_Step_value;
-                }
-            }
-            catch (Exception e)
-            {
-                return -1;
-            }
-        }
+        
 
     }
 }
