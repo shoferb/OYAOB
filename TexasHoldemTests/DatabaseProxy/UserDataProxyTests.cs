@@ -265,60 +265,118 @@ namespace TexasHoldem.DatabaseProxy.Tests
             Assert.AreEqual(user.MemberName(), "changed-editName_proxy");
             _userDataProxy.DeleteUserById(6850);
         }
-        /*
+        
         [TestMethod()]
-        public void EditNameTest()
+        public void EditNameTest_good()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(845, "orelie845");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditName(845, "EditNameTest_good()_proxy");
+            IUser user = _userDataProxy.GetUserById(845);
+
+            Assert.AreEqual(user.Name(), "EditNameTest_good()_proxy");
+            _userDataProxy.DeleteUserById(845);
         }
 
+     
+
         [TestMethod()]
-        public void EditEmailTest()
+        public void EditEmailTest_good()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(985950000, "EditEmailTest_good()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditEmail(985950000, "NewEmail@post.bgu.ac.il");
+            IUser user = _userDataProxy.GetUserById(985950000);
+
+            Assert.AreEqual(user.Email(), "NewEmail@post.bgu.ac.il");
+            _userDataProxy.DeleteUserById(985950000);
         }
+
+       
 
         [TestMethod()]
         public void EditPasswordTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(858580000, "EditPasswordTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditPassword(858580000, "EditPasswordTest");
+            IUser user = _userDataProxy.GetUserById(858580000);
+
+            Assert.AreEqual(user.Password(), "EditPasswordTest");
+            _userDataProxy.DeleteUserById(858580000);
         }
 
         [TestMethod()]
         public void EditUserHighestCashGainInGameTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(1414552, "EditUserHighestCashGainInGameTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditUserHighestCashGainInGame(1414552, 50);
+            IUser user = _userDataProxy.GetUserById(1414552);
+
+            Assert.AreEqual(user.HighestCashGainInGame, 50);
+            _userDataProxy.DeleteUserById(1414552);
         }
 
         [TestMethod()]
         public void EditUserLeagueNameTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(858566222, "EditUserLeagueNameTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditUserLeagueName(858566222, LeagueName.B);
+            IUser user = _userDataProxy.GetUserById(858566222);
+
+            Assert.AreEqual(user.GetLeague(), LeagueName.B);
+            _userDataProxy.DeleteUserById(858566222);
         }
 
         [TestMethod()]
         public void EditUserMoneyTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(886022005, "EditUserHighestCashGainInGameTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditUserMoney(886022005, 5000);
+            IUser user = _userDataProxy.GetUserById(886022005);
+
+            Assert.AreEqual(user.Money(), 5000);
+            _userDataProxy.DeleteUserById(886022005);
         }
 
         [TestMethod()]
         public void EditUserNumOfGamesPlayedTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(959511110, "EditUserNumOfGamesPlayedTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditUserNumOfGamesPlayed(959511110, 300);
+            IUser user = _userDataProxy.GetUserById(959511110);
+
+            Assert.AreEqual(user.GetNumberOfGamesUserPlay(), 300);
+            _userDataProxy.DeleteUserById(959511110);
         }
 
         [TestMethod()]
         public void EditUserTotalProfitTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(950010252, "EditUserTotalProfitTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditUserTotalProfit(950010252, 5000000);
+            IUser user = _userDataProxy.GetUserById(950010252);
+
+            Assert.AreEqual(user.TotalProfit, 5000000);
+            _userDataProxy.DeleteUserById(950010252);
         }
 
         [TestMethod()]
         public void EditUserWinNumTest()
         {
-            Assert.Fail();
+            UserTable ut = CreateUser(33355550, "EditUserWinNumTest()-proxy");
+            _userDataProxy.AddNewUser(ConvertToIUser(ut));
+            _userDataProxy.EditUserWinNum(33355550, 544);
+            IUser user = _userDataProxy.GetUserById(33355550);
+
+            Assert.AreEqual(user.WinNum, 544);
+            _userDataProxy.DeleteUserById(33355550);
         }
-        */
+    
     }
 }
