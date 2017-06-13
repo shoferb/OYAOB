@@ -71,13 +71,7 @@ namespace TexasHoldemTests.DatabaseProxy
         }
         */
         
-        [TestMethod()]
-        public void GetNextLogIdTest_bad_no_logs()
-        {
-            var next = _logDataProxy.GetNextLogId();
-            Assert.AreEqual(next, -2);
-          
-        }
+       
        
         [TestMethod()]
         public void GetNextLogIdTest_good()

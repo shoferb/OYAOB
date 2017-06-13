@@ -49,13 +49,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
         }
 
 
-        [TestMethod()]
-        public void GetNextLogIdTest_bad_no_logs()
-        {
-            var next = _logDataControler.GetNextLogId();
-            Assert.AreEqual(next, -2);
-          
-        }
+       
 
         [TestMethod()]
         public void AddErrorLogTest_good_id()
@@ -96,7 +90,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _logsOnlyForTest.DeleteErrorLog(2000);
             _logsOnlyForTest.DeleteLog(2000);
         }
-        
+        /*
         [TestMethod()]
         public void AddSystemLogTest_good_id()
         {
@@ -159,6 +153,6 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _logsOnlyForTest.DeleteSystemLog(5555555);
             _logsOnlyForTest.DeleteLog(5555555);
         }
-      
+      */
     }
 }

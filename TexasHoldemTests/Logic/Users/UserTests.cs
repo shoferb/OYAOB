@@ -37,32 +37,38 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IsUnKnowTestGood_on_Create()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(95950052, "orelie", "orelie95950052", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(user);
             Assert.IsTrue(user.IsUnKnow());
+            _userDataProxy.DeleteUserById(95950052);
         }
 
 
         [TestMethod()]
         public void IsUnKnowTestGood_on_at_10_Games()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(95002524, "orelie", "orelie95002524", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(user);
             for (int i = 0; i < 10; i++)
             {
                 user.IncGamesPlay();
             }
             Assert.IsTrue(user.IsUnKnow());
+            _userDataProxy.DeleteUserById(95002524);
         }
 
 
         [TestMethod()]
         public void IsUnKnowTestGood_More_Than_10()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(85850054, "orelie", "orelie85850054", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(user);
             for (int i = 0; i < 11; i++)
             {
                 user.IncGamesPlay();
             }
             Assert.IsFalse(user.IsUnKnow());
+            _userDataProxy.DeleteUserById(85850054);
         }
 
 
@@ -666,16 +672,22 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void HasEnoughMoneyTest_good_bool()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            IUser user = new User(20005250, "orelie", "orelie", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(user);
             Assert.IsTrue(user.HasEnoughMoney(100, 50));
+            _userDataProxy.DeleteUserById(20005250);
+
         }
 
 
         [TestMethod()]
         public void HasEnoughMoneyTest_Bad_bool()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            
+            IUser user = new User(456000525, "orelie", "orelie456000525", "123456789", 0, 500, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(user);
             Assert.IsFalse(user.HasEnoughMoney(490, 50));
+            _userDataProxy.DeleteUserById(456000525);
         }
 
 

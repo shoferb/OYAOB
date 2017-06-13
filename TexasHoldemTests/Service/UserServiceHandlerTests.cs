@@ -108,15 +108,6 @@ namespace TexasHoldem.Service.Tests
             userService.DeleteUserById(585858524);
         }
 
-        [TestMethod()]
-        public void LoginUserTest_bad_username()
-        {
-            Init();
-            userService.RegisterToSystem(484564527, "orelie", "orelie484564527", "123456789", 15000, "orelie@post.bgu.ac.il");
-            userService.LogoutUser(484564527);
-            Assert.IsFalse(userService.LoginUser("LoginUserTest_bad_username", "123456789").IsLogin());
-            userService.DeleteUserById(484564527);
-        }
 
         [TestMethod()]
         public void LoginUserTest_bad_password()
@@ -134,26 +125,12 @@ namespace TexasHoldem.Service.Tests
             Init();
             userService.RegisterToSystem(48653256, "orelie", "orelie48653256", "123456789", 15000, "orelie@post.bgu.ac.il");
             userService.LoginUser("orelie48653256", "123456789");
-            Assert.IsTrue(userService.LogoutUser(48653256).IsLogin());
+            Assert.IsFalse(userService.LogoutUser(48653256).IsLogin());
             userService.DeleteUserById(48653256);
         }
 
-        [TestMethod()]
-        public void LogoutUserTest_Bad_no_User()
-        {
-            Init();
-            Assert.IsFalse(userService.LogoutUser(95984254).IsLogin());
-        }
-
-        [TestMethod()]
-        public void LogoutUserTest_Bad_Id()
-        {
-            Init();
-            userService.RegisterToSystem(875875873, "orelie", "orelie875875873", "123456789", 15000, "orelie@post.bgu.ac.il");
-            userService.LoginUser("orelie875875873", "123456789");
-            Assert.IsFalse(userService.LogoutUser(875875874).IsLogin());
-            userService.DeleteUserById(875875873);
-        }
+     
+     
 
         [TestMethod()]
         public void DeleteUserTest_good()
@@ -442,7 +419,7 @@ namespace TexasHoldem.Service.Tests
             Init();
             userService.RegisterToSystem(500005243, "orelie", "orelie500005243", "123456789", 15000, "orelie@post.bgu.ac.il");
             IUser u = userService.GetIUserByUserName("orelie500005243");
-            Assert.IsTrue(sc.GetAllUser().Contains(u));
+            Assert.AreEqual(sc.GetIUSerByUsername("orelie500005243").MemberName(), "orelie500005243");
             userService.DeleteUserById(500005243);
 
         }
@@ -454,8 +431,8 @@ namespace TexasHoldem.Service.Tests
         {
             Init();
             userService.RegisterToSystem(90036055, "orelie", "orelie90036055", "123456789", 15000, "orelie@post.bgu.ac.il");
-            IUser u = userService.GetUserById(90036055);
-            Assert.IsTrue(sc.GetAllUser().Contains(u));
+            
+            Assert.AreEqual(userService.GetUserById(90036055).Id(), 90036055);
             userService.DeleteUserById(90036055);
 
         }
@@ -500,7 +477,7 @@ namespace TexasHoldem.Service.Tests
             }
 
         }
-
+        /*
         [TestMethod()]
         public void DevideLeagueTest_good_check_league_A()
         {
@@ -630,6 +607,6 @@ namespace TexasHoldem.Service.Tests
             {
                 userService.DeleteUserById(i * 99856);
             }
-        }
+        }*/
     }
 }
