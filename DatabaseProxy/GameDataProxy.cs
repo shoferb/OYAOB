@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
 using TexasHoldem.Logic;
@@ -39,20 +41,45 @@ namespace TexasHoldem.DatabaseProxy
             toIns.GameId = v.GetGameNum();
             toIns.isActive = v.IsGameActive();
             toIns.RoomId = v.Id;
-      
-            bool didSucceed = _controller.InsertGameRoom(toIns);
-            bool successRel = true;
-            bool deckSuccess = InsertGameDeck(v);
-            bool gameRepSuccess = InsertGameReplay(v);
-            bool pubCardsSuccess = InsertGamePublicCards(v);
-            bool playersSuccess = InsertGamePlayers(v);
-            bool SpecsSuccess = InsertGameSpecs(v);
-            bool prefsSuccess = InsertGamePref(v);
-          successRel = didSucceed & successRel & deckSuccess & gameRepSuccess & pubCardsSuccess
-                & playersSuccess & SpecsSuccess & prefsSuccess;
-            return successRel;  
+            toIns.GameXML = 
+
+           return  _controller.InsertGameRoom(toIns);
         }
 
+        public static XElement ToXElement<T>(this object obj)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (TextWriter streamWriter = new StreamWriter(memoryStream))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(T));
+                    xmlSerializer.Serialize(streamWriter, obj);
+                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
+                }
+            }
+        }
+
+        private XElement GameRoomToXElement(object obj)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                using (TextWriter streamWriter = new StreamWriter(memoryStream))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
+                    xmlSerializer.Serialize(streamWriter, obj);
+                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
+                }
+            }
+        }
+
+
+        private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
+        {
+            var xmlSerializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
+            return (Logic.Game.GameRoom)xmlSerializer.Deserialize(xElement.CreateReader());
+        }
+
+       
         private bool InsertGamePref(Logic.Game.GameRoom v)
         {
             bool ans = true;
