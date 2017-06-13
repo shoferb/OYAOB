@@ -18,8 +18,6 @@ namespace TexasHoldem.DatabaseProxy.Tests
     public class UserDataProxyTests
     {
         private UserDataProxy userDataProxy = new UserDataProxy();
-        private readonly ISecurity _security = new SecurityHandler();
-        private UserDataControler userDataControler = new UserDataControler();
 
         private UserTable CreateUser(int userId, string username)
         {
