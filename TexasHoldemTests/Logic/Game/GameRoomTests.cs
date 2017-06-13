@@ -36,9 +36,12 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
-            user2 = new User(2, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
-            user3 = new User(3, "test3", "3test", "1234", 0, 5000, "test3@mailnator.com");
+            sysControl.RegisterToSystem(8585000, "test1", "mo", "123456789", 5000, "test1@gmail.com");
+            sysControl.RegisterToSystem(8585001, "test2", "no", "123456789", 5000, "test2@gmail.com");
+            sysControl.RegisterToSystem(8585002, "test3", "3test", "123456789", 5000, "test3@gmail.com");
+            user1 = sysControl.GetUserWithId(8585000);
+            user2 = sysControl.GetUserWithId(8585001);
+            user3 = sysControl.GetUserWithId(8585002);
             useCommunication = false;
             roomID = 9999;
             players = new List<Player>();
@@ -77,6 +80,9 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestCleanup()]
         public void Cleanup()
         {
+            sysControl.RemoveUserById(8585000);
+            sysControl.RemoveUserById(8585001);
+            sysControl.RemoveUserById(8585002);
             user1 = null;
             user2 = null;
             players = null;
