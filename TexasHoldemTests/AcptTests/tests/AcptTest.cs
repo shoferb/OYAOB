@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using TexasHoldem.communication.Impl;
 using TexasHoldemTests.AcptTests.Bridges;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 using TexasHoldemTests.AcptTests.Bridges;
@@ -26,7 +27,8 @@ namespace TexasHoldemTests.AcptTests.tests
         protected static LogControl logControl = new LogControl();
         protected static SystemControl sysControl = new SystemControl(logControl);
         protected static ReplayManager replayManager = new ReplayManager();
-        protected static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager);
+        protected static SessionIdHandler ses = new SessionIdHandler();
+        protected static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager,ses);
 
         protected AcptTest()
         {
