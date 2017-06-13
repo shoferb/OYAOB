@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.Users.Tests
         
         private static readonly SessionIdHandler Sender = new SessionIdHandler();
         private static readonly GameCenter GameCenter = new GameCenter(SysControl, LogControl, ReplayManager,Sender);
-
+        private static readonly UserDataProxy _userDataProxy = new UserDataProxy();
 
 
 
@@ -616,7 +616,8 @@ namespace TexasHoldem.Logic.Users.Tests
         public void IsLoginTest_good_on_Create()
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
-            Assert.IsFalse(user.IsLogin());
+          
+            Assert.IsTrue(user.IsLogin());
         }
 
         [TestMethod()]
@@ -687,7 +688,7 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void IdTest_good()
         {
-            UserDataProxy userDataProxy = new UserDataProxy();
+            
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.Id(), 305077901);
         }
