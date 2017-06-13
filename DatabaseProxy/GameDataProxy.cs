@@ -17,13 +17,15 @@ namespace TexasHoldem.DatabaseProxy
 {
     public class GameDataProxy
     {
-       
+
+        GameDataControler _controller;
    
 
-        public GameDataProxy() {  }
+        public GameDataProxy()
+        {
+            _controller = new GameDataControler();
+        }
 
-   
-       
         public bool AddNewGameToDB(Logic.Game.GameRoom gr)
         { 
            bool ans = false;
@@ -35,13 +37,9 @@ namespace TexasHoldem.DatabaseProxy
         {
             Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
             toIns.GameId = v.GetGameNum();
-            toIns.is_Active_Game = v.IsGameActive();
-         
-            toIns.room_Id = v.Id;
-            toIns.Sb = v.GetSb();
-            toIns.SB_player = v.GetSbPlayer();
-            toIns.league_name = _controller.GetLeagueValByName(v.GetLeagueName().ToString());
-            toIns.hand_step = _controller.GetHandStepValByName(v.GetHandStep().ToString());
+            toIns.isActive = v.IsGameActive();
+            toIns.RoomId = v.Id;
+      
             bool didSucceed = _controller.InsertGameRoom(toIns);
             bool successRel = true;
             bool deckSuccess = InsertGameDeck(v);
