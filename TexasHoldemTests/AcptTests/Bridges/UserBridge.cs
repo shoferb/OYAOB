@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.Service;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 
@@ -19,7 +21,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public UserBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
-            _gameService = new GameServiceHandler(gc, sys, log, replay);
+            var ses = new SessionIdHandler();
+            _gameService = new GameServiceHandler(gc, sys, log, replay,ses);
             _userService = new UserServiceHandler(gc, sys);
         }
 
@@ -177,12 +180,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool LoginUser(string name, string password)
         {
-            return _userService.LoginUser(name, password);
+            return _userService.LoginUser(name, password).IsLogin();
         }
 
         public bool LogoutUser(int userId)
         {
-            return _userService.LogoutUser(userId);
+            return !_userService.LogoutUser(userId).IsLogin();
         }
 
         public int RegisterUser(string name, string pw1, string email)
@@ -241,7 +244,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                return _gameService.DoAction(userId, CommunicationMessage.ActionType.Join, chipAmount, roomId);
+                return ActionSuccedded(_gameService.DoAction(userId, CommunicationMessage.ActionType.Join, chipAmount, roomId));
             }
             return false;
         }
@@ -263,7 +266,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool RemoveUserFromRoom(int userId, int roomId)
         {
-            return _gameService.DoAction(userId, CommunicationMessage.ActionType.Leave, 0, roomId);
+            return ActionSuccedded(_gameService.DoAction(userId, CommunicationMessage.ActionType.Leave, 0, roomId));
         }
 
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
@@ -311,6 +314,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _userService.GetUsersByTotalProfit();
         }
 
-
+        private bool ActionSuccedded(IEnumerator<ActionResultInfo> results)
+        {
+            results.MoveNext();
+            ActionResultInfo result = results.Current;
+            return result.GameData.IsSucceed;
+        }
     }
 }
