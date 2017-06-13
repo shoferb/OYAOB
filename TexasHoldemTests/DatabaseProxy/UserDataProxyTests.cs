@@ -129,21 +129,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             _userDataProxy.DeleteUserById(78);
         }
 
-        [TestMethod()]
-        public void GetAllUserTest_good_count()
-        {
-            UserTable ut = CreateUser(455, "toFind");
-            UserTable ut2 = CreateUser(456, "toFind2");
-            IUser user = ConvertToIUser(ut);
-            IUser user2 = ConvertToIUser(ut2);
-            _userDataProxy.AddNewUser(user);
-            _userDataProxy.AddNewUser(user2);
-            List<IUser> temp = _userDataProxy.GetAllUser();
-
-            Assert.AreEqual(temp.Count, 2);
-            _userDataProxy.DeleteUserById(455);
-            _userDataProxy.DeleteUserById(456);
-        }
+   
 
 
         [TestMethod()]
@@ -155,9 +141,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
             IUser user2 = ConvertToIUser(ut2);
             _userDataProxy.AddNewUser(user);
             _userDataProxy.AddNewUser(user2);
-            List<IUser> temp = _userDataProxy.GetAllUser();
 
-            Assert.AreEqual(temp[0].Id(), 487);
+            Assert.IsTrue(_userDataProxy.GetUserById(487)!=null);
             _userDataProxy.DeleteUserById(487);
             _userDataProxy.DeleteUserById(488);
         }
@@ -171,9 +156,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
             IUser user2 = ConvertToIUser(ut2);
             _userDataProxy.AddNewUser(user);
             _userDataProxy.AddNewUser(user2);
-            List<IUser> temp = _userDataProxy.GetAllUser();
 
-            Assert.AreEqual(temp[1].Id(), 383);
+            Assert.IsTrue(_userDataProxy.GetUserById(383) != null);
             _userDataProxy.DeleteUserById(382);
             _userDataProxy.DeleteUserById(383);
         }
@@ -185,7 +169,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
             _userDataProxy.AddNewUser(user);
             _userDataProxy.DeleteUserByUserName("toRemove");
-            Assert.AreEqual(_userDataProxy.GetAllUser().Count, 0);
+            Assert.AreEqual(_userDataProxy.GetUserById(8268), null);
 
         }
 
@@ -197,7 +181,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
             _userDataProxy.AddNewUser(user);
             _userDataProxy.DeleteUserById(83668);
-            Assert.AreEqual(_userDataProxy.GetAllUser().Count, 0);
+            Assert.AreEqual(_userDataProxy.GetUserById(83668), null);
         }
         private IUser ConvertToIUser(UserTable user)
         {
@@ -238,10 +222,11 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void AddNewUserTest()
         {
-            UserTable ut = CreateUser(333333, "ooo");
+            UserTable ut = CreateUser(3502333, "AddNewUserTest()-proxy");
             _userDataProxy.AddNewUser(ConvertToIUser(ut));
-            Assert.AreEqual(_userDataProxy.GetAllUser().Count,1);
-            _userDataProxy.DeleteUserById(333333);
+            IUser user = _userDataProxy.GetUserById(3502333);
+            Assert.IsTrue(user!=null);
+            _userDataProxy.DeleteUserById(3502333);
         }
 
         [TestMethod()]
@@ -250,7 +235,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
             UserTable ut = CreateUser(35667, "orelieS");
             _userDataProxy.AddNewUser(ConvertToIUser(ut));
             _userDataProxy.EditUserId(35667,951);
-            Assert.AreEqual(_userDataProxy.GetAllUser()[0].Id(), 951);
+            IUser user = _userDataProxy.GetUserById(951);
+            Assert.AreEqual(user.Id(), 951);
             _userDataProxy.DeleteUserById(951);
         }
 
@@ -262,7 +248,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
             _userDataProxy.AddNewUser(ConvertToIUser(ut2));
             _userDataProxy.AddNewUser(ConvertToIUser(ut));
             _userDataProxy.EditUserId(35998, 35999);
-            Assert.AreEqual(_userDataProxy.GetAllUser()[0].Id(), 35998);
+            IUser user = _userDataProxy.GetUserById(35998);
+            Assert.AreEqual(user.Id(), 35998);
             _userDataProxy.DeleteUserById(35998);
             _userDataProxy.DeleteUserById(35999);
         }
@@ -272,11 +259,13 @@ namespace TexasHoldem.DatabaseProxy.Tests
         {
             UserTable ut = CreateUser(6850, "orelieS4");
             _userDataProxy.AddNewUser(ConvertToIUser(ut));
-            _userDataProxy.EditUserName(6850, "changed");
-            Assert.AreEqual(_userDataProxy.GetAllUser()[0].MemberName(), "changed");
+            _userDataProxy.EditUserName(6850, "changed-editName_proxy");
+            IUser user = _userDataProxy.GetUserById(6850);
+
+            Assert.AreEqual(user.MemberName(), "changed-editName_proxy");
             _userDataProxy.DeleteUserById(6850);
         }
-
+        /*
         [TestMethod()]
         public void EditNameTest()
         {
@@ -330,6 +319,6 @@ namespace TexasHoldem.DatabaseProxy.Tests
         {
             Assert.Fail();
         }
-
+        */
     }
 }

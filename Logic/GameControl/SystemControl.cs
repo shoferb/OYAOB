@@ -64,7 +64,7 @@ namespace TexasHoldem.Logic.Game_Control
                 }
                 try
                 {
-                    users.Remove(original);
+                   userProxy.DeleteUserById(id);
                     toReturn = true;
                 }
                 catch (Exception e)
