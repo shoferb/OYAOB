@@ -435,6 +435,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid, gameid, replay, gameXML, isActive);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeValByName")]
+		public ISingleResult<GetGameModeValByNameResult> GetGameModeValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetGameModeValByNameResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ErrorLog")]
@@ -4877,6 +4884,32 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._GameXML != value))
 				{
 					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameModeValByNameResult
+	{
+		
+		private int _Game_mode_value;
+		
+		public GetGameModeValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game mode value]", Storage="_Game_mode_value", DbType="Int NOT NULL")]
+		public int Game_mode_value
+		{
+			get
+			{
+				return this._Game_mode_value;
+			}
+			set
+			{
+				if ((this._Game_mode_value != value))
+				{
+					this._Game_mode_value = value;
 				}
 			}
 		}
