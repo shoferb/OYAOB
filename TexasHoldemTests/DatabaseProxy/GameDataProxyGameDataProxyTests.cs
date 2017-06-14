@@ -74,20 +74,18 @@ namespace TexasHoldem.DatabaseProxy.Tests
             replayManager.DeleteGameReplay(roomID, 1);
         }
 
-        [TestMethod()]
-        public void AddNewGameToDBTest()
-        {
-          //  proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
-         ////   bool ans = proxy.AddNewGameToDB(gameRoom);
-         //   Assert.IsTrue(ans);
-          //  proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
-        }
+       
 
         [TestMethod()]
         public void UpdateGameRoomPotSizeTest()
         {
-            proxy.AddNewGameToDB(gameRoom);
-            Assert.IsTrue(proxy.UpdateGameRoomPotSize(777, 9999));
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+            proxy.InsertNewGameRoom(gameRoom);
+            bool ans = proxy.UpdateGameRoomPotSize(777, 9999);
+            Assert.IsTrue(ans);
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
         [TestMethod()]
@@ -171,8 +169,12 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void InsertNewGameRoomTest()
         {
+          
             bool ans = proxy.InsertNewGameRoom(gameRoom);
-           Assert.IsTrue( ans);
+           Assert.IsTrue(ans);
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+
         }
 
         [TestMethod()]
