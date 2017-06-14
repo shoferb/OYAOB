@@ -170,6 +170,25 @@ namespace TexasHoldem.DatabaseProxy
             }
             return toRet;
         }
+        private int GetGameModeValByName(TexasHoldemShared.CommMessages.GameMode mode)
+        {
+            return _controller.GetGameModeValByName(mode.ToString());
+        }
+        public List<IGame> GetGameRoomsByGameMode(TexasHoldemShared.CommMessages.GameMode mode)
+        {
+            List<IGame> toRet = new List<IGame>();
+            int modeVal = GetGameModeValByName(mode);
+            List<XElement> dbGames = _controller.GetGameRoomsByBuyInPolicy(bipol);
+            if (dbGames.Capacity == 0)
+            {
+                return null;
+            }
+            foreach (XElement g in dbGames)
+            {
+                toRet.Add(GameRoomFromXElement(g));
+            }
+            return toRet;
+        }
 
         public IGame GetGameRoombyId(int roomid,int gameid)
         {
