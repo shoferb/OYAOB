@@ -147,6 +147,11 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal List<GameRoom> GetAllActiveGameRooms()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
         {
             try
