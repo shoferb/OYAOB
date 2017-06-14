@@ -93,6 +93,14 @@ namespace TexasHoldem.DatabaseProxy
             return InsertNewGameRoom(v) & InsertGamePref(v);
         }
 
+
+        public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
+        {
+            return _controller.UpdateGameRoom( roomId, gameId,  newXML, newIsActive,  newRep);
+        }
+
+       
+
         public List<IGame> GetAllGames()
         {
             List<IGame> toRet = new List<IGame>();

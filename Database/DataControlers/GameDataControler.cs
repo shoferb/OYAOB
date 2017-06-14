@@ -4,6 +4,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using TexasHoldem.Database.LinqToSql;
 
 
@@ -112,6 +113,11 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return false;
             }
+        }
+
+        internal bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
+        {
+            throw new NotImplementedException();
         }
 
         public bool InsertPref(GameRoomPreferance toAdd)
