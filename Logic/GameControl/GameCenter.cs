@@ -48,7 +48,8 @@ namespace TexasHoldem.Logic.GameControl
         {
             IGame gm = GetRoomById(roomId);
 
-            return gm.DoAction(user, action, amount, true);
+            IEnumerator<ActionResultInfo> toRet = gm.DoAction(user, action, amount, true);
+            proxyDB.UpdateGameRoom(gm.)
         }
 
         public List<Player> getPlayersInRoom(int roomId)

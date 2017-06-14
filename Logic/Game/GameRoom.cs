@@ -222,6 +222,7 @@ namespace TexasHoldem.Logic.Game
             gameData = GetGameData(null, amount, false, action);
             list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
             return list.GetEnumerator();
+            
         }
 
         private IEnumerator<ActionResultInfo> Leave(Player player)
