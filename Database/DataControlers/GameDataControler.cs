@@ -96,7 +96,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool UpdateGameRoomPotSize(int newPot, int roomId)
+        public bool UpdateGameRoomPotSize(int newPot, int roomId)
         {
             try
             {
