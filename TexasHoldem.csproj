@@ -372,6 +372,7 @@
     <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetAllGameRooms.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetGameModeValByName.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetLeageValByName.StoredProcedure.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.UpdateGameRoom.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.UpdateGameRoomPotSize.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\Game\GameStoredProcs.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.AddNewUser.StoredProcedure.sql" />
