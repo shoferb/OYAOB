@@ -415,4 +415,10 @@
       <Column Name="isActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetLeageValByName" Method="GetLeageValByName">
+    <Parameter Name="name" Type="System.String" DbType="VarChar(10)" />
+    <ElementType Name="GetLeageValByNameResult">
+      <Column Name="[League Value]" Member="League_Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
