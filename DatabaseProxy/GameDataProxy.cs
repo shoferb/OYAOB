@@ -174,11 +174,27 @@ namespace TexasHoldem.DatabaseProxy
         {
             return _controller.GetGameModeValByName(mode.ToString());
         }
+
         public List<IGame> GetGameRoomsByGameMode(TexasHoldemShared.CommMessages.GameMode mode)
         {
             List<IGame> toRet = new List<IGame>();
             int modeVal = GetGameModeValByName(mode);
             List<XElement> dbGames = _controller.GetGameRoomsByGameMode(modeVal);
+            if (dbGames.Capacity == 0)
+            {
+                return null;
+            }
+            foreach (XElement g in dbGames)
+            {
+                toRet.Add(GameRoomFromXElement(g));
+            }
+            return toRet;
+        }
+
+        public List<IGame> GetGameRoomsByGameMode(int max)
+        {
+            List<IGame> toRet = new List<IGame>();
+            List<XElement> dbGames = _controller.GetGameRoomsByMaxPlayers(max);
             if (dbGames.Capacity == 0)
             {
                 return null;
