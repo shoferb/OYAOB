@@ -366,13 +366,6 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((ISingleResult<GetAllSpectableGameRoomsResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomById")]
-		public ISingleResult<GetGameRoomByIdResult> GetGameRoomById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
-			return ((ISingleResult<GetGameRoomByIdResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomReplyById")]
 		public ISingleResult<GetGameRoomReplyByIdResult> GetGameRoomReplyById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id)
 		{
@@ -483,6 +476,13 @@ namespace TexasHoldem.Database.LinqToSql
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, gameid, newXML, newIsActive, newRep);
 			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomById")]
+		public ISingleResult<GetGameRoomByIdResult> GetGameRoomById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameid)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid, gameid);
+			return ((ISingleResult<GetGameRoomByIdResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -4481,104 +4481,6 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
-	public partial class GetGameRoomByIdResult
-	{
-		
-		private int _RoomId;
-		
-		private int _GameId;
-		
-		private string _Replay;
-		
-		private System.Xml.Linq.XElement _GameXML;
-		
-		private bool _isActive;
-		
-		public GetGameRoomByIdResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
-		public int RoomId
-		{
-			get
-			{
-				return this._RoomId;
-			}
-			set
-			{
-				if ((this._RoomId != value))
-				{
-					this._RoomId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
-		public int GameId
-		{
-			get
-			{
-				return this._GameId;
-			}
-			set
-			{
-				if ((this._GameId != value))
-				{
-					this._GameId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string Replay
-		{
-			get
-			{
-				return this._Replay;
-			}
-			set
-			{
-				if ((this._Replay != value))
-				{
-					this._Replay = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
-		public System.Xml.Linq.XElement GameXML
-		{
-			get
-			{
-				return this._GameXML;
-			}
-			set
-			{
-				if ((this._GameXML != value))
-				{
-					this._GameXML = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
-		public bool isActive
-		{
-			get
-			{
-				return this._isActive;
-			}
-			set
-			{
-				if ((this._isActive != value))
-				{
-					this._isActive = value;
-				}
-			}
-		}
-	}
-	
 	public partial class GetGameRoomReplyByIdResult
 	{
 		
@@ -5076,6 +4978,104 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._League_Value != value))
 				{
 					this._League_Value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomByIdResult
+	{
+		
+		private int _RoomId;
+		
+		private int _GameId;
+		
+		private string _Replay;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		private bool _isActive;
+		
+		public GetGameRoomByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
+		{
+			get
+			{
+				return this._GameId;
+			}
+			set
+			{
+				if ((this._GameId != value))
+				{
+					this._GameId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Replay
+		{
+			get
+			{
+				return this._Replay;
+			}
+			set
+			{
+				if ((this._Replay != value))
+				{
+					this._Replay = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
+		public bool isActive
+		{
+			get
+			{
+				return this._isActive;
+			}
+			set
+			{
+				if ((this._isActive != value))
+				{
+					this._isActive = value;
 				}
 			}
 		}
