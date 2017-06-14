@@ -435,4 +435,12 @@
     <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.UpdateGameRoom" Method="UpdateGameRoom">
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameid" Type="System.Int32" DbType="Int" />
+    <Parameter Name="newXML" Type="System.Xml.Linq.XElement" DbType="Xml" />
+    <Parameter Name="newIsActive" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="newRep" Type="System.String" DbType="VarChar(MAX)" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
