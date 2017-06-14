@@ -141,6 +141,21 @@ namespace TexasHoldem.DatabaseProxy
             return toRet;
         }
 
+        public List<IGame> GetAllSpectatebleGameRooms()
+        {
+            List<IGame> toRet = new List<IGame>();
+            List<XElement> dbGames = _controller.GetAllSpectatebleGameRooms();
+            if (dbGames == null)
+            {
+                return null;
+            }
+            foreach (XElement g in dbGames)
+            {
+                toRet.Add(GameRoomFromXElement(g));
+            }
+            return toRet;
+        }
+
         private TexasHoldemShared.CommMessages.GameMode ConvertGameModeChosen(Database.LinqToSql.GameMode gameMode)
         {
             if (gameMode.game_mode_name.Equals("Limit"))
