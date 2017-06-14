@@ -94,6 +94,7 @@
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\WebCommHandlerTests.cs" />
     <Compile Include="communication\WebEventHandlerTest.cs" />
+    <Compile Include="DatabaseProxy\GameDataProxyGameDataProxyTests.cs" />
     <Compile Include="DatabaseProxy\LogDataProxyTests.cs" />
     <Compile Include="DatabaseProxy\UserDataProxyTests.cs" />
     <Compile Include="Database\DataControlers\LogDataControlerTests.cs" />
