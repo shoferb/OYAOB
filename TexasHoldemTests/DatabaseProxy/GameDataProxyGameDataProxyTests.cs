@@ -41,7 +41,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            proxy =new GameDataProxy();
+            proxy = new GameDataProxy();
             user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
             user2 = new User(2, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
             user3 = new User(3, "test3", "3test", "1234", 0, 5000, "test3@mailnator.com");
@@ -77,10 +77,10 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void AddNewGameToDBTest()
         {
-           // Initialize();           
-            bool ans = proxy.AddNewGameToDB(gameRoom);
-            Assert.IsTrue(ans);
-            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+          //  proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+         ////   bool ans = proxy.AddNewGameToDB(gameRoom);
+         //   Assert.IsTrue(ans);
+          //  proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
         [TestMethod()]
@@ -166,6 +166,13 @@ namespace TexasHoldem.DatabaseProxy.Tests
         public void GetGameRoomsByStartingChipTest()
         {
             Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void InsertNewGameRoomTest()
+        {
+            bool ans = proxy.InsertNewGameRoom(gameRoom);
+           Assert.IsTrue( ans);
         }
 
         [TestMethod()]
