@@ -98,9 +98,9 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.InsertPrefToDb(toAdd.room_id, toAdd.is_Spectetor, toAdd.Min_player_in_room,
-                        toAdd.max_player_in_room, toAdd.enter_paying_money, toAdd.starting_chip,
-                        toAdd.Bb, toAdd.Sb, toAdd.League_name, toAdd.Game_Mode, toAdd.Game_Id);
+                    db.InsertPrefToDb(toAdd.Roomid, toAdd.CanSpectate, toAdd.MinPlayers,
+                         toAdd.MaxPlayers, toAdd.BuyInPolicy, toAdd.EnterGamePolicy,
+                         toAdd.MinBet, toAdd.League, toAdd.GameMode, toAdd.GameId, toAdd.PotSize);
                     return true;
                 }
             }
