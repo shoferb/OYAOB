@@ -221,6 +221,21 @@ namespace TexasHoldem.DatabaseProxy
             return toRet;
         }
 
+        public List<IGame> GetGameRoomsByMinBet(int min)
+        {
+            List<IGame> toRet = new List<IGame>();
+            List<XElement> dbGames = _controller.GetGameRoomsByMinBet(min);
+            if (dbGames.Capacity == 0)
+            {
+                return null;
+            }
+            foreach (XElement g in dbGames)
+            {
+                toRet.Add(GameRoomFromXElement(g));
+            }
+            return toRet;
+        }
+
         public IGame GetGameRoombyId(int roomid,int gameid)
         {
             List<IGame> toRet = new List<IGame>();
