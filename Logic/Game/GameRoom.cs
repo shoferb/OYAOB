@@ -57,6 +57,8 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
+        public GameRoom() { } // for XML
+
         public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, 
             ReplayManager replay, SessionIdHandler sidH)
         {
