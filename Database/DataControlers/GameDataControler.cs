@@ -231,6 +231,27 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        public List<XElement> GetGameRoomsByMaxPlayers(int max)
+        {
+            List<XElement> toRet = new List<XElement>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameRoomsByMaxPlayers(max).ToList();
+                    foreach (var v in temp)
+                    {
+                        toRet.Add(v.GameXML);
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public string GetGameRoomReplyById(int roomid, int gameid)
         {
             try
