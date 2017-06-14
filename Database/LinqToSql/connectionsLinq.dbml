@@ -426,4 +426,9 @@
     <Parameter Name="id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.DeleteGameRoom" Method="DeleteGameRoom">
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameid" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>
