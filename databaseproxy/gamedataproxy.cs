@@ -28,12 +28,7 @@ namespace TexasHoldem.DatabaseProxy
             _controller = new GameDataControler();
         }
 
-        public bool AddNewGameToDB(Logic.Game.GameRoom gr)
-        {
-            bool ans = false;
-            ans = InsertGameRoom(gr);
-            return ans;
-        }
+
 
         private bool InsertGameRoom(Logic.Game.GameRoom v)
         {
@@ -90,7 +85,7 @@ namespace TexasHoldem.DatabaseProxy
 
         public bool InsertNewGameRoom(Logic.Game.GameRoom v)
         {
-            bool ans = InsertNewGameRoom(v);
+            bool ans = InsertGameRoom(v);
             bool ans2 = InsertGamePref(v);
             return ans&ans2 ;
         }
