@@ -48,14 +48,14 @@ namespace TexasHoldem.Database.DataControlers
             return toRet;
         }
 
-        public LinqToSql.GameRoomPreferance GetPrefByRoomId(int roomId)
+    /*    public LinqToSql.GameRoomPreferance GetPrefByRoomId(int roomId)
         {
             LinqToSql.GameRoomPreferance toRet = new GameRoomPreferance();
             try
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    var temp = db.GetGamePreferencesByRoomId(roomId).ToList();
+                    var temp = db.getga(roomId).ToList();
                     foreach (var v in temp)
                     {
                         toRet.Game_Id = v.Game_Id;
@@ -77,7 +77,7 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return null;
             }
-        }
+        }*/
 
         public bool InsertGameRoom(GameRoom toIns)
         {
@@ -85,10 +85,8 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.InsertGameRoomToDb(toIns.Bb, toIns.Bb_Player, toIns.curr_Player, toIns.curr_player_position,
-                        toIns.Dealer_Player, toIns.Dealer_position, toIns.First_Player_In_round, toIns.first_player_in_round_position,
-                        toIns.game_id, toIns.hand_step, toIns.is_Active_Game, toIns.last_rise_in_round, toIns.league_name,
-                        toIns.Max_Bet_In_Round, toIns.Pot_count, toIns.room_Id, toIns.Sb, toIns.SB_player);
+                    db.InsertGameRoomToDb(toIns.RoomId, toIns.GameId, toIns.Replay, 
+                        toIns.GameXML, toIns.isActive);
                     return true;
                 }
             }
