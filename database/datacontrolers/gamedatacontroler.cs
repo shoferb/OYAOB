@@ -196,6 +196,10 @@ namespace TexasHoldem.Database.DataControlers
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
                     var temp = db.GetGameRoomById(roomid,gameid).ToList();
+                    if(temp.Capacity==0)
+                    {
+                        return null;
+                    }
                     var res =temp.First();
                     return res.GameXML;
                 }
