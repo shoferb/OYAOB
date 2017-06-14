@@ -147,7 +147,30 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
+        internal List<XElement> GetAllActiveGameRooms()
+        {
+            List<XElement> toRet = new List<XElement>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetAllActiveGameRooms().ToList();
+                    foreach (var v in temp)
+                    {
+                   
+
+                        toRet.Add(v.GameXML);
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+            public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
         {
             try
             {

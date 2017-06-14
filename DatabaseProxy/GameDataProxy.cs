@@ -129,14 +129,14 @@ namespace TexasHoldem.DatabaseProxy
         public List<IGame> GetAllActiveGameRooms()
         {
             List<IGame> toRet = new List<IGame>();
-            List<Database.LinqToSql.GameRoom> dbGames = _controller.GetAllActiveGameRooms();
+            List<XElement> dbGames = _controller.GetAllActiveGameRooms();
             if (dbGames == null)
             {
                 return null;
             }
-            foreach (Database.LinqToSql.GameRoom g in dbGames)
+            foreach (XElement g in dbGames)
             {
-                toRet.Add(GameRoomFromXElement(g.GameXML));
+                toRet.Add(GameRoomFromXElement(g));
             }
             return toRet;
         }
