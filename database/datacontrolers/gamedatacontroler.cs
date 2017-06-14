@@ -189,6 +189,28 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        public string GetGameRoomReplyById(int roomid, int gameid)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameRoomReplyById(roomid).ToList();
+                    if (temp.Capacity == 0)
+                    {
+                        return null;
+                    }
+                    var res = temp.First();
+                    return res.Replay;
+                }
+            
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public XElement GetGameRoomById(int roomid, int gameid)
         {
             try
