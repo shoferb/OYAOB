@@ -206,10 +206,10 @@ namespace TexasHoldem.DatabaseProxy
             return toRet;
         }
 
-        public List<IGame> GetGameRoomsByGameMode(int max)
+        public List<IGame> GetGameRoomsByMinPlayers(int min)
         {
             List<IGame> toRet = new List<IGame>();
-            List<XElement> dbGames = _controller.GetGameRoomsByMaxPlayers(max);
+            List<XElement> dbGames = _controller.GetGameRoomsByMinPlayers(min);
             if (dbGames.Capacity == 0)
             {
                 return null;
