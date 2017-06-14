@@ -189,7 +189,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal List<XElement> GetGameRoomById(int id)
+        internal XElement GetGameRoomById(int id)
         {
             try
             {
