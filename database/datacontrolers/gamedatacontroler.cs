@@ -252,6 +252,27 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        public List<XElement> GetGameRoomsByPotSize(int pot)
+        {
+            List<XElement> toRet = new List<XElement>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameRoomsByPotSize(pot).ToList();
+                    foreach (var v in temp)
+                    {
+                        toRet.Add(v.GameXML);
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public List<XElement> GetGameRoomsByMinBet(int min)
         {
             List<XElement> toRet = new List<XElement>();
