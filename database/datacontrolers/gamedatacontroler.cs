@@ -147,7 +147,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal List<XElement> GetAllActiveGameRooms()
+        public List<XElement> GetAllActiveGameRooms()
         {
             List<XElement> toRet = new List<XElement>();
             try
