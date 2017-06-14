@@ -210,9 +210,25 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal List<XElement> GetGameRoomsByGameMode(TexasHoldemShared.CommMessages.GameMode mode)
+        public List<XElement> GetGameRoomsByGameMode(int modeVal)
         {
-            throw new NotImplementedException();
+            List<XElement> toRet = new List<XElement>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameRoomsByGameMode(modeVal).ToList();
+                    foreach (var v in temp)
+                    {
+                        toRet.Add(v.GameXML);
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public string GetGameRoomReplyById(int roomid, int gameid)
