@@ -98,7 +98,18 @@ namespace TexasHoldem.Database.DataControlers
 
         internal bool UpdateGameRoomPotSize(int newPot, int roomId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.UpdateGameRoomPotSize(newPot, roomId);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool InsertPref(GameRoomPreferance toAdd)
