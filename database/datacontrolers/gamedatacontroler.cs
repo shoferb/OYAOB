@@ -189,18 +189,15 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal XElement GetGameRoomById(int roomid, int gameid)
+        public XElement GetGameRoomById(int roomid, int gameid)
         {
             try
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    var temp = db.GetAllSpectableGameRooms(true).ToList();
-                    foreach (var v in temp)
-                    {
-                        toRet.Add(v.GameXML);
-                    }
-                    return toRet;
+                    var temp = db.GetGameRoomById(roomid,gameid).ToList();
+                    var res =temp.First();
+                    return res.GameXML;
                 }
             }
             catch (Exception e)
