@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TexasHoldem.communication.Impl;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Notifications_And_Logs;
@@ -16,8 +17,8 @@ namespace TexasHoldem.Logic.GameControl
         private List<Log> logs;
 
         public int leagueGap { get; set; }
-        private List<IGame> games;
-
+        //    private List<IGame> games;
+        private GameDataProxy proxyDB;
         private static int _roomIdCounter = 1;
         private readonly SystemControl _systemControl ;
         private readonly LogControl logControl;
@@ -29,11 +30,12 @@ namespace TexasHoldem.Logic.GameControl
 
         public GameCenter(SystemControl sys, LogControl log, ReplayManager replay, SessionIdHandler sidH)
         {
+            proxyDB = new GameDataProxy();
             replayManager = replay;
             _systemControl = sys;
             logControl = log;
             this.logs = new List<Log>();
-            this.games = new List<IGame>();
+       //     this.games = new List<IGame>();
             sidHandler = sidH;
         }
 
@@ -154,8 +156,8 @@ namespace TexasHoldem.Logic.GameControl
                 }
                 try
                 {
-                    this.games.Add(roomToAdd);
-                    toReturn = true;
+                  //  this.games.Add(roomToAdd);
+                    toReturn = proxyDB.InsertNewGameRoom(roomToAdd);
                 }
                 catch (Exception e)
                 {
@@ -176,8 +178,10 @@ namespace TexasHoldem.Logic.GameControl
                 IGame toRemove = GetRoomById(roomId);
                 try
                 {
-                    games.Remove(toRemove);
-                    toReturn = true;
+                    //games.Remove(toRemove);
+                    bool ans = proxyDB.DeleteGameRoomPref(roomId);
+                    bool ans2 = proxyDB.DeleteGameRoom(roomId, ((GameRoom)toRemove).GetGameNum());
+                    toReturn = ans & ans2;
                 }
                 catch (Exception e)
                 {
@@ -197,6 +201,7 @@ namespace TexasHoldem.Logic.GameControl
                 int userMoney = user.Money();
                 int userPoints = user.Points();
                 bool isUnKnow = user.IsUnKnow();
+                List<IGame> games = proxyDB.GetAllGames();
                 foreach (IGame room in games)
                 {
                     if (room.CanJoin(user))
@@ -251,217 +256,57 @@ namespace TexasHoldem.Logic.GameControl
         //return all games in the system 0 active and non active
         public List<IGame> GetGames()
         {
-            return games;
+            return proxyDB.GetAllGames();
         }
 
         //get all active games - syncronized
         public List<IGame> GetAllActiveGame()
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                foreach (IGame room in games)
-                {
-                    if (room.IsGameActive())
-                    {
-
-                        toReturn.Add(room);
-                    }
-                }
-                return toReturn;
-            }
+            return proxyDB.GetAllActiveGameRooms();
         }
 
         public List<IGame> GetAllSpectetorGame()
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                IGame toAdd = null;
-                foreach (IGame room in games)
-                {
-                    if (room.IsSpectatable())
-                    {
-                        toAdd = room;
-                        toReturn.Add(toAdd);
-                    }
-                }
-                return toReturn;
-            }
+            return proxyDB.GetAllSpectatebleGameRooms();
         }
 
         //return list of games with pot size
         public List<IGame> GetAllGamesByPotSize(int potSize)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(potSize))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (IGame room in games)
-                    {
-                        if (room.IsPotSizeEqual(potSize))
-                        {
-                            toReturn.Add(room);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByPotSize(potSize);
         }
 
         //return list of games with game mode:
         //limit / no - limit / pot limit
         public List<IGame> GetGamesByGameMode(GameMode gm)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                foreach (IGame room in games)
-                {
-                    if (room.IsGameModeEqual(gm))
-                    {
-                        toReturn.Add(room);
-                    }
-
-                }
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByGameMode(gm);
         }
 
         //return list of games by buy in policy
         public List<IGame> GetGamesByBuyInPolicy(int buyIn)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(buyIn))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (IGame room in games)
-                    {
-                        if (room.IsGameBuyInPolicyEqual(buyIn))
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByBuyInPolicy(buyIn);
         }
 
         //return list of games by min player in room
         public List<IGame> GetGamesByMinPlayer(int min)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                try
-                {
-                    if (!IsValidInputNotSmallerZero(min))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (IGame room in games)
-                    {
-                        if (room.IsGameMinPlayerEqual(min))
-                        {
-                            toReturn.Add(room);
-                        }
 
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByMinPlayers(min);
         }
 
         //return list of games by max player in room
         public List<IGame> GetGamesByMaxPlayer(int max)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                try
-                {
-                    if (!IsValidInputNotSmallerEqualZero(max))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (IGame room in games)
-                    {
-                        if (room.IsGameMaxPlayerEqual(max))
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByMinPlayers(max);
         }
 
         //return list of games by min bet in room
         //syncronized - due to for
         public List<IGame> GetGamesByMinBet(int minBet)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                try
-                {
-
-                    if (!IsValidInputNotSmallerZero(minBet))
-                    {
-                        toReturn = null;
-                        return toReturn;
-                    }
-                    foreach (IGame room in games)
-                    {
-                        if (room.IsGameMinBetEqual(minBet))
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByMinBet(minBet);
         }
 
         //return list of games by starting chip policy
@@ -469,33 +314,7 @@ namespace TexasHoldem.Logic.GameControl
         //syncronized - due to for
         public List<IGame> GetGamesByStartingChip(int startingChip)
         {
-            lock (padlock)
-            {
-                List<IGame> toReturn = new List<IGame>();
-                if (!IsValidInputNotSmallerZero(startingChip))
-                {
-                    toReturn = null;
-                    return toReturn;
-                }
-                try
-                {
-
-                    foreach (IGame room in games)
-                    {
-                        if (room.IsGameStartingChipEqual(startingChip))
-                        {
-                            toReturn.Add(room);
-                        }
-
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    toReturn = null;
-                }
-                return toReturn;
-            }
+            return proxyDB.GetGameRoomsByStartingChip(startingChip);
         }
 
         //chaeck if game is spectetable
@@ -525,10 +344,7 @@ namespace TexasHoldem.Logic.GameControl
 
         public List<IGame> GetAllGames()
         {
-            lock (padlock)
-            {
-                return games;
-            }
+            return proxyDB.GetAllGames();
         }
 
         private bool IsValidInputNotSmallerEqualZero(int toCheck)
@@ -541,25 +357,6 @@ namespace TexasHoldem.Logic.GameControl
             return toCheck >= 0;
         }
         
-     
-
-        public List<IGame> Games
-        {
-            get
-            {
-
-                return games;
-            }
-
-            set
-            {
-                lock (padlock)
-                {
-                    games = value;
-                }
-            }
-        }
-
         public bool CanSendPlayerBrodcast(IUser user, int roomId)
         {
             lock (padlock)

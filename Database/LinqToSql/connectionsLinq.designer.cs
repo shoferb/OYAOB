@@ -479,9 +479,9 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomById")]
-		public ISingleResult<GetGameRoomByIdResult> GetGameRoomById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameid)
+		public ISingleResult<GetGameRoomByIdResult> GetGameRoomById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid, gameid);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid);
 			return ((ISingleResult<GetGameRoomByIdResult>)(result.ReturnValue));
 		}
 	}

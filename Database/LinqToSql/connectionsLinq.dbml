@@ -435,7 +435,6 @@
   </Function>
   <Function Name="dbo.GetGameRoomById" Method="GetGameRoomById">
     <Parameter Name="roomid" Type="System.Int32" DbType="Int" />
-    <Parameter Name="gameid" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetGameRoomByIdResult">
       <Column Name="RoomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="GameId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
