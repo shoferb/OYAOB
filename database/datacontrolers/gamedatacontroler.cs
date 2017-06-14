@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TexasHoldem.Database.LinqToSql;
-
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Database.DataControlers
 {
@@ -208,6 +208,11 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return null;
             }
+        }
+
+        internal List<XElement> GetGameRoomsByGameMode(TexasHoldemShared.CommMessages.GameMode mode)
+        {
+            throw new NotImplementedException();
         }
 
         public string GetGameRoomReplyById(int roomid, int gameid)
