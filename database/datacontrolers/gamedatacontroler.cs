@@ -156,9 +156,7 @@ namespace TexasHoldem.Database.DataControlers
                 {
                     var temp = db.GetAllActiveGameRooms().ToList();
                     foreach (var v in temp)
-                    {
-                   
-
+                    {                
                         toRet.Add(v.GameXML);
                     }
                     return toRet;
