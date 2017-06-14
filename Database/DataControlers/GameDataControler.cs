@@ -96,6 +96,11 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool UpdateGameRoomPotSize(int newPot, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool InsertPref(GameRoomPreferance toAdd)
         {
             try

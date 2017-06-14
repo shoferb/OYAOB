@@ -83,6 +83,11 @@ namespace TexasHoldem.DatabaseProxy
             return _controller.InsertPref(toAdd);
         }
 
+        public bool UpdateGameRoomPotSize(int newPot, int roomId)
+        {
+            return _controller.UpdateGameRoomPotSize(newPot,roomId);
+        }
+
         private bool InsertNewGameRoom(Logic.Game.GameRoom v)
         {
             return InsertNewGameRoom(v) & InsertGamePref(v);
