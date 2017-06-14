@@ -104,6 +104,11 @@ namespace TexasHoldem.DatabaseProxy
             return _controller.DeleteGameRoom(roomId, gameId);
         }
 
+        public bool DeleteGameRoomPref(int roomId)
+        {
+            return _controller.DeleteGameRoomPref(roomId);
+        }
+
 
 
         public List<IGame> GetAllGames()
