@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.GameControl
 
         public int leagueGap { get; set; }
         //    private List<IGame> games;
-        private GameDataProxy proxyDB;
+        private GameDataProxy proxyDB = new GameDataProxy();
         private static int _roomIdCounter = 1;
         private readonly SystemControl _systemControl ;
         private readonly LogControl logControl;
@@ -50,6 +50,7 @@ namespace TexasHoldem.Logic.GameControl
 
             IEnumerator<ActionResultInfo> toRet = gm.DoAction(user, action, amount, true);
             proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
             return toRet;
         }
 

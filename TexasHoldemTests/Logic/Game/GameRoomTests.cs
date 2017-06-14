@@ -46,6 +46,7 @@ namespace TexasHoldem.Logic.Game.Tests
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, ses);
+            gameCenter.AddRoom(gameRoom);
 
         }
 
@@ -77,6 +78,7 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestCleanup()]
         public void Cleanup()
         {
+            gameCenter.RemoveRoom(gameRoom.Id);
             user1 = null;
             user2 = null;
             players = null;
@@ -84,6 +86,7 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom = null;
             replayManager.DeleteGameReplay(roomID, 0);
             replayManager.DeleteGameReplay(roomID, 1);
+       
         }
         [TestMethod()]
         public void DoActionLeaveTest()
