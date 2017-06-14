@@ -96,6 +96,8 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+
+
         public bool UpdateGameRoomPotSize(int newPot, int roomId)
         {
             try
