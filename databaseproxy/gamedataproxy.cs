@@ -79,6 +79,7 @@ namespace TexasHoldem.DatabaseProxy
             toAdd.Roomid = v.Id;
             toAdd.EnterGamePolicy = v.GetStartingChip();
             toAdd.MinBet = v.GetMinBet();
+            toAdd.PotSize = v.GetPotSize();
             return _controller.InsertPref(toAdd);
         }
 
