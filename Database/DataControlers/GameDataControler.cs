@@ -273,9 +273,25 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal List<XElement> GetGameRoomsByStartingChip(int sc)
+        public List<XElement> GetGameRoomsByStartingChip(int sc)
         {
-            throw new NotImplementedException();
+            List<XElement> toRet = new List<XElement>();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameRoomsByStaringChip(sc).ToList();
+                    foreach (var v in temp)
+                    {
+                        toRet.Add(v.GameXML);
+                    }
+                    return toRet;
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public List<XElement> GetGameRoomsByMinBet(int min)
