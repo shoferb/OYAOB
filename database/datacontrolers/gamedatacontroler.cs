@@ -115,7 +115,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool DeleteGameRoom(int roomId, int gameId)
+        public bool DeleteGameRoom(int roomId, int gameId)
         {
             try
             {
