@@ -115,6 +115,22 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal bool DeleteGameRoom(int roomId, int gameId)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.DeleteGameRoom(roomId, gameId);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
         public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
         {
             try
