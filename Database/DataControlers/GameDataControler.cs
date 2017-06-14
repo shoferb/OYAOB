@@ -130,7 +130,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public GameMode GetGameModeByVal(int val)
+       /* public GameMode GetGameModeByVal(int val)
         {
             GameMode toRet = new GameMode();
             try
@@ -159,13 +159,13 @@ namespace TexasHoldem.Database.DataControlers
                 toAddLeague.League_Value = v.League_Value;
             }
             return toAddLeague;
-        }
+        }*/
 
        
       
 
        
-        public int GetLeagueValByName(string name)
+       public int GetLeagueValByName(string name)
         {
             try
             {
