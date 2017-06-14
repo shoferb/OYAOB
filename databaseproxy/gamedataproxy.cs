@@ -115,7 +115,7 @@ namespace TexasHoldem.DatabaseProxy
         {
             List<IGame> toRet = new List<IGame>();
             List<Database.LinqToSql.GameRoom> dbGames = _controller.getAllGames();
-            if (dbGames == null)
+            if (dbGames.Capacity == 0)
             {
                 return null;
             }
@@ -130,7 +130,7 @@ namespace TexasHoldem.DatabaseProxy
         {
             List<IGame> toRet = new List<IGame>();
             List<XElement> dbGames = _controller.GetAllActiveGameRooms();
-            if (dbGames == null)
+            if (dbGames.Capacity == 0)
             {
                 return null;
             }
@@ -145,7 +145,7 @@ namespace TexasHoldem.DatabaseProxy
         {
             List<IGame> toRet = new List<IGame>();
             List<XElement> dbGames = _controller.GetAllSpectatebleGameRooms();
-            if (dbGames == null)
+            if (dbGames.Capacity ==0)
             {
                 return null;
             }
@@ -156,19 +156,15 @@ namespace TexasHoldem.DatabaseProxy
             return toRet;
         }
 
-        public List<IGame> GetGameRoombyId(int id)
+        public IGame GetGameRoombyId(int id)
         {
             List<IGame> toRet = new List<IGame>();
-            List<XElement> dbGames = _controller.GetGameRoomById(id);
-            if (dbGames == null)
+            XElement g = _controller.GetGameRoomById(id);
+            if (g==null)
             {
                 return null;
             }
-            foreach (XElement g in dbGames)
-            {
-                toRet.Add(GameRoomFromXElement(g));
-            }
-            return toRet;
+            return GameRoomFromXElement(g);
         }
 
         private TexasHoldemShared.CommMessages.GameMode ConvertGameModeChosen(Database.LinqToSql.GameMode gameMode)
