@@ -115,7 +115,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
+        public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
         {
             try
             {
