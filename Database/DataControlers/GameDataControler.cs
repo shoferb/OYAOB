@@ -273,6 +273,11 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        internal List<XElement> GetGameRoomsByStartingChip(int sc)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<XElement> GetGameRoomsByMinBet(int min)
         {
             List<XElement> toRet = new List<XElement>();
