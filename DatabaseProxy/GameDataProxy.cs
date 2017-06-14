@@ -156,6 +156,21 @@ namespace TexasHoldem.DatabaseProxy
             return toRet;
         }
 
+        public List<IGame> GetGameRoomsByBuyInPolicy(int bipol)
+        {
+            List<IGame> toRet = new List<IGame>();
+            List<XElement> dbGames = _controller.GetGameRoomsByBuyInPolicy(bipol);
+            if (dbGames.Capacity == 0)
+            {
+                return null;
+            }
+            foreach (XElement g in dbGames)
+            {
+                toRet.Add(GameRoomFromXElement(g));
+            }
+            return toRet;
+        }
+
         public IGame GetGameRoombyId(int roomid,int gameid)
         {
             List<IGame> toRet = new List<IGame>();
