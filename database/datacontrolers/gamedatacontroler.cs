@@ -21,16 +21,11 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    var temp = db.GetAllGames().ToList();
+                    var temp = db.GetAllGameRooms().ToList();
                     foreach (var v in temp)
                     {
                         GameRoom toAdd = ConvertToGameRoom(v);
-                        LinqToSql.GameReplay toAddGameReplay = ConvertToReplay(db.GetGameReplayByRoomId(toAdd.room_Id));
-                        toAdd = SetGameReplayToGame(toAdd, toAddGameReplay);
-                        LinqToSql.LeagueName toAddLeagueName = ConvertToLeague(db.GetLeagueNameByVal(toAdd.league_name));
-                        toAdd = SetLeagueToGame(toAdd, toAddLeagueName);
-                        LinqToSql.HandStep toAddHandStep = ConvertToHandStep(db.GetHandStepNameByVal(toAdd.hand_step));
-                        toAdd = SetHandStepToGame(toAdd , toAddHandStep);
+                       
                         toRet.Add(toAdd);
                     }
                     return toRet;
@@ -40,6 +35,17 @@ namespace TexasHoldem.Database.DataControlers
             {
                 return null;
             }
+        }
+
+        private GameRoom ConvertToGameRoom(GetAllGameRoomsResult v)
+        {
+            GameRoom toRet = new GameRoom();
+            toRet.GameId = v.GameId;
+            toRet.GameXML = v.GameXML;
+            toRet.isActive = v.isActive;
+            toRet.Replay = v.Replay;
+            toRet.RoomId = v.RoomId;
+            return toRet;
         }
 
         public LinqToSql.GameRoomPreferance GetPrefByRoomId(int roomId)
@@ -160,40 +166,7 @@ namespace TexasHoldem.Database.DataControlers
        
       
 
-        private GameRoom ConvertToGameRoom(GetAllGamesResult v)
-        {
-            GameRoom toRet = new GameRoom();
-          
-            toRet.Bb_Player = v.Bb_Player;
-            toRet.curr_Player = v.curr_Player;
-            toRet.curr_player_position = v.curr_player_position;
-            toRet.Dealer_Player = v.Dealer_Player;
-            toRet.Dealer_position = v.Dealer_position;
-          
-            toRet.First_Player_In_round = v.First_Player_In_round;
-            toRet.first_player_in_round_position = v.first_player_in_round_position;
-          
-           
-            toRet. = v;
-          
-            toRet.hand_step = v.hand_step;
-            toRet.is_Active_Game = v.is_Active_Game;
-            toRet.last_rise_in_round = v.last_rise_in_round;
-         
-            toRet.league_name = v.league_name;
-            toRet.Max_Bet_In_Round = v.Max_Bet_In_Round;
-           
-            toRet.Pot_count = v.Pot_count;
-          
-            toRet.room_Id = v.room_Id;
-            toRet.Sb = v.Sb;
-            toRet.SB_player = v.SB_player;
-           
-
-            return toRet;
-
-        }
-
+       
         public int GetLeagueValByName(string name)
         {
             try
