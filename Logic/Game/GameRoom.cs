@@ -86,6 +86,10 @@ namespace TexasHoldem.Logic.Game
 
         public string GetGameReplay()
         {
+            if (this.GameReplay == null)
+            {
+                return "";
+            }
            return string.Concat("", this.GameReplay.ToString());
         }
 
