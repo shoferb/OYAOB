@@ -358,13 +358,13 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public XElement GetGameRoomById(int roomid, int gameid)
+        public XElement GetGameRoomById(int roomid)
         {
             try
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    var temp = db.GetGameRoomById(roomid,gameid).ToList();
+                    var temp = db.GetGameRoomById(roomid).ToList();
                     if(temp.Capacity==0)
                     {
                         return null;

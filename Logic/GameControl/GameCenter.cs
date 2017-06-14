@@ -217,23 +217,7 @@ namespace TexasHoldem.Logic.GameControl
         //return null if room Id smaller than 0 or not found
         public IGame GetRoomById(int roomId)
         {
-            lock (padlock)
-            {
-                IGame toReturn = null;
-                if (!IsValidInputNotSmallerZero(roomId))
-                {
-                    return toReturn;
-                }
-                foreach (IGame room in games)
-                {
-                    if (room.Id == roomId)
-                    {
-                        toReturn = room;
-                        return toReturn;
-                    }
-                }
-                return toReturn;
-            }
+            return proxyDB.GetGameRoombyId(roomId);
         }
 
         //return true if there is a room with this Id
