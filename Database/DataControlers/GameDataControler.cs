@@ -117,7 +117,18 @@ namespace TexasHoldem.Database.DataControlers
 
         internal bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    db.UpdateGameRoom(roomId, gameId, newXML, newIsActive, newRep);
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         public bool InsertPref(GameRoomPreferance toAdd)
