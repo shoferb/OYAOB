@@ -231,7 +231,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        internal List<XElement> GetGameRoomsByMinPlayers(int min)
+        public List<XElement> GetGameRoomsByMinPlayers(int min)
         {
             List<XElement> toRet = new List<XElement>();
             try
