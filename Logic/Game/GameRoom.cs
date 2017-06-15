@@ -181,6 +181,11 @@ namespace TexasHoldem.Logic.Game
             return this.FirstPlayerInRound;
         }
 
+        public int GetlastRaiseInRound()
+        {
+            return this.lastRaiseInRound;
+        }
+
         public int GetFirstPlayerInRoundPos()
         {
             return this.firstPlayerInRoundPoistion;
