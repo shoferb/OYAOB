@@ -17,38 +17,36 @@ namespace TexasHoldem.DatabaseProxy
     {
        
         public int Id { get; set; }
-        private List<Player> Players;
-        private readonly List<Spectetor> Spectatores;
-        private int DealerPos;
-        private int maxBetInRound;
-        private int PotCount;
-        private int Bb;
-        private int Sb;
-        private Deck Deck;
-        private HandStep Hand_Step;
-        private List<Card> PublicCards;
-        private bool IsActiveGame;
-        private List<Tuple<int, Player>> SidePots; //TODO use that in all in
-        private GameReplay GameReplay;
-        private ReplayManager ReplayManager;
-        private GameCenter GameCenter;
-        private Player CurrentPlayer;
-        private Player DealerPlayer;
-        private Player BbPlayer;
-        private Player SbPlayer;
-        private Decorator MyDecorator;
-        private LogControl logControl;
-        private int GameNumber;
-        private Player FirstPlayerInRound;
-        private int currentPlayerPos;
-        private int firstPlayerInRoundPoistion;
-        private int lastRaiseInRound;
-        private bool useCommunication;
-        private SessionIdHandler sidHandler;
-
-        private LeagueName league;
-        private static readonly object padlock = new object();
-
+        public List<Player> Players;
+        public  List<Spectetor> Spectatores;
+        public int DealerPos;
+        public int maxBetInRound;
+        public int PotCount;
+        public int Bb;
+        public int Sb;
+        public Deck Deck;
+        public HandStep Hand_Step;
+        public List<Card> PublicCards;
+        public bool IsActiveGame;
+        public List<Tuple<int, Player>> SidePots; //TODO use that in all in
+        public GameReplay GameReplay;
+        public ReplayManager ReplayManager;
+        public GameCenter GameCenter;
+        public Player CurrentPlayer;
+        public Player DealerPlayer;
+        public Player BbPlayer;
+        public Player SbPlayer;
+        public Decorator MyDecorator;
+        public LogControl logControl;
+        public int GameNumber;
+        public Player FirstPlayerInRound;
+        public int currentPlayerPos;
+        public int firstPlayerInRoundPoistion;
+        public int lastRaiseInRound;
+        public bool useCommunication;
+        public SessionIdHandler sidHandler;
+        public LeagueName league;
+        public object padlock = new object();
 
         public GameRoomXML() { }
 

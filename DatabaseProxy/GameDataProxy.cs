@@ -53,17 +53,16 @@ namespace TexasHoldem.DatabaseProxy
             return _controller.InsertGameRoom(toIns);
         }
 
-        public XElement GameRoomToXElement(Logic.Game.GameRoom obj)
+        private XElement GameRoomToXElement(Logic.Game.GameRoom obj)
         {
 
             string xmlString = ConvertObjectToXMLString(obj);
-            // Save C# class object into Xml file
             XElement xElement = XElement.Parse(xmlString);
             return xElement;
 
         }
 
-        public Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
+        private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
             var xmlSerializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
             return (Logic.Game.GameRoom)xmlSerializer.Deserialize(xElement.CreateReader());
@@ -114,8 +113,6 @@ namespace TexasHoldem.DatabaseProxy
         {
             return _controller.DeleteGameRoomPref(roomId);
         }
-
-
 
         public List<IGame> GetAllGames()
         {
