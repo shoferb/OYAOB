@@ -44,17 +44,17 @@ namespace TexasHoldem.DatabaseProxy
 
         private bool InsertGameRoom(Logic.Game.GameRoom v)
         {
-            GameRoomXML = new GameRoomXML()
+            GameRoomXML gamexml = new GameRoomXML(v);
             Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
             toIns.GameId = v.GetGameNum();
             toIns.isActive = v.IsGameActive();
             toIns.RoomId = v.Id;
-            toIns.GameXML = GameRoomToXElement(v);
+            toIns.GameXML = GameRoomToXElement(gamexml);
             toIns.Replay = v.GetGameReplay();
             return _controller.InsertGameRoom(toIns);
         }
 
-        private XElement GameRoomToXElement(Logic.Game.GameRoom obj)
+        private XElement GameRoomToXElement(GameRoomXML obj)
         {
 
             string xmlString = ConvertObjectToXMLString(obj);
@@ -65,8 +65,9 @@ namespace TexasHoldem.DatabaseProxy
 
         private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
-            var xmlSerializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
-            return (Logic.Game.GameRoom)xmlSerializer.Deserialize(xElement.CreateReader());
+            var xmlSerializer = new XmlSerializer(typeof(GameRoomXML));
+            GameRoomXML parsed = (GameRoomXML)xmlSerializer.Deserialize(xElement.CreateReader());
+            return parsed.ConvertToLogicGR();
         }
 
 
@@ -102,7 +103,7 @@ namespace TexasHoldem.DatabaseProxy
 
         public bool UpdateGameRoom(Logic.Game.GameRoom g)
         {
-            return _controller.UpdateGameRoom( g.Id, g.GetGameNum(),  GameRoomToXElement(g), g.IsGameActive(),  g.GetGameReplay());
+            return _controller.UpdateGameRoom( g.Id, g.GetGameNum(),  GameRoomToXElement(new GameRoomXML(g)), g.IsGameActive(),  g.GetGameReplay());
         }
 
         public bool DeleteGameRoom(int roomId, int gameId)
