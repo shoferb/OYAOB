@@ -44,6 +44,7 @@ namespace TexasHoldem.DatabaseProxy
 
         private bool InsertGameRoom(Logic.Game.GameRoom v)
         {
+            GameRoomXML = new GameRoomXML()
             Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
             toIns.GameId = v.GetGameNum();
             toIns.isActive = v.IsGameActive();
