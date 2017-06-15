@@ -484,6 +484,13 @@ namespace TexasHoldem.Database.LinqToSql
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid);
 			return ((ISingleResult<GetGameRoomByIdResult>)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomPrefById")]
+		public ISingleResult<GetGameRoomPrefByIdResult> GetGameRoomPrefById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid);
+			return ((ISingleResult<GetGameRoomPrefByIdResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ErrorLog")]
@@ -5076,6 +5083,212 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._isActive != value))
 				{
 					this._isActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomPrefByIdResult
+	{
+		
+		private int _Roomid;
+		
+		private System.Nullable<bool> _CanSpectate;
+		
+		private System.Nullable<int> _MinPlayers;
+		
+		private System.Nullable<int> _MaxPlayers;
+		
+		private System.Nullable<int> _BuyInPolicy;
+		
+		private System.Nullable<int> _EnterGamePolicy;
+		
+		private System.Nullable<int> _MinBet;
+		
+		private System.Nullable<int> _League;
+		
+		private System.Nullable<int> _GameMode;
+		
+		private int _GameId;
+		
+		private System.Nullable<int> _PotSize;
+		
+		public GetGameRoomPrefByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Roomid", DbType="Int NOT NULL")]
+		public int Roomid
+		{
+			get
+			{
+				return this._Roomid;
+			}
+			set
+			{
+				if ((this._Roomid != value))
+				{
+					this._Roomid = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanSpectate", DbType="Bit")]
+		public System.Nullable<bool> CanSpectate
+		{
+			get
+			{
+				return this._CanSpectate;
+			}
+			set
+			{
+				if ((this._CanSpectate != value))
+				{
+					this._CanSpectate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinPlayers", DbType="Int")]
+		public System.Nullable<int> MinPlayers
+		{
+			get
+			{
+				return this._MinPlayers;
+			}
+			set
+			{
+				if ((this._MinPlayers != value))
+				{
+					this._MinPlayers = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxPlayers", DbType="Int")]
+		public System.Nullable<int> MaxPlayers
+		{
+			get
+			{
+				return this._MaxPlayers;
+			}
+			set
+			{
+				if ((this._MaxPlayers != value))
+				{
+					this._MaxPlayers = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyInPolicy", DbType="Int")]
+		public System.Nullable<int> BuyInPolicy
+		{
+			get
+			{
+				return this._BuyInPolicy;
+			}
+			set
+			{
+				if ((this._BuyInPolicy != value))
+				{
+					this._BuyInPolicy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterGamePolicy", DbType="Int")]
+		public System.Nullable<int> EnterGamePolicy
+		{
+			get
+			{
+				return this._EnterGamePolicy;
+			}
+			set
+			{
+				if ((this._EnterGamePolicy != value))
+				{
+					this._EnterGamePolicy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinBet", DbType="Int")]
+		public System.Nullable<int> MinBet
+		{
+			get
+			{
+				return this._MinBet;
+			}
+			set
+			{
+				if ((this._MinBet != value))
+				{
+					this._MinBet = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_League", DbType="Int")]
+		public System.Nullable<int> League
+		{
+			get
+			{
+				return this._League;
+			}
+			set
+			{
+				if ((this._League != value))
+				{
+					this._League = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameMode", DbType="Int")]
+		public System.Nullable<int> GameMode
+		{
+			get
+			{
+				return this._GameMode;
+			}
+			set
+			{
+				if ((this._GameMode != value))
+				{
+					this._GameMode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
+		{
+			get
+			{
+				return this._GameId;
+			}
+			set
+			{
+				if ((this._GameId != value))
+				{
+					this._GameId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PotSize", DbType="Int")]
+		public System.Nullable<int> PotSize
+		{
+			get
+			{
+				return this._PotSize;
+			}
+			set
+			{
+				if ((this._PotSize != value))
+				{
+					this._PotSize = value;
 				}
 			}
 		}
