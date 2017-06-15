@@ -99,6 +99,7 @@
     <Compile Include="communication\Interfaces\IWebCommHandler.cs" />
     <Compile Include="communication\Interfaces\IWebEventHandler.cs" />
     <Compile Include="DatabaseProxy\GameDataProxy.cs" />
+    <Compile Include="DatabaseProxy\GameRoomXML.cs" />
     <Compile Include="DatabaseProxy\LogDataProxy.cs" />
     <Compile Include="DatabaseProxy\UserDataProxy.cs" />
     <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\gameDatabaseOb.cs" />

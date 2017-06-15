@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using TexasHoldem.Database.DataControlers;
@@ -28,7 +29,18 @@ namespace TexasHoldem.DatabaseProxy
             _controller = new GameDataControler();
         }
 
-
+        static string ConvertObjectToXMLString(object classObject)
+        {
+            string xmlString = null;
+            XmlSerializer xmlSerializer = new XmlSerializer(classObject.GetType());
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                xmlSerializer.Serialize(memoryStream, classObject);
+                memoryStream.Position = 0;
+                xmlString = new StreamReader(memoryStream).ReadToEnd();
+            }
+            return xmlString;
+        }
 
         private bool InsertGameRoom(Logic.Game.GameRoom v)
         {
@@ -41,20 +53,17 @@ namespace TexasHoldem.DatabaseProxy
             return _controller.InsertGameRoom(toIns);
         }
 
-        private XElement GameRoomToXElement(object obj)
+        public XElement GameRoomToXElement(Logic.Game.GameRoom obj)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (TextWriter streamWriter = new StreamWriter(memoryStream))
-                {
-                    var xmlSerializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
-                    xmlSerializer.Serialize(streamWriter, obj);
-                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
-                }
-            }
+
+            string xmlString = ConvertObjectToXMLString(obj);
+            // Save C# class object into Xml file
+            XElement xElement = XElement.Parse(xmlString);
+            return xElement;
+
         }
 
-        private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
+        public Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
             var xmlSerializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
             return (Logic.Game.GameRoom)xmlSerializer.Deserialize(xElement.CreateReader());

@@ -59,6 +59,15 @@ namespace TexasHoldem.Logic.Game
 
         public GameRoom() { } // for XML
 
+        public int GetSSB() //for test
+        {
+            return this.Sb;
+        }
+
+        public void SetSb( ) //for test
+        {
+            this.Sb = 789;
+        }
         public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, 
             ReplayManager replay, SessionIdHandler sidH)
         {
@@ -92,7 +101,7 @@ namespace TexasHoldem.Logic.Game
             }
            return string.Concat("", this.GameReplay.ToString());
         }
-        public void SetIsActive(bool n )//for tests
+        public void SetIsActive(bool n)//for tests
         {
             this.IsActiveGame = n;
         }

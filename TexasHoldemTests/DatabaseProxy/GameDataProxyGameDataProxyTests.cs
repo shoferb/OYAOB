@@ -16,6 +16,9 @@ using TexasHoldemShared.CommMessages;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic;
+using System.Xml.Linq;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace TexasHoldem.DatabaseProxy.Tests
 
@@ -88,16 +91,46 @@ namespace TexasHoldem.DatabaseProxy.Tests
             proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
+        public string SerializeGame(Logic.Game.GameRoom g)
+        {
+
+            using (StringWriter stringwriter = new StringWriter())
+            {
+                var serializer = new XmlSerializer(g.GetType());
+                serializer.Serialize(stringwriter, g);
+                string msgToRet = stringwriter.ToString();
+
+                return msgToRet;
+                
+            }
+        }
+
+        private Logic.Game.GameRoom DeSerializeGame(string msg)
+        {
+            using (StringReader stringReader = new StringReader(msg))
+            {
+                var serializer = new XmlSerializer(typeof(Logic.Game.GameRoom));
+                return (Logic.Game.GameRoom)serializer.Deserialize(stringReader);
+            }
+        }
+        
+
         [TestMethod()]
         public void UpdateGameRoomTest()
         {
-            proxy.InsertNewGameRoom(gameRoom);
-            gameRoom.is
-            bool ans = proxy.UpdateGameRoom(gameRoom);
-            GameRoom gameAfterChange = new GameRoom();
-            gameAfterChange = (GameRoom)proxy.GetGameRoombyId(gameRoom.Id);
-            ans = ans & (gameAfterChange.GetSpectetorInRoom().First().user.Id() == user2.Id());
-            Assert.IsTrue(ans);
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+            // proxy.InsertNewGameRoom(gameRoom);
+             gameRoom.SetIsActive(true);
+            string e = SerializeGame(gameRoom);
+            Logic.Game.GameRoom gac = DeSerializeGame(e); 
+
+           // bool ans = proxy.UpdateGameRoom(gameRoom);
+           // IGame gac = proxy.GetGameRoombyId(gameRoom.Id);
+          // gameRoom = ;
+
+           bool ans =  (gac.IsGameActive());
+           Assert.IsTrue(ans);
         }
 
         [TestMethod()]
