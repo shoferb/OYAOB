@@ -50,39 +50,31 @@ namespace TexasHoldem.DatabaseProxy
 
         public GameRoomXML() { }
 
-        public GameRoomXML ( int _roomid, List<Player> _players,
-                           List<Spectetor> _spectatores, int _dealerPos, int _maxBetInRound,
-                           int _potCount,int _bb, int _sb, Deck _deck,HandStep _handStep,
-                           List<Card> _publicCards, bool _isActiveGame, List<Tuple<int, Player>> _idePots,
-                           GameReplay _gameReplay, ReplayManager _replayManager, GameCenter _gameCenter,
-                           Player _currentPlayer,Player _dealerPlayer, Player _bbPlayer, Player _sbPlayer,
-                           Decorator _myDecorator, LogControl _logControl,int _gameNumber, Player _firstPlayerInRound,
-                           int _currentPlayerPos, int _firstPlayerInRoundPoistion,int _lastRaiseInRound,
-                           bool _useCommunication, SessionIdHandler _sidHandler, LeagueName _league)
+        public GameRoomXML (GameRoom g)
         {
-            Id = _roomid;
-            Players = _players;
-            Spectatores = _spectatores;
-            DealerPos = _dealerPos;
-            maxBetInRound = _maxBetInRound;
-            PotCount = _potCount;
-            Bb = _bb;
-            Sb = _sb;
-            Deck = _deck;
-            Hand_Step = _handStep;
-            PublicCards = _publicCards;
-            IsActiveGame = _isActiveGame;
-            SidePots = _idePots;
-            GameReplay = _gameReplay;
-            league = _league;
-            ReplayManager = _replayManager;
-            GameCenter = _gameCenter;
-            CurrentPlayer = _currentPlayer;
-            DealerPlayer = _dealerPlayer;
-            BbPlayer = _bbPlayer;
-            SbPlayer = _sbPlayer;
-            MyDecorator = _myDecorator;
-            logControl = _logControl;
+            Id = g.Id;
+            Players = g.GetPlayersInRoom();
+            Spectatores = g.GetSpectetorInRoom();
+            DealerPos = g.GetDealerPos();
+            maxBetInRound = g.GetMaxBetInRound();
+            PotCount = g.GetPotSize();
+            Bb = g.getBBnum();
+            Sb = g.getSBNUM();
+            Deck = g.GetDeck();
+            Hand_Step = g.GetHandStep();
+            PublicCards = g.GetPublicCards();
+            IsActiveGame = g.IsGameActive();
+            SidePots = g.GetSidePots();
+            GameReplay = g.GetGameRepObj();
+            league = g.GetLeagueName();
+            ReplayManager = g.GetRepManager();
+            GameCenter = g.GetGameCenter();
+            CurrentPlayer = g.GetCurrPlayer();
+            DealerPlayer = g.GetDealer();
+            BbPlayer = g.GetBb();
+            SbPlayer = g.GetSb();
+            MyDecorator = g.GetDecorator();
+            logControl = g.GetLogControl();
             GameNumber = _gameNumber;
             FirstPlayerInRound = _firstPlayerInRound;
             currentPlayerPos = _currentPlayerPos;

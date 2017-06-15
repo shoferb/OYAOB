@@ -64,7 +64,15 @@ namespace TexasHoldem.Logic.Game
             return this.Sb;
         }
 
-    
+        public int GetDealerPos()
+        {
+            return this.DealerPos;
+        }
+
+        public int GetMaxBetInRound()
+        {
+            return this.maxBetInRound;
+        }
         public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, 
             ReplayManager replay, SessionIdHandler sidH)
         {
@@ -161,6 +169,45 @@ namespace TexasHoldem.Logic.Game
         public int getSBNUM()
         {
             return this.Sb;
+        }
+
+        public List<Tuple<int, Player>> GetSidePots()
+        {
+            return this.SidePots;
+        }
+
+        public LogControl GetLogControl()
+        {
+            return this.logControl;
+        }
+
+        public Decorator GetDecorator()
+        {
+            return this.MyDecorator;
+        }
+
+        public GameCenter GetGameCenter()
+        {
+            return this.GameCenter;
+        }
+
+        public ReplayManager GetRepManager()
+        {
+            return this.ReplayManager;
+        }
+        public GameReplay GetGameRepObj()
+        {
+            return this.GameReplay;
+        }
+
+        public Deck GetDeck()
+        {
+            return this.Deck;
+        }
+
+        public HandStep GetHandStep()
+        {
+            return this.Hand_Step;
         }
         private void SetTheBlinds()
         {
@@ -1154,6 +1201,10 @@ namespace TexasHoldem.Logic.Game
             return PotCount;
         }
 
+        public int getBBnum()
+        {
+            return this.Bb;
+        }
         public int GetBuyInPolicy()
         {
             return MyDecorator.GetEnterPayingMoney();
