@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -21,12 +22,13 @@ namespace TexasHoldem.DatabaseProxy
     public class GameDataProxy
     {
 
-        GameDataControler _controller;
+        private GameDataControler _controller;
+        private GameCenter _gc;
 
-
-        public GameDataProxy()
+        public GameDataProxy(GameCenter gc)
         {
             _controller = new GameDataControler();
+            _gc = gc;
         }
 
         static string ConvertObjectToXMLString(object classObject)
@@ -54,12 +56,22 @@ namespace TexasHoldem.DatabaseProxy
             return _controller.InsertGameRoom(toIns);
         }
 
-        private XElement GameRoomToXElement(GameRoomXML obj)
+        private XElement GameRoomToXElement(GameRoomXML o)
         {
+            
+                Type t = o.GetType();
 
-            string xmlString = ConvertObjectToXMLString(obj);
-            XElement xElement = XElement.Parse(xmlString);
-            return xElement;
+                Type[] extraTypes = t.GetProperties()
+                    .Where(p => p.PropertyType.IsInterface)
+                    .Select(p => p.GetValue(o, null).GetType())
+                    .ToArray();
+
+                DataContractSerializer serializer = new DataContractSerializer(t, extraTypes);
+                StringWriter sw = new StringWriter();
+                XmlTextWriter xw = new XmlTextWriter(sw);
+                serializer.WriteObject(xw, o);
+                return XElement.Parse(sw.ToString());
+            
 
         }
 
@@ -67,7 +79,9 @@ namespace TexasHoldem.DatabaseProxy
         {
             var xmlSerializer = new XmlSerializer(typeof(GameRoomXML));
             GameRoomXML parsed = (GameRoomXML)xmlSerializer.Deserialize(xElement.CreateReader());
-            return parsed.ConvertToLogicGR();
+            Logic.Game.GameRoom toRet= parsed.ConvertToLogicGR(_gc);
+            GameRoomPreferance pref = get
+            toRet.SetDeco()
         }
 
 

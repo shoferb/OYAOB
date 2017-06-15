@@ -97,14 +97,19 @@ namespace TexasHoldem.Logic.Game
             useCommunication = true;
             sidHandler = sidH;
         }
+        public void SetDeco(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)
+        {
+            this.MyDecorator = GameCenter.CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, league);
+        }
 
-        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log,
+
+        public GameRoom(List<Player> players, int ID, GameCenter gc, LogControl log,
           ReplayManager replay, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
            List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd,
            Player currentPlayer, Player bbPlayer, Player sbPlayer, Player firstPlayerInRound, int bb, int sb,
            int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler, bool _useCom, List<Tuple<int, Player>> _sp)
         {
-            MyDecorator = decorator;
+          
             Id = ID;
             GameNumber = gameNum;
             IsActiveGame = isActiveGame;

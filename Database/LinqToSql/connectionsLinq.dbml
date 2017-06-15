@@ -443,4 +443,20 @@
       <Column Name="isActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetGameRoomPrefById" Method="GetGameRoomPrefById">
+    <Parameter Name="roomid" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetGameRoomPrefByIdResult">
+      <Column Name="Roomid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CanSpectate" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="MinPlayers" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaxPlayers" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BuyInPolicy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EnterGamePolicy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MinBet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="League" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GameMode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GameId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PotSize" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>

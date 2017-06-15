@@ -30,7 +30,7 @@ namespace TexasHoldem.Logic.GameControl
 
         public GameCenter(SystemControl sys, LogControl log, ReplayManager replay, SessionIdHandler sidH)
         {
-            proxyDB = new GameDataProxy();
+            proxyDB = new GameDataProxy(this);
             replayManager = replay;
             _systemControl = sys;
             logControl = log;
@@ -39,6 +39,14 @@ namespace TexasHoldem.Logic.GameControl
             sidHandler = sidH;
         }
 
+        public SessionIdHandler GetSessionIdHandler()
+        {
+            return this.sidHandler;
+        }
+        public LogControl GetLogControl()
+        {
+            return this.logControl;
+        }
         public void SetMessageHandler(MessageEventHandler handler)
         {
             _messageEventHandler = handler;
@@ -123,6 +131,8 @@ namespace TexasHoldem.Logic.GameControl
                 GameRoom room = new GameRoom(players, roomId, decorator, this, logControl, replayManager, sidHandler);
                 return AddRoom(room);
             }
+
+            
         }
 
         public Decorator CreateDecorator(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)

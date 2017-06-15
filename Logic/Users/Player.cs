@@ -25,6 +25,8 @@ namespace TexasHoldem.Logic.Users
         public IUser user { get; set; }
         public int roomId { get; set; }
 
+        public Player() { }
+
         public Player(IUser User, int totalChip, int RoomId)
         {
             this.user = User;
