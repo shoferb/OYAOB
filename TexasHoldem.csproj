@@ -371,16 +371,8 @@
       <LastGenOutput>Sadna.cs</LastGenOutput>
     </Content>
     <Content Include="Database\GitBackUp\DatabaseCreationScript.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.DeleteGameRoom.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.DeleteGameRoomPref.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetAllGameRooms.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetGameModeValByName.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetGameRoomById.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetGameRoomPrefById.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.GetLeageValByName.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.UpdateGameRoom.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\dbo.UpdateGameRoomPotSize.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\Game\GameStoredProcs.sql" />
+    <Content Include="Database\GitBackUp\DBScript.sql" />
+    <Content Include="Database\GitBackUp\storeProcedure\Game\AllGameStoredProcs.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.AddNewUser.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserById.StoredProcedure.sql" />
     <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserByUserName.StoredProcedure.sql" />

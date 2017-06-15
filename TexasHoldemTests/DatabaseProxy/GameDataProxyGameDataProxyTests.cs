@@ -115,7 +115,9 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void GetAllGamesTest()
         {
-            Assert.Fail();
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+                  proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+           // Assert.Fail();
         }
 
         [TestMethod()]
