@@ -13,7 +13,7 @@ using static TexasHoldem.Logic.Game.GameRoom;
 
 namespace TexasHoldem.DatabaseProxy
 {
-    class GameRoomXML
+    public class GameRoomXML
     {
        
         public int Id { get; set; }
