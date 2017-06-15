@@ -93,6 +93,44 @@ namespace TexasHoldem.Logic.Game
             sidHandler = sidH;
         }
 
+        public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log,
+          ReplayManager replay, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
+           List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd,
+           Player currentPlayer, Player bbPlayer, Player sbPlayer, Player firstPlayerInRound, int bb, int sb,
+           int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler)
+        {
+            MyDecorator = decorator;
+            Id = ID;
+            GameNumber = gameNum;
+            IsActiveGame = isActiveGame;
+            PotCount = potCount;
+            maxBetInRound = mmaxBetInRound;
+            PublicCards = pubCards;
+            Players = players;
+            Spectatores = specs;
+            SidePots = new List<Tuple<int, Player>>();
+            DealerPlayer = dealerPlayer;
+            logControl = log;
+            league = leagueOf;
+            ReplayManager = replay;
+            GameCenter = gc;
+            lastRaiseInRound = lastRaiseInRoundd;
+            useCommunication = true;
+            sidHandler = _sidHandler;
+            this.CurrentPlayer = currentPlayer;
+            this.BbPlayer = bbPlayer;
+            this.SbPlayer = sbPlayer;
+            this.FirstPlayerInRound = firstPlayerInRound;
+            this.Bb = bb;
+            this.Sb = sb;
+            this.DealerPos = dealerPos;
+            this.currentPlayerPos = currentPlayerPoss;
+            this.firstPlayerInRoundPoistion = firstPlayerInRoundPoistionn;
+            this.GameReplay = gr;
+            this.Hand_Step = hs;
+            this.Deck = d;
+        }
+
         public string GetGameReplay()
         {
             if (this.GameReplay == null)
