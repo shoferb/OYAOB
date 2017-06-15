@@ -64,10 +64,7 @@ namespace TexasHoldem.Logic.Game
             return this.Sb;
         }
 
-        public void SetSb( ) //for test
-        {
-            this.Sb = 789;
-        }
+    
         public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, 
             ReplayManager replay, SessionIdHandler sidH)
         {
@@ -97,7 +94,7 @@ namespace TexasHoldem.Logic.Game
           ReplayManager replay, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
            List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd,
            Player currentPlayer, Player bbPlayer, Player sbPlayer, Player firstPlayerInRound, int bb, int sb,
-           int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler)
+           int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler, bool _useCom, List<Tuple<int, Player>> _sp)
         {
             MyDecorator = decorator;
             Id = ID;
@@ -108,7 +105,7 @@ namespace TexasHoldem.Logic.Game
             PublicCards = pubCards;
             Players = players;
             Spectatores = specs;
-            SidePots = new List<Tuple<int, Player>>();
+            SidePots = _sp;
             DealerPlayer = dealerPlayer;
             logControl = log;
             league = leagueOf;

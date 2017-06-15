@@ -9,12 +9,13 @@ using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic;
 using TexasHoldem.Logic.Users;
 using TexasHoldem.communication.Impl;
+using static TexasHoldem.Logic.Game.GameRoom;
 
 namespace TexasHoldem.DatabaseProxy
 {
     class GameRoomXML
     {
-        public enum HandStep { PreFlop, Flop, Turn, River }
+       
         public int Id { get; set; }
         private List<Player> Players;
         private readonly List<Spectetor> Spectatores;
@@ -75,6 +76,7 @@ namespace TexasHoldem.DatabaseProxy
             IsActiveGame = _isActiveGame;
             SidePots = _idePots;
             GameReplay = _gameReplay;
+            league = _league;
             ReplayManager = _replayManager;
             GameCenter = _gameCenter;
             CurrentPlayer = _currentPlayer;
@@ -94,7 +96,12 @@ namespace TexasHoldem.DatabaseProxy
 
         public GameRoom ConvertToLogicGR()
         {
-            GameRoom toRet = new GameRoom();
+            return new GameRoom(Players, Id, MyDecorator, GameCenter, logControl,
+          ReplayManager , GameNumber, IsActiveGame, PotCount, maxBetInRound,
+            PublicCards, Spectatores, DealerPlayer, league, lastRaiseInRound,
+           CurrentPlayer, BbPlayer, SbPlayer, FirstPlayerInRound, Bb, Sb,
+           DealerPos,  currentPlayerPos,  firstPlayerInRoundPoistion, GameReplay , Hand_Step, Deck, sidHandler, useCommunication,SidePots);
+
         }
     }
 }
