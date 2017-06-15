@@ -176,6 +176,10 @@ namespace TexasHoldem.Logic.Game
             return this.SidePots;
         }
 
+        public Player GetFirstPlayerInRound()
+        {
+            return this.FirstPlayerInRound;
+        }
         public LogControl GetLogControl()
         {
             return this.logControl;

@@ -75,8 +75,8 @@ namespace TexasHoldem.DatabaseProxy
             SbPlayer = g.GetSb();
             MyDecorator = g.GetDecorator();
             logControl = g.GetLogControl();
-            GameNumber = _gameNumber;
-            FirstPlayerInRound = _firstPlayerInRound;
+            GameNumber = g.GetGameNum();
+            FirstPlayerInRound = g.GetFirstPlayerInRound();
             currentPlayerPos = _currentPlayerPos;
             firstPlayerInRoundPoistion = _firstPlayerInRoundPoistion;
             lastRaiseInRound = _lastRaiseInRound;
