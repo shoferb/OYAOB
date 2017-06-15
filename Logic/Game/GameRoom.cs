@@ -181,6 +181,11 @@ namespace TexasHoldem.Logic.Game
             return this.FirstPlayerInRound;
         }
 
+        public SessionIdHandler GetsidHandler()
+        {
+            return this.sidHandler;
+        }
+
         public bool GetUseComm()
         {
             return this.useCommunication;
