@@ -18,7 +18,7 @@ namespace TexasHoldem.Logic.GameControl
 
         public int leagueGap { get; set; }
         //    private List<IGame> games;
-        private GameDataProxy proxyDB = new GameDataProxy();
+        private GameDataProxy proxyDB; 
         private static int _roomIdCounter = 1;
         private readonly SystemControl _systemControl ;
         private readonly LogControl logControl;
@@ -46,6 +46,11 @@ namespace TexasHoldem.Logic.GameControl
         public LogControl GetLogControl()
         {
             return this.logControl;
+        }
+
+        public SystemControl GetSysControl()
+        {
+            return this._systemControl;
         }
         public void SetMessageHandler(MessageEventHandler handler)
         {

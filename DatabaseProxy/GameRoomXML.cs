@@ -17,8 +17,8 @@ namespace TexasHoldem.DatabaseProxy
     {
        
         public int Id { get; set; }
-        public List<Player> Players;
-        public  List<Spectetor> Spectatores;
+        public List<PlayerXML> Players;
+        public  List<SpecXML> Spectatores;
         public int DealerPos;
         public int maxBetInRound;
         public int PotCount;
@@ -28,18 +28,18 @@ namespace TexasHoldem.DatabaseProxy
         public HandStep Hand_Step;
         public List<Card> PublicCards;
         public bool IsActiveGame;
-        public List<Tuple<int, Player>> SidePots; //TODO use that in all in
+        public List<Tuple<int, PlayerXML>> SidePots; //TODO use that in all in
         public GameReplay GameReplay;
         public ReplayManager ReplayManager;
         private GameCenter GameCenter;
-        public Player CurrentPlayer;
-        public Player DealerPlayer;
-        public Player BbPlayer;
-        public Player SbPlayer;
+        public PlayerXML CurrentPlayer;
+        public PlayerXML DealerPlayer;
+        public PlayerXML BbPlayer;
+        public PlayerXML SbPlayer;
         private Decorator MyDecorator;
         private LogControl logControl;
         public int GameNumber;
-        public Player FirstPlayerInRound;
+        public PlayerXML FirstPlayerInRound;
         public int currentPlayerPos;
         public int firstPlayerInRoundPoistion;
         public int lastRaiseInRound;
@@ -53,8 +53,17 @@ namespace TexasHoldem.DatabaseProxy
         public GameRoomXML (GameRoom g)
         {
             Id = g.Id;
-            Players = g.GetPlayersInRoom();
-            Spectatores = g.GetSpectetorInRoom();
+            Players = new List<PlayerXML>();
+            foreach (Player p in g.GetPlayersInRoom())
+            {
+                Players.Add(new PlayerXML(p));
+            }
+            
+            Spectatores =new List<SpecXML>() ;
+            foreach (Spectetor p in g.GetSpectetorInRoom())
+            {
+                Spectatores.Add(new SpecXML(p));
+            }
             DealerPos = g.GetDealerPos();
             maxBetInRound = g.GetMaxBetInRound();
             PotCount = g.GetPotSize();
@@ -64,19 +73,24 @@ namespace TexasHoldem.DatabaseProxy
             Hand_Step = g.GetHandStep();
             PublicCards = g.GetPublicCards();
             IsActiveGame = g.IsGameActive();
-            SidePots = g.GetSidePots();
+            SidePots = new List<Tuple<int, PlayerXML>>();
+            foreach (var p in g.GetSidePots())
+            {
+                SidePots.Add(new Tuple<int, PlayerXML>(p.Item1, new PlayerXML(p.Item2)));
+            }
+               
             GameReplay = g.GetGameRepObj();
             league = g.GetLeagueName();
             ReplayManager = g.GetRepManager();
          
-            CurrentPlayer = g.GetCurrPlayer();
-            DealerPlayer = g.GetDealer();
-            BbPlayer = g.GetBb();
-            SbPlayer = g.GetSb();
+            CurrentPlayer = new PlayerXML(g.GetCurrPlayer());
+            DealerPlayer = new PlayerXML(g.GetDealer());
+            BbPlayer = new PlayerXML(g.GetBb());
+            SbPlayer = new PlayerXML(g.GetSb());
           //  MyDecorator = g.GetDecorator();
         
             GameNumber = g.GetGameNum();
-            FirstPlayerInRound = g.GetFirstPlayerInRound();
+            FirstPlayerInRound = new PlayerXML(g.GetFirstPlayerInRound());
             currentPlayerPos = g.GetCurrPosition();
             firstPlayerInRoundPoistion = g.GetFirstPlayerInRoundPos();
             lastRaiseInRound = g.GetlastRaiseInRound();
@@ -86,12 +100,44 @@ namespace TexasHoldem.DatabaseProxy
 
         public GameRoom ConvertToLogicGR(GameCenter gc)
         {
-            return new GameRoom(Players, Id, gc, gc.GetLogControl(),
+            List<Player> playersToL = new List<Player>();
+            foreach(var pXML in Players)
+            {
+                playersToL.Add(GetPlayerFromXML(pXML,gc));
+            }
+            List<Spectetor> SpectatoresToL = new List<Spectetor>();
+            foreach (var s in Spectatores)
+            {
+                SpectatoresToL.Add(GetSpecFromXML(s,gc));
+            }
+            List<Tuple<int, Player>>  SidePotstoL = new List<Tuple<int, Player>>();
+            foreach (var p in SidePots)
+            {
+                SidePotstoL.Add(new Tuple<int, Player>(p.Item1, GetPlayerFromXML(p.Item2, gc)));
+            }
+            return new GameRoom(playersToL, Id, gc, gc.GetLogControl(),
           ReplayManager , GameNumber, IsActiveGame, PotCount, maxBetInRound,
-            PublicCards, Spectatores, DealerPlayer, league, lastRaiseInRound,
-           CurrentPlayer, BbPlayer, SbPlayer, FirstPlayerInRound, Bb, Sb,
-           DealerPos,  currentPlayerPos,  firstPlayerInRoundPoistion, GameReplay , Hand_Step, Deck, gc.GetSessionIdHandler(), useCommunication,SidePots);
+            PublicCards, SpectatoresToL, GetPlayerFromXML(DealerPlayer, gc), league, lastRaiseInRound,
+           GetPlayerFromXML(CurrentPlayer, gc), GetPlayerFromXML(BbPlayer, gc), GetPlayerFromXML(SbPlayer, gc) , GetPlayerFromXML(FirstPlayerInRound, gc), Bb, Sb,
+           DealerPos,  currentPlayerPos,  firstPlayerInRoundPoistion, GameReplay , Hand_Step, Deck, gc.GetSessionIdHandler(), useCommunication, SidePotstoL);
 
         }
+
+        private Player GetPlayerFromXML(PlayerXML p, GameCenter gc)
+        {
+            Player toRet = new Player(p.TotalChip, p.roomId, p.RoundChipBet, p.isPlayerActive, p._firstCard,
+                p._secondCard, p.PlayedAnActionInTheRound, p._publicCards);
+            toRet.user = gc.GetSysControl().GetUserWithId(p.userId);
+            return toRet;
+
+        }
+        private Spectetor GetSpecFromXML(SpecXML p, GameCenter gc)
+        {
+            Spectetor toRet = new Spectetor(p.roomId);
+            toRet.user = gc.GetSysControl().GetUserWithId(p.userId);
+            return toRet;
+        }
+
+
     }
 }

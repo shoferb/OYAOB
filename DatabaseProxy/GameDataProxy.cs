@@ -58,32 +58,51 @@ namespace TexasHoldem.DatabaseProxy
 
         private XElement GameRoomToXElement(GameRoomXML o)
         {
-            
-                Type t = o.GetType();
 
-                Type[] extraTypes = t.GetProperties()
-                    .Where(p => p.PropertyType.IsInterface)
-                    .Select(p => p.GetValue(o, null).GetType())
-                    .ToArray();
+            using (var memoryStream = new MemoryStream())
+            {
+                using (TextWriter streamWriter = new StreamWriter(memoryStream))
+                {
+                    var xmlSerializer = new XmlSerializer(typeof(GameRoomXML));
+                    xmlSerializer.Serialize(streamWriter, o);
+                    return XElement.Parse(Encoding.ASCII.GetString(memoryStream.ToArray()));
+                }
+            }
 
-                DataContractSerializer serializer = new DataContractSerializer(t, extraTypes);
-                StringWriter sw = new StringWriter();
-                XmlTextWriter xw = new XmlTextWriter(sw);
-                serializer.WriteObject(xw, o);
-                return XElement.Parse(sw.ToString());
-            
 
         }
 
         private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
+            
             var xmlSerializer = new XmlSerializer(typeof(GameRoomXML));
             GameRoomXML parsed = (GameRoomXML)xmlSerializer.Deserialize(xElement.CreateReader());
             Logic.Game.GameRoom toRet= parsed.ConvertToLogicGR(_gc);
-            GameRoomPreferance pref = get
-            toRet.SetDeco()
+            GameRoomPreferance pref = _controller.GetGameRoomPrefById(toRet.Id);
+            int modeVal = 1;
+            int leagueVal = 1;
+            modeVal = (int)pref.GameMode;
+            leagueVal = (int)pref.League;
+            toRet.SetDeco((int)(pref.MinBet), (int)(pref.EnterGamePolicy), (bool)(pref.CanSpectate), (int)(pref.MinPlayers), (int)(pref.MaxPlayers)
+                , (int)(pref.BuyInPolicy), ConvertGameMode(modeVal), ConvertLeague(leagueVal));
+            return toRet;
         }
+        private TexasHoldemShared.CommMessages.GameMode ConvertGameMode(int modeVal)
+        {
 
+            if (modeVal == 2)
+            {
+                return TexasHoldemShared.CommMessages.GameMode.PotLimit;
+            }
+            if (modeVal == 3)
+            {
+                return TexasHoldemShared.CommMessages.GameMode.NoLimit;
+            }
+            else
+            {
+                return TexasHoldemShared.CommMessages.GameMode.Limit;
+            }
+        }
 
         private bool InsertGamePref(Logic.Game.GameRoom v)
         {
@@ -325,25 +344,25 @@ namespace TexasHoldem.DatabaseProxy
 
 
 
-        private Logic.GameControl.LeagueName ConvertLeague(Database.LinqToSql.LeagueName leagueDB)
+        private Logic.GameControl.LeagueName ConvertLeague(int val)
         {
-            if (leagueDB.League_Name.Equals("A"))
+            if (val==1)
             {
                 return Logic.GameControl.LeagueName.A;
             }
-            else if (leagueDB.League_Name.Equals("B"))
+            else if (val == 2)
             {
                 return Logic.GameControl.LeagueName.B;
             }
-            else if (leagueDB.League_Name.Equals("C"))
+            else if (val == 3)
             {
                 return Logic.GameControl.LeagueName.C;
             }
-            else if (leagueDB.League_Name.Equals("D"))
+            else if (val == 4)
             {
                 return Logic.GameControl.LeagueName.D;
             }
-            else if (leagueDB.League_Name.Equals("E"))
+            else if (val == 5)
             {
                 return Logic.GameControl.LeagueName.E;
             }

@@ -379,6 +379,44 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
+        public GameRoomPreferance GetGameRoomPrefById(int roomid)
+        {
+            try
+            {
+                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
+                {
+                    var temp = db.GetGameRoomPrefById(roomid).ToList();
+                    if (temp.Capacity == 0)
+                    {
+                        return null;
+                    }
+                    return ConvertGamePref(temp.First());
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        private GameRoomPreferance ConvertGamePref(GetGameRoomPrefByIdResult p)
+        {
+            GameRoomPreferance toRet = new GameRoomPreferance();
+            toRet.BuyInPolicy = p.BuyInPolicy;
+            toRet.CanSpectate = p.CanSpectate;
+            toRet.EnterGamePolicy = p.EnterGamePolicy;
+            toRet.GameId = p.GameId;
+            toRet.GameMode = p.GameMode;
+            toRet.League = p.League;
+            toRet.MaxPlayers = p.MaxPlayers;
+            toRet.MinBet = p.MinBet;
+            toRet.MinPlayers = p.MinPlayers;
+            toRet.PotSize = p.PotSize;
+            toRet.Roomid = p.Roomid;
+            return toRet;
+        }
+
         public bool UpdateGameRoom(int roomId, int gameId, XElement newXML, bool newIsActive, string newRep)
         {
             try
@@ -428,42 +466,7 @@ namespace TexasHoldem.Database.DataControlers
                 return -1;
             }
         }
-
-       /* public GameMode GetGameModeByVal(int val)
-        {
-            GameMode toRet = new GameMode();
-            try
-            {
-                using (connectionsLinqDataContext db = new connectionsLinqDataContext())
-                {
-                    var temp = db.GetGameModeNameByVal(val).ToList();
-                    toRet.game_mode_name = temp.First().game_mode_name;
-                    return toRet;
-                }                
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
-
-       
-
-        private LeagueName ConvertToLeague(ISingleResult<GetLeagueNameByValResult> singleResult)
-        {
-            LeagueName toAddLeague = new LeagueName();
-            foreach (var v in singleResult)
-            {
-                toAddLeague.League_Name = v.League_Name;
-                toAddLeague.League_Value = v.League_Value;
-            }
-            return toAddLeague;
-        }*/
-
-       
-      
-
-       
+ 
        public int GetLeagueValByName(string name)
         {
             try
