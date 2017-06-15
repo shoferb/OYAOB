@@ -64,6 +64,7 @@ namespace TexasHoldem.DatabaseProxy
             {
                 Spectatores.Add(new SpecXML(p));
             }
+
             DealerPos = g.GetDealerPos();
             maxBetInRound = g.GetMaxBetInRound();
             PotCount = g.GetPotSize();

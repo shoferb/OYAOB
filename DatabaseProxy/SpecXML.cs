@@ -11,6 +11,8 @@ namespace TexasHoldem.DatabaseProxy
         public int roomId { get; set; }
         public int userId;
 
+        public SpecXML() { }
+
         public SpecXML(Logic.Users.Spectetor s)
         {
             this.roomId = s.roomId;

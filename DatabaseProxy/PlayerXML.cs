@@ -21,18 +21,25 @@ namespace TexasHoldem.DatabaseProxy
 
         public int userId { get; set; }
         public int roomId { get; set; }
+
+        public PlayerXML() { }
+
         public PlayerXML(Logic.Users.Player p)
         {
-            isPlayerActive = p.isPlayerActive;
-            name = p.name;
-            TotalChip = p.TotalChip;
-            RoundChipBet = p.RoundChipBet;
-            PlayedAnActionInTheRound = p.PlayedAnActionInTheRound;
-            _firstCard = p._firstCard;
-            _secondCard = p._secondCard;
-            _publicCards = p._publicCards;//new List<Card>();
-            userId = p.user.Id();
-            roomId = p.roomId;
+            if (p != null)
+            {
+                isPlayerActive = p.isPlayerActive;
+                name = p.name;
+                TotalChip = p.TotalChip;
+                RoundChipBet = p.RoundChipBet;
+                PlayedAnActionInTheRound = p.PlayedAnActionInTheRound;
+                _firstCard = p._firstCard;
+                _secondCard = p._secondCard;
+                _publicCards = p._publicCards;//new List<Card>();
+                userId = p.user.Id();
+                roomId = p.roomId;
+            }
+
     }
     }
 
