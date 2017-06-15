@@ -69,6 +69,14 @@ namespace TexasHoldem.Logic.Game
             return this.DealerPos;
         }
 
+        public void SetBB(int j)
+        {
+            this.Bb = j;
+        }
+        public int GetBBNUM()
+        {
+            return this.Bb;
+        }
         public int GetMaxBetInRound()
         {
             return this.maxBetInRound;

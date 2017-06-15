@@ -82,8 +82,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void UpdateGameRoomPotSizeTest()
         {
-            proxy.DeleteGameRoomPref(gameRoom.Id);
-            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+         //   proxy.DeleteGameRoomPref(gameRoom.Id);
+         //   proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
             proxy.InsertNewGameRoom(gameRoom);
             bool ans = proxy.UpdateGameRoomPotSize(777, 9999);
             Assert.IsTrue(ans);
@@ -97,32 +97,20 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void UpdateGameRoomTest()
         {
-        //    proxy.DeleteGameRoomPref(gameRoom.Id);
-         //   proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
-            // proxy.InsertNewGameRoom(gameRoom);
-          //   gameRoom.SetIsActive(true);
-          //  string e = SerializeGame(gameRoom);
-          //  Logic.Game.GameRoom gac = DeSerializeGame(e); 
-
-           // bool ans = proxy.UpdateGameRoom(gameRoom);
-           // IGame gac = proxy.GetGameRoombyId(gameRoom.Id);
-          // gameRoom = ;
-
-   //        bool ans =  (gac.IsGameActive());
-  //         Assert.IsTrue(ans);
+      //      proxy.DeleteGameRoomPref(gameRoom.Id);
+      //      proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+            proxy.InsertNewGameRoom(gameRoom);
+            gameRoom.SetIsActive(true);
+            gameRoom.SetBB(78987);
+            bool ans = proxy.UpdateGameRoom(gameRoom);
+           GameRoom gac = (GameRoom)proxy.GetGameRoombyId(gameRoom.Id);
+           ans = ans & (gac.IsGameActive()) & (gac.GetBBNUM()==78987);
+           Assert.IsTrue(ans);
+           proxy.DeleteGameRoomPref(gameRoom.Id);
+           proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
-        [TestMethod()]
-        public void DeleteGameRoomTest()
-        {
-            Assert.Fail();
-        }
-
-        [TestMethod()]
-        public void DeleteGameRoomPrefTest()
-        {
-            Assert.Fail();
-        }
+      
 
         [TestMethod()]
         public void GetAllGamesTest()
@@ -163,7 +151,14 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void GetGameRoomsByMinPlayersTest()
         {
-            Assert.Fail();
+            bool ans = proxy.InsertNewGameRoom(gameRoom);
+            IGame gac = proxy.GetGameRoomsByMinPlayers(gameRoom.GetMinPlayer()).First();
+            Assert.IsTrue(gac.Id == gameRoom.Id);
+            Assert.IsTrue(gac.IsGameActive() == gameRoom.IsGameActive());
+            Assert.IsTrue(gac.GetBuyInPolicy() == gameRoom.GetBuyInPolicy());
+            Assert.IsTrue(gac.GetCurrPosition() == gameRoom.GetCurrPosition());
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
         [TestMethod()]
@@ -187,18 +182,28 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void InsertNewGameRoomTest()
         {
-          
+        //    proxy.DeleteGameRoomPref(gameRoom.Id);
+         //      proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+
             bool ans = proxy.InsertNewGameRoom(gameRoom);
            Assert.IsTrue(ans);
-            proxy.DeleteGameRoomPref(gameRoom.Id);
-            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+           proxy.DeleteGameRoomPref(gameRoom.Id);
+           proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
 
         }
 
         [TestMethod()]
         public void GetGameRoombyIdTest()
         {
-            Assert.Fail();
+            bool ans = proxy.InsertNewGameRoom(gameRoom);
+            IGame gac = proxy.GetGameRoombyId(gameRoom.Id);
+            Assert.IsTrue(gac.Id == gameRoom.Id);
+            Assert.IsTrue(gac.IsGameActive()== gameRoom.IsGameActive());
+            Assert.IsTrue(gac.GetBuyInPolicy() == gameRoom.GetBuyInPolicy());
+            Assert.IsTrue(gac.GetCurrPosition() == gameRoom.GetCurrPosition());
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+
         }
 
         [TestMethod()]

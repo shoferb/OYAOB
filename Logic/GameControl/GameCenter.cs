@@ -38,7 +38,10 @@ namespace TexasHoldem.Logic.GameControl
        //     this.games = new List<IGame>();
             sidHandler = sidH;
         }
-
+        public ReplayManager GetRepMan()
+        {
+            return replayManager;
+        }
         public SessionIdHandler GetSessionIdHandler()
         {
             return this.sidHandler;

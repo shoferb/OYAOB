@@ -102,6 +102,7 @@
     <Compile Include="DatabaseProxy\GameRoomXML.cs" />
     <Compile Include="DatabaseProxy\LogDataProxy.cs" />
     <Compile Include="DatabaseProxy\PlayerXML.cs" />
+    <Compile Include="DatabaseProxy\SidePotTuple.cs" />
     <Compile Include="DatabaseProxy\SpecXML.cs" />
     <Compile Include="DatabaseProxy\UserDataProxy.cs" />
     <Compile Include="Database\BackupOldFrameworks\Dapper\DatabaseObject\gameDatabaseOb.cs" />

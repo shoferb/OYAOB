@@ -28,9 +28,10 @@ namespace TexasHoldem.DatabaseProxy
         public HandStep Hand_Step;
         public List<Card> PublicCards;
         public bool IsActiveGame;
-        public List<Tuple<int, PlayerXML>> SidePots; //TODO use that in all in
+        private List<Tuple<int, PlayerXML>> SidePots; //TODO use that in all in
+        public List<SidePotTuple> sidePotsXML;
         public GameReplay GameReplay;
-        public ReplayManager ReplayManager;
+        private ReplayManager ReplayManager;
         private GameCenter GameCenter;
         public PlayerXML CurrentPlayer;
         public PlayerXML DealerPlayer;
@@ -74,10 +75,16 @@ namespace TexasHoldem.DatabaseProxy
             Hand_Step = g.GetHandStep();
             PublicCards = g.GetPublicCards();
             IsActiveGame = g.IsGameActive();
-            SidePots = new List<Tuple<int, PlayerXML>>();
-            foreach (var p in g.GetSidePots())
+            if (g.GetSidePots() != null)
             {
-                SidePots.Add(new Tuple<int, PlayerXML>(p.Item1, new PlayerXML(p.Item2)));
+                sidePotsXML = new List<SidePotTuple>();
+                SidePots = new List<Tuple<int, PlayerXML>>();
+                foreach (var p in g.GetSidePots())
+                {
+                    PlayerXML pp = new PlayerXML(p.Item2);
+                    SidePots.Add(new Tuple<int, PlayerXML>(p.Item1, pp));
+                    sidePotsXML.Add(new SidePotTuple( p.Item1, pp));
+                }
             }
                
             GameReplay = g.GetGameRepObj();
@@ -112,12 +119,12 @@ namespace TexasHoldem.DatabaseProxy
                 SpectatoresToL.Add(GetSpecFromXML(s,gc));
             }
             List<Tuple<int, Player>>  SidePotstoL = new List<Tuple<int, Player>>();
-            foreach (var p in SidePots)
+            foreach (var p in sidePotsXML)
             {
-                SidePotstoL.Add(new Tuple<int, Player>(p.Item1, GetPlayerFromXML(p.Item2, gc)));
+                SidePotstoL.Add(new Tuple<int, Player>(p.item1, GetPlayerFromXML(p.item2, gc)));
             }
             return new GameRoom(playersToL, Id, gc, gc.GetLogControl(),
-          ReplayManager , GameNumber, IsActiveGame, PotCount, maxBetInRound,
+            gc.GetRepMan(), GameNumber, IsActiveGame, PotCount, maxBetInRound,
             PublicCards, SpectatoresToL, GetPlayerFromXML(DealerPlayer, gc), league, lastRaiseInRound,
            GetPlayerFromXML(CurrentPlayer, gc), GetPlayerFromXML(BbPlayer, gc), GetPlayerFromXML(SbPlayer, gc) , GetPlayerFromXML(FirstPlayerInRound, gc), Bb, Sb,
            DealerPos,  currentPlayerPos,  firstPlayerInRoundPoistion, GameReplay , Hand_Step, Deck, gc.GetSessionIdHandler(), useCommunication, SidePotstoL);
