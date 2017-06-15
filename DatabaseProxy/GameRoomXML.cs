@@ -78,7 +78,7 @@ namespace TexasHoldem.DatabaseProxy
             GameNumber = g.GetGameNum();
             FirstPlayerInRound = g.GetFirstPlayerInRound();
             currentPlayerPos = g.GetCurrPosition();
-            firstPlayerInRoundPoistion = g.getf;
+            firstPlayerInRoundPoistion = g.GetFirstPlayerInRoundPos();
             lastRaiseInRound = _lastRaiseInRound;
             useCommunication = _useCommunication;
             sidHandler = _sidHandler;
