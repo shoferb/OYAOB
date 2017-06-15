@@ -80,7 +80,7 @@ namespace TexasHoldem.DatabaseProxy
             currentPlayerPos = g.GetCurrPosition();
             firstPlayerInRoundPoistion = g.GetFirstPlayerInRoundPos();
             lastRaiseInRound = g.GetlastRaiseInRound();
-            useCommunication = _useCommunication;
+            useCommunication = g.GetUseComm();
             sidHandler = _sidHandler;
     }
 
