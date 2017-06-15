@@ -180,6 +180,12 @@ namespace TexasHoldem.Logic.Game
         {
             return this.FirstPlayerInRound;
         }
+
+        public int GetFirstPlayerInRoundPos()
+        {
+            return this.firstPlayerInRoundPoistion;
+        }
+
         public LogControl GetLogControl()
         {
             return this.logControl;
