@@ -92,7 +92,10 @@ namespace TexasHoldem.Logic.Game
             }
            return string.Concat("", this.GameReplay.ToString());
         }
-
+        public void SetIsActive(bool n )//for tests
+        {
+            this.IsActiveGame = n;
+        }
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)

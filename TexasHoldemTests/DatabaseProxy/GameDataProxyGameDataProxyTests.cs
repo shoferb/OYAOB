@@ -91,7 +91,13 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void UpdateGameRoomTest()
         {
-            Assert.Fail();
+            proxy.InsertNewGameRoom(gameRoom);
+            gameRoom.is
+            bool ans = proxy.UpdateGameRoom(gameRoom);
+            GameRoom gameAfterChange = new GameRoom();
+            gameAfterChange = (GameRoom)proxy.GetGameRoombyId(gameRoom.Id);
+            ans = ans & (gameAfterChange.GetSpectetorInRoom().First().user.Id() == user2.Id());
+            Assert.IsTrue(ans);
         }
 
         [TestMethod()]
