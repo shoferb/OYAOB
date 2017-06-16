@@ -23,6 +23,7 @@ namespace TexasHoldemShared.CommMessages
     [XmlInclude(typeof(LeaderboardResponseCommMessage))]
     [XmlInclude(typeof(UserStatisticsCommMessage))]
     [XmlInclude(typeof(UserStatisticsResponseCommMessage))]
+    [XmlInclude(typeof(ReplayCommMessage))]
 
     public abstract class CommunicationMessage
     {

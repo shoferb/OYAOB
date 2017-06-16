@@ -64,13 +64,16 @@ namespace TexasHoldemTests.communication
             //UserStatisticsCommMessage msg = new UserStatisticsCommMessage(1, 1);
             //UserStatisticsResponseCommMessage resp = new UserStatisticsResponseCommMessage(1, 1, true, msg, 2.2, 23.1);
 
-            var msg = new ChatCommMessage(1, 3, 794565, "McLovin", "I am McLovin!", CommunicationMessage.ActionType.PlayerBrodcast);
-            var response = new ChatResponceCommMessage(1, 4, 456213, "McLovin", CommunicationMessage.ActionType.PlayerBrodcast,
-                "I am McLovin!", 3, true, msg);
+            var msg = new SearchCommMessage(1, 794565, SearchCommMessage.SearchType.ByPotSize, "", 10, GameMode.Limit);
+            var response = new SearchResponseCommMessage(new List<ClientGame>()
+            {
+                new ClientGame(true, false, GameMode.Limit, 1, 2, 13, 2, 1000, 2, "A", 200),
+                new ClientGame(true, false, GameMode.NoLimit, 3, 2, 133, 2, 100, 22, "A", 200),
+            }, 794565, 1, true, msg);
 
             var xml = _parser.SerializeMsg(response, false);
-            var json = _parser.XmlToJson(xml);
-            Console.WriteLine(json);
+            //var json = _parser.XmlToJson(xml);
+            Console.WriteLine(xml);
             //xml = _parser.SerializeMsg(resp, false);
             //json = _parser.XmlToJson(xml);
             //Console.WriteLine(json);

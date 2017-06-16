@@ -158,6 +158,9 @@ version: 1
                     {"LeaderboardLineData":
                       [{"Id":"1","Name":"barooch","Points":"1000","TotalGrossProfit":"10","HighestCashGain":"12","NumOfGamesPlayed":"13"},{"Id":"2","Name":"simcha","Points":"100","TotalGrossProfit":"103","HighestCashGain":"124","NumOfGamesPlayed":"132"},{"Id":"3","Name":"yossi","Points":"10","TotalGrossProfit":"120","HighestCashGain":"132","NumOfGamesPlayed":"143"}]
                   }}}
+                  
+                  
+                  
 /action:
   get:
     queryParameters: 
@@ -183,15 +186,21 @@ version: 1
     responses: 
       200:
         body: 
-          application/json:
+          application/xml:
             example: |
-              {"?xml":
-              {"@version":"1.0","@encoding":"utf-16"},
-                "ResponeCommMessage":
-                {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
-                "UserId":"1","SessionId":"794565","Success":"true",
-                "OriginalMsg":
-                {"@xsi:type":"ActionCommMessage","UserId":"1","SessionId":"794565","MoveType":"Fold","Amount":"0","RoomId":"3"}}}
+              <?xml version="1.0" encoding="utf-16"?>
+                <ResponeCommMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <UserId>1</UserId>
+                  <SessionId>794565</SessionId>
+                  <Success>true</Success>
+                  <OriginalMsg xsi:type="ActionCommMessage">
+                    <UserId>1</UserId>
+                    <SessionId>794565</SessionId>
+                    <MoveType>Fold</MoveType>
+                    <Amount>0</Amount>
+                    <RoomId>3</RoomId>
+                  </OriginalMsg>
+                </ResponeCommMessage>
 /chatMessage:
   get:
     queryParameters: 
@@ -226,15 +235,172 @@ version: 1
     responses: 
       200:
         body: 
-          application/json:
+          application/xml:
             example: |
-              {"?xml":
-                {"@version":"1.0","@encoding":"utf-16"},
-                "ChatResponceCommMessage":
-                  {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
-                  "UserId":"3","SessionId":"456213","Success":"true",
-                  "OriginalMsg":
-                    {"@xsi:type":"ChatCommMessage","UserId":"1","SessionId":"794565","IdSender":"1","RoomId":"3","ReciverUsername":"McLovin","MsgToSend":"I am McLovin!","ChatType":"PlayerBrodcast"},"idReciver":"4","senderngUsername":"McLovin","chatType":"PlayerBrodcast","msgToSend":"I am McLovin!","roomId":"1"}}
-
+              <?xml version="1.0" encoding="utf-16"?>
+                <ChatResponceCommMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <UserId>3</UserId>
+                  <SessionId>456213</SessionId>
+                  <Success>true</Success>
+                  <OriginalMsg xsi:type="ChatCommMessage">
+                    <UserId>1</UserId>
+                    <SessionId>794565</SessionId>
+                    <IdSender>1</IdSender>
+                    <RoomId>3</RoomId>
+                    <ReciverUsername>McLovin</ReciverUsername>
+                    <MsgToSend>I am McLovin!</MsgToSend>
+                    <ChatType>PlayerBrodcast</ChatType>
+                  </OriginalMsg>
+                  <idReciver>4</idReciver>
+                  <senderngUsername>McLovin</senderngUsername>
+                  <chatType>PlayerBrodcast</chatType>
+                  <msgToSend>I am McLovin!</msgToSend>
+                  <roomId>1</roomId>
+                </ChatResponceCommMessage>
+/edit:
+  get:
+    queryParameters: 
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+      field:
+        enum:
+          UserName
+          Password
+          Email
+          Avatar
+          Id
+          Name
+          Money
+        required: true
+      value:
+        type: string
+        example: "value"
+    responses: 
+      200:
+        body: 
+          application/xml:
+            example: |
+              <?xml version="1.0" encoding="utf-16"?>
+                <ResponeCommMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <UserId>1</UserId>
+                  <SessionId>78156</SessionId>
+                  <Success>true</Success>
+                  <OriginalMsg xsi:type="EditCommMessage">
+                    <UserId>1</UserId>
+                    <SessionId>78156</SessionId>
+                    <FieldToEdit>Name</FieldToEdit>
+                    <NewValue>Yossi</NewValue>
+                  </OriginalMsg>
+                </ResponeCommMessage>
+/replay:
+  get:
+    queryParameters: 
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+      roomId:
+        type: integer
+    responses: 
+      200:
+        body: 
+         application/xml:
+            example: |
+              <?xml version="1.0" encoding="utf-16"?>
+                <ResponeCommMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <UserId>1</UserId>
+                  <SessionId>78156</SessionId>
+                  <Success>true</Success>
+                  <OriginalMsg xsi:type="ReplayCommMessage">
+                    <UserId>1</UserId>
+                    <SessionId>78156</SessionId>
+                    <RoomId>3</RoomId>
+                  </OriginalMsg>
+                </ResponeCommMessage>
+/search:
+   get:
+    queryParameters: 
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+      searchType:
+        enum:
+          ActiveGamesByUserName
+          SpectetorGameByUserName
+          ByRoomId
+          AllSepctetorGame
+          GamesUserCanJoin
+          ByPotSize
+          ByGameMode
+          ByBuyInPolicy
+          ByMinPlayer
+          ByMaxPlayer
+          ByStartingChip
+          ByMinBet
+    responses: 
+      200:
+        body: 
+         application/xml:
+            example: |
+              <?xml version="1.0" encoding="utf-16"?>
+                <SearchResponseCommMessage xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                  <UserId>1</UserId>
+                  <SessionId>794565</SessionId>
+                  <Success>true</Success>
+                  <OriginalMsg xsi:type="SearchCommMessage">
+                    <UserId>1</UserId>
+                    <SessionId>794565</SessionId>
+                    <searchType>ByPotSize</searchType>
+                    <SearchByString />
+                    <SearchByInt>10</SearchByInt>
+                    <SearchByGameMode>Limit</SearchByGameMode>
+                  </OriginalMsg>
+                  <Games>
+                    <ClientGame>
+                      <isActive>true</isActive>
+                      <isSpectetor>false</isSpectetor>
+                      <gameMode>Limit</gameMode>
+                      <roomId>1</roomId>
+                      <minPlayer>2</minPlayer>
+                      <maxPlayer>13</maxPlayer>
+                      <minBet>2</minBet>
+                      <startingChip>1000</startingChip>
+                      <buyInPolicy>2</buyInPolicy>
+                      <LeagueName>A</LeagueName>
+                      <potSize>200</potSize>
+                    </ClientGame>
+                    <ClientGame>
+                      <isActive>true</isActive>
+                      <isSpectetor>false</isSpectetor>
+                      <gameMode>NoLimit</gameMode>
+                      <roomId>3</roomId>
+                      <minPlayer>2</minPlayer>
+                      <maxPlayer>133</maxPlayer>
+                      <minBet>2</minBet>
+                      <startingChip>100</startingChip>
+                      <buyInPolicy>22</buyInPolicy>
+                      <LeagueName>A</LeagueName>
+                      <potSize>200</potSize>
+                    </ClientGame>
+                  </Games>
+                </SearchResponseCommMessage>
 
 
