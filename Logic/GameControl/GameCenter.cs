@@ -158,7 +158,13 @@ namespace TexasHoldem.Logic.GameControl
         {
             lock (padlock)
             {
-                int toReturn = GetAllGames().OrderByDescending(game => game.Id).First().Id + 1;
+                int toReturn = 1;
+                List<IGame> res = GetAllGames();
+                if (res.Count == 0)
+                {
+                    return toReturn;
+                }
+                toReturn = res.OrderByDescending(game => game.Id).First().Id + 1;
                 return toReturn;
             }
         }

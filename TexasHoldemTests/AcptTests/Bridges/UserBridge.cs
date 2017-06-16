@@ -180,12 +180,15 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool LoginUser(string name, string password)
         {
-            return _userService.LoginUser(name, password).IsLogin();
+            var t = _userService.LoginUser(name, password);
+          
+            return t!=null && t.IsLogin();
         }
 
         public bool LogoutUser(int userId)
         {
-            return !_userService.LogoutUser(userId).IsLogin();
+            var t = _userService.LogoutUser(userId);
+            return t!=null && !t.IsLogin();
         }
 
         public int RegisterUser(string name, string pw1, string email)

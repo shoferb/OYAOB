@@ -126,10 +126,12 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLoginTestGood()
         {
-            RestartSystem();
-            Assert.True(UserBridge.LogoutUser(UserId) || UserBridge.getUserById(UserId) == null);
-            SetupUser1();
-            Assert.True(UserBridge.LogoutUser(UserId));
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
@@ -313,31 +315,38 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditEmailTestGood()
         {
-            RestartSystem();
-            SetupUser1();
-
+            UserId = new Random().Next();
+            User1Name = "Oded" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
             Assert.True(UserBridge.EditEmail(UserId, _user2EmailGood));
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), _user2EmailGood);
+            UserBridge.DeleteUser(UserId);
 
-            //set back
-            Assert.True(UserBridge.EditAvatar(UserId, "yarden"));
-            Assert.AreEqual(UserBridge.GetUserAvatar(UserId), "yarden");
+        }
+
+        [TestCase]
+        public void UserEditEmailTestBad_logout()
+        {
+            Assert.False(UserBridge.EditEmail(5658558, UserEmailGood1));
         }
 
         [TestCase]
         public void UserEditEmailTestBad()
         {
-            RestartSystem();
-            //user is not logged in:
-            Assert.False(UserBridge.EditEmail(UserId, UserEmailGood1));
 
-            SetupUser1();
-
+            UserId = new Random().Next();
+            User1Name = "Oded" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad));
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
 
             Assert.False(UserBridge.EditEmail(UserId, _userEmailBad));
             Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
@@ -370,12 +379,18 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddUserMoneyTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
             const int amountToChange = -10000;
             SetupUser1();
             int prevAmount = UserBridge.GetUserMoney(UserId);
             Assert.False(UserBridge.AddUserMoney(UserId, amountToChange));
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId));
+            UserBridge.DeleteUser(UserId);
         }
 
         //add player to room
