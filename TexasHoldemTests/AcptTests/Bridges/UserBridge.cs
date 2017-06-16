@@ -22,7 +22,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         public UserBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
             var ses = new SessionIdHandler();
-            _gameService = new GameServiceHandler(gc, sys, log, replay,ses);
+            _gameService = new GameServiceHandler(gc, sys, log, replay, ses);
             _userService = new UserServiceHandler(gc, sys);
         }
 
@@ -254,7 +254,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                return _gameService.AddSpectatorToRoom(userId, roomId);
+                //TODO
+                //return _gameService.AddSpectatorToRoom(userId, roomId);
             }
             return false;
         }
