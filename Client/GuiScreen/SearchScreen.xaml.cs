@@ -38,7 +38,7 @@ namespace Client.GuiScreen
         private ClientLogic cl;
         private Window parent;
         private int currRoomId;
-        private int field;
+        private int field = -1;
         private string toSearch;
         private List<ClientGame> result;
     
@@ -123,7 +123,11 @@ namespace Client.GuiScreen
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
         {
-           
+            if (field == -1)
+            {
+                MessageBox.Show("Please Select a filter ");
+                return;
+            }
             if (field == 0) //all active by user name
             {
                 GetAllUserByUserName();
