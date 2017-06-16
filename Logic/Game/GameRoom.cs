@@ -1071,7 +1071,11 @@ namespace TexasHoldem.Logic.Game
             {
                 names += w + ", ";
             }
-            return names.Substring(0, names.Length - 2);
+            if (names.Length > 2)
+            {
+                return names.Substring(0, names.Length - 2);
+            }
+            return names;
         }
 
         private List<HandEvaluator> EvalTies(List<HandEvaluator> winners, List<Card> table)
