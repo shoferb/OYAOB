@@ -17,5 +17,10 @@ namespace TexasHoldem.Logic.Users
             this.roomId = RoomId;
         }
 
+        public Spectetor(int rId)
+        {
+            this.roomId = rId;
+        }
+
     }
 }

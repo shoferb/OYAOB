@@ -8,7 +8,7 @@ namespace TexasHoldem.Logic.Replay
     {
         public int _gameRoomID { get; set; }
         public int _gameNumber { get; set; }
-        private int _index;
+        public int _index;
         public List<Action> _actions { get; set; }
 
         public GameReplay()

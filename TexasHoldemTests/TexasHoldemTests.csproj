@@ -64,6 +64,8 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
@@ -94,6 +96,7 @@
     <Compile Include="communication\CommunicationHandlerTest.cs" />
     <Compile Include="communication\WebCommHandlerTests.cs" />
     <Compile Include="communication\WebEventHandlerTest.cs" />
+    <Compile Include="DatabaseProxy\GameDataProxyGameDataProxyTests.cs" />
     <Compile Include="DatabaseProxy\LogDataProxyTests.cs" />
     <Compile Include="DatabaseProxy\UserDataProxyTests.cs" />
     <Compile Include="Database\DataControlers\LogDataControlerTests.cs" />

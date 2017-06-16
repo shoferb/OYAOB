@@ -25,6 +25,12 @@ namespace TexasHoldem.Logic.Game
         private int maxBetInRound;
         private int PotCount;
         private int Bb;
+
+        public int GetGameNum()
+        {
+            return this.GameNumber;
+        }
+
         private int Sb;
         private Deck Deck;
         private HandStep Hand_Step;
@@ -51,6 +57,30 @@ namespace TexasHoldem.Logic.Game
         private LeagueName league;
         private static readonly object padlock = new object();
 
+        public GameRoom() { } // for XML
+
+        public int GetSSB() //for test
+        {
+            return this.Sb;
+        }
+
+        public int GetDealerPos()
+        {
+            return this.DealerPos;
+        }
+
+        public void SetBB(int j)
+        {
+            this.Bb = j;
+        }
+        public int GetBBNUM()
+        {
+            return this.Bb;
+        }
+        public int GetMaxBetInRound()
+        {
+            return this.maxBetInRound;
+        }
         public GameRoom(List<Player> players, int ID, Decorator decorator, GameCenter gc, LogControl log, 
             ReplayManager replay, SessionIdHandler sidH)
         {
@@ -75,7 +105,62 @@ namespace TexasHoldem.Logic.Game
             useCommunication = true;
             sidHandler = sidH;
         }
+        public void SetDeco(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)
+        {
+            this.MyDecorator = GameCenter.CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, league);
+        }
 
+
+        public GameRoom(List<Player> players, int ID, GameCenter gc, LogControl log,
+          ReplayManager replay, int gameNum, bool isActiveGame, int potCount, int mmaxBetInRound,
+           List<Card> pubCards, List<Spectetor> specs, Player dealerPlayer, LeagueName leagueOf, int lastRaiseInRoundd,
+           Player currentPlayer, Player bbPlayer, Player sbPlayer, Player firstPlayerInRound, int bb, int sb,
+           int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler, bool _useCom, List<Tuple<int, Player>> _sp)
+        {
+          
+            Id = ID;
+            GameNumber = gameNum;
+            IsActiveGame = isActiveGame;
+            PotCount = potCount;
+            maxBetInRound = mmaxBetInRound;
+            PublicCards = pubCards;
+            Players = players;
+            Spectatores = specs;
+            SidePots = _sp;
+            DealerPlayer = dealerPlayer;
+            logControl = log;
+            league = leagueOf;
+            ReplayManager = replay;
+            GameCenter = gc;
+            lastRaiseInRound = lastRaiseInRoundd;
+            useCommunication = true;
+            sidHandler = _sidHandler;
+            this.CurrentPlayer = currentPlayer;
+            this.BbPlayer = bbPlayer;
+            this.SbPlayer = sbPlayer;
+            this.FirstPlayerInRound = firstPlayerInRound;
+            this.Bb = bb;
+            this.Sb = sb;
+            this.DealerPos = dealerPos;
+            this.currentPlayerPos = currentPlayerPoss;
+            this.firstPlayerInRoundPoistion = firstPlayerInRoundPoistionn;
+            this.GameReplay = gr;
+            this.Hand_Step = hs;
+            this.Deck = d;
+        }
+
+        public string GetGameReplay()
+        {
+            if (this.GameReplay == null)
+            {
+                return "";
+            }
+           return string.Concat("", this.GameReplay.ToString());
+        }
+        public void SetIsActive(bool n)//for tests
+        {
+            this.IsActiveGame = n;
+        }
         private void ReduceFeeAndStatringChipFromPlayers()
         {
             foreach (Player p in Players)
@@ -94,7 +179,73 @@ namespace TexasHoldem.Logic.Game
             }
             return players[0].user.GetLeague();
         }
+        public int getSBNUM()
+        {
+            return this.Sb;
+        }
 
+        public List<Tuple<int, Player>> GetSidePots()
+        {
+            return this.SidePots;
+        }
+
+        public Player GetFirstPlayerInRound()
+        {
+            return this.FirstPlayerInRound;
+        }
+
+        public SessionIdHandler GetsidHandler()
+        {
+            return this.sidHandler;
+        }
+
+        public bool GetUseComm()
+        {
+            return this.useCommunication;
+        }
+        public int GetlastRaiseInRound()
+        {
+            return this.lastRaiseInRound;
+        }
+
+        public int GetFirstPlayerInRoundPos()
+        {
+            return this.firstPlayerInRoundPoistion;
+        }
+
+        public LogControl GetLogControl()
+        {
+            return this.logControl;
+        }
+
+        public Decorator GetDecorator()
+        {
+            return this.MyDecorator;
+        }
+
+        public GameCenter GetGameCenter()
+        {
+            return this.GameCenter;
+        }
+
+        public ReplayManager GetRepManager()
+        {
+            return this.ReplayManager;
+        }
+        public GameReplay GetGameRepObj()
+        {
+            return this.GameReplay;
+        }
+
+        public Deck GetDeck()
+        {
+            return this.Deck;
+        }
+
+        public HandStep GetHandStep()
+        {
+            return this.Hand_Step;
+        }
         private void SetTheBlinds()
         {
             Bb = MyDecorator.GetMinBetInRoom();
@@ -202,6 +353,7 @@ namespace TexasHoldem.Logic.Game
             gameData = GetGameData(null, amount, false, action);
             list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
             return list.GetEnumerator();
+            
         }
 
         private IEnumerator<ActionResultInfo> Leave(Player player)
@@ -1086,6 +1238,10 @@ namespace TexasHoldem.Logic.Game
             return PotCount;
         }
 
+        public int getBBnum()
+        {
+            return this.Bb;
+        }
         public int GetBuyInPolicy()
         {
             return MyDecorator.GetEnterPayingMoney();
