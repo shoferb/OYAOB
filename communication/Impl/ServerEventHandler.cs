@@ -426,14 +426,16 @@ namespace TexasHoldem.communication.Impl
             return toReturn;
         }
 
-        private void SendBroadcast(IEnumerator<int> iterator, int senderId, ChatCommMessage msg)
+        private void SendBroadcast(IEnumerator<int> iterator, int senderId, ChatCommMessage msg, string usernameSender)
         {
             while (iterator.MoveNext())
             {
                 var curr = iterator.Current;
+                var res = new ChatResponceCommMessage(msg.RoomId, curr, msg.SessionId, usernameSender, msg.ChatType,
+                    msg.MsgToSend, curr, true, msg);
                 if (curr != senderId)
                 {
-                    _commHandler.AddMsgToSend(_parser.SerializeMsg(msg, ShouldUseDelim), curr);
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), curr);
                 }
             }
         }
@@ -450,13 +452,9 @@ namespace TexasHoldem.communication.Impl
                 {
                     case CommunicationMessage.ActionType.PlayerBrodcast:
                         var enumerator = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
-                        var lst = new List<int>();
-                        while (enumerator.MoveNext())
-                        {
-                            lst.Add(enumerator.Current);
-                        }
-                        success = lst.Count > 0;
-                        SendBroadcast(lst.GetEnumerator(), msg.UserId, msg);
+                        
+                        success = enumerator != null;
+                        SendBroadcast(enumerator, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:

@@ -212,7 +212,7 @@ namespace TexasHoldem.Service
             bool isUserExist = _systemControl.IsUserExist(playerId);
             if (!isUserExist)
             {
-                return new List<int>().GetEnumerator();
+                return null;
             }
             IUser user = _systemControl.GetUserWithId(playerId);
             return _gameCenter.CanSendPlayerBrodcast(user,roomId);
