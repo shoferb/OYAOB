@@ -366,12 +366,13 @@ namespace Client.GuiScreen
                             if (logoutOk)
                             {
                                 MessageBox.Show("Logout OK!");
-                                done = true;
+                                
                                 WellcomeScreen wellcomeScreen = new WellcomeScreen();
 
                                 wellcomeScreen.Show();
                                 this.Close();
-                                this.Hide();
+                                //this.Hide();
+                                done = true;
                                 break;
                             }
                             else
