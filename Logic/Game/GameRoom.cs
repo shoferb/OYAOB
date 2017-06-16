@@ -25,6 +25,7 @@ namespace TexasHoldem.Logic.Game
         private int maxBetInRound;
         private int PotCount;
         private int Bb;
+        private string winner = "";
 
         public int GetGameNum()
         {
@@ -465,7 +466,7 @@ namespace TexasHoldem.Logic.Game
             List<string> allSpecatatorNames = GetSpectatorNames();
             GameDataCommMessage gd = new GameDataCommMessage(userId, Id, sidHandler.GetSessionIdByUserId(userId), 
                 card1, card2, PublicCards , money, PotCount , allPlayerNames, allSpecatatorNames, dealerName,
-                bbName, sbName, success, currName , playerName, bet, action, Hand_Step.ToString());
+                bbName, sbName, success, currName , playerName, bet, action, Hand_Step.ToString(), winner);
             return gd;
         }
 
@@ -1053,9 +1054,21 @@ namespace TexasHoldem.Logic.Game
                 //GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(Id, win.ToString(), GameNumber);
                 logControl.AddSystemLog(log);
+                winner = GetWinnerString(winners);
                 return winners;
             }
             return EvalTies(winners, table);
+        }
+
+        private string GetWinnerString(List<HandEvaluator> winners)
+        {
+            var winnerNames = winners.ConvertAll<string>(w => w._player.user.MemberName());
+            string names = "";
+            foreach (string w in winnerNames)
+            {
+                names += w + ", ";
+            }
+            return names.Substring(0, names.Length - 3);
         }
 
         private List<HandEvaluator> EvalTies(List<HandEvaluator> winners, List<Card> table)
@@ -1102,6 +1115,7 @@ namespace TexasHoldem.Logic.Game
                 // this.this._gameCenter.AddSystemLog(log);
                 logControl.AddSystemLog(log);
             }
+            winner = GetWinnerString(winners);
             return winners;
         }
 

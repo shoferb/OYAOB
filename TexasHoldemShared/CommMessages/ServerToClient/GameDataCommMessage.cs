@@ -20,7 +20,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
 
         public int TotalChips;
         public int PotSize;
-
+        public string Winner;
         public List<string> AllPlayerNames;
         public List<string> AllSpectatorNames;
         public string DealerName;
@@ -55,11 +55,12 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             AllSpectatorNames = other.AllSpectatorNames;
             other.TableCards.ForEach(c => TableCards.Add(c));
             CurrRound = other.CurrRound;
+            Winner = other.Winner;
         }
 
         public GameDataCommMessage(int userId, int roomId, long sid, Card card1, Card card2, List<Card> tableCards, 
             int chips, int pot, List<string> allPlayerNames, List<string> allSpectatorNames, string dealerName, string bbName, string sbName, bool success, 
-            string currPlayer, string actionPlayer, int bet, ActionType actionType, string round) : base(userId, sid)
+            string currPlayer, string actionPlayer, int bet, ActionType actionType, string round, string winner) : base(userId, sid)
         {
             RoomId = roomId;
             TableCards = tableCards;
@@ -79,6 +80,7 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             Action = actionType;
             SessionId = sid;
             CurrRound = round;
+            Winner = winner;
         }
        
         //visitor pattern

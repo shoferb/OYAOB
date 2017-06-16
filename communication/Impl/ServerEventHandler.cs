@@ -402,7 +402,7 @@ namespace TexasHoldem.communication.Impl
                     names.Add(user.MemberName());
                     var gameData = new GameDataCommMessage(msg.UserId, roomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, new List<Card>(),
                         msg._chipPolicy, 0, names, new List<string>(),  null, null, null, true,
-                        "", "", 0, CommunicationMessage.ActionType.CreateRoom, GameRoom.HandStep.PreFlop.ToString());
+                        "", "", 0, CommunicationMessage.ActionType.CreateRoom, GameRoom.HandStep.PreFlop.ToString(), "");
                     respons = new CreateNewGameResponse(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg, gameData);
                 }
                 else
@@ -449,7 +449,12 @@ namespace TexasHoldem.communication.Impl
             if (_sessionIdHandler != null)
             {
                 bool success = false;
-                int idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); // to get id reciver from user name
+                IUser tempUser = _userService.GetIUserByUserName(msg.ReciverUsername);
+                int idReciver = 0;
+                if (tempUser != null)
+                {
+                    idReciver = tempUser.Id(); // to get id reciver from user name
+                }
                 string usernameSender = _userService.GetUserById(msg.IdSender).MemberName(); //to get from id;
 
                 switch (msg.ChatType)
