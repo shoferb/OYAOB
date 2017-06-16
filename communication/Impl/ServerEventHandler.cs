@@ -466,9 +466,10 @@ namespace TexasHoldem.communication.Impl
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
-                        var enumeratorWhisper = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
-                        success = enumeratorWhisper != null;
-                        SendBroadcast(enumeratorWhisper, msg.UserId, msg, usernameSender);
+                        IUser p = _userService.GetIUserByUserName(msg.ReciverUsername);
+                        var res = new ChatResponceCommMessage(msg.RoomId, p.Id(), msg.SessionId, usernameSender, msg.ChatType,
+                        msg.MsgToSend, p.Id(), true, msg);
+                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), curr);
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:

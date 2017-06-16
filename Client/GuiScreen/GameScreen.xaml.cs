@@ -475,7 +475,8 @@ namespace Client.GuiScreen
                     break;
                 case 6://whisper Player
                     string msgToSend = InputForActionTextBox.Text;
-                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend,
+                    string reciverName = WhisperReceiverTextBox.Text;
+                    _logic.SendChatMsg(RoomId, reciverName, msgToSend,
                         CommunicationMessage.ActionType.PlayerWhisper);
                     break;
                 case 7: //broadcast spec
