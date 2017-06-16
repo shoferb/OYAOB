@@ -151,13 +151,10 @@ namespace Client.GuiScreen
 
                 if (msg.TableCards != null)
                 {
-                    //ListViewPublicCards.Items.Clear();
-                    this.TableCards = msg.TableCards;
-                     //List<ViewObj> pCards = new List<ViewObj>();
-                    //this.ListViewPublicCards.Items.Clear();
+                    this.PublicCardView.Items.Clear();
+                    this.TableCards = msg.TableCards;                    
                     foreach (Card aCard in TableCards)
-                    {
-                        this.PublicCardView.Items.Clear();
+                    {                  
                         if (aCard != null)
                         {         
                             // PUBLIC cards 
@@ -196,16 +193,10 @@ namespace Client.GuiScreen
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
                         msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " left the game.");
-                        if (msg.ActionPlayerName.Equals(_logic.user.username))
-                        {
-                            this.Close();
-                        }
-                       
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.StartGame))
                     {
                         msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " started the game.");
-                       
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.CreateRoom))
                     {
@@ -410,6 +401,8 @@ namespace Client.GuiScreen
 
         private void DoActiomBotton_Click_2(object sender, RoutedEventArgs e)
         {
+            string Data = InputForActionTextBox.Text;
+
             switch (field)
             {
                 case 1://call
@@ -472,48 +465,25 @@ namespace Client.GuiScreen
                         MessageBox.Show("Action Failed");
                     }
                     break;
-                case 5://brodcast
-                    string msgToSend = InputForActionTextBox.Text;
-                    if (SpecOrPlay == true)
-                    {
-
-                        bool ansf = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
-                        if (!ansf)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
-                    else
-                    {
-                        bool ansf = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
-                        if (!ansf)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
+                case 5://brodcast Player
+                    string msgToSend2 = InputForActionTextBox.Text;
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend2, CommunicationMessage.ActionType.PlayerBrodcast);             
                     break;
-                case 6://whisper
-                    string msgToSendx = InputForActionTextBox.Text;
-                    string receiverName = WhisperReceiverTextBox_Copy.Text;
-                    if (SpecOrPlay == true)
-                    {
-
-                        bool ansx = _logic.SendChatMsg(RoomId, receiverName, msgToSendx, CommunicationMessage.ActionType.PlayerWhisper);
-                        if (!ansx)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
-                    else
-                    {
-                        bool ansx = _logic.SendChatMsg(RoomId, receiverName, msgToSendx, CommunicationMessage.ActionType.SpectetorWhisper);
-                        if (!ansx)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
-            
-            break;
+                case 6://whisper Player
+                    string msgToSend = InputForActionTextBox.Text;
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend,
+                        CommunicationMessage.ActionType.PlayerWhisper);
+                    break;
+                case 7: //broadcast spec
+                    string msgToSend3 = InputForActionTextBox.Text;
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
+                        CommunicationMessage.ActionType.PlayerWhisper);
+                    break;
+                case 8: //whisper spec
+                    string msgToSend4 = InputForActionTextBox.Text;
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend4,
+                       CommunicationMessage.ActionType.PlayerWhisper);
+                    break;
             }/*
             string action = ActionChosenComboBox.SelectedValue.ToString();
             if (action.Equals(""))
