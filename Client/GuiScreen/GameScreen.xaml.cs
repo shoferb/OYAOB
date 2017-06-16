@@ -151,13 +151,10 @@ namespace Client.GuiScreen
 
                 if (msg.TableCards != null)
                 {
-                    //ListViewPublicCards.Items.Clear();
-                    this.TableCards = msg.TableCards;
-                     //List<ViewObj> pCards = new List<ViewObj>();
-                    //this.ListViewPublicCards.Items.Clear();
+                    this.PublicCardView.Items.Clear();
+                    this.TableCards = msg.TableCards;                    
                     foreach (Card aCard in TableCards)
-                    {
-                        this.PublicCardView.Items.Clear();
+                    {                  
                         if (aCard != null)
                         {         
                             // PUBLIC cards 
