@@ -107,7 +107,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label x:Name="winnerNameLabel" Content="Winner:" HorizontalAlignment="Left" Height="34" Margin="347,10,0,0" VerticalAlignment="Top" Width="109" FontWeight="Bold" Foreground="Black" FontSize="20"/>
+        <Label x:Name="winnerNameLabel" Content="" HorizontalAlignment="Left" Height="34" Margin="347,10,0,0" VerticalAlignment="Top" Width="109" FontWeight="Bold" Foreground="Black" FontSize="20"/>
         <Label x:Name="winnerName" Content="" HorizontalAlignment="Left" Height="26" Margin="471,16,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
     </Grid>
 </Window>
