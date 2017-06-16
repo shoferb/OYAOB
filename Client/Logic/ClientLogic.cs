@@ -206,8 +206,7 @@ namespace Client.Logic
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
             MessagesSentObserver.Add(messageToList);
-            _eventHandler.SendNewEvent(toSend);
-           
+            _eventHandler.SendNewEvent(toSend);    
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             MessagesSentObserver.Remove(messageToList);
             return toRet;

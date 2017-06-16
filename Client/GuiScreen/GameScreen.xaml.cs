@@ -307,7 +307,8 @@ namespace Client.GuiScreen
             Dispatcher.Invoke(DispatcherPriority.Normal,
             new Action(delegate ()
             {
-                if (msg.idReciver == this._logic.user.id)
+                
+                if (msg.chatType != CommunicationMessage.ActionType.PlayerBrodcast)
                 {
                     ListViewItem toAdd = new ListViewItem();
                     toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
