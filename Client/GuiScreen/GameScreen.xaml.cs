@@ -28,6 +28,7 @@ namespace Client.GuiScreen
         public int TotalChips;
         public int PotSize;
         public List<string> AllPlayerNames;
+        public List<string> AllSpecNames;
         public string DealerName;
         public string BbName;
         public string SbName;
@@ -55,30 +56,10 @@ namespace Client.GuiScreen
                 UserName.Content = _logic.user.username;
                 string path = _logic.user.avatar;
                 Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
-                //ActionChosenComboBox.Items.Clear();
                 if (_logic.user.username.Equals(msg.CurrPlayerTurn))
                 {
-                    //ActionChosenComboBox.IsVisible = false;
-                    /*ComboBoxItem callItem = new ComboBoxItem();
-                    callItem.Content = "Call";
-                    ActionChosenComboBox.Items.Add(callItem);
-                    ComboBoxItem raiseItem = new ComboBoxItem();
-                    raiseItem.Content = "Raise";
-                    ActionChosenComboBox.Items.Add(raiseItem);
-                    ComboBoxItem checkItem = new ComboBoxItem();
-                    checkItem.Content = "Check";
-                    ActionChosenComboBox.Items.Add(checkItem);
-                    ComboBoxItem foldItem = new ComboBoxItem();
-                    foldItem.Content = "Fold";
-                    ActionChosenComboBox.Items.Add(foldItem);*/
+                    //TODO BAR?!
                 }
-               /* ComboBoxItem broadcastChatMsgItem = new ComboBoxItem();
-                broadcastChatMsgItem.Content = "Send A New Broadcast Chat Message";
-                ActionChosenComboBox.Items.Add(broadcastChatMsgItem);
-                ComboBoxItem whisperchatMsgItem = new ComboBoxItem();
-                whisperchatMsgItem.Content = "Send A New Whisper Chat Message";
-                ActionChosenComboBox.Items.Add(whisperchatMsgItem);
-                */
                 this.RoomId = msg.RoomId;
                 string pre = "Room Number: ";
                 
@@ -86,7 +67,7 @@ namespace Client.GuiScreen
                 if (msg.SbName != null)
                 {
                     this.SbName = msg.SbName;
-                    this.SBNameLabel.Content = msg.SbName;
+                    this.SB.Content = msg.SbName;
                 }
                 if (msg.AllPlayerNames != null)
                 {
@@ -108,12 +89,31 @@ namespace Client.GuiScreen
                         }
                     }
                 }
-                
+
+                if (msg.AllSpectatorNames != null)
+                {
+                    this.AllSpecNames = msg.AllSpectatorNames;
+                    this.ListViewSpectetors.Items.Clear();
+                    foreach (string aString in AllSpecNames)
+                    {
+                        ListViewItem toAdd = new ListViewItem();
+                        toAdd.Content = aString;
+                        this.ListViewSpectetors.Items.Add(aString);
+                    }
+                  
+                }
+
                 if (msg.BbName != null)
                 {
                     this.BbName = msg.BbName;
-                    this.BBNameLabel.Content = msg.BbName;
+                    this.BB.Content = msg.BbName;
                 }
+
+                if (msg.CurrRound != null)
+                {
+                    this.CurrRound.Content = msg.CurrRound;
+                }
+
                 if (msg.CurrPlayerTurn != null)
                 {
                     this.CurrPlayerTurn = msg.CurrPlayerTurn;
@@ -151,14 +151,8 @@ namespace Client.GuiScreen
                             ListViewItem publicCardItem = new ListViewItem();                         
                             publicCardItem.Content = string.Concat(aCard.ToString());
                             this.PublicCardView.Items.Add(publicCardItem);
-                           // this.chatListView.Items.Add(publicCardItem);
-
-
-
-
                         }
                     }
-                 //   ListViewPublicCards.ItemsSource = pCards;
                 }
 
                 this.TotalChips = msg.TotalChips;
