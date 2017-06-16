@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using TexasHoldem;
@@ -139,19 +140,22 @@ namespace Client.GuiScreen
                 {
                     //ListViewPublicCards.Items.Clear();
                     this.TableCards = msg.TableCards;
-                    //  List<ViewObj> pCards = new List<ViewObj>();
-                    this.ListViewPublicCards.Items.Clear();
+                     //List<ViewObj> pCards = new List<ViewObj>();
+                    //this.ListViewPublicCards.Items.Clear();
                     foreach (Card aCard in TableCards)
                     {
                         if (aCard != null)
                         {
+                            // PUBLIC cards 
+                            ListViewItem publicCardItem = new ListViewItem();                         
+                            publicCardItem.Content = string.Concat(aCard.ToString());
+                         
+                            this.PublicCardView.Items.Add(publicCardItem);
+                           // this.chatListView.Items.Add(publicCardItem);
 
-                            // PUBLIC cards
-                            Dispatcher.Invoke(DispatcherPriority.Normal,
-                                new Action(delegate()
-                                {
-                                    this.ListViewPublicCards.Items.Add(aCard.ToString());
-                                }));
+
+
+
                         }
                     }
                  //   ListViewPublicCards.ItemsSource = pCards;
@@ -647,6 +651,16 @@ namespace Client.GuiScreen
         private void ComboBoxItem_Selected_5(object sender, RoutedEventArgs e)
         {
             field = 6;//whisper
+        }
+
+        private void ListViewPublicCards_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void publicCard_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
