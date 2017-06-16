@@ -93,6 +93,10 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = 0;
             PublicCards = new List<Card>();
             Players = players;
+            if (Players.Count > 0)
+            {
+                Players[0].name = Players[0].user.MemberName();
+            }
             Spectatores = new List<Spectetor>();
             SidePots = new List<Tuple<int, Player>>();
             DealerPlayer = null;
@@ -125,6 +129,10 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = mmaxBetInRound;
             PublicCards = pubCards;
             Players = players;
+            if (Players.Count > 0)
+            {
+                Players[0].name = Players[0].user.MemberName();
+            }
             Spectatores = specs;
             SidePots = _sp;
             DealerPlayer = dealerPlayer;
@@ -511,7 +519,9 @@ namespace TexasHoldem.Logic.Game
             if (MyDecorator.CanJoin(Players.Count , amount, user))
             {
                 int moneyToReduce = MyDecorator.GetEnterPayingMoney() + amount;
-                if (user.ReduceMoneyIfPossible(moneyToReduce)){
+                if (user.ReduceMoneyIfPossible(moneyToReduce))
+                {
+                    p.name = user.MemberName();
                     Players.Add(p);
                     gameData = GetGameData(p, amount, true, ActionType.Join);
                     return GetEnumeratorToSend(Players, Spectatores, gameData);
