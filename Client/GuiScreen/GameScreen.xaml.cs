@@ -196,10 +196,16 @@ namespace Client.GuiScreen
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
                         msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " left the game.");
+                        if (msg.ActionPlayerName.Equals(_logic.user.username))
+                        {
+                            this.Close();
+                        }
+                       
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.StartGame))
                     {
                         msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " started the game.");
+                       
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.CreateRoom))
                     {

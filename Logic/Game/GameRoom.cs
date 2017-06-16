@@ -406,7 +406,10 @@ namespace TexasHoldem.Logic.Game
                 {
                     bool success = NextRound(player);
                     gameData = GetGameData(player, 0, success, ActionType.Leave);
-                    return GetEnumeratorToSend(Players, Spectatores, gameData);
+                    List<Player> tP = new List<Player>();
+                    tP.Add(player);
+                    tP.AddRange(Players);
+                    return GetEnumeratorToSend(tP, Spectatores, gameData);
                 }
             }
 
