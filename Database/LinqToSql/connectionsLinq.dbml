@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataBaseSadna" Class="connectionsLinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=GOOLUE\GOOLUESQL;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=YCHEN-HP\SQLEXPRESS;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Card" Member="Cards">
     <Type Name="Card">
       <Column Name="[Card Value]" Member="Card_Value" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -389,6 +389,18 @@
   </Function>
   <Function Name="dbo.DeleteUserByUserName" Method="DeleteUserByUserName">
     <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteSystemLogById" Method="DeleteSystemLogById">
+    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteLogById" Method="DeleteLogById">
+    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteErrorLogById" Method="DeleteErrorLogById">
+    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

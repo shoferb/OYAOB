@@ -147,7 +147,7 @@ namespace Client.Handler
         public void Start()
         {
             Thread task = new Thread(HandleMessages);
-            task.SetApartmentState(ApartmentState.STA); 
+           // task.SetApartmentState(ApartmentState.STA); 
             task.Start();
         }
 
@@ -159,9 +159,10 @@ namespace Client.Handler
 
         public ResponeCommMessage HandleEvent(ChatCommMessage msg)
         {
-            GotClientToServerMsg(msg);
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
+
+
 
         public ResponeCommMessage HandleEvent(ReplayCommMessage msg)
         {

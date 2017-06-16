@@ -145,8 +145,13 @@ namespace Client.GuiScreen
                     {
                         if (aCard != null)
                         {
-                       //     ViewObj toAdd = new ViewObj(aCard.ToString());
-                            this.ListViewPublicCards.Items.Add(aCard.ToString());
+
+                            // PUBLIC cards
+                            Dispatcher.Invoke(DispatcherPriority.Normal,
+                                new Action(delegate()
+                                {
+                                    this.ListViewPublicCards.Items.Add(aCard.ToString());
+                                }));
                         }
                     }
                  //   ListViewPublicCards.ItemsSource = pCards;

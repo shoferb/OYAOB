@@ -93,7 +93,7 @@ namespace TexasHoldem.Database.LinqToSql
     #endregion
 		
 		public connectionsLinqDataContext() : 
-				base(global::TexasHoldem.Properties.Settings.Default.DataBaseSadnaConnectionString, mappingSource)
+				base(global::TexasHoldem.Properties.Settings.Default.DataBaseSadnaConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -419,6 +419,27 @@ namespace TexasHoldem.Database.LinqToSql
 		public int DeleteUserByUserName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(50)")] string userName)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteSystemLogById")]
+		public int DeleteSystemLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteLogById")]
+		public int DeleteLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteErrorLogById")]
+		public int DeleteErrorLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
 			return ((int)(result.ReturnValue));
 		}
 	}

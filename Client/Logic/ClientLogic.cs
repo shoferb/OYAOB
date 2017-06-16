@@ -428,6 +428,8 @@ namespace Client.Logic
             MessagesSentObserver.Add(toAdd);
 
         }
+
+      
     }
 }
 
