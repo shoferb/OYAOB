@@ -64,8 +64,9 @@ namespace TexasHoldem.Logic.GameControl
         public IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {
             IGame gm = GetRoomById(roomId);
-
+            GameRoom g = (GameRoom)gm;
             IEnumerator<ActionResultInfo> toRet = gm.DoAction(user, action, amount, true);
+            replayManager.UpdateGameReplayById(g.Id, g.GetGameNum(), g.GetGameRepObj());
             proxyDB.UpdateGameRoom((GameRoom)gm);
             proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
             return toRet;

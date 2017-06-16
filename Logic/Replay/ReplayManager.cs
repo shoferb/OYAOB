@@ -35,7 +35,33 @@ namespace TexasHoldem.Logic.Replay
             }
             return true;
         }
+        public GameReplay GetGameReplayById(int roomId, int gameId)
+        {
+            foreach (var x in _gamesActions)
+            {
+                if(x.Key._gameRoomID == roomId & x.Key._gameNumber == gameId)
+                {
+                    return x.Key;
+                }
 
+            }
+            return null;
+        }
+
+        public void UpdateGameReplayById(int roomId, int gameId, GameReplay newRep)
+        {
+            foreach (var x in _gamesActions)
+            {
+                if (x.Key._gameRoomID == roomId & x.Key._gameNumber == gameId)
+                {
+                    List<int> val = x.Value;
+                    _gamesActions.Remove(x.Key);
+                    _gamesActions.Add(newRep, val);
+                }
+
+            }
+            
+        }
         public bool IsExist(int gameRoomID, int gameNumber)
         {
             lock (padlock)

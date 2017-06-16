@@ -141,7 +141,7 @@ namespace TexasHoldem.DatabaseProxy
             gc.GetRepMan(), GameNumber, IsActiveGame, PotCount, maxBetInRound,
             PublicCards, SpectatoresToL, GetPlayerFromXML(DealerPlayer, gc), league, lastRaiseInRound,
            GetPlayerFromXML(CurrentPlayer, gc), GetPlayerFromXML(BbPlayer, gc), GetPlayerFromXML(SbPlayer, gc) , GetPlayerFromXML(FirstPlayerInRound, gc), Bb, Sb,
-           DealerPos,  currentPlayerPos,  firstPlayerInRoundPoistion, GameReplay , Hand_Step, Deck, gc.GetSessionIdHandler(), useCommunication, SidePotstoL);
+           DealerPos,  currentPlayerPos,  firstPlayerInRoundPoistion, gc.GetRepMan().GetGameReplayById(GameNumber, Id), Hand_Step, Deck, gc.GetSessionIdHandler(), useCommunication, SidePotstoL);
 
         }
 
