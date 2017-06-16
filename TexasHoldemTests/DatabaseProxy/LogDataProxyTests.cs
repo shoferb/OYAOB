@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TexasHoldem.DatabaseProxy;
+using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldemTests.Database.DataControlers;
 using ErrorLog = TexasHoldem.Logic.Notifications_And_Logs.ErrorLog;
 
@@ -69,10 +70,10 @@ namespace TexasHoldemTests.DatabaseProxy
             _logsOnlyForTest.DeleteSystemLog(logId);
             _logsOnlyForTest.DeleteLog(logId);
         }
-        */
+        
         
        //todo - run after all test
-       /*
+       
         [TestMethod()]
         public void GetNextLogIdTest_good()
         {

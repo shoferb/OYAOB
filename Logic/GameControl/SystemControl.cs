@@ -167,6 +167,7 @@ namespace TexasHoldem.Logic.Game_Control
                         
                     }*/
                     toRerutn = userProxy.GetUserByUserName(username);
+                    return toRerutn;
                 }
                 catch
                 {
@@ -360,6 +361,7 @@ namespace TexasHoldem.Logic.Game_Control
                         }
                     }*/
                     toReturn = userProxy.GetUserById(id);
+                    return toReturn;
                 }catch(Exception e)
                 {
                     ErrorLog log = new ErrorLog("Error: while Get uset whith id" + id );

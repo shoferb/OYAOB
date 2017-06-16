@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
@@ -156,7 +157,7 @@ namespace TexasHoldem.Logic.GameControl
         {
             lock (padlock)
             {
-                int toReturn = System.Threading.Interlocked.Increment(ref _roomIdCounter);
+                int toReturn = GetAllGames().OrderByDescending(game => game.Id).First().Id + 1;
                 return toReturn;
             }
         }
