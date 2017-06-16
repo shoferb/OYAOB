@@ -466,13 +466,10 @@ namespace TexasHoldem.communication.Impl
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
-                        success = _gameService.CanSendPlayerWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
-                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id();
-                        var res = new ChatResponceCommMessage(msg.RoomId, msg.IdSender, msg.SessionId, usernameSender, msg.ChatType,
-                        msg.MsgToSend, msg.IdSender, true, msg);
-                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), idReciver);
+                        var enumeratorWhisper = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
+                        success = enumeratorWhisper != null;
+                        SendBroadcast(enumeratorWhisper, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
-
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
                          var enumeratorSpec = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
@@ -481,9 +478,9 @@ namespace TexasHoldem.communication.Impl
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.SpectetorWhisper:
-                        var res2 = new ChatResponceCommMessage(msg.RoomId, msg.IdSender, msg.SessionId, usernameSender, msg.ChatType,
-                        msg.MsgToSend, msg.IdSender, true, msg);
-                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res2, ShouldUseDelim), idReciver);
+                        var enumeratorSpecWhisper = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
+                        success = enumeratorSpecWhisper != null;
+                        SendBroadcastSpec(enumeratorSpecWhisper, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
 
                         break;
