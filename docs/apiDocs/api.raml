@@ -1,0 +1,240 @@
+#%RAML 0.8
+title: TexasHoldem
+version: 1
+
+/login:
+  get:
+    queryParameters:
+      userName:
+        required: true
+        minLength: 1
+        type: string
+        example: Oded
+      password:
+        required: true
+        minLength: 8
+        type: string
+        example: qwertyui
+    responses:
+      200:
+        body:
+          application/json:
+            description: json string representing a response message
+            example: |
+             {"?xml":
+               {"@version":"1.0","@encoding":"utf-16"},
+               "LoginResponeCommMessage":
+                 {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                 "UserId":"1","SessionId":"123456789","Success":"true",
+                 "OriginalMsg":{"@xsi:type":"LoginCommMessage","UserId":"1","SessionId":"-1","IsLogin":"true","UserName":"Oded","Password":"qwertyuyi"},
+                 "Name":"Oded","Username":"Oded","Password":"123456789","Avatar":"Avatar","Money":"1000","Email":"email@email.com","Leauge":"A"}
+                 }
+
+/logout:
+  get:
+    queryParameters:
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+    responses:
+      200:
+        body:
+          application/json:
+            description: json string representing a response message
+            example: |
+             {"?xml":
+               {"@version":"1.0","@encoding":"utf-16"},
+               "LoginResponeCommMessage":
+                 {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                 "UserId":"1","SessionId":"123456789","Success":"true",
+                 "OriginalMsg":{"@xsi:type":"LoginCommMessage","UserId":"1","SessionId":"123456789","IsLogin":"false","UserName":"Oded","Password":"qwertyuyi"},
+                 "Name":"Oded","Username":"Oded","Password":"123456789","Avatar":"Avatar","Money":"1000","Email":"email@email.com","Leauge":"A"}
+                 }
+/register:
+  get:
+    queryParameters:
+      userName:
+        required: true
+        minLength: 1
+        type: string
+        example: Oded
+      memberName:
+        required: true
+        minLength: 1
+        type: string
+        example: OdedMember
+      password:
+        required: true
+        minLength: 8
+        type: string
+        example: qwertyui
+      money:
+        required: true
+        type: number
+        minimum: 0
+        example: 100
+      email:
+        required: true
+        type: string
+        example: email@email.com
+    responses:
+        200:
+          body:
+            application/json:
+              description: json string representing a response message
+              example: |
+               {"?xml":
+                 {"@version":"1.0","@encoding":"utf-16"},
+                 "RegisterResponeCommMessage":
+                   {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                   "UserId":"1","SessionId":"12345678937291","Success":"true",
+                   "OriginalMsg":        {"@xsi:type":"RegisterCommMessage","UserId":"1","SessionId":"-1","Name":"Oded","MemberName":"oded","Password":"123456789","Money":"1000","Email":"bla@bla.com"},"Name":"Oded","Username":"Oded","Password":"123456789","Avatar":"avatar","Money":"1000","Email":"bla@bla.com","Leauge":"A"}
+                   }
+ 
+/userStatistics:
+  get:
+    queryParameters: 
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: |
+              {"?xml":
+                {"@version":"1.0","@encoding":"utf-16"},
+                "UserStatisticsResponseCommMessage":
+                  {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                  "UserId":"1","SessionId":"123456789","Success":"true",
+                  "OriginalMsg":
+                    {"@xsi:type":"UserStatisticsCommMessage","UserId":"1","SessionId":"12456789"},
+                  "AvgCashGain":"20.3","AvgGrossProfit":"55.654"}
+                  }
+                  
+/leaderboard:
+  get:
+    queryParameters: 
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+      sortBy:
+        required: true
+        enum:
+          TotalGrossProfit
+          HighestCashGain
+          NumGamesPlayes
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: |
+              {"?xml":
+                {"@version":"1.0","@encoding":"utf-16"},
+                "LeaderboardResponseCommMessage":
+                  {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                  "UserId":"1","SessionId":"123456789","Success":"true",
+                  "OriginalMsg":
+                    {"@xsi:type":"LeaderboardCommMessage","UserId":"1","SessionId":"12456789","SortedBy":"HighestCashGain"},
+                  "Results":
+                    {"LeaderboardLineData":
+                      [{"Id":"1","Name":"barooch","Points":"1000","TotalGrossProfit":"10","HighestCashGain":"12","NumOfGamesPlayed":"13"},{"Id":"2","Name":"simcha","Points":"100","TotalGrossProfit":"103","HighestCashGain":"124","NumOfGamesPlayed":"132"},{"Id":"3","Name":"yossi","Points":"10","TotalGrossProfit":"120","HighestCashGain":"132","NumOfGamesPlayed":"143"}]
+                  }}}
+/action:
+  get:
+    queryParameters: 
+      userId:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+      moveType:
+        enum: 
+          CreateRoom
+          Fold
+          Bet
+          Join
+          Leave
+          Spectate
+          StartGame
+        required: true
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: |
+              {"?xml":
+              {"@version":"1.0","@encoding":"utf-16"},
+                "ResponeCommMessage":
+                {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                "UserId":"1","SessionId":"794565","Success":"true",
+                "OriginalMsg":
+                {"@xsi:type":"ActionCommMessage","UserId":"1","SessionId":"794565","MoveType":"Fold","Amount":"0","RoomId":"3"}}}
+/chatMessage:
+  get:
+    queryParameters: 
+      idSender:
+        required: true
+        type: string
+        minLength: 1
+        example: 302222294
+      roomId:
+        required: true
+        type: integer
+        example: 3
+      sessionId:
+        required: true
+        type: number
+        example: 123456789
+      receiverUserName:
+        type: string
+        required: true
+        example: McLocvin
+      msgToSend:
+        type: string
+        required: true
+        example: I am McLovin!!
+      chatType:
+        enum:
+          PlayerBrodcast
+          SpectetorBrodcast
+          PlayerWhisper
+          SpectetorWhisper
+        required: true
+    responses: 
+      200:
+        body: 
+          application/json:
+            example: |
+              {"?xml":
+                {"@version":"1.0","@encoding":"utf-16"},
+                "ChatResponceCommMessage":
+                  {"@xmlns:xsd":"http://www.w3.org/2001/XMLSchema","@xmlns:xsi":"http://www.w3.org/2001/XMLSchema-instance",
+                  "UserId":"3","SessionId":"456213","Success":"true",
+                  "OriginalMsg":
+                    {"@xsi:type":"ChatCommMessage","UserId":"1","SessionId":"794565","IdSender":"1","RoomId":"3","ReciverUsername":"McLovin","MsgToSend":"I am McLovin!","ChatType":"PlayerBrodcast"},"idReciver":"4","senderngUsername":"McLovin","chatType":"PlayerBrodcast","msgToSend":"I am McLovin!","roomId":"1"}}
+
+
+
