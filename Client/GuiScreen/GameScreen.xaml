@@ -39,8 +39,11 @@
             <ComboBoxItem Content="Raise" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_1"/>
             <ComboBoxItem Content="Fold" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_2"/>
             <ComboBoxItem Content="Check" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_3"/>
-            <ComboBoxItem Content="Send A New Broadcast Chat Message" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_4"/>
-            <ComboBoxItem Content="Send A New Whisper Chat Message" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_5"/>
+            <ComboBoxItem Content="Send A New Broadcast Chat Message Player" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_4"/>
+            <ComboBoxItem Content="Send A New Whisper Chat Message Player" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_5"/>
+            <ComboBoxItem Content="Send A New Broadcast Chat Message Spectator" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_4"/>
+            <ComboBoxItem Content="Send A New Whisper Chat Message Spectator" HorizontalAlignment="Left" Width="258"  Margin="0,0,-2,0" Selected="ComboBoxItem_Selected_5"/>
+
         </ComboBox>
         <Label Content="Perform Action:" HorizontalAlignment="Left" Height="30" Margin="699,191,0,0" VerticalAlignment="Top" Width="140" FontWeight="Bold" Foreground="#FF020000" FontSize="16"/>
         <TextBox x:Name="InputForActionTextBox" HorizontalAlignment="Left" Height="30" Margin="839,5.4,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
