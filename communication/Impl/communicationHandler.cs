@@ -86,7 +86,10 @@ namespace TexasHoldem.communication.Impl
                 {
                     _socketToUserId.Remove(sockToRemove); 
                 }
-                _socketToUserId.Add(socket, id);
+                if (!_socketToUserId.ContainsKey(socket))
+                {
+                    _socketToUserId.Add(socket, id); 
+                }
             }
         }
 

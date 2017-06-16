@@ -108,6 +108,10 @@ namespace TexasHoldem.communication.Impl
 
                         response = SendMessagesJoin(msg.UserId, iter, msg);
                         break;
+                    case CommunicationMessage.ActionType.Spectate:
+                        iter = _gameService.AddSpectatorToRoom(msg.UserId, msg.RoomId);
+                        response = SendMessagesJoin(msg.UserId, iter, msg);
+                        break;
                 }
                 if (response != null)
                 {
@@ -397,8 +401,8 @@ namespace TexasHoldem.communication.Impl
                     IUser user = _userService.GetUserById(msg.UserId);
                     names.Add(user.MemberName());
                     var gameData = new GameDataCommMessage(msg.UserId, roomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, new List<Card>(),
-                        msg._chipPolicy, 0, names, null, null, null, true,
-                        "", "", 0, CommunicationMessage.ActionType.CreateRoom);
+                        msg._chipPolicy, 0, names, new List<string>(),  null, null, null, true,
+                        "", "", 0, CommunicationMessage.ActionType.CreateRoom, GameRoom.HandStep.PreFlop.ToString());
                     respons = new CreateNewGameResponse(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg, gameData);
                 }
                 else
