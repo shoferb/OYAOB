@@ -60,7 +60,19 @@ namespace Client.GuiScreen
                 {
                     //TODO BAR?!
                 }
-                
+                if (!String.IsNullOrEmpty(msg.winner))
+                {
+                    if (msg.winner.contains(","))
+                    {
+                        winnerNameLabel.Content = "Winners: ";
+                    }
+                    else
+                    {
+                        winnerNameLabel.Content = "Winner: ";
+
+                    }
+                    winnerName.Content = msg.winner;
+                }
                 this.RoomId = msg.RoomId;
                 string pre = "Room Number: ";
                 
