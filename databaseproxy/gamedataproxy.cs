@@ -74,18 +74,21 @@ namespace TexasHoldem.DatabaseProxy
 
         private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
-            
+
             var xmlSerializer = new XmlSerializer(typeof(GameRoomXML));
             GameRoomXML parsed = (GameRoomXML)xmlSerializer.Deserialize(xElement.CreateReader());
-            Logic.Game.GameRoom toRet= parsed.ConvertToLogicGR(_gc);
+            Logic.Game.GameRoom toRet = parsed.ConvertToLogicGR(_gc);
             GameRoomPreferance pref = _controller.GetGameRoomPrefById(toRet.Id);
             int modeVal = 1;
             int leagueVal = 1;
-            modeVal = (int)pref.GameMode;
-            leagueVal = (int)pref.League;
+            if (pref != null)
+            { 
+             modeVal = (int)pref.GameMode;
+            leagueVal = (int)pref.GameMode;
             toRet.SetDeco((int)(pref.MinBet), (int)(pref.EnterGamePolicy), (bool)(pref.CanSpectate), (int)(pref.MinPlayers), (int)(pref.MaxPlayers)
                 , (int)(pref.BuyInPolicy), ConvertGameMode(modeVal), ConvertLeague(leagueVal));
-            return toRet;
+        }
+        return toRet;
         }
         private TexasHoldemShared.CommMessages.GameMode ConvertGameMode(int modeVal)
         {
@@ -98,7 +101,7 @@ namespace TexasHoldem.DatabaseProxy
             {
                 return TexasHoldemShared.CommMessages.GameMode.NoLimit;
             }
-            else
+            else 
             {
                 return TexasHoldemShared.CommMessages.GameMode.Limit;
             }
