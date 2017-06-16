@@ -464,19 +464,22 @@ namespace TexasHoldem.communication.Impl
                         success = enumerator != null;
                         SendBroadcast(enumerator, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
+                        return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
                         IUser p = _userService.GetIUserByUserName(msg.ReciverUsername);
                         var res = new ChatResponceCommMessage(msg.RoomId, p.Id(), msg.SessionId, usernameSender, msg.ChatType,
                         msg.MsgToSend, p.Id(), true, msg);
                         _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), p.Id());
-                        idReciver = msg.IdSender;
+
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
                          var enumeratorSpec = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
                          success = enumeratorSpec != null;
                          SendBroadcastSpec(enumeratorSpec, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
+                        return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
+
                         break;
                     case CommunicationMessage.ActionType.SpectetorWhisper:
                         var enumeratorSpecWhisper = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
@@ -487,7 +490,6 @@ namespace TexasHoldem.communication.Impl
                         break;
 
                 }
-                return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
             }
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
