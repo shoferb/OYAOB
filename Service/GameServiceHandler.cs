@@ -219,12 +219,12 @@ namespace TexasHoldem.Service
         }
 
         //check spectetor is in the game room 
-        public bool CanSendSpectetorBrodcast(int idSpectetor, int roomId)
+        public IEnumerator<int> CanSendSpectetorBrodcast(int idSpectetor, int roomId)
         {
             bool isUserExist = _systemControl.IsUserExist(idSpectetor);
             if (!isUserExist)
             {
-                return false;
+                return null;
             }
             IUser user = _systemControl.GetUserWithId(idSpectetor);
             return _gameCenter.CanSendSpectetorBrodcast(user, roomId);

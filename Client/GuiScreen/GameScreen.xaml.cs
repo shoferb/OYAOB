@@ -146,10 +146,10 @@ namespace Client.GuiScreen
                     {
                         if (aCard != null)
                         {
+                            this.PublicCardView.Items.Clear();
                             // PUBLIC cards 
                             ListViewItem publicCardItem = new ListViewItem();                         
                             publicCardItem.Content = string.Concat(aCard.ToString());
-                         
                             this.PublicCardView.Items.Add(publicCardItem);
                            // this.chatListView.Items.Add(publicCardItem);
 

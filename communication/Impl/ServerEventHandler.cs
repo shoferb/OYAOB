@@ -451,8 +451,7 @@ namespace TexasHoldem.communication.Impl
                 switch (msg.ChatType)
                 {
                     case CommunicationMessage.ActionType.PlayerBrodcast:
-                        var enumerator = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
-                        
+                        var enumerator = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);           
                         success = enumerator != null;
                         SendBroadcast(enumerator, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
@@ -460,10 +459,14 @@ namespace TexasHoldem.communication.Impl
                     case CommunicationMessage.ActionType.PlayerWhisper:
                         success = _gameService.CanSendPlayerWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
                         idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id();
-                        _commHandler.AddMsgToSend(_parser.SerializeMsg(msg, ShouldUseDelim), idReciver);
+                        var res = new ChatResponceCommMessage(msg.RoomId, msg.IdSender, msg.SessionId, usernameSender, msg.ChatType,
+                        msg.MsgToSend, msg.IdSender, true, msg);
+                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), idReciver);
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
-                        success = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
+                         var enumeratorSpec = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
+                         success = enumeratorSpec != null;
+                         SendBroadcastSpec(enumeratorSpec, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.SpectetorWhisper:
@@ -475,6 +478,11 @@ namespace TexasHoldem.communication.Impl
                 return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
             }
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+        }
+
+        private void SendBroadcastSpec(IEnumerator<int> enumeratorSpec, int msgUserId, ChatCommMessage msg, string usernameSender)
+        {
+            throw new NotImplementedException();
         }
 
         //TODO:

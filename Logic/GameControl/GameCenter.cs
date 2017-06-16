@@ -577,16 +577,17 @@ namespace TexasHoldem.Logic.GameControl
             }
         }
 
-        public bool CanSendSpectetorBrodcast(IUser user, int roomId)
+        public IEnumerator<int> CanSendSpectetorBrodcast(IUser user, int roomId)
         {
             lock (padlock)
             {
                 IGame game = GetRoomById(roomId);
-                if (game == null)
+                if (game == null || game.IsSpectetorInRoom(user))
                 {
-                    return false;
+                    return new List<int>().GetEnumerator();
                 }
-                return game.IsSpectetorInRoom(user);
+                return  game.GetSpectetorInRoom().ConvertAll(s => s.user.Id()).GetEnumerator();
+                
             }
         }
 
