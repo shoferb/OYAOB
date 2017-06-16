@@ -136,7 +136,12 @@ namespace TexasHoldemTests.AcptTests.tests
             });
 
             //delete all rooms
+
             List<int> allGames = GameBridge.GetAllGamesId();
+            if(allGames==null)
+            {
+                allGames = new List<int>();
+            }
             Assert.True(allGames.Count == 0);
             Assert.False(GameBridge.DoesRoomExist(RoomId));
             RoomId = -1;
