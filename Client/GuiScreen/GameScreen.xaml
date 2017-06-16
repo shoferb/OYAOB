@@ -69,13 +69,6 @@
             </Border.Background>
         </Border>
         <Label Content="Public Cards:" HorizontalAlignment="Left" Height="30" Margin="23,56.4,0,0" VerticalAlignment="Top" Width="105" FontWeight="Bold" Foreground="Black" FontSize="16" Grid.Row="1"/>
-        <ListView x:Name="ListViewPublicCards" HorizontalAlignment="Left" Height="143" VerticalAlignment="Top" Width="283" Margin="28,90.4,0,0" Grid.Row="1">
-            <ListView.View>
-                <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
-                    <GridViewColumn Header="Public Cards" Width="283" DisplayMemberBinding="{Binding viewStr}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
         <Button x:Name="DoActiomBotton" Content="Do / Send!" FontWeight="Bold" HorizontalAlignment="Left" Height="28" Margin="545,81.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="81" Click="DoActiomBotton_Click_2"/>
         <Button x:Name="LeaveBotton" Content="Leave" HorizontalAlignment="Left" Margin="697,172.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="LeaveBotton_Click" Height="30"/>
         <Button x:Name="StartTheGameBTN" Content="Start The Game!" HorizontalAlignment="Left" Margin="798,173.4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="98" Height="27" Click="StartTheGameBTN_Click"/>
@@ -88,5 +81,12 @@
         <Label Content="username:" HorizontalAlignment="Left" Height="26" Margin="18,81,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="UserName" Content="" HorizontalAlignment="Left" Height="26" Margin="93,81,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
         <Image x:Name="Avatar" HorizontalAlignment="Left" Height="82" Margin="55,117,0,0" VerticalAlignment="Top" Width="81"/>
+        <ListView x:Name="PublicCardView" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="212" Margin="18,93.4,0,0" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
