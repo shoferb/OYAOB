@@ -50,10 +50,10 @@ namespace TexasHoldem.Database.DataControlers
            {
                using (var db = new connectionsLinqDataContext())
                {
-                   var temp = db.GetUserByUserId(id).ToList().First();
+                   var temp = db.GetUserByUserId(id).ToList()[0];
 
                     var toReturn = ConvertToUser(temp);
-                   var decryptedpassword = PasswordSecurity.Decrypt( "securityPassword",toReturn.password,false);
+                    var decryptedpassword = PasswordSecurity.Decrypt( "securityPassword",toReturn.password,false);
 
                     toReturn.password = decryptedpassword;
 

@@ -331,7 +331,7 @@ namespace TexasHoldem.Logic.Game
                 {
                     return Leave(player);
                 }
-                if (!IsActiveGame || player != CurrentPlayer)
+                if (!IsActiveGame || (player.user.Id() != CurrentPlayer.user.Id()))
                 {
                     gameData = GetGameData(player, amount, false, action);
                     list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };

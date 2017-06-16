@@ -33,7 +33,7 @@ namespace TexasHoldem.Service.Tests
 
         games = new GameCenter(sc, logs, replays,sender);
             userService = new UserServiceHandler(games, sc);
-            sc.Users = new List<Logic.Users.IUser>();
+           
         }
 
         [TestMethod()]

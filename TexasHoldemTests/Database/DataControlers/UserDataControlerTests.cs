@@ -40,38 +40,11 @@ namespace TexasHoldem.Database.DataControlers.Tests
             return ut;
         }
 
-        [TestMethod()]
-        public void GetAllUserTest_good_count_equal()
-        {
-            UserTable toAdd1 = CreateUser(1, "1name");
-            UserTable toAdd2 = CreateUser(2, "2name");
-            _userDataControler.AddNewUser(toAdd1);
-            _userDataControler.AddNewUser(toAdd2);
-            Assert.AreEqual(_userDataControler.GetAllUser().Count,2);
-            _userDataControler.DeleteUserById(1);
-            _userDataControler.DeleteUserById(2);
-        }
-
-        [TestMethod()]
-        public void GetAllUserTest_good_First_Id_equal()
-        {
-            UserTable toAdd1 = CreateUser(3, "3name");
-
-            _userDataControler.AddNewUser(toAdd1);
-
-            Assert.AreEqual(_userDataControler.GetAllUser().First().userId, toAdd1.userId);
-            _userDataControler.DeleteUserById(3);
-
-        }
-
-        [TestMethod()]
-        public void GetAllUserTest_bad_empty()
-        {
-          
-            Assert.AreEqual(_userDataControler.GetAllUser().Count, 0);
+  
 
 
-        }
+
+  
 
         [TestMethod()]
         public void GetUserByIdTest_good()
@@ -83,7 +56,26 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Assert.AreEqual(_userDataControler.GetUserById(4).userId, toAdd1.userId);
             _userDataControler.DeleteUserById(4);
         }
+        [TestMethod()]
+        public void GetUserByIdTest_nameGood_good()
+        {
+            UserTable toAdd1 = CreateUser(4, "4name");
 
+            _userDataControler.AddNewUser(toAdd1);
+
+            Assert.AreEqual(_userDataControler.GetUserById(4).name, toAdd1.name);
+            _userDataControler.DeleteUserById(4);
+        }
+        [TestMethod()]
+        public void GetUserByIdTest_UsernameGood_good()
+        {
+            UserTable toAdd1 = CreateUser(4, "4name");
+
+            _userDataControler.AddNewUser(toAdd1);
+
+            Assert.AreEqual(_userDataControler.GetUserById(4).username, toAdd1.username);
+            _userDataControler.DeleteUserById(4);
+        }
         [TestMethod()]
         public void GetUserByIdTest_bad_noUser()
         {
@@ -106,16 +98,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             ;
            
         }
-        [TestMethod()]
-        public void AddNewUserTest_good_count()
-        {
-            UserTable toAdd1 = CreateUser(8, "8name");
-
-            _userDataControler.AddNewUser(toAdd1);
-
-            Assert.AreEqual(_userDataControler.GetAllUser().Count, 1);
-            _userDataControler.DeleteUserById(8);
-        }
+      
 
         [TestMethod()]
         public void AddNewUserTest_good_Id()

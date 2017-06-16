@@ -39,6 +39,7 @@ namespace TexasHoldem.Logic.Users
             this._secondCard = null;
             this.isPlayerActive = false;
             this.PlayedAnActionInTheRound = false;
+            this.name = this.user.MemberName();
         }
 
         public Player(IUser User, int totalChip, int RoomId, int roundChipBet, bool isPlayerActivee, Card fCard, Card sCard, bool playedAnActionInTheRound)
@@ -52,6 +53,7 @@ namespace TexasHoldem.Logic.Users
             this._secondCard = sCard;
             this.isPlayerActive = isPlayerActivee;
             this.PlayedAnActionInTheRound = playedAnActionInTheRound;
+            this.name = this.user.MemberName();
         }
 
         public Player( int totalChip, int RoomId, int roundChipBet, bool isPlayerActivee, Card fCard, Card sCard, bool playedAnActionInTheRound, List<Card> pC)
@@ -65,6 +67,7 @@ namespace TexasHoldem.Logic.Users
             this.isPlayerActive = isPlayerActivee;
             this.PlayedAnActionInTheRound = playedAnActionInTheRound;
             this.roomId = roomId;
+            this.name = this.user.MemberName();
         }
 
         public void InitForNewGame()

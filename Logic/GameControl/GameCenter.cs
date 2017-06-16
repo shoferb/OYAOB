@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
@@ -14,7 +15,7 @@ namespace TexasHoldem.Logic.GameControl
 {
     public class GameCenter
     {
-        private List<Log> logs;
+        
 
         public int leagueGap { get; set; }
         //    private List<IGame> games;
@@ -34,7 +35,7 @@ namespace TexasHoldem.Logic.GameControl
             replayManager = replay;
             _systemControl = sys;
             logControl = log;
-            this.logs = new List<Log>();
+           
        //     this.games = new List<IGame>();
             sidHandler = sidH;
         }
@@ -156,7 +157,7 @@ namespace TexasHoldem.Logic.GameControl
         {
             lock (padlock)
             {
-                int toReturn = System.Threading.Interlocked.Increment(ref _roomIdCounter);
+                int toReturn = GetAllGames().OrderByDescending(game => game.Id).First().Id + 1;
                 return toReturn;
             }
         }

@@ -47,12 +47,23 @@ namespace TexasHoldem.Logic.GameControl
             }
         }
 
+        //Todo
         public void AddErrorLog(ErrorLog log)
         {
             lock (padlock)
             {
                 try
                 {
+                    int nextLogId = logDataProxy.GetNextLogId();
+                    if (nextLogId == -2)
+                    {
+                        log.LogId = 1;
+                    }
+                    else if (nextLogId == -1)
+                    {
+                        return;
+                    }
+                    log.LogId = nextLogId;
                     logDataProxy.AddErrorLog(log);
                 }
                 catch (Exception e)

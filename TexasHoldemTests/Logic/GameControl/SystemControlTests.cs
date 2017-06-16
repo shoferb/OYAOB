@@ -33,7 +33,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RemoveUserByIdTest_good()
         {
-            _sc.Users = new List<IUser>();
+            
             _sc.RegisterToSystem(465002500, "orelie", "orelie465002500", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsTrue(_sc.RemoveUserById(465002500));
             _userService.DeleteUserById(465002500);
@@ -42,13 +42,13 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RemoveUserByIdTest_Bad_no_user()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.RemoveUserById(0005522));
         }
 
         public void RemoveUserByIdTest_Bad_invalidId()
         {
-            _sc.Users = new List<IUser>();
+            
             _sc.RegisterToSystem(99665858, "orelie", "orelie99665858", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(_sc.RemoveUserById(-1));
             _userService.DeleteUserById(99665858);
@@ -57,7 +57,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RemoveUserByUserNameAndPasswordTest_good()
         {
-            _sc.Users = new List<IUser>();
+          
             _sc.RegisterToSystem(44500252, "orelie", "orelie44500252", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsTrue(_sc.RemoveUserByUserNameAndPassword("orelie44500252", "123456789"));
             _userService.DeleteUserById(44500252);
@@ -68,7 +68,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RemoveUserByUserNameAndPasswordTest_Bad_password()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(88585000, "orelie", "orelie88585000", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(_sc.RemoveUserByUserNameAndPassword("orelie88585000", "83456789"));
             _userService.DeleteUserById(88585000);
@@ -78,7 +78,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RemoveUserTest_good()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(775800045, "orelie", "orelie775800045", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsTrue(_sc.RemoveUser(_sc.GetUserWithId(775800045)));
             _userService.DeleteUserById(775800045);
@@ -88,21 +88,21 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RemoveUserTest_bad_user_null()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.RemoveUser(null));
         }
 
         [TestMethod()]
         public void RemoveUserTest_bad_not_in_users()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.RemoveUser(_sc.GetUserWithId(99850000)));
         }
 
         [TestMethod()]
         public void GetIUSerByUsernameTest_good()
         {
-            _sc.Users = new List<IUser>();
+            
             _sc.RegisterToSystem(98985854, "orelie", "orelie98985854", "123456789", 15000, "orelie@post.bgu.ac.il");
             IUser u = _sc.GetUserWithId(98985854);
             Assert.AreEqual(u.MemberName(), "orelie98985854");
@@ -115,7 +115,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void GetIUSerByUsernameTest_bad_no_user()
         {
-            _sc.Users = new List<IUser>();
+           
             IUser u = _sc.GetUserWithId(000044585);
             Assert.AreEqual(u,null);
         }
@@ -123,7 +123,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RegisterToSystemTest_good()
         {
-            _sc.Users = new List<IUser>();
+       
             Assert.IsTrue(_sc.RegisterToSystem(565658880, "orelie", "orelie565658880", "123456789", 15000, "orelie@post.bgu.ac.il"));
             _userService.DeleteUserById(565658880);
 
@@ -132,7 +132,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RegisterToSystemTest_bad_id_taken()
         {
-            _sc.Users = new List<IUser>();
+          
             _sc.RegisterToSystem(90520650, "orelie", "orelie90520650", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(_sc.RegisterToSystem(90520650, "orelie", "orelie_taken-RegisterToSystemTest_bad_id_taken()", "123456789", 15000, "orelie@post.bgu.ac.il"));
             _userService.DeleteUserById(90520650);
@@ -142,7 +142,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RegisterToSystemTest_bad_userName_taken()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(880088052, "orelie", "orelie880088052", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(_sc.RegisterToSystem(880088053, "orelie", "orelie880088052", "123456789", 15000, "orelie@post.bgu.ac.il"));
             _userService.DeleteUserById(880088052);
@@ -152,84 +152,84 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_email()
         {
-            _sc.Users = new List<IUser>();
+           
             Assert.IsFalse(_sc.RegisterToSystem(005522525, "orelie", "RegisterToSystemTest_bad_Not_Valid_email()", "123456789", 15000, "oreliepost.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_passWord()
         {
-            _sc.Users = new List<IUser>();
+          
             Assert.IsFalse(_sc.RegisterToSystem(0055225265, "orelie", "RegisterToSystemTest_bad_Not_Valid_passWord()", "123", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_Name()
         {
-            _sc.Users = new List<IUser>();
+           
             Assert.IsFalse(_sc.RegisterToSystem(0005522558, " ", "RegisterToSystemTest_bad_Not_Valid_Name()", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_Id()
         {
-            _sc.Users = new List<IUser>();
+           
             Assert.IsFalse(_sc.RegisterToSystem(-1, "orelie", "RegisterToSystemTest_bad_Not_Valid_Id()", "123456789", 15000, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void RegisterToSystemTest_bad_Not_Valid_money()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.RegisterToSystem(006656568, "orelie", "RegisterToSystemTest_bad_Not_Valid_money()", "123456789", -10, "orelie@post.bgu.ac.il"));
         }
 
         [TestMethod()]
         public void CanCreateNewUserTest_good()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsTrue(_sc.CanCreateNewUser(88585900, "orelie88585900", "123456789", "orelie@post.bgu.ac.il"));
         }
         [TestMethod()]
         public void CanCreateNewUserTest_Bad_id()
         {
-            _sc.Users = new List<IUser>();
+         
             Assert.IsFalse(_sc.CanCreateNewUser(-1, "orelie26", "123456789", "orelie@post.bgu.ac.il"));
         }
         [TestMethod()]
         public void CanCreateNewUserTest_Bad_userName()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.CanCreateNewUser(305077901, " ", "123456789", "orelie@post.bgu.ac.il"));
         }
         [TestMethod()]
         public void CanCreateNewUserTest_bad_email()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.CanCreateNewUser(305077901, "orelie26", "123456789", "oreliepost.bgu.ac.il"));
         }
         [TestMethod()]
         public void CanCreateNewUserTest_bad_email_empty()
         {
-            _sc.Users = new List<IUser>();
+          
             Assert.IsFalse(_sc.CanCreateNewUser(305077901, "orelie26", "123456789", "oreliepost.bgu.ac.il"));
         }
         [TestMethod()]
         public void CanCreateNewUserTest_password()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.CanCreateNewUser(305077901, "orelie26", "123", "orelie@post.bgu.ac.il"));
         }
         [TestMethod()]
         public void CanCreateNewUserTest_password_empty()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsFalse(_sc.CanCreateNewUser(305077901, "orelie26", " ", "orelie@post.bgu.ac.il"));
         }
         [TestMethod()]
         public void IsUsernameFreeTest_good()
         {
-            _sc.Users = new List<IUser>();
+            
             Assert.IsTrue(_sc.IsUsernameFree("IsUsernameFreeTest_good()"));
 
         }
@@ -237,7 +237,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void IsUsernameFreeTest_bad_taken()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(305091, "orelie", "orelie305091", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(_sc.IsUsernameFree("orelie305091"));
             _userService.DeleteUserById(305091);
@@ -246,7 +246,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void IsUsernameFreeTest_bad_empty()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(8830521, "orelie", "orelie8830521", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsFalse(_sc.IsUsernameFree(" "));
             _userService.DeleteUserById(8830521);
@@ -280,7 +280,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void IsUserExistTest_good()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(55000845, "orelie", "orelie55000845", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.IsTrue(_sc.IsUserExist(55000845));
             _userService.DeleteUserById(55000845);
@@ -302,7 +302,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void GetUserWithIdTest_good()
         {
-            _sc.Users = new List<IUser>();
+           
             _sc.RegisterToSystem(88880252, "orelie", "orelie88880252", "123456789", 15000, "orelie@post.bgu.ac.il");
             IUser u = _sc.GetUserWithId(88880252);
             Assert.IsTrue(u!=null);
@@ -328,7 +328,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void DivideLeagueTest_good()
         {
-            _sc.Users = new List<IUser>();
+          
             string name = "";
             for (int i = 1; i < 11; i++)
             {
@@ -493,7 +493,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         [TestMethod()]
         public void DivideLeagueTest_good_Unknow()
         {
-            _sc.Users = new List<IUser>();
+            
             _sc.RegisterToSystem(58515120, "orelie", "orelie58515120", "123456789", 15000, "orelie@post.bgu.ac.il");
             Assert.AreEqual(_sc.GetUserWithId(58515120).GetLeague(), LeagueName.Unknow);
             _userService.DeleteUserById(58515120);
