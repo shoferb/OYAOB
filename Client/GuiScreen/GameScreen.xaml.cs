@@ -1,13 +1,18 @@
 ﻿using Client.Logic;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using TexasHoldem;
 using TexasHoldem.GuiScreen;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Client.GuiScreen
 {
@@ -296,21 +301,32 @@ namespace Client.GuiScreen
             }
 
         }
+   
         public void AddChatMsg(ChatResponceCommMessage msg)
         {
-            if (msg.idReciver == this._logic.user.id)
+            Dispatcher.Invoke(DispatcherPriority.Normal,
+            new Action(delegate ()
             {
-                ListViewItem toAdd = new ListViewItem();
-                toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
-                this.chatListView.Items.Add(toAdd);
+                if (msg.idReciver == this._logic.user.id)
+                {
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
+                    chatListView.Items.Add(toAdd);
+                }
+                else
+                {
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = string.Concat("Broadcast message from ", msg.senderngUsername, ": ", msg.msgToSend);
+                    this.chatListView.Items.Add(toAdd);
+                }
             }
-            else
-            {
-                ListViewItem toAdd = new ListViewItem();
-                toAdd.Content = string.Concat("Broadcast message from ", msg.senderngUsername, ": ", msg.msgToSend);
-                this.chatListView.Items.Add(toAdd);
-            }
+            ));
+
+
+           
+           
         }
+        
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {

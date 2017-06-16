@@ -437,6 +437,8 @@ namespace TexasHoldem.communication.Impl
                 {
                     case CommunicationMessage.ActionType.PlayerBrodcast:
                         success = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
+                        //new shit
+                        success = true;
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:

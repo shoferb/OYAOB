@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
+using System.Threading;
 using TexasHoldemShared.Parser;
 using TexasHoldemShared.Security;
 
@@ -152,7 +153,8 @@ namespace Client.Handler
 
         public void Start()
         {
-            Task task = new Task(ReceiveMessages);
+            Thread task = new Thread(ReceiveMessages);
+            task.SetApartmentState(ApartmentState.STA);          
 
             if (Connect())
             {

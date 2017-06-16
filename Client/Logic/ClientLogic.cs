@@ -207,11 +207,7 @@ namespace Client.Logic
                     new ResponeCommMessage(user.id));
             MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
+           
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             MessagesSentObserver.Remove(messageToList);
             return toRet;

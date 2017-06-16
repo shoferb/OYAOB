@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
@@ -145,7 +146,8 @@ namespace Client.Handler
 
         public void Start()
         {
-            Task task = new Task(HandleMessages);
+            Thread task = new Thread(HandleMessages);
+            task.SetApartmentState(ApartmentState.STA); 
             task.Start();
         }
 

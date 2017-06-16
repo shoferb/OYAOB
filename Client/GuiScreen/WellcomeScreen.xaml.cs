@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +31,7 @@ namespace TexasHoldem.GuiScreen
         {
             InitializeComponent();
             cl = new ClientLogic();
-            _commHandler = new ClientCommunicationHandler("127.0.0.1");
+            _commHandler = new ClientCommunicationHandler("127.7.24.19");
             _eventHandler = new ClientEventHandler(_commHandler);
             _eventHandler.Init(cl);
             cl.Init(_eventHandler, _commHandler);
