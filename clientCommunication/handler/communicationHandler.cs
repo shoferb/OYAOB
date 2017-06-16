@@ -132,9 +132,11 @@ namespace clientCommunication.handler
 
         public void Start()
         {
+           // Task task = new Task(receiveMessages);
             Task task = new Task(receiveMessages);
            
-            if(Connect())
+
+            if (Connect())
             {
                 task.Start();
                 sendMessages(); 

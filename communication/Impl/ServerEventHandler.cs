@@ -45,7 +45,8 @@ namespace TexasHoldem.communication.Impl
             _sessionIdHandler = handler;
         }
 
-        private ResponeCommMessage SendMessages(int userId, IEnumerator<ActionResultInfo> iterator, CommunicationMessage originalMsg)
+        private ResponeCommMessage SendMessages(int userId, IEnumerator<ActionResultInfo> iterator, 
+            CommunicationMessage originalMsg)
         {
             ResponeCommMessage response = null;
             while (iterator.MoveNext())
@@ -105,6 +106,10 @@ namespace TexasHoldem.communication.Impl
                     case CommunicationMessage.ActionType.Join:
                         iter = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
 
+                        response = SendMessagesJoin(msg.UserId, iter, msg);
+                        break;
+                    case CommunicationMessage.ActionType.Spectate:
+                        iter = _gameService.AddSpectatorToRoom(msg.UserId, msg.RoomId);
                         response = SendMessagesJoin(msg.UserId, iter, msg);
                         break;
                 }
@@ -396,8 +401,8 @@ namespace TexasHoldem.communication.Impl
                     IUser user = _userService.GetUserById(msg.UserId);
                     names.Add(user.MemberName());
                     var gameData = new GameDataCommMessage(msg.UserId, roomId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), null, null, new List<Card>(),
-                        msg._chipPolicy, 0, names, null, null, null, true,
-                        "", "", 0, CommunicationMessage.ActionType.CreateRoom);
+                        msg._chipPolicy, 0, names, new List<string>(),  null, null, null, true,
+                        "", "", 0, CommunicationMessage.ActionType.CreateRoom, GameRoom.HandStep.PreFlop.ToString());
                     respons = new CreateNewGameResponse(msg.UserId, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), success, msg, gameData);
                 }
                 else
@@ -425,6 +430,20 @@ namespace TexasHoldem.communication.Impl
             return toReturn;
         }
 
+        private void SendBroadcast(IEnumerator<int> iterator, int senderId, ChatCommMessage msg, string usernameSender)
+        {
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                var res = new ChatResponceCommMessage(msg.RoomId, curr, msg.SessionId, usernameSender, msg.ChatType,
+                    msg.MsgToSend, curr, true, msg);
+                if (curr != senderId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), curr);
+                }
+            }
+        }
+
         public ResponeCommMessage HandleEvent(ChatCommMessage msg)
         {
             if (_sessionIdHandler != null)
@@ -436,26 +455,52 @@ namespace TexasHoldem.communication.Impl
                 switch (msg.ChatType)
                 {
                     case CommunicationMessage.ActionType.PlayerBrodcast:
-                        success = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
+                        var enumerator = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);           
+                        success = enumerator != null;
+                        SendBroadcast(enumerator, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
                         success = _gameService.CanSendPlayerWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
-                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id();
+                        var res = new ChatResponceCommMessage(msg.RoomId, msg.IdSender, msg.SessionId, usernameSender, msg.ChatType,
+                        msg.MsgToSend, msg.IdSender, true, msg);
+                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), idReciver);
+                        idReciver = msg.IdSender;
+
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
-                        success = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
+                         var enumeratorSpec = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
+                         success = enumeratorSpec != null;
+                         SendBroadcastSpec(enumeratorSpec, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.SpectetorWhisper:
-                        success = _gameService.CanSendSpectetorWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
-                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                        var res2 = new ChatResponceCommMessage(msg.RoomId, msg.IdSender, msg.SessionId, usernameSender, msg.ChatType,
+                        msg.MsgToSend, msg.IdSender, true, msg);
+                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res2, ShouldUseDelim), idReciver);
+                        idReciver = msg.IdSender;
+
                         break;
 
                 }
                 return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
             }
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+        }
+
+        private void SendBroadcastSpec(IEnumerator<int> iterator, int senderId, ChatCommMessage msg, string usernameSender)
+        {
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                var res = new ChatResponceCommMessage(msg.RoomId, curr, msg.SessionId, usernameSender, msg.ChatType,
+                    msg.MsgToSend, curr, true, msg);
+                if (curr != senderId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), curr);
+                }
+            }
         }
 
         //TODO:

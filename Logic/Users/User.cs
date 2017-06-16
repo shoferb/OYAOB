@@ -183,8 +183,6 @@ namespace TexasHoldem.Logic.Users
             return spectateGameList;
         }
 
-       
-
         public void UpdateHighestCashInGame(int cashToChck)
         {
             if (HighestCashGainInGame < cashToChck)
@@ -193,8 +191,6 @@ namespace TexasHoldem.Logic.Users
                 userDataProxy.EditUserHighestCashGainInGame(id,cashToChck);
             }
         }
-
-       
 
         public void UpdateTotalProfit(int profit)
         {
@@ -477,8 +473,6 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-    
-
         public bool RemoveRoomFromActiveGameList(IGame game)
         {
             lock (padlock)
@@ -698,5 +692,6 @@ namespace TexasHoldem.Logic.Users
             IUser t = userDataProxy.GetUserById(id);
             return (t.Money() - startingChip - fee >= 0);
         }
+
     }
 }

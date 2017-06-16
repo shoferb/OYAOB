@@ -364,29 +364,33 @@ namespace TexasHoldem.Logic.GameControl
             return toCheck >= 0;
         }
         
-        public bool CanSendPlayerBrodcast(IUser user, int roomId)
+        public IEnumerator<int> CanSendPlayerBrodcast(IUser user, int roomId)
         {
             lock (padlock)
             {
                 IGame game = GetRoomById(roomId);
-                if (game == null)
+                if (game == null || !game.IsPlayerInRoom(user))
                 {
-                    return false;
+                    return new List<int>().GetEnumerator();
                 }
-                return game.IsPlayerInRoom(user);
+                var playerIds = game.GetPlayersInRoom().ConvertAll(p => p.user.Id());
+                var spectIds = game.GetSpectetorInRoom().ConvertAll(s => s.user.Id());
+                var allIds = playerIds.Union(spectIds);
+                return allIds.GetEnumerator();
             }
         }
 
-        public bool CanSendSpectetorBrodcast(IUser user, int roomId)
+        public IEnumerator<int> CanSendSpectetorBrodcast(IUser user, int roomId)
         {
             lock (padlock)
             {
                 IGame game = GetRoomById(roomId);
-                if (game == null)
+                if (game == null || game.IsSpectetorInRoom(user))
                 {
-                    return false;
+                    return new List<int>().GetEnumerator();
                 }
-                return game.IsSpectetorInRoom(user);
+                return  game.GetSpectetorInRoom().ConvertAll(s => s.user.Id()).GetEnumerator();
+                
             }
         }
 

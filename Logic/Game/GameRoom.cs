@@ -462,21 +462,21 @@ namespace TexasHoldem.Logic.Game
                 money = player.TotalChip;
             }
             List<string> allPlayerNames = GetPlayersNames();
+            List<string> allSpecatatorNames = GetSpectatorNames();
             GameDataCommMessage gd = new GameDataCommMessage(userId, Id, sidHandler.GetSessionIdByUserId(userId), 
-                card1, card2,
-                PublicCards , money, PotCount , allPlayerNames, dealerName,
-                bbName, sbName, success, currName , playerName, bet, action);
+                card1, card2, PublicCards , money, PotCount , allPlayerNames, allSpecatatorNames, dealerName,
+                bbName, sbName, success, currName , playerName, bet, action, Hand_Step.ToString());
             return gd;
         }
 
         private List<string> GetPlayersNames()
         {
-            List<string> names = new List<string>();
-            foreach(Player p in Players)
-            {
-                names.Add(p.user.MemberName());
-            }
-            return names;
+            return Players.ConvertAll(p => p.user.MemberName());
+        }
+
+        private List<string> GetSpectatorNames()
+        {
+            return Spectatores.ConvertAll(s => s.user.MemberName());
         }
 
         private bool FixRoles(Player playerLeaved)
@@ -1127,9 +1127,10 @@ namespace TexasHoldem.Logic.Game
             }
         }
 
-        public bool AddSpectetorToRoom(IUser user)
+        public IEnumerator<ActionResultInfo> AddSpectetorToRoom(IUser user)
         {           
             //if user is player in room cant be also spectetor
+            GameDataCommMessage gameData;
             foreach (Player p in Players)
             {
                 if (p.user.Id() == user.Id())
@@ -1137,14 +1138,18 @@ namespace TexasHoldem.Logic.Game
                     ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
                         + user.Id() + " to room: " +Id + " user is already a player in this room");
                     logControl.AddErrorLog(log);
-                    return false;
+                    gameData = GetGameData(p, 0, false, ActionType.Spectate);
+                    var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+                    return list.GetEnumerator();
                 }
             }
            
             user.AddRoomToSpectetorGameList(this);
             Spectetor spectetor = new Spectetor(user, Id);
-            Spectatores.Add(spectetor);               
-            return true;
+            Spectatores.Add(spectetor);
+            Player player = Players.Find(p => p.user.Id() == user.Id());
+            gameData = GetGameData(player, 0, true, ActionType.Spectate);
+            return GetEnumeratorToSend(Players, Spectatores, gameData);
        }
 
         public bool RemoveSpectetorFromRoom(IUser user)
@@ -1300,7 +1305,7 @@ namespace TexasHoldem.Logic.Game
             {
                 foreach(Player player in Players)
                 {
-                    if(player.user == user)
+                    if(player.user.Id() == user.Id())
                     {
                         toReturn = true;
                         return toReturn;

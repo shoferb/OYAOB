@@ -33,5 +33,16 @@ namespace TexasHoldem.Properties {
                 return ((string)(this["DataBaseSadnaConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=GOOLUE\\GOOLUESQL;Initial Catalog=DataBaseSadna;Integrated Security=Tr" +
+            "ue")]
+        public string DataBaseSadnaConnectionString1 {
+            get {
+                return ((string)(this["DataBaseSadnaConnectionString1"]));
+            }
+        }
     }
 }

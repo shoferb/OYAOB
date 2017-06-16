@@ -109,7 +109,7 @@ namespace TexasHoldem.Service
             }
         }
 
-        public bool AddSpectatorToRoom(int userId, int roomId)
+        public IEnumerator<ActionResultInfo> AddSpectatorToRoom(int userId, int roomId)
         {
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
             IUser user = _systemControl.GetUserWithId(userId);
@@ -119,7 +119,7 @@ namespace TexasHoldem.Service
             }
             else
             {
-                return false;
+                return new List<ActionResultInfo>().GetEnumerator();
             }
         }
 
@@ -207,24 +207,24 @@ namespace TexasHoldem.Service
         }
 
         //check player is in the game room 
-        public bool CanSendPlayerBrodcast(int playerId, int roomId)
+        public IEnumerator<int> CanSendPlayerBrodcast(int playerId, int roomId)
         {
             bool isUserExist = _systemControl.IsUserExist(playerId);
             if (!isUserExist)
             {
-                return false;
+                return null;
             }
             IUser user = _systemControl.GetUserWithId(playerId);
             return _gameCenter.CanSendPlayerBrodcast(user,roomId);
         }
 
         //check spectetor is in the game room 
-        public bool CanSendSpectetorBrodcast(int idSpectetor, int roomId)
+        public IEnumerator<int> CanSendSpectetorBrodcast(int idSpectetor, int roomId)
         {
             bool isUserExist = _systemControl.IsUserExist(idSpectetor);
             if (!isUserExist)
             {
-                return false;
+                return null;
             }
             IUser user = _systemControl.GetUserWithId(idSpectetor);
             return _gameCenter.CanSendSpectetorBrodcast(user, roomId);

@@ -92,7 +92,7 @@ namespace TexasHoldem.communication.Impl
                 var resStr = _parser.SerializeMsg(res, true);
                 if (userId == -1) //user id is temporary, remove from queue
                 {
-                    _userIdToEventHandlerMap.TryRemove(userId, out IEventHandler handler);
+                  //  _userIdToEventHandlerMap.TryRemove(userId, out IEventHandler handler);
                 }
                 if (!String.IsNullOrEmpty(resStr))
                 {

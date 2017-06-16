@@ -69,10 +69,10 @@ namespace Client.Logic
         }
 
 
-        public bool SpectateRoom(int roomId)
+        public JoinResponseCommMessage SpectateRoom(int roomId)
         {
-            ActionCommMessage toSend =
-                new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate, -1, roomId);
+            ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate,
+               -1, roomId);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
@@ -84,9 +84,15 @@ namespace Client.Logic
                 t.Wait();
             }
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            return toRet;
-
-        }
+            if (toRet)
+            {
+                JoinResponseCommMessage res =
+                    (JoinResponseCommMessage)(MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
+                GameUpdateReceived(res.GameData);
+                return res;
+            }
+            return null;
+         }
 
         //needed to be call after create new ClientEventHandler and a new client logic
         public void Init(ClientEventHandler eventHandler, ClientCommunicationHandler handler)
@@ -206,12 +212,7 @@ namespace Client.Logic
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
             MessagesSentObserver.Add(messageToList);
-            _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
+            _eventHandler.SendNewEvent(toSend);    
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
             MessagesSentObserver.Remove(messageToList);
             return toRet;
@@ -433,6 +434,8 @@ namespace Client.Logic
             MessagesSentObserver.Add(toAdd);
 
         }
+
+      
     }
 }
 

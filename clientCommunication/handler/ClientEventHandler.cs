@@ -121,7 +121,8 @@ namespace clientCommunication.handler
         }
         public void Start()
         {
-            Task task = new Task(handleMessages);
+            Task task = new Task(HandleMessages);
+            task.SetApartmentState(ApartmentState.STA);
             task.Start();
         }
     }
