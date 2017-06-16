@@ -86,7 +86,7 @@
         <Button x:Name="StartTheGameBTN" Content="Start The Game!" HorizontalAlignment="Left" Margin="968,91.8,0,0" Grid.Row="2" VerticalAlignment="Top" Width="98" Height="27" Click="StartTheGameBTN_Click"/>
         <Button Content="Logout" HorizontalAlignment="Left" Height="24" Margin="911,131.8,0,0" Grid.Row="2" VerticalAlignment="Top" Width="72" Click="Button_Click"/>
         <Label Content="Chat Whisper receiver " HorizontalAlignment="Left" Height="38" Margin="688,56.4,0,0" VerticalAlignment="Top" Width="163" Foreground="White" FontWeight="Bold" RenderTransformOrigin="0.038,0.66" Grid.Row="1" Grid.RowSpan="2"/>
-        <TextBox x:Name="WhisperReceiverTextBox_Copy" HorizontalAlignment="Left" Height="30" Margin="839,55.4,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
+        <TextBox x:Name="WhisperReceiverTextBox" HorizontalAlignment="Left" Height="30" Margin="839,55.4,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
         <Label Content="User Information:" HorizontalAlignment="Left" Height="30" Margin="18,35,0,0" VerticalAlignment="Top" Width="146" FontWeight="Bold" Foreground="Black" FontSize="16"/>
         <Label Content="user Id:" HorizontalAlignment="Left" Height="26" Margin="19,62,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="UserID" Content="" HorizontalAlignment="Left" Height="26" Margin="79,65,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>

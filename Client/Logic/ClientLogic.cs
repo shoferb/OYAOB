@@ -20,7 +20,7 @@ namespace Client.Logic
         //first bool = is response received, second bool = is succeeded
         public List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>> MessagesSentObserver =
             new List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>>();
-
+        
         private readonly Object listLock;
         public List<GameScreen> _games { get; }
         private long _sessionId = -1;
