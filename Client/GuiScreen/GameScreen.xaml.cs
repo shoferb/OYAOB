@@ -368,9 +368,9 @@ namespace Client.GuiScreen
                             {
                                 MessageBox.Show("Logout OK!");
                                 
-                                WellcomeScreen wellcomeScreen = new WellcomeScreen();
+                                //WellcomeScreen wellcomeScreen = new WellcomeScreen();
 
-                                wellcomeScreen.Show();
+                               // wellcomeScreen.Show();
                                 this.Close();
                                 //this.Hide();
                                 done = true;
