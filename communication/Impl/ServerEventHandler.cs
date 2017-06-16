@@ -45,7 +45,8 @@ namespace TexasHoldem.communication.Impl
             _sessionIdHandler = handler;
         }
 
-        private ResponeCommMessage SendMessages(int userId, IEnumerator<ActionResultInfo> iterator, CommunicationMessage originalMsg)
+        private ResponeCommMessage SendMessages(int userId, IEnumerator<ActionResultInfo> iterator, 
+            CommunicationMessage originalMsg)
         {
             ResponeCommMessage response = null;
             while (iterator.MoveNext())
@@ -425,6 +426,20 @@ namespace TexasHoldem.communication.Impl
             return toReturn;
         }
 
+        private void SendBroadcast(IEnumerator<int> iterator, int senderId, ChatCommMessage msg, string usernameSender)
+        {
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                var res = new ChatResponceCommMessage(msg.RoomId, curr, msg.SessionId, usernameSender, msg.ChatType,
+                    msg.MsgToSend, curr, true, msg);
+                if (curr != senderId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), curr);
+                }
+            }
+        }
+
         public ResponeCommMessage HandleEvent(ChatCommMessage msg)
         {
             if (_sessionIdHandler != null)
@@ -436,14 +451,16 @@ namespace TexasHoldem.communication.Impl
                 switch (msg.ChatType)
                 {
                     case CommunicationMessage.ActionType.PlayerBrodcast:
-                        success = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
-                        //new shit
-                        success = true;
+                        var enumerator = _gameService.CanSendPlayerBrodcast(msg.IdSender, msg.RoomId);
+                        
+                        success = enumerator != null;
+                        SendBroadcast(enumerator, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
                         success = _gameService.CanSendPlayerWhisper(msg.IdSender, msg.ReciverUsername, msg.RoomId);
-                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id(); ;
+                        idReciver = _userService.GetIUserByUserName(msg.ReciverUsername).Id();
+                        _commHandler.AddMsgToSend(_parser.SerializeMsg(msg, ShouldUseDelim), idReciver);
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
                         success = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);

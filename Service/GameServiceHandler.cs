@@ -207,12 +207,12 @@ namespace TexasHoldem.Service
         }
 
         //check player is in the game room 
-        public bool CanSendPlayerBrodcast(int playerId, int roomId)
+        public IEnumerator<int> CanSendPlayerBrodcast(int playerId, int roomId)
         {
             bool isUserExist = _systemControl.IsUserExist(playerId);
             if (!isUserExist)
             {
-                return false;
+                return null;
             }
             IUser user = _systemControl.GetUserWithId(playerId);
             return _gameCenter.CanSendPlayerBrodcast(user,roomId);
