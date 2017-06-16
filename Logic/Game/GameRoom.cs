@@ -1134,7 +1134,7 @@ namespace TexasHoldem.Logic.Game
             {
                 foreach(Player player in Players)
                 {
-                    if(player.user == user)
+                    if(player.user.Id() == user.Id())
                     {
                         toReturn = true;
                         return toReturn;

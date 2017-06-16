@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
@@ -560,16 +561,19 @@ namespace TexasHoldem.Logic.GameControl
             }
         }
 
-        public bool CanSendPlayerBrodcast(IUser user, int roomId)
+        public IEnumerator<int> CanSendPlayerBrodcast(IUser user, int roomId)
         {
             lock (padlock)
             {
                 IGame game = GetRoomById(roomId);
-                if (game == null)
+                if (game == null || !game.IsPlayerInRoom(user))
                 {
-                    return false;
+                    return new List<int>().GetEnumerator();
                 }
-                return game.IsPlayerInRoom(user);
+                var playerIds = game.GetPlayersInRoom().ConvertAll(p => p.user.Id());
+                var spectIds = game.GetSpectetorInRoom().ConvertAll(s => s.user.Id());
+                var allIds = playerIds.Union(spectIds);
+                return allIds.GetEnumerator();
             }
         }
 

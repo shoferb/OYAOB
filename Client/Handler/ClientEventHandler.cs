@@ -147,7 +147,7 @@ namespace Client.Handler
         public void Start()
         {
             Thread task = new Thread(HandleMessages);
-            task.SetApartmentState(ApartmentState.STA); 
+            //task.SetApartmentState(ApartmentState.STA); 
             task.Start();
         }
 

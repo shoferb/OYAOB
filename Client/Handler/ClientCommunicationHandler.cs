@@ -154,7 +154,7 @@ namespace Client.Handler
         public void Start()
         {
             Thread task = new Thread(ReceiveMessages);
-            task.SetApartmentState(ApartmentState.STA);          
+            //task.SetApartmentState(ApartmentState.STA);          
 
             if (Connect())
             {
