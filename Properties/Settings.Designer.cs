@@ -26,7 +26,8 @@ namespace TexasHoldem.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=BARI;Initial Catalog=DataBaseSadna;Integrated Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=BBBB123\\SQLEXPRESS;Initial Catalog=DataBaseSadna;Integrated Security=" +
+            "True")]
         public string DataBaseSadnaConnectionString1 {
             get {
                 return ((string)(this["DataBaseSadnaConnectionString1"]));
