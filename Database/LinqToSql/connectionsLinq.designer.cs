@@ -30,33 +30,21 @@ namespace TexasHoldem.Database.LinqToSql
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertCard(Card instance);
-    partial void UpdateCard(Card instance);
-    partial void DeleteCard(Card instance);
-    partial void InsertDeck(Deck instance);
-    partial void UpdateDeck(Deck instance);
-    partial void DeleteDeck(Deck instance);
     partial void InsertErrorLog(ErrorLog instance);
     partial void UpdateErrorLog(ErrorLog instance);
     partial void DeleteErrorLog(ErrorLog instance);
+    partial void InsertUserTable(UserTable instance);
+    partial void UpdateUserTable(UserTable instance);
+    partial void DeleteUserTable(UserTable instance);
     partial void InsertGameMode(GameMode instance);
     partial void UpdateGameMode(GameMode instance);
     partial void DeleteGameMode(GameMode instance);
-    partial void InsertGameReplay(GameReplay instance);
-    partial void UpdateGameReplay(GameReplay instance);
-    partial void DeleteGameReplay(GameReplay instance);
     partial void InsertGameRoom(GameRoom instance);
     partial void UpdateGameRoom(GameRoom instance);
     partial void DeleteGameRoom(GameRoom instance);
     partial void InsertGameRoomPreferance(GameRoomPreferance instance);
     partial void UpdateGameRoomPreferance(GameRoomPreferance instance);
     partial void DeleteGameRoomPreferance(GameRoomPreferance instance);
-    partial void InsertGamesReplay(GamesReplay instance);
-    partial void UpdateGamesReplay(GamesReplay instance);
-    partial void DeleteGamesReplay(GamesReplay instance);
-    partial void InsertHandStep(HandStep instance);
-    partial void UpdateHandStep(HandStep instance);
-    partial void DeleteHandStep(HandStep instance);
     partial void InsertLeagueName(LeagueName instance);
     partial void UpdateLeagueName(LeagueName instance);
     partial void DeleteLeagueName(LeagueName instance);
@@ -69,31 +57,19 @@ namespace TexasHoldem.Database.LinqToSql
     partial void InsertPriorityLogEnum(PriorityLogEnum instance);
     partial void UpdatePriorityLogEnum(PriorityLogEnum instance);
     partial void DeletePriorityLogEnum(PriorityLogEnum instance);
-    partial void InsertPublic_Card(Public_Card instance);
-    partial void UpdatePublic_Card(Public_Card instance);
-    partial void DeletePublic_Card(Public_Card instance);
-    partial void InsertReplayManager(ReplayManager instance);
-    partial void UpdateReplayManager(ReplayManager instance);
-    partial void DeleteReplayManager(ReplayManager instance);
     partial void InsertSpectetorGamesOfUser(SpectetorGamesOfUser instance);
     partial void UpdateSpectetorGamesOfUser(SpectetorGamesOfUser instance);
     partial void DeleteSpectetorGamesOfUser(SpectetorGamesOfUser instance);
     partial void InsertSystemLog(SystemLog instance);
     partial void UpdateSystemLog(SystemLog instance);
     partial void DeleteSystemLog(SystemLog instance);
-    partial void InsertUserActiveGame(UserActiveGame instance);
-    partial void UpdateUserActiveGame(UserActiveGame instance);
-    partial void DeleteUserActiveGame(UserActiveGame instance);
     partial void InsertUserReplaySavedGame(UserReplaySavedGame instance);
     partial void UpdateUserReplaySavedGame(UserReplaySavedGame instance);
     partial void DeleteUserReplaySavedGame(UserReplaySavedGame instance);
-    partial void InsertUserTable(UserTable instance);
-    partial void UpdateUserTable(UserTable instance);
-    partial void DeleteUserTable(UserTable instance);
     #endregion
 		
 		public connectionsLinqDataContext() : 
-				base(global::TexasHoldem.Properties.Settings.Default.DataBaseSadnaConnectionString, mappingSource)
+				base(global::TexasHoldem.Properties.Settings.Default.DataBaseSadnaConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -122,22 +98,6 @@ namespace TexasHoldem.Database.LinqToSql
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Card> Cards
-		{
-			get
-			{
-				return this.GetTable<Card>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Deck> Decks
-		{
-			get
-			{
-				return this.GetTable<Deck>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ErrorLog> ErrorLogs
 		{
 			get
@@ -146,19 +106,19 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
+		public System.Data.Linq.Table<UserTable> UserTables
+		{
+			get
+			{
+				return this.GetTable<UserTable>();
+			}
+		}
+		
 		public System.Data.Linq.Table<GameMode> GameModes
 		{
 			get
 			{
 				return this.GetTable<GameMode>();
-			}
-		}
-		
-		public System.Data.Linq.Table<GameReplay> GameReplays
-		{
-			get
-			{
-				return this.GetTable<GameReplay>();
 			}
 		}
 		
@@ -175,22 +135,6 @@ namespace TexasHoldem.Database.LinqToSql
 			get
 			{
 				return this.GetTable<GameRoomPreferance>();
-			}
-		}
-		
-		public System.Data.Linq.Table<GamesReplay> GamesReplays
-		{
-			get
-			{
-				return this.GetTable<GamesReplay>();
-			}
-		}
-		
-		public System.Data.Linq.Table<HandStep> HandSteps
-		{
-			get
-			{
-				return this.GetTable<HandStep>();
 			}
 		}
 		
@@ -226,22 +170,6 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		public System.Data.Linq.Table<Public_Card> Public_Cards
-		{
-			get
-			{
-				return this.GetTable<Public_Card>();
-			}
-		}
-		
-		public System.Data.Linq.Table<ReplayManager> ReplayManagers
-		{
-			get
-			{
-				return this.GetTable<ReplayManager>();
-			}
-		}
-		
 		public System.Data.Linq.Table<SpectetorGamesOfUser> SpectetorGamesOfUsers
 		{
 			get
@@ -258,14 +186,6 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		public System.Data.Linq.Table<UserActiveGame> UserActiveGames
-		{
-			get
-			{
-				return this.GetTable<UserActiveGame>();
-			}
-		}
-		
 		public System.Data.Linq.Table<UserReplaySavedGame> UserReplaySavedGames
 		{
 			get
@@ -274,18 +194,66 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		public System.Data.Linq.Table<UserTable> UserTables
-		{
-			get
-			{
-				return this.GetTable<UserTable>();
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddNewUser")]
 		public int AddNewUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string username, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string avatar, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> points, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> money, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gamesPlayed, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> leagueName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> winNum, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> highestCashGainInGame, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> totalProfit, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> isActive)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, username, name, email, password, avatar, points, money, gamesPlayed, leagueName, winNum, highestCashGainInGame, totalProfit, isActive);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateGameRoomPotSize")]
+		public int UpdateGameRoomPotSize([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newPotSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newPotSize, id);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteErrorLogById")]
+		public int DeleteErrorLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteGameRoom")]
+		public int DeleteGameRoom([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameid)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, gameid);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteGameRoomPref")]
+		public int DeleteGameRoomPref([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteLogById")]
+		public int DeleteLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteSystemLogById")]
+		public int DeleteSystemLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserById")]
+		public int DeleteUserById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserByUserName")]
+		public int DeleteUserByUserName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(50)")] string userName)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName);
 			return ((int)(result.ReturnValue));
 		}
 		
@@ -387,11 +355,123 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((int)(result.ReturnValue));
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllActiveGameRooms")]
+		public ISingleResult<GetAllActiveGameRoomsResult> GetAllActiveGameRooms()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllActiveGameRoomsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllGameRooms")]
+		public ISingleResult<GetAllGameRoomsResult> GetAllGameRooms()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllGameRoomsResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllSpectableGameRooms")]
+		public ISingleResult<GetAllSpectableGameRoomsResult> GetAllSpectableGameRooms([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> canSpec)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), canSpec);
+			return ((ISingleResult<GetAllSpectableGameRoomsResult>)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllUser")]
 		public ISingleResult<GetAllUserResult> GetAllUser()
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
 			return ((ISingleResult<GetAllUserResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeNameByVal")]
+		public ISingleResult<GetGameModeNameByValResult> GetGameModeNameByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), val);
+			return ((ISingleResult<GetGameModeNameByValResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeValByName")]
+		public ISingleResult<GetGameModeValByNameResult> GetGameModeValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetGameModeValByNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomById")]
+		public ISingleResult<GetGameRoomByIdResult> GetGameRoomById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid);
+			return ((ISingleResult<GetGameRoomByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomPrefById")]
+		public ISingleResult<GetGameRoomPrefByIdResult> GetGameRoomPrefById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid);
+			return ((ISingleResult<GetGameRoomPrefByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomReplyById")]
+		public ISingleResult<GetGameRoomReplyByIdResult> GetGameRoomReplyById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
+			return ((ISingleResult<GetGameRoomReplyByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByBuyInPolicy")]
+		public ISingleResult<GetGameRoomsByBuyInPolicyResult> GetGameRoomsByBuyInPolicy([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> biPol)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), biPol);
+			return ((ISingleResult<GetGameRoomsByBuyInPolicyResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByGameMode")]
+		public ISingleResult<GetGameRoomsByGameModeResult> GetGameRoomsByGameMode([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> mode)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), mode);
+			return ((ISingleResult<GetGameRoomsByGameModeResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByMaxPlayers")]
+		public ISingleResult<GetGameRoomsByMaxPlayersResult> GetGameRoomsByMaxPlayers([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> max)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), max);
+			return ((ISingleResult<GetGameRoomsByMaxPlayersResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByMinBet")]
+		public ISingleResult<GetGameRoomsByMinBetResult> GetGameRoomsByMinBet([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> min)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), min);
+			return ((ISingleResult<GetGameRoomsByMinBetResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByMinPlayers")]
+		public ISingleResult<GetGameRoomsByMinPlayersResult> GetGameRoomsByMinPlayers([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> min)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), min);
+			return ((ISingleResult<GetGameRoomsByMinPlayersResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByPotSize")]
+		public ISingleResult<GetGameRoomsByPotSizeResult> GetGameRoomsByPotSize([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> potSize)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), potSize);
+			return ((ISingleResult<GetGameRoomsByPotSizeResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameRoomsByStaringChip")]
+		public ISingleResult<GetGameRoomsByStaringChipResult> GetGameRoomsByStaringChip([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> scpol)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), scpol);
+			return ((ISingleResult<GetGameRoomsByStaringChipResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetLeageValByName")]
+		public ISingleResult<GetLeageValByNameResult> GetLeageValByName([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string name)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), name);
+			return ((ISingleResult<GetLeageValByNameResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetUserByUserId")]
@@ -408,38 +488,24 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((ISingleResult<GetUserByUserNameResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserById")]
-		public int DeleteUserById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertGameRoomToDb")]
+		public int InsertGameRoomToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string replay, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Xml")] System.Xml.Linq.XElement gameXML, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> isActive)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomid, gameid, replay, gameXML, isActive);
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserByUserName")]
-		public int DeleteUserByUserName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(50)")] string userName)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertPrefToDb")]
+		public int InsertPrefToDb([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> room_id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> is_Spectetor, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Min_player_in_room", DbType="Int")] System.Nullable<int> min_player_in_room, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> max_player_in_room, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="BuyInPolicy", DbType="Int")] System.Nullable<int> buyInPolicy, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> starting_chip, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> minBet, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="League_name", DbType="Int")] System.Nullable<int> league_name, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Mode", DbType="Int")] System.Nullable<int> game_Mode, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Game_Id", DbType="Int")] System.Nullable<int> game_Id, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> potSize)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), room_id, is_Spectetor, min_player_in_room, max_player_in_room, buyInPolicy, starting_chip, minBet, league_name, game_Mode, game_Id, potSize);
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteErrorLogById")]
-		public int DeleteErrorLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateGameRoom")]
+		public int UpdateGameRoom([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Xml")] System.Xml.Linq.XElement newXML, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> newIsActive, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(MAX)")] string newRep)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteLogById")]
-		public int DeleteLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
-			return ((int)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteSystemLogById")]
-		public int DeleteSystemLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), roomId, gameid, newXML, newIsActive, newRep);
 			return ((int)(result.ReturnValue));
 		}
 		
@@ -455,451 +521,6 @@ namespace TexasHoldem.Database.LinqToSql
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
 			return ((ISingleResult<GetSystemLogByIdResult>)(result.ReturnValue));
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Card")]
-	public partial class Card : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Card_Value;
-		
-		private string _Card_Shpe;
-		
-		private int _Card_Real_Value;
-		
-		private EntityRef<Card> _Card2;
-		
-		private EntitySet<Deck> _Decks;
-		
-		private EntitySet<Public_Card> _Public_Cards;
-		
-		private EntityRef<Card> _Card1;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCard_ValueChanging(int value);
-    partial void OnCard_ValueChanged();
-    partial void OnCard_ShpeChanging(string value);
-    partial void OnCard_ShpeChanged();
-    partial void OnCard_Real_ValueChanging(int value);
-    partial void OnCard_Real_ValueChanged();
-    #endregion
-		
-		public Card()
-		{
-			this._Card2 = default(EntityRef<Card>);
-			this._Decks = new EntitySet<Deck>(new Action<Deck>(this.attach_Decks), new Action<Deck>(this.detach_Decks));
-			this._Public_Cards = new EntitySet<Public_Card>(new Action<Public_Card>(this.attach_Public_Cards), new Action<Public_Card>(this.detach_Public_Cards));
-			this._Card1 = default(EntityRef<Card>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Value]", Storage="_Card_Value", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Card_Value
-		{
-			get
-			{
-				return this._Card_Value;
-			}
-			set
-			{
-				if ((this._Card_Value != value))
-				{
-					this.OnCard_ValueChanging(value);
-					this.SendPropertyChanging();
-					this._Card_Value = value;
-					this.SendPropertyChanged("Card_Value");
-					this.OnCard_ValueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Shpe]", Storage="_Card_Shpe", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
-		public string Card_Shpe
-		{
-			get
-			{
-				return this._Card_Shpe;
-			}
-			set
-			{
-				if ((this._Card_Shpe != value))
-				{
-					this.OnCard_ShpeChanging(value);
-					this.SendPropertyChanging();
-					this._Card_Shpe = value;
-					this.SendPropertyChanged("Card_Shpe");
-					this.OnCard_ShpeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Card Real Value]", Storage="_Card_Real_Value", DbType="Int NOT NULL")]
-		public int Card_Real_Value
-		{
-			get
-			{
-				return this._Card_Real_Value;
-			}
-			set
-			{
-				if ((this._Card_Real_Value != value))
-				{
-					this.OnCard_Real_ValueChanging(value);
-					this.SendPropertyChanging();
-					this._Card_Real_Value = value;
-					this.SendPropertyChanged("Card_Real_Value");
-					this.OnCard_Real_ValueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Card", Storage="_Card2", ThisKey="Card_Value", OtherKey="Card_Value", IsUnique=true, IsForeignKey=false)]
-		public Card Card2
-		{
-			get
-			{
-				return this._Card2.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card2.Entity;
-				if (((previousValue != value) 
-							|| (this._Card2.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card2.Entity = null;
-						previousValue.Card1 = null;
-					}
-					this._Card2.Entity = value;
-					if ((value != null))
-					{
-						value.Card1 = this;
-					}
-					this.SendPropertyChanged("Card2");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Deck", Storage="_Decks", ThisKey="Card_Value", OtherKey="card_value")]
-		public EntitySet<Deck> Decks
-		{
-			get
-			{
-				return this._Decks;
-			}
-			set
-			{
-				this._Decks.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Public_Card", Storage="_Public_Cards", ThisKey="Card_Value", OtherKey="card")]
-		public EntitySet<Public_Card> Public_Cards
-		{
-			get
-			{
-				return this._Public_Cards;
-			}
-			set
-			{
-				this._Public_Cards.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Card", Storage="_Card1", ThisKey="Card_Value", OtherKey="Card_Value", IsForeignKey=true)]
-		public Card Card1
-		{
-			get
-			{
-				return this._Card1.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card1.Entity;
-				if (((previousValue != value) 
-							|| (this._Card1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card1.Entity = null;
-						previousValue.Card2 = null;
-					}
-					this._Card1.Entity = value;
-					if ((value != null))
-					{
-						value.Card2 = this;
-						this._Card_Value = value.Card_Value;
-					}
-					else
-					{
-						this._Card_Value = default(int);
-					}
-					this.SendPropertyChanged("Card1");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Decks(Deck entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = this;
-		}
-		
-		private void detach_Decks(Deck entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card = null;
-		}
-		
-		private void attach_Public_Cards(Public_Card entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card1 = this;
-		}
-		
-		private void detach_Public_Cards(Public_Card entity)
-		{
-			this.SendPropertyChanging();
-			entity.Card1 = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Deck")]
-	public partial class Deck : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _index;
-		
-		private int _room_Id;
-		
-		private int _game_Id;
-		
-		private int _card_value;
-		
-		private EntityRef<Card> _Card;
-		
-		private EntityRef<GameRoom> _GameRoom;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnindexChanging(int value);
-    partial void OnindexChanged();
-    partial void Onroom_IdChanging(int value);
-    partial void Onroom_IdChanged();
-    partial void Ongame_IdChanging(int value);
-    partial void Ongame_IdChanged();
-    partial void Oncard_valueChanging(int value);
-    partial void Oncard_valueChanged();
-    #endregion
-		
-		public Deck()
-		{
-			this._Card = default(EntityRef<Card>);
-			this._GameRoom = default(EntityRef<GameRoom>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[index]", Storage="_index", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int index
-		{
-			get
-			{
-				return this._index;
-			}
-			set
-			{
-				if ((this._index != value))
-				{
-					this.OnindexChanging(value);
-					this.SendPropertyChanging();
-					this._index = value;
-					this.SendPropertyChanged("index");
-					this.OnindexChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_Id
-		{
-			get
-			{
-				return this._room_Id;
-			}
-			set
-			{
-				if ((this._room_Id != value))
-				{
-					this.Onroom_IdChanging(value);
-					this.SendPropertyChanging();
-					this._room_Id = value;
-					this.SendPropertyChanged("room_Id");
-					this.Onroom_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int game_Id
-		{
-			get
-			{
-				return this._game_Id;
-			}
-			set
-			{
-				if ((this._game_Id != value))
-				{
-					this.Ongame_IdChanging(value);
-					this.SendPropertyChanging();
-					this._game_Id = value;
-					this.SendPropertyChanged("game_Id");
-					this.Ongame_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[card value]", Storage="_card_value", DbType="Int NOT NULL")]
-		public int card_value
-		{
-			get
-			{
-				return this._card_value;
-			}
-			set
-			{
-				if ((this._card_value != value))
-				{
-					this.Oncard_valueChanging(value);
-					this.SendPropertyChanging();
-					this._card_value = value;
-					this.SendPropertyChanged("card_value");
-					this.Oncard_valueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Deck", Storage="_Card", ThisKey="card_value", OtherKey="Card_Value", IsForeignKey=true)]
-		public Card Card
-		{
-			get
-			{
-				return this._Card.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card.Entity = null;
-						previousValue.Decks.Remove(this);
-					}
-					this._Card.Entity = value;
-					if ((value != null))
-					{
-						value.Decks.Add(this);
-						this._card_value = value.Card_Value;
-					}
-					else
-					{
-						this._card_value = default(int);
-					}
-					this.SendPropertyChanged("Card");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Deck", Storage="_GameRoom", ThisKey="room_Id,game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
-		public GameRoom GameRoom
-		{
-			get
-			{
-				return this._GameRoom.Entity;
-			}
-			set
-			{
-				GameRoom previousValue = this._GameRoom.Entity;
-				if (((previousValue != value) 
-							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameRoom.Entity = null;
-						previousValue.Decks.Remove(this);
-					}
-					this._GameRoom.Entity = value;
-					if ((value != null))
-					{
-						value.Decks.Add(this);
-						this._room_Id = value.room_Id;
-						this._game_Id = value.game_id;
-					}
-					else
-					{
-						this._room_Id = default(int);
-						this._game_Id = default(int);
-					}
-					this.SendPropertyChanged("GameRoom");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -1030,6 +651,468 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserTable")]
+	public partial class UserTable : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _userId;
+		
+		private string _username;
+		
+		private string _name;
+		
+		private string _email;
+		
+		private string _password;
+		
+		private string _avatar;
+		
+		private int _points;
+		
+		private int _money;
+		
+		private int _gamesPlayed;
+		
+		private int _leagueName;
+		
+		private int _winNum;
+		
+		private int _HighestCashGainInGame;
+		
+		private int _TotalProfit;
+		
+		private bool _inActive;
+		
+		private EntitySet<Player> _Players;
+		
+		private EntityRef<SpectetorGamesOfUser> _SpectetorGamesOfUser;
+		
+		private EntitySet<UserReplaySavedGame> _UserReplaySavedGames;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnuserIdChanging(int value);
+    partial void OnuserIdChanged();
+    partial void OnusernameChanging(string value);
+    partial void OnusernameChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void OnemailChanging(string value);
+    partial void OnemailChanged();
+    partial void OnpasswordChanging(string value);
+    partial void OnpasswordChanged();
+    partial void OnavatarChanging(string value);
+    partial void OnavatarChanged();
+    partial void OnpointsChanging(int value);
+    partial void OnpointsChanged();
+    partial void OnmoneyChanging(int value);
+    partial void OnmoneyChanged();
+    partial void OngamesPlayedChanging(int value);
+    partial void OngamesPlayedChanged();
+    partial void OnleagueNameChanging(int value);
+    partial void OnleagueNameChanged();
+    partial void OnwinNumChanging(int value);
+    partial void OnwinNumChanged();
+    partial void OnHighestCashGainInGameChanging(int value);
+    partial void OnHighestCashGainInGameChanged();
+    partial void OnTotalProfitChanging(int value);
+    partial void OnTotalProfitChanged();
+    partial void OninActiveChanging(bool value);
+    partial void OninActiveChanged();
+    #endregion
+		
+		public UserTable()
+		{
+			this._Players = new EntitySet<Player>(new Action<Player>(this.attach_Players), new Action<Player>(this.detach_Players));
+			this._SpectetorGamesOfUser = default(EntityRef<SpectetorGamesOfUser>);
+			this._UserReplaySavedGames = new EntitySet<UserReplaySavedGame>(new Action<UserReplaySavedGame>(this.attach_UserReplaySavedGames), new Action<UserReplaySavedGame>(this.detach_UserReplaySavedGames));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this.OnuserIdChanging(value);
+					this.SendPropertyChanging();
+					this._userId = value;
+					this.SendPropertyChanged("userId");
+					this.OnuserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this.OnusernameChanging(value);
+					this.SendPropertyChanging();
+					this._username = value;
+					this.SendPropertyChanged("username");
+					this.OnusernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name
+		{
+			get
+			{
+				return this._name;
+			}
+			set
+			{
+				if ((this._name != value))
+				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
+					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string email
+		{
+			get
+			{
+				return this._email;
+			}
+			set
+			{
+				if ((this._email != value))
+				{
+					this.OnemailChanging(value);
+					this.SendPropertyChanging();
+					this._email = value;
+					this.SendPropertyChanged("email");
+					this.OnemailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string password
+		{
+			get
+			{
+				return this._password;
+			}
+			set
+			{
+				if ((this._password != value))
+				{
+					this.OnpasswordChanging(value);
+					this.SendPropertyChanging();
+					this._password = value;
+					this.SendPropertyChanged("password");
+					this.OnpasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
+		public string avatar
+		{
+			get
+			{
+				return this._avatar;
+			}
+			set
+			{
+				if ((this._avatar != value))
+				{
+					this.OnavatarChanging(value);
+					this.SendPropertyChanging();
+					this._avatar = value;
+					this.SendPropertyChanged("avatar");
+					this.OnavatarChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_points", DbType="Int NOT NULL")]
+		public int points
+		{
+			get
+			{
+				return this._points;
+			}
+			set
+			{
+				if ((this._points != value))
+				{
+					this.OnpointsChanging(value);
+					this.SendPropertyChanging();
+					this._points = value;
+					this.SendPropertyChanged("points");
+					this.OnpointsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_money", DbType="Int NOT NULL")]
+		public int money
+		{
+			get
+			{
+				return this._money;
+			}
+			set
+			{
+				if ((this._money != value))
+				{
+					this.OnmoneyChanging(value);
+					this.SendPropertyChanging();
+					this._money = value;
+					this.SendPropertyChanged("money");
+					this.OnmoneyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gamesPlayed", DbType="Int NOT NULL")]
+		public int gamesPlayed
+		{
+			get
+			{
+				return this._gamesPlayed;
+			}
+			set
+			{
+				if ((this._gamesPlayed != value))
+				{
+					this.OngamesPlayedChanging(value);
+					this.SendPropertyChanging();
+					this._gamesPlayed = value;
+					this.SendPropertyChanged("gamesPlayed");
+					this.OngamesPlayedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_leagueName", DbType="Int NOT NULL")]
+		public int leagueName
+		{
+			get
+			{
+				return this._leagueName;
+			}
+			set
+			{
+				if ((this._leagueName != value))
+				{
+					this.OnleagueNameChanging(value);
+					this.SendPropertyChanging();
+					this._leagueName = value;
+					this.SendPropertyChanged("leagueName");
+					this.OnleagueNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_winNum", DbType="Int NOT NULL")]
+		public int winNum
+		{
+			get
+			{
+				return this._winNum;
+			}
+			set
+			{
+				if ((this._winNum != value))
+				{
+					this.OnwinNumChanging(value);
+					this.SendPropertyChanging();
+					this._winNum = value;
+					this.SendPropertyChanged("winNum");
+					this.OnwinNumChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HighestCashGainInGame", DbType="Int NOT NULL")]
+		public int HighestCashGainInGame
+		{
+			get
+			{
+				return this._HighestCashGainInGame;
+			}
+			set
+			{
+				if ((this._HighestCashGainInGame != value))
+				{
+					this.OnHighestCashGainInGameChanging(value);
+					this.SendPropertyChanging();
+					this._HighestCashGainInGame = value;
+					this.SendPropertyChanged("HighestCashGainInGame");
+					this.OnHighestCashGainInGameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalProfit", DbType="Int NOT NULL")]
+		public int TotalProfit
+		{
+			get
+			{
+				return this._TotalProfit;
+			}
+			set
+			{
+				if ((this._TotalProfit != value))
+				{
+					this.OnTotalProfitChanging(value);
+					this.SendPropertyChanging();
+					this._TotalProfit = value;
+					this.SendPropertyChanged("TotalProfit");
+					this.OnTotalProfitChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_inActive", DbType="Bit NOT NULL")]
+		public bool inActive
+		{
+			get
+			{
+				return this._inActive;
+			}
+			set
+			{
+				if ((this._inActive != value))
+				{
+					this.OninActiveChanging(value);
+					this.SendPropertyChanging();
+					this._inActive = value;
+					this.SendPropertyChanged("inActive");
+					this.OninActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_Player", Storage="_Players", ThisKey="userId", OtherKey="user_Id")]
+		public EntitySet<Player> Players
+		{
+			get
+			{
+				return this._Players;
+			}
+			set
+			{
+				this._Players.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_SpectetorGamesOfUser", Storage="_SpectetorGamesOfUser", ThisKey="userId", OtherKey="userId", IsUnique=true, IsForeignKey=false)]
+		public SpectetorGamesOfUser SpectetorGamesOfUser
+		{
+			get
+			{
+				return this._SpectetorGamesOfUser.Entity;
+			}
+			set
+			{
+				SpectetorGamesOfUser previousValue = this._SpectetorGamesOfUser.Entity;
+				if (((previousValue != value) 
+							|| (this._SpectetorGamesOfUser.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SpectetorGamesOfUser.Entity = null;
+						previousValue.UserTable = null;
+					}
+					this._SpectetorGamesOfUser.Entity = value;
+					if ((value != null))
+					{
+						value.UserTable = this;
+					}
+					this.SendPropertyChanged("SpectetorGamesOfUser");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_UserReplaySavedGame", Storage="_UserReplaySavedGames", ThisKey="userId", OtherKey="userId")]
+		public EntitySet<UserReplaySavedGame> UserReplaySavedGames
+		{
+			get
+			{
+				return this._UserReplaySavedGames;
+			}
+			set
+			{
+				this._UserReplaySavedGames.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Players(Player entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserTable = this;
+		}
+		
+		private void detach_Players(Player entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserTable = null;
+		}
+		
+		private void attach_UserReplaySavedGames(UserReplaySavedGame entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserTable = this;
+		}
+		
+		private void detach_UserReplaySavedGames(UserReplaySavedGame entity)
+		{
+			this.SendPropertyChanging();
+			entity.UserTable = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GameMode")]
 	public partial class GameMode : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1098,7 +1181,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="Game_mode_value", OtherKey="Game_Mode")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="Game_mode_value", OtherKey="GameMode")]
 		public EntitySet<GameRoomPreferance> GameRoomPreferances
 		{
 			get
@@ -1134,186 +1217,13 @@ namespace TexasHoldem.Database.LinqToSql
 		private void attach_GameRoomPreferances(GameRoomPreferance entity)
 		{
 			this.SendPropertyChanging();
-			entity.GameMode = this;
+			entity.GameMode1 = this;
 		}
 		
 		private void detach_GameRoomPreferances(GameRoomPreferance entity)
 		{
 			this.SendPropertyChanging();
-			entity.GameMode = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GameReplay")]
-	public partial class GameReplay : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _room_Id;
-		
-		private int _game_Id;
-		
-		private int _index;
-		
-		private string _replay;
-		
-		private EntityRef<GameRoom> _GameRoom;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onroom_IdChanging(int value);
-    partial void Onroom_IdChanged();
-    partial void Ongame_IdChanging(int value);
-    partial void Ongame_IdChanged();
-    partial void OnindexChanging(int value);
-    partial void OnindexChanged();
-    partial void OnreplayChanging(string value);
-    partial void OnreplayChanged();
-    #endregion
-		
-		public GameReplay()
-		{
-			this._GameRoom = default(EntityRef<GameRoom>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_Id
-		{
-			get
-			{
-				return this._room_Id;
-			}
-			set
-			{
-				if ((this._room_Id != value))
-				{
-					this.Onroom_IdChanging(value);
-					this.SendPropertyChanging();
-					this._room_Id = value;
-					this.SendPropertyChanged("room_Id");
-					this.Onroom_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int game_Id
-		{
-			get
-			{
-				return this._game_Id;
-			}
-			set
-			{
-				if ((this._game_Id != value))
-				{
-					this.Ongame_IdChanging(value);
-					this.SendPropertyChanging();
-					this._game_Id = value;
-					this.SendPropertyChanged("game_Id");
-					this.Ongame_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[index]", Storage="_index", DbType="Int NOT NULL")]
-		public int index
-		{
-			get
-			{
-				return this._index;
-			}
-			set
-			{
-				if ((this._index != value))
-				{
-					this.OnindexChanging(value);
-					this.SendPropertyChanging();
-					this._index = value;
-					this.SendPropertyChanged("index");
-					this.OnindexChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_replay", DbType="VarChar(5000) NOT NULL", CanBeNull=false)]
-		public string replay
-		{
-			get
-			{
-				return this._replay;
-			}
-			set
-			{
-				if ((this._replay != value))
-				{
-					this.OnreplayChanging(value);
-					this.SendPropertyChanging();
-					this._replay = value;
-					this.SendPropertyChanged("replay");
-					this.OnreplayChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameReplay", Storage="_GameRoom", ThisKey="room_Id,game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
-		public GameRoom GameRoom
-		{
-			get
-			{
-				return this._GameRoom.Entity;
-			}
-			set
-			{
-				GameRoom previousValue = this._GameRoom.Entity;
-				if (((previousValue != value) 
-							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameRoom.Entity = null;
-						previousValue.GameReplay = null;
-					}
-					this._GameRoom.Entity = value;
-					if ((value != null))
-					{
-						value.GameReplay = this;
-						this._room_Id = value.room_Id;
-						this._game_Id = value.game_id;
-					}
-					else
-					{
-						this._room_Id = default(int);
-						this._game_Id = default(int);
-					}
-					this.SendPropertyChanged("GameRoom");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
+			entity.GameMode1 = null;
 		}
 	}
 	
@@ -1323,556 +1233,166 @@ namespace TexasHoldem.Database.LinqToSql
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _room_Id;
+		private int _RoomId;
 		
-		private int _game_id;
+		private int _GameId;
 		
-		private int _Dealer_position;
+		private string _Replay;
 		
-		private int _Max_Bet_In_Round;
+		private System.Xml.Linq.XElement _GameXML;
 		
-		private int _Pot_count;
+		private bool _isActive;
 		
-		private int _Bb;
-		
-		private int _Sb;
-		
-		private bool _is_Active_Game;
-		
-		private int _curr_Player;
-		
-		private int _Dealer_Player;
-		
-		private int _Bb_Player;
-		
-		private int _SB_player;
-		
-		private int _hand_step;
-		
-		private int _First_Player_In_round;
-		
-		private int _curr_player_position;
-		
-		private int _first_player_in_round_position;
-		
-		private int _last_rise_in_round;
-		
-		private int _league_name;
-		
-		private EntitySet<Deck> _Decks;
-		
-		private EntityRef<GameReplay> _GameReplay;
-		
-		private EntitySet<GamesReplay> _GamesReplays;
+		private EntitySet<GameRoomPreferance> _GameRoomPreferances;
 		
 		private EntitySet<Player> _Players;
-		
-		private EntityRef<Public_Card> _Public_Card;
-		
-		private EntitySet<ReplayManager> _ReplayManagers;
 		
 		private EntitySet<SpectetorGamesOfUser> _SpectetorGamesOfUsers;
 		
 		private EntitySet<SystemLog> _SystemLogs;
 		
-		private EntitySet<UserActiveGame> _UserActiveGames;
-		
 		private EntityRef<UserReplaySavedGame> _UserReplaySavedGame;
-		
-		private EntityRef<HandStep> _HandStep;
-		
-		private EntityRef<LeagueName> _LeagueName;
-		
-		private EntityRef<UserTable> _UserTable;
-		
-		private EntityRef<UserTable> _UserTable1;
-		
-		private EntityRef<UserTable> _UserTable2;
-		
-		private EntityRef<UserTable> _UserTable3;
-		
-		private EntityRef<UserTable> _UserTable4;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void Onroom_IdChanging(int value);
-    partial void Onroom_IdChanged();
-    partial void Ongame_idChanging(int value);
-    partial void Ongame_idChanged();
-    partial void OnDealer_positionChanging(int value);
-    partial void OnDealer_positionChanged();
-    partial void OnMax_Bet_In_RoundChanging(int value);
-    partial void OnMax_Bet_In_RoundChanged();
-    partial void OnPot_countChanging(int value);
-    partial void OnPot_countChanged();
-    partial void OnBbChanging(int value);
-    partial void OnBbChanged();
-    partial void OnSbChanging(int value);
-    partial void OnSbChanged();
-    partial void Onis_Active_GameChanging(bool value);
-    partial void Onis_Active_GameChanged();
-    partial void Oncurr_PlayerChanging(int value);
-    partial void Oncurr_PlayerChanged();
-    partial void OnDealer_PlayerChanging(int value);
-    partial void OnDealer_PlayerChanged();
-    partial void OnBb_PlayerChanging(int value);
-    partial void OnBb_PlayerChanged();
-    partial void OnSB_playerChanging(int value);
-    partial void OnSB_playerChanged();
-    partial void Onhand_stepChanging(int value);
-    partial void Onhand_stepChanged();
-    partial void OnFirst_Player_In_roundChanging(int value);
-    partial void OnFirst_Player_In_roundChanged();
-    partial void Oncurr_player_positionChanging(int value);
-    partial void Oncurr_player_positionChanged();
-    partial void Onfirst_player_in_round_positionChanging(int value);
-    partial void Onfirst_player_in_round_positionChanged();
-    partial void Onlast_rise_in_roundChanging(int value);
-    partial void Onlast_rise_in_roundChanged();
-    partial void Onleague_nameChanging(int value);
-    partial void Onleague_nameChanged();
+    partial void OnRoomIdChanging(int value);
+    partial void OnRoomIdChanged();
+    partial void OnGameIdChanging(int value);
+    partial void OnGameIdChanged();
+    partial void OnReplayChanging(string value);
+    partial void OnReplayChanged();
+    partial void OnGameXMLChanging(System.Xml.Linq.XElement value);
+    partial void OnGameXMLChanged();
+    partial void OnisActiveChanging(bool value);
+    partial void OnisActiveChanged();
     #endregion
 		
 		public GameRoom()
 		{
-			this._Decks = new EntitySet<Deck>(new Action<Deck>(this.attach_Decks), new Action<Deck>(this.detach_Decks));
-			this._GameReplay = default(EntityRef<GameReplay>);
-			this._GamesReplays = new EntitySet<GamesReplay>(new Action<GamesReplay>(this.attach_GamesReplays), new Action<GamesReplay>(this.detach_GamesReplays));
+			this._GameRoomPreferances = new EntitySet<GameRoomPreferance>(new Action<GameRoomPreferance>(this.attach_GameRoomPreferances), new Action<GameRoomPreferance>(this.detach_GameRoomPreferances));
 			this._Players = new EntitySet<Player>(new Action<Player>(this.attach_Players), new Action<Player>(this.detach_Players));
-			this._Public_Card = default(EntityRef<Public_Card>);
-			this._ReplayManagers = new EntitySet<ReplayManager>(new Action<ReplayManager>(this.attach_ReplayManagers), new Action<ReplayManager>(this.detach_ReplayManagers));
 			this._SpectetorGamesOfUsers = new EntitySet<SpectetorGamesOfUser>(new Action<SpectetorGamesOfUser>(this.attach_SpectetorGamesOfUsers), new Action<SpectetorGamesOfUser>(this.detach_SpectetorGamesOfUsers));
 			this._SystemLogs = new EntitySet<SystemLog>(new Action<SystemLog>(this.attach_SystemLogs), new Action<SystemLog>(this.detach_SystemLogs));
-			this._UserActiveGames = new EntitySet<UserActiveGame>(new Action<UserActiveGame>(this.attach_UserActiveGames), new Action<UserActiveGame>(this.detach_UserActiveGames));
 			this._UserReplaySavedGame = default(EntityRef<UserReplaySavedGame>);
-			this._HandStep = default(EntityRef<HandStep>);
-			this._LeagueName = default(EntityRef<LeagueName>);
-			this._UserTable = default(EntityRef<UserTable>);
-			this._UserTable1 = default(EntityRef<UserTable>);
-			this._UserTable2 = default(EntityRef<UserTable>);
-			this._UserTable3 = default(EntityRef<UserTable>);
-			this._UserTable4 = default(EntityRef<UserTable>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int RoomId
 		{
 			get
 			{
-				return this._room_Id;
+				return this._RoomId;
 			}
 			set
 			{
-				if ((this._room_Id != value))
+				if ((this._RoomId != value))
 				{
-					this.Onroom_IdChanging(value);
+					this.OnRoomIdChanging(value);
 					this.SendPropertyChanging();
-					this._room_Id = value;
-					this.SendPropertyChanged("room_Id");
-					this.Onroom_IdChanged();
+					this._RoomId = value;
+					this.SendPropertyChanged("RoomId");
+					this.OnRoomIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game id]", Storage="_game_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int game_id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int GameId
 		{
 			get
 			{
-				return this._game_id;
+				return this._GameId;
 			}
 			set
 			{
-				if ((this._game_id != value))
+				if ((this._GameId != value))
 				{
-					this.Ongame_idChanging(value);
+					this.OnGameIdChanging(value);
 					this.SendPropertyChanging();
-					this._game_id = value;
-					this.SendPropertyChanged("game_id");
-					this.Ongame_idChanged();
+					this._GameId = value;
+					this.SendPropertyChanged("GameId");
+					this.OnGameIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Dealer position]", Storage="_Dealer_position", DbType="Int NOT NULL")]
-		public int Dealer_position
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Replay
 		{
 			get
 			{
-				return this._Dealer_position;
+				return this._Replay;
 			}
 			set
 			{
-				if ((this._Dealer_position != value))
+				if ((this._Replay != value))
 				{
-					this.OnDealer_positionChanging(value);
+					this.OnReplayChanging(value);
 					this.SendPropertyChanging();
-					this._Dealer_position = value;
-					this.SendPropertyChanged("Dealer_position");
-					this.OnDealer_positionChanged();
+					this._Replay = value;
+					this.SendPropertyChanged("Replay");
+					this.OnReplayChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Max Bet In Round]", Storage="_Max_Bet_In_Round", DbType="Int NOT NULL")]
-		public int Max_Bet_In_Round
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Xml.Linq.XElement GameXML
 		{
 			get
 			{
-				return this._Max_Bet_In_Round;
+				return this._GameXML;
 			}
 			set
 			{
-				if ((this._Max_Bet_In_Round != value))
+				if ((this._GameXML != value))
 				{
-					this.OnMax_Bet_In_RoundChanging(value);
+					this.OnGameXMLChanging(value);
 					this.SendPropertyChanging();
-					this._Max_Bet_In_Round = value;
-					this.SendPropertyChanged("Max_Bet_In_Round");
-					this.OnMax_Bet_In_RoundChanged();
+					this._GameXML = value;
+					this.SendPropertyChanged("GameXML");
+					this.OnGameXMLChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Pot count]", Storage="_Pot_count", DbType="Int NOT NULL")]
-		public int Pot_count
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
+		public bool isActive
 		{
 			get
 			{
-				return this._Pot_count;
+				return this._isActive;
 			}
 			set
 			{
-				if ((this._Pot_count != value))
+				if ((this._isActive != value))
 				{
-					this.OnPot_countChanging(value);
+					this.OnisActiveChanging(value);
 					this.SendPropertyChanging();
-					this._Pot_count = value;
-					this.SendPropertyChanged("Pot_count");
-					this.OnPot_countChanged();
+					this._isActive = value;
+					this.SendPropertyChanged("isActive");
+					this.OnisActiveChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int NOT NULL")]
-		public int Bb
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="RoomId,GameId", OtherKey="Roomid,GameId")]
+		public EntitySet<GameRoomPreferance> GameRoomPreferances
 		{
 			get
 			{
-				return this._Bb;
+				return this._GameRoomPreferances;
 			}
 			set
 			{
-				if ((this._Bb != value))
-				{
-					this.OnBbChanging(value);
-					this.SendPropertyChanging();
-					this._Bb = value;
-					this.SendPropertyChanged("Bb");
-					this.OnBbChanged();
-				}
+				this._GameRoomPreferances.Assign(value);
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int NOT NULL")]
-		public int Sb
-		{
-			get
-			{
-				return this._Sb;
-			}
-			set
-			{
-				if ((this._Sb != value))
-				{
-					this.OnSbChanging(value);
-					this.SendPropertyChanging();
-					this._Sb = value;
-					this.SendPropertyChanged("Sb");
-					this.OnSbChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Active Game]", Storage="_is_Active_Game", DbType="Bit NOT NULL")]
-		public bool is_Active_Game
-		{
-			get
-			{
-				return this._is_Active_Game;
-			}
-			set
-			{
-				if ((this._is_Active_Game != value))
-				{
-					this.Onis_Active_GameChanging(value);
-					this.SendPropertyChanging();
-					this._is_Active_Game = value;
-					this.SendPropertyChanged("is_Active_Game");
-					this.Onis_Active_GameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[curr Player]", Storage="_curr_Player", DbType="Int NOT NULL")]
-		public int curr_Player
-		{
-			get
-			{
-				return this._curr_Player;
-			}
-			set
-			{
-				if ((this._curr_Player != value))
-				{
-					this.Oncurr_PlayerChanging(value);
-					this.SendPropertyChanging();
-					this._curr_Player = value;
-					this.SendPropertyChanged("curr_Player");
-					this.Oncurr_PlayerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Dealer Player]", Storage="_Dealer_Player", DbType="Int NOT NULL")]
-		public int Dealer_Player
-		{
-			get
-			{
-				return this._Dealer_Player;
-			}
-			set
-			{
-				if ((this._Dealer_Player != value))
-				{
-					this.OnDealer_PlayerChanging(value);
-					this.SendPropertyChanging();
-					this._Dealer_Player = value;
-					this.SendPropertyChanged("Dealer_Player");
-					this.OnDealer_PlayerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Bb Player]", Storage="_Bb_Player", DbType="Int NOT NULL")]
-		public int Bb_Player
-		{
-			get
-			{
-				return this._Bb_Player;
-			}
-			set
-			{
-				if ((this._Bb_Player != value))
-				{
-					this.OnBb_PlayerChanging(value);
-					this.SendPropertyChanging();
-					this._Bb_Player = value;
-					this.SendPropertyChanged("Bb_Player");
-					this.OnBb_PlayerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[SB player]", Storage="_SB_player", DbType="Int NOT NULL")]
-		public int SB_player
-		{
-			get
-			{
-				return this._SB_player;
-			}
-			set
-			{
-				if ((this._SB_player != value))
-				{
-					this.OnSB_playerChanging(value);
-					this.SendPropertyChanging();
-					this._SB_player = value;
-					this.SendPropertyChanged("SB_player");
-					this.OnSB_playerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand step]", Storage="_hand_step", DbType="Int NOT NULL")]
-		public int hand_step
-		{
-			get
-			{
-				return this._hand_step;
-			}
-			set
-			{
-				if ((this._hand_step != value))
-				{
-					this.Onhand_stepChanging(value);
-					this.SendPropertyChanging();
-					this._hand_step = value;
-					this.SendPropertyChanged("hand_step");
-					this.Onhand_stepChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[First Player In round]", Storage="_First_Player_In_round", DbType="Int NOT NULL")]
-		public int First_Player_In_round
-		{
-			get
-			{
-				return this._First_Player_In_round;
-			}
-			set
-			{
-				if ((this._First_Player_In_round != value))
-				{
-					this.OnFirst_Player_In_roundChanging(value);
-					this.SendPropertyChanging();
-					this._First_Player_In_round = value;
-					this.SendPropertyChanged("First_Player_In_round");
-					this.OnFirst_Player_In_roundChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[curr player position]", Storage="_curr_player_position", DbType="Int NOT NULL")]
-		public int curr_player_position
-		{
-			get
-			{
-				return this._curr_player_position;
-			}
-			set
-			{
-				if ((this._curr_player_position != value))
-				{
-					this.Oncurr_player_positionChanging(value);
-					this.SendPropertyChanging();
-					this._curr_player_position = value;
-					this.SendPropertyChanged("curr_player_position");
-					this.Oncurr_player_positionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[first player in round position]", Storage="_first_player_in_round_position", DbType="Int NOT NULL")]
-		public int first_player_in_round_position
-		{
-			get
-			{
-				return this._first_player_in_round_position;
-			}
-			set
-			{
-				if ((this._first_player_in_round_position != value))
-				{
-					this.Onfirst_player_in_round_positionChanging(value);
-					this.SendPropertyChanging();
-					this._first_player_in_round_position = value;
-					this.SendPropertyChanged("first_player_in_round_position");
-					this.Onfirst_player_in_round_positionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[last rise in round]", Storage="_last_rise_in_round", DbType="Int NOT NULL")]
-		public int last_rise_in_round
-		{
-			get
-			{
-				return this._last_rise_in_round;
-			}
-			set
-			{
-				if ((this._last_rise_in_round != value))
-				{
-					this.Onlast_rise_in_roundChanging(value);
-					this.SendPropertyChanging();
-					this._last_rise_in_round = value;
-					this.SendPropertyChanged("last_rise_in_round");
-					this.Onlast_rise_in_roundChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[league name]", Storage="_league_name", DbType="Int NOT NULL")]
-		public int league_name
-		{
-			get
-			{
-				return this._league_name;
-			}
-			set
-			{
-				if ((this._league_name != value))
-				{
-					this.Onleague_nameChanging(value);
-					this.SendPropertyChanging();
-					this._league_name = value;
-					this.SendPropertyChanged("league_name");
-					this.Onleague_nameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Deck", Storage="_Decks", ThisKey="room_Id,game_id", OtherKey="room_Id,game_Id")]
-		public EntitySet<Deck> Decks
-		{
-			get
-			{
-				return this._Decks;
-			}
-			set
-			{
-				this._Decks.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameReplay", Storage="_GameReplay", ThisKey="room_Id,game_id", OtherKey="room_Id,game_Id", IsUnique=true, IsForeignKey=false)]
-		public GameReplay GameReplay
-		{
-			get
-			{
-				return this._GameReplay.Entity;
-			}
-			set
-			{
-				GameReplay previousValue = this._GameReplay.Entity;
-				if (((previousValue != value) 
-							|| (this._GameReplay.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameReplay.Entity = null;
-						previousValue.GameRoom = null;
-					}
-					this._GameReplay.Entity = value;
-					if ((value != null))
-					{
-						value.GameRoom = this;
-					}
-					this.SendPropertyChanged("GameReplay");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GamesReplay", Storage="_GamesReplays", ThisKey="room_Id,game_id", OtherKey="room_Id,game_Id")]
-		public EntitySet<GamesReplay> GamesReplays
-		{
-			get
-			{
-				return this._GamesReplays;
-			}
-			set
-			{
-				this._GamesReplays.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Player", Storage="_Players", ThisKey="room_Id,game_id", OtherKey="room_Id,Game_Id")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Player", Storage="_Players", ThisKey="RoomId,GameId", OtherKey="room_Id,Game_Id")]
 		public EntitySet<Player> Players
 		{
 			get
@@ -1885,49 +1405,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Public_Card", Storage="_Public_Card", ThisKey="room_Id,game_id", OtherKey="room_Id,Game_Id", IsUnique=true, IsForeignKey=false)]
-		public Public_Card Public_Card
-		{
-			get
-			{
-				return this._Public_Card.Entity;
-			}
-			set
-			{
-				Public_Card previousValue = this._Public_Card.Entity;
-				if (((previousValue != value) 
-							|| (this._Public_Card.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Public_Card.Entity = null;
-						previousValue.GameRoom = null;
-					}
-					this._Public_Card.Entity = value;
-					if ((value != null))
-					{
-						value.GameRoom = this;
-					}
-					this.SendPropertyChanged("Public_Card");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_ReplayManager", Storage="_ReplayManagers", ThisKey="room_Id,game_id", OtherKey="roomId,gameId")]
-		public EntitySet<ReplayManager> ReplayManagers
-		{
-			get
-			{
-				return this._ReplayManagers;
-			}
-			set
-			{
-				this._ReplayManagers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SpectetorGamesOfUser", Storage="_SpectetorGamesOfUsers", ThisKey="room_Id,game_id", OtherKey="roomId,Game_Id")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SpectetorGamesOfUser", Storage="_SpectetorGamesOfUsers", ThisKey="RoomId,GameId", OtherKey="roomId,Game_Id")]
 		public EntitySet<SpectetorGamesOfUser> SpectetorGamesOfUsers
 		{
 			get
@@ -1940,7 +1418,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SystemLog", Storage="_SystemLogs", ThisKey="room_Id,game_id", OtherKey="roomId,game_Id")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SystemLog", Storage="_SystemLogs", ThisKey="RoomId,GameId", OtherKey="roomId,game_Id")]
 		public EntitySet<SystemLog> SystemLogs
 		{
 			get
@@ -1953,20 +1431,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_UserActiveGame", Storage="_UserActiveGames", ThisKey="room_Id,game_id", OtherKey="roomId,Game_Id")]
-		public EntitySet<UserActiveGame> UserActiveGames
-		{
-			get
-			{
-				return this._UserActiveGames;
-			}
-			set
-			{
-				this._UserActiveGames.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_UserReplaySavedGame", Storage="_UserReplaySavedGame", ThisKey="room_Id,game_id", OtherKey="roomId,gameId", IsUnique=true, IsForeignKey=false)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_UserReplaySavedGame", Storage="_UserReplaySavedGame", ThisKey="RoomId,GameId", OtherKey="roomId,gameId", IsUnique=true, IsForeignKey=false)]
 		public UserReplaySavedGame UserReplaySavedGame
 		{
 			get
@@ -1995,244 +1460,6 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="HandStep_GameRoom", Storage="_HandStep", ThisKey="hand_step", OtherKey="hand_Step_value", IsForeignKey=true)]
-		public HandStep HandStep
-		{
-			get
-			{
-				return this._HandStep.Entity;
-			}
-			set
-			{
-				HandStep previousValue = this._HandStep.Entity;
-				if (((previousValue != value) 
-							|| (this._HandStep.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._HandStep.Entity = null;
-						previousValue.GameRooms.Remove(this);
-					}
-					this._HandStep.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms.Add(this);
-						this._hand_step = value.hand_Step_value;
-					}
-					else
-					{
-						this._hand_step = default(int);
-					}
-					this.SendPropertyChanged("HandStep");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoom", Storage="_LeagueName", ThisKey="league_name", OtherKey="League_Value", IsForeignKey=true)]
-		public LeagueName LeagueName
-		{
-			get
-			{
-				return this._LeagueName.Entity;
-			}
-			set
-			{
-				LeagueName previousValue = this._LeagueName.Entity;
-				if (((previousValue != value) 
-							|| (this._LeagueName.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._LeagueName.Entity = null;
-						previousValue.GameRooms.Remove(this);
-					}
-					this._LeagueName.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms.Add(this);
-						this._league_name = value.League_Value;
-					}
-					else
-					{
-						this._league_name = default(int);
-					}
-					this.SendPropertyChanged("LeagueName");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom", Storage="_UserTable", ThisKey="curr_Player", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable
-		{
-			get
-			{
-				return this._UserTable.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable.Entity = null;
-						previousValue.GameRooms.Remove(this);
-					}
-					this._UserTable.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms.Add(this);
-						this._curr_Player = value.userId;
-					}
-					else
-					{
-						this._curr_Player = default(int);
-					}
-					this.SendPropertyChanged("UserTable");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom1", Storage="_UserTable1", ThisKey="Dealer_Player", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable1
-		{
-			get
-			{
-				return this._UserTable1.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable1.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable1.Entity = null;
-						previousValue.GameRooms1.Remove(this);
-					}
-					this._UserTable1.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms1.Add(this);
-						this._Dealer_Player = value.userId;
-					}
-					else
-					{
-						this._Dealer_Player = default(int);
-					}
-					this.SendPropertyChanged("UserTable1");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom2", Storage="_UserTable2", ThisKey="First_Player_In_round", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable2
-		{
-			get
-			{
-				return this._UserTable2.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable2.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable2.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable2.Entity = null;
-						previousValue.GameRooms2.Remove(this);
-					}
-					this._UserTable2.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms2.Add(this);
-						this._First_Player_In_round = value.userId;
-					}
-					else
-					{
-						this._First_Player_In_round = default(int);
-					}
-					this.SendPropertyChanged("UserTable2");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom3", Storage="_UserTable3", ThisKey="SB_player", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable3
-		{
-			get
-			{
-				return this._UserTable3.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable3.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable3.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable3.Entity = null;
-						previousValue.GameRooms3.Remove(this);
-					}
-					this._UserTable3.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms3.Add(this);
-						this._SB_player = value.userId;
-					}
-					else
-					{
-						this._SB_player = default(int);
-					}
-					this.SendPropertyChanged("UserTable3");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom4", Storage="_UserTable4", ThisKey="Bb_Player", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable4
-		{
-			get
-			{
-				return this._UserTable4.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable4.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable4.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable4.Entity = null;
-						previousValue.GameRooms4.Remove(this);
-					}
-					this._UserTable4.Entity = value;
-					if ((value != null))
-					{
-						value.GameRooms4.Add(this);
-						this._Bb_Player = value.userId;
-					}
-					else
-					{
-						this._Bb_Player = default(int);
-					}
-					this.SendPropertyChanged("UserTable4");
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2253,25 +1480,13 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		private void attach_Decks(Deck entity)
+		private void attach_GameRoomPreferances(GameRoomPreferance entity)
 		{
 			this.SendPropertyChanging();
 			entity.GameRoom = this;
 		}
 		
-		private void detach_Decks(Deck entity)
-		{
-			this.SendPropertyChanging();
-			entity.GameRoom = null;
-		}
-		
-		private void attach_GamesReplays(GamesReplay entity)
-		{
-			this.SendPropertyChanging();
-			entity.GameRoom = this;
-		}
-		
-		private void detach_GamesReplays(GamesReplay entity)
+		private void detach_GameRoomPreferances(GameRoomPreferance entity)
 		{
 			this.SendPropertyChanging();
 			entity.GameRoom = null;
@@ -2284,18 +1499,6 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 		
 		private void detach_Players(Player entity)
-		{
-			this.SendPropertyChanging();
-			entity.GameRoom = null;
-		}
-		
-		private void attach_ReplayManagers(ReplayManager entity)
-		{
-			this.SendPropertyChanging();
-			entity.GameRoom = this;
-		}
-		
-		private void detach_ReplayManagers(ReplayManager entity)
 		{
 			this.SendPropertyChanging();
 			entity.GameRoom = null;
@@ -2324,18 +1527,6 @@ namespace TexasHoldem.Database.LinqToSql
 			this.SendPropertyChanging();
 			entity.GameRoom = null;
 		}
-		
-		private void attach_UserActiveGames(UserActiveGame entity)
-		{
-			this.SendPropertyChanging();
-			entity.GameRoom = this;
-		}
-		
-		private void detach_UserActiveGames(UserActiveGame entity)
-		{
-			this.SendPropertyChanging();
-			entity.GameRoom = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GameRoomPreferance")]
@@ -2344,29 +1535,31 @@ namespace TexasHoldem.Database.LinqToSql
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _room_id;
+		private int _Roomid;
 		
-		private System.Nullable<bool> _is_Spectetor;
+		private System.Nullable<bool> _CanSpectate;
 		
-		private System.Nullable<int> _Min_player_in_room;
+		private System.Nullable<int> _MinPlayers;
 		
-		private System.Nullable<int> _max_player_in_room;
+		private System.Nullable<int> _MaxPlayers;
 		
-		private System.Nullable<int> _enter_paying_money;
+		private System.Nullable<int> _BuyInPolicy;
 		
-		private System.Nullable<int> _starting_chip;
+		private System.Nullable<int> _EnterGamePolicy;
 		
-		private System.Nullable<int> _Bb;
+		private System.Nullable<int> _MinBet;
 		
-		private System.Nullable<int> _Sb;
+		private System.Nullable<int> _League;
 		
-		private System.Nullable<int> _League_name;
+		private System.Nullable<int> _GameMode;
 		
-		private System.Nullable<int> _Game_Mode;
+		private int _GameId;
 		
-		private int _Game_Id;
+		private System.Nullable<int> _PotSize;
 		
-		private EntityRef<GameMode> _GameMode;
+		private EntityRef<GameMode> _GameMode1;
+		
+		private EntityRef<GameRoom> _GameRoom;
 		
 		private EntityRef<LeagueName> _LeagueName;
 		
@@ -2374,292 +1567,345 @@ namespace TexasHoldem.Database.LinqToSql
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void Onroom_idChanging(int value);
-    partial void Onroom_idChanged();
-    partial void Onis_SpectetorChanging(System.Nullable<bool> value);
-    partial void Onis_SpectetorChanged();
-    partial void OnMin_player_in_roomChanging(System.Nullable<int> value);
-    partial void OnMin_player_in_roomChanged();
-    partial void Onmax_player_in_roomChanging(System.Nullable<int> value);
-    partial void Onmax_player_in_roomChanged();
-    partial void Onenter_paying_moneyChanging(System.Nullable<int> value);
-    partial void Onenter_paying_moneyChanged();
-    partial void Onstarting_chipChanging(System.Nullable<int> value);
-    partial void Onstarting_chipChanged();
-    partial void OnBbChanging(System.Nullable<int> value);
-    partial void OnBbChanged();
-    partial void OnSbChanging(System.Nullable<int> value);
-    partial void OnSbChanged();
-    partial void OnLeague_nameChanging(System.Nullable<int> value);
-    partial void OnLeague_nameChanged();
-    partial void OnGame_ModeChanging(System.Nullable<int> value);
-    partial void OnGame_ModeChanged();
-    partial void OnGame_IdChanging(int value);
-    partial void OnGame_IdChanged();
+    partial void OnRoomidChanging(int value);
+    partial void OnRoomidChanged();
+    partial void OnCanSpectateChanging(System.Nullable<bool> value);
+    partial void OnCanSpectateChanged();
+    partial void OnMinPlayersChanging(System.Nullable<int> value);
+    partial void OnMinPlayersChanged();
+    partial void OnMaxPlayersChanging(System.Nullable<int> value);
+    partial void OnMaxPlayersChanged();
+    partial void OnBuyInPolicyChanging(System.Nullable<int> value);
+    partial void OnBuyInPolicyChanged();
+    partial void OnEnterGamePolicyChanging(System.Nullable<int> value);
+    partial void OnEnterGamePolicyChanged();
+    partial void OnMinBetChanging(System.Nullable<int> value);
+    partial void OnMinBetChanged();
+    partial void OnLeagueChanging(System.Nullable<int> value);
+    partial void OnLeagueChanged();
+    partial void OnGameModeChanging(System.Nullable<int> value);
+    partial void OnGameModeChanged();
+    partial void OnGameIdChanging(int value);
+    partial void OnGameIdChanged();
+    partial void OnPotSizeChanging(System.Nullable<int> value);
+    partial void OnPotSizeChanged();
     #endregion
 		
 		public GameRoomPreferance()
 		{
-			this._GameMode = default(EntityRef<GameMode>);
+			this._GameMode1 = default(EntityRef<GameMode>);
+			this._GameRoom = default(EntityRef<GameRoom>);
 			this._LeagueName = default(EntityRef<LeagueName>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room id]", Storage="_room_id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Roomid", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Roomid
 		{
 			get
 			{
-				return this._room_id;
+				return this._Roomid;
 			}
 			set
 			{
-				if ((this._room_id != value))
+				if ((this._Roomid != value))
 				{
-					this.Onroom_idChanging(value);
+					if (this._GameRoom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoomidChanging(value);
 					this.SendPropertyChanging();
-					this._room_id = value;
-					this.SendPropertyChanged("room_id");
-					this.Onroom_idChanged();
+					this._Roomid = value;
+					this.SendPropertyChanged("Roomid");
+					this.OnRoomidChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[is Spectetor]", Storage="_is_Spectetor", DbType="Bit")]
-		public System.Nullable<bool> is_Spectetor
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanSpectate", DbType="Bit")]
+		public System.Nullable<bool> CanSpectate
 		{
 			get
 			{
-				return this._is_Spectetor;
+				return this._CanSpectate;
 			}
 			set
 			{
-				if ((this._is_Spectetor != value))
+				if ((this._CanSpectate != value))
 				{
-					this.Onis_SpectetorChanging(value);
+					this.OnCanSpectateChanging(value);
 					this.SendPropertyChanging();
-					this._is_Spectetor = value;
-					this.SendPropertyChanged("is_Spectetor");
-					this.Onis_SpectetorChanged();
+					this._CanSpectate = value;
+					this.SendPropertyChanged("CanSpectate");
+					this.OnCanSpectateChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Min player in room]", Storage="_Min_player_in_room", DbType="Int")]
-		public System.Nullable<int> Min_player_in_room
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinPlayers", DbType="Int")]
+		public System.Nullable<int> MinPlayers
 		{
 			get
 			{
-				return this._Min_player_in_room;
+				return this._MinPlayers;
 			}
 			set
 			{
-				if ((this._Min_player_in_room != value))
+				if ((this._MinPlayers != value))
 				{
-					this.OnMin_player_in_roomChanging(value);
+					this.OnMinPlayersChanging(value);
 					this.SendPropertyChanging();
-					this._Min_player_in_room = value;
-					this.SendPropertyChanged("Min_player_in_room");
-					this.OnMin_player_in_roomChanged();
+					this._MinPlayers = value;
+					this.SendPropertyChanged("MinPlayers");
+					this.OnMinPlayersChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[max player in room]", Storage="_max_player_in_room", DbType="Int")]
-		public System.Nullable<int> max_player_in_room
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxPlayers", DbType="Int")]
+		public System.Nullable<int> MaxPlayers
 		{
 			get
 			{
-				return this._max_player_in_room;
+				return this._MaxPlayers;
 			}
 			set
 			{
-				if ((this._max_player_in_room != value))
+				if ((this._MaxPlayers != value))
 				{
-					this.Onmax_player_in_roomChanging(value);
+					this.OnMaxPlayersChanging(value);
 					this.SendPropertyChanging();
-					this._max_player_in_room = value;
-					this.SendPropertyChanged("max_player_in_room");
-					this.Onmax_player_in_roomChanged();
+					this._MaxPlayers = value;
+					this.SendPropertyChanged("MaxPlayers");
+					this.OnMaxPlayersChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[enter paying money]", Storage="_enter_paying_money", DbType="Int")]
-		public System.Nullable<int> enter_paying_money
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyInPolicy", DbType="Int")]
+		public System.Nullable<int> BuyInPolicy
 		{
 			get
 			{
-				return this._enter_paying_money;
+				return this._BuyInPolicy;
 			}
 			set
 			{
-				if ((this._enter_paying_money != value))
+				if ((this._BuyInPolicy != value))
 				{
-					this.Onenter_paying_moneyChanging(value);
+					this.OnBuyInPolicyChanging(value);
 					this.SendPropertyChanging();
-					this._enter_paying_money = value;
-					this.SendPropertyChanged("enter_paying_money");
-					this.Onenter_paying_moneyChanged();
+					this._BuyInPolicy = value;
+					this.SendPropertyChanged("BuyInPolicy");
+					this.OnBuyInPolicyChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[starting chip]", Storage="_starting_chip", DbType="Int")]
-		public System.Nullable<int> starting_chip
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterGamePolicy", DbType="Int")]
+		public System.Nullable<int> EnterGamePolicy
 		{
 			get
 			{
-				return this._starting_chip;
+				return this._EnterGamePolicy;
 			}
 			set
 			{
-				if ((this._starting_chip != value))
+				if ((this._EnterGamePolicy != value))
 				{
-					this.Onstarting_chipChanging(value);
+					this.OnEnterGamePolicyChanging(value);
 					this.SendPropertyChanging();
-					this._starting_chip = value;
-					this.SendPropertyChanged("starting_chip");
-					this.Onstarting_chipChanged();
+					this._EnterGamePolicy = value;
+					this.SendPropertyChanged("EnterGamePolicy");
+					this.OnEnterGamePolicyChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bb", DbType="Int")]
-		public System.Nullable<int> Bb
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinBet", DbType="Int")]
+		public System.Nullable<int> MinBet
 		{
 			get
 			{
-				return this._Bb;
+				return this._MinBet;
 			}
 			set
 			{
-				if ((this._Bb != value))
+				if ((this._MinBet != value))
 				{
-					this.OnBbChanging(value);
+					this.OnMinBetChanging(value);
 					this.SendPropertyChanging();
-					this._Bb = value;
-					this.SendPropertyChanged("Bb");
-					this.OnBbChanged();
+					this._MinBet = value;
+					this.SendPropertyChanged("MinBet");
+					this.OnMinBetChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sb", DbType="Int")]
-		public System.Nullable<int> Sb
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_League", DbType="Int")]
+		public System.Nullable<int> League
 		{
 			get
 			{
-				return this._Sb;
+				return this._League;
 			}
 			set
 			{
-				if ((this._Sb != value))
+				if ((this._League != value))
 				{
-					this.OnSbChanging(value);
+					if (this._LeagueName.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnLeagueChanging(value);
 					this.SendPropertyChanging();
-					this._Sb = value;
-					this.SendPropertyChanged("Sb");
-					this.OnSbChanged();
+					this._League = value;
+					this.SendPropertyChanged("League");
+					this.OnLeagueChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League name]", Storage="_League_name", DbType="Int")]
-		public System.Nullable<int> League_name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameMode", DbType="Int")]
+		public System.Nullable<int> GameMode
 		{
 			get
 			{
-				return this._League_name;
+				return this._GameMode;
 			}
 			set
 			{
-				if ((this._League_name != value))
+				if ((this._GameMode != value))
 				{
-					this.OnLeague_nameChanging(value);
+					if (this._GameMode1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGameModeChanging(value);
 					this.SendPropertyChanging();
-					this._League_name = value;
-					this.SendPropertyChanged("League_name");
-					this.OnLeague_nameChanged();
+					this._GameMode = value;
+					this.SendPropertyChanged("GameMode");
+					this.OnGameModeChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Mode]", Storage="_Game_Mode", DbType="Int")]
-		public System.Nullable<int> Game_Mode
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
 		{
 			get
 			{
-				return this._Game_Mode;
+				return this._GameId;
 			}
 			set
 			{
-				if ((this._Game_Mode != value))
+				if ((this._GameId != value))
 				{
-					this.OnGame_ModeChanging(value);
+					if (this._GameRoom.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGameIdChanging(value);
 					this.SendPropertyChanging();
-					this._Game_Mode = value;
-					this.SendPropertyChanged("Game_Mode");
-					this.OnGame_ModeChanged();
+					this._GameId = value;
+					this.SendPropertyChanged("GameId");
+					this.OnGameIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
-		public int Game_Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PotSize", DbType="Int")]
+		public System.Nullable<int> PotSize
 		{
 			get
 			{
-				return this._Game_Id;
+				return this._PotSize;
 			}
 			set
 			{
-				if ((this._Game_Id != value))
+				if ((this._PotSize != value))
 				{
-					this.OnGame_IdChanging(value);
+					this.OnPotSizeChanging(value);
 					this.SendPropertyChanging();
-					this._Game_Id = value;
-					this.SendPropertyChanged("Game_Id");
-					this.OnGame_IdChanged();
+					this._PotSize = value;
+					this.SendPropertyChanged("PotSize");
+					this.OnPotSizeChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameMode", ThisKey="Game_Mode", OtherKey="Game_mode_value", IsForeignKey=true)]
-		public GameMode GameMode
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameMode_GameRoomPreferance", Storage="_GameMode1", ThisKey="GameMode", OtherKey="Game_mode_value", IsForeignKey=true)]
+		public GameMode GameMode1
 		{
 			get
 			{
-				return this._GameMode.Entity;
+				return this._GameMode1.Entity;
 			}
 			set
 			{
-				GameMode previousValue = this._GameMode.Entity;
+				GameMode previousValue = this._GameMode1.Entity;
 				if (((previousValue != value) 
-							|| (this._GameMode.HasLoadedOrAssignedValue == false)))
+							|| (this._GameMode1.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._GameMode.Entity = null;
+						this._GameMode1.Entity = null;
 						previousValue.GameRoomPreferances.Remove(this);
 					}
-					this._GameMode.Entity = value;
+					this._GameMode1.Entity = value;
 					if ((value != null))
 					{
 						value.GameRoomPreferances.Add(this);
-						this._Game_Mode = value.Game_mode_value;
+						this._GameMode = value.Game_mode_value;
 					}
 					else
 					{
-						this._Game_Mode = default(Nullable<int>);
+						this._GameMode = default(Nullable<int>);
 					}
-					this.SendPropertyChanged("GameMode");
+					this.SendPropertyChanged("GameMode1");
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_LeagueName", ThisKey="League_name", OtherKey="League_Value", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GameRoomPreferance", Storage="_GameRoom", ThisKey="Roomid,GameId", OtherKey="RoomId,GameId", IsForeignKey=true)]
+		public GameRoom GameRoom
+		{
+			get
+			{
+				return this._GameRoom.Entity;
+			}
+			set
+			{
+				GameRoom previousValue = this._GameRoom.Entity;
+				if (((previousValue != value) 
+							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GameRoom.Entity = null;
+						previousValue.GameRoomPreferances.Remove(this);
+					}
+					this._GameRoom.Entity = value;
+					if ((value != null))
+					{
+						value.GameRoomPreferances.Add(this);
+						this._Roomid = value.RoomId;
+						this._GameId = value.GameId;
+					}
+					else
+					{
+						this._Roomid = default(int);
+						this._GameId = default(int);
+					}
+					this.SendPropertyChanged("GameRoom");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_LeagueName", ThisKey="League", OtherKey="League_Value", IsForeignKey=true)]
 		public LeagueName LeagueName
 		{
 			get
@@ -2682,11 +1928,11 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.GameRoomPreferances.Add(this);
-						this._League_name = value.League_Value;
+						this._League = value.League_Value;
 					}
 					else
 					{
-						this._League_name = default(Nullable<int>);
+						this._League = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("LeagueName");
 				}
@@ -2714,306 +1960,6 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GamesReplays")]
-	public partial class GamesReplay : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _user_Id;
-		
-		private int _room_Id;
-		
-		private int _game_Id;
-		
-		private EntityRef<GameRoom> _GameRoom;
-		
-		private EntityRef<UserTable> _UserTable;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onuser_IdChanging(int value);
-    partial void Onuser_IdChanged();
-    partial void Onroom_IdChanging(int value);
-    partial void Onroom_IdChanged();
-    partial void Ongame_IdChanging(int value);
-    partial void Ongame_IdChanged();
-    #endregion
-		
-		public GamesReplay()
-		{
-			this._GameRoom = default(EntityRef<GameRoom>);
-			this._UserTable = default(EntityRef<UserTable>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[user Id]", Storage="_user_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int user_Id
-		{
-			get
-			{
-				return this._user_Id;
-			}
-			set
-			{
-				if ((this._user_Id != value))
-				{
-					this.Onuser_IdChanging(value);
-					this.SendPropertyChanging();
-					this._user_Id = value;
-					this.SendPropertyChanged("user_Id");
-					this.Onuser_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_Id
-		{
-			get
-			{
-				return this._room_Id;
-			}
-			set
-			{
-				if ((this._room_Id != value))
-				{
-					this.Onroom_IdChanging(value);
-					this.SendPropertyChanging();
-					this._room_Id = value;
-					this.SendPropertyChanged("room_Id");
-					this.Onroom_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int game_Id
-		{
-			get
-			{
-				return this._game_Id;
-			}
-			set
-			{
-				if ((this._game_Id != value))
-				{
-					this.Ongame_IdChanging(value);
-					this.SendPropertyChanging();
-					this._game_Id = value;
-					this.SendPropertyChanged("game_Id");
-					this.Ongame_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_GamesReplay", Storage="_GameRoom", ThisKey="room_Id,game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
-		public GameRoom GameRoom
-		{
-			get
-			{
-				return this._GameRoom.Entity;
-			}
-			set
-			{
-				GameRoom previousValue = this._GameRoom.Entity;
-				if (((previousValue != value) 
-							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameRoom.Entity = null;
-						previousValue.GamesReplays.Remove(this);
-					}
-					this._GameRoom.Entity = value;
-					if ((value != null))
-					{
-						value.GamesReplays.Add(this);
-						this._room_Id = value.room_Id;
-						this._game_Id = value.game_id;
-					}
-					else
-					{
-						this._room_Id = default(int);
-						this._game_Id = default(int);
-					}
-					this.SendPropertyChanged("GameRoom");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GamesReplay", Storage="_UserTable", ThisKey="user_Id", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable
-		{
-			get
-			{
-				return this._UserTable.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable.Entity = null;
-						previousValue.GamesReplays.Remove(this);
-					}
-					this._UserTable.Entity = value;
-					if ((value != null))
-					{
-						value.GamesReplays.Add(this);
-						this._user_Id = value.userId;
-					}
-					else
-					{
-						this._user_Id = default(int);
-					}
-					this.SendPropertyChanged("UserTable");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.HandStep")]
-	public partial class HandStep : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _hand_Step_value;
-		
-		private string _hand_Step_name;
-		
-		private EntitySet<GameRoom> _GameRooms;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onhand_Step_valueChanging(int value);
-    partial void Onhand_Step_valueChanged();
-    partial void Onhand_Step_nameChanging(string value);
-    partial void Onhand_Step_nameChanged();
-    #endregion
-		
-		public HandStep()
-		{
-			this._GameRooms = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms), new Action<GameRoom>(this.detach_GameRooms));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step value]", Storage="_hand_Step_value", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int hand_Step_value
-		{
-			get
-			{
-				return this._hand_Step_value;
-			}
-			set
-			{
-				if ((this._hand_Step_value != value))
-				{
-					this.Onhand_Step_valueChanging(value);
-					this.SendPropertyChanging();
-					this._hand_Step_value = value;
-					this.SendPropertyChanged("hand_Step_value");
-					this.Onhand_Step_valueChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[hand Step name]", Storage="_hand_Step_name", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
-		public string hand_Step_name
-		{
-			get
-			{
-				return this._hand_Step_name;
-			}
-			set
-			{
-				if ((this._hand_Step_name != value))
-				{
-					this.Onhand_Step_nameChanging(value);
-					this.SendPropertyChanging();
-					this._hand_Step_name = value;
-					this.SendPropertyChanged("hand_Step_name");
-					this.Onhand_Step_nameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="HandStep_GameRoom", Storage="_GameRooms", ThisKey="hand_Step_value", OtherKey="hand_step")]
-		public EntitySet<GameRoom> GameRooms
-		{
-			get
-			{
-				return this._GameRooms;
-			}
-			set
-			{
-				this._GameRooms.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_GameRooms(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.HandStep = this;
-		}
-		
-		private void detach_GameRooms(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.HandStep = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LeagueName")]
 	public partial class LeagueName : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3023,8 +1969,6 @@ namespace TexasHoldem.Database.LinqToSql
 		private int _League_Value;
 		
 		private string _League_Name;
-		
-		private EntitySet<GameRoom> _GameRooms;
 		
 		private EntitySet<GameRoomPreferance> _GameRoomPreferances;
 		
@@ -3040,7 +1984,6 @@ namespace TexasHoldem.Database.LinqToSql
 		
 		public LeagueName()
 		{
-			this._GameRooms = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms), new Action<GameRoom>(this.detach_GameRooms));
 			this._GameRoomPreferances = new EntitySet<GameRoomPreferance>(new Action<GameRoomPreferance>(this.attach_GameRoomPreferances), new Action<GameRoomPreferance>(this.detach_GameRoomPreferances));
 			OnCreated();
 		}
@@ -3085,20 +2028,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoom", Storage="_GameRooms", ThisKey="League_Value", OtherKey="league_name")]
-		public EntitySet<GameRoom> GameRooms
-		{
-			get
-			{
-				return this._GameRooms;
-			}
-			set
-			{
-				this._GameRooms.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="League_Value", OtherKey="League_name")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LeagueName_GameRoomPreferance", Storage="_GameRoomPreferances", ThisKey="League_Value", OtherKey="League")]
 		public EntitySet<GameRoomPreferance> GameRoomPreferances
 		{
 			get
@@ -3129,18 +2059,6 @@ namespace TexasHoldem.Database.LinqToSql
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_GameRooms(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.LeagueName = this;
-		}
-		
-		private void detach_GameRooms(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.LeagueName = null;
 		}
 		
 		private void attach_GameRoomPreferances(GameRoomPreferance entity)
@@ -3610,7 +2528,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Player", Storage="_GameRoom", ThisKey="room_Id,Game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Player", Storage="_GameRoom", ThisKey="room_Id,Game_Id", OtherKey="RoomId,GameId", IsForeignKey=true)]
 		public GameRoom GameRoom
 		{
 			get
@@ -3633,8 +2551,8 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.Players.Add(this);
-						this._room_Id = value.room_Id;
-						this._Game_Id = value.game_id;
+						this._room_Id = value.RoomId;
+						this._Game_Id = value.GameId;
 					}
 					else
 					{
@@ -3815,394 +2733,6 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[Public Cards]")]
-	public partial class Public_Card : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _room_Id;
-		
-		private int _card;
-		
-		private int _Game_Id;
-		
-		private EntityRef<Card> _Card1;
-		
-		private EntityRef<GameRoom> _GameRoom;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Onroom_IdChanging(int value);
-    partial void Onroom_IdChanged();
-    partial void OncardChanging(int value);
-    partial void OncardChanged();
-    partial void OnGame_IdChanging(int value);
-    partial void OnGame_IdChanged();
-    #endregion
-		
-		public Public_Card()
-		{
-			this._Card1 = default(EntityRef<Card>);
-			this._GameRoom = default(EntityRef<GameRoom>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[room Id]", Storage="_room_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int room_Id
-		{
-			get
-			{
-				return this._room_Id;
-			}
-			set
-			{
-				if ((this._room_Id != value))
-				{
-					this.Onroom_IdChanging(value);
-					this.SendPropertyChanging();
-					this._room_Id = value;
-					this.SendPropertyChanged("room_Id");
-					this.Onroom_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_card", DbType="Int NOT NULL")]
-		public int card
-		{
-			get
-			{
-				return this._card;
-			}
-			set
-			{
-				if ((this._card != value))
-				{
-					if (this._Card1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OncardChanging(value);
-					this.SendPropertyChanging();
-					this._card = value;
-					this.SendPropertyChanged("card");
-					this.OncardChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int Game_Id
-		{
-			get
-			{
-				return this._Game_Id;
-			}
-			set
-			{
-				if ((this._Game_Id != value))
-				{
-					this.OnGame_IdChanging(value);
-					this.SendPropertyChanging();
-					this._Game_Id = value;
-					this.SendPropertyChanged("Game_Id");
-					this.OnGame_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Card_Public_Card", Storage="_Card1", ThisKey="card", OtherKey="Card_Value", IsForeignKey=true)]
-		public Card Card1
-		{
-			get
-			{
-				return this._Card1.Entity;
-			}
-			set
-			{
-				Card previousValue = this._Card1.Entity;
-				if (((previousValue != value) 
-							|| (this._Card1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Card1.Entity = null;
-						previousValue.Public_Cards.Remove(this);
-					}
-					this._Card1.Entity = value;
-					if ((value != null))
-					{
-						value.Public_Cards.Add(this);
-						this._card = value.Card_Value;
-					}
-					else
-					{
-						this._card = default(int);
-					}
-					this.SendPropertyChanged("Card1");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_Public_Card", Storage="_GameRoom", ThisKey="room_Id,Game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
-		public GameRoom GameRoom
-		{
-			get
-			{
-				return this._GameRoom.Entity;
-			}
-			set
-			{
-				GameRoom previousValue = this._GameRoom.Entity;
-				if (((previousValue != value) 
-							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameRoom.Entity = null;
-						previousValue.Public_Card = null;
-					}
-					this._GameRoom.Entity = value;
-					if ((value != null))
-					{
-						value.Public_Card = this;
-						this._room_Id = value.room_Id;
-						this._Game_Id = value.game_id;
-					}
-					else
-					{
-						this._room_Id = default(int);
-						this._Game_Id = default(int);
-					}
-					this.SendPropertyChanged("GameRoom");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReplayManager")]
-	public partial class ReplayManager : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _roomId;
-		
-		private int _gameId;
-		
-		private int _userId;
-		
-		private EntityRef<GameRoom> _GameRoom;
-		
-		private EntityRef<UserTable> _UserTable;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnroomIdChanging(int value);
-    partial void OnroomIdChanged();
-    partial void OngameIdChanging(int value);
-    partial void OngameIdChanged();
-    partial void OnuserIdChanging(int value);
-    partial void OnuserIdChanged();
-    #endregion
-		
-		public ReplayManager()
-		{
-			this._GameRoom = default(EntityRef<GameRoom>);
-			this._UserTable = default(EntityRef<UserTable>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int roomId
-		{
-			get
-			{
-				return this._roomId;
-			}
-			set
-			{
-				if ((this._roomId != value))
-				{
-					if (this._GameRoom.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnroomIdChanging(value);
-					this.SendPropertyChanging();
-					this._roomId = value;
-					this.SendPropertyChanged("roomId");
-					this.OnroomIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gameId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int gameId
-		{
-			get
-			{
-				return this._gameId;
-			}
-			set
-			{
-				if ((this._gameId != value))
-				{
-					if (this._GameRoom.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OngameIdChanging(value);
-					this.SendPropertyChanging();
-					this._gameId = value;
-					this.SendPropertyChanged("gameId");
-					this.OngameIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int userId
-		{
-			get
-			{
-				return this._userId;
-			}
-			set
-			{
-				if ((this._userId != value))
-				{
-					if (this._UserTable.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnuserIdChanging(value);
-					this.SendPropertyChanging();
-					this._userId = value;
-					this.SendPropertyChanged("userId");
-					this.OnuserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_ReplayManager", Storage="_GameRoom", ThisKey="roomId,gameId", OtherKey="room_Id,game_id", IsForeignKey=true)]
-		public GameRoom GameRoom
-		{
-			get
-			{
-				return this._GameRoom.Entity;
-			}
-			set
-			{
-				GameRoom previousValue = this._GameRoom.Entity;
-				if (((previousValue != value) 
-							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameRoom.Entity = null;
-						previousValue.ReplayManagers.Remove(this);
-					}
-					this._GameRoom.Entity = value;
-					if ((value != null))
-					{
-						value.ReplayManagers.Add(this);
-						this._roomId = value.room_Id;
-						this._gameId = value.game_id;
-					}
-					else
-					{
-						this._roomId = default(int);
-						this._gameId = default(int);
-					}
-					this.SendPropertyChanged("GameRoom");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_ReplayManager", Storage="_UserTable", ThisKey="userId", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable
-		{
-			get
-			{
-				return this._UserTable.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable.Entity = null;
-						previousValue.ReplayManagers.Remove(this);
-					}
-					this._UserTable.Entity = value;
-					if ((value != null))
-					{
-						value.ReplayManagers.Add(this);
-						this._userId = value.userId;
-					}
-					else
-					{
-						this._userId = default(int);
-					}
-					this.SendPropertyChanged("UserTable");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SpectetorGamesOfUser")]
 	public partial class SpectetorGamesOfUser : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -4306,7 +2836,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SpectetorGamesOfUser", Storage="_GameRoom", ThisKey="roomId,Game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SpectetorGamesOfUser", Storage="_GameRoom", ThisKey="roomId,Game_Id", OtherKey="RoomId,GameId", IsForeignKey=true)]
 		public GameRoom GameRoom
 		{
 			get
@@ -4329,8 +2859,8 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.SpectetorGamesOfUsers.Add(this);
-						this._roomId = value.room_Id;
-						this._Game_Id = value.game_id;
+						this._roomId = value.RoomId;
+						this._Game_Id = value.GameId;
 					}
 					else
 					{
@@ -4524,7 +3054,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SystemLog", Storage="_GameRoom", ThisKey="roomId,game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_SystemLog", Storage="_GameRoom", ThisKey="roomId,game_Id", OtherKey="RoomId,GameId", IsForeignKey=true)]
 		public GameRoom GameRoom
 		{
 			get
@@ -4547,8 +3077,8 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.SystemLogs.Add(this);
-						this._roomId = value.room_Id;
-						this._game_Id = value.game_id;
+						this._roomId = value.RoomId;
+						this._game_Id = value.GameId;
 					}
 					else
 					{
@@ -4590,200 +3120,6 @@ namespace TexasHoldem.Database.LinqToSql
 						this._logId = default(int);
 					}
 					this.SendPropertyChanged("Log");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserActiveGames")]
-	public partial class UserActiveGame : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _userId;
-		
-		private int _roomId;
-		
-		private int _Game_Id;
-		
-		private EntityRef<GameRoom> _GameRoom;
-		
-		private EntityRef<UserTable> _UserTable;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnuserIdChanging(int value);
-    partial void OnuserIdChanged();
-    partial void OnroomIdChanging(int value);
-    partial void OnroomIdChanged();
-    partial void OnGame_IdChanging(int value);
-    partial void OnGame_IdChanged();
-    #endregion
-		
-		public UserActiveGame()
-		{
-			this._GameRoom = default(EntityRef<GameRoom>);
-			this._UserTable = default(EntityRef<UserTable>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int userId
-		{
-			get
-			{
-				return this._userId;
-			}
-			set
-			{
-				if ((this._userId != value))
-				{
-					if (this._UserTable.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnuserIdChanging(value);
-					this.SendPropertyChanging();
-					this._userId = value;
-					this.SendPropertyChanged("userId");
-					this.OnuserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
-		public int roomId
-		{
-			get
-			{
-				return this._roomId;
-			}
-			set
-			{
-				if ((this._roomId != value))
-				{
-					if (this._GameRoom.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnroomIdChanging(value);
-					this.SendPropertyChanging();
-					this._roomId = value;
-					this.SendPropertyChanged("roomId");
-					this.OnroomIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
-		public int Game_Id
-		{
-			get
-			{
-				return this._Game_Id;
-			}
-			set
-			{
-				if ((this._Game_Id != value))
-				{
-					this.OnGame_IdChanging(value);
-					this.SendPropertyChanging();
-					this._Game_Id = value;
-					this.SendPropertyChanged("Game_Id");
-					this.OnGame_IdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_UserActiveGame", Storage="_GameRoom", ThisKey="roomId,Game_Id", OtherKey="room_Id,game_id", IsForeignKey=true)]
-		public GameRoom GameRoom
-		{
-			get
-			{
-				return this._GameRoom.Entity;
-			}
-			set
-			{
-				GameRoom previousValue = this._GameRoom.Entity;
-				if (((previousValue != value) 
-							|| (this._GameRoom.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._GameRoom.Entity = null;
-						previousValue.UserActiveGames.Remove(this);
-					}
-					this._GameRoom.Entity = value;
-					if ((value != null))
-					{
-						value.UserActiveGames.Add(this);
-						this._roomId = value.room_Id;
-						this._Game_Id = value.game_id;
-					}
-					else
-					{
-						this._roomId = default(int);
-						this._Game_Id = default(int);
-					}
-					this.SendPropertyChanged("GameRoom");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_UserActiveGame", Storage="_UserTable", ThisKey="userId", OtherKey="userId", IsForeignKey=true)]
-		public UserTable UserTable
-		{
-			get
-			{
-				return this._UserTable.Entity;
-			}
-			set
-			{
-				UserTable previousValue = this._UserTable.Entity;
-				if (((previousValue != value) 
-							|| (this._UserTable.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserTable.Entity = null;
-						previousValue.UserActiveGame = null;
-					}
-					this._UserTable.Entity = value;
-					if ((value != null))
-					{
-						value.UserActiveGame = this;
-						this._userId = value.userId;
-					}
-					else
-					{
-						this._userId = default(int);
-					}
-					this.SendPropertyChanged("UserTable");
 				}
 			}
 		}
@@ -4916,7 +3252,7 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_UserReplaySavedGame", Storage="_GameRoom", ThisKey="roomId,gameId", OtherKey="room_Id,game_id", IsForeignKey=true)]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GameRoom_UserReplaySavedGame", Storage="_GameRoom", ThisKey="roomId,gameId", OtherKey="RoomId,GameId", IsForeignKey=true)]
 		public GameRoom GameRoom
 		{
 			get
@@ -4939,8 +3275,8 @@ namespace TexasHoldem.Database.LinqToSql
 					if ((value != null))
 					{
 						value.UserReplaySavedGame = this;
-						this._roomId = value.room_Id;
-						this._gameId = value.game_id;
+						this._roomId = value.RoomId;
+						this._gameId = value.GameId;
 					}
 					else
 					{
@@ -5007,693 +3343,243 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserTable")]
-	public partial class UserTable : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class GetAllActiveGameRoomsResult
 	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		private int _RoomId;
 		
-		private int _userId;
+		private int _GameId;
 		
-		private string _username;
+		private string _Replay;
 		
-		private string _name;
+		private System.Xml.Linq.XElement _GameXML;
 		
-		private string _email;
+		private bool _isActive;
 		
-		private string _password;
-		
-		private string _avatar;
-		
-		private int _points;
-		
-		private int _money;
-		
-		private int _gamesPlayed;
-		
-		private int _leagueName;
-		
-		private int _winNum;
-		
-		private int _HighestCashGainInGame;
-		
-		private int _TotalProfit;
-		
-		private bool _inActive;
-		
-		private EntitySet<GameRoom> _GameRooms;
-		
-		private EntitySet<GameRoom> _GameRooms1;
-		
-		private EntitySet<GameRoom> _GameRooms2;
-		
-		private EntitySet<GameRoom> _GameRooms3;
-		
-		private EntitySet<GameRoom> _GameRooms4;
-		
-		private EntitySet<GamesReplay> _GamesReplays;
-		
-		private EntitySet<Player> _Players;
-		
-		private EntitySet<ReplayManager> _ReplayManagers;
-		
-		private EntityRef<SpectetorGamesOfUser> _SpectetorGamesOfUser;
-		
-		private EntityRef<UserActiveGame> _UserActiveGame;
-		
-		private EntitySet<UserReplaySavedGame> _UserReplaySavedGames;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnuserIdChanging(int value);
-    partial void OnuserIdChanged();
-    partial void OnusernameChanging(string value);
-    partial void OnusernameChanged();
-    partial void OnnameChanging(string value);
-    partial void OnnameChanged();
-    partial void OnemailChanging(string value);
-    partial void OnemailChanged();
-    partial void OnpasswordChanging(string value);
-    partial void OnpasswordChanged();
-    partial void OnavatarChanging(string value);
-    partial void OnavatarChanged();
-    partial void OnpointsChanging(int value);
-    partial void OnpointsChanged();
-    partial void OnmoneyChanging(int value);
-    partial void OnmoneyChanged();
-    partial void OngamesPlayedChanging(int value);
-    partial void OngamesPlayedChanged();
-    partial void OnleagueNameChanging(int value);
-    partial void OnleagueNameChanged();
-    partial void OnwinNumChanging(int value);
-    partial void OnwinNumChanged();
-    partial void OnHighestCashGainInGameChanging(int value);
-    partial void OnHighestCashGainInGameChanged();
-    partial void OnTotalProfitChanging(int value);
-    partial void OnTotalProfitChanged();
-    partial void OninActiveChanging(bool value);
-    partial void OninActiveChanged();
-    #endregion
-		
-		public UserTable()
+		public GetAllActiveGameRoomsResult()
 		{
-			this._GameRooms = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms), new Action<GameRoom>(this.detach_GameRooms));
-			this._GameRooms1 = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms1), new Action<GameRoom>(this.detach_GameRooms1));
-			this._GameRooms2 = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms2), new Action<GameRoom>(this.detach_GameRooms2));
-			this._GameRooms3 = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms3), new Action<GameRoom>(this.detach_GameRooms3));
-			this._GameRooms4 = new EntitySet<GameRoom>(new Action<GameRoom>(this.attach_GameRooms4), new Action<GameRoom>(this.detach_GameRooms4));
-			this._GamesReplays = new EntitySet<GamesReplay>(new Action<GamesReplay>(this.attach_GamesReplays), new Action<GamesReplay>(this.detach_GamesReplays));
-			this._Players = new EntitySet<Player>(new Action<Player>(this.attach_Players), new Action<Player>(this.detach_Players));
-			this._ReplayManagers = new EntitySet<ReplayManager>(new Action<ReplayManager>(this.attach_ReplayManagers), new Action<ReplayManager>(this.detach_ReplayManagers));
-			this._SpectetorGamesOfUser = default(EntityRef<SpectetorGamesOfUser>);
-			this._UserActiveGame = default(EntityRef<UserActiveGame>);
-			this._UserReplaySavedGames = new EntitySet<UserReplaySavedGame>(new Action<UserReplaySavedGame>(this.attach_UserReplaySavedGames), new Action<UserReplaySavedGame>(this.detach_UserReplaySavedGames));
-			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int userId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
 		{
 			get
 			{
-				return this._userId;
+				return this._RoomId;
 			}
 			set
 			{
-				if ((this._userId != value))
+				if ((this._RoomId != value))
 				{
-					this.OnuserIdChanging(value);
-					this.SendPropertyChanging();
-					this._userId = value;
-					this.SendPropertyChanged("userId");
-					this.OnuserIdChanged();
+					this._RoomId = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string username
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
 		{
 			get
 			{
-				return this._username;
+				return this._GameId;
 			}
 			set
 			{
-				if ((this._username != value))
+				if ((this._GameId != value))
 				{
-					this.OnusernameChanging(value);
-					this.SendPropertyChanging();
-					this._username = value;
-					this.SendPropertyChanged("username");
-					this.OnusernameChanged();
+					this._GameId = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Replay
 		{
 			get
 			{
-				return this._name;
+				return this._Replay;
 			}
 			set
 			{
-				if ((this._name != value))
+				if ((this._Replay != value))
 				{
-					this.OnnameChanging(value);
-					this.SendPropertyChanging();
-					this._name = value;
-					this.SendPropertyChanged("name");
-					this.OnnameChanged();
+					this._Replay = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_email", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string email
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
 		{
 			get
 			{
-				return this._email;
+				return this._GameXML;
 			}
 			set
 			{
-				if ((this._email != value))
+				if ((this._GameXML != value))
 				{
-					this.OnemailChanging(value);
-					this.SendPropertyChanging();
-					this._email = value;
-					this.SendPropertyChanged("email");
-					this.OnemailChanged();
+					this._GameXML = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_password", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string password
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
+		public bool isActive
 		{
 			get
 			{
-				return this._password;
+				return this._isActive;
 			}
 			set
 			{
-				if ((this._password != value))
+				if ((this._isActive != value))
 				{
-					this.OnpasswordChanging(value);
-					this.SendPropertyChanging();
-					this._password = value;
-					this.SendPropertyChanged("password");
-					this.OnpasswordChanged();
+					this._isActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetAllGameRoomsResult
+	{
+		
+		private int _RoomId;
+		
+		private int _GameId;
+		
+		private string _Replay;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		private bool _isActive;
+		
+		public GetAllGameRoomsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_avatar", DbType="VarChar(150) NOT NULL", CanBeNull=false)]
-		public string avatar
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
 		{
 			get
 			{
-				return this._avatar;
+				return this._GameId;
 			}
 			set
 			{
-				if ((this._avatar != value))
+				if ((this._GameId != value))
 				{
-					this.OnavatarChanging(value);
-					this.SendPropertyChanging();
-					this._avatar = value;
-					this.SendPropertyChanged("avatar");
-					this.OnavatarChanged();
+					this._GameId = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_points", DbType="Int NOT NULL")]
-		public int points
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Replay
 		{
 			get
 			{
-				return this._points;
+				return this._Replay;
 			}
 			set
 			{
-				if ((this._points != value))
+				if ((this._Replay != value))
 				{
-					this.OnpointsChanging(value);
-					this.SendPropertyChanging();
-					this._points = value;
-					this.SendPropertyChanged("points");
-					this.OnpointsChanged();
+					this._Replay = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_money", DbType="Int NOT NULL")]
-		public int money
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
 		{
 			get
 			{
-				return this._money;
+				return this._GameXML;
 			}
 			set
 			{
-				if ((this._money != value))
+				if ((this._GameXML != value))
 				{
-					this.OnmoneyChanging(value);
-					this.SendPropertyChanging();
-					this._money = value;
-					this.SendPropertyChanged("money");
-					this.OnmoneyChanged();
+					this._GameXML = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gamesPlayed", DbType="Int NOT NULL")]
-		public int gamesPlayed
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
+		public bool isActive
 		{
 			get
 			{
-				return this._gamesPlayed;
+				return this._isActive;
 			}
 			set
 			{
-				if ((this._gamesPlayed != value))
+				if ((this._isActive != value))
 				{
-					this.OngamesPlayedChanging(value);
-					this.SendPropertyChanging();
-					this._gamesPlayed = value;
-					this.SendPropertyChanged("gamesPlayed");
-					this.OngamesPlayedChanged();
+					this._isActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetAllSpectableGameRoomsResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetAllSpectableGameRoomsResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_leagueName", DbType="Int NOT NULL")]
-		public int leagueName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
 		{
 			get
 			{
-				return this._leagueName;
+				return this._GameXML;
 			}
 			set
 			{
-				if ((this._leagueName != value))
+				if ((this._GameXML != value))
 				{
-					this.OnleagueNameChanging(value);
-					this.SendPropertyChanging();
-					this._leagueName = value;
-					this.SendPropertyChanged("leagueName");
-					this.OnleagueNameChanged();
+					this._GameXML = value;
 				}
 			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_winNum", DbType="Int NOT NULL")]
-		public int winNum
-		{
-			get
-			{
-				return this._winNum;
-			}
-			set
-			{
-				if ((this._winNum != value))
-				{
-					this.OnwinNumChanging(value);
-					this.SendPropertyChanging();
-					this._winNum = value;
-					this.SendPropertyChanged("winNum");
-					this.OnwinNumChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HighestCashGainInGame", DbType="Int NOT NULL")]
-		public int HighestCashGainInGame
-		{
-			get
-			{
-				return this._HighestCashGainInGame;
-			}
-			set
-			{
-				if ((this._HighestCashGainInGame != value))
-				{
-					this.OnHighestCashGainInGameChanging(value);
-					this.SendPropertyChanging();
-					this._HighestCashGainInGame = value;
-					this.SendPropertyChanged("HighestCashGainInGame");
-					this.OnHighestCashGainInGameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalProfit", DbType="Int NOT NULL")]
-		public int TotalProfit
-		{
-			get
-			{
-				return this._TotalProfit;
-			}
-			set
-			{
-				if ((this._TotalProfit != value))
-				{
-					this.OnTotalProfitChanging(value);
-					this.SendPropertyChanging();
-					this._TotalProfit = value;
-					this.SendPropertyChanged("TotalProfit");
-					this.OnTotalProfitChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_inActive", DbType="Bit NOT NULL")]
-		public bool inActive
-		{
-			get
-			{
-				return this._inActive;
-			}
-			set
-			{
-				if ((this._inActive != value))
-				{
-					this.OninActiveChanging(value);
-					this.SendPropertyChanging();
-					this._inActive = value;
-					this.SendPropertyChanged("inActive");
-					this.OninActiveChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom", Storage="_GameRooms", ThisKey="userId", OtherKey="curr_Player")]
-		public EntitySet<GameRoom> GameRooms
-		{
-			get
-			{
-				return this._GameRooms;
-			}
-			set
-			{
-				this._GameRooms.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom1", Storage="_GameRooms1", ThisKey="userId", OtherKey="Dealer_Player")]
-		public EntitySet<GameRoom> GameRooms1
-		{
-			get
-			{
-				return this._GameRooms1;
-			}
-			set
-			{
-				this._GameRooms1.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom2", Storage="_GameRooms2", ThisKey="userId", OtherKey="First_Player_In_round")]
-		public EntitySet<GameRoom> GameRooms2
-		{
-			get
-			{
-				return this._GameRooms2;
-			}
-			set
-			{
-				this._GameRooms2.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom3", Storage="_GameRooms3", ThisKey="userId", OtherKey="SB_player")]
-		public EntitySet<GameRoom> GameRooms3
-		{
-			get
-			{
-				return this._GameRooms3;
-			}
-			set
-			{
-				this._GameRooms3.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GameRoom4", Storage="_GameRooms4", ThisKey="userId", OtherKey="Bb_Player")]
-		public EntitySet<GameRoom> GameRooms4
-		{
-			get
-			{
-				return this._GameRooms4;
-			}
-			set
-			{
-				this._GameRooms4.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_GamesReplay", Storage="_GamesReplays", ThisKey="userId", OtherKey="user_Id")]
-		public EntitySet<GamesReplay> GamesReplays
-		{
-			get
-			{
-				return this._GamesReplays;
-			}
-			set
-			{
-				this._GamesReplays.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_Player", Storage="_Players", ThisKey="userId", OtherKey="user_Id")]
-		public EntitySet<Player> Players
-		{
-			get
-			{
-				return this._Players;
-			}
-			set
-			{
-				this._Players.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_ReplayManager", Storage="_ReplayManagers", ThisKey="userId", OtherKey="userId")]
-		public EntitySet<ReplayManager> ReplayManagers
-		{
-			get
-			{
-				return this._ReplayManagers;
-			}
-			set
-			{
-				this._ReplayManagers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_SpectetorGamesOfUser", Storage="_SpectetorGamesOfUser", ThisKey="userId", OtherKey="userId", IsUnique=true, IsForeignKey=false)]
-		public SpectetorGamesOfUser SpectetorGamesOfUser
-		{
-			get
-			{
-				return this._SpectetorGamesOfUser.Entity;
-			}
-			set
-			{
-				SpectetorGamesOfUser previousValue = this._SpectetorGamesOfUser.Entity;
-				if (((previousValue != value) 
-							|| (this._SpectetorGamesOfUser.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._SpectetorGamesOfUser.Entity = null;
-						previousValue.UserTable = null;
-					}
-					this._SpectetorGamesOfUser.Entity = value;
-					if ((value != null))
-					{
-						value.UserTable = this;
-					}
-					this.SendPropertyChanged("SpectetorGamesOfUser");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_UserActiveGame", Storage="_UserActiveGame", ThisKey="userId", OtherKey="userId", IsUnique=true, IsForeignKey=false)]
-		public UserActiveGame UserActiveGame
-		{
-			get
-			{
-				return this._UserActiveGame.Entity;
-			}
-			set
-			{
-				UserActiveGame previousValue = this._UserActiveGame.Entity;
-				if (((previousValue != value) 
-							|| (this._UserActiveGame.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._UserActiveGame.Entity = null;
-						previousValue.UserTable = null;
-					}
-					this._UserActiveGame.Entity = value;
-					if ((value != null))
-					{
-						value.UserTable = this;
-					}
-					this.SendPropertyChanged("UserActiveGame");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="UserTable_UserReplaySavedGame", Storage="_UserReplaySavedGames", ThisKey="userId", OtherKey="userId")]
-		public EntitySet<UserReplaySavedGame> UserReplaySavedGames
-		{
-			get
-			{
-				return this._UserReplaySavedGames;
-			}
-			set
-			{
-				this._UserReplaySavedGames.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_GameRooms(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = this;
-		}
-		
-		private void detach_GameRooms(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = null;
-		}
-		
-		private void attach_GameRooms1(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable1 = this;
-		}
-		
-		private void detach_GameRooms1(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable1 = null;
-		}
-		
-		private void attach_GameRooms2(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable2 = this;
-		}
-		
-		private void detach_GameRooms2(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable2 = null;
-		}
-		
-		private void attach_GameRooms3(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable3 = this;
-		}
-		
-		private void detach_GameRooms3(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable3 = null;
-		}
-		
-		private void attach_GameRooms4(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable4 = this;
-		}
-		
-		private void detach_GameRooms4(GameRoom entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable4 = null;
-		}
-		
-		private void attach_GamesReplays(GamesReplay entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = this;
-		}
-		
-		private void detach_GamesReplays(GamesReplay entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = null;
-		}
-		
-		private void attach_Players(Player entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = this;
-		}
-		
-		private void detach_Players(Player entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = null;
-		}
-		
-		private void attach_ReplayManagers(ReplayManager entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = this;
-		}
-		
-		private void detach_ReplayManagers(ReplayManager entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = null;
-		}
-		
-		private void attach_UserReplaySavedGames(UserReplaySavedGame entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = this;
-		}
-		
-		private void detach_UserReplaySavedGames(UserReplaySavedGame entity)
-		{
-			this.SendPropertyChanging();
-			entity.UserTable = null;
 		}
 	}
 	
@@ -5952,6 +3838,740 @@ namespace TexasHoldem.Database.LinqToSql
 				if ((this._inActive != value))
 				{
 					this._inActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameModeNameByValResult
+	{
+		
+		private string _game_mode_name;
+		
+		public GetGameModeNameByValResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game mode name]", Storage="_game_mode_name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string game_mode_name
+		{
+			get
+			{
+				return this._game_mode_name;
+			}
+			set
+			{
+				if ((this._game_mode_name != value))
+				{
+					this._game_mode_name = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameModeValByNameResult
+	{
+		
+		private int _Game_mode_value;
+		
+		public GetGameModeValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game mode value]", Storage="_Game_mode_value", DbType="Int NOT NULL")]
+		public int Game_mode_value
+		{
+			get
+			{
+				return this._Game_mode_value;
+			}
+			set
+			{
+				if ((this._Game_mode_value != value))
+				{
+					this._Game_mode_value = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomByIdResult
+	{
+		
+		private int _RoomId;
+		
+		private int _GameId;
+		
+		private string _Replay;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		private bool _isActive;
+		
+		public GetGameRoomByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
+		{
+			get
+			{
+				return this._GameId;
+			}
+			set
+			{
+				if ((this._GameId != value))
+				{
+					this._GameId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Replay
+		{
+			get
+			{
+				return this._Replay;
+			}
+			set
+			{
+				if ((this._Replay != value))
+				{
+					this._Replay = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_isActive", DbType="Bit NOT NULL")]
+		public bool isActive
+		{
+			get
+			{
+				return this._isActive;
+			}
+			set
+			{
+				if ((this._isActive != value))
+				{
+					this._isActive = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomPrefByIdResult
+	{
+		
+		private int _Roomid;
+		
+		private System.Nullable<bool> _CanSpectate;
+		
+		private System.Nullable<int> _MinPlayers;
+		
+		private System.Nullable<int> _MaxPlayers;
+		
+		private System.Nullable<int> _BuyInPolicy;
+		
+		private System.Nullable<int> _EnterGamePolicy;
+		
+		private System.Nullable<int> _MinBet;
+		
+		private System.Nullable<int> _League;
+		
+		private System.Nullable<int> _GameMode;
+		
+		private int _GameId;
+		
+		private System.Nullable<int> _PotSize;
+		
+		public GetGameRoomPrefByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Roomid", DbType="Int NOT NULL")]
+		public int Roomid
+		{
+			get
+			{
+				return this._Roomid;
+			}
+			set
+			{
+				if ((this._Roomid != value))
+				{
+					this._Roomid = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanSpectate", DbType="Bit")]
+		public System.Nullable<bool> CanSpectate
+		{
+			get
+			{
+				return this._CanSpectate;
+			}
+			set
+			{
+				if ((this._CanSpectate != value))
+				{
+					this._CanSpectate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinPlayers", DbType="Int")]
+		public System.Nullable<int> MinPlayers
+		{
+			get
+			{
+				return this._MinPlayers;
+			}
+			set
+			{
+				if ((this._MinPlayers != value))
+				{
+					this._MinPlayers = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaxPlayers", DbType="Int")]
+		public System.Nullable<int> MaxPlayers
+		{
+			get
+			{
+				return this._MaxPlayers;
+			}
+			set
+			{
+				if ((this._MaxPlayers != value))
+				{
+					this._MaxPlayers = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BuyInPolicy", DbType="Int")]
+		public System.Nullable<int> BuyInPolicy
+		{
+			get
+			{
+				return this._BuyInPolicy;
+			}
+			set
+			{
+				if ((this._BuyInPolicy != value))
+				{
+					this._BuyInPolicy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EnterGamePolicy", DbType="Int")]
+		public System.Nullable<int> EnterGamePolicy
+		{
+			get
+			{
+				return this._EnterGamePolicy;
+			}
+			set
+			{
+				if ((this._EnterGamePolicy != value))
+				{
+					this._EnterGamePolicy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinBet", DbType="Int")]
+		public System.Nullable<int> MinBet
+		{
+			get
+			{
+				return this._MinBet;
+			}
+			set
+			{
+				if ((this._MinBet != value))
+				{
+					this._MinBet = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_League", DbType="Int")]
+		public System.Nullable<int> League
+		{
+			get
+			{
+				return this._League;
+			}
+			set
+			{
+				if ((this._League != value))
+				{
+					this._League = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameMode", DbType="Int")]
+		public System.Nullable<int> GameMode
+		{
+			get
+			{
+				return this._GameMode;
+			}
+			set
+			{
+				if ((this._GameMode != value))
+				{
+					this._GameMode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameId", DbType="Int NOT NULL")]
+		public int GameId
+		{
+			get
+			{
+				return this._GameId;
+			}
+			set
+			{
+				if ((this._GameId != value))
+				{
+					this._GameId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PotSize", DbType="Int")]
+		public System.Nullable<int> PotSize
+		{
+			get
+			{
+				return this._PotSize;
+			}
+			set
+			{
+				if ((this._PotSize != value))
+				{
+					this._PotSize = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomReplyByIdResult
+	{
+		
+		private int _RoomId;
+		
+		private string _Replay;
+		
+		public GetGameRoomReplyByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Replay", DbType="VarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Replay
+		{
+			get
+			{
+				return this._Replay;
+			}
+			set
+			{
+				if ((this._Replay != value))
+				{
+					this._Replay = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByBuyInPolicyResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByBuyInPolicyResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByGameModeResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByGameModeResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByMaxPlayersResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByMaxPlayersResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByMinBetResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByMinBetResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByMinPlayersResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByMinPlayersResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByPotSizeResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByPotSizeResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetGameRoomsByStaringChipResult
+	{
+		
+		private int _RoomId;
+		
+		private System.Xml.Linq.XElement _GameXML;
+		
+		public GetGameRoomsByStaringChipResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomId", DbType="Int NOT NULL")]
+		public int RoomId
+		{
+			get
+			{
+				return this._RoomId;
+			}
+			set
+			{
+				if ((this._RoomId != value))
+				{
+					this._RoomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GameXML", DbType="Xml NOT NULL", CanBeNull=false)]
+		public System.Xml.Linq.XElement GameXML
+		{
+			get
+			{
+				return this._GameXML;
+			}
+			set
+			{
+				if ((this._GameXML != value))
+				{
+					this._GameXML = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetLeageValByNameResult
+	{
+		
+		private int _League_Value;
+		
+		public GetLeageValByNameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[League Value]", Storage="_League_Value", DbType="Int NOT NULL")]
+		public int League_Value
+		{
+			get
+			{
+				return this._League_Value;
+			}
+			set
+			{
+				if ((this._League_Value != value))
+				{
+					this._League_Value = value;
 				}
 			}
 		}
