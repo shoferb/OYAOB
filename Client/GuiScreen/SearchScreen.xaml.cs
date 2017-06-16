@@ -668,10 +668,20 @@ namespace Client.GuiScreen
             }
             else
             {
-                bool ans =cl.SpectateRoom(roomIdToSpectate);
-                if(!ans)
+                JoinResponseCommMessage joinResp = cl.SpectateRoom(roomIdToSpectate);
+                if (joinResp==null)
                 {
                     MessageBox.Show("You Can't be a spectator in this game!");
+                }
+                else
+                {
+                    MessageBox.Show("You joined the game successfully! as Spectetor");
+                    GameScreen newGameWindow = new GameScreen(cl);
+                    GameDataCommMessage newRoom = joinResp.GameData;
+                    newGameWindow.UpdateGame(newRoom);
+                    cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    this.Hide();
                 }
             }
         }
