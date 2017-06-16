@@ -337,6 +337,7 @@ namespace Client.GuiScreen
             if (res)
             {
                 MessageBox.Show("game leave OK!!!");
+                this.Close();
             }
             else
             {
@@ -349,11 +350,11 @@ namespace Client.GuiScreen
             bool res = _logic.StartTheGame(this.RoomId);
             if (res)
             {
-                MessageBox.Show("game start OK!!!");
+                MessageBox.Show("game started :)");
             }
             else
             {
-                MessageBox.Show("game start FAIL!!!");
+                MessageBox.Show("game start FAIL :(");
             }
         }
 

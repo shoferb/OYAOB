@@ -98,7 +98,7 @@ namespace TexasHoldem.GuiScreen
         {
             SearchScreen searchScreen = new SearchScreen(this,cl);
             searchScreen.Show();
-            this.Hide();
+          //  this.Hide();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
