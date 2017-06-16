@@ -40,29 +40,9 @@ namespace TexasHoldem.Database.DataControlers.Tests
             return ut;
         }
 
-        [TestMethod()]
-        public void GetAllUserTest_good_count_equal()
-        {
-            UserTable toAdd1 = CreateUser(1, "1name");
-            UserTable toAdd2 = CreateUser(2, "2name");
-            _userDataControler.AddNewUser(toAdd1);
-            _userDataControler.AddNewUser(toAdd2);
-            Assert.AreEqual(_userDataControler.GetAllUser().Count,2);
-            _userDataControler.DeleteUserById(1);
-            _userDataControler.DeleteUserById(2);
-        }
+  
 
-        [TestMethod()]
-        public void GetAllUserTest_good_First_Id_equal()
-        {
-            UserTable toAdd1 = CreateUser(3, "3name");
 
-            _userDataControler.AddNewUser(toAdd1);
-
-            Assert.AreEqual(_userDataControler.GetAllUser().First().userId, toAdd1.userId);
-            _userDataControler.DeleteUserById(3);
-
-        }
 
   
 

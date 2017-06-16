@@ -30,7 +30,7 @@ namespace TexasHoldem.DatabaseProxy
         public bool IsActiveGame;
         private List<Tuple<int, PlayerXML>> SidePots; //TODO use that in all in
         public List<SidePotTuple> sidePotsXML;
-        public GameReplay GameReplay;
+        private GameReplay GameReplay;
         private ReplayManager ReplayManager;
         private GameCenter GameCenter;
         public PlayerXML CurrentPlayer;

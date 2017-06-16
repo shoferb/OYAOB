@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.Game_Control
 {
     public class SystemControl
     {
-        private List<IUser> users;
+       
 
         private static readonly object padlock = new object();
         private LogControl logControl;
@@ -23,7 +23,7 @@ namespace TexasHoldem.Logic.Game_Control
 
         public SystemControl(LogControl log)
         {
-            this.users = new List<IUser>();
+           
             userProxy = new UserDataProxy();
             this.logControl = log;
             var ServiceTimer = new System.Timers.Timer();
@@ -32,19 +32,7 @@ namespace TexasHoldem.Logic.Game_Control
             ServiceTimer.Elapsed += new System.Timers.ElapsedEventHandler(DivideStart);
         }
 
-        //getter seeter user list
-        public List<IUser> Users
-        {
-            get
-            {
-                return users;
-            }
-
-            set
-            {
-                users = value;
-            }
-        }
+   
 
         
         //remove user from user list byID - syncronized

@@ -15,7 +15,7 @@ namespace TexasHoldem.Logic.GameControl
 {
     public class GameCenter
     {
-        private List<Log> logs;
+        
 
         public int leagueGap { get; set; }
         //    private List<IGame> games;
@@ -35,7 +35,7 @@ namespace TexasHoldem.Logic.GameControl
             replayManager = replay;
             _systemControl = sys;
             logControl = log;
-            this.logs = new List<Log>();
+           
        //     this.games = new List<IGame>();
             sidHandler = sidH;
         }
