@@ -469,7 +469,7 @@ namespace TexasHoldem.communication.Impl
                         IUser p = _userService.GetIUserByUserName(msg.ReciverUsername);
                         var res = new ChatResponceCommMessage(msg.RoomId, p.Id(), msg.SessionId, usernameSender, msg.ChatType,
                         msg.MsgToSend, p.Id(), true, msg);
-                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), curr);
+                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), p.Id());
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
