@@ -60,6 +60,7 @@ namespace Client.GuiScreen
                 {
                     //TODO BAR?!
                 }
+
                 this.RoomId = msg.RoomId;
                 string pre = "Room Number: ";
                 
