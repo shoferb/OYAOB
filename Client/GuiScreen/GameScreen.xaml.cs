@@ -166,37 +166,37 @@ namespace Client.GuiScreen
                 if (msg.IsSucceed)
                 {
                     string msgToChat = "";
-                    if (msg.action.Equals(CommunicationMessage.ActionType.Bet))
+                    if (msg.Action.Equals(CommunicationMessage.ActionType.Bet))
                     {
-                        if (msg.betAmount == 0)
+                        if (msg.BetAmount == 0)
                         {
-                            msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Checked");
+                            msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Checked");
                         }
                         else
                         {
-                            msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Bet with amount of ",
-                                msg.betAmount);
+                            msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Bet with amount of ",
+                                msg.BetAmount);
                         }
                     }
-                    else if (msg.action.Equals(CommunicationMessage.ActionType.Fold))
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.Fold))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Folded.");
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Folded.");
                     }
-                    else if (msg.action.Equals(CommunicationMessage.ActionType.Join))
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.Join))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " Joined the game.");
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Joined the game.");
                     }
-                    else if (msg.action.Equals(CommunicationMessage.ActionType.Leave))
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " left the game.");
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " left the game.");
                     }
-                    else if (msg.action.Equals(CommunicationMessage.ActionType.StartGame))
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.StartGame))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " started the game.");
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " started the game.");
                     }
-                    else if (msg.action.Equals(CommunicationMessage.ActionType.CreateRoom))
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.CreateRoom))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.actionPlayerName, " game  was created.");
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " game  was created.");
                     }
 
 
@@ -336,7 +336,6 @@ namespace Client.GuiScreen
            
            
         }
-        
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {

@@ -12,9 +12,9 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
        
         //fields:
         public int RoomId;
-        public string actionPlayerName;
-        public int betAmount;
-        public CommunicationMessage.ActionType action;
+        public string ActionPlayerName;
+        public int BetAmount;
+        public ActionType Action;
         public Card[] PlayerCards = new Card[2];
         public List<Card> TableCards;
 
@@ -22,12 +22,15 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
         public int PotSize;
 
         public List<string> AllPlayerNames;
+        public List<string> AllSpectatorNames;
         public string DealerName;
         public string BbName;
         public string SbName;
 
         public string CurrPlayerTurn;
         public bool IsSucceed;
+
+        public string CurrRound;
 
         public GameDataCommMessage() : base(-1, -1) { } //for parsing
 
@@ -43,18 +46,20 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             SbName = other.SbName;
             IsSucceed = other.IsSucceed;
             CurrPlayerTurn = other.CurrPlayerTurn;
-            actionPlayerName = other.actionPlayerName;
-            betAmount = other.betAmount;
-            action = other.action;
+            ActionPlayerName = other.ActionPlayerName;
+            BetAmount = other.BetAmount;
+            Action = other.Action;
             SessionId = other.SessionId;
             TableCards = new List<Card>();
             AllPlayerNames = other.AllPlayerNames;
+            AllSpectatorNames = other.AllSpectatorNames;
             other.TableCards.ForEach(c => TableCards.Add(c));
+            CurrRound = other.CurrRound;
         }
 
         public GameDataCommMessage(int userId, int roomId, long sid, Card card1, Card card2, List<Card> tableCards, 
-            int chips, int pot, List<string> allPlayerNames, string dealerName, string bbName, string sbName, bool success, 
-            string currPlayer, string actionPlayer, int bet, ActionType actionType) : base(userId, sid)
+            int chips, int pot, List<string> allPlayerNames, List<string> allSpectatorNames, string dealerName, string bbName, string sbName, bool success, 
+            string currPlayer, string actionPlayer, int bet, ActionType actionType, string round) : base(userId, sid)
         {
             RoomId = roomId;
             TableCards = tableCards;
@@ -63,15 +68,17 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             PlayerCards[0] = card1;
             PlayerCards[1] = card2;
             AllPlayerNames = allPlayerNames;
+            AllSpectatorNames = allSpectatorNames;
             DealerName = dealerName;
             BbName = bbName;
             SbName = sbName;
             IsSucceed = success;
             CurrPlayerTurn = currPlayer;
-            actionPlayerName = actionPlayer;
-            betAmount = bet;
-            action = actionType;
+            ActionPlayerName = actionPlayer;
+            BetAmount = bet;
+            Action = actionType;
             SessionId = sid;
+            CurrRound = round;
         }
        
         //visitor pattern
@@ -86,16 +93,18 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             {
                 var afterCasting = (GameDataCommMessage)other;
                 bool good = IsSucceed == afterCasting.IsSucceed && DealerName.Equals(afterCasting.DealerName) &&
-                       UserId == afterCasting.UserId && PotSize == afterCasting.PotSize &&
+                       UserId == afterCasting.UserId && PotSize == afterCasting.PotSize && 
+                       CurrRound.Equals(afterCasting.CurrRound) &&
                        TotalChips == afterCasting.TotalChips && BbName.Equals(afterCasting.BbName) &&
                        SbName.Equals(afterCasting.SbName) && CurrPlayerTurn.Equals(afterCasting.CurrPlayerTurn);
                 good = PlayerCards.Aggregate(good, (current, card) => current && afterCasting.PlayerCards.Contains(card));
                 good = AllPlayerNames.Aggregate(good, (current, name) => current && afterCasting.AllPlayerNames.Contains(name));
+                good = AllSpectatorNames.Aggregate(good, (current, name) => current && afterCasting.AllSpectatorNames.Contains(name));
                 good = TableCards.Aggregate(good, (current, card) => current && afterCasting.TableCards.Contains(card));
-                good = good && afterCasting.actionPlayerName.Equals(actionPlayerName);
-                good = good && afterCasting.actionPlayerName.Equals(actionPlayerName);
-                good = good && afterCasting.betAmount == this.betAmount;
-                good = good && afterCasting.action.Equals(action);
+                good = good && afterCasting.ActionPlayerName.Equals(ActionPlayerName);
+                good = good && afterCasting.ActionPlayerName.Equals(ActionPlayerName);
+                good = good && afterCasting.BetAmount == this.BetAmount;
+                good = good && afterCasting.Action.Equals(Action);
                 return good;
             }
             return false;

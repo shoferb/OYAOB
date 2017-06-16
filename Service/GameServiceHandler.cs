@@ -109,7 +109,7 @@ namespace TexasHoldem.Service
             }
         }
 
-        public bool AddSpectatorToRoom(int userId, int roomId)
+        public IEnumerator<ActionResultInfo> AddSpectatorToRoom(int userId, int roomId)
         {
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
             IUser user = _systemControl.GetUserWithId(userId);
@@ -119,7 +119,7 @@ namespace TexasHoldem.Service
             }
             else
             {
-                return false;
+                return new List<ActionResultInfo>().GetEnumerator();
             }
         }
 

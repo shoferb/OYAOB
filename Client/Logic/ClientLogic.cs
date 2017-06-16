@@ -73,17 +73,17 @@ namespace Client.Logic
         {
             ActionCommMessage toSend =
                 new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
+            var messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
             MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
             {
                 var t = Task.Run(async delegate { await Task.Delay(10); });
                 t.Wait();
             }
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+            bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
             return toRet;
 
         }
