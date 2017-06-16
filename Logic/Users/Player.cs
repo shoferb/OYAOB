@@ -56,9 +56,9 @@ namespace TexasHoldem.Logic.Users
             this.name = this.user.MemberName();
         }
 
-        public Player( int totalChip, int RoomId, int roundChipBet, bool isPlayerActivee, Card fCard, Card sCard, bool playedAnActionInTheRound, List<Card> pC)
+        public Player(string _name, int totalChip, int RoomId, int roundChipBet, bool isPlayerActivee, Card fCard, Card sCard, bool playedAnActionInTheRound, List<Card> pC)
         {
-            //this.user = User;
+            this.name = _name;
             this._publicCards = pC;
             this.TotalChip = totalChip;
             this.RoundChipBet = roundChipBet;

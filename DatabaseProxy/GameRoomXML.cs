@@ -147,7 +147,7 @@ namespace TexasHoldem.DatabaseProxy
 
         private Player GetPlayerFromXML(PlayerXML p, GameCenter gc)
         {
-            Player toRet = new Player(p.TotalChip, p.roomId, p.RoundChipBet, p.isPlayerActive, p._firstCard,
+            Player toRet = new Player(p.name,p.TotalChip, p.roomId, p.RoundChipBet, p.isPlayerActive, p._firstCard,
                 p._secondCard, p.PlayedAnActionInTheRound, p._publicCards);
             toRet.user = gc.GetSysControl().GetUserWithId(p.userId);
             if (toRet.user == null)
