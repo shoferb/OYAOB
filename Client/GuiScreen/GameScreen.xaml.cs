@@ -60,6 +60,19 @@ namespace Client.GuiScreen
                 {
                     //TODO BAR?!
                 }
+                if (!String.IsNullOrEmpty(msg.winner))
+                {
+                    if (msg.winner.contains(","))
+                    {
+                        winnerNameLabel.Content = "Winners: ";
+                    }
+                    else
+                    {
+                        winnerNameLabel.Content = "Winner: ";
+
+                    }
+                    winnerName.Content = msg.winner;
+                }
                 this.RoomId = msg.RoomId;
                 string pre = "Room Number: ";
                 
@@ -144,9 +157,9 @@ namespace Client.GuiScreen
                     //this.ListViewPublicCards.Items.Clear();
                     foreach (Card aCard in TableCards)
                     {
+                        this.PublicCardView.Items.Clear();
                         if (aCard != null)
-                        {
-                            this.PublicCardView.Items.Clear();
+                        {         
                             // PUBLIC cards 
                             ListViewItem publicCardItem = new ListViewItem();                         
                             publicCardItem.Content = string.Concat(aCard.ToString());
@@ -258,48 +271,26 @@ namespace Client.GuiScreen
                         MessageBox.Show("Action Failed");
                     }
                 }
-                if (action.Equals("Send A New Broadcast Chat Message"))
+                if (action.Equals("Send A New Broadcast Chat Message Player"))
                 {
-                    string msgToSend = InputForActionTextBox.Text;
-                    if (SpecOrPlay == true)
-                    {
-
-                        bool ans = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);
-                        if (!ans)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
-                    else
-                    {
-                        bool ans = _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
-                        if (!ans)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
+                    string msgToSend = InputForActionTextBox.Text; 
+                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.PlayerBrodcast);                      
                 }
-                if (action.Equals("Send A New Whisper Chat Message"))
+                if (action.Equals("Send A New Whisper Chat Message Player"))
                 {
                     string msgToSend = InputForActionTextBox.Text;
-                    string receiverName = WhisperReceiverTextBox_Copy.Text;
-                    if (SpecOrPlay == true)
-                    {
-
-                        bool ans = _logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.PlayerWhisper);
-                        if (!ans)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
-                    else
-                    {
-                        bool ans = _logic.SendChatMsg(RoomId, receiverName, msgToSend, CommunicationMessage.ActionType.SpectetorWhisper);
-                        if (!ans)
-                        {
-                            MessageBox.Show("Cant send this message!");
-                        }
-                    }
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend,
+                        CommunicationMessage.ActionType.PlayerWhisper);
+                }
+                if (action.Equals("Send A New Broadcast Chat Message Spectator"))
+                {
+                    string msgToSend = InputForActionTextBox.Text;
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorBrodcast);
+                }
+                if (action.Equals("Send A New Whisper Chat Message Spectator"))
+                {
+                    string msgToSend = InputForActionTextBox.Text;
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend, CommunicationMessage.ActionType.SpectetorWhisper);
                 }
             }
 
