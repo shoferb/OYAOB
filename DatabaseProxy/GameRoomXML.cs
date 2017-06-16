@@ -111,17 +111,31 @@ namespace TexasHoldem.DatabaseProxy
             List<Player> playersToL = new List<Player>();
             foreach(var pXML in Players)
             {
-                playersToL.Add(GetPlayerFromXML(pXML,gc));
+                Player toAdd = GetPlayerFromXML(pXML, gc);
+                if (toAdd != null)
+                {
+                    playersToL.Add(toAdd);
+                }
             }
             List<Spectetor> SpectatoresToL = new List<Spectetor>();
             foreach (var s in Spectatores)
             {
-                SpectatoresToL.Add(GetSpecFromXML(s,gc));
+                Spectetor toAdd = GetSpecFromXML(s, gc);
+                if (toAdd != null)
+                {
+                    SpectatoresToL.Add(toAdd);
+                }
             }
             List<Tuple<int, Player>>  SidePotstoL = new List<Tuple<int, Player>>();
             foreach (var p in sidePotsXML)
             {
-                SidePotstoL.Add(new Tuple<int, Player>(p.item1, GetPlayerFromXML(p.item2, gc)));
+                Player toAdd = GetPlayerFromXML(p.item2, gc);
+                if (toAdd != null)
+                {
+                    SidePotstoL.Add(new Tuple<int, Player>(p.item1, toAdd));
+
+
+                }
             }
             return new GameRoom(playersToL, Id, gc, gc.GetLogControl(),
             gc.GetRepMan(), GameNumber, IsActiveGame, PotCount, maxBetInRound,
@@ -136,6 +150,10 @@ namespace TexasHoldem.DatabaseProxy
             Player toRet = new Player(p.TotalChip, p.roomId, p.RoundChipBet, p.isPlayerActive, p._firstCard,
                 p._secondCard, p.PlayedAnActionInTheRound, p._publicCards);
             toRet.user = gc.GetSysControl().GetUserWithId(p.userId);
+            if (toRet.user == null)
+            {
+                return null;
+            }
             return toRet;
 
         }
@@ -143,6 +161,10 @@ namespace TexasHoldem.DatabaseProxy
         {
             Spectetor toRet = new Spectetor(p.roomId);
             toRet.user = gc.GetSysControl().GetUserWithId(p.userId);
+            if (toRet.user == null)
+            {
+                return null;
+            }
             return toRet;
         }
 

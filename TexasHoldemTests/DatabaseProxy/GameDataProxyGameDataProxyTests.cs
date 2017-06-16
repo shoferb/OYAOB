@@ -28,6 +28,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
     {
 
         private GameDataProxy proxy;
+        private UserDataProxy _userDataProxy;
         private IUser user1, user2, user3;
         private List<Player> players;
         private Player player1;
@@ -45,9 +46,13 @@ namespace TexasHoldem.DatabaseProxy.Tests
         public void Initialize()
         {
             proxy = new GameDataProxy(gameCenter);
+            _userDataProxy = new UserDataProxy();
             user1 = new User(1, "test1", "mo", "1234", 0, 5000, "test1@gmail.com");
             user2 = new User(2, "test2", "no", "1234", 0, 5000, "test2@gmail.com");
             user3 = new User(3, "test3", "3test", "1234", 0, 5000, "test3@mailnator.com");
+            _userDataProxy.AddNewUser(user1);
+            _userDataProxy.AddNewUser(user2);
+            _userDataProxy.AddNewUser(user3);
             useCommunication = false;
             roomID = 9999;
             players = new List<Player>();
@@ -68,6 +73,9 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestCleanup()]
         public void Cleanup()
         {
+            _userDataProxy.DeleteUserById(user1.Id());
+            _userDataProxy.DeleteUserById(user2.Id());
+            _userDataProxy.DeleteUserById(user3.Id());
             user1 = null;
             user2 = null;
             players = null;
@@ -75,6 +83,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             gameRoom = null;
             replayManager.DeleteGameReplay(roomID, 0);
             replayManager.DeleteGameReplay(roomID, 1);
+          
         }
 
        
