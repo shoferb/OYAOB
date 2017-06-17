@@ -29,6 +29,7 @@ namespace Client.GuiScreen
             InitializeComponent();
             parent = w;
             cl = cli;
+            cl.SetSearchScreen(this);
             startList = new List<ClientGame>();
             listView.ItemsSource = startList;
 
@@ -87,17 +88,11 @@ namespace Client.GuiScreen
             }
         }
 
-       
-
- 
-
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
             parent.Show();
             this.Hide();
         }
-
-
 
         private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -106,15 +101,10 @@ namespace Client.GuiScreen
             listView.ItemsSource = startList;
         }
 
-
-
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-
-    
-
 
         private void emptySearch()
         {
@@ -473,17 +463,20 @@ namespace Client.GuiScreen
             isValid = int.TryParse(toSearch, out toSearchRoomId);
             if (isValid)
             {
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
+                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
+                //    GameMode.Limit);
+                //result = temp;
+                //if (result == null || !result.Any())
+                //{
+                //    emptySearch();
+                //}
+                //else
+                //{
+                //    listView.ItemsSource = result;
+                //}
+
+                cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
                     GameMode.Limit);
-                result = temp;
-                if (result == null || !result.Any())
-                {
-                    emptySearch();
-                }
-                else
-                {
-                    listView.ItemsSource = result;
-                }
             }
             else
             {
