@@ -398,54 +398,7 @@ namespace TexasHoldem.Logic.Game_Control
         }
 
     
-        //get all active games of user 
-        //syncronizef due to for
-        public List<IGame> GetActiveGamesByUserName(string userName)
-        {
-            lock (padlock)
-            {
-                List<IGame> toReturn = null;
-                try
-                {
-                    if (userName.Equals("") || userName.Equals(" "))
-                    {
-                        ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " empty");
-                        logControl.AddErrorLog(log);
-                        return toReturn;
-                    }
-
-                    if (IsUsernameFree(userName))
-                    {
-                        ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " dose not exist!");
-                        logControl.AddErrorLog(log);
-                        return toReturn;
-                    }
-                    IUser user = GetIUSerByUsername(userName);
-                    if (user == null)
-                    {
-                        return toReturn;
-                    }
-                    int userId = user.Id();
-                    
-                     
-                    foreach (IGame room in user.ActiveGameList())
-                    {
-                        if (room.IsGameActive())
-                        {
-                            toReturn.Add(room);
-                        }
-                    }
-                }catch(Exception e)
-                {
-                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName );
-                    logControl.AddErrorLog(log);
-                    return toReturn;
-                }
-               
-                return toReturn;
-            }
-        }
-
+     
 
         //get all the game user spectete
         //syncronized due to for

@@ -279,6 +279,27 @@ namespace TexasHoldem.Logic.GameControl
         {
             return proxyDB.GetAllActiveGameRooms();
         }
+        //get all active games of user 
+        //syncronizef due to for
+        public List<IGame> GetActiveGamesByUserName(IUser user)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try { 
+                    int userId = user.Id();
+                    proxyDB.GetAllUserActiveGames(userId);
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + user.MemberName());
+                    logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+
+                return toReturn;
+            }
+        }
 
         public List<IGame> GetAllSpectetorGame()
         {
