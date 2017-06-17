@@ -152,24 +152,13 @@ namespace Client.Logic
             return newRoom;
         }
 
-        public bool LeaveTheGame(int roomId)
+        public void LeaveTheGame(int roomId)
         {
             ActionCommMessage toSend =
                 new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Leave, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-                    new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
-            _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
-
+          
+           _eventHandler.SendNewEvent(toSend);
+           
         }
 
         public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend,
@@ -402,6 +391,19 @@ namespace Client.Logic
                  (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
             {
                 _searchScreen.JoinOkayAsSpectate(((JoinResponseCommMessage)msg).GameData);
+                return;
+            }
+            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+               (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)))
+            {
+                GameDataCommMessage gd = ((JoinResponseCommMessage) msg).GameData;
+                foreach (GameScreen game in _games)
+                {
+                    if (game.RoomId == gd.RoomId)
+                    {
+                        game.LeaveOkay(gd);
+                    }
+                }
                 return;
             }
 

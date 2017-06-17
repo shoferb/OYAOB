@@ -375,16 +375,7 @@ namespace Client.GuiScreen
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {
-            bool res = _logic.LeaveTheGame(this.RoomId);
-            if (res)
-            {
-                MessageBox.Show("game leave OK!!!");
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("game leave FAIL!!!");
-            }
+            _logic.LeaveTheGame(this.RoomId);
         }
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
@@ -604,6 +595,19 @@ namespace Client.GuiScreen
                     }
 
                     break;
+            }
+        }
+
+        public void LeaveOkay(GameDataCommMessage gd)
+        {
+            if (gd.IsSucceed)
+            {
+                MessageBox.Show("Leave Game Okay. BYE BYE");
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong. Leave Game Fail");
             }
         }
     }
