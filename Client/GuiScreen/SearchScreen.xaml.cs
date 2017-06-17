@@ -106,9 +106,12 @@ namespace Client.GuiScreen
 
         }
 
-        private void emptySearch()
+        public void EmptySearch()
         {
-            MessageBox.Show("The search returned no results.");
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("The search returned no results.");
+            });
         }
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
@@ -187,7 +190,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -203,7 +206,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -219,7 +222,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -248,7 +251,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -282,7 +285,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -316,7 +319,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -350,7 +353,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -384,7 +387,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -418,7 +421,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -439,7 +442,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -468,7 +471,7 @@ namespace Client.GuiScreen
                 //result = temp;
                 //if (result == null || !result.Any())
                 //{
-                //    emptySearch();
+                EmptySearch();
                 //}
                 //else
                 //{
@@ -492,7 +495,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -515,7 +518,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -539,7 +542,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -681,6 +684,12 @@ namespace Client.GuiScreen
                     this.Hide();
                 }
             }
+        }
+
+        public void ResultRecived(List<ClientGame> games)
+        {
+            result = games;
+            listView.ItemsSource = result;
         }
     }
 }

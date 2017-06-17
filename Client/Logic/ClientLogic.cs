@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Client.GuiScreen;
 using Client.Handler;
@@ -415,7 +416,7 @@ namespace Client.Logic
             }
             else if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
             {
-                
+                SearchResultRecived(((SearchResponseCommMessage) msg).Games);
             }
             else
             {
@@ -423,7 +424,16 @@ namespace Client.Logic
             }
         }
 
-      
+        private void SearchResultRecived(List<ClientGame> games)
+        {
+            if (_searchScreen != null)
+            {
+                if (games.Any())
+                {
+                    
+                }
+            }
+        }
     }
 }
 
