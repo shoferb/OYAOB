@@ -396,15 +396,17 @@ namespace Client.GuiScreen
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                      }
-                    bool answ = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool answ = _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (answ)
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
+                        UpdateGame(this.update);
                     }
                     else
                     {
-                        UpdateGame(this.update);
+                       
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
+                        UpdateGame(this.update);
                     }
                     break;
                 case 3://fold
@@ -413,10 +415,12 @@ namespace Client.GuiScreen
                     if (ansd)
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
+                        UpdateGame(this.update);
                     }
                     else
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
+                        UpdateGame(this.update);
                     }
                     break;
                 case 4://check
@@ -425,11 +429,13 @@ namespace Client.GuiScreen
                     if (anse)
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
+                        UpdateGame(this.update);
                     }
                     else
                     {
-                        UpdateGame(this.update);
+
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
+                        UpdateGame(this.update);
                     }
                     break;
             }
