@@ -293,22 +293,31 @@ namespace Client.GuiScreen
             Dispatcher.Invoke(DispatcherPriority.Normal,
             new Action(delegate ()
             {
-                
-                if (msg.chatType != CommunicationMessage.ActionType.PlayerBrodcast)
+                if (msg.chatType == CommunicationMessage.ActionType.PlayerBrodcast)
                 {
-                   
-                        ListViewItem toAdd = new ListViewItem();
-                        toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
-                        chatListView.Items.Add(toAdd);
-                    
-                }
-                else
-                {  
                     ListViewItem toAdd = new ListViewItem();
-                    toAdd.Content = string.Concat("Broadcast message from ", msg.senderngUsername, ": ",
-                        msg.msgToSend);
-                    this.chatListView.Items.Add(toAdd);       
+                    toAdd.Content = string.Concat("Player Broadcast message from  ", msg.senderngUsername, ": ", msg.msgToSend);
+                    chatListView.Items.Add(toAdd);
                 }
+                else if (msg.chatType == CommunicationMessage.ActionType.PlayerWhisper)
+                {
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = string.Concat("Player Whisper message from  ", msg.senderngUsername, ": ", msg.msgToSend);
+                    chatListView.Items.Add(toAdd);
+                }
+                else if (msg.chatType == CommunicationMessage.ActionType.SpectetorBrodcast)
+                {
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = string.Concat("Spectetor Broadcast message from  ", msg.senderngUsername, ": ", msg.msgToSend);
+                    chatListView.Items.Add(toAdd);
+                }
+                else if (msg.chatType == CommunicationMessage.ActionType.SpectetorWhisper)
+                {
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = string.Concat("Spectetor Whisper message from  ", msg.senderngUsername, ": ", msg.msgToSend);
+                    chatListView.Items.Add(toAdd);
+                }
+              
             }
             ));
 
