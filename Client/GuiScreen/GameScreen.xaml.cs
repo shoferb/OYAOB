@@ -73,6 +73,21 @@ namespace Client.GuiScreen
 
                     }
                     winnerName.Content = msg.Winner;
+                    string msgToChat = string.Concat("*GAME MESSAGE* ","The" + winnerNameLabel.Content + winnerName.Content, " Won the game.");
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = msgToChat;
+                    this.chatListView.Items.Add(toAdd);
+                     msgToChat = string.Concat("*GAME MESSAGE* ", "Game is Over");
+                    ListViewItem toAdd1 = new ListViewItem();
+                    toAdd1.Content = msgToChat;
+                    this.chatListView.Items.Add(toAdd1);
+                    this.PotAmountLabel.Content = "";
+                    this.BB.Content = "";
+                    this.CurrRound.Content = "";
+                    this.CurrTurnNameLabel.Content = "";
+                    this.DealerNameLabel.Content = "";
+                    this.SB.Content = "";
+                    return;
                 }
                 this.RoomId = msg.RoomId;
                 string pre = "Room Number: ";

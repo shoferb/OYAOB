@@ -161,9 +161,14 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLogoutTestSad()
         {
-            RestartSystem();
-            //user is not logged in!
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
+            UserBridge.LogoutUser(UserId);
             Assert.False(UserBridge.LogoutUser(UserId));
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]

@@ -71,11 +71,11 @@
         <Label x:Name="BB" Content="" HorizontalAlignment="Left" Height="26" Margin="508,105,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
         <Label x:Name="SB" Content="" HorizontalAlignment="Left" Height="26" Margin="507,131,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
 
-        <Label Content="POT:" HorizontalAlignment="Left" Height="28" Margin="560,209,0,0" VerticalAlignment="Top" Width="70" FontWeight="Bold" FontSize="16" Foreground="WhiteSmoke"/>
+        <Label Content="POT:" HorizontalAlignment="Left" Margin="560,209,0,0" Width="70" FontWeight="Bold" FontSize="16" Foreground="WhiteSmoke" Height="28" VerticalAlignment="Top"/>
         <Label Content="Choose Action:" HorizontalAlignment="Left" Height="26" Margin="715,227,0,0" VerticalAlignment="Top" Width="95" FontWeight="Bold" Foreground="White"/>
         <Label Content="Enter amount /&#xA;message to send" HorizontalAlignment="Left" Height="50" Margin="708,267,0,0" VerticalAlignment="Top" Width="126" Foreground="White" FontWeight="Bold" RenderTransformOrigin="0.038,0.66" Grid.RowSpan="2"/>
         <Label x:Name="PotAmountLabel" Content="50" HorizontalAlignment="Left" Height="44" Margin="562,232,0,0" VerticalAlignment="Top" Width="65" FontWeight="Bold" FontSize="24" Foreground="#FFFF0303" Grid.RowSpan="2"/>
-        <Border BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Left" Height="74" Margin="525,205,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="115" OpacityMask="#FFE6CACA">
+        <Border BorderBrush="Red" BorderThickness="1" HorizontalAlignment="Left" Height="74" Margin="525,205,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="115" OpacityMask="#FFE6CACA" RenderTransformOrigin="0.536,0.789">
             <Border.Background>
                 <ImageBrush/>
             </Border.Background>
