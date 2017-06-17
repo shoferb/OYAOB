@@ -605,7 +605,7 @@ namespace Client.GuiScreen
             if (gd.IsSucceed)
             {
                 MessageBox.Show("Leave Game Okay. BYE BYE");
-                this.Close();
+                Dispatcher.Invoke(this.Close);
             }
             else
             {

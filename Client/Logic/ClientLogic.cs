@@ -358,13 +358,9 @@ namespace Client.Logic
                     return;
                 }
             }
-
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                (((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.CreateRoom ||
-                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave))||
-                 (msg.OriginalMsg.GetType()) == typeof(LoginCommMessage) ||
-                //(msg.OriginalMsg.GetType()) == typeof(SearchCommMessage)||
-                 (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
+           
+            if ((msg.OriginalMsg.GetType() == typeof(LoginCommMessage)) ||
+               (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
                   (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
             {
                 Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
@@ -396,7 +392,7 @@ namespace Client.Logic
             if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
                (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)))
             {
-                GameDataCommMessage gd = ((JoinResponseCommMessage) msg).GameData;
+                GameDataCommMessage gd = (msg).GameData;
                 foreach (GameScreen game in _games)
                 {
                     if (game.RoomId == gd.RoomId)
