@@ -297,5 +297,30 @@ namespace TexasHoldem.Service
                 toReturn = _gameCenter.GetActiveGamesByUserName(user);
             return toReturn;
         }
+
+        public List<IGame> GetSpectetorGamesByUserName(string userName)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            if (userName.Equals("") || userName.Equals(" "))
+            {
+                ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " empty");
+                _logControl.AddErrorLog(log);
+                return toReturn;
+            }
+
+            if (_systemControl.IsUsernameFree(userName))
+            {
+                ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " dose not exist!");
+                _logControl.AddErrorLog(log);
+                return toReturn;
+            }
+            IUser user = _systemControl.GetIUSerByUsername(userName);
+            if (user == null)
+            {
+                return toReturn;
+            }
+            toReturn = _gameCenter.GetSpectetorGamesByUserName(user);
+            return toReturn;
+        }
     }
 }

@@ -400,55 +400,6 @@ namespace TexasHoldem.Logic.Game_Control
     
      
 
-        //get all the game user spectete
-        //syncronized due to for
-        public List<IGame> GetSpectetorGamesByUserName(string userName)
-        {
-            lock (padlock)
-            {
-                List<IGame> toReturn = null;
-                try
-                {
-                    if (userName.Equals("") || userName.Equals(" "))
-                    {
-                        ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " empty");
-                        logControl.AddErrorLog(log);
-                        return toReturn;
-                    }
-
-                    if (IsUsernameFree(userName))
-                    {
-                        ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " dose not exist!");
-                        logControl.AddErrorLog(log);
-                        return toReturn;
-                    }
-                    IUser user = GetIUSerByUsername(userName);
-                    if (user == null)
-                    {
-                        return toReturn;
-                    }
-                    toReturn = new List<IGame>();
-                    foreach (IGame room in user.ActiveGameList())
-                    {
-
-                        if (room.IsSpectatable())
-                        {
-                            toReturn.Add(room);
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName);
-                    logControl.AddErrorLog(log);
-                    return toReturn;
-                }
-
-                return toReturn;
-            }
-           
-        }
-
         public List<IUser> GetAllUser()
         {
             lock (padlock)

@@ -238,14 +238,9 @@ namespace TexasHoldem.Service
         }
 
 
-    
-
+      
         
-        public List<IGame> GetSpectetorGamesByUserName(string userName)
-        {
-            List<IGame> toReturn = sc.GetSpectetorGamesByUserName(userName);
-            return toReturn;
-        }
+       
 
         public IUser GetIUserByUserName(string userName)
         {

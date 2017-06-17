@@ -274,7 +274,7 @@ namespace TexasHoldem.communication.Impl
                         temp = _gameService.GetActiveGamesByUserName(msg.SearchByString);                        
                         break;
                     case SearchCommMessage.SearchType.SpectetorGameByUserName:
-                        temp = _userService.GetSpectetorGamesByUserName(msg.SearchByString);
+                        temp = _gameService.GetSpectetorGamesByUserName(msg.SearchByString);
                         break;
                     case SearchCommMessage.SearchType.ByRoomId:
                         IGame game = _gameService.GetGameById(msg.SearchByInt);
