@@ -29,7 +29,10 @@ namespace Client
             ClientUser user = new ClientUser(3, "orelie", "orelie", "", "", 1, "", "");
             //cl.user = user;
             InitializeComponent();
-            WellcomeScreen wellcomeScreen = new WellcomeScreen();
+           WellcomeScreen wellcomeScreen = new WellcomeScreen();
+            //ClientLogic j = new ClientLogic();
+            //GameScreen gs = new GameScreen(j);
+            //gs.Show();
             wellcomeScreen.Show();
             //AvatarEditScreen avatar = new AvatarEditScreen(wellcomeScreen, cl);
             //avatar.Show();
