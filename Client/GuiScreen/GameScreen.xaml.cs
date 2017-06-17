@@ -12,6 +12,7 @@ using TexasHoldem;
 using TexasHoldem.GuiScreen;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ServerToClient;
+using Application = System.Windows.Application;
 using ListViewItem = System.Windows.Controls.ListViewItem;
 using MessageBox = System.Windows.MessageBox;
 
@@ -400,11 +401,12 @@ namespace Client.GuiScreen
                             if (logoutOk)
                             {
                                 MessageBox.Show("Logout OK!");
-                                
+
                                 //WellcomeScreen wellcomeScreen = new WellcomeScreen();
 
-                               // wellcomeScreen.Show();
-                                this.Close();
+                                // wellcomeScreen.Show();
+                                _logic.CloseSystem();
+                                Application.Current.Shutdown();
                                 //this.Hide();
                                 done = true;
                                 break;
