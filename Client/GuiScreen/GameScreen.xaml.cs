@@ -519,7 +519,7 @@ namespace Client.GuiScreen
                     string msgToSend3 = InputForChat.Text;
 
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
-                        CommunicationMessage.ActionType.PlayerWhisper);
+                        CommunicationMessage.ActionType.SpectetorWhisper);
                     break;
                 case 8: //whisper spec
                     string msgToSend4 = InputForChat.Text;
