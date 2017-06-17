@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
         Title="OYAOB - Texas Holdem Poker" Height="353.493" Width="370.684" Icon="/GuiScreen/Photos/Screen/icon.png">
-    <Grid Margin="0,0,-7,-0.4">
+    <Grid Margin="0,0,-55,-48.4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
@@ -15,13 +15,14 @@
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
         <Label x:Name="LoginMenuLabel" Content="Welcome Back" HorizontalAlignment="Left" Margin="14,24,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Height="49" Width="210"/>
-        <Button x:Name="EditUserbutton" Content="Edit User Information" HorizontalAlignment="Left" Margin="70,70,0,0" VerticalAlignment="Top" Width="148"  Height="25" Click="EditUserbutton_Click"/>
-        <Button x:Name="Logoututton" Content="LogOut" HorizontalAlignment="Left" Margin="70,104,0,0" VerticalAlignment="Top" Width="148"  Height="25" Click="Logoututton_Click"/>
-        <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Left" Margin="38,272,0,0" VerticalAlignment="Top" Width="75" Click="ExitButton_Click"/>
+        <Button x:Name="EditUserbutton" Content="Edit User Information" HorizontalAlignment="Left" Margin="70,108,0,0" VerticalAlignment="Top" Width="148"  Height="25" Click="EditUserbutton_Click"/>
+        <Button x:Name="Logoututton" Content="LogOut" HorizontalAlignment="Left" Margin="70,273,0,0" VerticalAlignment="Top" Width="148"  Height="25" Click="Logoututton_Click"/>
+        <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Left" Margin="38,312,0,0" VerticalAlignment="Top" Width="75" Click="ExitButton_Click"/>
         <Button x:Name="GameSearchMenuutton" Content="Game Search Menu" HorizontalAlignment="Left" Margin="70,137,0,0" VerticalAlignment="Top" Width="148"  Height="25" Click="GameSearchMenuutton_Click"/>
-        <Button x:Name="CreateNewRoom_Btn" Content="Create new Room" HorizontalAlignment="Left" Height="25" Margin="70,169,0,0" VerticalAlignment="Top" Width="148" Click="Button_Click"/>
-        <Button x:Name="UserInfobButton" Content="User Information" HorizontalAlignment="Left" Margin="70,202,0,0" VerticalAlignment="Top" Width="148" Height="25" Click="UserInfobButton_Click"/>
+        <Button x:Name="CreateNewRoom_Btn" Content="Create new Room" HorizontalAlignment="Left" Height="25" Margin="70,203,0,0" VerticalAlignment="Top" Width="148" Click="Button_Click"/>
+        <Button x:Name="UserInfobButton" Content="User Information" HorizontalAlignment="Left" Margin="70,76,0,0" VerticalAlignment="Top" Width="148" Height="25" Click="UserInfobButton_Click"/>
         <Button x:Name="ReplayBTN" Content="View Replay" HorizontalAlignment="Left" Margin="70,235,0,0" VerticalAlignment="Top" Width="148" Height="25" Click="ReplayBTN_Click" />
+        <Button x:Name="ReturnToGameButton" Content="Return To your Games" HorizontalAlignment="Left" Margin="70,171,0,0" VerticalAlignment="Top" Width="148"  Height="25" Click="ReturnToGameButton_Click" />
 
     </Grid>
 </Window>

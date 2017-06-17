@@ -126,5 +126,13 @@ namespace TexasHoldem.GuiScreen
             ReplayScreen.Show();
             this.Hide();
         }
+
+        private void ReturnToGameButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReturnToGames returnToGames = new ReturnToGames(this,cl);
+            this.Show();
+            parent.Hide();
+
+        }
     }
 }
