@@ -171,7 +171,7 @@
     <Compile Include="Service\GameServiceHandler.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
-    <None Include="App.config" />
+    <None Include="app.config" />
     <None Include="Database\LinqToSql\connectionsLinq.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>connectionsLinq.designer.cs</LastGenOutput>

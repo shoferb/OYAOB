@@ -318,11 +318,16 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return _userService.GetUsersByTotalProfit();
         }
 
+       
         private bool ActionSuccedded(IEnumerator<ActionResultInfo> results)
         {
             results.MoveNext();
             ActionResultInfo result = results.Current;
             return result.GameData.IsSucceed;
+        }
+        public List<IUser> GetUsersByHighestCashn()
+        {
+            return new List<IUser>();
         }
     }
 }

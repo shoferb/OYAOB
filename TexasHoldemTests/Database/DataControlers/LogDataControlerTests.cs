@@ -78,17 +78,17 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Database.LinqToSql.ErrorLog toAdd = new Database.LinqToSql.ErrorLog();
             Database.LinqToSql.Log logs = new Database.LinqToSql.Log
             {
-                LogId = 2000,
+                LogId = 20000000,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 2000;
+            toAdd.logId = 20000000;
             toAdd.msg = "test AddErrorLogTest_good_message()";
             _logDataControler.AddErrorLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(2000).msg, "test AddErrorLogTest_good_message()");
-            _logsOnlyForTest.DeleteErrorLog(2000);
-            _logsOnlyForTest.DeleteLog(2000);
+            Assert.AreEqual(_logsOnlyForTest.GetErrorLogById(20000000).msg, "test AddErrorLogTest_good_message()");
+            _logsOnlyForTest.DeleteErrorLog(20000000);
+            _logsOnlyForTest.DeleteLog(20000000);
         }
         /*
         [TestMethod()]

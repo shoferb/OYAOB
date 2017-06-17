@@ -80,6 +80,7 @@ namespace TexasHoldem.Logic.Users
             
         }
 
+      
         private UserDataProxy userDataProxy = new UserDataProxy();
         public int GetNumberOfGamesUserPlay()
         {
