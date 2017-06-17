@@ -329,15 +329,7 @@ namespace Client.GuiScreen
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
         {
-            bool res = _logic.StartTheGame(this.RoomId);
-            if (res)
-            {
-                MessageBox.Show("game started :)");
-            }
-            else
-            {
-                MessageBox.Show("game start FAIL :(");
-            }
+             _logic.StartTheGame(this.RoomId);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

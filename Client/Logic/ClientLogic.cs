@@ -209,31 +209,15 @@ namespace Client.Logic
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
-           // MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);    
-       //     bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-        //    MessagesSentObserver.Remove(messageToList);
             return true;
         }
 
-        public bool StartTheGame(int roomId)
+        public void StartTheGame(int roomId)
         {
             ActionCommMessage toSend =
                 new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.StartGame, -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-                    new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            GameUpdateReceived((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4.GameData);
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
         }
 
         private int GenerateRandomNegNum()
@@ -387,47 +371,21 @@ namespace Client.Logic
             }
         }
 
-        public bool NotifyChosenMove(CommunicationMessage.ActionType move, int amount, int roomId)
+        public void NotifyChosenMove(CommunicationMessage.ActionType move, int amount, int roomId)
         {
             if (move.Equals(CommunicationMessage.ActionType.Fold))
             {
-                amount = -1; //amount isnt relevant
                 ActionCommMessage response = new ActionCommMessage(user.id, _sessionId, move, amount, roomId);
-                Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false,
-                        new ResponeCommMessage(user.id));
-                MessagesSentObserver.Add(messageToList);
                 _eventHandler.SendNewEvent(response);
-                while ((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
-                {
-                    var t = Task.Run(async delegate { await Task.Delay(10); });
-                    t.Wait();
-                }
-                bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
-                GameUpdateReceived((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item4.GameData);
-                MessagesSentObserver.Remove(messageToList);
-                return toRet;
+
             }
             if ((move.Equals(CommunicationMessage.ActionType.Bet)) && (amount >= 0))
             {
                 ActionCommMessage response = new ActionCommMessage(user.id, _sessionId, move, amount, roomId);
-                //Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                //    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false,
-                //        new ResponeCommMessage(user.id));
-                //MessagesSentObserver.Add(messageToList);
-                _eventHandler.SendNewEvent(response);
-                //while ((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
-                //{
-                //    var t = Task.Run(async delegate { await Task.Delay(10); });
-                //    t.Wait();
-                //}
-                //bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
-                //GameUpdateReceived((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item4.GameData);
-                //MessagesSentObserver.Remove(messageToList);
-                //return toRet;
+               _eventHandler.SendNewEvent(response);
+          
             }
-            return false;
-        }
+         }
 
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
