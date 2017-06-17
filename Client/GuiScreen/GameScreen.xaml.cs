@@ -56,8 +56,10 @@ namespace Client.GuiScreen
        
         public void UpdateGame(GameDataCommMessage msg)
         {
+            PopupUser(msg.Action, msg.IsSucceed);
+
             update = msg;
-            Dispatcher.Invoke((Action)(() =>
+            Dispatcher.Invoke(() =>
             {
                 UserID.Content = _logic.user.id;
                 UserName.Content = _logic.user.username;
@@ -98,7 +100,7 @@ namespace Client.GuiScreen
                     ListViewItem toAdd = new ListViewItem();
                     toAdd.Content = msgToChat;
                     this.chatListView.Items.Add(toAdd);
-                     msgToChat = string.Concat("*GAME MESSAGE* ", "Game is Over");
+                    msgToChat = string.Concat("*GAME MESSAGE* ", "Game is Over");
                     ListViewItem toAdd1 = new ListViewItem();
                     toAdd1.Content = msgToChat;
                     this.chatListView.Items.Add(toAdd1);
@@ -251,9 +253,37 @@ namespace Client.GuiScreen
 
                 }
 
-            }));
+            });
         }
-   
+
+        private void PopupUser(CommunicationMessage.ActionType msgAction, bool msgIsSucceed)
+        {
+            string msg = "";
+            switch (msgAction)
+            {
+                case CommunicationMessage.ActionType.Bet:
+                    msg = "Bet ";
+                    break;
+                case CommunicationMessage.ActionType.Fold:
+                    msg = "Fold ";
+                    break;
+                case CommunicationMessage.ActionType.Leave:
+                    msg = "Leave ";
+                    break;
+                case CommunicationMessage.ActionType.StartGame:
+                    msg = "Start Game ";
+                    break;
+            }
+
+            if (msgIsSucceed)
+            {
+                MessageBox.Show(msg + "succeeded!");
+                return;
+            }
+            MessageBox.Show(msg + "failed!");
+
+        }
+
         public void AddChatMsg(ChatResponceCommMessage msg)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal,
@@ -376,7 +406,8 @@ namespace Client.GuiScreen
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                     }
-                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    bool ans = _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
+                    //bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (ans)
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
