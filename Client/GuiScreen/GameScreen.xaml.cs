@@ -41,10 +41,10 @@ namespace Client.GuiScreen
         {
             InitializeComponent();
             _logic = c;
-            UserID.Content = _logic.user.id;
+          /*  UserID.Content = _logic.user.id;
             UserName.Content = _logic.user.username;
             string path = _logic.user.avatar;
-            Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
+            Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));*/
             update = null;
             ActionLabel.Visibility = Visibility.Hidden;
             ChooseActionLabel.Visibility = Visibility.Hidden;
