@@ -74,6 +74,14 @@ namespace Client.GuiScreen
             ClientGame selectedGame = (ClientGame)listView.SelectedItem;
             if (selectedGame != null)
             {
+                if (field == 0)
+                {
+                   //todo call return to active
+                }
+                else if (field == 1)
+                {
+                    //todo call return to spectetor
+                }
                 currRoomId = selectedGame.roomId;
                 cl.JoinTheGame(currRoomId, selectedGame.startingChip);
 
@@ -165,22 +173,7 @@ namespace Client.GuiScreen
            
         }
 
-        private void WatchGame_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            int roomIdToSpectate;
-            string temp = IdToSpectate_TextBox.Text;
-            bool isValid = int.TryParse(temp, out roomIdToSpectate);
-            if (!isValid)
-            {
-                MessageBox.Show("Invalid Game ID input");
-            }
-            else
-            {
-                //todo - change to the return spectetor function
-              //  cl.SpectateRoom(roomIdToSpectate);
-
-            }
-        }
+      
 
 
         public void JoinOkay(GameDataCommMessage msgGameData)
