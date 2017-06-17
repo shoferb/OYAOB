@@ -35,7 +35,7 @@ namespace Client.GuiScreen
         public string CurrPlayerTurn;
         bool SpecOrPlay;//spec=false, play=true;
         private ClientLogic _logic;
-        private GameDataCommMessage update;
+        public GameDataCommMessage update;
 
         public GameScreen(ClientLogic c)
         {

@@ -68,18 +68,18 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-                JoinResponseCommMessage joinResp = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
-                if (joinResp!=null)
+                bool succ = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
+                if (succ)
                 {
-
                     MessageBox.Show("You joined the game successfully!");
                     GameScreen newGameWindow = new GameScreen(cl);
-                    GameDataCommMessage newRoom = joinResp.GameData;
-                    newGameWindow.UpdateGame(newRoom);
+                    newGameWindow.UpdateGame(newGameWindow.update);
                     cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
                     this.Hide();
+
                 }
+
                 else
                 {
                     MessageBox.Show("Joined the game failed!");

@@ -124,29 +124,21 @@ namespace Client.Logic
             return toRet;
         }
 
-        public JoinResponseCommMessage JoinTheGame(int roomId, int startingChip)
+        public bool JoinTheGame(int roomId, int startingChip)
         {
-            ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Join,
-                startingChip, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-                    new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
-            _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
+            try
             {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
+                ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
+                    CommunicationMessage.ActionType.Join,
+                    startingChip, roomId);
+                _eventHandler.SendNewEvent(toSend);
+                return true;
             }
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            if (toRet)
+            catch (Exception ex)
             {
-                JoinResponseCommMessage res =
-                    (JoinResponseCommMessage) (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
-                GameUpdateReceived(res.GameData);
-                return res;
+                return false;
             }
-            return null;
+           
         }
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,
@@ -398,12 +390,13 @@ namespace Client.Logic
                 }
             }
 
-            if (msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
                 (((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.CreateRoom ||
-                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave ||
-                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join) ||
-                (msg.OriginalMsg.GetType()) == typeof(LoginCommMessage) ||
-                (msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
+                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave))||
+                 (msg.OriginalMsg.GetType()) == typeof(LoginCommMessage) ||
+                (msg.OriginalMsg.GetType()) == typeof(SearchCommMessage)||
+                 (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
+                  (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
             {
                 Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
                     MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
@@ -417,22 +410,6 @@ namespace Client.Logic
             {
                 GameUpdateReceived(msg.GameData);
             }
-            //if (msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-            //    ((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Bet)
-            //{
-            //GameUpdateReceived(msg.GameData);
-            //}
-
-            //else
-            //{
-            //    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
-            //        MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
-            //    MessagesSentObserver.Remove(toEdit);
-            //    var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true, msg.Success,
-            //        msg);
-            //    MessagesSentObserver.Add(toAdd); 
-            //}
-
         }
 
       
