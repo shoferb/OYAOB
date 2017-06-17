@@ -59,7 +59,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TearDown]
         protected void Dispose()
         {
-            RestartSystem();
+            //RestartSystem();
 
             SubClassDispose();
             User1Name = null;
@@ -77,7 +77,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected void SetupUser1()
         {
             UserId = new Random().Next();
-            User1Name = "Oded";
+            User1Name = "Oded" + UserId;
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
@@ -138,10 +138,15 @@ namespace TexasHoldemTests.AcptTests.tests
             //delete all rooms
 
             List<int> allGames = GameBridge.GetAllGamesId();
-            if(allGames==null)
+            if (allGames == null)
             {
                 allGames = new List<int>();
             }
+            else
+            {
+                
+            }
+            
             Assert.True(allGames.Count == 0);
             Assert.False(GameBridge.DoesRoomExist(RoomId));
             RoomId = -1;

@@ -158,7 +158,7 @@ namespace TexasHoldem.DatabaseProxy
             List<Database.LinqToSql.GameRoom> dbGames = _controller.getAllGames();
             if (dbGames.Capacity == 0)
             {
-                return null;
+                return toRet;
             }
             foreach (Database.LinqToSql.GameRoom g in dbGames)
             {
