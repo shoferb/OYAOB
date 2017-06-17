@@ -233,5 +233,10 @@ namespace Client.GuiScreen
         {
 
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
