@@ -225,7 +225,7 @@ namespace TexasHoldem.DatabaseProxy
                 //toAddUT.password = encryptedstring;
                 _userDataControler.AddNewUser(toAddUt);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }
