@@ -428,42 +428,7 @@ namespace TexasHoldem.Database.DataControlers
             return toReturn;
         }
 
-        public List<GetAllUserActiveGameResult> GetAllUserActiveGames(int userId)
-        {
-            List<GetAllUserActiveGameResult> toReturn = new List<GetAllUserActiveGameResult>();
-            try
-            {
-                using (var db = new connectionsLinqDataContext())
-                {
-                    toReturn =  db.GetAllUserActiveGame(userId).ToList();
-                    return toReturn;
-                }
-
-            }
-            catch (Exception)
-            {
-                return toReturn;
-            }
-        }
-
-        public List<GetUserSpectetorsGameResult> GetUserSpectetorsGameResult(int userId)
-        {
-            List<GetUserSpectetorsGameResult> toReturn = new List<GetUserSpectetorsGameResult>();
-            try
-            {
-                using (var db = new connectionsLinqDataContext())
-                {
-                    toReturn = db.GetUserSpectetorsGame(userId).ToList();
-                    return toReturn;
-                }
-
-            }
-            catch (Exception)
-            {
-                return toReturn;
-            }
-        }
-
+      
         public void AddGameToUserActiveGames(int userId, int roomId,int gameId)
         {
             try
