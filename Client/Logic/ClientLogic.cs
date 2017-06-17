@@ -211,11 +211,11 @@ namespace Client.Logic
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
+           // MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);    
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
+       //     bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+        //    MessagesSentObserver.Remove(messageToList);
+            return true;
         }
 
         public bool StartTheGame(int roomId)
@@ -238,9 +238,15 @@ namespace Client.Logic
             return toRet;
         }
 
+        private int GenerateRandomNegNum()
+        {
+            int rand = new Random().Next();
+            return rand * -1;
+        }
+
         public bool Login(string userName, string password)
         {
-            LoginCommMessage toSend = new LoginCommMessage(-1, true, userName, password);
+            LoginCommMessage toSend = new LoginCommMessage(GenerateRandomNegNum(), true, userName, password);
             var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend,
                 false, false, new ResponeCommMessage(-1));
             MessagesSentObserver.Add(messageToList);
@@ -343,9 +349,10 @@ namespace Client.Logic
 
         }
 
-        public bool Register(int id, string name, string memberName, string password, int money, string email)
+        public bool Register(string name, string memberName, string password, int money, string email)
         {
-            RegisterCommMessage toSend = new RegisterCommMessage(id, name, memberName, password, money, email);
+            int randNegId = GenerateRandomNegNum();
+            RegisterCommMessage toSend = new RegisterCommMessage(randNegId, name, memberName, password, money, email);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(-1));
@@ -426,6 +433,15 @@ namespace Client.Logic
 
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
+            if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
+            {
+                if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
+                 ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
+                {
+                    return;
+                }
+            }
+            
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
                 MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
             MessagesSentObserver.Remove(toEdit);

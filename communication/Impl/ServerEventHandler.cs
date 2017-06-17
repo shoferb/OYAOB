@@ -224,10 +224,17 @@ namespace TexasHoldem.communication.Impl
                         user.Password(), user.Avatar(), user.Money(),
                         user.Email(), user.GetLeague().ToString(), true, msg);
                 }
-                else
+                else if (_socket != null)
                 {
+                    _commHandler.AddUserId(-1, _socket);
+
                     response = new LoginResponeCommMessage(-1, -1, "", "",
                         "", "", -1, "", "", false, msg);
+                }
+                else
+                {
+                    Console.WriteLine("error in login!");
+                    response = null;
                 }
                 return response; 
             }
@@ -449,14 +456,8 @@ namespace TexasHoldem.communication.Impl
             if (_sessionIdHandler != null)
             {
                 bool success = false;
-                IUser tempUser = _userService.GetIUserByUserName(msg.ReciverUsername);
                 int idReciver = 0;
-                if (tempUser != null)
-                {
-                    idReciver = tempUser.Id(); // to get id reciver from user name
-                }
                 string usernameSender = _userService.GetUserById(msg.IdSender).MemberName(); //to get from id;
-
                 switch (msg.ChatType)
                 {
                     case CommunicationMessage.ActionType.PlayerBrodcast:
@@ -464,12 +465,15 @@ namespace TexasHoldem.communication.Impl
                         success = enumerator != null;
                         SendBroadcast(enumerator, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
+                        return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
+
                         break;
                     case CommunicationMessage.ActionType.PlayerWhisper:
-                        IUser p = _userService.GetIUserByUserName(msg.ReciverUsername);
-                        var res = new ChatResponceCommMessage(msg.RoomId, p.Id(), msg.SessionId, usernameSender, msg.ChatType,
-                        msg.MsgToSend, p.Id(), true, msg);
-                        _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), p.Id());
+                        IUser reciver = _userService.GetIUserByUserName(msg.ReciverUsername);
+                        var res = new ChatResponceCommMessage(msg.RoomId, reciver.Id(), msg.SessionId, usernameSender, msg.ChatType,
+                        msg.MsgToSend, reciver.Id(), true, msg);
+                        if (reciver.Id() != msg.IdSender)
+                            _commHandler.AddMsgToSend(_parser.SerializeMsg(res, ShouldUseDelim), reciver.Id());
                         idReciver = msg.IdSender;
                         break;
                     case CommunicationMessage.ActionType.SpectetorBrodcast:
@@ -477,17 +481,17 @@ namespace TexasHoldem.communication.Impl
                          success = enumeratorSpec != null;
                          SendBroadcastSpec(enumeratorSpec, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
+                        return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
+
                         break;
                     case CommunicationMessage.ActionType.SpectetorWhisper:
                         var enumeratorSpecWhisper = _gameService.CanSendSpectetorBrodcast(msg.IdSender, msg.RoomId);
                         success = enumeratorSpecWhisper != null;
                         SendBroadcastSpec(enumeratorSpecWhisper, msg.UserId, msg, usernameSender);
                         idReciver = msg.IdSender;
-
                         break;
 
                 }
-                return new ChatResponceCommMessage(msg.RoomId, idReciver, _sessionIdHandler.GetSessionIdByUserId(msg.UserId), usernameSender, msg.ChatType, msg.MsgToSend, msg.UserId, success, msg);
             }
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }

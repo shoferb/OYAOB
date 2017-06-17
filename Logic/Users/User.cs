@@ -256,17 +256,14 @@ namespace TexasHoldem.Logic.Users
 
         public bool Login()
         {
-            bool toReturn = false;
             try
             {
                 isActive = true;
-                toReturn = true;
-                return toReturn;
+                return isActive;
             }
             catch
             {
-                toReturn = false;
-                return toReturn;
+                return false;
             }
           
         }
