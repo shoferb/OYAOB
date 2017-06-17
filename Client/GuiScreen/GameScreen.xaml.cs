@@ -543,16 +543,34 @@ namespace Client.GuiScreen
             {
                 case 5://brodcast Player
                     string msgToSend2 = InputForChat.Text;
-
+                    if (!update.AllPlayerNames.Contains(_logic.user.name))
+                    {
+                        MessageBox.Show("You're NOT a player... SORRY");
+                        break;
+                    }
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend2, CommunicationMessage.ActionType.PlayerBrodcast);
                     break;
                 case 6://whisper Player
                     string msgToSend = InputForChat.Text;
                     string reciverName = WhisperReceiverTextBox.Text;
+                    if (!update.AllPlayerNames.Contains(_logic.user.name))
+                    {
+                        MessageBox.Show("You're NOT a player... SORRY");
+                        break;
+                    }
                     if (update.AllPlayerNames.Contains(reciverName) || update.AllSpectatorNames.Contains(reciverName))
                     {
-                        _logic.SendChatMsg(RoomId, reciverName, msgToSend,
-                            CommunicationMessage.ActionType.PlayerWhisper);
+                        if (update.AllPlayerNames.Contains(reciverName))
+                        {
+                            _logic.SendChatMsg(RoomId, reciverName, msgToSend,
+                                CommunicationMessage.ActionType.PlayerWhisper);
+                        }
+                        else
+                        {
+                            _logic.SendChatMsg(RoomId, reciverName, msgToSend,
+                                CommunicationMessage.ActionType.SpectetorWhisper);
+                        }
+                       
                     }
                     else
                     {
@@ -561,13 +579,22 @@ namespace Client.GuiScreen
                     break;
                 case 7: //broadcast spec
                     string msgToSend3 = InputForChat.Text;
-
+                    if (!update.AllSpectatorNames.Contains(_logic.user.name))
+                    {
+                        MessageBox.Show("You're NOT a spectatore... SORRY");
+                        break;
+                    }
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
                         CommunicationMessage.ActionType.SpectetorBrodcast);
                     break;
                 case 8: //whisper spec
                     string msgToSend4 = InputForChat.Text;
                     string reciverNameSpec = WhisperReceiverTextBox.Text;
+                    if (!update.AllSpectatorNames.Contains(_logic.user.name))
+                    {
+                        MessageBox.Show("You're NOT a spectatore... SORRY");
+                        break;
+                    }
                     if (update.AllSpectatorNames.Contains(reciverNameSpec))
                     {
                         _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend4,
