@@ -211,11 +211,11 @@ namespace Client.Logic
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
+           // MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);    
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
+       //     bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
+        //    MessagesSentObserver.Remove(messageToList);
+            return true;
         }
 
         public bool StartTheGame(int roomId)
