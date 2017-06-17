@@ -45,5 +45,7 @@ namespace TexasHoldem.Logic.Game
         //methods for chat
         bool IsPlayerInRoom(IUser user);
         bool IsSpectetorInRoom(IUser user);
+        IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user);
+        IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user);
     }
 }

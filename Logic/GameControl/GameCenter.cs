@@ -434,16 +434,24 @@ namespace TexasHoldem.Logic.GameControl
             }
         }
 
-        //TODO
         public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user, int roomId)
         {
-            throw new NotImplementedException();
+            IGame gm = GetRoomById(roomId);
+
+            IEnumerator<ActionResultInfo> toRet = gm.ReturnToGameAsPlayer(user);
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            return toRet;
         }
 
-        //TODO
         public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user, int roomId)
         {
-            throw new NotImplementedException();
+            IGame gm = GetRoomById(roomId);
+
+            IEnumerator<ActionResultInfo> toRet = gm.ReturnToGameAsSpec(user);
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            return toRet;
         }
     }
 

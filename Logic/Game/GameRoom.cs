@@ -1337,6 +1337,9 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsPlayerInRoom(IUser user)
         {
+            GameReplay = new GameReplay(Id, GameNumber);
+            GameDataCommMessage gameData;
+            List<ActionResultInfo> list;
             bool toReturn = false;
             lock (padlock)
             {
@@ -1367,6 +1370,22 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             return toReturn;
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user)
+        {
+            if (IsUserInGame(user))
+            {
+                gameData = GetGameData(GetInGamePlayerFromUser(user), amount, false, ActionType.Join);
+                list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+                return list.GetEnumerator();
+            }
+            return Join(user, amount);
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Card> GetPublicCards()
