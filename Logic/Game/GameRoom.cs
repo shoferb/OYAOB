@@ -569,7 +569,7 @@ namespace TexasHoldem.Logic.Game
             logControl.AddSystemLog(log);
             SetRoles();
             StartGame startAction = new StartGame(Players, DealerPlayer, SbPlayer, BbPlayer);
-            //GameReplay.AddAction(startAction);
+            GameReplay.AddAction(startAction);
             SystemLog log2 = new SystemLog(Id, startAction.ToString(), GameNumber);
             logControl.AddSystemLog(log2);
             maxBetInRound = Bb;
@@ -611,7 +611,7 @@ namespace TexasHoldem.Logic.Game
         private IEnumerator<ActionResultInfo> Raise(Player player, int bet)
         {
             GameDataCommMessage gameData = GetGameData(player, bet, false, ActionType.Bet);
-            //ids.Add(player.user.Id());
+           // ids.Add(player.user.Id());
             int currentPlayerBet = player.RoundChipBet + bet;
             int currentPlayerRaise = currentPlayerBet - maxBetInRound;
             if (!MyDecorator.CanRaise(lastRaiseInRound, currentPlayerRaise, maxBetInRound, player.RoundChipBet, PotCount, Hand_Step))
@@ -630,7 +630,7 @@ namespace TexasHoldem.Logic.Game
             PotCount += bet;
             RaiseAction raise = new RaiseAction(player, player._firstCard,
                  player._secondCard, currentPlayerBet);
-            //GameReplay.AddAction(raise);
+            GameReplay.AddAction(raise);
             SystemLog log = new SystemLog(Id, raise.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             lastRaiseInRound = currentPlayerRaise;
@@ -654,7 +654,7 @@ namespace TexasHoldem.Logic.Game
             PotCount += bet;
             CallAction call = new CallAction(player, player._firstCard,
                 player._secondCard, bet);
-            //GameReplay.AddAction(call);
+            GameReplay.AddAction(call);
             SystemLog log = new SystemLog(Id, call.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
@@ -678,7 +678,7 @@ namespace TexasHoldem.Logic.Game
                  player._secondCard);
             SystemLog log = new SystemLog(Id, check.ToString(), GameNumber);
             logControl.AddSystemLog(log);
-            //GameReplay.AddAction(check);
+            GameReplay.AddAction(check);
             bool afterAction = AfterAction(player);
             gameData = GetGameData(player, 0, afterAction, ActionType.Bet);
             return GetEnumeratorToSend(Players, Spectatores, gameData);
@@ -690,7 +690,7 @@ namespace TexasHoldem.Logic.Game
             player.isPlayerActive = false;
             FoldAction fold = new FoldAction(player, player._firstCard,
                 player._secondCard);
-            //GameReplay.AddAction(fold);
+            GameReplay.AddAction(fold);
             SystemLog log = new SystemLog(Id, fold.ToString(), GameNumber);
             logControl.AddSystemLog(log);
             List<int> ids = GetAllPlayersAndSpectatoresIds();
@@ -770,7 +770,7 @@ namespace TexasHoldem.Logic.Game
             {
                 ids.Add(player.user.Id());
             }
-            //ReplayManager.AddGameReplay(GameReplay, ids);
+            ReplayManager.AddGameReplay(GameReplay, ids);
             if (Winners.Count > 0) // so there are winners at the end of the game
             {
                 int amount = PotCount / Winners.Count;
@@ -912,7 +912,7 @@ namespace TexasHoldem.Logic.Game
                 player.Add2Cards(Deck.Draw(), Deck.Draw());
                 HandCards hand = new HandCards(player, player._firstCard,
                     player._secondCard);
-                //GameReplay.AddAction(hand);
+                GameReplay.AddAction(hand);
                 SystemLog log = new SystemLog(Id, hand.ToString(), GameNumber);
                 logControl.AddSystemLog(log);
                 //if (player.user.Id() != doNotSend.user.Id())
@@ -933,7 +933,7 @@ namespace TexasHoldem.Logic.Game
             }
             PublicCards.Add(Deck.Draw());
             DrawCard draw = new DrawCard(c, PublicCards, PotCount);
-            //GameReplay.AddAction(draw);
+            GameReplay.AddAction(draw);
         }
 
         private void ClearPublicCards()
@@ -1054,7 +1054,7 @@ namespace TexasHoldem.Logic.Game
                 WinAction win = new WinAction(winners[0]._player,
                     winners[0]._player._firstCard, winners[0]._player._secondCard,
                     PotCount, table, winners[0]._relevantCards);
-                //GameReplay.AddAction(win);
+                GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(Id, win.ToString(), GameNumber);
                 logControl.AddSystemLog(log);
                 winner = GetWinnerString(winners);
@@ -1117,7 +1117,7 @@ namespace TexasHoldem.Logic.Game
                 WinAction win = new WinAction(h._player,
                      h._player._firstCard, h._player._secondCard,
                      PotCount / winners.Count, table, h._relevantCards);
-                //GameReplay.AddAction(win);
+                GameReplay.AddAction(win);
                 SystemLog log = new SystemLog(Id, win.ToString(), GameNumber);
                 // this.this._gameCenter.AddSystemLog(log);
                 logControl.AddSystemLog(log);
