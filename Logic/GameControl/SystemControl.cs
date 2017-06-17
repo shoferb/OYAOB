@@ -20,7 +20,7 @@ namespace TexasHoldem.Logic.Game_Control
         private static readonly object padlock = new object();
         private LogControl logControl;
         private UserDataProxy userProxy;
-
+        
         public SystemControl(LogControl log)
         {
            
@@ -425,7 +425,9 @@ namespace TexasHoldem.Logic.Game_Control
                     {
                         return toReturn;
                     }
-                    toReturn = new List<IGame>();
+                    int userId = user.Id();
+                    
+                     
                     foreach (IGame room in user.ActiveGameList())
                     {
                         if (room.IsGameActive())
