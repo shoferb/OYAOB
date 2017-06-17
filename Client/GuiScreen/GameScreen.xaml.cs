@@ -36,7 +36,7 @@ namespace Client.GuiScreen
         bool SpecOrPlay;//spec=false, play=true;
         private ClientLogic _logic;
         private GameDataCommMessage update;
-
+        private bool isSpectrtor = false;
         public GameScreen(ClientLogic c)
         {
             InitializeComponent();
@@ -152,6 +152,10 @@ namespace Client.GuiScreen
                     this.ListViewSpectetors.Items.Clear();
                     foreach (string aString in AllSpecNames)
                     {
+                        if (_logic.user.username.Equals(aString))
+                        {
+                            isSpectrtor = true;
+                        }
                         ListViewItem toAdd = new ListViewItem();
                         toAdd.Content = aString;
                         this.ListViewSpectetors.Items.Add(aString);
