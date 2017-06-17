@@ -112,6 +112,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             proxy.InsertNewGameRoom(gameRoom);
             gameRoom.SetIsActive(true);
             gameRoom.SetBB(78987);
+            gameRoom.AddSpectetorToRoom(user2);
             bool ans = proxy.UpdateGameRoom(gameRoom);
            GameRoom gac = (GameRoom)proxy.GetGameRoombyId(gameRoom.Id);
            ans = ans & (gac.IsGameActive()) & (gac.GetBBNUM()==78987);
