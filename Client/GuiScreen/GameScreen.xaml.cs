@@ -354,16 +354,16 @@ namespace Client.GuiScreen
                     bool isValid = int.TryParse(temp, out amount);
                     if (!isValid)
                     {
-                        MessageBox.Show("Invalid Amount");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                     }
                     bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (ans)
                     {
-                        MessageBox.Show("Action Succeeded");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
                     }
                     else
                     {
-                        MessageBox.Show("Action Failed");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
                 case 2://raise
@@ -372,16 +372,16 @@ namespace Client.GuiScreen
                     bool isValidw = int.TryParse(tempw, out amount);
                     if (!isValidw)
                     {
-                        MessageBox.Show("Invalid Amount");
-                    }
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
+                     }
                     bool answ = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
                     if (answ)
                     {
-                        MessageBox.Show("Action Succeeded");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
                     }
                     else
                     {
-                        MessageBox.Show("Action Failed");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
                 case 3://fold
@@ -389,23 +389,23 @@ namespace Client.GuiScreen
                     bool ansd = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold, amountd, RoomId);
                     if (ansd)
                     {
-                        MessageBox.Show("Action Succeeded");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
                     }
                     else
                     {
-                        MessageBox.Show("Action Failed");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
-                case 4://cheack
+                case 4://check
                     int amounte = 0;
                     bool anse = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amounte, RoomId);
                     if (anse)
                     {
-                        MessageBox.Show("Action Succeeded");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
                     }
                     else
                     {
-                        MessageBox.Show("Action Failed");
+                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
                 case 5://brodcast Player
