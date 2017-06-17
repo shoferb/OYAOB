@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Documents;
 using TexasHoldem.communication.Impl;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
@@ -23,6 +24,7 @@ namespace TexasHoldem.Service
         private LogControl _logControl;
         private MessageEventHandler _eventHandler;
         private SessionIdHandler _sidHandler;
+        private GameDataProxy proxyDB;
 
         public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, 
             ReplayManager replay, SessionIdHandler sidHandler)
@@ -33,6 +35,7 @@ namespace TexasHoldem.Service
             _replayManager = replay;
             this._sidHandler = sidHandler;
             _eventHandler = new MessageEventHandler(gc, sys, log, replay, sidHandler);
+            proxyDB = new GameDataProxy(_gameCenter);
         }
 
         public IEnumerator<ActionResultInfo> DoAction(int userId, CommunicationMessage.ActionType action,
@@ -97,6 +100,7 @@ namespace TexasHoldem.Service
 
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {
+            IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
             IUser user = _systemControl.GetUserWithId(userId);
             if (gameRoom != null && user != null)
@@ -111,16 +115,16 @@ namespace TexasHoldem.Service
 
         public IEnumerator<ActionResultInfo> AddSpectatorToRoom(int userId, int roomId)
         {
+            IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
             IUser user = _systemControl.GetUserWithId(userId);
             if (gameRoom != null && user != null)
             {
-                return gameRoom.AddSpectetorToRoom(user);
+                inumerator = gameRoom.AddSpectetorToRoom(user);
+                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
+                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
             }
-            else
-            {
-                return new List<ActionResultInfo>().GetEnumerator();
-            }
+            return inumerator;
         }
 
         public IGame GetGameById(int id)
