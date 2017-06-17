@@ -399,20 +399,39 @@ namespace Client.Logic
             }
 
             if (msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                ((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Bet)
-            {
-                GameUpdateReceived(msg.GameData);
-            }
-
-            else
+                (((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.CreateRoom ||
+                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave ||
+                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join) ||
+                (msg.OriginalMsg.GetType()) == typeof(LoginCommMessage) ||
+                (msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
             {
                 Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
                     MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
                 MessagesSentObserver.Remove(toEdit);
-                var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true, msg.Success,
+                var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true,
+                    msg.Success,
                     msg);
-                MessagesSentObserver.Add(toAdd); 
+                MessagesSentObserver.Add(toAdd);
             }
+            else
+            {
+                GameUpdateReceived(msg.GameData);
+            }
+            //if (msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //    ((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Bet)
+            //{
+            //GameUpdateReceived(msg.GameData);
+            //}
+
+            //else
+            //{
+            //    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
+            //        MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
+            //    MessagesSentObserver.Remove(toEdit);
+            //    var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true, msg.Success,
+            //        msg);
+            //    MessagesSentObserver.Add(toAdd); 
+            //}
 
         }
 
