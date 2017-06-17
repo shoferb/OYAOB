@@ -57,6 +57,7 @@ namespace Client.GuiScreen
        
         public void UpdateGame(GameDataCommMessage msg)
         {
+
             PopupUser(msg.ActionPlayerName, msg.Action, msg.IsSucceed);
 
             update = msg;
@@ -198,8 +199,14 @@ namespace Client.GuiScreen
                         this.Card2Label.Content = string.Concat(pre2, (msg.PlayerCards[1]).ToString());
                     }
                 }
-              
+                else
+                {
+                    myCardsLabel.Content = "";
+                    Card1Labek.Visibility = Visibility.Hidden;
+                    Card2Label.Visibility = Visibility.Hidden;
+                }
 
+                
                 this.PotSize = msg.PotSize;
                 this.PotAmountLabel.Content = msg.PotSize;
 
@@ -222,6 +229,13 @@ namespace Client.GuiScreen
                 {
                     this.TotalChips = msg.TotalChips;
                     this.ChipAmountLabel.Content = msg.TotalChips;
+                }
+                else
+                {
+                    this.TotalChips = 0;
+                    this.ChipAmountLabel.Content = "";
+
+
                 }
                 
                 if (msg.IsSucceed)

@@ -694,10 +694,10 @@ namespace Client.GuiScreen
                     MessageBox.Show("You joined the game successfully! as Spectetor");
                     GameScreen newGameWindow = new GameScreen(cl);
                     newGameWindow.UpdateGame(msgGameData);
-                    newGameWindow.isSpectrtor = true;
+                    
                     cl.AddNewRoom(newGameWindow);
                    newGameWindow.Show();
-                    
+                    newGameWindow.isSpectrtor = true;
                     this.Hide();
                 });
             }

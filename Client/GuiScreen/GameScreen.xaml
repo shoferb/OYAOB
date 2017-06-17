@@ -19,7 +19,7 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Label x:Name="RoomNum" Content="Room Number:" HorizontalAlignment="Left" Height="35" Margin="18,7,0,0" VerticalAlignment="Top" Width="250" Foreground="#FFFBFBFB" FontWeight="Bold" FontSize="22"/>
-        <Label Content="My Cards:" HorizontalAlignment="Left" Height="35" Margin="365,242,0,0" VerticalAlignment="Top" Width="115" FontWeight="Bold" Foreground="Black" FontSize="18"/>
+        <Label x:Name="myCardsLabel" Content="My Cards:" HorizontalAlignment="Left" Height="35" Margin="365,242,0,0" VerticalAlignment="Top" Width="115" FontWeight="Bold" Foreground="Black" FontSize="18"/>
         <Label x:Name="Card1Labek" Content="First Card is :   " HorizontalAlignment="Left" Height="25" Margin="367,275,0,0" VerticalAlignment="Top" Width="205" FontWeight="Bold" Background="#FFF5F0F0"/>
         <Label x:Name="Card2Label" Content="Second Card is :    " HorizontalAlignment="Left" Height="25" Margin="366,316,0,0" VerticalAlignment="Top" Width="206" Background="#FFF3EEEE" FontWeight="Bold"/>
         <ListView x:Name="chatListView" HorizontalAlignment="Left" Height="140" VerticalAlignment="Top" Width="398" Margin="639,36,0,0">
