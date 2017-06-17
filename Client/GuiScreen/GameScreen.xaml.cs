@@ -35,7 +35,7 @@ namespace Client.GuiScreen
         public string CurrPlayerTurn;
         bool SpecOrPlay;//spec=false, play=true;
         private ClientLogic _logic;
-        private GameDataCommMessage update;
+        public GameDataCommMessage update;
         public bool isSpectrtor { get; set; }
         public GameScreen(ClientLogic c)
         {
@@ -57,8 +57,10 @@ namespace Client.GuiScreen
        
         public void UpdateGame(GameDataCommMessage msg)
         {
+            PopupUser(msg.ActionPlayerName, msg.Action, msg.IsSucceed);
+
             update = msg;
-            Dispatcher.Invoke((Action)(() =>
+            Dispatcher.Invoke(() =>
             {
                 UserID.Content = _logic.user.id;
                 UserName.Content = _logic.user.username;
@@ -285,9 +287,40 @@ namespace Client.GuiScreen
 
                 }
 
-            }));
+            });
         }
-   
+
+        private void PopupUser(string userName, CommunicationMessage.ActionType msgAction, bool msgIsSucceed)
+        {
+            if (userName.Equals(_logic.user.username))
+            {
+                string msg = "";
+                switch (msgAction)
+                {
+                    case CommunicationMessage.ActionType.Bet:
+                        msg = "Bet ";
+                        break;
+                    case CommunicationMessage.ActionType.Fold:
+                        msg = "Fold ";
+                        break;
+                    case CommunicationMessage.ActionType.Leave:
+                        msg = "Leave ";
+                        break;
+                    case CommunicationMessage.ActionType.StartGame:
+                        msg = "Start Game ";
+                        break;
+                } 
+                if (msgIsSucceed)
+                {
+                    MessageBox.Show(msg + "succeeded!");
+                    return;
+                }
+                MessageBox.Show(msg + "failed!");
+            }
+
+
+        }
+
         public void AddChatMsg(ChatResponceCommMessage msg)
         {
             Dispatcher.Invoke(DispatcherPriority.Normal,
@@ -342,15 +375,7 @@ namespace Client.GuiScreen
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
         {
-            bool res = _logic.StartTheGame(this.RoomId);
-            if (res)
-            {
-                MessageBox.Show("game started :)");
-            }
-            else
-            {
-                MessageBox.Show("game start FAIL :(");
-            }
+             _logic.StartTheGame(this.RoomId);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -419,18 +444,8 @@ namespace Client.GuiScreen
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                     }
-                    bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
-                    if (ans)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                    }
-                    else
-                    {
-                        UpdateGame(this.update);
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                       
-                    }
-                    break;
+                     _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                   break;
                 case 2://raise
                     int amountw = 0;
                     string tempw = InputForActionTextBox.Text;
@@ -439,47 +454,17 @@ namespace Client.GuiScreen
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                      }
-                    bool answ = _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
-                    if (answ)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                        UpdateGame(this.update);
-                    }
-                    else
-                    {
-                       
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                        UpdateGame(this.update);
-                    }
+                     _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
+                   
                     break;
                 case 3://fold
                     int amountd = -1;
-                    bool ansd = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold, amountd, RoomId);
-                    if (ansd)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                        UpdateGame(this.update);
-                    }
-                    else
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                        UpdateGame(this.update);
-                    }
+                     _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold, amountd, RoomId);
+                    
                     break;
                 case 4://check
                     int amounte = 0;
-                    bool anse = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amounte, RoomId);
-                    if (anse)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                        UpdateGame(this.update);
-                    }
-                    else
-                    {
-
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                        UpdateGame(this.update);
-                    }
+                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amounte, RoomId);
                     break;
             }
         }
