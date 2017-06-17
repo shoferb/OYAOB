@@ -238,7 +238,7 @@ namespace Client.Logic
             return toRet;
         }
 
-        private int generateRandomNegNum()
+        private int GenerateRandomNegNum()
         {
             int rand = new Random().Next();
             return rand * -1;
@@ -246,7 +246,8 @@ namespace Client.Logic
 
         public bool Login(string userName, string password)
         {
-            LoginCommMessage toSend = new LoginCommMessage(-1, true, userName, password);
+            int randNedId = GenerateRandomNegNum();
+            LoginCommMessage toSend = new LoginCommMessage(randNedId, true, userName, password);
             var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend,
                 false, false, new ResponeCommMessage(-1));
             MessagesSentObserver.Add(messageToList);
