@@ -45,5 +45,6 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<IUser> GetUsersByNumOfGames();
         List<IUser> GetUsersByHighestCash();
         List<IUser> GetUsersByTotalProfit();
+        List<IUser> GetUsersByHighestCashn();
     }
 }

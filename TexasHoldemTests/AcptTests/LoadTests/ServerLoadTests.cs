@@ -68,7 +68,18 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(_userId3 == -1);
             Assert.True(_userId4 == -1);
         }
-
+        protected void RestartSystem_register_load()
+        {
+            //delete all users:
+            List<int> allUsers = UserBridge.GetAllUsers();
+            Users.ForEach(u =>
+            {
+                if (!allUsers.Contains(u))
+                {
+                    UserBridge.DeleteUser(u);
+                }
+            });
+        }
         private bool DeleteUser(int id)
         {
             if (id != -1)
