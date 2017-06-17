@@ -427,5 +427,29 @@ namespace TexasHoldem.DatabaseProxy
                 return;
             }
         }
+
+        public void AddGameToUserActiveGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.AddGameToUserActiveGames(userId, roomId, gameId);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void AddGameToUserSpectetorGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.AddGameToUserSpectetorGames(userId, roomId, gameId);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
     }
 }
