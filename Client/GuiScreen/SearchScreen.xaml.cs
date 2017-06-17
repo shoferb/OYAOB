@@ -29,6 +29,7 @@ namespace Client.GuiScreen
             InitializeComponent();
             parent = w;
             cl = cli;
+            cl.SetSearchScreen(this);
             startList = new List<ClientGame>();
             listView.ItemsSource = startList;
 
@@ -68,36 +69,16 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-                JoinResponseCommMessage joinResp = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
-                if (joinResp!=null)
-                {
-
-                    MessageBox.Show("You joined the game successfully!");
-                    GameScreen newGameWindow = new GameScreen(cl);
-                    GameDataCommMessage newRoom = joinResp.GameData;
-                    newGameWindow.UpdateGame(newRoom);
-                    cl.AddNewRoom(newGameWindow);
-                    newGameWindow.Show();
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Joined the game failed!");
-                }
+                cl.JoinTheGame(currRoomId, selectedGame.startingChip);
+                
             }
         }
-
-       
-
- 
 
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
             parent.Show();
             this.Hide();
         }
-
-
 
         private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -106,19 +87,17 @@ namespace Client.GuiScreen
             listView.ItemsSource = startList;
         }
 
-
-
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
 
-    
-
-
-        private void emptySearch()
+        public void EmptySearch()
         {
-            MessageBox.Show("The search returned no results.");
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("The search returned no results.");
+            });
         }
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
@@ -197,7 +176,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -213,7 +192,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -229,7 +208,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -258,7 +237,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -292,7 +271,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -326,7 +305,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -360,7 +339,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -394,7 +373,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -428,7 +407,7 @@ namespace Client.GuiScreen
                 result = temp;
                 if (result == null || !result.Any())
                 {
-                    emptySearch();
+                    EmptySearch();
                 }
                 else
                 {
@@ -449,7 +428,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -473,17 +452,20 @@ namespace Client.GuiScreen
             isValid = int.TryParse(toSearch, out toSearchRoomId);
             if (isValid)
             {
-                temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
+                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
+                //    GameMode.Limit);
+                //result = temp;
+                //if (result == null || !result.Any())
+                //{
+                EmptySearch();
+                //}
+                //else
+                //{
+                //    listView.ItemsSource = result;
+                //}
+
+                cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
                     GameMode.Limit);
-                result = temp;
-                if (result == null || !result.Any())
-                {
-                    emptySearch();
-                }
-                else
-                {
-                    listView.ItemsSource = result;
-                }
             }
             else
             {
@@ -499,7 +481,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -522,7 +504,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -546,7 +528,7 @@ namespace Client.GuiScreen
             result = temp;
             if (result == null || !result.Any())
             {
-                emptySearch();
+                EmptySearch();
             }
             else
             {
@@ -672,26 +654,63 @@ namespace Client.GuiScreen
             }
             else
             {
-                JoinResponseCommMessage joinResp = cl.SpectateRoom(roomIdToSpectate);
-                if (joinResp==null)
+               cl.SpectateRoom(roomIdToSpectate);
+               
+            }
+        }
+
+        public void JoinOkay(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData.IsSucceed)
+            {
+
+                Dispatcher.Invoke(() =>
                 {
-                    MessageBox.Show("You Can't be a spectator in this game!");
-                }
-                else
+                    MessageBox.Show("You joined the game successfully!");
+                    GameScreen newGameWindow = new GameScreen(cl);
+                    newGameWindow.UpdateGame(msgGameData);
+                    cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    this.Hide();
+                });
+            }
+
+            else
+            {
+                MessageBox.Show("Joined the game failed!");
+            }
+        }
+
+        public void JoinOkayAsSpectate(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData == null)
+            {
+                MessageBox.Show("You Can't be a spectator in this game!");
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show("You joined the game successfully! as Spectetor");
                     GameScreen newGameWindow = new GameScreen(cl);
                     newGameWindow.isSpectrtor = true;
-                    GameDataCommMessage newRoom = joinResp.GameData;
-                    newGameWindow.UpdateGame(newRoom);
                     cl.AddNewRoom(newGameWindow);
                    
 
                     newGameWindow.Show();
                     
                     this.Hide();
-                }
+                });
             }
+        }
+
+        public void ResultRecived(List<ClientGame> games)
+        {
+            result = games;
+            Dispatcher.Invoke(() =>
+            {
+                listView.ItemsSource = result;
+            });
         }
     }
 }

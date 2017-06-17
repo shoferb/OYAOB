@@ -51,9 +51,10 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameTestGood()
         {
-            RestartSystem();
+              RestartSystem();
+            RoomId = -1;
             SetupUser1();
-            Assert.True(RoomId == -1);
+           
             Assert.False(UserBridge.getUserById(UserId) == null);
             RoomId = GameBridge.CreateGameRoom(UserId, 100);
             Assert.True(RoomId != -1);
@@ -73,9 +74,9 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameWithPrefTestGood()
         {
-            RestartSystem();
+           // RestartSystem();
             SetupUser1();
-
+            RoomId = -1;
             Assert.True(RoomId == -1);
             RoomId = GameBridge.CreateGameRoomWithPref(UserId, 100, true, GameMode.Limit, 2, 8, 0, 10);
             Assert.True(RoomId != -1);
@@ -87,7 +88,8 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateGameWithPrefTestBad()
         {
-            RestartSystem();
+           // RestartSystem();
+            RoomId = -1;
             SetupUser1();
             Assert.True(RoomId == -1);
             Assert.False(UserBridge.getUserById(UserId) == null);
@@ -101,8 +103,9 @@ namespace TexasHoldemTests.AcptTests.tests
         public void ListActiveGamesTestGood()
         {
             //delete all users and games, register user1
-            RestartSystem();
+          //  RestartSystem();
             SetupUser1();
+            RoomId = -1;
             Assert.True(RoomId == -1);
             Assert.True(UserBridge.IsThereUser(UserId));
             RoomId = GameBridge.CreateGameRoom(UserId, 10);
