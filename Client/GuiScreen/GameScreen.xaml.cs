@@ -56,7 +56,7 @@ namespace Client.GuiScreen
        
         public void UpdateGame(GameDataCommMessage msg)
         {
-            PopupUser(msg.Action, msg.IsSucceed);
+            PopupUser(msg.ActionPlayerName, msg.Action, msg.IsSucceed);
 
             update = msg;
             Dispatcher.Invoke(() =>
@@ -256,31 +256,34 @@ namespace Client.GuiScreen
             });
         }
 
-        private void PopupUser(CommunicationMessage.ActionType msgAction, bool msgIsSucceed)
+        private void PopupUser(string userName, CommunicationMessage.ActionType msgAction, bool msgIsSucceed)
         {
-            string msg = "";
-            switch (msgAction)
+            if (userName.Equals(_logic.user.username))
             {
-                case CommunicationMessage.ActionType.Bet:
-                    msg = "Bet ";
-                    break;
-                case CommunicationMessage.ActionType.Fold:
-                    msg = "Fold ";
-                    break;
-                case CommunicationMessage.ActionType.Leave:
-                    msg = "Leave ";
-                    break;
-                case CommunicationMessage.ActionType.StartGame:
-                    msg = "Start Game ";
-                    break;
+                string msg = "";
+                switch (msgAction)
+                {
+                    case CommunicationMessage.ActionType.Bet:
+                        msg = "Bet ";
+                        break;
+                    case CommunicationMessage.ActionType.Fold:
+                        msg = "Fold ";
+                        break;
+                    case CommunicationMessage.ActionType.Leave:
+                        msg = "Leave ";
+                        break;
+                    case CommunicationMessage.ActionType.StartGame:
+                        msg = "Start Game ";
+                        break;
+                } 
+                if (msgIsSucceed)
+                {
+                    MessageBox.Show(msg + "succeeded!");
+                    return;
+                }
+                MessageBox.Show(msg + "failed!");
             }
 
-            if (msgIsSucceed)
-            {
-                MessageBox.Show(msg + "succeeded!");
-                return;
-            }
-            MessageBox.Show(msg + "failed!");
 
         }
 
