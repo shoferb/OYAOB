@@ -72,7 +72,13 @@ namespace TexasHoldem.communication.Impl
         {
             string data = msg.Item1;
             var parsedMsgs = _parser.ParseString(data, true);
-            parsedMsgs.ForEach(m => HandleSingleRawMsg(m, msg.Item2));
+            parsedMsgs.ForEach(m =>
+            {
+                if (m != null)
+                {
+                    HandleSingleRawMsg(m, msg.Item2);
+                }
+            });          
         }
 
         private void HandleSingleRawMsg(CommunicationMessage parsedMsg, TcpClient tcpClient)
