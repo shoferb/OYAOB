@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client.GuiScreen"
         mc:Ignorable="d"
-        Title="OYAOB - Texas Holdem Poker" Height="701.2" Width="1233.114" WindowState="Maximized" Icon="/GuiScreen/Photos/Screen/icon.png">
+        Title="OYAOB - Texas Holdem Poker" Height="701.2" Width="1233.114"  Icon="/GuiScreen/Photos/Screen/icon.png">
     <Window.Background>
         <ImageBrush ImageSource="Photos/Screen/POKERslidesearch.png"/>
     </Window.Background>

@@ -681,6 +681,7 @@ namespace Client.GuiScreen
                 {
                     MessageBox.Show("You joined the game successfully! as Spectetor");
                     GameScreen newGameWindow = new GameScreen(cl);
+                    newGameWindow.isSpectrtor = true;
                     GameDataCommMessage newRoom = joinResp.GameData;
                     newGameWindow.UpdateGame(newRoom);
                     cl.AddNewRoom(newGameWindow);

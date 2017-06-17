@@ -36,7 +36,7 @@ namespace Client.GuiScreen
         bool SpecOrPlay;//spec=false, play=true;
         private ClientLogic _logic;
         private GameDataCommMessage update;
-        private bool isSpectrtor = false;
+        public bool isSpectrtor { get; set; }
         public GameScreen(ClientLogic c)
         {
             InitializeComponent();
@@ -52,6 +52,7 @@ namespace Client.GuiScreen
             ActionChosenComboBox.Visibility = Visibility.Hidden;
             InputForActionTextBox.Visibility = Visibility.Hidden;
             DoActiomBotton.Visibility = Visibility.Hidden;
+            isSpectrtor = false;
         }
        
         public void UpdateGame(GameDataCommMessage msg)
@@ -184,14 +185,18 @@ namespace Client.GuiScreen
                     this.DealerName = msg.DealerName;
                     this.DealerNameLabel.Content = msg.DealerName;
                 }
-                if ((msg.PlayerCards[0] != null) || (msg.PlayerCards[1] != null))
+                if (!isSpectrtor)
                 {
-                    this.PlayerCards = msg.PlayerCards;
-                    string pre1 = "First Card is :    ";
-                    string pre2 = "Second Card is : ";
-                    this.Card1Labek.Content = string.Concat(pre1, (msg.PlayerCards[0]).ToString());
-                    this.Card2Label.Content = string.Concat(pre2, (msg.PlayerCards[1]).ToString());
+                    if ((msg.PlayerCards[0] != null) || (msg.PlayerCards[1] != null))
+                    {
+                        this.PlayerCards = msg.PlayerCards;
+                        string pre1 = "First Card is :    ";
+                        string pre2 = "Second Card is : ";
+                        this.Card1Labek.Content = string.Concat(pre1, (msg.PlayerCards[0]).ToString());
+                        this.Card2Label.Content = string.Concat(pre2, (msg.PlayerCards[1]).ToString());
+                    }
                 }
+              
 
                 this.PotSize = msg.PotSize;
                 this.PotAmountLabel.Content = msg.PotSize;
@@ -211,9 +216,12 @@ namespace Client.GuiScreen
                         }
                     }
                 }
-
-                this.TotalChips = msg.TotalChips;
-                this.ChipAmountLabel.Content = msg.TotalChips;
+                if (!isSpectrtor)
+                {
+                    this.TotalChips = msg.TotalChips;
+                    this.ChipAmountLabel.Content = msg.TotalChips;
+                }
+                
                 if (msg.IsSucceed)
                 {
                     string msgToChat = "";
@@ -245,11 +253,17 @@ namespace Client.GuiScreen
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
-                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " left the game.");
-                        if (msg.ActionPlayerName.Equals(_logic.user.username))
+                        if (isSpectrtor)
                         {
-                            this.Close();
+                            msgToChat = string.Concat("*GAME MESSAGE* ", " player: " + msg.ActionPlayerName,
+                                " left the game.");
                         }
+                        else
+                        {
+                            msgToChat = string.Concat("*GAME MESSAGE* ", " spectetor: " + msg.ActionPlayerName,
+                                " left the game.");
+                        }
+                        
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.StartGame))
                     {
@@ -264,6 +278,10 @@ namespace Client.GuiScreen
                     ListViewItem toAdd = new ListViewItem();
                     toAdd.Content = msgToChat;
                     this.chatListView.Items.Add(toAdd);
+                    if (msg.ActionPlayerName.Equals(_logic.user.username) && msg.Action.Equals(CommunicationMessage.ActionType.Leave))
+                    {
+                        this.Close();
+                    }
 
                 }
 
