@@ -406,19 +406,8 @@ namespace Client.GuiScreen
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                     }
-                    bool ans = _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
-                    //bool ans = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
-                    if (ans)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                    }
-                    else
-                    {
-                        UpdateGame(this.update);
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                       
-                    }
-                    break;
+                     _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amount, RoomId);
+                   break;
                 case 2://raise
                     int amountw = 0;
                     string tempw = InputForActionTextBox.Text;
@@ -427,47 +416,17 @@ namespace Client.GuiScreen
                     {
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Invalid Amount")));
                      }
-                    bool answ = _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
-                    if (answ)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                        UpdateGame(this.update);
-                    }
-                    else
-                    {
-                       
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                        UpdateGame(this.update);
-                    }
+                     _logic.NotifyChosenMove(CommunicationMessage.ActionType.Bet, amount, RoomId);
+                   
                     break;
                 case 3://fold
                     int amountd = -1;
-                    bool ansd = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold, amountd, RoomId);
-                    if (ansd)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                        UpdateGame(this.update);
-                    }
-                    else
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                        UpdateGame(this.update);
-                    }
+                     _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Fold, amountd, RoomId);
+                    
                     break;
                 case 4://check
                     int amounte = 0;
-                    bool anse = _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amounte, RoomId);
-                    if (anse)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Succeeded")));
-                        UpdateGame(this.update);
-                    }
-                    else
-                    {
-
-                        Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
-                        UpdateGame(this.update);
-                    }
+                    _logic.NotifyChosenMove(TexasHoldemShared.CommMessages.CommunicationMessage.ActionType.Bet, amounte, RoomId);
                     break;
             }
         }
