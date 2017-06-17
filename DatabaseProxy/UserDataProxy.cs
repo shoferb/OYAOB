@@ -401,5 +401,31 @@ namespace TexasHoldem.DatabaseProxy
                 return;
             }
         }
+
+        public void DeleteSpectetorGameOfUSer(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.DeleteSpectetorGameOfUSer(userId, roomId, gameId);
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void DeleteActiveGameOfUser(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.DeleteActiveGameOfUser(userId,roomId,gameId);
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
     }
 }
