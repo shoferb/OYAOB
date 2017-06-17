@@ -7,7 +7,6 @@ using Client.Handler;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
-using System.Windows.Forms;
 
 namespace Client.Logic
 {
@@ -386,20 +385,24 @@ namespace Client.Logic
                     msg.Success,
                     msg);
                 MessagesSentObserver.Add(toAdd);
+                return;
             }
-            else if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
+            if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
             {
                 SearchResultRecived(((SearchResponseCommMessage) msg).Games);
+                return;
             }
-            else if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
+            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+                 (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
             {
-                _searchScreen.JoinOkay(msg.GameData);
+                _searchScreen.JoinOkay(((JoinResponseCommMessage) msg).GameData);
+                return;
             }
-            else if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
+            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+                 (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
             {
                 _searchScreen.JoinOkayAsSpectate(msg.GameData);
+                return;
             }
 
             GameUpdateReceived(msg.GameData);
@@ -412,7 +415,11 @@ namespace Client.Logic
             {
                 if (games.Any())
                 {
-                    
+                    _searchScreen.ResultRecived(games);
+                }
+                else
+                {
+                    _searchScreen.EmptySearch();
                 }
             }
         }

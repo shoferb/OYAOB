@@ -663,12 +663,16 @@ namespace Client.GuiScreen
         {
             if (msgGameData.IsSucceed)
             {
-                MessageBox.Show("You joined the game successfully!");
-                GameScreen newGameWindow = new GameScreen(cl);
-                newGameWindow.UpdateGame(msgGameData);
-                cl.AddNewRoom(newGameWindow);
-                newGameWindow.Show();
-                this.Hide();
+
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You joined the game successfully!");
+                    GameScreen newGameWindow = new GameScreen(cl);
+                    newGameWindow.UpdateGame(msgGameData);
+                    cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    this.Hide();
+                });
             }
 
             else
@@ -685,19 +689,25 @@ namespace Client.GuiScreen
             }
             else
             {
-                MessageBox.Show("You joined the game successfully! as Spectetor");
-                GameScreen newGameWindow = new GameScreen(cl);
-                newGameWindow.UpdateGame(msgGameData);
-                cl.AddNewRoom(newGameWindow);
-                newGameWindow.Show();
-                this.Hide();
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You joined the game successfully! as Spectetor");
+                    GameScreen newGameWindow = new GameScreen(cl);
+                    newGameWindow.UpdateGame(msgGameData);
+                    cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    this.Hide();
+                });
             }
-        }
         }
 
         public void ResultRecived(List<ClientGame> games)
         {
             result = games;
-            listView.ItemsSource = result;
+            Dispatcher.Invoke(() =>
+            {
+                listView.ItemsSource = result;
+            });
+        }
     }
 }
