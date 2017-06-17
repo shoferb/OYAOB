@@ -130,7 +130,8 @@ namespace TexasHoldemTests.AcptTests.tests
             User1Name = "orelie" + UserId;
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
-            Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
+            RegisterUser1();
+            Assert.True(UserBridge.LoginUser(User1Name,User1Pw));
             UserBridge.DeleteUser(UserId);
         }
 
