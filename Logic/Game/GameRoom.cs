@@ -575,8 +575,9 @@ namespace TexasHoldem.Logic.Game
             logControl.AddSystemLog(log2);
             maxBetInRound = Bb;
 
+            HandCardsAndInitPlayers(player);
             MoveBbnSBtoPot();
-            HandCardsAndInitPlayers(player); 
+
             IncGamesCounterForPlayers();
             IsActiveGame = true;
             gameData = GetGameData(player, 0, true, ActionType.StartGame);
@@ -803,6 +804,7 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = 0;
             lastRaiseInRound = 0;
             GameReplay = new GameReplay(Id, GameNumber);
+            Hand_Step = HandStep.PreFlop;
             return true;
         }
 
