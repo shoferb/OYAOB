@@ -426,6 +426,15 @@ namespace Client.Logic
 
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
+            if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
+            {
+                if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
+                 ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
+                {
+                    return;
+                }
+            }
+            
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
                 MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
             MessagesSentObserver.Remove(toEdit);
