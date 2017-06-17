@@ -194,6 +194,13 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddNewSpectetorGamesOfUser")]
+		public int AddNewSpectetorGamesOfUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId, gameId);
+			return ((int)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddNewUser")]
 		public int AddNewUser([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string username, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string name, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string password, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string avatar, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> points, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> money, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gamesPlayed, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> leagueName, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> winNum, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> highestCashGainInGame, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> totalProfit, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Bit")] System.Nullable<bool> isActive)
 		{
@@ -201,10 +208,10 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateGameRoomPotSize")]
-		public int UpdateGameRoomPotSize([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newPotSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.AddUserActiveGame")]
+		public int AddUserActiveGame([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newPotSize, id);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId, gameId);
 			return ((int)(result.ReturnValue));
 		}
 		
@@ -243,6 +250,13 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((int)(result.ReturnValue));
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserActiveGame")]
+		public int DeleteUserActiveGame([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId, gameId);
+			return ((int)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserById")]
 		public int DeleteUserById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId)
 		{
@@ -254,6 +268,13 @@ namespace TexasHoldem.Database.LinqToSql
 		public int DeleteUserByUserName([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(50)")] string userName)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName);
+			return ((int)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.DeleteUserSpectetorGame")]
+		public int DeleteUserSpectetorGame([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> roomId, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> gameId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, roomId, gameId);
 			return ((int)(result.ReturnValue));
 		}
 		
@@ -383,6 +404,20 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((ISingleResult<GetAllUserResult>)(result.ReturnValue));
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllUserActiveGame")]
+		public ISingleResult<GetAllUserActiveGameResult> GetAllUserActiveGame([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((ISingleResult<GetAllUserActiveGameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetErrorLogById")]
+		public ISingleResult<GetErrorLogByIdResult> GetErrorLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((ISingleResult<GetErrorLogByIdResult>)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetGameModeNameByVal")]
 		public ISingleResult<GetGameModeNameByValResult> GetGameModeNameByVal([global::System.Data.Linq.Mapping.ParameterAttribute(Name="Val", DbType="Int")] System.Nullable<int> val)
 		{
@@ -474,6 +509,13 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((ISingleResult<GetLeageValByNameResult>)(result.ReturnValue));
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSystemLogById")]
+		public ISingleResult<GetSystemLogByIdResult> GetSystemLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
+			return ((ISingleResult<GetSystemLogByIdResult>)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetUserByUserId")]
 		public ISingleResult<GetUserByUserIdResult> GetUserByUserId([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId)
 		{
@@ -486,6 +528,13 @@ namespace TexasHoldem.Database.LinqToSql
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), username);
 			return ((ISingleResult<GetUserByUserNameResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetUserSpectetorsGame")]
+		public ISingleResult<GetUserSpectetorsGameResult> GetUserSpectetorsGame([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((ISingleResult<GetUserSpectetorsGameResult>)(result.ReturnValue));
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.InsertGameRoomToDb")]
@@ -509,18 +558,11 @@ namespace TexasHoldem.Database.LinqToSql
 			return ((int)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetErrorLogById")]
-		public ISingleResult<GetErrorLogByIdResult> GetErrorLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.UpdateGameRoomPotSize")]
+		public int UpdateGameRoomPotSize([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> newPotSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> id)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
-			return ((ISingleResult<GetErrorLogByIdResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetSystemLogById")]
-		public ISingleResult<GetSystemLogByIdResult> GetSystemLogById([global::System.Data.Linq.Mapping.ParameterAttribute(Name="LogId", DbType="Int")] System.Nullable<int> logId)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), logId);
-			return ((ISingleResult<GetSystemLogByIdResult>)(result.ReturnValue));
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), newPotSize, id);
+			return ((int)(result.ReturnValue));
 		}
 	}
 	
@@ -3843,6 +3885,112 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
+	public partial class GetAllUserActiveGameResult
+	{
+		
+		private int _userId;
+		
+		private int _roomId;
+		
+		private int _Game_Id;
+		
+		public GetAllUserActiveGameResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
+		{
+			get
+			{
+				return this._userId;
+			}
+			set
+			{
+				if ((this._userId != value))
+				{
+					this._userId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
+		{
+			get
+			{
+				return this._Game_Id;
+			}
+			set
+			{
+				if ((this._Game_Id != value))
+				{
+					this._Game_Id = value;
+				}
+			}
+		}
+	}
+	
+	public partial class GetErrorLogByIdResult
+	{
+		
+		private int _logId;
+		
+		private string _msg;
+		
+		public GetErrorLogByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_logId", DbType="Int NOT NULL")]
+		public int logId
+		{
+			get
+			{
+				return this._logId;
+			}
+			set
+			{
+				if ((this._logId != value))
+				{
+					this._logId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(150)")]
+		public string msg
+		{
+			get
+			{
+				return this._msg;
+			}
+			set
+			{
+				if ((this._msg != value))
+				{
+					this._msg = value;
+				}
+			}
+		}
+	}
+	
 	public partial class GetGameModeNameByValResult
 	{
 		
@@ -4577,6 +4725,86 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
+	public partial class GetSystemLogByIdResult
+	{
+		
+		private int _logId;
+		
+		private string _msg;
+		
+		private int _roomId;
+		
+		private int _game_Id;
+		
+		public GetSystemLogByIdResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_logId", DbType="Int NOT NULL")]
+		public int logId
+		{
+			get
+			{
+				return this._logId;
+			}
+			set
+			{
+				if ((this._logId != value))
+				{
+					this._logId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(150)")]
+		public string msg
+		{
+			get
+			{
+				return this._msg;
+			}
+			set
+			{
+				if ((this._msg != value))
+				{
+					this._msg = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_roomId", DbType="Int NOT NULL")]
+		public int roomId
+		{
+			get
+			{
+				return this._roomId;
+			}
+			set
+			{
+				if ((this._roomId != value))
+				{
+					this._roomId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL")]
+		public int game_Id
+		{
+			get
+			{
+				return this._game_Id;
+			}
+			set
+			{
+				if ((this._game_Id != value))
+				{
+					this._game_Id = value;
+				}
+			}
+		}
+	}
+	
 	public partial class GetUserByUserIdResult
 	{
 		
@@ -5097,93 +5325,31 @@ namespace TexasHoldem.Database.LinqToSql
 		}
 	}
 	
-	public partial class GetErrorLogByIdResult
+	public partial class GetUserSpectetorsGameResult
 	{
 		
-		private int _logId;
-		
-		private string _msg;
-		
-		public GetErrorLogByIdResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_logId", DbType="Int NOT NULL")]
-		public int logId
-		{
-			get
-			{
-				return this._logId;
-			}
-			set
-			{
-				if ((this._logId != value))
-				{
-					this._logId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(150)")]
-		public string msg
-		{
-			get
-			{
-				return this._msg;
-			}
-			set
-			{
-				if ((this._msg != value))
-				{
-					this._msg = value;
-				}
-			}
-		}
-	}
-	
-	public partial class GetSystemLogByIdResult
-	{
-		
-		private int _logId;
-		
-		private string _msg;
+		private int _userId;
 		
 		private int _roomId;
 		
-		private int _game_Id;
+		private int _Game_Id;
 		
-		public GetSystemLogByIdResult()
+		public GetUserSpectetorsGameResult()
 		{
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_logId", DbType="Int NOT NULL")]
-		public int logId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userId", DbType="Int NOT NULL")]
+		public int userId
 		{
 			get
 			{
-				return this._logId;
+				return this._userId;
 			}
 			set
 			{
-				if ((this._logId != value))
+				if ((this._userId != value))
 				{
-					this._logId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_msg", DbType="VarChar(150)")]
-		public string msg
-		{
-			get
-			{
-				return this._msg;
-			}
-			set
-			{
-				if ((this._msg != value))
-				{
-					this._msg = value;
+					this._userId = value;
 				}
 			}
 		}
@@ -5204,18 +5370,18 @@ namespace TexasHoldem.Database.LinqToSql
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[game Id]", Storage="_game_Id", DbType="Int NOT NULL")]
-		public int game_Id
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Game Id]", Storage="_Game_Id", DbType="Int NOT NULL")]
+		public int Game_Id
 		{
 			get
 			{
-				return this._game_Id;
+				return this._Game_Id;
 			}
 			set
 			{
-				if ((this._game_Id != value))
+				if ((this._Game_Id != value))
 				{
-					this._game_Id = value;
+					this._Game_Id = value;
 				}
 			}
 		}
