@@ -495,5 +495,21 @@ namespace TexasHoldem.Database.DataControlers
                 return;
             }
         }
+
+        public void DeleteSpectetorGameOfUSer(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.DeleteUserSpectetorGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
     }
 }
