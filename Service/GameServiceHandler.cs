@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Windows.Documents;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
@@ -10,8 +8,6 @@ using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
-using TexasHoldemShared.CommMessages.ClientToServer;
-using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Service
 {
@@ -19,12 +15,11 @@ namespace TexasHoldem.Service
     {
         
         private static GameCenter _gameCenter;
-        private SystemControl _systemControl;
-        private ReplayManager _replayManager;
+        private readonly SystemControl _systemControl;
+        private readonly ReplayManager _replayManager;
         private LogControl _logControl;
-        private MessageEventHandler _eventHandler;
         private SessionIdHandler _sidHandler;
-        private GameDataProxy proxyDB;
+        private readonly GameDataProxy _proxyDb;
 
         public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, 
             ReplayManager replay, SessionIdHandler sidHandler)
@@ -34,8 +29,8 @@ namespace TexasHoldem.Service
             _logControl = log;
             _replayManager = replay;
             this._sidHandler = sidHandler;
-            _eventHandler = new MessageEventHandler(gc, sys, log, replay, sidHandler);
-            proxyDB = new GameDataProxy(_gameCenter);
+            new MessageEventHandler(gc, sys, log, replay, sidHandler);
+            _proxyDb = new GameDataProxy(_gameCenter);
         }
 
         public IEnumerator<ActionResultInfo> DoAction(int userId, CommunicationMessage.ActionType action,
@@ -43,6 +38,18 @@ namespace TexasHoldem.Service
         {
             IUser user = _systemControl.GetUserWithId(userId);
             return _gameCenter.DoAction(user, action, amount, roomId);
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(int userId, int roomId)
+        {
+            IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.ReturnToGameAsPlayer(user, roomId);
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(int userId, int roomId)
+        {
+            IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.ReturnToGameAsSpec(user, roomId);
         }
 
         public List<Player> GetPlayersInRoom(int roomId)
@@ -121,8 +128,8 @@ namespace TexasHoldem.Service
             if (gameRoom != null && user != null)
             {
                 inumerator = gameRoom.AddSpectetorToRoom(user);
-                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
-                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
+                _proxyDb.UpdateGameRoom((GameRoom)gameRoom);
+                _proxyDb.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
             }
             return inumerator;
         }

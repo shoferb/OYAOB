@@ -122,14 +122,14 @@ namespace Client.Logic
 
         public void ReturnGamePlayer(int roomId)
         {
-            ReturnToGameAsPlayer toSend = new ReturnToGameAsPlayer(user.id, _sessionId,
+            ReturnToGameAsPlayerCommMsg toSend = new ReturnToGameAsPlayerCommMsg(user.id, _sessionId,
                    roomId);
             _eventHandler.SendNewEvent(toSend);
         }
 
         //public void ReturnGameSpec(int roomId)
         //{
-        //    ReturnToGameAsSpec toSend = new ReturnToGameAsSpec(user.id, _sessionId,                   
+        //    ReturnToGameAsSpecCommMsg toSend = new ReturnToGameAsSpecCommMsg(user.id, _sessionId,                   
         //            roomId);
         //    _eventHandler.SendNewEvent(toSend);
         //}

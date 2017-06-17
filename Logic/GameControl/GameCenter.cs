@@ -433,6 +433,18 @@ namespace TexasHoldem.Logic.GameControl
                 return isSenderSpectetor && isReciverSpector && isReceiverActive;
             }
         }
+
+        //TODO
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user, int roomId)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user, int roomId)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

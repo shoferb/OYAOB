@@ -15,8 +15,8 @@ namespace TexasHoldemShared
         ResponeCommMessage HandleEvent(ReplayCommMessage msg); 
         ResponeCommMessage HandleEvent(UserStatisticsCommMessage msg);
         ResponeCommMessage HandleEvent(LeaderboardCommMessage msg);
-        ResponeCommMessage HandleEvent(ReturnToGameAsPlayer msg);
-        ResponeCommMessage HandleEvent(ReturnToGameAsSpec msg);
+        ResponeCommMessage HandleEvent(ReturnToGameAsPlayerCommMsg msg);
+        ResponeCommMessage HandleEvent(ReturnToGameAsSpecCommMsg msg);
         //server to client:
         ResponeCommMessage HandleEvent(GameDataCommMessage msg);
         ResponeCommMessage HandleEvent(ResponeCommMessage msg);

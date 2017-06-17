@@ -57,7 +57,9 @@
     <Compile Include="CommMessages\ClientToServer\ChatCommMessage.cs" />
     <Compile Include="CommMessages\ClientGame.cs" />
     <Compile Include="CommMessages\ClientToServer\CreateNewRoomMessage.cs" />
-    <Compile Include="CommMessages\ClientToServer\ReturnToGameAsPlayer.cs" />
+    <Compile Include="CommMessages\ClientToServer\ReturnToGameAsPlayerCommMsg.cs" />
+    <Compile Include="CommMessages\ClientToServer\ReturnToGameAsSpecCommMsg.cs" />
+    <Compile Include="CommMessages\ClientToServer\ReturnToGameCommMsg.cs" />
     <Compile Include="CommMessages\GameMode.cs" />
     <Compile Include="CommMessages\ClientToServer\LeaderboardCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\ReplayCommMessage.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="CommMessages\ServerToClient\RegisterResponeCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ReplaySearchResponseCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
+    <Compile Include="CommMessages\ServerToClient\ReturnToGameResponseCommMsg.cs" />
     <Compile Include="CommMessages\ServerToClient\SearchResponseCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\UserStatisticsCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\UserStatisticsResponseCommMessage.cs" />

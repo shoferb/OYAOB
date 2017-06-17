@@ -14,22 +14,20 @@ namespace TexasHoldem.Service
 {
     public class UserServiceHandler 
     {
-        private SystemControl sc;
-        private GameCenter gc;
-        private UserDataProxy userDataProxy;
+        private readonly SystemControl _sc;
+        private readonly UserDataProxy _userDataProxy;
 
         public UserServiceHandler (GameCenter game, SystemControl system)
         {
-            sc = system;
-            gc = game;
-            userDataProxy = new UserDataProxy();
+            _sc = system;
+            _userDataProxy = new UserDataProxy();
         }
 
         //Use-Case: user can login to system
 
         public IUser LoginUser(string username, string password)
         {
-            IUser user = sc.GetIUSerByUsername(username);
+            IUser user = _sc.GetIUSerByUsername(username);
             if (user == null || !user.Password().Equals(password))
             {
                 return user;
@@ -39,7 +37,7 @@ namespace TexasHoldem.Service
             if (user.Login())
             {
                 Console.WriteLine("before login db");
-                userDataProxy.Login(user);
+                _userDataProxy.Login(user);
                 Console.WriteLine("after login db");
             }
             return user;
@@ -49,7 +47,7 @@ namespace TexasHoldem.Service
         //Use-Case: user can logput from system
         public IUser LogoutUser(int userId)
         {
-            IUser user = sc.GetUserWithId(userId);
+            IUser user = _sc.GetUserWithId(userId);
             if (user == null || !user.IsLogin())
             {
                 return user;
@@ -58,7 +56,7 @@ namespace TexasHoldem.Service
             var toReturn = user.Logout();
             if (toReturn)
             {
-                userDataProxy.Logout(user);
+                _userDataProxy.Logout(user);
                 return user;
             }
             return null;
@@ -68,7 +66,7 @@ namespace TexasHoldem.Service
         //register to system - return bool that tell is success or fail - syncronized
         public bool RegisterToSystem(int id, string name, string memberName, string password, int money, string email)
         {
-            return sc.RegisterToSystem(id, name, memberName, password, money, email);
+            return _sc.RegisterToSystem(id, name, memberName, password, money, email);
         }
 
 
@@ -76,12 +74,12 @@ namespace TexasHoldem.Service
         public bool DeleteUser(string name, string password)
         {
             bool toReturn = false;
-            IUser user = sc.GetIUSerByUsername(name);
+            IUser user = _sc.GetIUSerByUsername(name);
             if (user == null || !user.Password().Equals(password))
             {
                 return toReturn;
             }
-            toReturn = sc.RemoveUserByUserNameAndPassword(name, password);
+            toReturn = _sc.RemoveUserByUserNameAndPassword(name, password);
             return toReturn;
         }
 
@@ -89,7 +87,7 @@ namespace TexasHoldem.Service
         public bool DeleteUserById(int id)
         {
             
-            bool toReturn = sc.RemoveUserById(id);
+            bool toReturn = _sc.RemoveUserById(id);
             return toReturn;
         }
 
@@ -99,7 +97,7 @@ namespace TexasHoldem.Service
         public bool EditUserPoints(int userId, int newPoints)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
+            IUser user = _sc.GetUserWithId(userId);
             if (user == null)
             {
                 return toReturn;
@@ -107,7 +105,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditUserPoints(newPoints);
             if (toReturn)
             {
-                userDataProxy.EditUserPoints(userId,newPoints);
+                _userDataProxy.EditUserPoints(userId,newPoints);
             }
             return toReturn;
         }
@@ -116,7 +114,7 @@ namespace TexasHoldem.Service
         public bool EditUserPassword(int userId, string newPassword)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
+            IUser user = _sc.GetUserWithId(userId);
             if (user == null)
             {
                 return toReturn;
@@ -124,7 +122,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditPassword(newPassword);
             if (toReturn)
             {
-                userDataProxy.EditPassword(userId,newPassword);
+                _userDataProxy.EditPassword(userId,newPassword);
             }
             return toReturn;
         }
@@ -134,7 +132,7 @@ namespace TexasHoldem.Service
         public bool EditUserEmail(int userId, string newEmail)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
+            IUser user = _sc.GetUserWithId(userId);
             if (user == null)
             {
                 return toReturn;
@@ -142,7 +140,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditEmail(newEmail);
             if (toReturn)
             {
-                userDataProxy.EditEmail(userId,newEmail);
+                _userDataProxy.EditEmail(userId,newEmail);
             }
             return toReturn;
         }
@@ -151,15 +149,15 @@ namespace TexasHoldem.Service
         public bool EditUserName(int userId, string newName)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
-            if (user == null || !sc.IsUsernameFree(newName))
+            IUser user = _sc.GetUserWithId(userId);
+            if (user == null || !_sc.IsUsernameFree(newName))
             {
                 return toReturn;
             }
             toReturn = user.EditUserName(newName);
             if (toReturn)
             {
-                userDataProxy.EditUserName(userId, newName);
+                _userDataProxy.EditUserName(userId, newName);
             }
             return toReturn;
         }
@@ -168,7 +166,7 @@ namespace TexasHoldem.Service
         public bool EditName(int userId, string newName)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
+            IUser user = _sc.GetUserWithId(userId);
             if (user == null)
             {
                 return toReturn;
@@ -176,7 +174,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditName(newName);
             if (toReturn)
             {
-                userDataProxy.EditName(userId, newName);
+                _userDataProxy.EditName(userId, newName);
             }
             return toReturn;
         }
@@ -186,15 +184,15 @@ namespace TexasHoldem.Service
         public bool EditId(int userId, int newId)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
-            if (user == null || !sc.IsIdFree(newId))
+            IUser user = _sc.GetUserWithId(userId);
+            if (user == null || !_sc.IsIdFree(newId))
             {
                 return toReturn;
             }
             toReturn = user.EditId(newId);
             if (toReturn)
             {
-                userDataProxy.EditUserId(userId, newId);
+                _userDataProxy.EditUserId(userId, newId);
             }
             return toReturn;
         }
@@ -203,7 +201,7 @@ namespace TexasHoldem.Service
         public bool EditMoney(int userId, int newmoney)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(userId);
+            IUser user = _sc.GetUserWithId(userId);
             if (user == null)
             {
                 return toReturn;
@@ -211,20 +209,16 @@ namespace TexasHoldem.Service
             toReturn = user.EditUserMoney(newmoney);
             if (toReturn)
             {
-                userDataProxy.EditUserMoney(userId, newmoney);
+                _userDataProxy.EditUserMoney(userId, newmoney);
             }
             return toReturn;
         }
  
-
-
-     
-
         //use-case: user can edit is avatar
         public bool EditUserAvatar(int id, string newAvatarPath)
         {
             bool toReturn = false;
-            IUser user = sc.GetUserWithId(id);
+            IUser user = _sc.GetUserWithId(id);
             if (user == null)
             {
                 return toReturn;
@@ -232,7 +226,7 @@ namespace TexasHoldem.Service
             toReturn = user.EditAvatar(newAvatarPath);
             if (toReturn)
             {
-                userDataProxy.EditUserAvatar(id, newAvatarPath);
+                _userDataProxy.EditUserAvatar(id, newAvatarPath);
             }
             return toReturn;
         }
@@ -240,56 +234,56 @@ namespace TexasHoldem.Service
 
         public List<IGame> GetActiveGamesByUserName(string userName)
         {
-            List<IGame> toReturn = sc.GetActiveGamesByUserName(userName);
+            List<IGame> toReturn = _sc.GetActiveGamesByUserName(userName);
             return toReturn;
         }
 
         
         public List<IGame> GetSpectetorGamesByUserName(string userName)
         {
-            List<IGame> toReturn = sc.GetSpectetorGamesByUserName(userName);
+            List<IGame> toReturn = _sc.GetSpectetorGamesByUserName(userName);
             return toReturn;
         }
 
         public IUser GetIUserByUserName(string userName)
         {
-            IUser toReturn = sc.GetIUSerByUsername(userName);
+            IUser toReturn = _sc.GetIUSerByUsername(userName);
             return toReturn;
         }
 
         public List<IUser> GetAllUser()
         {
-            return sc.GetAllUser();
+            return _sc.GetAllUser();
         }
 
         public IUser GetUserById(int id)
         {
-            return sc.GetUserWithId(id);
+            return _sc.GetUserWithId(id);
         }
 
         public LeagueName GetUserLeague(int userId)
         {
-            return sc.GetUserWithId(userId).GetLeague();
+            return _sc.GetUserWithId(userId).GetLeague();
         }
 
         public bool DevideLeague()
         {
-            return sc.DivideLeague();
+            return _sc.DivideLeague();
         }
 
         public List<IUser> GetUsersByTotalProfit()
         {
-            return sc.GetUsersByTotalProfit();
+            return _sc.GetUsersByTotalProfit();
         }
 
         public List<IUser> GetUsersByHighestCash()
         {
-            return sc.GetUsersByHighestCash();
+            return _sc.GetUsersByHighestCash();
         }
 
         public List<IUser> GetUsersByNumOfGames()
         {
-            return sc.GetUsersByNumOfGames();
+            return _sc.GetUsersByNumOfGames();
         }
 
         public UserStatistics GetUserStatistics(int userId)
