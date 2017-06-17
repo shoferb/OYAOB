@@ -684,7 +684,10 @@ namespace Client.GuiScreen
                     GameDataCommMessage newRoom = joinResp.GameData;
                     newGameWindow.UpdateGame(newRoom);
                     cl.AddNewRoom(newGameWindow);
+                   
+
                     newGameWindow.Show();
+                    
                     this.Hide();
                 }
             }

@@ -36,7 +36,7 @@ namespace Client.GuiScreen
         bool SpecOrPlay;//spec=false, play=true;
         private ClientLogic _logic;
         private GameDataCommMessage update;
-
+        private bool isSpectrtor = false;
         public GameScreen(ClientLogic c)
         {
             InitializeComponent();
@@ -94,11 +94,11 @@ namespace Client.GuiScreen
 
                     }
                     winnerName.Content = msg.Winner;
-                    string msgToChat = string.Concat("*GAME MESSAGE* ","The" + winnerNameLabel.Content + winnerName.Content, " Won the game.");
+                    string msgToChat = string.Concat("*GAME MESSAGE* ","The " + winnerNameLabel.Content + winnerName.Content, " Won the game.");
                     ListViewItem toAdd = new ListViewItem();
                     toAdd.Content = msgToChat;
                     this.chatListView.Items.Add(toAdd);
-                     msgToChat = string.Concat("*GAME MESSAGE* ", "Game is Over");
+                     msgToChat = string.Concat("*GAME MESSAGE* ", " Game is Over ");
                     ListViewItem toAdd1 = new ListViewItem();
                     toAdd1.Content = msgToChat;
                     this.chatListView.Items.Add(toAdd1);
@@ -108,6 +108,12 @@ namespace Client.GuiScreen
                     this.CurrTurnNameLabel.Content = "";
                     this.DealerNameLabel.Content = "";
                     this.SB.Content = "";
+                    this.PublicCardView.Items.Clear();
+                    this.PlayerCards = msg.PlayerCards;
+                    string pre1 = "First Card is :    ";
+                    string pre2 = "Second Card is : ";
+                    this.Card1Labek.Content = string.Concat(pre1);
+                    this.Card2Label.Content = string.Concat(pre2);
                     return;
                 }
                 this.RoomId = msg.RoomId;
@@ -146,6 +152,10 @@ namespace Client.GuiScreen
                     this.ListViewSpectetors.Items.Clear();
                     foreach (string aString in AllSpecNames)
                     {
+                        if (_logic.user.username.Equals(aString))
+                        {
+                            isSpectrtor = true;
+                        }
                         ListViewItem toAdd = new ListViewItem();
                         toAdd.Content = aString;
                         this.ListViewSpectetors.Items.Add(aString);
@@ -519,7 +529,7 @@ namespace Client.GuiScreen
                     string msgToSend3 = InputForChat.Text;
 
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
-                        CommunicationMessage.ActionType.SpectetorWhisper);
+                        CommunicationMessage.ActionType.SpectetorBrodcast);
                     break;
                 case 8: //whisper spec
                     string msgToSend4 = InputForChat.Text;
