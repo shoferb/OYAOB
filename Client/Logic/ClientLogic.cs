@@ -238,9 +238,15 @@ namespace Client.Logic
             return toRet;
         }
 
+        private int GenerateRandomNegNum()
+        {
+            int rand = new Random().Next();
+            return rand * -1;
+        }
+
         public bool Login(string userName, string password)
         {
-            LoginCommMessage toSend = new LoginCommMessage(-1, true, userName, password);
+            LoginCommMessage toSend = new LoginCommMessage(GenerateRandomNegNum(), true, userName, password);
             var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend,
                 false, false, new ResponeCommMessage(-1));
             MessagesSentObserver.Add(messageToList);
@@ -343,9 +349,10 @@ namespace Client.Logic
 
         }
 
-        public bool Register(int id, string name, string memberName, string password, int money, string email)
+        public bool Register(string name, string memberName, string password, int money, string email)
         {
-            RegisterCommMessage toSend = new RegisterCommMessage(id, name, memberName, password, money, email);
+            int randNegId = GenerateRandomNegNum();
+            RegisterCommMessage toSend = new RegisterCommMessage(randNegId, name, memberName, password, money, email);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
                 new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
                     new ResponeCommMessage(-1));
