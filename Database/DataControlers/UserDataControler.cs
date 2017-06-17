@@ -427,5 +427,23 @@ namespace TexasHoldem.Database.DataControlers
             };
             return toReturn;
         }
+
+        public List<GetAllUserActiveGameResult> GetAllUserActiveGames(int userId)
+        {
+            List<GetAllUserActiveGameResult> toReturn = new List<GetAllUserActiveGameResult>();
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    toReturn =  db.GetAllUserActiveGame(userId).ToList();
+                    return toReturn;
+                }
+
+            }
+            catch (Exception)
+            {
+                return toReturn;
+            }
+        }
     }
 }
