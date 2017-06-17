@@ -23,7 +23,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<IGame> ListSpectateableRooms();
         List<int> GetAllGamesId();
         List<IGame> GetAllGames();
-
+        bool RemoveRoom(int roodId);
         //game related:
         List<IGame> GetGamesByGameMode(GameMode mode);
         bool DoAction(int userId, CommunicationMessage.ActionType action, int amount, int roomId);
