@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.Game
         private int PotCount;
         private int Bb;
         private string winner = "";
-
+        private string ReplayStr = "";
         public int GetGameNum()
         {
             return this.GameNumber;
@@ -308,6 +308,7 @@ namespace TexasHoldem.Logic.Game
         public IEnumerator<ActionResultInfo> DoAction(IUser user, ActionType action, 
             int amount, bool useCommunication)
         {
+            GameReplay = new GameReplay(Id, GameNumber);
             GameDataCommMessage gameData;
             List<ActionResultInfo> list;
             lock (padlock)
@@ -372,7 +373,7 @@ namespace TexasHoldem.Logic.Game
             if (IsActiveGame)
             {
                 LeaveAction leave = new LeaveAction(player);
-                //GameReplay.AddAction(leave);
+                GameReplay.AddAction(leave);
             }
             SystemLog log = new SystemLog(Id, "Player with user Id: "
                                               + player.user.Id() + " left succsfully from room: " +Id, GameNumber);
