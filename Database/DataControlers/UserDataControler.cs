@@ -479,5 +479,21 @@ namespace TexasHoldem.Database.DataControlers
                 return ;
             }
         }
+
+        public void AddGameToUserSpectetorGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.AddNewSpectetorGamesOfUser(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
     }
 }
