@@ -432,6 +432,45 @@ namespace TexasHoldem.Logic.Game
             return ids;
         }
 
+        private GameDataCommMessage GetGameDataFromSpectator(Spectetor s, int bet, bool success, ActionType action)
+        {
+            int userId = 0;
+            string dealerName = "";
+            string sbName = "";
+            string bbName = "";
+            string currName = "";
+            string playerName = "";
+            int money = 0;
+            Card card1 = null, card2 = null;
+            if (DealerPlayer != null)
+            {
+                dealerName = DealerPlayer.user.MemberName();
+            }
+            if (SbPlayer != null)
+            {
+                sbName = SbPlayer.name;
+            }
+            if (BbPlayer != null)
+            {
+                bbName = BbPlayer.name;
+            }
+            if (CurrentPlayer != null)
+            {
+                currName = CurrentPlayer.user.MemberName();
+            }
+            if (s != null)
+            {
+                userId = s.user.Id();
+                playerName = s.user.MemberName();
+            }
+            List<string> allPlayerNames = GetPlayersNames();
+            List<string> allSpecatatorNames = GetSpectatorNames();
+            GameDataCommMessage gd = new GameDataCommMessage(userId, Id, sidHandler.GetSessionIdByUserId(userId),
+                card1, card2, PublicCards, money, PotCount, allPlayerNames, allSpecatatorNames, dealerName,
+                bbName, sbName, success, currName, playerName, bet, action, Hand_Step.ToString(), winner);
+            return gd;
+        }
+
         private GameDataCommMessage GetGameData(Player player, int bet, bool success, ActionType action)
         {
             int userId = 0;
@@ -1167,20 +1206,19 @@ namespace TexasHoldem.Logic.Game
                     return list.GetEnumerator();
                 }
             }
-            //foreach (Spectetor s in Spectatores)
-            //{
-            //    if (s.user.Id() == user.Id())
-            //    {
-            //        ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
-            //            + user.Id() + " to room: " + Id + " user is already a player in this room");
-            //        logControl.AddErrorLog(log);
-            //        gameData = GetGameData(p, 0, false, ActionType.Spectate);
-            //        var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
-            //        return list.GetEnumerator();
+            foreach (Spectetor s in Spectatores)
+            {
+                if (s.user.Id() == user.Id())
+                {
+                    ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+                        + user.Id() + " to room: " + Id + " user is already a player in this room");
+                    logControl.AddErrorLog(log);
+                    gameData = GetGameDataFromSpectator(s, 0, false, ActionType.Spectate);
+                    var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+                    return list.GetEnumerator();        
+                }
+            }
 
-            //    }
-            //}
-           
             user.AddRoomToSpectetorGameList(this);
             Spectetor spectetor = new Spectetor(user, Id);
             Spectatores.Add(spectetor);
@@ -1189,8 +1227,10 @@ namespace TexasHoldem.Logic.Game
             return GetEnumeratorToSend(Players, Spectatores, gameData);
        }
 
-        public bool RemoveSpectetorFromRoom(IUser user)
-        {          
+        public IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user)
+        {
+            GameDataCommMessage gameData;
+
             foreach (Spectetor s in Spectatores)
             {
                 if (s.user.Id() == user.Id())
@@ -1199,10 +1239,15 @@ namespace TexasHoldem.Logic.Game
                         new SystemLog(Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id, GameNumber);
                     Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
-                    return true;
+                    gameData = GetGameDataFromSpectator(s, 0, true, ActionType.Spectate);
+                    return GetEnumeratorToSend(Players, Spectatores, gameData);
                 }
             }
-            return false;
+
+            Spectetor spectetor = new Spectetor(user, Id);
+            gameData = GetGameDataFromSpectator(spectetor, 0, false, ActionType.Spectate);
+            var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+            return list.GetEnumerator();
         }
 
         public bool CanJoin(IUser user)

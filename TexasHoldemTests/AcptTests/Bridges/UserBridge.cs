@@ -275,7 +275,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {
-            return _gameService.RemoveSpectatorFromRoom(userId, roomId);
+            return ActionSuccedded(_gameService.RemoveSpectatorFromRoom(userId, roomId));
         }
 
         public bool DividLeage()
