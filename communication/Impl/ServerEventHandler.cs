@@ -224,10 +224,17 @@ namespace TexasHoldem.communication.Impl
                         user.Password(), user.Avatar(), user.Money(),
                         user.Email(), user.GetLeague().ToString(), true, msg);
                 }
-                else
+                else if (_socket != null)
                 {
+                    _commHandler.AddUserId(-1, _socket);
+
                     response = new LoginResponeCommMessage(-1, -1, "", "",
                         "", "", -1, "", "", false, msg);
+                }
+                else
+                {
+                    Console.WriteLine("error in login!");
+                    response = null;
                 }
                 return response; 
             }
