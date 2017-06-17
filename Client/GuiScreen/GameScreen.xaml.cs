@@ -46,6 +46,12 @@ namespace Client.GuiScreen
             string path = _logic.user.avatar;
             Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
             update = null;
+            ActionLabel.Visibility = Visibility.Hidden;
+            ChooseActionLabel.Visibility = Visibility.Hidden;
+            ActionAmountLabel.Visibility = Visibility.Hidden;
+            ActionChosenComboBox.Visibility = Visibility.Hidden;
+            InputForActionTextBox.Visibility = Visibility.Hidden;
+            DoActiomBotton.Visibility = Visibility.Hidden;
         }
        
         public void UpdateGame(GameDataCommMessage msg)
@@ -59,7 +65,22 @@ namespace Client.GuiScreen
                 Avatar.Source = new BitmapImage(new Uri(@path, UriKind.Relative));
                 if (_logic.user.username.Equals(msg.CurrPlayerTurn))
                 {
-                    //TODO BAR?!
+                    ActionLabel.Visibility = Visibility.Visible;
+                    ChooseActionLabel.Visibility = Visibility.Visible;
+                    ActionAmountLabel.Visibility = Visibility.Visible;
+                    ActionChosenComboBox.Visibility = Visibility.Visible;
+                    InputForActionTextBox.Visibility = Visibility.Visible;
+                    DoActiomBotton.Visibility = Visibility.Visible;
+
+                }
+                else
+                {
+                    ActionLabel.Visibility = Visibility.Hidden;
+                    ChooseActionLabel.Visibility = Visibility.Hidden;
+                    ActionAmountLabel.Visibility = Visibility.Hidden;
+                    ActionChosenComboBox.Visibility = Visibility.Hidden;
+                    InputForActionTextBox.Visibility = Visibility.Hidden;
+                    DoActiomBotton.Visibility = Visibility.Hidden;
                 }
                 if (!String.IsNullOrEmpty(msg.Winner))
                 {
@@ -344,8 +365,7 @@ namespace Client.GuiScreen
 
         private void DoActiomBotton_Click_2(object sender, RoutedEventArgs e)
         {
-            string Data = InputForActionTextBox.Text;
-
+           
             switch (field)
             {
                 case 1://call
@@ -408,44 +428,6 @@ namespace Client.GuiScreen
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
-                case 5://brodcast Player
-                    string msgToSend2 = InputForActionTextBox.Text;
-                   
-                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend2, CommunicationMessage.ActionType.PlayerBrodcast);             
-                    break;
-                case 6://whisper Player
-                    string msgToSend = InputForActionTextBox.Text;
-                    string reciverName = WhisperReceiverTextBox.Text;
-                    if (update.AllPlayerNames.Contains(reciverName) || update.AllSpectatorNames.Contains(reciverName))
-                    {
-                        _logic.SendChatMsg(RoomId, reciverName, msgToSend,
-                            CommunicationMessage.ActionType.PlayerWhisper);
-                    }
-                    else
-                    {
-                        MessageBox.Show("There is no such user... Sorry");
-                    }
-                    break;
-                case 7: //broadcast spec
-                    string msgToSend3 = InputForActionTextBox.Text;
-                    
-                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
-                        CommunicationMessage.ActionType.PlayerWhisper);
-                    break;
-                case 8: //whisper spec
-                    string msgToSend4 = InputForActionTextBox.Text;
-                    string reciverNameSpec = WhisperReceiverTextBox.Text;
-                    if (update.AllSpectatorNames.Contains(reciverNameSpec))
-                    {
-                        _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend4,
-                      CommunicationMessage.ActionType.SpectetorWhisper);
-                    }
-                    else
-                    {
-                        MessageBox.Show("There is no such spectator... Sorry");
-                    }
-                  
-                    break;
             }
         }
 
@@ -473,12 +455,12 @@ namespace Client.GuiScreen
 
         private void ComboBoxItem_Selected_4(object sender, RoutedEventArgs e)
         {
-            field = 5;//brodcast
+            field = 5;//brodcast - as player
         }
 
         private void ComboBoxItem_Selected_5(object sender, RoutedEventArgs e)
         {
-            field = 6;//whisper
+            field = 6;//whisper as player
         }
 
         private void ListViewPublicCards_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -489,6 +471,61 @@ namespace Client.GuiScreen
         private void publicCard_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void ComboBoxItem_Selected_6(object sender, RoutedEventArgs e)
+        {
+            this.field = 7;//borcast spectetor
+        }
+
+        private void ComboBoxItem_Selected_7(object sender, RoutedEventArgs e)
+        {
+            this.field = 8;//whisper spectetor
+        }
+
+        private void SendChatButton_Click(object sender, RoutedEventArgs e)
+        {
+            switch (field)
+            {
+                case 5://brodcast Player
+                    string msgToSend2 = InputForChat.Text;
+
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend2, CommunicationMessage.ActionType.PlayerBrodcast);
+                    break;
+                case 6://whisper Player
+                    string msgToSend = InputForChat.Text;
+                    string reciverName = WhisperReceiverTextBox.Text;
+                    if (update.AllPlayerNames.Contains(reciverName) || update.AllSpectatorNames.Contains(reciverName))
+                    {
+                        _logic.SendChatMsg(RoomId, reciverName, msgToSend,
+                            CommunicationMessage.ActionType.PlayerWhisper);
+                    }
+                    else
+                    {
+                        MessageBox.Show("There is no such user... Sorry");
+                    }
+                    break;
+                case 7: //broadcast spec
+                    string msgToSend3 = InputForChat.Text;
+
+                    _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
+                        CommunicationMessage.ActionType.PlayerWhisper);
+                    break;
+                case 8: //whisper spec
+                    string msgToSend4 = InputForChat.Text;
+                    string reciverNameSpec = WhisperReceiverTextBox.Text;
+                    if (update.AllSpectatorNames.Contains(reciverNameSpec))
+                    {
+                        _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend4,
+                            CommunicationMessage.ActionType.SpectetorWhisper);
+                    }
+                    else
+                    {
+                        MessageBox.Show("There is no such spectator... Sorry");
+                    }
+
+                    break;
+            }
         }
     }
 }
