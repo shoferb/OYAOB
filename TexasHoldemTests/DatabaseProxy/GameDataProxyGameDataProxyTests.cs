@@ -57,6 +57,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             roomID = 9999;
             players = new List<Player>();
             player1 = new Player(user1, 1000, roomID);
+            player1.RoundChipBet = 22;
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, ses);
