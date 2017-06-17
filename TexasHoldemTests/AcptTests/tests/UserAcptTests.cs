@@ -426,7 +426,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserEditEmailTestGood()
         {
             UserId = new Random().Next();
-            User1Name = "Oded" + UserId;
+            User1Name = "orelie" + UserId;
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
@@ -1111,34 +1111,65 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByHighestCashTestGood()
         {
-            RestartSystem();
-            SetupUser1();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
+
+            
             IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
+            _userId2 = new Random().Next();
+            _user2Name = "orelie" + _userId2;
+            UserBridge.RegisterUser(_userId2, _user2Name, User1Pw, UserEmailGood1);
+     //       RegisterUser(_userId2, _user2Name, User1Pw, UserEmailGood1);
             IUser user2 = UserBridge.getUserById(_userId2);
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
+            _userId3 = new Random().Next();
+            _user3Name = "orelie" + _userId3;
+            RegisterUser(_userId3, _user3Name, User1Pw, UserEmailGood1);
             IUser user3 = UserBridge.getUserById(_userId3);
-            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
+            _userId4 = new Random().Next();
+            _user4Name = "orelie" + _userId4;
+            RegisterUser(_userId4, _user4Name, User1Pw, UserEmailGood1);
             IUser user4 = UserBridge.getUserById(_userId4);
-            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
+            _userId5 = new Random().Next();
+            _user5Name = "orelie" + _userId5;
+            RegisterUser(_userId5, _user5Name, User1Pw, UserEmailGood1);
             IUser user5 = UserBridge.getUserById(_userId5);
-            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
+            _userId6 = new Random().Next();
+            _user6Name = "orelie" + _userId6;
+            RegisterUser(_userId6, _user6Name, User1Pw, UserEmailGood1);
             IUser user6 = UserBridge.getUserById(_userId6);
 
-            IncWinAndPoints(user1, 100, 1100, 1);
-            IncWinAndPoints(user2, 200, 1200, 2);
-            IncWinAndPoints(user3, 300, 1300, 3);
-            IncWinAndPoints(user4, 400, 1400, 4);
-            IncWinAndPoints(user5, 500, 1500, 5);
-            IncWinAndPoints(user6, 600, 1600, 6);
+
+            //IncWinAndPoints(user1, 1000000, 1100, 10);
+            //IncWinAndPoints(user2, 2000000, 1200, 20);
+            //IncWinAndPoints(user3, 3000000, 1300, 30);
+            //IncWinAndPoints(user4, 4000000, 1400, 40);
+            //IncWinAndPoints(user5, 5000000, 1500, 50);
+            //IncWinAndPoints(user6, 6000000, 1600, 60);
+
+            user1.UpdateHighestCashInGame(1000000);
+            user2.UpdateHighestCashInGame(2000000);
+            user3.UpdateHighestCashInGame(3000000);
+            user4.UpdateHighestCashInGame(4000000);
+            user5.UpdateHighestCashInGame(5000000);
+            user6.UpdateHighestCashInGame(6000000);
 
             List<IUser> users = UserBridge.GetUsersByHighestCash();
-            Assert.IsTrue(users[0] == user6);
-            Assert.IsTrue(users[1] == user5);
-            Assert.IsTrue(users[2] == user4);
-            Assert.IsTrue(users[3] == user3);
-            Assert.IsTrue(users[4] == user2);
-            Assert.IsTrue(users[5] == user1);
+            Assert.IsTrue(users[0].Id() == user6.Id());
+            Assert.IsTrue(users[1].Id() == user5.Id());
+            Assert.IsTrue(users[2].Id() == user4.Id());
+            Assert.IsTrue(users[3].Id() == user3.Id());
+            Assert.IsTrue(users[4].Id() == user2.Id());
+            Assert.IsTrue(users[5].Id() == user1.Id());
+            UserBridge.DeleteUser(UserId);
+            UserBridge.DeleteUser(_userId2);
+            UserBridge.DeleteUser(_userId3);
+            UserBridge.DeleteUser(_userId4);
+            UserBridge.DeleteUser(_userId5);
+            UserBridge.DeleteUser(_userId6);
+            
         }
 
         [TestCase]
