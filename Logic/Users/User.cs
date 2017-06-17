@@ -202,14 +202,22 @@ namespace TexasHoldem.Logic.Users
         public double GetAvgProfit()
         {
             IUser t = userDataProxy.GetUserById(id);
-            return (double) t.TotalProfit / t.WinNum;
+            if (t.WinNum != 0)
+            {
+                return (double) t.TotalProfit / t.WinNum;
+            }
+            return 0.0;
         }
 
         //avg profit in all games
         public double GetAvgCashGainPerGame()
         {
             IUser t = userDataProxy.GetUserById(id);
-            return (double)t.TotalProfit / (t.GetNumberOfGamesUserPlay());
+            if (t.GetNumberOfGamesUserPlay() != 0)
+            {
+                return (double)t.TotalProfit / (t.GetNumberOfGamesUserPlay());
+            }
+            return 0.0;
         }
 
         public bool IncWinNum()

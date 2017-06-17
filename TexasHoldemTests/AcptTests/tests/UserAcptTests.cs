@@ -136,9 +136,14 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void UserLoginTestSad()
+        public void UserLoginTestSad_bad_password()
         {
-            Assert.True(UserBridge.RegisterUser(_user2Name, "11", "w2@.com") == -1);
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "11";
+            UserEmailGood1 = "gooduser1@gmail.com";
+         
+            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, "w2@.com") == -1);
         }
 
         [TestCase]
@@ -165,10 +170,8 @@ namespace TexasHoldemTests.AcptTests.tests
             User1Name = "orelie" + UserId;
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
-            RegisterUser1();
-            UserBridge.LogoutUser(UserId);
+           
             Assert.False(UserBridge.LogoutUser(UserId));
-            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
@@ -181,76 +184,135 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserRegisterTestGood()
         {
-            RestartSystem();
-
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1) != -1);
             UserBridge.DeleteUser(User1Name, User1Pw);
         }
 
         [TestCase]
-        public void UserRegisterTestSad()
+        public void UserRegisterTest_Sad_username_taken()
         {
-            RestartSystem();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
 
             //user name already exists in system 
-            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1) != -1);
-            Assert.False(UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1) != -1);
+            UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1);
+            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, UserEmailGood1) == -1);
             UserBridge.DeleteUser(User1Name, User1Pw);
 
-            //pw not good
-            Assert.False(UserBridge.RegisterUser(User1Name, "", UserEmailGood1) != -1);
-            UserBridge.DeleteUser(User1Name, "");
-
-            //email not good1:
-            Assert.False(UserBridge.RegisterUser("", User1Pw, "היי") != -1);
-            UserBridge.DeleteUser(User1Name, User1Pw);
-
-            //email not good2:
-            Assert.False(UserBridge.RegisterUser(User1Name, User1Pw, "-1") != -1);
-            UserBridge.DeleteUser(User1Name, User1Pw);
         }
 
         [TestCase]
-        public void UserRegisterTestBadPwBad()
+        public void UserRegisterTest_Sad_invalid_email_hebrew()
         {
-            RestartSystem();
-
-            Assert.False(UserBridge.RegisterUser(User1Name, _userPwBad, UserEmailGood1) != -1);
-            UserBridge.DeleteUser(User1Name, _userPwBad);
-
-            Assert.False(UserBridge.RegisterUser(User1Name, _userPwBad, User1Pw) != -1);
-            UserBridge.DeleteUser(User1Name, _userPwBad);
-            UserBridge.DeleteUser(User1Name, User1Pw);
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, "היי") == -1);
+  
         }
 
         [TestCase]
-        public void UserRegisterTestEmptysBad()
+        public void UserRegisterTest_Sad_invalid_email_number()
         {
-            RestartSystem();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, "-1") == -1);
+        }
 
-            Assert.False(UserBridge.RegisterUser("", User1Pw, User1Pw) != -1);
-            UserBridge.DeleteUser("", User1Pw);
 
-            Assert.False(UserBridge.RegisterUser(User1Name, "", _userPwBad) != -1);
+        [TestCase]
+        public void UserRegisterTest_Bad_PwBad()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            _userPwBad = "5";
+           // RegisterUser1();
+            Assert.True(UserBridge.RegisterUser(User1Name, _userPwBad, UserEmailGood1) == -1);
             UserBridge.DeleteUser(User1Name, _userPwBad);
 
-            Assert.False(UserBridge.RegisterUser(User1Name, User1Pw, "") != -1);
+           
         }
 
         [TestCase]
-        public void UserRegisterTestNullsBad()
+        public void UserRegisterTest_bad_Empty_userName()
         {
-            RestartSystem();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            _userPwBad = "5";
 
-            Assert.False(UserBridge.RegisterUser(null, User1Pw, User1Pw) != -1);
-            UserBridge.DeleteUser("", User1Pw);
+            Assert.True(UserBridge.RegisterUser("", User1Pw, UserEmailGood1) == -1);
+           
+        }
+        [TestCase]
+        public void UserRegisterTest_bad_Empty_password()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            _userPwBad = "5";
 
-            Assert.False(UserBridge.RegisterUser(User1Name, null, _userPwBad) != -1);
-            UserBridge.DeleteUser(User1Name, _userPwBad);
-
-            Assert.False(UserBridge.RegisterUser(User1Name, User1Pw, null) != -1);
+         
+            Assert.True(UserBridge.RegisterUser(User1Name, "", UserEmailGood1) == -1);
+            
         }
 
+        [TestCase]
+        public void UserRegisterTest_bad_Empty_Email()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            _userPwBad = "5";
+            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, "") == -1);
+        }
+
+        [TestCase]
+        public void UserRegisterTest_bad_Nulls_username()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            Assert.True(UserBridge.RegisterUser(null, User1Pw, UserEmailGood1) == -1);
+         
+        }
+
+        [TestCase]
+        public void UserRegisterTest_bad_Nulls_password()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            Assert.True(UserBridge.RegisterUser(User1Name, null, UserEmailGood1) == -1);
+            
+        }
+
+        [TestCase]
+        public void UserRegisterTest_bad_Nulls_email()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            
+            Assert.True(UserBridge.RegisterUser(User1Name, User1Pw, null) == -1);
+        }
         //edit
         [TestCase]
         public void UserEditNameTestGood()
@@ -537,48 +599,7 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId)); //user1 should still be in Room
         }
 
-        [TestCase]
-        public void DealingCardsTestGood()
-        {
-            RestartSystem();
-            SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            GameBridge.StartGame(UserId, RoomId);
-            Player player2 = GetInGamePlayerFromUser(user2, RoomId);
-            Assert.True(player2._firstCard != null && player2._secondCard != null);
-            Player player3 = GetInGamePlayerFromUser(user3, RoomId);
-            Assert.True(player3._firstCard != null && player3._secondCard != null);
-        }
 
-        [TestCase]
-        public void DealingCardsTestSad()
-        {
-            RestartSystem();
-            SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            GameBridge.StartGame(UserId, RoomId);
-            UserBridge.RemoveUserFromRoom(_userId2, RoomId);
-            Player player2 = GetInGamePlayerFromUser(user2, RoomId);
-            Assert.True(player2 == null);
-            Player player3 = GetInGamePlayerFromUser(user3, RoomId);
-            Assert.True(player3._firstCard != null && player3._secondCard != null);
-        }
 
         [TestCase]
         public void PlacingBlindBetsForPlayersTestGood()
@@ -1168,41 +1189,46 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void AverageCashTestBad()
+        public void AverageCashTest_Bad_noGmesPlayed()
         {
-            RestartSystem();
-            SetupUser1();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+           
+            RegisterUser1();
             IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
             Assert.IsTrue(user1.GetAvgCashGainPerGame() == 0.0);
-            Assert.IsTrue(user2.GetAvgCashGainPerGame() == 0.0);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
-        public void AverageGrossTestGood()
+        public void AverageGrossTest_Good()
         {
-            RestartSystem();
-            SetupUser1();
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
             IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
             IncWinAndPoints(user1, 100, 1100, 1);
-            IncWinAndPoints(user2, 500, 1200, 2);
-            Assert.IsTrue(user1.GetAvgProfit() == 100);
-            Assert.IsTrue(user2.GetAvgProfit() == 250);
+            Assert.IsTrue(user1.GetAvgProfit() == 100.0);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
         public void AverageGrossTestBad()
         {
-            RestartSystem();
-            SetupUser1();
+             UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+           
+            RegisterUser1();
             IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             IUser user2 = UserBridge.getUserById(_userId2);
             Assert.IsTrue(user1.GetAvgProfit() == 0);
-            Assert.IsTrue(user2.GetAvgProfit() == 0);
+            UserBridge.DeleteUser(UserId);
         }
 
         private void IncWinAndPoints(IUser user, int amount, int points, int numOfWins)
