@@ -120,13 +120,19 @@ namespace Client.Logic
                 _eventHandler.SendNewEvent(toSend);
         }
 
-        public void ReturnGamePlayer(int roomId, int startingChip)
+        public void ReturnGamePlayer(int roomId)
         {
-            ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
-                   CommunicationMessage.ActionType.Join,
-                   startingChip, roomId);
+            ReturnToGameAsPlayer toSend = new ReturnToGameAsPlayer(user.id, _sessionId,
+                   roomId);
             _eventHandler.SendNewEvent(toSend);
         }
+
+        //public void ReturnGameSpec(int roomId)
+        //{
+        //    ReturnToGameAsSpec toSend = new ReturnToGameAsSpec(user.id, _sessionId,                   
+        //            roomId);
+        //    _eventHandler.SendNewEvent(toSend);
+        //}
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,
             int minPlayers, int maxPlayers)
