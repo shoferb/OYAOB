@@ -315,71 +315,113 @@ namespace TexasHoldemTests.AcptTests.tests
         }
         //edit
         [TestCase]
-        public void UserEditNameTestGood()
+        public void UserEditNameTest_Good()
         {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
 
-            Assert.True(UserBridge.EditName(UserId, "newName"));
-            Assert.AreEqual(UserBridge.GetUserName(UserId), "newName");
-            Assert.True(UserBridge.EditName(UserId, User1Name));
-            Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
+            UserBridge.EditName(UserId, "newName"+UserId);
+            Assert.AreEqual(UserBridge.GetUserName(UserId), "newName"+UserId);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
-        public void UserEditNameTestSad()
+        public void UserEditNameTest_Sad_samename()
         {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
-
             Assert.False(UserBridge.EditName(UserId, User1Name));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
+            UserBridge.DeleteUser(UserId);
         }
-
         [TestCase]
-        public void UserEditNameTestBad()
+        public void UserEditNameTest_Bad_empty()
         {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            RegisterUser1();
+
+            Assert.False(UserBridge.EditName(UserId, ""));
+            Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
+            UserBridge.DeleteUser(UserId);
+        }
+        [TestCase]
+        public void UserEditNameTest_Bad_invalidId()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
 
             Assert.False(UserBridge.EditName(-1, User1Name));
             Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
-
-            Assert.False(UserBridge.EditName(UserId, ""));
-            Assert.AreEqual(UserBridge.GetUserName(UserId), User1Name);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
-        public void UserEditPwTestGood()
+        public void UserEditPwTest_Good()
         {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
 
             Assert.True(UserBridge.EditPw(UserId, _user2Pw));
             Assert.AreEqual(UserBridge.GetUserPw(UserId), _user2Pw);
-
-            //set back
-            Assert.True(UserBridge.EditPw(UserId, User1Pw));
-            Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
-        public void UserEditPwTestSad()
+        public void UserEditPwTest_Sad()
         {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
             RegisterUser1();
-
+            _userPwBad = "bad";
             Assert.False(UserBridge.EditPw(UserId, _userPwBad));
             Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
-        public void UserEditPwTestBad()
+        public void UserEditPwTest_Bad_invalidId()
         {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            _user2Pw = "newPassword";
             RegisterUser1();
-
             Assert.False(UserBridge.EditPw(-1, _user2Pw));
             Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
-
-            Assert.False(UserBridge.EditPw(UserId, _userPwBad));
-            Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
+            UserBridge.DeleteUser(UserId);
         }
 
+        [TestCase]
+        public void UserEditPwTest_Bad_invalid_passwords()
+        {
+            UserId = new Random().Next();
+            User1Name = "orelie" + UserId;
+            User1Pw = "goodPw1234";
+            UserEmailGood1 = "gooduser1@gmail.com";
+            _userPwBad = "bad";
+            RegisterUser1();
+            Assert.False(UserBridge.EditPw(UserId, _userPwBad));
+            Assert.AreEqual(UserBridge.GetUserPw(UserId), User1Pw);
+            UserBridge.DeleteUser(UserId);
+        }
         [TestCase]
         public void UserEditEmailTestGood()
         {
@@ -1114,8 +1156,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByHighestCashTestBad()
         {
-            RestartSystem();
-            List<IUser> users = UserBridge.GetUsersByHighestCash();
+            List<IUser> users = UserBridge.GetUsersByHighestCashn();
             Assert.IsEmpty(users);
         }
 
