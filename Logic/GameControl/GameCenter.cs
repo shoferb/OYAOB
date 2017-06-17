@@ -26,7 +26,7 @@ namespace TexasHoldem.Logic.GameControl
         private readonly ReplayManager replayManager;
         private MessageEventHandler _messageEventHandler;
         private readonly SessionIdHandler sidHandler;
-
+        private List< GameReplay> _replaysOfGames = new List<GameReplay>();
         private static readonly object padlock = new object();
 
         public GameCenter(SystemControl sys, LogControl log, ReplayManager replay, SessionIdHandler sidH)
@@ -64,8 +64,9 @@ namespace TexasHoldem.Logic.GameControl
         public IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {
             IGame gm = GetRoomById(roomId);
-            GameRoom g = (GameRoom)gm;
+           
             IEnumerator<ActionResultInfo> toRet = gm.DoAction(user, action, amount, true);
+            GameRoom g = (GameRoom)gm;
             replayManager.UpdateGameReplayById(g.Id, g.GetGameNum(), g.GetGameRepObj());
             proxyDB.UpdateGameRoom((GameRoom)gm);
             proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
