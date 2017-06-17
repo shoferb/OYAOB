@@ -410,31 +410,25 @@ namespace Client.GuiScreen
                     break;
                 case 5://brodcast Player
                     string msgToSend2 = InputForActionTextBox.Text;
-                    if (WhisperReceiverTextBox.Text != null)
-                    {
-                        MessageBox.Show("It's a broadcast message, this field isn't relevant");
-                    }
+                   
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend2, CommunicationMessage.ActionType.PlayerBrodcast);             
                     break;
                 case 6://whisper Player
                     string msgToSend = InputForActionTextBox.Text;
                     string reciverName = WhisperReceiverTextBox.Text;
-                    if (update.AllPlayerNames.Contains(reciverName))
+                    if (update.AllPlayerNames.Contains(reciverName) || update.AllSpectatorNames.Contains(reciverName))
                     {
                         _logic.SendChatMsg(RoomId, reciverName, msgToSend,
                             CommunicationMessage.ActionType.PlayerWhisper);
                     }
                     else
                     {
-                        MessageBox.Show("There is no such player... Sorry");
+                        MessageBox.Show("There is no such user... Sorry");
                     }
                     break;
                 case 7: //broadcast spec
                     string msgToSend3 = InputForActionTextBox.Text;
-                    if (WhisperReceiverTextBox.Text != null)
-                    {
-                        MessageBox.Show("It's a broadcast message, this field isn't relevant");
-                    }
+                    
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
                         CommunicationMessage.ActionType.PlayerWhisper);
                     break;
