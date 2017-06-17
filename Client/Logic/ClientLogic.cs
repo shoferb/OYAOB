@@ -57,12 +57,10 @@ namespace Client.Logic
 
         public void GameUpdateReceived(GameDataCommMessage msg)
         {
-            bool isNewGame = true;
             foreach (GameScreen game in _games)
             {
                 if (game.RoomId == msg.RoomId)
                 {
-                    isNewGame = false;
                     game.UpdateGame(msg);
                 }
             }

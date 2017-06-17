@@ -363,7 +363,9 @@ namespace Client.GuiScreen
                     }
                     else
                     {
+                        UpdateGame(this.update);
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
+                       
                     }
                     break;
                 case 2://raise
@@ -381,6 +383,7 @@ namespace Client.GuiScreen
                     }
                     else
                     {
+                        UpdateGame(this.update);
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
@@ -405,6 +408,7 @@ namespace Client.GuiScreen
                     }
                     else
                     {
+                        UpdateGame(this.update);
                         Dispatcher.BeginInvoke((Action)(() => MessageBox.Show("Action Failed")));
                     }
                     break;
