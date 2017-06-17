@@ -445,5 +445,23 @@ namespace TexasHoldem.Database.DataControlers
                 return toReturn;
             }
         }
+
+        public List<GetUserSpectetorsGameResult> GetUserSpectetorsGameResult(int userId)
+        {
+            List<GetUserSpectetorsGameResult> toReturn = new List<GetUserSpectetorsGameResult>();
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    toReturn = db.GetUserSpectetorsGame(userId).ToList();
+                    return toReturn;
+                }
+
+            }
+            catch (Exception)
+            {
+                return toReturn;
+            }
+        }
     }
 }
