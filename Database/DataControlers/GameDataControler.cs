@@ -423,7 +423,8 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (connectionsLinqDataContext db = new connectionsLinqDataContext())
                 {
-                    db.UpdateGameRoom(roomId, gameId, newXML, newIsActive, newRep);
+                    string oldRep = db.GetGameRoomReplyById(roomId).First().Replay;
+                    db.UpdateGameRoom(roomId, gameId, newXML, newIsActive, string.Concat(oldRep,newRep));
                     return true;
                 }
             }

@@ -19,9 +19,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
     {
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
+        private readonly GameCenter _gameCenter;
 
         public GameBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
+            _gameCenter = gc;
             var ses = new SessionIdHandler();
             _gameService = new GameServiceHandler(gc, sys, log, replay,ses);
             _userService = new UserServiceHandler(gc, sys);
@@ -172,6 +174,10 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return result.GameData.IsSucceed;
         }
 
-
+        public bool RemoveRoom(int roodId)
+        {
+            bool ans = _gameCenter.RemoveRoom(roodId);
+            return ans;
+        }
     }
 }
