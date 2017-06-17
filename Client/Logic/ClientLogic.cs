@@ -411,20 +411,20 @@ namespace Client.Logic
             if ((move.Equals(CommunicationMessage.ActionType.Bet)) && (amount >= 0))
             {
                 ActionCommMessage response = new ActionCommMessage(user.id, _sessionId, move, amount, roomId);
-                Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false,
-                        new ResponeCommMessage(user.id));
-                MessagesSentObserver.Add(messageToList);
+                //Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
+                //    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(response, false, false,
+                //        new ResponeCommMessage(user.id));
+                //MessagesSentObserver.Add(messageToList);
                 _eventHandler.SendNewEvent(response);
-                while ((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
-                {
-                    var t = Task.Run(async delegate { await Task.Delay(10); });
-                    t.Wait();
-                }
-                bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
-                GameUpdateReceived((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item4.GameData);
-                MessagesSentObserver.Remove(messageToList);
-                return toRet;
+                //while ((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item2 == false)
+                //{
+                //    var t = Task.Run(async delegate { await Task.Delay(10); });
+                //    t.Wait();
+                //}
+                //bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item3;
+                //GameUpdateReceived((MessagesSentObserver.Find(x => x.Item1.Equals(response))).Item4.GameData);
+                //MessagesSentObserver.Remove(messageToList);
+                //return toRet;
             }
             return false;
         }
@@ -439,13 +439,22 @@ namespace Client.Logic
                     return;
                 }
             }
-            
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
-                MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
-            MessagesSentObserver.Remove(toEdit);
-            var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true, msg.Success,
-                msg);
-            MessagesSentObserver.Add(toAdd);
+
+            if (msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+                ((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Bet)
+            {
+                GameUpdateReceived(msg.GameData);
+            }
+
+            else
+            {
+                Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
+                    MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
+                MessagesSentObserver.Remove(toEdit);
+                var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true, msg.Success,
+                    msg);
+                MessagesSentObserver.Add(toAdd); 
+            }
 
         }
 
