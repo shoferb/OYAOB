@@ -369,6 +369,18 @@ namespace TexasHoldem.communication.Impl
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
+        //TODO
+        public ResponeCommMessage HandleEvent(ReturnToGameAsPlayer msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO
+        public ResponeCommMessage HandleEvent(ReturnToGameAsSpec msg)
+        {
+            throw new NotImplementedException();
+        }
+
         //this is done differently then other types of msgs because it is called from service
         public ResponeCommMessage HandleEvent(GameDataCommMessage msg)
         {

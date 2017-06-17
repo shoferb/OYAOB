@@ -57,6 +57,7 @@
     <Compile Include="CommMessages\ClientToServer\ChatCommMessage.cs" />
     <Compile Include="CommMessages\ClientGame.cs" />
     <Compile Include="CommMessages\ClientToServer\CreateNewRoomMessage.cs" />
+    <Compile Include="CommMessages\ClientToServer\ReturnToGameAsPlayer.cs" />
     <Compile Include="CommMessages\GameMode.cs" />
     <Compile Include="CommMessages\ClientToServer\LeaderboardCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\ReplayCommMessage.cs" />
