@@ -401,7 +401,7 @@ namespace Client.Logic
             if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
                  (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
             {
-                _searchScreen.JoinOkayAsSpectate(msg.GameData);
+                _searchScreen.JoinOkayAsSpectate(((JoinResponseCommMessage)msg).GameData);
                 return;
             }
 
