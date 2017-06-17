@@ -69,22 +69,8 @@ namespace Client.GuiScreen
             if (selectedGame != null)
             {
                 currRoomId = selectedGame.roomId;
-                bool succ = cl.JoinTheGame(currRoomId, selectedGame.startingChip);
-                if (succ)
-                {
-                    MessageBox.Show("You joined the game successfully!");
-                    GameScreen newGameWindow = new GameScreen(cl);
-                    newGameWindow.UpdateGame(newGameWindow.update);
-                    cl.AddNewRoom(newGameWindow);
-                    newGameWindow.Show();
-                    this.Hide();
-
-                }
-
-                else
-                {
-                    MessageBox.Show("Joined the game failed!");
-                }
+                cl.JoinTheGame(currRoomId, selectedGame.startingChip);
+                
             }
         }
 
@@ -665,21 +651,43 @@ namespace Client.GuiScreen
             }
             else
             {
-                JoinResponseCommMessage joinResp = cl.SpectateRoom(roomIdToSpectate);
-                if (joinResp==null)
-                {
-                    MessageBox.Show("You Can't be a spectator in this game!");
-                }
-                else
-                {
-                    MessageBox.Show("You joined the game successfully! as Spectetor");
-                    GameScreen newGameWindow = new GameScreen(cl);
-                    GameDataCommMessage newRoom = joinResp.GameData;
-                    newGameWindow.UpdateGame(newRoom);
-                    cl.AddNewRoom(newGameWindow);
-                    newGameWindow.Show();
-                    this.Hide();
-                }
+               cl.SpectateRoom(roomIdToSpectate);
+               
+            }
+        }
+
+        public void JoinOkay(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData.IsSucceed)
+            {
+                MessageBox.Show("You joined the game successfully!");
+                GameScreen newGameWindow = new GameScreen(cl);
+                newGameWindow.UpdateGame(msgGameData);
+                cl.AddNewRoom(newGameWindow);
+                newGameWindow.Show();
+                this.Hide();
+            }
+
+            else
+            {
+                MessageBox.Show("Joined the game failed!");
+            }
+        }
+
+        public void JoinOkayAsSpectate(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData == null)
+            {
+                MessageBox.Show("You Can't be a spectator in this game!");
+            }
+            else
+            {
+                MessageBox.Show("You joined the game successfully! as Spectetor");
+                GameScreen newGameWindow = new GameScreen(cl);
+                newGameWindow.UpdateGame(msgGameData);
+                cl.AddNewRoom(newGameWindow);
+                newGameWindow.Show();
+                this.Hide();
             }
         }
     }

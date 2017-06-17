@@ -73,30 +73,12 @@ namespace Client.Logic
         }
 
 
-        public JoinResponseCommMessage SpectateRoom(int roomId)
+        public void SpectateRoom(int roomId)
         {
             ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.Spectate,
                -1, roomId);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-                    new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
-            bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            if (toRet)
-            {
-                JoinResponseCommMessage res =
-                    (JoinResponseCommMessage)(MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
-                GameUpdateReceived(res.GameData);
-                return res;
-            }
-            return null;
-         }
+        }
 
         //needed to be call after create new ClientEventHandler and a new client logic
         public void Init(ClientEventHandler eventHandler, ClientCommunicationHandler handler)
@@ -130,21 +112,12 @@ namespace Client.Logic
             return toRet;
         }
 
-        public bool JoinTheGame(int roomId, int startingChip)
+        public void JoinTheGame(int roomId, int startingChip)
         {
-            try
-            {
-                ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
+             ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
                     CommunicationMessage.ActionType.Join,
                     startingChip, roomId);
                 _eventHandler.SendNewEvent(toSend);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-           
         }
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,
@@ -417,10 +390,19 @@ namespace Client.Logic
             {
                 
             }
-            else
+            else if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+                (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
             {
-                GameUpdateReceived(msg.GameData);
+                _searchScreen.JoinOkay(msg.GameData);
             }
+            else if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+                (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
+            {
+                _searchScreen.JoinOkayAsSpectate(msg.GameData);
+            }
+
+            GameUpdateReceived(msg.GameData);
+            
         }
 
       
