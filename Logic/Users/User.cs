@@ -83,7 +83,7 @@ namespace TexasHoldem.Logic.Users
         private UserDataProxy userDataProxy = new UserDataProxy();
         public int GetNumberOfGamesUserPlay()
         {
-            return unknowGamesPlay;
+            return userDataProxy.GetUserById(id).GetNumberOfGamesUserPlay();
         }
         //return true if play in ess than 11 games.
         public bool IsUnKnow()
