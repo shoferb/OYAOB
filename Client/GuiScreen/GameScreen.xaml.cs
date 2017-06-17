@@ -241,12 +241,11 @@ namespace Client.GuiScreen
                 
                 if (msg.chatType != CommunicationMessage.ActionType.PlayerBrodcast)
                 {
-                    if (msg.idReciver != _logic.user.id)
-                    {
+                   
                         ListViewItem toAdd = new ListViewItem();
                         toAdd.Content = string.Concat("Whisper message from ", msg.senderngUsername, ": ", msg.msgToSend);
                         chatListView.Items.Add(toAdd);
-                    }
+                    
                 }
                 else
                 {  
@@ -411,6 +410,10 @@ namespace Client.GuiScreen
                     break;
                 case 5://brodcast Player
                     string msgToSend2 = InputForActionTextBox.Text;
+                    if (WhisperReceiverTextBox.Text != null)
+                    {
+                        MessageBox.Show("It's a broadcast message, this field isn't relevant");
+                    }
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend2, CommunicationMessage.ActionType.PlayerBrodcast);             
                     break;
                 case 6://whisper Player
@@ -428,6 +431,10 @@ namespace Client.GuiScreen
                     break;
                 case 7: //broadcast spec
                     string msgToSend3 = InputForActionTextBox.Text;
+                    if (WhisperReceiverTextBox.Text != null)
+                    {
+                        MessageBox.Show("It's a broadcast message, this field isn't relevant");
+                    }
                     _logic.SendChatMsg(RoomId, _logic.user.name, msgToSend3,
                         CommunicationMessage.ActionType.PlayerWhisper);
                     break;
