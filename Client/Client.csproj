@@ -96,6 +96,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="GuiScreen\ReturnToGames.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GuiScreen\SearchScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,6 +143,9 @@
     </Compile>
     <Compile Include="GuiScreen\ReplaySearch.xaml.cs">
       <DependentUpon>ReplaySearch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GuiScreen\ReturnToGames.xaml.cs">
+      <DependentUpon>ReturnToGames.xaml</DependentUpon>
     </Compile>
     <Compile Include="GuiScreen\SearchScreen.xaml.cs">
       <DependentUpon>SearchScreen.xaml</DependentUpon>
