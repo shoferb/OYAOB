@@ -1167,6 +1167,19 @@ namespace TexasHoldem.Logic.Game
                     return list.GetEnumerator();
                 }
             }
+            //foreach (Spectetor s in Spectatores)
+            //{
+            //    if (s.user.Id() == user.Id())
+            //    {
+            //        ErrorLog log = new ErrorLog("Error while tring to add player to room - user with Id: "
+            //            + user.Id() + " to room: " + Id + " user is already a player in this room");
+            //        logControl.AddErrorLog(log);
+            //        gameData = GetGameData(p, 0, false, ActionType.Spectate);
+            //        var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+            //        return list.GetEnumerator();
+
+            //    }
+            //}
            
             user.AddRoomToSpectetorGameList(this);
             Spectetor spectetor = new Spectetor(user, Id);
