@@ -98,19 +98,18 @@ namespace TexasHoldem.Service
             return replays;
         }
 
-        public bool RemoveSpectatorFromRoom(int userId, int roomId)
+        public IEnumerator<ActionResultInfo> RemoveSpectatorFromRoom(int userId, int roomId)
         {
             IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
             IUser user = _systemControl.GetUserWithId(userId);
             if (gameRoom != null && user != null)
             {
-                return gameRoom.RemoveSpectetorFromRoom(user);
+                inumerator = gameRoom.RemoveSpectetorFromRoom(user);
+                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
+                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
             }
-            else
-            {
-                return false;
-            }
+            return inumerator;
         }
 
         public IEnumerator<ActionResultInfo> AddSpectatorToRoom(int userId, int roomId)

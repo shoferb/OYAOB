@@ -277,9 +277,9 @@ namespace TexasHoldem.Logic.Game.Tests
         public void RemoveSpectetorFromRoomTest()
         {
             //user that is a player in the room but not a spectator
-            Assert.IsFalse(gameRoom.RemoveSpectetorFromRoom(user1));
+            Assert.IsFalse(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user1)));
             //irrelevant user
-            Assert.IsFalse(gameRoom.RemoveSpectetorFromRoom(user2));
+            Assert.IsFalse(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user2)));
         }
 
         [TestMethod()]
@@ -287,7 +287,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             Assert.IsTrue(GetSepcResult(gameRoom.AddSpectetorToRoom(user2)));
             //relevant user
-            Assert.IsTrue(gameRoom.RemoveSpectetorFromRoom(user2));
+            Assert.IsTrue(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user2)));
         }
 
 
@@ -437,7 +437,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 1);
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().ElementAt(0).user.Equals(user2));
             //remove spectator
-            Assert.IsTrue(gameRoom.RemoveSpectetorFromRoom(user2));
+            Assert.IsTrue(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user2)));
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 0);
         }
 
