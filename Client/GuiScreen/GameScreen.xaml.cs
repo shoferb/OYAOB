@@ -235,7 +235,13 @@ namespace Client.GuiScreen
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Join))
                     {
+                        
                         msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Joined the game.");
+                    }
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.Spectate))
+                    {
+
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Joined as a spectetor to game.");
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
