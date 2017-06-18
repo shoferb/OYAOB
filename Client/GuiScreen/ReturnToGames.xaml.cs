@@ -58,11 +58,11 @@ namespace Client.GuiScreen
             {
                 if (_field == 0)
                 {
-                   //todo call return to active
+                   _cl.ReturnGamePlayer(selectedGame.roomId);
                 }
                 else if (_field == 1)
                 {
-                    //todo call return to spectetor
+                    _cl.ReturnGameSpec(selectedGame.roomId);
                 }
                 _currRoomId = selectedGame.roomId;
                 _cl.JoinTheGame(_currRoomId, selectedGame.startingChip);
