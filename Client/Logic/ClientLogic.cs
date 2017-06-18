@@ -26,6 +26,7 @@ namespace Client.Logic
         private long _sessionId = -1;
         public ClientUser user { get; set; }
         private SearchScreen _searchScreen;
+        private ReturnToGames _returnToGamesScreen;
 
         public ClientLogic()
         {
@@ -359,6 +360,16 @@ namespace Client.Logic
                 MessagesSentObserver.Add(toAdd);
                 return;
             }
+            if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
+            {
+                _returnToGamesScreen.PlayerReturnResponseReceived(msg.GameData);
+                return;
+            }
+            if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
+            {
+                _returnToGamesScreen.SpecReturnResponseReceived(msg.GameData);
+                return;
+            }
             if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
             {
                 SearchResultRecived(((SearchResponseCommMessage) msg).Games);
@@ -407,6 +418,11 @@ namespace Client.Logic
                     _searchScreen.EmptySearch();
                 }
             }
+        }
+
+        public void SetReturnToGameScreen(ReturnToGames returnToGames)
+        {
+            _returnToGamesScreen = returnToGames;
         }
     }
 }
