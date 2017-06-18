@@ -7,7 +7,7 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace Client.Logic
 {
-    public class ResponseNotifier : IResponseNotifier
+    public class ResponseNotifier
     {
         private readonly List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>> _messagesSentObserver;
         private readonly ClientLogic _logic;
@@ -19,12 +19,13 @@ namespace Client.Logic
             _logic = logic;
         }
 
-        private void GeneralCase(GameDataCommMessage msgGameData)
+        public bool GeneralCase(GameDataCommMessage msgGameData)
         {
             _logic.GameUpdateReceived(msgGameData);
+            return true;
         }
 
-        private void ObserverNotify(ResponeCommMessage msg)
+        public bool ObserverNotify(ResponeCommMessage msg)
         {
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
                 _messagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
@@ -32,76 +33,87 @@ namespace Client.Logic
             var toAdd = new Tuple<CommunicationMessage, bool, bool,
                 ResponeCommMessage>(toEdit.Item1, true, msg.Success, msg);
             _messagesSentObserver.Add(toAdd);
+            return true;
         }
 
 
-        public void Notify(ChatCommMessage originalMsg, ResponeCommMessage msg)
+        public bool NotifyChat(ResponeCommMessage msg)
         {
-            if (originalMsg.ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
-                originalMsg.ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
+            if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
+                ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
             {
-                return;
+                return true;
             }
-            GeneralCase(msg.GameData);
+            return GeneralCase(msg.GameData);
         }
 
-        public void Notify(LoginCommMessage originalMsg, ResponeCommMessage msg)
+        public bool Notify(LoginCommMessage originalMsg, ResponeCommMessage msg)
         {
-            ObserverNotify(msg);
+            return ObserverNotify(msg);
         }
 
-        public void Notify(RegisterCommMessage originalMsg, RegisterResponeCommMessage msg)
+        public bool Notify(RegisterCommMessage originalMsg, RegisterResponeCommMessage msg)
         {
-            ObserverNotify(msg);
+            return ObserverNotify(msg);
         }
 
-        public void Notify(CreateNewRoomMessage originalMsg, ResponeCommMessage msg)
+        public bool Notify(CreateNewRoomMessage originalMsg, ResponeCommMessage msg)
         {
-            ObserverNotify(msg);
+            return ObserverNotify(msg);
         }
 
-        public void Notify(ReturnToGameAsPlayerCommMsg originalMsg, ResponeCommMessage msg)
+        public bool NotifyReturnAsPlayer(ResponeCommMessage msg)
         {
             if (_logic != null)
             {
                 _logic.PlayerReturnsToGame(msg.GameData);
+                return true;
             }
+            return false;
         }
 
-        public void Notify(ReturnToGameAsSpecCommMsg originalMsg, ResponeCommMessage msg)
+        public bool NotifyReturnAsSpec(ResponeCommMessage msg)
         {
             if (_logic != null)
             {
                 _logic.SpecReturnsToGame(msg.GameData);
+                return true;
             }
+            return false;
         }
 
-        public void Notify(SearchCommMessage originalMsg, ResponeCommMessage msg)
+        public bool NotifySearch(ResponeCommMessage msg)
         {
             if (_logic != null)
             {
                 _logic.SearchResultRecived(((SearchResponseCommMessage)msg).Games);
+                return true;
             }
+            return false;
         }
 
-        private void ReceivedJoin(JoinResponseCommMessage msg)
+        public bool ReceivedJoin(ResponeCommMessage msg)
         {
             if (_logic != null)
             {
-                _logic.JoinAsPlayerReceived(msg);
+                _logic.JoinAsPlayerReceived((JoinResponseCommMessage) msg);
+                return true;
             }
+            return false;
         }
 
-        private void ReceivedSpectate(JoinResponseCommMessage msg)
+        public bool ReceivedSpectate(ResponeCommMessage msg)
         {
-            _logic.JoinAsSpectatorReceived(msg);
+            _logic.JoinAsSpectatorReceived((JoinResponseCommMessage) msg);
+            return true;
         }
 
-        public void Notify(ActionCommMessage originalMsg, ResponeCommMessage msg)
+        public bool NotifyAction(ResponeCommMessage msg)
         {
-            if (originalMsg != null && msg != null)
+            ActionCommMessage original = msg.OriginalMsg as ActionCommMessage;
+            if (original != null)
             {
-                switch (originalMsg.MoveType)
+                switch (original.MoveType)
                 {
                     case CommunicationMessage.ActionType.Join:
                         ReceivedJoin(msg as JoinResponseCommMessage);
@@ -113,15 +125,19 @@ namespace Client.Logic
                         GeneralCase(msg.GameData);
                         break;
                 }
+                return true;
             }
+            return false;
         }
 
-        public void Notify(CommunicationMessage originalMsg, ResponeCommMessage msg)
+        public bool Default(ResponeCommMessage msg)
         {
             if (msg != null)
             {
                 GeneralCase(msg.GameData);
+                return true;
             }
+            return false;
         }
     }
 }

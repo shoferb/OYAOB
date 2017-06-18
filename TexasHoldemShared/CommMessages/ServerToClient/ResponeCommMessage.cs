@@ -31,7 +31,7 @@
         }
 
         //another visitor
-        public virtual void Notify(IResponseNotifier notifier)
+        public override void Notify(IResponseNotifier notifier, ResponeCommMessage msg)
         {
             notifier.Notify(OriginalMsg, this);
         }

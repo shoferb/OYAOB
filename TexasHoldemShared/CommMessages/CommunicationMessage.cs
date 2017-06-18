@@ -62,6 +62,8 @@ namespace TexasHoldemShared.CommMessages
 
         public abstract ResponeCommMessage Handle(IEventHandler handler);
 
+        public abstract void Notify(IResponseNotifier notifier, ResponeCommMessage response);
+
         public abstract bool Equals(CommunicationMessage other);
     }
 }

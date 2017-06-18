@@ -27,6 +27,8 @@ namespace Client.Logic
         public ClientUser user { get; set; }
         private SearchScreen _searchScreen;
         private ReturnToGames _returnToGamesScreen;
+        private Dictionary<Type, Func<ResponeCommMessage, bool>> _notifyDictionary;
+        private readonly ResponseNotifier _notifier;
 
         public ClientLogic()
         {
@@ -34,6 +36,20 @@ namespace Client.Logic
             listLock = new Object();
             //todo - find server name
             user = null;
+            _notifier = new ResponseNotifier(MessagesSentObserver, this);
+            SetupNotifyDictionary();
+        }
+
+        private void SetupNotifyDictionary()
+        {
+            _notifyDictionary.Add(typeof(ChatResponceCommMessage), _notifier.NotifyChat);
+            _notifyDictionary.Add(typeof(LoginCommMessage), _notifier.ObserverNotify);
+            _notifyDictionary.Add(typeof(RegisterCommMessage), _notifier.ObserverNotify);
+            _notifyDictionary.Add(typeof(CreateNewRoomMessage), _notifier.ObserverNotify);
+            _notifyDictionary.Add(typeof(ReturnToGameAsPlayerCommMsg), _notifier.NotifyReturnAsPlayer);
+            _notifyDictionary.Add(typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec);
+            _notifyDictionary.Add(typeof(SearchCommMessage), _notifier.NotifySearch);
+            _notifyDictionary.Add(typeof(ActionCommMessage), _notifier.NotifyAction);
         }
 
         public void SetSearchScreen(SearchScreen screen)
@@ -348,8 +364,18 @@ namespace Client.Logic
 
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
-            var notifier = new ResponseNotifier(MessagesSentObserver, this);
-            msg.Notify(notifier);
+            var func = _notifyDictionary[msg.OriginalMsg.GetType()];
+            if (func != null)
+            {
+                func(msg);
+            }
+            else
+            {
+                _notifier.GeneralCase(msg.GameData);
+            }
+
+            //var notifier = new ResponseNotifier(MessagesSentObserver, this);
+            //msg.Notify(notifier, msg);
 
             //if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
             //{
@@ -413,7 +439,7 @@ namespace Client.Logic
             //}
 
             //GameUpdateReceived(msg.GameData);
-            
+
         }
 
         public void JoinAsPlayerReceived(JoinResponseCommMessage msg)

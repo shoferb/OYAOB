@@ -32,7 +32,7 @@
             return handler.HandleEvent(this);
         }
 
-        public override void Notify(IResponseNotifier notifier)
+        public override void Notify(IResponseNotifier notifier, ResponeCommMessage msg)
         {
             notifier.Notify(OriginalMsg, this);
         }
