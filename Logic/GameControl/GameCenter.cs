@@ -433,6 +433,26 @@ namespace TexasHoldem.Logic.GameControl
                 return isSenderSpectetor && isReciverSpector && isReceiverActive;
             }
         }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user, int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+
+            IEnumerator<ActionResultInfo> toRet = gm.ReturnToGameAsPlayer(user);
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            return toRet;
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user, int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+
+            IEnumerator<ActionResultInfo> toRet = gm.ReturnToGameAsSpec(user);
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            return toRet;
+        }
     }
 
 

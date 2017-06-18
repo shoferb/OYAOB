@@ -24,6 +24,10 @@ namespace TexasHoldemShared.CommMessages
     [XmlInclude(typeof(UserStatisticsCommMessage))]
     [XmlInclude(typeof(UserStatisticsResponseCommMessage))]
     [XmlInclude(typeof(ReplayCommMessage))]
+    [XmlInclude(typeof(ReturnToGameAsPlayerCommMsg))]
+    [XmlInclude(typeof(ReturnToGameAsSpecCommMsg))]
+    [XmlInclude(typeof(ReturnToGameResponseCommMsg))]
+    [XmlInclude(typeof(ReturnToGameCommMsg))]
 
     public abstract class CommunicationMessage
     {
@@ -37,10 +41,13 @@ namespace TexasHoldemShared.CommMessages
             Spectate,
             StartGame,
             HandCard,
+
             PlayerBrodcast,
             SpectetorBrodcast,
             PlayerWhisper,
-            SpectetorWhisper
+            SpectetorWhisper,
+
+            ReturnToGame
 
         }
 

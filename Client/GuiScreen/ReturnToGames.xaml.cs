@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Client.Logic;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
@@ -29,11 +21,11 @@ namespace Client.GuiScreen
             parent = w;
             cl = cli;
             //todo - add
-            //cl.SetSearchScreen(this);
+            //cl.SetReturnToGameScreen(this);
             startList = new List<ClientGame>();
             listView.ItemsSource = startList;
 
-            listView.AddHandler(Control.MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
+            listView.AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
             InitializeComponent();
         }
         private ClientLogic cl;
@@ -56,7 +48,7 @@ namespace Client.GuiScreen
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
             parent.Show();
-            this.Hide();
+            Hide();
         }
         public void toStartlist()
         {
@@ -65,7 +57,7 @@ namespace Client.GuiScreen
 
         public void SetStartList(List<ClientGame> newStartList)
         {
-            this.startList = newStartList;
+            startList = newStartList;
             listView.ItemsSource = startList;
         }
 
@@ -188,7 +180,7 @@ namespace Client.GuiScreen
                     newGameWindow.UpdateGame(msgGameData);
                     cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
-                    this.Hide();
+                    Hide();
                 });
             }
         }
@@ -210,7 +202,7 @@ namespace Client.GuiScreen
                     cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
                     newGameWindow.isSpectrtor = true;
-                    this.Hide();
+                    Hide();
                 });
             }
         }

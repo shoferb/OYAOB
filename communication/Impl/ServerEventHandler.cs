@@ -369,6 +369,55 @@ namespace TexasHoldem.communication.Impl
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
+        private ReturnToGameResponseCommMsg SendMessagesReturnToGame(int userId, IEnumerator<ActionResultInfo> iterator,
+            ReturnToGameCommMsg originalMsg)
+        {
+            ReturnToGameResponseCommMsg response = null;
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                if (curr != null && curr.Id != userId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(curr.GameData, ShouldUseDelim), curr.Id);
+                }
+                else if (curr != null)
+                {
+                    response = new ReturnToGameResponseCommMsg(_sessionIdHandler.GetSessionIdByUserId(userId), userId,
+                        curr.GameData.IsSucceed, originalMsg, curr.GameData);
+                    response.SetGameData(curr.GameData);
+                }
+            }
+            return response;
+        }
+
+
+        private ResponeCommMessage HandleReturnToGame(ReturnToGameCommMsg msg,
+            IEnumerator<ActionResultInfo> iter)
+        {
+            if (_sessionIdHandler == null || iter == null)
+            {
+                return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+            }
+            ReturnToGameResponseCommMsg response = SendMessagesReturnToGame(msg.UserId, iter, msg);
+            if (response != null)
+            {
+                return response;
+            }
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+        }
+
+        public ResponeCommMessage HandleEvent(ReturnToGameAsPlayerCommMsg msg)
+        {
+            var iter = _gameService.ReturnToGameAsPlayer(msg.UserId, msg.RoomId);
+            return HandleReturnToGame(msg, iter);
+        }
+
+        public ResponeCommMessage HandleEvent(ReturnToGameAsSpecCommMsg msg)
+        {
+            var iter = _gameService.ReturnToGameAsSpec(msg.UserId, msg.RoomId);
+            return HandleReturnToGame(msg, iter);
+        }
+
         //this is done differently then other types of msgs because it is called from service
         public ResponeCommMessage HandleEvent(GameDataCommMessage msg)
         {

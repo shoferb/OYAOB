@@ -115,9 +115,20 @@ namespace Client.Logic
         public void JoinTheGame(int roomId, int startingChip)
         {
              ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
-                    CommunicationMessage.ActionType.Join,
-                    startingChip, roomId);
-                _eventHandler.SendNewEvent(toSend);
+                    CommunicationMessage.ActionType.Join, startingChip, roomId);
+            _eventHandler.SendNewEvent(toSend);
+        }
+
+        public void ReturnGamePlayer(int roomId)
+        {
+            ReturnToGameAsPlayerCommMsg toSend = new ReturnToGameAsPlayerCommMsg(user.id, _sessionId, roomId);
+            _eventHandler.SendNewEvent(toSend);
+        }
+
+        public void ReturnGameSpec(int roomId)
+        {
+            ReturnToGameAsSpecCommMsg toSend = new ReturnToGameAsSpecCommMsg(user.id, _sessionId,roomId);
+            _eventHandler.SendNewEvent(toSend);
         }
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,

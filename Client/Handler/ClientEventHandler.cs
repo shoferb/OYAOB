@@ -113,6 +113,18 @@ namespace Client.Handler
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
         }
 
+        //TODO
+        public ResponeCommMessage HandleEvent(ReturnToGameAsPlayerCommMsg msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        //TODO
+        public ResponeCommMessage HandleEvent(ReturnToGameAsSpecCommMsg msg)
+        {
+            throw new NotImplementedException();
+        }
+
         public ResponeCommMessage HandleEvent(GameDataCommMessage msg)
         {
             if (CheckSessionId(msg.SessionId))
