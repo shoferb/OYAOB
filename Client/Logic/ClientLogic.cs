@@ -115,24 +115,21 @@ namespace Client.Logic
         public void JoinTheGame(int roomId, int startingChip)
         {
              ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
-                    CommunicationMessage.ActionType.Join,
-                    startingChip, roomId);
-                _eventHandler.SendNewEvent(toSend);
+                    CommunicationMessage.ActionType.Join, startingChip, roomId);
+            _eventHandler.SendNewEvent(toSend);
         }
 
         public void ReturnGamePlayer(int roomId)
         {
-            ReturnToGameAsPlayerCommMsg toSend = new ReturnToGameAsPlayerCommMsg(user.id, _sessionId,
-                   roomId);
+            ReturnToGameAsPlayerCommMsg toSend = new ReturnToGameAsPlayerCommMsg(user.id, _sessionId, roomId);
             _eventHandler.SendNewEvent(toSend);
         }
 
-        //public void ReturnGameSpec(int roomId)
-        //{
-        //    ReturnToGameAsSpecCommMsg toSend = new ReturnToGameAsSpecCommMsg(user.id, _sessionId,                   
-        //            roomId);
-        //    _eventHandler.SendNewEvent(toSend);
-        //}
+        public void ReturnGameSpec(int roomId)
+        {
+            ReturnToGameAsSpecCommMsg toSend = new ReturnToGameAsSpecCommMsg(user.id, _sessionId,roomId);
+            _eventHandler.SendNewEvent(toSend);
+        }
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,
             int minPlayers, int maxPlayers)
@@ -386,9 +383,8 @@ namespace Client.Logic
 
             if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
                 (((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.CreateRoom ||
-                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave))||
+                 ((ActionCommMessage) msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)) ||
                  (msg.OriginalMsg.GetType()) == typeof(LoginCommMessage) ||
-                //(msg.OriginalMsg.GetType()) == typeof(SearchCommMessage)||
                  (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
                   (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
             {
