@@ -2,7 +2,7 @@
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 
-namespace Client.Logic
+namespace TexasHoldemShared
 {
     public interface IResponseNotifier
     {
@@ -14,6 +14,6 @@ namespace Client.Logic
         void Notify(ReturnToGameAsSpecCommMsg originalMsg, ResponeCommMessage msg);
         void Notify(SearchCommMessage originalMsg, ResponeCommMessage msg);
         void Notify(ActionCommMessage originalMsg, ResponeCommMessage msg);
-        //void Notify(CommunicationMessage originalMsg, ResponeCommMessage msg); //default / else case
+        void Notify(CommunicationMessage originalMsg, ResponeCommMessage msg); //default / else case
     }
 }

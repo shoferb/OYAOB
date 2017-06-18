@@ -83,6 +83,7 @@
     <Compile Include="CommMessages\ClientToServer\UserStatisticsCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\UserStatisticsResponseCommMessage.cs" />
     <Compile Include="IEventHandler.cs" />
+    <Compile Include="IResponseNotifier.cs" />
     <Compile Include="Parser\ICommMsgXmlParser.cs" />
     <Compile Include="Parser\ParserImplementation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

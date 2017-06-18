@@ -19,6 +19,11 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             return handler.HandleEvent(this);
         }
 
+        public override void Notify(IResponseNotifier notifier)
+        {
+            notifier.Notify(OriginalMsg, this);
+        }
+
         public override bool Equals(CommunicationMessage other)
         {
             bool ans = false;

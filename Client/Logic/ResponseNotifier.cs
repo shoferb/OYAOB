@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;

@@ -349,7 +349,7 @@ namespace Client.Logic
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
             var notifier = new ResponseNotifier(MessagesSentObserver, this);
-            notifier.Notify(msg.OriginalMsg, msg);
+            msg.Notify(notifier);
 
             //if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
             //{

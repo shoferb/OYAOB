@@ -161,7 +161,6 @@
     <Compile Include="Logic\ClientLogic.cs" />
     <Compile Include="Logic\ClientUser.cs" />
     <Compile Include="Logic\GameReplayClientReview.cs" />
-    <Compile Include="Logic\IResponseNotifier.cs" />
     <Compile Include="Logic\ResponseNotifier.cs" />
     <Compile Include="Logic\ViewObj.cs" />
     <Compile Include="MainWindow.xaml.cs">
