@@ -1,12 +1,9 @@
-﻿using System;
-using TexasHoldemShared.CommMessages.ServerToClient;
+﻿using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class ReturnToGameAsSpecCommMsg : ReturnToGameCommMsg
     {
-        public int RoomId;
-
         public ReturnToGameAsSpecCommMsg(int id, long sid, int roomId) : base(id, sid)
         {
             RoomId = roomId;
