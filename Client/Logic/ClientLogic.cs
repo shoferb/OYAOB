@@ -45,6 +45,7 @@ namespace Client.Logic
             return _sessionId;
         }
 
+        //TODO: fix
         public bool SetSessionId(long sid)
         {
             _sessionId = sid;
@@ -134,7 +135,7 @@ namespace Client.Logic
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,
             int minPlayers, int maxPlayers)
         {
-//should ret int as the roomNumber
+            //should ret int as the roomNumber
             CreateNewRoomMessage toSend = new CreateNewRoomMessage(user.id, _sessionId, mode, minBet, chipPol, buyInPol,
                 canSpec, minPlayers, maxPlayers);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
@@ -241,7 +242,6 @@ namespace Client.Logic
                 t.Wait();
             }
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            List<string> replays = new List<string>();
             if (toRet)
             {
                 ReplaySearchResponseCommMessage retMsg =
@@ -273,35 +273,11 @@ namespace Client.Logic
 
         }
 
-        //TODO: change return
-        public List<ClientGame> SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString,
-            int _searchByInt, GameMode _searchByGameMode)
+        public void SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString, int _searchByInt, GameMode _searchByGameMode)
         {
-            List<ClientGame> toReturn = new List<ClientGame>();
             SearchCommMessage toSend = new SearchCommMessage(userId, _sessionId, _searchType, _searchByString,
                 _searchByInt, _searchByGameMode);
-            //Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-            //    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-            //        new ResponeCommMessage(user.id));
-            //MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            //while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            //{
-            //    var t = Task.Run(async delegate { await Task.Delay(10); });
-            //    t.Wait();
-            //}
-            //bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-
-            //if (toRet)
-            //{
-
-            //    SearchResponseCommMessage rmsg =
-            //        (SearchResponseCommMessage) (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
-            //    toReturn = rmsg.Games;
-            //}
-            //MessagesSentObserver.Remove(messageToList);
-            return toReturn;
-
         }
 
         public bool Register(int id, string name, string memberName, string password, int money, string email)
