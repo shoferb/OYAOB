@@ -1374,18 +1374,27 @@ namespace TexasHoldem.Logic.Game
 
         public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user)
         {
-            if (IsUserInGame(user))
+            bool success = IsUserInGame(user);
+            GameDataCommMessage gameData;
+            if (success)
             {
-                gameData = GetGameData(GetInGamePlayerFromUser(user), amount, false, ActionType.Join);
-                list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
-                return list.GetEnumerator();
+                gameData = GetGameData(GetInGamePlayerFromUser(user), 0, true, ActionType.ReturnToGame);
             }
-            return Join(user, amount);
+            else
+            {
+                gameData = GetGameData(null, 0, false, ActionType.ReturnToGame);
+            }
+            var list = new List<ActionResultInfo> {new ActionResultInfo(user.Id(), gameData)};
+            return list.GetEnumerator();
         }
 
         public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user)
         {
-            throw new NotImplementedException();
+            Spectetor spect = Spectatores.Find(s => s.user.Id() == user.Id());
+            bool success = spect != null;
+            var gameData = GetGameData(null, 0, success, ActionType.ReturnToGame);
+            var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+            return list.GetEnumerator();
         }
 
         public List<Card> GetPublicCards()

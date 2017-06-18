@@ -41,10 +41,13 @@ namespace TexasHoldemShared.CommMessages
             Spectate,
             StartGame,
             HandCard,
+
             PlayerBrodcast,
             SpectetorBrodcast,
             PlayerWhisper,
-            SpectetorWhisper
+            SpectetorWhisper,
+
+            ReturnToGame
 
         }
 
