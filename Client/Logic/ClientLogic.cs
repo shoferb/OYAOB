@@ -336,76 +336,97 @@ namespace Client.Logic
             }
          }
 
+        public void PlayerReturnsToGame(GameDataCommMessage gameData)
+        {
+            _returnToGamesScreen.PlayerReturnResponseReceived(gameData);
+        }
+
+        public void SpecReturnsToGame(GameDataCommMessage gameData)
+        {
+            _returnToGamesScreen.SpecReturnResponseReceived(gameData);
+        }
+
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
-            if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
-            {
-                if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
-                 ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
-                {
-                    return;
-                }
-            }
-           
-            if ((msg.OriginalMsg.GetType() == typeof(LoginCommMessage)) ||
-               (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
-                  (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
-            {
-                Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
-                    MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
-                MessagesSentObserver.Remove(toEdit);
-                var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true,
-                    msg.Success,
-                    msg);
-                MessagesSentObserver.Add(toAdd);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
-            {
-                _returnToGamesScreen.PlayerReturnResponseReceived(msg.GameData);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
-            {
-                _returnToGamesScreen.SpecReturnResponseReceived(msg.GameData);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
-            {
-                SearchResultRecived(((SearchResponseCommMessage) msg).Games);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                 (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
-            {
-                _searchScreen.JoinOkay(((JoinResponseCommMessage) msg).GameData);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                 (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
-            {
-                _searchScreen.JoinOkayAsSpectate(((JoinResponseCommMessage)msg).GameData);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-               (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)))
-            {
-                GameDataCommMessage gd = (msg).GameData;
-                foreach (GameScreen game in _games)
-                {
-                    if (game.RoomId == gd.RoomId)
-                    {
-                        game.LeaveOkay(gd);
-                    }
-                }
-                return;
-            }
+            var notifier = new ResponseNotifier(MessagesSentObserver, this);
+            notifier.Notify(msg.OriginalMsg, msg);
 
-            GameUpdateReceived(msg.GameData);
+            //if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
+            //{
+            //    if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
+            //     ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
+            //    {
+            //        return;
+            //    }
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(LoginCommMessage)) ||
+            //   (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
+            //      (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
+            //{
+            //    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
+            //        MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
+            //    MessagesSentObserver.Remove(toEdit);
+            //    var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true,
+            //        msg.Success,
+            //        msg);
+            //    MessagesSentObserver.Add(toAdd);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
+            //{
+            //    PlayerReturnsToGame(msg.GameData);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
+            //{
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
+            //{
+            //    SearchResultRecived(((SearchResponseCommMessage) msg).Games);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //     (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
+            //{
+            //    JoinAsPlayerReceived(msg as JoinResponseCommMessage);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //     (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
+            //{
+            //    JoinAsSpectatorReceived(msg as JoinResponseCommMessage);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //   (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)))
+            //{
+            //    GameDataCommMessage gd = (msg).GameData;
+            //    foreach (GameScreen game in _games)
+            //    {
+            //        if (game.RoomId == gd.RoomId)
+            //        {
+            //            game.LeaveOkay(gd);
+            //        }
+            //    }
+            //    return;
+            //}
+
+            //GameUpdateReceived(msg.GameData);
             
         }
 
-        private void SearchResultRecived(List<ClientGame> games)
+        public void JoinAsPlayerReceived(JoinResponseCommMessage msg)
+        {
+            _searchScreen.JoinOkay(msg.GameData);
+        }
+
+        public void JoinAsSpectatorReceived(JoinResponseCommMessage msg)
+        {
+            _searchScreen.JoinOkayAsSpectate(msg.GameData);
+        }
+
+        public void SearchResultRecived(List<ClientGame> games)
         {
             if (_searchScreen != null)
             {
