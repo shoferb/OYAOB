@@ -51,7 +51,6 @@ namespace Client.GuiScreen
         private int memberIdSearch;
 
 
-
         public void toStartlist()
         {
             startList = new List<ClientGame>();
@@ -549,10 +548,9 @@ namespace Client.GuiScreen
                     newGameWindow.UpdateGame(msgGameData);
                     cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
-                    this.Hide();
+                    Hide();
                 });
             }
-
             else
             {
                 MessageBox.Show("Joined the game failed!");
@@ -561,9 +559,12 @@ namespace Client.GuiScreen
 
         public void JoinOkayAsSpectate(GameDataCommMessage msgGameData)
         {
-            if (msgGameData == null)
+            if (msgGameData == null || !msgGameData.IsSucceed)
             {
-                MessageBox.Show("You Can't be a spectator in this game!");
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You Can't be a spectator in this game!");
+                });
             }
             else
             {
@@ -576,7 +577,7 @@ namespace Client.GuiScreen
                     cl.AddNewRoom(newGameWindow);
                    newGameWindow.Show();
                     newGameWindow.isSpectrtor = true;
-                    this.Hide();
+                    Hide();
                 });
             }
         }

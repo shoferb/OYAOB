@@ -4,6 +4,8 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
 {
     public class ReturnToGameAsSpecCommMsg : ReturnToGameCommMsg
     {
+        public ReturnToGameAsSpecCommMsg() : base(-1, -1) { }
+
         public ReturnToGameAsSpecCommMsg(int id, long sid, int roomId) : base(id, sid)
         {
             RoomId = roomId;
