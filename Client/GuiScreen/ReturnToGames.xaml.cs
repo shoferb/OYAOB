@@ -118,18 +118,8 @@ namespace Client.GuiScreen
         {
            
             toSearch = cl.user.username;
-            List<ClientGame> temp;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         private void GetAllUserByUserName()
@@ -137,18 +127,8 @@ namespace Client.GuiScreen
             
             toSearch = cl.user.username;
 
-            List<ClientGame> temp;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         //all active game bby username
@@ -164,9 +144,6 @@ namespace Client.GuiScreen
             field = 1;
            
         }
-
-      
-
 
         public void JoinOkay(GameDataCommMessage msgGameData)
         {
