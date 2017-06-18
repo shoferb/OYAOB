@@ -113,8 +113,9 @@ namespace TexasHoldem.Service
             if (gameRoom != null && user != null)
             {
                 inumerator = gameRoom.RemoveSpectetorFromRoom(user);
-                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
-                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
+                //TODO was like this: proxyDB
+                _proxyDb.UpdateGameRoom((GameRoom)gameRoom);
+                _proxyDb.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
             }
             return inumerator;
         }
