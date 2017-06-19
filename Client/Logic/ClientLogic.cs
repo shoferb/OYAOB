@@ -49,6 +49,7 @@ namespace Client.Logic
                 {typeof(LoginCommMessage), _notifier.ObserverNotify},
                 {typeof(RegisterCommMessage), _notifier.ObserverNotify},
                 {typeof(CreateNewRoomMessage), _notifier.ObserverNotify},
+                {typeof(EditCommMessage), _notifier.ObserverNotify},
                 {typeof(ReturnToGameAsPlayerCommMsg), _notifier.NotifyReturnAsPlayer},
                 {typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec},
                 {typeof(SearchCommMessage), _notifier.NotifySearch},
