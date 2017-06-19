@@ -7,7 +7,7 @@ using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace Client.Logic
 {
-    public class ResponseNotifier
+    public class ResponseNotifier : IResponseNotifier
     {
         private readonly List<Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>> _messagesSentObserver;
         private readonly ClientLogic _logic;
@@ -36,7 +36,6 @@ namespace Client.Logic
             return true;
         }
 
-
         public bool NotifyChat(ResponeCommMessage msg)
         {
             if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
@@ -45,21 +44,6 @@ namespace Client.Logic
                 return true;
             }
             return GeneralCase(msg.GameData);
-        }
-
-        public bool Notify(LoginCommMessage originalMsg, ResponeCommMessage msg)
-        {
-            return ObserverNotify(msg);
-        }
-
-        public bool Notify(RegisterCommMessage originalMsg, RegisterResponeCommMessage msg)
-        {
-            return ObserverNotify(msg);
-        }
-
-        public bool Notify(CreateNewRoomMessage originalMsg, ResponeCommMessage msg)
-        {
-            return ObserverNotify(msg);
         }
 
         public bool NotifyReturnAsPlayer(ResponeCommMessage msg)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Client.GuiScreen;
 using Client.Handler;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -28,7 +29,7 @@ namespace Client.Logic
         private SearchScreen _searchScreen;
         private ReturnToGames _returnToGamesScreen;
         private Dictionary<Type, Func<ResponeCommMessage, bool>> _notifyDictionary;
-        private readonly ResponseNotifier _notifier;
+        private readonly IResponseNotifier _notifier;
 
         public ClientLogic()
         {
@@ -42,14 +43,17 @@ namespace Client.Logic
 
         private void SetupNotifyDictionary()
         {
-            _notifyDictionary.Add(typeof(ChatResponceCommMessage), _notifier.NotifyChat);
-            _notifyDictionary.Add(typeof(LoginCommMessage), _notifier.ObserverNotify);
-            _notifyDictionary.Add(typeof(RegisterCommMessage), _notifier.ObserverNotify);
-            _notifyDictionary.Add(typeof(CreateNewRoomMessage), _notifier.ObserverNotify);
-            _notifyDictionary.Add(typeof(ReturnToGameAsPlayerCommMsg), _notifier.NotifyReturnAsPlayer);
-            _notifyDictionary.Add(typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec);
-            _notifyDictionary.Add(typeof(SearchCommMessage), _notifier.NotifySearch);
-            _notifyDictionary.Add(typeof(ActionCommMessage), _notifier.NotifyAction);
+            _notifyDictionary = new Dictionary<Type, Func<ResponeCommMessage, bool>>
+            {
+                {typeof(ChatResponceCommMessage), _notifier.NotifyChat},
+                {typeof(LoginCommMessage), _notifier.ObserverNotify},
+                {typeof(RegisterCommMessage), _notifier.ObserverNotify},
+                {typeof(CreateNewRoomMessage), _notifier.ObserverNotify},
+                {typeof(ReturnToGameAsPlayerCommMsg), _notifier.NotifyReturnAsPlayer},
+                {typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec},
+                {typeof(SearchCommMessage), _notifier.NotifySearch},
+                {typeof(ActionCommMessage), _notifier.NotifyAction}
+            };
         }
 
         public void SetSearchScreen(SearchScreen screen)
@@ -371,7 +375,7 @@ namespace Client.Logic
             }
             else
             {
-                _notifier.GeneralCase(msg.GameData);
+                _notifier.Default(msg);
             }
 
             //var notifier = new ResponseNotifier(MessagesSentObserver, this);

@@ -89,10 +89,10 @@ namespace TexasHoldemShared.CommMessages.ServerToClient
             return handler.HandleEvent(this);
         }
 
-        public override void Notify(IResponseNotifier notifier, ResponeCommMessage response)
-        {
-            notifier.Notify(response.OriginalMsg, response);
-        }
+        //public override void Notify(IResponseNotifier notifier, ResponeCommMessage response)
+        //{
+        //    notifier.Notify(response.OriginalMsg, response);
+        //}
 
         public override bool Equals(CommunicationMessage other)
         {
