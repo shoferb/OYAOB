@@ -623,6 +623,10 @@ namespace TexasHoldem.Logic.Game
 
             IncGamesCounterForPlayers();
             IsActiveGame = true;
+            foreach (Player p in Players)
+            {
+                p.user.AddRoomToActiveGameList(this);
+            }
             gameData = GetGameData(player, 0, true, ActionType.StartGame);
             return GetEnumeratorToSend(Players, Spectatores, gameData);
         }
@@ -1226,6 +1230,7 @@ namespace TexasHoldem.Logic.Game
             user.AddRoomToSpectetorGameList(this);
             Spectetor spectetor = new Spectetor(user, Id);
             Spectatores.Add(spectetor);
+            spectetor.user.AddRoomToSpectetorGameList(this);
             Player player = Players.Find(p => p.user.Id() == user.Id());
             gameData = GetGameData(player, 0, true, ActionType.Spectate);
             return GetEnumeratorToSend(Players, Spectatores, gameData);
