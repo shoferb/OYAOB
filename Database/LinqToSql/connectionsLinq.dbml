@@ -522,4 +522,20 @@
     <Parameter Name="id" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.HasThisActiveGame" Method="HasThisActiveGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HasThisActiveGameResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.HasThisSpectetorGame" Method="HasThisSpectetorGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HasThisSpectetorGameResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
 </Database>
