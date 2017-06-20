@@ -1231,7 +1231,7 @@ namespace TexasHoldem.Logic.Game
             return GetEnumeratorToSend(Players, Spectatores, gameData);
        }
 
-        public IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user)
+        private IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user)
         {
             GameDataCommMessage gameData;
 

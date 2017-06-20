@@ -11,7 +11,6 @@ namespace TexasHoldem.Logic.Game
         int Id { get; set; }
         IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, bool useCommunication);
         IEnumerator<ActionResultInfo> AddSpectetorToRoom(IUser user);
-        IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user);
         bool CanJoin(IUser user);
         bool IsGameActive();
         bool IsSpectatable();
