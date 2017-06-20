@@ -195,6 +195,16 @@ namespace Client.Logic
            
         }
 
+        public void SpectetorLeaveTheGame(int roomId)
+        {
+            ActionCommMessage toSend =
+                new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.SpectatorLeave, -1, roomId);
+
+            _eventHandler.SendNewEvent(toSend);
+
+        }
+
+
         public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend,
             CommunicationMessage.ActionType _chatType)
         {
@@ -446,12 +456,21 @@ namespace Client.Logic
             //GameUpdateReceived(msg.GameData);
 
         }
-
+       
         public void JoinAsPlayerReceived(JoinResponseCommMessage msg)
         {
             _searchScreen.JoinOkay(msg.GameData);
         }
 
+        public void LeaveAsPlayer(JoinResponseCommMessage msg)
+        {
+           LeaveAsPlayerOk(msg.GameData);
+        }
+
+        public void LeaveAsSpectetor(JoinResponseCommMessage msg)
+        {
+            LeaveAsSpectetorOk(msg.GameData);
+        }
         public void JoinAsSpectatorReceived(JoinResponseCommMessage msg)
         {
             _searchScreen.JoinOkayAsSpectate(msg.GameData);

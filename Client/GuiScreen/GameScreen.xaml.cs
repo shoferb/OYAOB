@@ -270,17 +270,15 @@ namespace Client.GuiScreen
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
-                        if (isSpectrtor)
-                        {
-                            msgToChat = string.Concat("*GAME MESSAGE* ", " player: " + msg.ActionPlayerName,
+                         msgToChat = string.Concat("*GAME MESSAGE* ", " player: " + msg.ActionPlayerName,
                                 " left the game.");
-                        }
-                        else
-                        {
-                            msgToChat = string.Concat("*GAME MESSAGE* ", " spectetor: " + msg.ActionPlayerName,
-                                " left the game.");
-                        }
-                        
+  
+                    }
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.SpectatorLeave))
+                    {
+                        msgToChat = string.Concat("*GAME MESSAGE* ", " spectetor: " + msg.ActionPlayerName,
+                            " left the game.");
+
                     }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.StartGame))
                     {
@@ -376,7 +374,14 @@ namespace Client.GuiScreen
 
         private void LeaveBotton_Click(object sender, RoutedEventArgs e)
         {
-            _logic.LeaveTheGame(this.RoomId);
+            if (!isSpectrtor)
+            {
+                _logic.LeaveTheGame(this.RoomId);
+            }
+            else
+            {
+                _logic.SpectetorLeaveTheGame(this.RoomId);
+            }
         }
 
         private void StartTheGameBTN_Click(object sender, RoutedEventArgs e)
@@ -610,6 +615,42 @@ namespace Client.GuiScreen
             else
             {
                 MessageBox.Show("Something went wrong. Leave Game Fail");
+            }
+        }
+
+        public void LeaveAsPlayerOk(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData.IsSucceed)
+            {
+
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("BYE BYE " + _logic.user.username + " see you soon!" );
+                    _logic.CloseSystem();
+                    Application.Current.Shutdown();
+                });
+            }
+            else
+            {
+                MessageBox.Show("Leave the game faild, please try again");
+            }
+        }
+
+        public void LeaveAsSpectetorOk(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData.IsSucceed)
+            {
+
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("BYE BYE " + _logic.user.username + " see you soon!");
+                    _logic.CloseSystem();
+                    Application.Current.Shutdown();
+                });
+            }
+            else
+            {
+                MessageBox.Show("Leave the game faild, please try again");
             }
         }
     }

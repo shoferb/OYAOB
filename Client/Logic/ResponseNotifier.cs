@@ -105,6 +105,12 @@ namespace Client.Logic
                     case CommunicationMessage.ActionType.Spectate:
                         ReceivedSpectate(msg as JoinResponseCommMessage);
                         break;
+                        case CommunicationMessage.ActionType.Leave:
+                            ReceivedLeave(msg as JoinResponseCommMessage);
+                            break;
+                    case CommunicationMessage.ActionType.SpectatorLeave:
+                        ReceivedLeave(msg as JoinResponseCommMessage);
+                        break;
                     default:
                         GeneralCase(msg.GameData);
                         break;
@@ -114,6 +120,25 @@ namespace Client.Logic
             return false;
         }
 
+        private bool ReceivedLeave(JoinResponseCommMessage msg)
+        {
+            if (_logic != null)
+            {
+                _logic.LeaveAsPlayer((JoinResponseCommMessage)msg);
+                return true;
+            }
+            return false;
+        }
+
+        private bool ReceivedSpectetorLeave(JoinResponseCommMessage msg)
+        {
+            if (_logic != null)
+            {
+                _logic.LeaveAsSpectetor((JoinResponseCommMessage)msg);
+                return true;
+            }
+            return false;
+        }
         public bool Default(ResponeCommMessage msg)
         {
             if (msg != null)
