@@ -314,6 +314,10 @@ namespace TexasHoldem.Logic.Game
             lock (padlock)
             {
                 this.useCommunication = useCommunication;
+                if (action == ActionType.SpectatorLeave)
+                {
+                    return RemoveSpectetorFromRoom(user);
+                }
                 if (action == ActionType.Join)
                 {
                     if (IsUserInGame(user))
@@ -1239,13 +1243,13 @@ namespace TexasHoldem.Logic.Game
                         new SystemLog(Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id, GameNumber);
                     Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
-                    gameData = GetGameDataFromSpectator(s, 0, true, ActionType.Spectate);
+                    gameData = GetGameDataFromSpectator(s, 0, true, ActionType.SpectatorLeave);
                     return GetEnumeratorToSend(Players, Spectatores, gameData);
                 }
             }
 
             Spectetor spectetor = new Spectetor(user, Id);
-            gameData = GetGameDataFromSpectator(spectetor, 0, false, ActionType.Spectate);
+            gameData = GetGameDataFromSpectator(spectetor, 0, false, ActionType.SpectatorLeave);
             var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
             return list.GetEnumerator();
         }

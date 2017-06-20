@@ -47,8 +47,8 @@ namespace TexasHoldemShared.CommMessages
             PlayerWhisper,
             SpectetorWhisper,
 
-            ReturnToGame
-
+            ReturnToGame,
+            SpectatorLeave
         }
 
         public int UserId;
