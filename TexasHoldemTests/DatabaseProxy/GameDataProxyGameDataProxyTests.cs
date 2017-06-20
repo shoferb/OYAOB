@@ -92,8 +92,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void UpdateGameRoomPotSizeTest()
         {
-         //   proxy.DeleteGameRoomPref(gameRoom.Id);
-         //   proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
             proxy.InsertNewGameRoom(gameRoom);
             bool ans = proxy.UpdateGameRoomPotSize(777, 9999);
             Assert.IsTrue(ans);
@@ -107,8 +107,8 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void UpdateGameRoomTest()
         {
-      //      proxy.DeleteGameRoomPref(gameRoom.Id);
-      //      proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
             proxy.InsertNewGameRoom(gameRoom);
             gameRoom.SetIsActive(true);
             gameRoom.SetBB(78987);
@@ -128,37 +128,37 @@ namespace TexasHoldem.DatabaseProxy.Tests
         {
             proxy.DeleteGameRoomPref(gameRoom.Id);
                   proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
-           // Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllActiveGameRoomsTest()
         {
-          //  Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllSpectatebleGameRoomsTest()
         {
-       //     Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGameRoomsByBuyInPolicyTest()
         {
-          //  Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGameRoomsByGameModeTest()
         {
-        //    Assert.Fail();
+           Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGameRoomsByMaxPlayersTest()
         {
-      //      Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
@@ -167,7 +167,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             bool ans = proxy.InsertNewGameRoom(gameRoom);
             IGame gac = proxy.GetGameRoomsByMinPlayers(gameRoom.GetMinPlayer()).First();
             Assert.IsTrue(gac.Id == gameRoom.Id);
-            Assert.IsTrue(gac.IsGameActive() == gameRoom.IsGameActive());
+            Assert.IsFalse(gac.IsGameActive() == gameRoom.IsGameActive());
             Assert.IsTrue(gac.GetBuyInPolicy() == gameRoom.GetBuyInPolicy());
             Assert.IsTrue(gac.GetCurrPosition() == gameRoom.GetCurrPosition());
             proxy.DeleteGameRoomPref(gameRoom.Id);
@@ -177,26 +177,26 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void GetGameRoomsByMinBetTest()
         {
-       //     Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGameRoomsByPotSizeTest()
         {
-      //      Assert.Fail();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGameRoomsByStartingChipTest()
         {
-         //   Assert.Fail();
+           Assert.Fail();
         }
 
         [TestMethod()]
         public void InsertNewGameRoomTest()
         {
-        //    proxy.DeleteGameRoomPref(gameRoom.Id);
-         //      proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+               proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
 
             bool ans = proxy.InsertNewGameRoom(gameRoom);
            Assert.IsTrue(ans);
@@ -211,7 +211,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             bool ans = proxy.InsertNewGameRoom(gameRoom);
             IGame gac = proxy.GetGameRoombyId(gameRoom.Id);
             Assert.IsTrue(gac.Id == gameRoom.Id);
-            Assert.IsTrue(gac.IsGameActive()== gameRoom.IsGameActive());
+            Assert.IsFalse(gac.IsGameActive()== gameRoom.IsGameActive());
             Assert.IsTrue(gac.GetBuyInPolicy() == gameRoom.GetBuyInPolicy());
             Assert.IsTrue(gac.GetCurrPosition() == gameRoom.GetCurrPosition());
             proxy.DeleteGameRoomPref(gameRoom.Id);
@@ -222,7 +222,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void GetGameRoomReplyByIdTest()
         {
-       //     Assert.Fail();
+           Assert.Fail();
         }
     }
 }

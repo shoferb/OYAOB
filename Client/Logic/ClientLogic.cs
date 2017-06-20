@@ -461,15 +461,15 @@ namespace Client.Logic
         {
             _searchScreen.JoinOkay(msg.GameData);
         }
-
+        //TODO how to call currect game screnn?
         public void LeaveAsPlayer(JoinResponseCommMessage msg)
         {
-           LeaveAsPlayerOk(msg.GameData);
+           //LeaveAsPlayerOk(msg.GameData);
         }
 
         public void LeaveAsSpectetor(JoinResponseCommMessage msg)
         {
-            LeaveAsSpectetorOk(msg.GameData);
+            //LeaveAsSpectetorOk(msg.GameData);
         }
         public void JoinAsSpectatorReceived(JoinResponseCommMessage msg)
         {

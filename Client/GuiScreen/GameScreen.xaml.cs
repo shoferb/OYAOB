@@ -626,8 +626,7 @@ namespace Client.GuiScreen
                 Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show("BYE BYE " + _logic.user.username + " see you soon!" );
-                    _logic.CloseSystem();
-                    Application.Current.Shutdown();
+                    this.Close();
                 });
             }
             else
@@ -644,8 +643,7 @@ namespace Client.GuiScreen
                 Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show("BYE BYE " + _logic.user.username + " see you soon!");
-                    _logic.CloseSystem();
-                    Application.Current.Shutdown();
+                    this.Close();
                 });
             }
             else
