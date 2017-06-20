@@ -272,10 +272,10 @@ namespace TexasHoldem.communication.Impl
                 switch (msg.searchType)
                 {
                     case SearchCommMessage.SearchType.ActiveGamesByUserName:
-                        temp = _userService.GetActiveGamesByUserName(msg.SearchByString);                        
+                        temp = _gameService.GetActiveGamesByUserName(msg.SearchByString);                        
                         break;
                     case SearchCommMessage.SearchType.SpectetorGameByUserName:
-                        temp = _userService.GetSpectetorGamesByUserName(msg.SearchByString);
+                        temp = _gameService.GetSpectetorGamesByUserName(msg.SearchByString);
                         break;
                     case SearchCommMessage.SearchType.ByRoomId:
                         IGame game = _gameService.GetGameById(msg.SearchByInt);

@@ -427,5 +427,118 @@ namespace TexasHoldem.Database.DataControlers
             };
             return toReturn;
         }
+
+      
+        public void AddGameToUserActiveGames(int userId, int roomId,int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.AddUserActiveGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return ;
+            }
+        }
+
+        public void AddGameToUserSpectetorGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.AddNewSpectetorGamesOfUser(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void DeleteSpectetorGameOfUSer(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.DeleteUserSpectetorGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void DeleteActiveGameOfUser(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.DeleteUserActiveGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public bool HasThisActiveGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    int res = (int) db.HasThisActiveGamebool(userId, roomId, gameId).ReturnValue;
+                    if (res == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool HasThisSpectetorGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    int res = (int)db.HasThisSpectetorGamebool(userId, roomId, gameId).ReturnValue;
+                    if (res == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

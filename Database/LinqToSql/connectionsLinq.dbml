@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataBaseSadna" Class="connectionsLinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=BARI;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ORELIE-PC\SQLEXPRESS;Initial Catalog=DataBaseSadna;Integrated Security=True" SettingsObjectName="TexasHoldem.Properties.Settings" SettingsPropertyName="DataBaseSadnaConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ErrorLog" Member="ErrorLogs">
     <Type Name="ErrorLog">
       <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -134,6 +134,12 @@
       <Association Name="UserTable_UserReplaySavedGame" Member="UserTable" ThisKey="userId" OtherKey="userId" Type="UserTable" IsForeignKey="true" />
     </Type>
   </Table>
+  <Function Name="dbo.AddNewSpectetorGamesOfUser" Method="AddNewSpectetorGamesOfUser">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
   <Function Name="dbo.AddNewUser" Method="AddNewUser">
     <Parameter Name="userId" Type="System.Int32" DbType="Int" />
     <Parameter Name="username" Type="System.String" DbType="VarChar(50)" />
@@ -151,9 +157,10 @@
     <Parameter Name="isActive" Type="System.Boolean" DbType="Bit" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.UpdateGameRoomPotSize" Method="UpdateGameRoomPotSize">
-    <Parameter Name="newPotSize" Type="System.Int32" DbType="Int" />
-    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+  <Function Name="dbo.AddUserActiveGame" Method="AddUserActiveGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.DeleteErrorLogById" Method="DeleteErrorLogById">
@@ -177,12 +184,24 @@
     <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.DeleteUserActiveGame" Method="DeleteUserActiveGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
   <Function Name="dbo.DeleteUserById" Method="DeleteUserById">
     <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.DeleteUserByUserName" Method="DeleteUserByUserName">
     <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteUserSpectetorGame" Method="DeleteUserSpectetorGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
     <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.EditAvatar" Method="EditAvatar">
@@ -298,6 +317,21 @@
       <Column Name="inActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetAllUserActiveGame" Method="GetAllUserActiveGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetAllUserActiveGameResult">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetErrorLogById" Method="GetErrorLogById">
+    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetErrorLogByIdResult">
+      <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="msg" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+    </ElementType>
+  </Function>
   <Function Name="dbo.GetGameModeNameByVal" Method="GetGameModeNameByVal">
     <Parameter Name="Val" Parameter="val" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetGameModeNameByValResult">
@@ -398,6 +432,15 @@
       <Column Name="[League Value]" Member="League_Value" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetSystemLogById" Method="GetSystemLogById">
+    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetSystemLogByIdResult">
+      <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="msg" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
   <Function Name="dbo.GetUserByUserId" Method="GetUserByUserId">
     <Parameter Name="userId" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetUserByUserIdResult">
@@ -436,6 +479,14 @@
       <Column Name="inActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
+  <Function Name="dbo.GetUserSpectetorsGame" Method="GetUserSpectetorsGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetUserSpectetorsGameResult">
+      <Column Name="userId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="[Game Id]" Member="Game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
   <Function Name="dbo.InsertGameRoomToDb" Method="InsertGameRoomToDb">
     <Parameter Name="roomid" Type="System.Int32" DbType="Int" />
     <Parameter Name="gameid" Type="System.Int32" DbType="Int" />
@@ -466,20 +517,41 @@
     <Parameter Name="newRep" Type="System.String" DbType="VarChar(MAX)" />
     <Return Type="System.Int32" />
   </Function>
-  <Function Name="dbo.GetErrorLogById" Method="GetErrorLogById">
-    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetErrorLogByIdResult">
-      <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="msg" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+  <Function Name="dbo.UpdateGameRoomPotSize" Method="UpdateGameRoomPotSize">
+    <Parameter Name="newPotSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.HasThisActiveGame" Method="HasThisActiveGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HasThisActiveGameResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </ElementType>
   </Function>
-  <Function Name="dbo.GetSystemLogById" Method="GetSystemLogById">
-    <Parameter Name="LogId" Parameter="logId" Type="System.Int32" DbType="Int" />
-    <ElementType Name="GetSystemLogByIdResult">
-      <Column Name="logId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="msg" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
-      <Column Name="roomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="[game Id]" Member="game_Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+  <Function Name="dbo.HasThisSpectetorGame" Method="HasThisSpectetorGame">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HasThisSpectetorGameResult">
+      <Column Name="" Member="Column1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.HasThisSpectetorGamebool" Method="HasThisSpectetorGamebool">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HasThisSpectetorGameboolResult">
+      <Column Name="" Member="Column1" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.HasThisActiveGamebool" Method="HasThisActiveGamebool">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="roomId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="gameId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="HasThisActiveGameboolResult">
+      <Column Name="" Member="Column1" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

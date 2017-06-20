@@ -4,6 +4,7 @@ using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared;
@@ -277,6 +278,57 @@ namespace TexasHoldem.Service
             }
             IUser sender = _systemControl.GetUserWithId(idSender);
             toReturn = _gameCenter.CanSendSpectetorWhisper(sender, reciver, roomId);
+            return toReturn;
+        }
+
+        public List<IGame> GetActiveGamesByUserName(string userName)
+        {
+            List<IGame> toReturn = null;
+            
+                if (userName.Equals("") || userName.Equals(" "))
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " empty");
+                    _logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+
+                if (_systemControl.IsUsernameFree(userName))
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " dose not exist!");
+                    _logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+                IUser user = _systemControl.GetIUSerByUsername(userName);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = _gameCenter.GetActiveGamesByUserName(user);
+            return toReturn;
+        }
+
+        public List<IGame> GetSpectetorGamesByUserName(string userName)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            if (userName.Equals("") || userName.Equals(" "))
+            {
+                ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " empty");
+                _logControl.AddErrorLog(log);
+                return toReturn;
+            }
+
+            if (_systemControl.IsUsernameFree(userName))
+            {
+                ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " dose not exist!");
+                _logControl.AddErrorLog(log);
+                return toReturn;
+            }
+            IUser user = _systemControl.GetIUSerByUsername(userName);
+            if (user == null)
+            {
+                return toReturn;
+            }
+            toReturn = _gameCenter.GetSpectetorGamesByUserName(user);
             return toReturn;
         }
     }

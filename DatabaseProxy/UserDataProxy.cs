@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TexasHoldem.Database.DataControlers;
 using TexasHoldem.Database.LinqToSql;
 using TexasHoldem.Database.Security;
+using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Users;
 using TexasHoldemShared.Security;
 using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
@@ -401,5 +402,80 @@ namespace TexasHoldem.DatabaseProxy
                 return;
             }
         }
+
+        public void DeleteSpectetorGameOfUSer(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.DeleteSpectetorGameOfUSer(userId, roomId, gameId);
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void DeleteActiveGameOfUser(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.DeleteActiveGameOfUser(userId,roomId,gameId);
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void AddGameToUserActiveGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.AddGameToUserActiveGames(userId, roomId, gameId);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void AddGameToUserSpectetorGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                _userDataControler.AddGameToUserSpectetorGames(userId, roomId, gameId);
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public bool HasThisActiveGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                return _userDataControler.HasThisActiveGame(userId, roomId, gameId);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool HasThisSpectetorGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                return _userDataControler.HasThisSpectetorGame(userId, roomId, gameId);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }
