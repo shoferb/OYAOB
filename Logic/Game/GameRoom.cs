@@ -47,7 +47,7 @@ namespace TexasHoldem.Logic.Game
         private Player SbPlayer;
         private Decorator MyDecorator;
         private LogControl logControl;
-        private int GameNumber;
+        public int GameNumber { get; set; }
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;

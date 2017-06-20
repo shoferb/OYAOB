@@ -8,7 +8,8 @@ namespace TexasHoldem.Logic.Game
 {
     public interface IGame
     {
-        int Id { get; set; }
+        int Id { get; set; } 
+        int GameNumber { get; set; }
         IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, bool useCommunication);
         IEnumerator<ActionResultInfo> AddSpectetorToRoom(IUser user);
         IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user);
