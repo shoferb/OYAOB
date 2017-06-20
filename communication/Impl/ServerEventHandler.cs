@@ -100,6 +100,7 @@ namespace TexasHoldem.communication.Impl
                     case CommunicationMessage.ActionType.HandCard:
                     case CommunicationMessage.ActionType.Leave:
                     case CommunicationMessage.ActionType.StartGame:
+                    case CommunicationMessage.ActionType.SpectatorLeave:
                         iter = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = SendMessages(msg.UserId, iter, msg);
                         break;
