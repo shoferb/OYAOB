@@ -198,31 +198,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\GitBackUp\DatabaseCreationScript.sql" />
+    <Content Include="Database\GitBackUp\AllStoreProcedure.sql" />
     <Content Include="Database\GitBackUp\DB_Creation_all_Store_procedure.sql" />
-    <Content Include="Database\GitBackUp\logsStoreProcedure.sql" />
-    <Content Include="Database\GitBackUp\NewStoreWithActiveAndSpectetor.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.AddNewUser.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserById.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.DeleteUserByUserName.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditAvatar.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditEmail.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditName.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditPassword.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserHighestCashGainInGame.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserId.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserIsActive.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserLeagueName.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserMoney.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUsername.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserNumOfGamesPlayed.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserPoints.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserTotalProfit.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.EditUserWinNum.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetAllUser.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetUserByUserId.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\storeProcedure\User\dbo.GetUserByUserName.StoredProcedure.sql" />
-    <Content Include="Database\GitBackUp\UserStoresProcedure.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
