@@ -464,12 +464,25 @@ namespace Client.Logic
         //TODO how to call currect game screnn?
         public void LeaveAsPlayer(JoinResponseCommMessage msg)
         {
-           //LeaveAsPlayerOk(msg.GameData);
+            foreach (GameScreen gameScreen in _games)
+            {
+                if (gameScreen.RoomId == msg.GameData.RoomId)
+                {
+                    gameScreen.LeaveAsPlayerOk(msg.GameData);
+                }
+            }
         }
 
         public void LeaveAsSpectetor(JoinResponseCommMessage msg)
         {
-            //LeaveAsSpectetorOk(msg.GameData);
+            foreach (GameScreen gameScreen in _games)
+            {
+                if (gameScreen.RoomId == msg.GameData.RoomId)
+                {
+                    gameScreen.LeaveAsSpectetorOk(msg.GameData);
+                }
+            }
+            
         }
         public void JoinAsSpectatorReceived(JoinResponseCommMessage msg)
         {

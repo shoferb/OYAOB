@@ -109,8 +109,8 @@ namespace Client.Logic
                             ReceivedLeave(msg as JoinResponseCommMessage);
                             break;
                     case CommunicationMessage.ActionType.SpectatorLeave:
-                        ReceivedLeave(msg as JoinResponseCommMessage);
-                        break;
+                            ReceivedSpectetorLeave(msg as JoinResponseCommMessage);
+                            break;
                     default:
                         GeneralCase(msg.GameData);
                         break;
