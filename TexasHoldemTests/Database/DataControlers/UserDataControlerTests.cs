@@ -16,7 +16,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
     {
 
         private readonly UserDataControler _userDataControler = new UserDataControler();
-       
+
 
 
         private UserTable CreateUser(int userId, string username)
@@ -40,11 +40,11 @@ namespace TexasHoldem.Database.DataControlers.Tests
             return ut;
         }
 
-  
 
 
 
-  
+
+
 
         [TestMethod()]
         public void GetUserByIdTest_good()
@@ -96,9 +96,9 @@ namespace TexasHoldem.Database.DataControlers.Tests
         {
             Assert.AreEqual(_userDataControler.GetUserByUserName("7name"), null);
             ;
-           
+
         }
-      
+
 
         [TestMethod()]
         public void AddNewUserTest_good_Id()
@@ -107,24 +107,24 @@ namespace TexasHoldem.Database.DataControlers.Tests
 
             _userDataControler.AddNewUser(toAdd1);
 
-            Assert.AreEqual(_userDataControler.GetUserById(9).userId,toAdd1.userId);
+            Assert.AreEqual(_userDataControler.GetUserById(9).userId, toAdd1.userId);
             _userDataControler.DeleteUserById(9);
         }
 
-   
+
         [TestMethod()]
         public void EditUserIdTest_good()
         {
             UserTable toAdd1 = CreateUser(11, "11name");
 
             _userDataControler.AddNewUser(toAdd1);
-            _userDataControler.EditUserId(11,12);
+            _userDataControler.EditUserId(11, 12);
             Assert.AreEqual(_userDataControler.GetUserById(12).userId, 12);
             _userDataControler.DeleteUserById(12);
         }
 
 
-      
+
         [TestMethod()]
         public void EditUserNameTest_good()
         {
@@ -136,7 +136,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _userDataControler.DeleteUserById(13);
         }
 
-   
+
 
         [TestMethod()]
         public void EditEmailTest_good()
@@ -149,7 +149,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _userDataControler.DeleteUserById(17);
         }
 
-      
+
         [TestMethod()]
         public void EditPasswordTest_good()
         {
@@ -169,7 +169,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
 
             _userDataControler.AddNewUser(toAdd1);
             _userDataControler.EditUserHighestCashGainInGame(20, 10);
-            Assert.AreEqual(_userDataControler.GetUserById(20).HighestCashGainInGame,10);
+            Assert.AreEqual(_userDataControler.GetUserById(20).HighestCashGainInGame, 10);
             _userDataControler.DeleteUserById(20);
         }
 
@@ -211,7 +211,7 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _userDataControler.DeleteUserById(23);
         }
 
-     
+
 
         [TestMethod()]
         public void EditUserNumOfGamesPlayedTest()
@@ -245,6 +245,11 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Assert.AreEqual(_userDataControler.GetUserById(26).winNum, 25);
             _userDataControler.DeleteUserById(26);
         }
-      
+
+        [TestMethod()]
+        public void HasThisActiveGameTest()
+        {
+            Assert.IsFalse(_userDataControler.HasThisActiveGame(3,1,1));
+        }
     }
 }

@@ -492,5 +492,53 @@ namespace TexasHoldem.Database.DataControlers
                 return;
             }
         }
+
+        public bool HasThisActiveGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    int res = (int) db.HasThisActiveGamebool(userId, roomId, gameId).ReturnValue;
+                    if (res == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool HasThisSpectetorGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    int res = (int)db.HasThisSpectetorGamebool(userId, roomId, gameId).ReturnValue;
+                    if (res == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
