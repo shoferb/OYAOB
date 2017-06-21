@@ -169,6 +169,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Service\GameServiceHandler.cs" />
+    <Compile Include="Service\interfaces\IUserService.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
     <None Include="app.config" />
