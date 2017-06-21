@@ -6,7 +6,7 @@ using TexasHoldemShared;
 
 namespace TexasHoldem.Service.interfaces
 {
-    interface IUserService
+    public interface IUserService
     {
         IUser LoginUser(string username, string password);
         IUser LogoutUser(int userId);
