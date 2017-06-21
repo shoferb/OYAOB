@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
@@ -15,6 +16,7 @@ using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
+using Assert = NUnit.Framework.Assert;
 
 namespace TexasHoldemTests.communication
 {
@@ -124,6 +126,20 @@ namespace TexasHoldemTests.communication
             var result = _webEventHandler.HandleRawMsg(json);
             Assert.AreEqual(1, result.Count);
             Assert.AreEqual(expectedResponse, result[0]);
+        }
+
+        [TestCase]
+        public void HandleRawMsgsNonJsonMsgBad()
+        {
+            UserStatisticsCommMessage commMessage = new UserStatisticsCommMessage(1, -1);
+            _webEventHandler = new WebEventHandler(null);
+
+            var xml = _parser.SerializeMsg(commMessage, false);
+
+            //should throw because msg is xml and not json
+            var ex = Assert.Throws<Newtonsoft.Json.JsonReaderException>(() =>
+            _webEventHandler.HandleRawMsg(xml));
+            Assert.IsNotNull(ex);
         }
 
 
