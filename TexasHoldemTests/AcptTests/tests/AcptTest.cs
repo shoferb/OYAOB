@@ -62,7 +62,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TearDown]
         protected void Dispose()
         {
-            //RestartSystem();
+            //////RestartSystem();
 
             SubClassDispose();
             User1Name = null;
@@ -117,49 +117,50 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         //delete all users and all games
-        protected void RestartSystem()
-        {
-            //delete all users:
-            List<int> allUsers = UserBridge.GetAllUsers();
-            Users.ForEach(u =>
-            {
-                if (!allUsers.Contains(u))
-                {
-                    CleanUserAndHisGames(u);
-                }
-            });
-            allUsers.ForEach(user =>
-            {
-                List<int> usersGames = UserBridge.GetUsersGameRooms(user);
-                usersGames.ForEach(usersRoom =>
-                {
-                    UserBridge.RemoveUserFromRoom(user, usersRoom);
-                });
-                UserBridge.DeleteUser(user);
-            });
+       // protected void ////RestartSystem()
+       // {
+       //     //delete all users:
+       //     List<int> allUsers = UserBridge.GetAllUsers();
+       //     Users.ForEach(u =>
+       //     {
+       //         if (!allUsers.Contains(u))
+       //         {
+       //             CleanUserAndHisGames(u);
+       //         }
+       //     });
+       //     allUsers.ForEach(user =>
+       //     {
+       //         List<int> usersGames = UserBridge.GetUsersGameRooms(user);
+       //         usersGames.ForEach(usersRoom =>
+       //         {
+       //             UserBridge.RemoveUserFromRoom(user, usersRoom);
+       //         });
+       //         UserBridge.DeleteUser(user);
+       //     });
 
-            //delete all rooms
+       //     //delete all rooms
 
-            List<int> allGames = GameBridge.GetAllGamesId();
-            if (allGames == null)
-            {
-                allGames = new List<int>();
-            }
-            else
-            {
-                foreach (int id in allGames)
-                {
-                    GameBridge.RemoveRoom(id);
-                }
-            }
-            allGames = GameBridge.GetAllGamesId();
-       //     Assert.True(allGames.Count == 0);
-            Assert.False(GameBridge.DoesRoomExist(RoomId));
-            RoomId = -1;
+       //     List<int> allGames = GameBridge.GetAllGamesId();
+       //     if (allGames == null)
+       //     {
+       //         allGames = new List<int>();
+       //     }
+       //     else
+       //     {
+       //         foreach (int id in allGames)
+       //         {
+       //             GameBridge.RemoveRoom(id);
+       //         }
+       //     }
+       //     allGames = GameBridge.GetAllGamesId();
+       ////     Assert.True(allGames.Count == 0);
+       //     Assert.False(GameBridge.DoesRoomExist(RoomId));
+       //     RoomId = -1;
 
-        }
+       // }
 
         //create a new game with user2 as only player, return user2's Id
+
         protected void CreateGameWithUser1()
         {
             //delete room1 if exists
@@ -217,7 +218,7 @@ namespace TexasHoldemTests.AcptTests.tests
                         UserBridge.DeleteUser(s.user.MemberName(), s.user.Password());
                     }
                
-                GameBridge.RemoveRoom(roomId);
+                    GameBridge.RemoveRoom(roomId);
                 }
             }
         }

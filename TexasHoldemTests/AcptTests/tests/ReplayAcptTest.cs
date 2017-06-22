@@ -21,7 +21,7 @@ namespace TexasHoldemTests.AcptTests.tests
         protected override void SubClassInit()
         {
             //delete all games and all users, then register user1
-            RestartSystem();
+            //RestartSystem();
             _userId2 = new Random().Next() + 9292;
             _user2Name = "yarden";
             _user2EmailGood = "yarden@gmail.com";
@@ -66,7 +66,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void GetReplayableGamesTestGood()
         {
             //create a game to be replayd
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -89,7 +89,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void GetReplayableGamesTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             Assert.True(RoomId == -1);
             Assert.True(ReplayBridge.GetReplayableGames(RoomId, 0, UserId) == null);
@@ -99,7 +99,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void ViewReplayTestGood()
         {
             //create a game to be replayd
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -116,7 +116,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void ViewReplayTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             Assert.IsEmpty(ReplayBridge.ViewReplay(RoomId, 0, UserId));
         }

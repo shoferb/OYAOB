@@ -489,7 +489,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddUserMoneyTestBad()
         {
-            //RestartSystem();
+            ////RestartSystem();
             UserId = new Random().Next();
             User1Name = "orelie" + UserId;
             User1Pw = "goodPw1234";
@@ -507,7 +507,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsPlayerAllMoneyTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             Assert.True(RoomId == -1);
             Assert.False(UserBridge.getUserById(UserId) == null);
@@ -525,7 +525,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsPlayerNoMoneyTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -538,7 +538,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsPlayerTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             Assert.True(RoomId == -1);
             CreateGameWithUser1();
@@ -551,7 +551,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsPlayerNegUserTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -566,7 +566,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsPlayerAllreadySpectatorInRoomTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -581,7 +581,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsSpectatorGood()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -598,7 +598,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsSpectatorNonExsistantRoomTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             Assert.True(RoomId == -1);
 
@@ -610,7 +610,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddToRoomAsSpectatorAllreadyPlayerInRoomTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             RegisterUser1();
             CreateGameWithUser1();
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId));
@@ -620,7 +620,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserRemoveFromRoomSpectatorTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -646,7 +646,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void PlacingBlindBetsForPlayersTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -670,7 +670,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void FoldTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -696,7 +696,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void FoldTestGood()
         {
-            //RestartSystem();
+            ////RestartSystem();
             //SetupUser1();
            // CreateGameWithUser1();
             int userId = new Random().Next();
@@ -739,7 +739,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CheckTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -758,7 +758,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CheckTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -777,7 +777,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CheckTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -801,7 +801,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void RaiseTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -824,7 +824,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void RaiseTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -844,7 +844,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void RaiseTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -864,7 +864,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CallTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -884,7 +884,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CallTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -904,7 +904,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CallTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -924,7 +924,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UknownUserTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -944,7 +944,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UknownUserTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -967,7 +967,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void redistributesThePlayersAmongTheLeaguesGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -1001,7 +1001,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void redistributesThePlayersAmongTheLeaguesSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -1036,7 +1036,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void redistributesThePlayersAmongTheLeaguesBad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -1075,7 +1075,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByNumOfGamesTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -1108,7 +1108,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByNumOfGamesTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             IncWinAndPoints(user1, 100, 1100, 1);
@@ -1120,7 +1120,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByNumOfGamesTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             List<IUser> users = UserBridge.GetUsersByNumOfGames();
             Assert.IsEmpty(users);
         }
@@ -1192,7 +1192,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByHighestCashTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             IncWinAndPoints(user1, 100, 1100, 1);
@@ -1211,7 +1211,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByTotalProfitTestGood()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -1244,7 +1244,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByTotalProfitTestSad()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             IncWinAndPoints(user1, 100, 1100, 1);
@@ -1256,7 +1256,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void LeaderBoardByTotalProfitTestBad()
         {
-            RestartSystem();
+            //RestartSystem();
             List<IUser> users = UserBridge.GetUsersByTotalProfit();
             Assert.IsEmpty(users);
         }
@@ -1264,7 +1264,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void AverageCashTestGood()
         {
-            // RestartSystem();
+            // //RestartSystem();
             UserId = new Random().Next();
             User1Name = "orelie" + UserId;
             User1Pw = "goodPw1234";

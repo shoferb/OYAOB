@@ -178,9 +178,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         private bool ActionSuccedded(IEnumerator<ActionResultInfo> results)
         {
-            results.MoveNext();
-            ActionResultInfo result = results.Current;
-            return result.GameData.IsSucceed;
+            if (results != null && results.MoveNext())
+            {
+                ActionResultInfo result = results.Current;
+                return result.GameData.IsSucceed; 
+            }
+            return false;
         }
 
         public bool RemoveRoom(int roodId)
