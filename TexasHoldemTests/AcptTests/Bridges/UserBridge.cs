@@ -244,6 +244,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool AddUserToGameRoomAsPlayer(int userId, int roomId, int chipAmount)
         {
+
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {

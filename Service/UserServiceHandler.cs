@@ -76,7 +76,7 @@ namespace TexasHoldem.Service
         {
             bool toReturn = false;
             IUser user = _sc.GetIUSerByUsername(name);
-            if (user == null || !user.Password().Equals(password))
+            if (user == null)
             {
                 return toReturn;
             }

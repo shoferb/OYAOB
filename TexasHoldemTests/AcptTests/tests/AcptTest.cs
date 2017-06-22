@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
+using TexasHoldem.Logic.Game;
 using TexasHoldemTests.AcptTests.Bridges;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 using TexasHoldemTests.AcptTests.Bridges;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
+using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldemTests.AcptTests.tests
 {
@@ -173,6 +176,50 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //make sure the room is deleted
             Assert.True(RoomId != -1);
+        }
+
+        protected void RegisterUserToDB(int userId)
+        {
+            UserBridge.RegisterUser(userId, "orelie" + userId, "123456789", "orelie@post.bgu.ac.il");
+
+        }
+
+        protected void UserCleanUpFromDB(int userId)
+        {
+            UserBridge.DeleteUser( "orelie" + userId, "123456789");
+
+        }
+        //make room with 1 player 
+        protected void CreateGame(int roomId, int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+            UserBridge.RegisterUser(userId, "orelie" + userId, "123456789", "orelie@post.bgu.ac.il");
+           
+            GameBridge.CreateNewRoomWithRoomId(roomId, userId, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+        }
+
+        protected void CleanUp(int roomId)
+        {
+            List<IGame> games = GameBridge.GetAllGames();
+            foreach (IGame game in games)
+            {
+                if (game.Id == roomId)
+                {
+                    foreach (Player p in game.GetPlayersInRoom())
+                    {
+                        UserBridge.RemoveUserFromRoom(p.user.Id(), game.Id);
+                        UserBridge.DeleteUser(p.user.MemberName(), p.user.Password());
+                    }
+                    foreach (Spectetor s in game.GetSpectetorInRoom())
+                    {
+                        UserBridge.RemoveSpectatorFromRoom(s.user.Id(), game.Id);
+                        UserBridge.DeleteUser(s.user.MemberName(), s.user.Password());
+                    }
+               
+                GameBridge.RemoveRoom(roomId);
+                }
+            }
         }
     }
 }

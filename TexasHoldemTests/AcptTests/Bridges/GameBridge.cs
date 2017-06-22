@@ -44,9 +44,18 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return -1;
         }
 
+        
         public int CreateGameRoom(int userId, int startingCheap)
         {
             return MakeRoomHelper(userId, startingCheap);
+        }
+
+        public bool CreateNewRoomWithRoomId(int roomId, int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+           
+            return _gameService.CreateNewRoomWithRoomId(roomId, userId, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
         }
 
         public int CreateGameRoomWithPref(int userId, int startingCheap, bool isSpectetor, GameMode gameModeChosen,
