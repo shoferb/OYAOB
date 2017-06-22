@@ -500,14 +500,7 @@ namespace TexasHoldem.Database.DataControlers
                 using (var db = new connectionsLinqDataContext())
                 {
                     int res = (int) db.HasThisActiveGamebool(userId, roomId, gameId).ReturnValue;
-                    if (res == 1)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return res == 1;
                 }
 
             }
