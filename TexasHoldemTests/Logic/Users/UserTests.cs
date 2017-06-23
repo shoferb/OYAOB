@@ -31,7 +31,7 @@ namespace TexasHoldem.Logic.Users.Tests
         private static readonly SessionIdHandler Sender = new SessionIdHandler();
         private static readonly GameCenter GameCenter = new GameCenter(SysControl, LogControl, ReplayManager,Sender);
         private static readonly UserDataProxy _userDataProxy = new UserDataProxy();
-
+        private static readonly GameDataProxy _gameDataProxy = new GameDataProxy(GameCenter);
 
 
         [TestMethod()]
@@ -557,17 +557,23 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void AddRoomToActiveGameListTest_Bad_already_contain()
         {
-
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom = null;
-            const int roomId = 9999;
+            int userId = new Random().Next();
+            IUser user = new User(userId, "orelie", "orelie26" + userId, "123456789", 0, 1500, "orelie@post.bgu.ac.il");
+            GameRoom gameRoom = null;
+            _userDataProxy.AddNewUser(user);
+             int roomId = new Random().Next(); 
             List<Player> players = new List<Player>();
             Player player1 = new Player(user, 1000, roomId);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
             gameRoom = new GameRoom(players, roomId, deco, GameCenter, LogControl, ReplayManager, Sender);
+            gameRoom.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(gameRoom);
             user.AddRoomToActiveGameList(gameRoom);
-            Assert.IsFalse(user.AddRoomToActiveGameList(gameRoom));
+            IUser getUser = _userDataProxy.GetUserById(userId);
+            bool ans = getUser.HasThisActiveGame(gameRoom);
+            Console.WriteLine("has game with id:"+ roomId +" user has this game: "+ans);
+            Assert.IsTrue(ans);
         }
 
 

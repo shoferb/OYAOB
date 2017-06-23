@@ -76,21 +76,16 @@ namespace TexasHoldem.Logic.Game_Control
             lock (padlock)
             {
 
-                
-                    if ((toRemove.Password().Equals(password)))
-                    {
-                        found = true; 
-                    }
-                
                 try
                 {
-                    if (found)
+                    if ((toRemove.Password().Equals(password)))
                     {
-                        userProxy.DeleteUserByUserName(username);
+                       
+                        userProxy.DeleteUserById(toRemove.Id());
                         toReturn = true;
                         return toReturn;
                     }
-                   
+                        return toReturn;
                 }
                 catch (Exception e)
                 {

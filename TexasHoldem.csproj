@@ -169,6 +169,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Service\GameServiceHandler.cs" />
+    <Compile Include="Service\interfaces\IGameService.cs" />
+    <Compile Include="Service\interfaces\IUserService.cs" />
     <Compile Include="Service\ReplayHandler.cs" />
     <Compile Include="Service\UserServiceHandler.cs" />
     <None Include="app.config" />
@@ -200,6 +202,7 @@
   <ItemGroup>
     <Content Include="Database\GitBackUp\AllStoreProcedure.sql" />
     <Content Include="Database\GitBackUp\DB_Creation_all_Store_procedure.sql" />
+    <Content Include="Database\GitBackUp\DeleteAllDb.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

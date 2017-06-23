@@ -369,7 +369,7 @@ namespace TexasHoldem.Database.DataControlers
                     {
                         return null;
                     }
-                    var res =temp.First();
+                    var res = temp.First();
                     return res.GameXML;
                 }
             }

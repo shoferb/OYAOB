@@ -7,19 +7,19 @@ using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldem.Service.interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Service
 {
-    public class GameServiceHandler
+    public class GameServiceHandler : IGameService
     {
         
         private static GameCenter _gameCenter;
         private readonly SystemControl _systemControl;
         private readonly ReplayManager _replayManager;
-        private LogControl _logControl;
-        private SessionIdHandler _sidHandler;
+        private readonly LogControl _logControl;
         private readonly GameDataProxy _proxyDb;
 
         public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, 
@@ -29,8 +29,7 @@ namespace TexasHoldem.Service
             _systemControl = sys;
             _logControl = log;
             _replayManager = replay;
-            this._sidHandler = sidHandler;
-            new MessageEventHandler(gc, sys, log, replay, sidHandler);
+            //new MessageEventHandler(gc, sys, log, replay, sidHandler);
             _proxyDb = new GameDataProxy(_gameCenter);
         }
 
@@ -140,7 +139,6 @@ namespace TexasHoldem.Service
         {
             return _gameCenter.GetRoomById(id);
         }
-
 
         public List<IGame> GetAllActiveGames()
         {
