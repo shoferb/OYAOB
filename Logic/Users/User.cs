@@ -577,6 +577,7 @@ namespace TexasHoldem.Logic.Users
                         bool alreadyIn = HasThisActiveGame(game);
                         if (!alreadyIn)
                         {
+                            ActiveGameList().Add(game);
                             userDataProxy.AddGameToUserActiveGames(this.Id(), game.Id, game.GameNumber);
                             return true;
                         }
