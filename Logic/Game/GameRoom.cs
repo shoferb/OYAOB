@@ -78,6 +78,8 @@ namespace TexasHoldem.Logic.Game
         {
             return this.Bb;
         }
+
+      
         public int GetMaxBetInRound()
         {
             return this.maxBetInRound;
