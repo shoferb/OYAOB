@@ -113,9 +113,9 @@ namespace TexasHoldem.DatabaseProxy.Tests
         {
             int roomId = new Random().Next();
             int gameId = new Random().Next();
-            int userId1 = new Random().Next();
-            int userId2 = new Random().Next();
-            int userId3 = new Random().Next();
+            int userId1 = 1;
+            int userId2 = 2;
+            int userId3 = 3;
             GameRoom toAdd = CreateRoomWithId(gameId,roomId,userId1,userId2,userId3);
             proxy.InsertNewGameRoom(toAdd);
             bool ans = proxy.UpdateGameRoomPotSize(777, roomId);
@@ -126,63 +126,43 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
         [TestMethod()]
         public void UpdateGameRoomPotSizeTest_good()
-        {
-            int roomId = new Random().Next();
-            int gameId = new Random().Next();
-            int userId1 = new Random().Next();
-            int userId2 = new Random().Next();
-            int userId3 = new Random().Next();
-            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
-            proxy.InsertNewGameRoom(toAdd);
-            Console.WriteLine("game room id "+roomId );
-            Console.WriteLine("game buyIn Po" + toAdd.GetBuyInPolicy());
-            bool ans = proxy.UpdateGameRoomPotSize(777, roomId);
-            IGame g = proxy.GetGameRoombyId(roomId);
-            Console.WriteLine("game room id " + g.Id);
-            Console.WriteLine("game buyIn Po" + g.GetBuyInPolicy());
+        {      
+            proxy.InsertNewGameRoom(gameRoom);
+            gameRoom.SetPotSize(777);
+            bool ans = proxy.UpdateGameRoom(gameRoom);
+            IGame g = proxy.GetGameRoombyId(gameRoom.Id);        
             Assert.IsTrue(ans);
-           
-            Assert.AreEqual(g.GetPotSize(),777);
-           Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Assert.IsTrue(g.IsPotSizeEqual(777));
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
         [TestMethod()]
         public void GameRoomTest_Update_Bb_good()
         {
-            int roomId = new Random().Next();
-            int gameId = new Random().Next();
-            int userId1 = new Random().Next();
-            int userId2 = new Random().Next();
-            int userId3 = new Random().Next();
-            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
-            proxy.InsertNewGameRoom(toAdd);
-            toAdd.SetBB(89);
-            proxy.UpdateGameRoom(toAdd);
-            IGame g = proxy.GetGameRoombyId(roomId);
-            Assert.AreEqual(g.GetBb(), 89);
-            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            proxy.InsertNewGameRoom(gameRoom);
+            gameRoom.SetBB(89);
+            proxy.UpdateGameRoom(gameRoom);
+            GameRoom g = (GameRoom)proxy.GetGameRoombyId(gameRoom.Id);
+            Assert.AreEqual(g.getBBnum(), 89);
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
-     
+
 
         [TestMethod()]
         public void GameRoomTest_Update_isActive_good()
         {
-            int roomId = new Random().Next();
-            int gameId = new Random().Next();
-            int userId1 = new Random().Next();
-            int userId2 = new Random().Next();
-            int userId3 = new Random().Next();
-            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
-            proxy.InsertNewGameRoom(toAdd);
-            toAdd.SetIsActive(true);
-            proxy.UpdateGameRoom(toAdd);
-            IGame g = proxy.GetGameRoombyId(roomId);
+            proxy.InsertNewGameRoom(gameRoom);
+            gameRoom.SetIsActive(true);
+            proxy.UpdateGameRoom(gameRoom);
+            IGame g = proxy.GetGameRoombyId(gameRoom.Id);
             Assert.AreEqual(g.IsGameActive(), true);
-            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
         }
 
-      
 
         [TestMethod()]
         public void GetAllGamesTest()
@@ -225,61 +205,373 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void GetAllActiveGameRoomsTest()
         {
-            Assert.Fail();
+            int roomId =1212;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 123;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetIsActive(true);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetAllActiveGameRooms();
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetAllSpectatebleGameRoomsTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetDeco(0,0,true,1,2,1,GameMode.Limit,LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 1, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetAllSpectatebleGameRooms();
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByBuyInPolicyTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetDeco(0, 0, true, 1, 2, 222, GameMode.Limit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByBuyInPolicy(222);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByGameModeTest()
         {
-           Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetDeco(0, 0, true, 1, 2, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByGameMode(GameMode.PotLimit);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByMaxPlayersTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetDeco(0, 0, true, 1, 999, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByMaxPlayers(999);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByMinPlayersTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetDeco(0, 0, true, 111, 999, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByMinPlayers(111);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByMinBetTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetDeco(123, 0, true, 111, 999, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByMinBet(123);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByPotSizeTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetPotSize(151515);
+            toAdd.SetDeco(123, 0, true, 111, 999, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByPotSize(151515);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void GetGameRoomsByStartingChipTest()
         {
-           Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetPotSize(151515);
+            toAdd.SetDeco(123, 4848, true, 111, 999, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByStartingChip(4848);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
         public void InsertNewGameRoomTest()
         {
-           Assert.Fail();
+            bool ans =proxy.InsertNewGameRoom(gameRoom);
+            IGame g = proxy.GetGameRoombyId(gameRoom.Id);
+            Assert.IsTrue(ans);
+            Assert.IsNotNull(g);
+            proxy.DeleteGameRoomPref(gameRoom.Id);
+            proxy.DeleteGameRoom(gameRoom.Id, gameRoom.GetGameNum());
 
         }
 
@@ -289,7 +581,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             bool ans = proxy.InsertNewGameRoom(gameRoom);
             IGame gac = proxy.GetGameRoombyId(gameRoom.Id);
             Assert.IsTrue(gac.Id == gameRoom.Id);
-            Assert.IsFalse(gac.IsGameActive()== gameRoom.IsGameActive());
+            Assert.IsTrue(gac.IsGameActive()== gameRoom.IsGameActive());
             Assert.IsTrue(gac.GetBuyInPolicy() == gameRoom.GetBuyInPolicy());
             Assert.IsTrue(gac.GetCurrPosition() == gameRoom.GetCurrPosition());
             proxy.DeleteGameRoomPref(gameRoom.Id);
@@ -297,10 +589,6 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
         }
 
-        [TestMethod()]
-        public void GetGameRoomReplyByIdTest()
-        {
-           Assert.Fail();
-        }
+       
     }
 }

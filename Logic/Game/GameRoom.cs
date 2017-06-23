@@ -78,6 +78,8 @@ namespace TexasHoldem.Logic.Game
         {
             return this.Bb;
         }
+
+      
         public int GetMaxBetInRound()
         {
             return this.maxBetInRound;
@@ -112,7 +114,10 @@ namespace TexasHoldem.Logic.Game
         }
         public void SetDeco(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)
         {
-            this.MyDecorator = GameCenter.CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, league);
+            Decorator mid = new MiddleGameDecorator(gameModeChosen, this.Bb, this.Sb);
+            Decorator before = new BeforeGameDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, league);
+            before.SetNextDecorator(mid);
+            this.MyDecorator =before;
         }
 
 
@@ -122,7 +127,10 @@ namespace TexasHoldem.Logic.Game
            Player currentPlayer, Player bbPlayer, Player sbPlayer, Player firstPlayerInRound, int bb, int sb,
            int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler, bool _useCom, List<Tuple<int, Player>> _sp)
         {
-          
+           // Decorator mid = new MiddleGameDecorator(GameMode.NoLimit,bb, sb);
+           // Decorator before = new BeforeGameDecorator(minBetInRoom, 1000, true, 2, 4, 20, LeagueName.A);
+          //  before.SetNextDecorator(mid);
+          //  MyDecorator= before;
             Id = ID;
             GameNumber = gameNum;
             IsActiveGame = isActiveGame;
@@ -165,6 +173,10 @@ namespace TexasHoldem.Logic.Game
                 return "";
             }
            return string.Concat("", this.GameReplay.ToString());
+        }
+        public void SetPotSize(int newPot) //forTsets
+        {
+            this.PotCount = newPot;
         }
         public void SetIsActive(bool n)//for tests
         {
