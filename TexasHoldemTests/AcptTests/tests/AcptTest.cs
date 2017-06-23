@@ -44,7 +44,7 @@ namespace TexasHoldemTests.AcptTests.tests
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
 
-            SetupUser1();
+            //SetupUser1();
         }
 
         [SetUp]
@@ -55,7 +55,7 @@ namespace TexasHoldemTests.AcptTests.tests
                  CreateGameWithUser1();
              }
              */
-            SetupUser1();
+            //SetupUser1();
             SubClassInit();
         }
 
@@ -202,7 +202,8 @@ namespace TexasHoldemTests.AcptTests.tests
                         UserBridge.DeleteUser(s.user.MemberName(), s.user.Password());
                     }
                
-                    GameBridge.RemoveRoom(roomId);
+                    bool deleted = GameBridge.RemoveRoom(roomId);
+                    Console.WriteLine("room " + roomId + " was deleted? " + deleted);
                 }
             }
         }

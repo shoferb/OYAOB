@@ -124,7 +124,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(RoomId == -1);
             Assert.True(UserBridge.IsThereUser(UserId));
             RoomId = GameBridge.CreateGameRoom(UserId, 10);
-            GameIdLst.Add(RoomId);
             RegisterUser2();
             Assert.True(UserBridge.IsThereUser(UserId));
             Assert.True(UserBridge.IsThereUser(_userId2));
@@ -146,7 +145,7 @@ namespace TexasHoldemTests.AcptTests.tests
             IUser user = UserBridge.getUserById(_userId2);
             user.EditUserMoney(0);
             Assert.IsEmpty(GameBridge.ListAvailableGamesByUserRank(_userId2));
-            CleanUp(RoomId);
+            CleanUp(roomId);
         }
 
         [TestCase]
@@ -168,10 +167,15 @@ namespace TexasHoldemTests.AcptTests.tests
         {
             //delete all users and games, register user1
             //RestartSystem();
-            SetupUser1();
-            int roomId = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.Limit, 2, 8, 1, 1);
+            int id = SetupUser1();
+            var spectateableGamesBefore = GameBridge.ListSpectateableRooms();
+            int numBefore = spectateableGamesBefore == null ? 0 : spectateableGamesBefore.Count;
+            int roomId = GameBridge.CreateGameRoomWithPref(id, 10, false, GameMode.Limit, 
+                2, 8, 1, 1);
             Assert.True(roomId != -1);
-            Assert.IsEmpty(GameBridge.ListSpectateableRooms());
+            var spectateableGamesAfter = GameBridge.ListSpectateableRooms();
+            int numAfter = spectateableGamesBefore == null ? 0 : spectateableGamesAfter.Count;
+            Assert.AreEqual(numBefore, numAfter);
             CleanUp(roomId);
         }
 
@@ -181,10 +185,12 @@ namespace TexasHoldemTests.AcptTests.tests
             //delete all users and games
             //RestartSystem();
             SetupUser1();
-            int roomId1 = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.Limit, 2, 8, 1, 1);
+            int roomId1 = GameBridge.CreateGameRoomWithPref(UserId, 10, false, GameMode.Limit, 
+                2, 8, 1, 1);
             Assert.True(roomId1 != -1);
             RegisterUser2();
-            int roomId2 = GameBridge.CreateGameRoomWithPref(_userId2, 10, false, GameMode.NoLimit, 2, 8, 1, 1);
+            int roomId2 = GameBridge.CreateGameRoomWithPref(_userId2, 10, false, GameMode.NoLimit, 
+                2, 8, 1, 1);
             Assert.True(roomId2 != -1);
             Assert.True(GameBridge.GetGamesByGameMode(GameMode.Limit).Count == 1);
             Assert.True(GameBridge.GetGamesByGameMode(GameMode.NoLimit).Count == 1);

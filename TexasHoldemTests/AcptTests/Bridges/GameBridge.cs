@@ -12,6 +12,7 @@ using TexasHoldemShared.CommMessages;
 //using TexasHoldemShared.CommMessaages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
+using TexasHoldemTests.Database.DataControlers;
 
 namespace TexasHoldemTests.AcptTests.Bridges
 {
@@ -20,6 +21,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
         private readonly GameServiceHandler _gameService;
         private readonly UserServiceHandler _userService;
         private readonly GameCenter _gameCenter;
+        private readonly LogsOnlyForTest _logDbHandler;
 
         public GameBridge(GameCenter gc, SystemControl sys, LogControl log, ReplayManager replay)
         {
@@ -27,7 +29,7 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var ses = new SessionIdHandler();
             _gameService = new GameServiceHandler(gc, sys, log, replay,ses);
             _userService = new UserServiceHandler(gc, sys);
-            
+            _logDbHandler = new LogsOnlyForTest();
     }
 
         private int MakeRoomHelper(int userId, int startingCheap)
@@ -64,7 +66,8 @@ namespace TexasHoldemTests.AcptTests.Bridges
             IUser user = _userService.GetUserById(userId);
             if (user != null)
             {
-                int roomId = _gameService.CreateNewRoom(userId, startingCheap, isSpectetor, gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+                int roomId = _gameService.CreateNewRoom(userId, startingCheap, isSpectetor,
+                    gameModeChosen, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
                 if (roomId >= 0)
                 {
                     return roomId;
@@ -186,9 +189,11 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return false;
         }
 
-        public bool RemoveRoom(int roodId)
+        public bool RemoveRoom(int roomId)
         {
-            bool ans = _gameCenter.RemoveRoom(roodId);
+            var logIds = _logDbHandler.GetSysLogIdsByRoomId(roomId);
+            logIds.ForEach(id => _logDbHandler.DeleteSystemLog(id));
+            bool ans = _gameCenter.RemoveRoom(roomId);
             return ans;
         }
     }
