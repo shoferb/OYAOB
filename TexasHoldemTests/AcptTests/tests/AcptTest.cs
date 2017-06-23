@@ -62,8 +62,6 @@ namespace TexasHoldemTests.AcptTests.tests
         [TearDown]
         protected void Dispose()
         {
-            //////RestartSystem();
-
             SubClassDispose();
             User1Name = null;
             User1Pw = null;
@@ -77,14 +75,15 @@ namespace TexasHoldemTests.AcptTests.tests
         protected abstract void SubClassDispose();
 
         //make sure user1 exists and has at least 1 replayable game
-        protected void SetupUser1()
+        protected int SetupUser1()
         {
             UserId = new Random().Next();
+            RegisterUserToDB(UserId);
             User1Name = "Oded" + UserId;
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
-            RegisterUser1();
-
+            //RegisterUser1();
+            return UserId;
         }
 
         protected void RegisterUser1()
@@ -99,21 +98,6 @@ namespace TexasHoldemTests.AcptTests.tests
             {
                 UserBridge.LoginUser(User1Name, User1Pw);
             }
-        }
-
-        private void CleanUserAndHisGames(int userId)
-        {
-            if (UserBridge.IsUserLoggedIn(userId))
-            {
-                UserBridge.LogoutUser(UserId);
-            }
-
-            List<int> usersGames = UserBridge.GetUsersGameRooms(userId);
-            usersGames.ForEach(usersRoom =>
-            {
-                UserBridge.RemoveUserFromRoom(userId, usersRoom);
-            });
-            UserBridge.DeleteUser(userId);
         }
 
         //delete all users and all games

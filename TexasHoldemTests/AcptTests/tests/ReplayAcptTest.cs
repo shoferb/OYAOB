@@ -52,7 +52,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 List<int> user2Games = UserBridge.GetUsersGameRooms(id);
                 foreach (var roomId in user2Games)
                 {
-                    UserBridge.RemoveUserFromRoom(id, RoomId);
+                    UserBridge.RemoveUserFromRoom(id, roomId);
                 }
 
                 UserBridge.DeleteUser(id);
