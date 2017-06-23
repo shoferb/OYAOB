@@ -461,7 +461,7 @@ namespace TexasHoldem.DatabaseProxy.Tests
             proxy.InsertNewGameRoom(toAdd);
             proxy.InsertNewGameRoom(toAdd2);
             proxy.UpdateGameRoom(toAdd);
-            List<IGame> g = proxy.GetGameRoomsByMinBet(111);
+            List<IGame> g = proxy.GetGameRoomsByMinBet(123);
             bool g1 = false;
             bool g2 = false;
             foreach (var game in g)
@@ -589,10 +589,6 @@ namespace TexasHoldem.DatabaseProxy.Tests
 
         }
 
-        [TestMethod()]
-        public void GetGameRoomReplyByIdTest()
-        {
-           Assert.Fail();
-        }
+       
     }
 }
