@@ -11,14 +11,12 @@ using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
-using TexasHoldemShared.Security;
 
 namespace TexasHoldemTests.communication
 {
     class WebCommHandlerTests
     {
         private IWebCommHandler _commHandler;
-        private ISecurity _security = new SecurityHandler();
         private WebEventHandler _eventHandler;
         private Mock<IEventHandler> _serverEventHandlerMock;
         private string _url = "http://127.0.0.1:8080/";

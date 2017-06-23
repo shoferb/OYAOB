@@ -157,10 +157,11 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLogoutTestGood()
         {
-            RegisterUser1();
+            //RegisterUser1();
+            int id = SetupUser1();
 
-            Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
-            Assert.True(UserBridge.LogoutUser(UserId));
+            //Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
+            Assert.True(UserBridge.LogoutUser(id));
         }
 
         [TestCase]
@@ -462,14 +463,15 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditAvatarTestGood()
         {
-            RegisterUser1();
+            //RegisterUser1();
+            int id = SetupUser1();
 
-            Assert.True(UserBridge.EditAvatar(UserId, "yarden"));
-            Assert.AreEqual(UserBridge.GetUserAvatar(UserId), "yarden");
+            Assert.True(UserBridge.EditAvatar(id, "yarden"));
+            Assert.AreEqual(UserBridge.GetUserAvatar(id), "yarden");
 
-            //set back
-            Assert.True(UserBridge.EditEmail(UserId, UserEmailGood1));
-            Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
+            ////set back
+            //Assert.True(UserBridge.EditEmail(UserId, UserEmailGood1));
+            //Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
         }
 
 
@@ -526,7 +528,8 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserAddToRoomAsPlayerNoMoneyTestGood()
         {
             //RestartSystem();
-            RegisterUser1();
+            //RegisterUser1();
+            SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             Assert.False(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, 0));
@@ -539,7 +542,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserAddToRoomAsPlayerTestSad()
         {
             //RestartSystem();
-            RegisterUser1();
+            //RegisterUser1();
             Assert.True(RoomId == -1);
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -621,7 +624,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserRemoveFromRoomSpectatorTestGood()
         {
             //RestartSystem();
-            SetupUser1();
+            //SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
 
@@ -968,7 +971,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void redistributesThePlayersAmongTheLeaguesGood()
         {
             //RestartSystem();
-            SetupUser1();
+            //SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             IUser user2 = UserBridge.getUserById(_userId2);
@@ -1002,7 +1005,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void redistributesThePlayersAmongTheLeaguesSad()
         {
             //RestartSystem();
-            SetupUser1();
+            //SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             IUser user2 = UserBridge.getUserById(_userId2);
@@ -1037,7 +1040,7 @@ namespace TexasHoldemTests.AcptTests.tests
         public void redistributesThePlayersAmongTheLeaguesBad()
         {
             //RestartSystem();
-            SetupUser1();
+            //SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
             IUser user2 = UserBridge.getUserById(_userId2);
