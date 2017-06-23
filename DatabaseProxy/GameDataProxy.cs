@@ -139,7 +139,9 @@ namespace TexasHoldem.DatabaseProxy
 
         public bool UpdateGameRoom(Logic.Game.GameRoom g)
         {
-            return _controller.UpdateGameRoom( g.Id, g.GetGameNum(),  GameRoomToXElement(new GameRoomXML(g)), g.IsGameActive(),  g.GetGameReplay());
+            bool ans = UpdateGameRoomPotSize(g.GetPotSize(), g.Id);
+            ans = ans & _controller.UpdateGameRoom(g.Id, g.GetGameNum(), GameRoomToXElement(new GameRoomXML(g)), g.IsGameActive(), g.GetGameReplay());
+            return ans;
         }
 
         public bool DeleteGameRoom(int roomId, int gameId)
