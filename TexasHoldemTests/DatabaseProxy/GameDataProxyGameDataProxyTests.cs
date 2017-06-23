@@ -484,7 +484,42 @@ namespace TexasHoldem.DatabaseProxy.Tests
         [TestMethod()]
         public void GetGameRoomsByPotSizeTest()
         {
-            Assert.Fail();
+            int roomId = 122221;
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+            int userId2 = new Random().Next();
+            int userId3 = new Random().Next();
+            int room2Id = 122222;
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+            int user2Id2 = new Random().Next();
+            int user2Id3 = new Random().Next();
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1, userId2, userId3);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1, user2Id2, user2Id3);
+            toAdd.SetPotSize(151515);
+            toAdd.SetDeco(123, 0, true, 111, 999, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = proxy.GetGameRoomsByPotSize(151515);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1, userId2, userId3);
+            Cleanup(game2Id, room2Id, user2Id1, user2Id2, userId3);
         }
 
         [TestMethod()]
