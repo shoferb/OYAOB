@@ -71,9 +71,6 @@ namespace TexasHoldem.communication.Impl
                 context.Request.ContentEncoding).ReadToEnd();
             Console.WriteLine("received msg is: " + msgStr);
             request.InputStream.Close();
-            byte[] msgbytes = Encoding.UTF8.GetBytes(msgStr);
-            //msgStr = _security.Decrypt(msgbytes); //decrypt received msg
-            //msgStr = _security.Decrypt(msgbytes); //decrypt received msg
             var resultLst = _eventHandler.HandleRawMsg(msgStr); //handle the incoming msg
             if (resultLst.Count > 1)
             {

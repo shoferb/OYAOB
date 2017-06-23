@@ -99,7 +99,7 @@ namespace TexasHoldemTests.communication
                 data = respStreamReader.ReadToEnd();
             }
             Assert.False(String.IsNullOrEmpty(data));
-            var respXml = _parser.JsonToXml(data);
+            var respXml = _parser.JsonToXml('i' + data);
             //Assert.False(data.Equals(LoginRespXml)); //should be encrypted
             Assert.True(respXml.Equals(LoginRespXml)); //should be encrypted
             //var bytes = Encoding.UTF8.GetBytes(data);
