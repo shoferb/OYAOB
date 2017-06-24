@@ -320,10 +320,10 @@ namespace TexasHoldem.DatabaseProxy
             return GameRoomFromXElement(g);
         }
 
-        public string GetGameRoomReplyById(int roomid, int gameid)
+        public string GetGameRoomReplyById(int roomid)
         {
             List<IGame> toRet = new List<IGame>();
-            string rep = _controller.GetGameRoomReplyById(roomid, gameid);
+            string rep = _controller.GetGameRoomReplyById(roomid);
             if (rep == null)
             {
                 return null;

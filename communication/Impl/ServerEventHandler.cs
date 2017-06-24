@@ -26,7 +26,7 @@ namespace TexasHoldem.communication.Impl
         public bool ShouldUseDelim { get; set; } = false;
         private ISessionIdHandler _sessionIdHandler;
         private readonly ISecurity _security;
-
+        private ReplayHandler _replayService;
         private readonly TcpClient _socket;
 
         public ServerEventHandler(SessionIdHandler sidHandler, TcpClient socket, GameCenter game, SystemControl sys, 
@@ -38,6 +38,7 @@ namespace TexasHoldem.communication.Impl
             _commHandler = comm;
             _sessionIdHandler = sidHandler;
             _security = new SecurityHandler();
+            _replayService = new ReplayHandler(replay);
         }
 
         public void SetSessionIdHandler(ISessionIdHandler handler)
@@ -560,11 +561,11 @@ namespace TexasHoldem.communication.Impl
             }
         }
 
-        //TODO:
+     
         public ResponeCommMessage HandleEvent(ReplayCommMessage msg)
         {
-            // _replayService.ShowFirstGameReplay(msg.roomID, msg.UserId);   
-            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
-        }
+            Tuple<bool, string> rep = _replayService.ShowFirstGameReplay(msg.RoomId, msg.UserId);   
+            return new ReplayResponseCommMessage(rep.Item2, msg.SessionId, msg.UserId, rep.Item1, msg);
+        } 
     }
 }

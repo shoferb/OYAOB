@@ -31,12 +31,12 @@ namespace TexasHoldem.Service
         {
             _RM.DeleteGameReplay(gameRoomID, gameNumber);
         }
-        public void ShowFirstGameReplay(int userID, int roomID)
+
+
+        public Tuple<bool, string> ShowFirstGameReplay( int roomID, int userId)
         {
-            //string replay = _RM.ShowFirstGameReplayForUser(userID, roomID);
-            //Tuple<int,string> tup = new Tuple<int,string>(roomID, replay);
-            //ReplayCommMessage rcm = new ReplayCommMessage(userID, roomID, replay);
-            //return tup;
+           return _RM.GetGameReplayForUserSearch(roomID,userId );
+            
         }
 
     }

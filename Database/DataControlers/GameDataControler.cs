@@ -336,7 +336,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public string GetGameRoomReplyById(int roomid, int gameid)
+        public string GetGameRoomReplyById(int roomid)
         {
             try
             {
