@@ -565,7 +565,7 @@ namespace TexasHoldem.communication.Impl
         public ResponeCommMessage HandleEvent(ReplayCommMessage msg)
         {
             Tuple<bool, string> rep = _replayService.ShowFirstGameReplay(msg.RoomId, msg.UserId);   
-            return new ReplayResponseCommMessage(rep.Item2, msg.SessionId, msg.UserId, rep.Item1, msg);
+            return new ReplaySearchResponseCommMessage(rep.Item2,msg.RoomId, msg.UserId,msg.SessionId,  rep.Item1, msg);
         } 
     }
 }

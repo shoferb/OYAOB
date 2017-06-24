@@ -76,7 +76,6 @@
     <Compile Include="CommMessages\ServerToClient\LoginResponeCommMessage.cs" />
     <Compile Include="CommMessages\ClientToServer\RegisterCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\RegisterResponeCommMessage.cs" />
-    <Compile Include="CommMessages\ServerToClient\ReplayResponseCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ReplaySearchResponseCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ResponeCommMessage.cs" />
     <Compile Include="CommMessages\ServerToClient\ReturnToGameResponseCommMsg.cs" />
