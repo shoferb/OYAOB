@@ -14,6 +14,7 @@ using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.communication.Impl;
+using TexasHoldemTests.Database.DataControlers;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
@@ -24,13 +25,14 @@ namespace TexasHoldem.Logic.Game.Tests
         private List<Player> players;
         private Player player1;
         private int roomID;
-        private GameRoom gameRoom;
+        private IGame gameRoom;
         private bool useCommunication;
         private static LogControl logControl = new LogControl();
         private static SystemControl sysControl = new SystemControl(logControl);
         private static ReplayManager replayManager = new ReplayManager();
         private static SessionIdHandler ses = new SessionIdHandler();
         private static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager, ses);
+        private readonly LogsOnlyForTest _logDbHandler = new LogsOnlyForTest();
 
 
         [TestInitialize()]
@@ -48,8 +50,10 @@ namespace TexasHoldem.Logic.Game.Tests
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
             Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, ses);
-
+            //gameRoom = new GameRoom(players, roomID, deco, gameCenter, logControl, replayManager, ses);
+            gameCenter.CreateNewRoomWithRoomId(roomID, user1, 1000, true,
+                   GameMode.NoLimit, 2, 4, 20, 10);
+            gameRoom = gameCenter.GetRoomById(9999);
         }
 
         private Decorator SetDecoratoresNoLimitWithSpectatores()
@@ -90,7 +94,16 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom = null;
             replayManager.DeleteGameReplay(roomID, 0);
             replayManager.DeleteGameReplay(roomID, 1);
+            Cleanup(9999);
         }
+
+        private void Cleanup(int roomId)
+        {
+            var logIds = _logDbHandler.GetSysLogIdsByRoomId(roomId);
+            logIds.ForEach(id => _logDbHandler.DeleteSystemLog(id));
+            bool ans = gameCenter.RemoveRoom(roomId);
+        }
+
         [TestMethod()]
         public void DoActionLeaveTest()
         {

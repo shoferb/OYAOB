@@ -22,6 +22,7 @@ namespace TexasHoldem.Logic.Game
         bool IsGameMaxPlayerEqual(int max);
         bool IsGameMinBetEqual(int minBet);
         bool IsGameStartingChipEqual(int startingChip);
+        void SetDecorator(Decorator decorator);
 
         //Getter for search display 
         int GetMinPlayer();
