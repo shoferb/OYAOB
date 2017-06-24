@@ -627,8 +627,6 @@ namespace TexasHoldemTests.AcptTests.tests
             Assert.True(GameBridge.IsUserInRoom(UserId, RoomId)); //user1 should still be in Room
         }
 
-
-
         [TestCase]
         public void PlacingBlindBetsForPlayersTestGood()
         {
@@ -657,131 +655,65 @@ namespace TexasHoldemTests.AcptTests.tests
         public void FoldTestBad()
         {
             //RestartSystem();
-            SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            int user2MoneyBefore = user2.Money();
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            int user3MoneyBefore = user3.Money();
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            IGame game = GameBridge.GetAllGames().First();
-            GameBridge.StartGame(UserId, RoomId);
-            Player player2 = GetInGamePlayerFromUser(user2, RoomId);
-            // Player player3 = GetInGamePlayerFromUser(user3, RoomId);
-            GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Fold, -1, RoomId);
-            Assert.True(GameBridge.GetPlayersInRoom(RoomId).Contains(player2));
+            int roomId = CreateGameWith3Users();
+            GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Fold, -1, roomId);
+            Assert.True(GameBridge.GetPlayersInRoom(roomId).Exists(p => p.user.Id() == _userId2));
+            CleanUp(roomId);
         }
 
 
-        //TODO -- fail - player dont enter the room
         [TestCase]
         public void FoldTestGood()
         {
-            ////RestartSystem();
-            //SetupUser1();
-           // CreateGameWithUser1();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-            int userId3 = new Random().Next();
-            int roomId = new Random().Next();
-            CreateGame(roomId,userId,100, true,GameMode.NoLimit, 2, 8, 0, 10);
-            RegisterUserToDB(userId2);
-           // RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(userId2);
-            user2.AddMoney(1000);
-            UserBridge.AddUserToGameRoomAsPlayer(userId2, roomId, user2.Money());
-           // Assert.True(UserBridge.AddUserToGameRoomAsPlayer(userId2, roomId, user2.Money()));
-            // RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            RegisterUserToDB(userId3);
-            IUser user3 = UserBridge.getUserById(userId3);
-            user3.AddMoney(1000);
-            UserBridge.AddUserToGameRoomAsPlayer(userId3, roomId, user3.Money());
-
-            //Assert.True(UserBridge.AddUserToGameRoomAsPlayer(userId3, roomId, user3.Money()));
-            GameBridge.StartGame(userId, roomId);
-            Console.WriteLine("room Id "+ roomId + "users 1, 2, 3: " + userId +" , "+userId2+" , "+userId3);
-            IUser user1 = UserBridge.getUserById(userId);
-            Player player1 = GetInGamePlayerFromUser(user1, roomId);
-            Player player2 = GetInGamePlayerFromUser(user2, roomId);
-            Player player3 = GetInGamePlayerFromUser(user3, roomId);
-            Console.WriteLine("player 1 isActive: " + player1.isPlayerActive);
-            Console.WriteLine("player 2 isActive: " + player2.isPlayerActive);
-            Console.WriteLine("player 3 isActive: " + player3.isPlayerActive);
-            GameBridge.DoAction(userId, CommunicationMessage.ActionType.Fold, -1, roomId);
-            //Assert.True(GameBridge.GetPlayersInRoom(roomId).Contains(player1));
-            //Assert.True(GameBridge.GetPlayersInRoom(roomId).Contains(player2));
-            //Assert.True(GameBridge.GetPlayersInRoom(roomId).Contains(player3));
-            Assert.False(player1.isPlayerActive);
-            Assert.True(player2.isPlayerActive);
-            Assert.True(player3.isPlayerActive);
+            int roomId = CreateGameWith3Users();
+            GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Fold, 0, roomId);
+            var players = GameBridge.GetPlayersInRoom(roomId);
+            Assert.AreEqual(3, players.Count);
+            Assert.True(players.Exists(p =>
+            {
+                var user = p.user;
+                return user.Id() == UserId && !p.isPlayerActive;
+            }));
+            Assert.True(players.Exists(p =>
+            {
+                var user = p.user;
+                return user.Id() == _userId2 && p.isPlayerActive;
+            }));
+            Assert.True(players.Exists(p =>
+            {
+                var user = p.user;
+                return user.Id() == _userId3 && p.isPlayerActive;
+            }));
             CleanUp(roomId);
         }
 
         [TestCase]
         public void CheckTestSad()
         {
-            //RestartSystem();
-            SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            GameBridge.StartGame(UserId, RoomId);
+            var roomId = CreateGameWith3Users();
+            UserBridge.ReduceUserMoney(UserId, 100000000 - 1); //so user does not have enough money
             //cant raise not eungh money       
-            Assert.False(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 0, RoomId));
+            Assert.False(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 0, roomId));
+            CleanUp(roomId);
         }
 
         [TestCase]
         public void CheckTestBad()
         {
             //RestartSystem();
-            SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            GameBridge.StartGame(UserId, RoomId);
+            var roomId = CreateGameWith3Users();
             //cant raise not his turn       
-            Assert.False(GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Bet, 0, RoomId));
+            Assert.False(GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Bet, 0, roomId));
+            CleanUp(roomId);
         }
 
         [TestCase]
         public void CheckTestGood()
         {
             //RestartSystem();
-            SetupUser1();
-            IUser user1 = UserBridge.getUserById(UserId);
-            user1.AddMoney(100000000);
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            GameBridge.StartGame(UserId, RoomId);
-            Assert.True(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 100, RoomId));
-            Assert.True(GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Fold, -1, RoomId));
-            Assert.True(GameBridge.DoAction(_userId3, CommunicationMessage.ActionType.Bet, 1000, RoomId));
-            Assert.True(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 0, RoomId));
-
+            var roomId = CreateGameWith3Users();
+            Assert.True(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 100, roomId));
+            CleanUp(roomId);
         }
 
         [TestCase]
@@ -871,26 +803,23 @@ namespace TexasHoldemTests.AcptTests.tests
         public void CallTestSad()
         {
             //RestartSystem();
-            SetupUser1();
-            IUser user1 = UserBridge.getUserById(UserId);
-            user1.AddMoney(100000000);
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            GameBridge.StartGame(UserId, RoomId);
-            Assert.False(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 5, RoomId));
+            var roomId = CreateGameWith3Users();
+            var money = UserBridge.GetUserMoney(UserId);
+            Assert.False(GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, money + 1, roomId));
+            CleanUp(roomId);
         }
 
         [TestCase]
         public void CallTestBad()
         {
             //RestartSystem();
+            var roomId = CreateGameWith3Users();
+            Assert.False(GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Bet, -10, roomId)); //neg amount
+            CleanUp(roomId);
+        }
+
+        private int CreateGameWith3Users()
+        {
             UserId = SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
             user1.AddMoney(100000000);
@@ -907,8 +836,7 @@ namespace TexasHoldemTests.AcptTests.tests
             user3.AddMoney(1000);
             Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, roomId, user3.Money()));
             GameBridge.StartGame(UserId, roomId);
-            Assert.False(GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Bet, -10, roomId));
-            CleanUp(roomId);
+            return roomId;
         }
 
         [TestCase]

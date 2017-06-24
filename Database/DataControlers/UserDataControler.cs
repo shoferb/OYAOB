@@ -101,7 +101,7 @@ namespace TexasHoldem.Database.DataControlers
                 //    db.SubmitChanges();
                 }
            }
-           catch (Exception)
+           catch (Exception e)
            {
                return;
            }
