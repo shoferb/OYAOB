@@ -99,7 +99,7 @@
     <Compile Include="DatabaseProxy\GameDataProxyGameDataProxyTests.cs" />
     <Compile Include="DatabaseProxy\LogDataProxyTests.cs" />
     <Compile Include="DatabaseProxy\UserDataProxyTests.cs" />
-    <Compile Include="Database\DataControlers\GameDataControler.cs" />
+    <Compile Include="Database\DataControlers\GameDataControlerTests.cs" />
     <Compile Include="Database\DataControlers\LogDataControlerTests.cs" />
     <Compile Include="Database\DataControlers\LogsOnlyForTest.cs" />
     <Compile Include="Database\DataControlers\UserDataControlerTests.cs" />
