@@ -605,7 +605,13 @@ namespace Client.GuiScreen
             if (gd.IsSucceed)
             {
                 MessageBox.Show("Leave Game Okay. BYE BYE");
-                Dispatcher.Invoke(this.Close);
+                Dispatcher.Invoke(() =>
+                {
+                    ListViewItem toAdd = new ListViewItem();
+                    toAdd.Content = string.Concat($"Player {_logic.user.name}Just leaved the room");
+                    chatListView.Items.Add(toAdd);
+                    this.Close();
+                });
             }
             else
             {
