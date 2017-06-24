@@ -260,8 +260,14 @@ namespace TexasHoldem.Logic.GameControl
                 }
                 IGame room = GetRoomById(roomId);
                 List<IGame> all = GetAllGames();
-                toReturn = all.Contains(room);
-                return toReturn;
+                foreach (IGame g in all)
+                {
+                    if (g.Id == room.Id)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 

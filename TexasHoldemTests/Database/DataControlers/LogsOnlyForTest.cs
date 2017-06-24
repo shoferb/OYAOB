@@ -189,5 +189,7 @@ namespace TexasHoldemTests.Database.DataControlers
                 .ConvertAll(log => log.logId);
             return ids;
         }
+
+        
     }
 }
