@@ -499,8 +499,15 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (var db = new connectionsLinqDataContext())
                 {
-                    int res = (int) db.HasThisActiveGamebool(userId, roomId, gameId).ReturnValue;
-                    return res == 1;
+                    var allUserGames =  db.GetAllUserActiveGame(userId);
+                    foreach (var entry in allUserGames)
+                    {
+                        if (entry.Game_Id == gameId && entry.roomId == roomId)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
                 }
 
             }
@@ -516,15 +523,15 @@ namespace TexasHoldem.Database.DataControlers
             {
                 using (var db = new connectionsLinqDataContext())
                 {
-                    int res = (int)db.HasThisSpectetorGamebool(userId, roomId, gameId).ReturnValue;
-                    if (res == 1)
+                    var allUserGames = db.GetUserSpectetorsGame(userId);
+                    foreach (var entry in allUserGames)
                     {
-                        return true;
+                        if (entry.Game_Id == gameId && entry.roomId == roomId)
+                        {
+                            return true;
+                        }
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
                 }
 
             }
