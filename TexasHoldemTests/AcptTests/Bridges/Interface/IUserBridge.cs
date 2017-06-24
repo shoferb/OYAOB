@@ -16,6 +16,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         string GetUserAvatar(int userId);
         int GetUserMoney(int id);
         int GetUserChips(int userId);
+        double GetUserAvgCashGain(int userId);
         int GetUserChips(int userId, int roomId);
         List<int> GetUsersGameRooms(int userId);
         int GetNextFreeUserId();
@@ -40,11 +41,13 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool RemoveUserFromRoom(int userId, int roomId);
         bool ReduceUserMoney(int userId, int amount);
         bool AddUserMoney(int userId, int amount);
+        bool ChangeUserHighestCashGain(int userId, int amount);
+        bool ChangeUserNumOfGames(int userId, int amount);
+        bool ChangeUserTotalProfit(int userId, int amount);
         bool RemoveSpectatorFromRoom(int userId, int roomId);
         bool DividLeage();
         List<IUser> GetUsersByNumOfGames();
         List<IUser> GetUsersByHighestCash();
         List<IUser> GetUsersByTotalProfit();
-        List<IUser> GetUsersByHighestCashn();
     }
 }

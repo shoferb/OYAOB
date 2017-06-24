@@ -113,6 +113,16 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return 0;
         }
 
+        public double GetUserAvgCashGain(int userId)
+        {
+            IUser user = _userService.GetUserById(userId);
+            if (user != null)
+            {
+                return user.GetAvgCashGainPerGame();
+            }
+            return 0.0;
+        }
+
         public List<int> GetUsersGameRooms(int userId)
         {
             List<int> gameIds = new List<int>();
@@ -222,10 +232,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserById(id);
             if (user != null)
             {
-                var playerGames = _gameService.GetActiveGamesByUserName(user.Name());
-                playerGames.ForEach(g => _gameService.DoAction(id, 
-                    CommunicationMessage.ActionType.Leave, 0, g.Id));
-                return _userService.DeleteUser(user.Name(), user.Password());
+                var playerGames = _gameService.GetActiveGamesByUserName(user.MemberName());
+                if (playerGames != null)
+                {
+                    playerGames.ForEach(g => _gameService.DoAction(id,
+                                CommunicationMessage.ActionType.Leave, 0, g.Id));
+                }
+                return _userService.DeleteUser(user.MemberName(), user.Password()); 
             }
             return false;
 
@@ -283,6 +296,20 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return ActionSuccedded(_gameService.DoAction(userId, CommunicationMessage.ActionType.Leave, 0, roomId));
         }
 
+        public bool ChangeUserTotalProfit(int userId, int amount)
+        {
+            IUser user = _userService.GetUserById(userId);
+            if (user != null)
+            {
+                int sum = user.TotalProfit;
+                if (sum < amount)
+                {
+                    return user.SetTotalProfit(amount);
+                }
+            }
+            return false;
+        }
+
         public bool RemoveSpectatorFromRoom(int userId, int roomId)
         {
             return ActionSuccedded(_gameService.RemoveSpectatorFromRoom(userId, roomId));
@@ -299,6 +326,36 @@ namespace TexasHoldemTests.AcptTests.Bridges
             if (user != null)
             {
                 return _userService.EditMoney(userId, user.Money() + amount);
+            }
+            return false;
+        }
+
+        public bool ChangeUserHighestCashGain(int userId, int amount)
+        {
+            IUser user = _userService.GetUserById(userId);
+            if (user != null)
+            {
+                int currSum = user.HighestCashGainInGame;
+                if (currSum < amount)
+                {
+                    user.UpdateHighestCashInGame(amount);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool ChangeUserNumOfGames(int userId, int amount)
+        {
+            IUser user = _userService.GetUserById(userId);
+            if (user != null)
+            {
+                int sum = user.GetNumberOfGamesUserPlay();
+                if (sum < amount)
+                {
+                    user.SetNumGamesPlayed(amount);
+                    return true;
+                }
             }
             return false;
         }
@@ -334,10 +391,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
             results.MoveNext();
             ActionResultInfo result = results.Current;
             return result.GameData.IsSucceed;
-        }
-        public List<IUser> GetUsersByHighestCashn()
-        {
-            return new List<IUser>();
         }
     }
 }

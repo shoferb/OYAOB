@@ -18,6 +18,10 @@ namespace TexasHoldem.Logic.Users
         //inc num of games play
         bool IncGamesPlay();
 
+        bool SetNumGamesPlayed(int amount);
+
+        bool SetTotalProfit(int amount);
+
         int Id();
        
         String Name();

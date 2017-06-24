@@ -82,7 +82,7 @@ namespace TexasHoldem.Database.DataControlers
                     return toReturn;
                }
            }
-           catch (Exception)
+           catch (Exception e)
            {
                return null;
            }
@@ -101,7 +101,7 @@ namespace TexasHoldem.Database.DataControlers
                 //    db.SubmitChanges();
                 }
            }
-           catch (Exception)
+           catch (Exception e)
            {
                return;
            }
