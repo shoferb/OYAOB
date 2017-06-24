@@ -107,22 +107,26 @@ namespace TexasHoldem.Service
 
         public IEnumerator<ActionResultInfo> RemoveSpectatorFromRoom(int userId, int roomId)
         {
-            return DoAction(userId, CommunicationMessage.ActionType.SpectatorLeave, 0, roomId);
-            //IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
-            //IGame gameRoom = _gameCenter.GetRoomById(roomId);
-            //IUser user = _systemControl.GetUserWithId(userId);
-            //if (gameRoom != null && user != null)
-            //{
-            //    inumerator = gameRoom.RemoveSpectetorFromRoom(user);
-            //    //TODO was like this: proxyDB
-            //    _proxyDb.UpdateGameRoom((GameRoom)gameRoom);
-            //    _proxyDb.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
-            //}
-            //return inumerator;
+            //return DoAction(userId, CommunicationMessage.ActionType.SpectatorLeave, 0, roomId);
+           //todo - new call remove above
+             IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.RemoveSpectatorFromRoom(user, roomId);
+            
+
         }
 
         public IEnumerator<ActionResultInfo> AddSpectatorToRoom(int userId, int roomId)
         {
+            //IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
+           
+            //IUser user = _systemControl.GetUserWithId(userId);
+            //if ( user != null)
+            //{
+            //    inumerator = _gameCenter.AddSpectatorToRoom(user, roomId); 
+            //}
+            //return inumerator;
+            //todo - new call below remove above
+            
             IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
             IGame gameRoom = _gameCenter.GetRoomById(roomId);
             IUser user = _systemControl.GetUserWithId(userId);
