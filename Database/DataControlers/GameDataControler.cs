@@ -10,7 +10,7 @@ using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Database.DataControlers
 {
-    class GameDataControler
+    public class GameDataControler
     {
 
         public GameDataControler() { }
