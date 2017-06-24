@@ -209,7 +209,12 @@ namespace TexasHoldemTests.AcptTests.Bridges
 
         public bool DeleteUser(string name, string pw)
         {
-            return _userService.DeleteUser(name, pw);
+            IUser user = _userService.GetIUserByUserName(name);
+            if (user != null)
+            {
+                return DeleteUser(user.Id());
+            }
+            return false;
         }
 
         public bool DeleteUser(int id)
@@ -217,9 +222,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserById(id);
             if (user != null)
             {
-                return DeleteUser(user.Name(), user.Password());
+                var playerGames = _gameService.GetActiveGamesByUserName(user.Name());
+                playerGames.ForEach(g => _gameService.DoAction(id, 
+                    CommunicationMessage.ActionType.Leave, 0, g.Id));
+                return _userService.DeleteUser(user.Name(), user.Password());
             }
             return false;
+
         }
 
         public bool EditName(int id, string newName)
