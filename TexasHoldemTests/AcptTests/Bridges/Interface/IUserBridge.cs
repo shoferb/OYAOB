@@ -16,6 +16,7 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         string GetUserAvatar(int userId);
         int GetUserMoney(int id);
         int GetUserChips(int userId);
+        double GetUserAvgCashGain(int userId);
         int GetUserChips(int userId, int roomId);
         List<int> GetUsersGameRooms(int userId);
         int GetNextFreeUserId();
@@ -48,6 +49,5 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         List<IUser> GetUsersByNumOfGames();
         List<IUser> GetUsersByHighestCash();
         List<IUser> GetUsersByTotalProfit();
-        List<IUser> GetUsersByHighestCashn();
     }
 }

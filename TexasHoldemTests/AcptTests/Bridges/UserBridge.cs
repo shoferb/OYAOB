@@ -113,6 +113,16 @@ namespace TexasHoldemTests.AcptTests.Bridges
             return 0;
         }
 
+        public double GetUserAvgCashGain(int userId)
+        {
+            IUser user = _userService.GetUserById(userId);
+            if (user != null)
+            {
+                return user.GetAvgCashGainPerGame();
+            }
+            return 0.0;
+        }
+
         public List<int> GetUsersGameRooms(int userId)
         {
             List<int> gameIds = new List<int>();
@@ -381,10 +391,6 @@ namespace TexasHoldemTests.AcptTests.Bridges
             results.MoveNext();
             ActionResultInfo result = results.Current;
             return result.GameData.IsSucceed;
-        }
-        public List<IUser> GetUsersByHighestCashn()
-        {
-            return new List<IUser>();
         }
     }
 }

@@ -130,7 +130,7 @@ namespace TexasHoldem.Logic.Users
             lock (padlock)
             {
                 userDataProxy.EditUserNumOfGamesPlayed(id, unknowGamesPlay + amount);
-                unknowGamesPlay++;
+                unknowGamesPlay += amount;
 
                 if (unknowGamesPlay > 10 && league == LeagueName.Unknow)
                 {
@@ -240,7 +240,7 @@ namespace TexasHoldem.Logic.Users
             IUser t = userDataProxy.GetUserById(id);
             if (t.GetNumberOfGamesUserPlay() != 0)
             {
-                return (double)t.TotalProfit / (t.GetNumberOfGamesUserPlay());
+                return (double)t.TotalProfit / t.GetNumberOfGamesUserPlay();
             }
             return 0.0;
         }

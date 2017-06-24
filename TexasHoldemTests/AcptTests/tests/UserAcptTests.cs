@@ -141,11 +141,9 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserLogoutTestGood()
         {
-            //RegisterUser1();
             int id = SetupUser1();
-
-            //Assert.True(UserBridge.LoginUser(User1Name, User1Pw));
             Assert.True(UserBridge.LogoutUser(id));
+            UserBridge.DeleteUser(id);
         }
 
         [TestCase]
@@ -443,15 +441,11 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditAvatarTestGood()
         {
-            //RegisterUser1();
             int id = SetupUser1();
 
             Assert.True(UserBridge.EditAvatar(id, "yarden"));
             Assert.AreEqual(UserBridge.GetUserAvatar(id), "yarden");
-
-            ////set back
-            //Assert.True(UserBridge.EditEmail(UserId, UserEmailGood1));
-            //Assert.AreEqual(UserBridge.GetUserEmail(UserId), UserEmailGood1);
+            UserBridge.DeleteUser(id);
         }
 
 
@@ -471,13 +465,8 @@ namespace TexasHoldemTests.AcptTests.tests
         public void UserAddUserMoneyTestBad()
         {
             ////RestartSystem();
-            UserId = new Random().Next();
-            User1Name = "orelie" + UserId;
-            User1Pw = "goodPw1234";
-            UserEmailGood1 = "gooduser1@gmail.com";
-            RegisterUser1();
+            UserId = SetupUser1();
             const int amountToChange = -10000;
-            SetupUser1();
             int prevAmount = UserBridge.GetUserMoney(UserId);
             Assert.False(UserBridge.AddUserMoney(UserId, amountToChange));
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId));
@@ -570,49 +559,12 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserRemoveFromRoomSpectatorTestGood()
         {
-            //RestartSystem();
-            //SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-
-            int money = UserBridge.GetUserMoney(_userId2);
-            int chips = UserBridge.GetUserChips(_userId2);
-
-            //add user to Room as spectator
-            Assert.True(UserBridge.AddUserToGameRoomAsSpectator(_userId2, RoomId));
-            Assert.True(GameBridge.IsUserInRoom(_userId2, RoomId));
-            Assert.Contains(RoomId, UserBridge.GetUsersGameRooms(_userId2));
-
-            //remove user from Room
-            Assert.True(UserBridge.RemoveSpectatorFromRoom(_userId2, RoomId));
-            Assert.False(UserBridge.GetUsersGameRooms(_userId2).Contains(RoomId));
-            Assert.AreEqual(money, UserBridge.GetUserMoney(_userId2));
-            Assert.AreEqual(chips, UserBridge.GetUserChips(_userId2));
-            Assert.True(GameBridge.IsUserInRoom(UserId, RoomId)); //user1 should still be in Room
-        }
-
-        [TestCase]
-        public void PlacingBlindBetsForPlayersTestGood()
-        {
-            //RestartSystem();
-            SetupUser1();
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            int user2MoneyBefore = user2.Money();
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            int user3MoneyBefore = user3.Money();
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId3, RoomId, user3.Money()));
-            IGame game = GameBridge.GetAllGames().First();
-            GameBridge.StartGame(UserId, RoomId);
-            Player player2 = GetInGamePlayerFromUser(user2, RoomId);
-            int sb = game.GetMinBet();
-            Player player3 = GetInGamePlayerFromUser(user3, RoomId);
-            Assert.True(player2.TotalChip == user2MoneyBefore - sb || player3.TotalChip == user3MoneyBefore - sb);
+            UserId = SetupUser1();
+            int roomId = new Random().Next();
+            CreateGame(roomId, UserId, 100, true, GameMode.NoLimit, 2, 8, 0, 10);
+            Assert.IsTrue(UserBridge.RemoveUserFromRoom(UserId, roomId));
+            CleanUp(roomId);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
@@ -765,111 +717,36 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void redistributesThePlayersAmongTheLeaguesGood()
+        public void RedistributesThePlayersAmongTheLeaguesGood()
         {
-            //RestartSystem();
-            //SetupUser1();
-            IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
-            IUser user4 = UserBridge.getUserById(_userId4);
-            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
-            IUser user5 = UserBridge.getUserById(_userId5);
-            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
-            IUser user6 = UserBridge.getUserById(_userId6);
-            for (int i = 0; i < 11; i++)
+            
+            int[] ids = new int[6];
+            Random rand = new Random();
+            for (int i = 0; i < 6; i++)
             {
-                user6.IncGamesPlay();
-                user5.IncGamesPlay();
-                user3.IncGamesPlay();
-                user4.IncGamesPlay();
-                user2.IncGamesPlay();
-                user1.IncGamesPlay();
+                ids[i] = rand.Next();
+                RegisterUser(ids[i], _user2Name + ids[i], _user2Pw, _user2EmailGood);
             }
 
-            Assert.True(user2.EditUserPoints(100));
-            Assert.True(user1.EditUserPoints(10000));
-            Assert.True(UserBridge.DividLeage());
-            Assert.True(user1.GetLeague() == LeagueName.A);
-            Assert.True(user2.GetLeague() == LeagueName.A);
+            var users = new List<IUser>();
 
-        }
-
-        [TestCase]
-        public void redistributesThePlayersAmongTheLeaguesSad()
-        {
-            //RestartSystem();
-            //SetupUser1();
-            IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
-            IUser user4 = UserBridge.getUserById(_userId4);
-            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
-            IUser user5 = UserBridge.getUserById(_userId5);
-            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
-            IUser user6 = UserBridge.getUserById(_userId6);
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < 6; i++)
             {
-                user6.IncGamesPlay();
-                user5.IncGamesPlay();
-                user3.IncGamesPlay();
-                user4.IncGamesPlay();
-                user2.IncGamesPlay();
-                user1.IncGamesPlay();
+                IUser user = UserBridge.getUserById(ids[i]);
+                user.SetNumGamesPlayed(11);
+                users.Add(user);
             }
 
-            Assert.True(user2.EditUserPoints(100));
-            Assert.True(user1.EditUserPoints(10000));
-            Assert.True(UserBridge.DividLeage());
-            //both spoused to be in leage A
-            Assert.True(user1.GetLeague() == LeagueName.A);
-            Assert.True(user2.GetLeague() == LeagueName.A);
+            users[1].EditUserPoints(100);
+            users[0].EditUserPoints(10000);
+            UserBridge.DividLeage();
 
-        }
-
-        [TestCase]
-        public void redistributesThePlayersAmongTheLeaguesBad()
-        {
-            //RestartSystem();
-            //SetupUser1();
-            IUser user1 = UserBridge.getUserById(UserId);
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            RegisterUser(_userId4, _user4Name, _user4Pw, _user4EmailGood);
-            IUser user4 = UserBridge.getUserById(_userId4);
-            RegisterUser(_userId5, _user5Name, _user5Pw, _user5EmailGood);
-            IUser user5 = UserBridge.getUserById(_userId5);
-            RegisterUser(_userId6, _user6Name, _user6Pw, _user6EmailGood);
-            IUser user6 = UserBridge.getUserById(_userId6);
-            for (int i = 0; i < 11; i++)
+            Assert.True(users[0].GetLeague() == LeagueName.E);
+            Assert.True(users[1].GetLeague() == LeagueName.E);
+            for (int i = 0; i < 6; i++)
             {
-                user6.IncGamesPlay();
-                user5.IncGamesPlay();
-                user3.IncGamesPlay();
-                user4.IncGamesPlay();
-                user2.IncGamesPlay();
-                user1.IncGamesPlay();
+                UserBridge.DeleteUser(ids[i]);
             }
-
-            Assert.True(user2.EditUserPoints(100));
-            Assert.True(user1.EditUserPoints(10000));
-            Assert.True(UserBridge.DividLeage());
-            Assert.True(user1.GetLeague() == LeagueName.A);
-            Assert.True(user2.GetLeague() == LeagueName.A);
-            Assert.True(user3.GetLeague() == LeagueName.B);
-            Assert.True(user4.GetLeague() == LeagueName.B);
-            Assert.True(user5.GetLeague() == LeagueName.C);
-            Assert.True(user6.GetLeague() == LeagueName.C);
-
-
         }
 
         [TestCase]
@@ -996,13 +873,6 @@ namespace TexasHoldemTests.AcptTests.tests
         }
 
         [TestCase]
-        public void LeaderBoardByHighestCashTestBad()
-        {
-            List<IUser> users = UserBridge.GetUsersByHighestCashn();
-            Assert.IsEmpty(users);
-        }
-
-        [TestCase]
         public void LeaderBoardByTotalProfitTestSad()
         {
             int[] userIds = CreateUsersWithTotalProfit(1); //only 1 user
@@ -1041,23 +911,11 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void AverageCashTestGood()
         {
-            // //RestartSystem();
-            UserId = new Random().Next();
-            User1Name = "orelie" + UserId;
-            User1Pw = "goodPw1234";
-            UserEmailGood1 = "gooduser1@gmail.com";
-            UserBridge.RegisterUser(UserId, User1Name, User1Pw, UserEmailGood1);
-
-            IUser user1 = UserBridge.getUserById(UserId);
-            Assert.AreNotEqual(user1,null);
-            //RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            //IUser user2 = UserBridge.getUserById(_userId2);
-            //user1.IncGamesPlay();
-            //user2.IncGamesPlay();
-            //IncWinAndPoints(user1, 100, 1100, 1);
-            //IncWinAndPoints(user2, 500, 1200, 2);
-            //Assert.IsTrue(user1.GetAvgCashGainPerGame() == 100);
-            //Assert.IsTrue(user2.GetAvgCashGainPerGame() == 500 / 2);
+            UserId = SetupUser1();
+            UserBridge.ChangeUserTotalProfit(UserId, 1000);
+            UserBridge.ChangeUserNumOfGames(UserId, 10);
+            Assert.AreEqual(100, UserBridge.GetUserAvgCashGain(UserId));
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
