@@ -819,6 +819,44 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Cleanup(game2Id, room2Id, user2Id1);
         }
 
+        [TestMethod()]
+        public void GetGamesByGameModeTest()
+        {
+            int roomId = new Random().Next();
+            int gameId = new Random().Next();
+            int userId1 = new Random().Next();
+
+            int room2Id = new Random().Next();
+            int game2Id = new Random().Next();
+            int user2Id1 = new Random().Next();
+
+            GameRoom toAdd = CreateRoomWithId(gameId, roomId, userId1);
+            GameRoom toAdd2 = CreateRoomWithId(game2Id, room2Id, user2Id1);
+            toAdd.SetDeco(0, 0, true, 1, 2, 222, GameMode.PotLimit, LeagueName.B);
+            toAdd2.SetDeco(0, 0, false, 1, 2, 2222, GameMode.Limit, LeagueName.B);
+            proxy.InsertNewGameRoom(toAdd);
+            proxy.InsertNewGameRoom(toAdd2);
+            proxy.UpdateGameRoom(toAdd);
+            List<IGame> g = _gameCenter.GetGamesByGameMode(GameMode.PotLimit);
+            bool g1 = false;
+            bool g2 = false;
+            foreach (var game in g)
+            {
+                if (game.Id == roomId)
+                {
+                    g1 = true;
+                }
+                else if (game.Id == room2Id)
+                {
+                    g2 = true;
+                }
+            }
+            Assert.AreEqual(g1, true);
+            Assert.AreEqual(g2, false);
+            Cleanup(gameId, roomId, userId1);
+            Cleanup(game2Id, room2Id, user2Id1);
+        }
+
 
         [TestMethod()]
         public void IsGameCanSpecteteTest_good()
