@@ -5,17 +5,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.communication.Impl;
 using TexasHoldem.Database.LinqToSql;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldemTests.Database.DataControlers;
+using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Game_Control;
+using TexasHoldem.Logic.Replay;
+using TexasHoldem.Logic;
+using GameMode = TexasHoldemShared.CommMessages.GameMode;
+using LeagueName = TexasHoldem.Logic.GameControl.LeagueName;
+using TexasHoldem.Logic.Users;
+using Player = TexasHoldem.Logic.Users.Player;
 
 namespace TexasHoldem.Database.DataControlers.Tests
 {
     [TestClass()]
     public class LogDataControlerTests
     {
+
+        private static LogControl logControl = new LogControl();
+
+        private static SystemControl sysControl = new SystemControl(logControl);
+        private static ReplayManager replayManager = new ReplayManager();
+        private static SessionIdHandler ses = new SessionIdHandler();
+        private static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager, ses);
+        private static UserDataProxy _userDataProxy = new UserDataProxy();
+        private bool useCommunication;
+        private GameDataProxy proxy = new GameDataProxy(gameCenter);
+
         private readonly LogDataControler _logDataControler = new LogDataControler();
         private readonly LogsOnlyForTest _logsOnlyForTest = new LogsOnlyForTest();
 
+
+
+        private void RegisterUser(int userId)
+        {
+            IUser toAdd = new User(userId, "orelie", "orelie" + userId, "123456789", 0, 15000, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(toAdd);
+        }
+        private Logic.Game.GameRoom CreateRoomWithId(int gameNum, int roomId, int userId1)
+        {
+
+            RegisterUser(userId1);
+            useCommunication = false;
+
+            List<Player> toAddPlayers = new List<Player>();
+            IUser user = _userDataProxy.GetUserById(userId1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            Player player1 = new Player(user, 1000, roomId);
+            toAddPlayers.Add(player1);
+            Logic.Game.GameRoom gm = new Logic.Game.GameRoom(toAddPlayers, roomId, deco, gameCenter, logControl, replayManager, ses);
+            gm.GameNumber = gameNum;
+            return gm;
+        }
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit,  10, 5);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
+            before.SetNextDecorator(mid);
+            return before;
+        }
+
+
+        public void Cleanup(int gameNum, int roomId, int userId1)
+        {
+            _userDataProxy.DeleteUserById(userId1);
+
+            replayManager.DeleteGameReplay(roomId, 0);
+            replayManager.DeleteGameReplay(roomId, 1);
+            proxy.DeleteGameRoomPref(roomId);
+            proxy.DeleteGameRoom(roomId, gameNum);
+        }
         [TestMethod()]
         public void GetNextLogIdTest_good()
         {
@@ -90,69 +151,119 @@ namespace TexasHoldem.Database.DataControlers.Tests
             _logsOnlyForTest.DeleteErrorLog(20000000);
             _logsOnlyForTest.DeleteLog(20000000);
         }
-        /*
+        
+
         [TestMethod()]
         public void AddSystemLogTest_good_id()
         {
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int logId = new Random().Next();
+            Logic.Game.GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            proxy.InsertNewGameRoom(toAddg);
             Database.LinqToSql.SystemLog toAdd = new Database.LinqToSql.SystemLog();
             Database.LinqToSql.Log logs = new Database.LinqToSql.Log
             {
-                LogId = 3555,
+                LogId = logId,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 3555;
+            toAdd.logId = logId;
             toAdd.msg = "test AddSystemLogTest_good_id()";
-            toAdd.roomId = 1;
-            toAdd.game_Id = 1;
+            toAdd.roomId = roomid;
+            toAdd.game_Id = gameNum;
             _logDataControler.AddSystemLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(3555).logId, 3555);
-            _logsOnlyForTest.DeleteSystemLog(3555);
-            _logsOnlyForTest.DeleteLog(3555);
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).logId, logId);
+            _logsOnlyForTest.DeleteSystemLog(logId);
+            _logsOnlyForTest.DeleteLog(logId);
+            Cleanup(gameNum,roomid,userId);
         }
 
         [TestMethod()]
         public void AddSystemLogTest_good_message()
         {
-            var toAdd = new SystemLog();
-            var logs = new Log
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int logId = new Random().Next();
+            Logic.Game.GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            proxy.InsertNewGameRoom(toAddg);
+            Database.LinqToSql.SystemLog toAdd = new Database.LinqToSql.SystemLog();
+            Database.LinqToSql.Log logs = new Database.LinqToSql.Log
             {
-                LogId = 45555,
+                LogId = logId,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 45555;
-            toAdd.msg = "test AddSystemLogTest_good_message()";
-            toAdd.roomId = 1;
-            toAdd.game_Id = 1;
+            toAdd.logId = logId;
+            toAdd.msg = "AddSystemLogTest_good_message()";
+            toAdd.roomId = roomid;
+            toAdd.game_Id = gameNum;
             _logDataControler.AddSystemLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(45555).msg, "test AddSystemLogTest_good_message()");
-            _logsOnlyForTest.DeleteSystemLog(45555);
-            _logsOnlyForTest.DeleteLog(45555);
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).msg, "AddSystemLogTest_good_message()");
+            _logsOnlyForTest.DeleteSystemLog(logId);
+            _logsOnlyForTest.DeleteLog(logId);
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
         public void AddSystemLogTest_good_roomId()
         {
-            var toAdd = new SystemLog();
-            var logs = new Log
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int logId = new Random().Next();
+            Logic.Game.GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            proxy.InsertNewGameRoom(toAddg);
+            Database.LinqToSql.SystemLog toAdd = new Database.LinqToSql.SystemLog();
+            Database.LinqToSql.Log logs = new Database.LinqToSql.Log
             {
-                LogId = 5555555,
+                LogId = logId,
                 LogPriority = 1
             };
             toAdd.Log = logs;
-            toAdd.logId = 5555555;
-            toAdd.msg = "test AddSystemLogTest_good_message()";
-            toAdd.roomId =55555555;
-            toAdd.game_Id = 1;
+            toAdd.logId = logId;
+            toAdd.msg = "AddSystemLogTest_good_roomId()";
+            toAdd.roomId = roomid;
+            toAdd.game_Id = gameNum;
             _logDataControler.AddSystemLog(toAdd);
 
-            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(5555555).roomId,1);
-            _logsOnlyForTest.DeleteSystemLog(5555555);
-            _logsOnlyForTest.DeleteLog(5555555);
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).roomId,roomid);
+            _logsOnlyForTest.DeleteSystemLog(logId);
+            _logsOnlyForTest.DeleteLog(logId);
+            Cleanup(gameNum, roomid, userId);
         }
-      */
+
+        [TestMethod()]
+        public void AddSystemLogTest_good_gameNum()
+        {
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int logId = new Random().Next();
+            Logic.Game.GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            proxy.InsertNewGameRoom(toAddg);
+            Database.LinqToSql.SystemLog toAdd = new Database.LinqToSql.SystemLog();
+            Database.LinqToSql.Log logs = new Database.LinqToSql.Log
+            {
+                LogId = logId,
+                LogPriority = 1
+            };
+            toAdd.Log = logs;
+            toAdd.logId = logId;
+            toAdd.msg = "AddSystemLogTest_good_gameNum()";
+            toAdd.roomId = roomid;
+            toAdd.game_Id = gameNum;
+            _logDataControler.AddSystemLog(toAdd);
+
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).game_Id, gameNum);
+            _logsOnlyForTest.DeleteSystemLog(logId);
+            _logsOnlyForTest.DeleteLog(logId);
+            Cleanup(gameNum, roomid, userId);
+        }
+
     }
 }
