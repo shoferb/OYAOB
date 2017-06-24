@@ -125,7 +125,33 @@ namespace TexasHoldem.Logic.Users
             }
         }
 
-       
+        public bool SetNumGamesPlayed(int amount)
+        {
+            lock (padlock)
+            {
+                userDataProxy.EditUserNumOfGamesPlayed(id, unknowGamesPlay + amount);
+                unknowGamesPlay++;
+
+                if (unknowGamesPlay > 10 && league == LeagueName.Unknow)
+                {
+                    league = LeagueName.E;
+                    userDataProxy.EditUserLeagueName(id, LeagueName.E);
+                }
+                return true;
+            }
+        }
+
+        //updates field and db
+        public bool SetTotalProfit(int amount)
+        {
+            lock (padlock)
+            {
+                userDataProxy.EditUserTotalProfit(id, amount);
+                TotalProfit = amount;
+
+                return true;
+            }
+        }
 
         public int Id()
         {
@@ -161,8 +187,6 @@ namespace TexasHoldem.Logic.Users
         {
             return money;
         }
-
-      
 
         public string Email()
         {
@@ -674,11 +698,6 @@ namespace TexasHoldem.Logic.Users
             {
                 return false;
             }
-        }
-
-        private bool IsValidInputNotSmallerEqualZero(int toCheck)
-        {
-            return toCheck >= 0;
         }
 
         private bool IsValidInputNotSmallerZero(int toCheck)

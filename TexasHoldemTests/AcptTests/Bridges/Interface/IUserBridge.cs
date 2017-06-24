@@ -40,6 +40,9 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
         bool RemoveUserFromRoom(int userId, int roomId);
         bool ReduceUserMoney(int userId, int amount);
         bool AddUserMoney(int userId, int amount);
+        bool ChangeUserHighestCashGain(int userId, int amount);
+        bool ChangeUserNumOfGames(int userId, int amount);
+        bool ChangeUserTotalProfit(int userId, int amount);
         bool RemoveSpectatorFromRoom(int userId, int roomId);
         bool DividLeage();
         List<IUser> GetUsersByNumOfGames();
