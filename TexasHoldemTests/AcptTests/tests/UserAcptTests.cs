@@ -790,44 +790,10 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UknownUserTestGood()
         {
-            //RestartSystem();
-            SetupUser1();
+            UserId = SetupUser1();
             IUser user1 = UserBridge.getUserById(UserId);
-            user1.AddMoney(100000000);
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(user2.IsUnKnow());
-            Assert.True(user3.IsUnKnow());
             Assert.True(user1.IsUnKnow());
-        }
-
-        [TestCase]
-        public void UknownUserTestBad()
-        {
-            //RestartSystem();
-            SetupUser1();
-            IUser user1 = UserBridge.getUserById(UserId);
-            user1.AddMoney(100000000);
-            CreateGameWithUser1();
-            RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
-            IUser user2 = UserBridge.getUserById(_userId2);
-            user2.AddMoney(1000);
-            Assert.True(UserBridge.AddUserToGameRoomAsPlayer(_userId2, RoomId, user2.Money()));
-            RegisterUser(_userId3, _user3Name, _user3Pw, _user3EmailGood);
-            IUser user3 = UserBridge.getUserById(_userId3);
-            user3.AddMoney(1000);
-            Assert.True(user2.IsUnKnow());
-            Assert.True(user3.IsUnKnow());
-            Assert.True(user1.IsUnKnow());
-            Assert.False(user2.Points() > 0);
-            Assert.False(user3.Points() > 0);
-            Assert.False(user1.Points() > 0);
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
