@@ -156,7 +156,7 @@ namespace TexasHoldemTests.AcptTests.tests
             string pass = "goodPw1234";
             string email = "test@test.com";
             string name = Thread.CurrentThread.ManagedThreadId.ToString();
-            for (int i = 5850000; i < 500; i++)
+            for (int i = 5850000; i < 5850100; i++)
             {
                 Assert.True(UserBridge.RegisterUser(i + name, pass, email) != -1);
                 UserBridge.DeleteUser(i + name, User1Pw);
@@ -169,7 +169,7 @@ namespace TexasHoldemTests.AcptTests.tests
             string email = "test@test.com";
             string name = Thread.CurrentThread.ManagedThreadId.ToString();
             int id;
-            for (int i = 6850000; i < 500; i++)
+            for (int i = 6850000; i < 6850100; i++)
             {
                 id = UserBridge.RegisterUser(i + name, pass, email);
                 Assert.True(id != -1);
@@ -252,7 +252,7 @@ namespace TexasHoldemTests.AcptTests.tests
             int RoomID;
             List<int> roomIDS = new List<int>();
 
-            for (int i = 0; i < 1000; i++)
+            for (int i = 8850000; i < 8850100; i++)
             {
                 RoomID = GameBridge.CreateGameRoom(id, 100);
                 roomIDS.Add(RoomID);

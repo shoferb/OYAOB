@@ -61,6 +61,27 @@ namespace TexasHoldem.Logic.GameControl
             _messageEventHandler = handler;
         }
 
+        public IEnumerator<ActionResultInfo> RemoveSpectatorFromRoom(IUser user, int roomId)
+        {
+            return DoAction(user, CommunicationMessage.ActionType.SpectatorLeave, 0, roomId);
+           
+        }
+
+        public IEnumerator<ActionResultInfo> AddSpectatorToRoom(IUser user, int roomId)
+        {
+            IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
+            IGame gameRoom = GetRoomById(roomId);
+           
+            if (gameRoom != null)
+            {
+                inumerator = gameRoom.AddSpectetorToRoom(user);
+                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
+                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
+            }
+            return inumerator;
+        }
+
+
         public IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {
             IGame gm = GetRoomById(roomId);
@@ -260,13 +281,17 @@ namespace TexasHoldem.Logic.GameControl
                 }
                 IGame room = GetRoomById(roomId);
                 List<IGame> all = GetAllGames();
-                foreach (IGame g in all)
+                if (room != null)
                 {
-                    if (g.Id == room.Id)
+                    foreach (IGame g in all)
                     {
-                        return true;
+                        if (g.Id == room.Id)
+                        {
+                            return true;
+                        }
                     }
                 }
+               
                 return false;
             }
         }
@@ -366,7 +391,7 @@ namespace TexasHoldem.Logic.GameControl
         //return list of games by max player in room
         public List<IGame> GetGamesByMaxPlayer(int max)
         {
-            return proxyDB.GetGameRoomsByMinPlayers(max);
+            return proxyDB.GetGameRoomsByMaxPlayers(max);
         }
 
         //return list of games by min bet in room

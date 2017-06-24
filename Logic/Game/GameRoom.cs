@@ -1239,7 +1239,7 @@ namespace TexasHoldem.Logic.Game
                 }
             }
 
-            user.AddRoomToSpectetorGameList(this);
+            //user.AddRoomToSpectetorGameList(this);
             Spectetor spectetor = new Spectetor(user, Id);
             Spectatores.Add(spectetor);
             spectetor.user.AddRoomToSpectetorGameList(this);
