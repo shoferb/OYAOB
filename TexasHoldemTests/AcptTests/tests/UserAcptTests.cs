@@ -963,7 +963,8 @@ namespace TexasHoldemTests.AcptTests.tests
             int[] userIds = CreateUsersWithNumOfGames(1); //only 1 user
 
             List<IUser> users = UserBridge.GetUsersByNumOfGames();
-            for (int i = 0; i < users.Count; i++)
+            int minLen = Math.Min(users.Count, userIds.Length);
+            for (int i = 0; i < minLen; i++)
             {
                 int currId = users[i].Id();
                 Assert.AreEqual(currId, userIds[i]);
@@ -1074,7 +1075,8 @@ namespace TexasHoldemTests.AcptTests.tests
             int[] userIds = CreateUsersWithTotalProfit(1); //only 1 user
 
             List<IUser> users = UserBridge.GetUsersByTotalProfit();
-            for (int i = 0; i < users.Count; i++)
+            int minLen = Math.Min(users.Count, userIds.Length);
+            for (int i = 0; i < minLen; i++)
             {
                 int currId = users[i].Id();
                 Assert.AreEqual(currId, userIds[i]);
