@@ -116,7 +116,7 @@ namespace TexasHoldem.Database.DataControlers
                     db.DeleteUserById(userId);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }

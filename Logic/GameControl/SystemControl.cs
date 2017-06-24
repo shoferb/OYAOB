@@ -72,20 +72,17 @@ namespace TexasHoldem.Logic.Game_Control
         {
             bool toReturn = false;
             IUser toRemove = userProxy.GetUserByUserName(username);
-            bool found = false;
             lock (padlock)
             {
-
                 try
                 {
-                    if ((toRemove.Password().Equals(password)))
+                    if (toRemove.Password().Equals(password))
                     {
                        
                         userProxy.DeleteUserById(toRemove.Id());
                         toReturn = true;
-                        return toReturn;
                     }
-                        return toReturn;
+                    return toReturn;
                 }
                 catch (Exception e)
                 {
@@ -94,7 +91,6 @@ namespace TexasHoldem.Logic.Game_Control
                     toReturn = false;
                     return toReturn;
                 }
-                return toReturn;
             }
         }
 
