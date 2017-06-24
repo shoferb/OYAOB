@@ -13,7 +13,7 @@ using System.Threading;
 
 namespace TexasHoldemTests.AcptTests.tests
 {
-   /* [TestFixture]
+   [TestFixture]
     public class ServerLoadTests : AcptTest
     {
         private int _userId2 = -1;
@@ -309,5 +309,5 @@ namespace TexasHoldemTests.AcptTests.tests
             }
             return null;
         }
-    }*/
+    }
 }

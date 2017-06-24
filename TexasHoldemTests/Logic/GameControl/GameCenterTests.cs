@@ -346,7 +346,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             IUser user2 = _systemControl.GetUserWithId(userId2);
             _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
             Assert.IsTrue(ActionSuccedded(
-                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 200, roomid)));
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 50, roomid)));
             IGame game = _gameCenter.GetRoomById(roomid);
             _userDataProxy.DeleteUserById(userId2);
             DeleteSysLog(roomid);
@@ -402,6 +402,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             DeleteSysLog(roomid);
             Cleanup(game.GameNumber, roomid, userId);
         }
+
         [TestMethod()]
         public void DoAction_spectete_good_contains()
         {
