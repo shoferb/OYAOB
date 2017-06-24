@@ -110,7 +110,6 @@
     <Compile Include="Logic\Game\DeckTests.cs" />
     <Compile Include="Logic\Game\Evaluator\HandEvaluatorTests.cs" />
     <Compile Include="Logic\Game\GameRoomTests.cs" />
-    <Compile Include="Logic\Game\HandTests.cs" />
     <Compile Include="Logic\Logs\ErrorLogTests.cs" />
     <Compile Include="Logic\Logs\LogTests.cs" />
     <Compile Include="Logic\Logs\SystemLogTests.cs" />
