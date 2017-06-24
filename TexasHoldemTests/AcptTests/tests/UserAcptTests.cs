@@ -458,14 +458,13 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserAddUserMoneyTestGood()
         {
-            RegisterUser1();
+            UserId = SetupUser1();
 
             const int amountToChange = 100;
             int prevAmount = UserBridge.GetUserMoney(UserId);
             Assert.True(UserBridge.AddUserMoney(UserId, amountToChange));
             Assert.True(prevAmount == UserBridge.GetUserMoney(UserId) - amountToChange);
-            Assert.True(UserBridge.ReduceUserMoney(UserId, amountToChange));
-            Assert.True(prevAmount == UserBridge.GetUserMoney(UserId));
+            UserBridge.DeleteUser(UserId);
         }
 
         [TestCase]
