@@ -365,64 +365,38 @@ namespace TexasHoldem.Logic.Users.Tests
             Assert.IsFalse(user.EditUserMoney(-100));
         }
 
-        private Decorator SetDecoratoresNoLimitWithSpectatores()
-        {
-            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
-            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.Unknow);
-            before.SetNextDecorator(mid);
-            return before;
-        }
-
-        private void RemoveUserAndGamesFromDb(int userId)
-        {
-            var games = _gameDataProxy.GetAllUserActiveGames(userId);
-            games.ForEach(g =>
-            {
-                var players = g.GetPlayersInRoom();
-                players.ForEach(p =>
-                {
-                    IUser user = p.user;
-                    _userDataProxy.DeleteActiveGameOfUser(user.Id(), g.Id, g.GameNumber);
-                    _userDataProxy.DeleteUserById(user.Id());
-                });
-
-                var specs = g.GetSpectetorInRoom();
-                specs.ForEach(s =>
-                {
-                    IUser user = s.user;
-                    _userDataProxy.DeleteSpectetorGameOfUSer(user.Id(), g.Id, g.GameNumber);
-                    _userDataProxy.DeleteUserById(user.Id());
-                });
-
-                _gameDataProxy.DeleteGameRoom(g.Id, g.GameNumber);
-            });
-        }
+      
 
         [TestMethod()]
         public void RemoveRoomFromActiveGameListTest_good()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-            user.AddRoomToActiveGameList(gameRoom);
-            Assert.IsTrue(user.RemoveRoomFromActiveGameList(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            toAddg.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            IUser user = _userDataProxy.GetUserById(userId);
+            user.AddRoomToActiveGameList(toAddg);
+            Assert.IsTrue(user.RemoveRoomFromActiveGameList(toAddg));
+            _userDataProxy.DeleteActiveGameOfUser(userId, roomid, gameNum);
+            Cleanup(gameNum, roomid, userId);
+
         }
 
         [TestMethod()]
         public void RemoveRoomFromActiveGameListTest_bad_dont_contain()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-            Assert.IsFalse(user.RemoveRoomFromActiveGameList(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            toAddg.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            IUser user = _userDataProxy.GetUserById(userId);
+            Assert.IsFalse (user.RemoveRoomFromActiveGameList(toAddg));
+            _userDataProxy.DeleteActiveGameOfUser(userId, roomid, gameNum);
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
@@ -436,17 +410,20 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void RemoveRoomFromSpectetorGameListTest_good()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-            Spectetor spectetor = new Spectetor(user2, roomID);
-            user2.AddRoomToSpectetorGameList(gameRoom);
-            Assert.IsTrue(user2.RemoveRoomFromSpectetorGameList(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+            RegisterUser(userId2);
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            toAddg.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            IUser user2 = _userDataProxy.GetUserById(userId2);
+            user2.AddRoomToSpectetorGameList(toAddg);
+            Assert.IsTrue(user2.RemoveRoomFromSpectetorGameList(toAddg));
+            _userDataProxy.DeleteSpectetorGameOfUSer(userId, roomid, gameNum);
+            _userDataProxy.DeleteUserById(userId2);
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
@@ -474,28 +451,31 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void HasThisActiveGameTest_good_contain()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-            user.AddRoomToActiveGameList(gameRoom);
-            Assert.IsTrue(user.HasThisActiveGame(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            toAddg.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            IUser user = _userDataProxy.GetUserById(userId);
+            user.AddRoomToActiveGameList(toAddg);
+            Assert.IsTrue(user.HasThisActiveGame(toAddg));
+            _userDataProxy.DeleteActiveGameOfUser(userId, roomid, gameNum);
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
         public void HasThisActiveGameTest_good_dont_contain()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            IGame gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-            Assert.IsFalse(user.HasThisActiveGame(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            toAddg.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            IUser user = _userDataProxy.GetUserById(userId);
+            Assert.IsFalse(user.HasThisActiveGame(toAddg));
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
@@ -510,36 +490,35 @@ namespace TexasHoldem.Logic.Users.Tests
         [TestMethod()]
         public void HasThisSpectetorGameTest_good_contain()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom = null;
-            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-          //  Spectetor spectetor = new Spectetor(user2, roomID);
-            user2.AddRoomToSpectetorGameList(gameRoom);
-            Assert.IsTrue(user2.HasThisSpectetorGame(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            RegisterUser(userId2);
+            IUser user2 = _userDataProxy.GetUserById(userId2);
+            user2.AddRoomToSpectetorGameList(toAddg);
+            Assert.IsTrue(user2.HasThisSpectetorGame(toAddg));
+            _userDataProxy.DeleteSpectetorGameOfUSer(userId2,roomid,gameNum);
+            _userDataProxy.DeleteUserById(userId2);
+            Cleanup(gameNum,roomid,userId);
         }
 
         [TestMethod()]
         public void HasThisSpectetorGameTest_good_dont_contain()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom = null;
-            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-
-            int roomID = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomID);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomID, deco, GameCenter, LogControl, ReplayManager, Sender);
-           // Spectetor spectetor = new Spectetor(user2, roomID);
-            Assert.IsFalse(user2.HasThisSpectetorGame(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            RegisterUser(userId2);
+            IUser user2 = _userDataProxy.GetUserById(userId2);
+            Assert.IsFalse(user2.HasThisSpectetorGame(toAddg));
+            _userDataProxy.DeleteUserById(userId2);
+            Cleanup(gameNum, roomid, userId);
         }
 
 
@@ -629,21 +608,22 @@ namespace TexasHoldem.Logic.Users.Tests
         }
 
         [TestMethod()]
-        public void AddRoomToSpectetorGameListTest_Bad_Room_aready_contains()
+        public void AddRoomToSpectetorGameListTest_Bad_Room_already_contains()
         {
-            IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-            IGame gameRoom = null;
-            IUser user2 = new User(305077902, "orelie2", "orelie", "123456789", 0, 1500, "orelie@post.bgu.ac.il");
-
-            const int roomId = 9999;
-            List<Player> players = new List<Player>();
-            Player player1 = new Player(user, 1000, roomId);
-            players.Add(player1);
-            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
-            gameRoom = new GameRoom(players, roomId, deco, GameCenter, LogControl, ReplayManager, Sender);
-            Spectetor spectetor = new Spectetor(user2, roomId);
-            user2.AddRoomToSpectetorGameList(gameRoom);
-            Assert.IsFalse(user2.AddRoomToSpectetorGameList(gameRoom));
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+            RegisterUser(userId2);
+            GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            toAddg.SetIsActive(true);
+            _gameDataProxy.InsertNewGameRoom(toAddg);
+            IUser user2 = _userDataProxy.GetUserById(userId2);
+            user2.AddRoomToSpectetorGameList(toAddg);
+            Assert.IsFalse(user2.AddRoomToSpectetorGameList(toAddg));
+            _userDataProxy.DeleteSpectetorGameOfUSer(userId, roomid, gameNum);
+            _userDataProxy.DeleteUserById(userId2);
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
@@ -816,6 +796,74 @@ namespace TexasHoldem.Logic.Users.Tests
         {
             IUser user = new User(305077901, "orelie", "orelie26", "123456789", 0, 500, "orelie@post.bgu.ac.il");
             Assert.AreEqual(user.Money(), 500);
+        }
+
+
+        private void RegisterUser(int userId)
+        {
+            IUser toAdd = new User(userId, "orelie", "orelie" + userId, "123456789", 0, 15000, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(toAdd);
+        }
+        private Logic.Game.GameRoom CreateRoomWithId(int gameNum, int roomId, int userId1)
+        {
+
+            RegisterUser(userId1);
+            bool useCommunication = false;
+
+            List<Player> toAddPlayers = new List<Player>();
+            IUser user = _userDataProxy.GetUserById(userId1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            Player player1 = new Player(user, 1000, roomId);
+            toAddPlayers.Add(player1);
+            Logic.Game.GameRoom gm = new Logic.Game.GameRoom(toAddPlayers, roomId, deco, GameCenter, LogControl, ReplayManager, Sender);
+            gm.GameNumber = gameNum;
+            return gm;
+        }
+
+
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.Unknow);
+            before.SetNextDecorator(mid);
+            return before;
+        }
+
+        private void RemoveUserAndGamesFromDb(int userId)
+        {
+            var games = _gameDataProxy.GetAllUserActiveGames(userId);
+            games.ForEach(g =>
+            {
+                var players = g.GetPlayersInRoom();
+                players.ForEach(p =>
+                {
+                    IUser user = p.user;
+                    _userDataProxy.DeleteActiveGameOfUser(user.Id(), g.Id, g.GameNumber);
+                    _userDataProxy.DeleteUserById(user.Id());
+                });
+
+                var specs = g.GetSpectetorInRoom();
+                specs.ForEach(s =>
+                {
+                    IUser user = s.user;
+                    _userDataProxy.DeleteSpectetorGameOfUSer(user.Id(), g.Id, g.GameNumber);
+                    _userDataProxy.DeleteUserById(user.Id());
+                });
+                ReplayManager.DeleteGameReplay(g.Id, g.GameNumber);
+                ReplayManager.DeleteGameReplay(g.Id, g.GameNumber);
+                _gameDataProxy.DeleteGameRoomPref(g.Id);
+                _gameDataProxy.DeleteGameRoom(g.Id, g.GameNumber);
+                
+            });
+        }
+        public void Cleanup(int gameNum, int roomId, int userId1)
+        {
+            _userDataProxy.DeleteUserById(userId1);
+
+            ReplayManager.DeleteGameReplay(roomId, gameNum);
+            ReplayManager.DeleteGameReplay(roomId, gameNum);
+            _gameDataProxy.DeleteGameRoomPref(roomId);
+            _gameDataProxy.DeleteGameRoom(roomId, gameNum);
         }
     }
 }
