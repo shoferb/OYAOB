@@ -222,10 +222,13 @@ namespace TexasHoldemTests.AcptTests.Bridges
             var user = _userService.GetUserById(id);
             if (user != null)
             {
-                var playerGames = _gameService.GetActiveGamesByUserName(user.Name());
-                playerGames.ForEach(g => _gameService.DoAction(id, 
-                    CommunicationMessage.ActionType.Leave, 0, g.Id));
-                return _userService.DeleteUser(user.Name(), user.Password());
+                var playerGames = _gameService.GetActiveGamesByUserName(user.MemberName());
+                if (playerGames != null)
+                {
+                    playerGames.ForEach(g => _gameService.DoAction(id,
+                                CommunicationMessage.ActionType.Leave, 0, g.Id));
+                }
+                return _userService.DeleteUser(user.MemberName(), user.Password()); 
             }
             return false;
 

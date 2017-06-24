@@ -82,7 +82,7 @@ namespace TexasHoldem.Database.DataControlers
                     return toReturn;
                }
            }
-           catch (Exception)
+           catch (Exception e)
            {
                return null;
            }

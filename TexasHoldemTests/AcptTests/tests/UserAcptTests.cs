@@ -302,15 +302,11 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void UserEditNameTest_Good()
         {
-            UserId = new Random().Next();
-            User1Name = "orelie" + UserId;
-            User1Pw = "goodPw1234";
-            UserEmailGood1 = "gooduser1@gmail.com";
-            RegisterUser1();
+            UserId = SetupUser1();
 
             UserBridge.EditName(UserId, "newName"+UserId);
             Assert.AreEqual(UserBridge.GetUserName(UserId), "newName"+UserId);
-            UserBridge.DeleteUser(UserId);
+            Assert.IsTrue(UserBridge.DeleteUser(UserId));
         }
 
         [TestCase]
