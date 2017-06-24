@@ -8,10 +8,10 @@ namespace TexasHoldem.Logic.Game
 {
     public interface IGame
     {
-        int Id { get; set; }
+        int Id { get; set; } 
+        int GameNumber { get; set; }
         IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, bool useCommunication);
         IEnumerator<ActionResultInfo> AddSpectetorToRoom(IUser user);
-        IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user);
         bool CanJoin(IUser user);
         bool IsGameActive();
         bool IsSpectatable();
@@ -45,5 +45,7 @@ namespace TexasHoldem.Logic.Game
         //methods for chat
         bool IsPlayerInRoom(IUser user);
         bool IsSpectetorInRoom(IUser user);
+        IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user);
+        IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user);
     }
 }

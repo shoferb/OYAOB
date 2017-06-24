@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TexasHoldem.GuiScreen"
         mc:Ignorable="d"
-        Title="OYAOB - Texas Holdem Poker" Height="353.493" Width="370.684" Icon="/GuiScreen/Photos/Screen/icon.png">
-    <Grid Margin="0,0,-55,-48.4">
+        Title="OYAOB - Texas Holdem Poker" Height="423.893" Width="481.084" Icon="/GuiScreen/Photos/Screen/icon.png">
+    <Grid Margin="0,0,-6.6,2">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>

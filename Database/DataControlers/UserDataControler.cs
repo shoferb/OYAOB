@@ -116,7 +116,7 @@ namespace TexasHoldem.Database.DataControlers
                     db.DeleteUserById(userId);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }
@@ -426,6 +426,119 @@ namespace TexasHoldem.Database.DataControlers
                 points = v.points
             };
             return toReturn;
+        }
+
+      
+        public void AddGameToUserActiveGames(int userId, int roomId,int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.AddUserActiveGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return ;
+            }
+        }
+
+        public void AddGameToUserSpectetorGames(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.AddNewSpectetorGamesOfUser(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void DeleteSpectetorGameOfUSer(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.DeleteUserSpectetorGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public void DeleteActiveGameOfUser(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    db.DeleteUserActiveGame(userId, roomId, gameId);
+                }
+
+            }
+            catch (Exception)
+            {
+                return;
+            }
+        }
+
+        public bool HasThisActiveGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    var allUserGames =  db.GetAllUserActiveGame(userId);
+                    foreach (var entry in allUserGames)
+                    {
+                        if (entry.Game_Id == gameId && entry.roomId == roomId)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool HasThisSpectetorGame(int userId, int roomId, int gameId)
+        {
+            try
+            {
+                using (var db = new connectionsLinqDataContext())
+                {
+                    var allUserGames = db.GetUserSpectetorsGame(userId);
+                    foreach (var entry in allUserGames)
+                    {
+                        if (entry.Game_Id == gameId && entry.roomId == roomId)
+                        {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

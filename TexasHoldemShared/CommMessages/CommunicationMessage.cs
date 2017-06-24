@@ -24,6 +24,10 @@ namespace TexasHoldemShared.CommMessages
     [XmlInclude(typeof(UserStatisticsCommMessage))]
     [XmlInclude(typeof(UserStatisticsResponseCommMessage))]
     [XmlInclude(typeof(ReplayCommMessage))]
+    [XmlInclude(typeof(ReturnToGameAsPlayerCommMsg))]
+    [XmlInclude(typeof(ReturnToGameAsSpecCommMsg))]
+    [XmlInclude(typeof(ReturnToGameResponseCommMsg))]
+    [XmlInclude(typeof(ReturnToGameCommMsg))]
 
     public abstract class CommunicationMessage
     {
@@ -37,11 +41,14 @@ namespace TexasHoldemShared.CommMessages
             Spectate,
             StartGame,
             HandCard,
+
             PlayerBrodcast,
             SpectetorBrodcast,
             PlayerWhisper,
-            SpectetorWhisper
+            SpectetorWhisper,
 
+            ReturnToGame,
+            SpectatorLeave
         }
 
         public int UserId;
@@ -54,6 +61,8 @@ namespace TexasHoldemShared.CommMessages
         }
 
         public abstract ResponeCommMessage Handle(IEventHandler handler);
+
+        //public abstract void Notify(IResponseNotifier notifier, ResponeCommMessage response);
 
         public abstract bool Equals(CommunicationMessage other);
     }

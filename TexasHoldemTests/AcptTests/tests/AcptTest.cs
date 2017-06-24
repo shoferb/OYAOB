@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using NUnit.Framework;
 using TexasHoldem.communication.Impl;
+using TexasHoldem.Logic.Game;
 using TexasHoldemTests.AcptTests.Bridges;
 using TexasHoldemTests.AcptTests.Bridges.Interface;
 using TexasHoldemTests.AcptTests.Bridges;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.Replay;
+using TexasHoldem.Logic.Users;
+using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldemTests.AcptTests.tests
 {
@@ -41,7 +44,7 @@ namespace TexasHoldemTests.AcptTests.tests
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
 
-            SetupUser1();
+            //SetupUser1();
         }
 
         [SetUp]
@@ -52,15 +55,13 @@ namespace TexasHoldemTests.AcptTests.tests
                  CreateGameWithUser1();
              }
              */
-            SetupUser1();
+            //SetupUser1();
             SubClassInit();
         }
 
         [TearDown]
         protected void Dispose()
         {
-            //RestartSystem();
-
             SubClassDispose();
             User1Name = null;
             User1Pw = null;
@@ -74,14 +75,15 @@ namespace TexasHoldemTests.AcptTests.tests
         protected abstract void SubClassDispose();
 
         //make sure user1 exists and has at least 1 replayable game
-        protected void SetupUser1()
+        protected int SetupUser1()
         {
             UserId = new Random().Next();
+            RegisterUserToDB(UserId);
             User1Name = "Oded" + UserId;
             User1Pw = "goodPw1234";
             UserEmailGood1 = "gooduser1@gmail.com";
-            RegisterUser1();
-
+            //RegisterUser1();
+            return UserId;
         }
 
         protected void RegisterUser1()
@@ -98,65 +100,51 @@ namespace TexasHoldemTests.AcptTests.tests
             }
         }
 
-        private void CleanUserAndHisGames(int userId)
-        {
-            if (UserBridge.IsUserLoggedIn(userId))
-            {
-                UserBridge.LogoutUser(UserId);
-            }
-
-            List<int> usersGames = UserBridge.GetUsersGameRooms(userId);
-            usersGames.ForEach(usersRoom =>
-            {
-                UserBridge.RemoveUserFromRoom(userId, usersRoom);
-            });
-            UserBridge.DeleteUser(userId);
-        }
-
         //delete all users and all games
-        protected void RestartSystem()
-        {
-            //delete all users:
-            List<int> allUsers = UserBridge.GetAllUsers();
-            Users.ForEach(u =>
-            {
-                if (!allUsers.Contains(u))
-                {
-                    CleanUserAndHisGames(u);
-                }
-            });
-            allUsers.ForEach(user =>
-            {
-                List<int> usersGames = UserBridge.GetUsersGameRooms(user);
-                usersGames.ForEach(usersRoom =>
-                {
-                    UserBridge.RemoveUserFromRoom(user, usersRoom);
-                });
-                UserBridge.DeleteUser(user);
-            });
+       // protected void ////RestartSystem()
+       // {
+       //     //delete all users:
+       //     List<int> allUsers = UserBridge.GetAllUsers();
+       //     Users.ForEach(u =>
+       //     {
+       //         if (!allUsers.Contains(u))
+       //         {
+       //             CleanUserAndHisGames(u);
+       //         }
+       //     });
+       //     allUsers.ForEach(user =>
+       //     {
+       //         List<int> usersGames = UserBridge.GetUsersGameRooms(user);
+       //         usersGames.ForEach(usersRoom =>
+       //         {
+       //             UserBridge.RemoveUserFromRoom(user, usersRoom);
+       //         });
+       //         UserBridge.DeleteUser(user);
+       //     });
 
-            //delete all rooms
+       //     //delete all rooms
 
-            List<int> allGames = GameBridge.GetAllGamesId();
-            if (allGames == null)
-            {
-                allGames = new List<int>();
-            }
-            else
-            {
-                foreach (int id in allGames)
-                {
-                    GameBridge.RemoveRoom(id);
-                }
-            }
-            allGames = GameBridge.GetAllGamesId();
-       //     Assert.True(allGames.Count == 0);
-            Assert.False(GameBridge.DoesRoomExist(RoomId));
-            RoomId = -1;
+       //     List<int> allGames = GameBridge.GetAllGamesId();
+       //     if (allGames == null)
+       //     {
+       //         allGames = new List<int>();
+       //     }
+       //     else
+       //     {
+       //         foreach (int id in allGames)
+       //         {
+       //             GameBridge.RemoveRoom(id);
+       //         }
+       //     }
+       //     allGames = GameBridge.GetAllGamesId();
+       ////     Assert.True(allGames.Count == 0);
+       //     Assert.False(GameBridge.DoesRoomExist(RoomId));
+       //     RoomId = -1;
 
-        }
+       // }
 
         //create a new game with user2 as only player, return user2's Id
+
         protected void CreateGameWithUser1()
         {
             //delete room1 if exists
@@ -173,6 +161,51 @@ namespace TexasHoldemTests.AcptTests.tests
 
             //make sure the room is deleted
             Assert.True(RoomId != -1);
+        }
+
+        protected void RegisterUserToDB(int userId)
+        {
+            UserBridge.RegisterUser(userId, "orelie" + userId, "123456789", "orelie@post.bgu.ac.il");
+
+        }
+
+        protected void UserCleanUpFromDB(int userId)
+        {
+            UserBridge.DeleteUser( "orelie" + userId, "123456789");
+
+        }
+        //make room with 1 player 
+        protected void CreateGame(int roomId, int userId, int startingChip, bool isSpectetor, GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet)
+        {
+            UserBridge.RegisterUser(userId, "orelie" + userId, "123456789", "orelie@post.bgu.ac.il");
+           
+            GameBridge.CreateNewRoomWithRoomId(roomId, userId, startingChip, isSpectetor, gameModeChosen,
+                minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, minBet);
+        }
+
+        protected void CleanUp(int roomId)
+        {
+            List<IGame> games = GameBridge.GetAllGames();
+            foreach (IGame game in games)
+            {
+                if (game.Id == roomId)
+                {
+                    foreach (Player p in game.GetPlayersInRoom())
+                    {
+                        UserBridge.RemoveUserFromRoom(p.user.Id(), game.Id);
+                        UserBridge.DeleteUser(p.user.MemberName(), p.user.Password());
+                    }
+                    foreach (Spectetor s in game.GetSpectetorInRoom())
+                    {
+                        UserBridge.RemoveSpectatorFromRoom(s.user.Id(), game.Id);
+                        UserBridge.DeleteUser(s.user.MemberName(), s.user.Password());
+                    }
+               
+                    bool deleted = GameBridge.RemoveRoom(roomId);
+                    Console.WriteLine("room " + roomId + " was deleted? " + deleted);
+                }
+            }
         }
     }
 }

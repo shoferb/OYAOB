@@ -1,30 +1,26 @@
-using System;
 using System.Collections.Generic;
-using System.Windows.Documents;
 using TexasHoldem.communication.Impl;
 using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.Logic.GameControl;
+using TexasHoldem.Logic.Notifications_And_Logs;
 using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldem.Service.interfaces;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
-using TexasHoldemShared.CommMessages.ClientToServer;
-using TexasHoldemShared.CommMessages.ServerToClient;
 
 namespace TexasHoldem.Service
 {
-    public class GameServiceHandler
+    public class GameServiceHandler : IGameService
     {
         
         private static GameCenter _gameCenter;
-        private SystemControl _systemControl;
-        private ReplayManager _replayManager;
-        private LogControl _logControl;
-        private MessageEventHandler _eventHandler;
-        private SessionIdHandler _sidHandler;
-        private GameDataProxy proxyDB;
+        private readonly SystemControl _systemControl;
+        private readonly ReplayManager _replayManager;
+        private readonly LogControl _logControl;
+        private readonly GameDataProxy _proxyDb;
 
         public GameServiceHandler(GameCenter gc, SystemControl sys, LogControl log, 
             ReplayManager replay, SessionIdHandler sidHandler)
@@ -33,9 +29,8 @@ namespace TexasHoldem.Service
             _systemControl = sys;
             _logControl = log;
             _replayManager = replay;
-            this._sidHandler = sidHandler;
-            _eventHandler = new MessageEventHandler(gc, sys, log, replay, sidHandler);
-            proxyDB = new GameDataProxy(_gameCenter);
+            //new MessageEventHandler(gc, sys, log, replay, sidHandler);
+            _proxyDb = new GameDataProxy(_gameCenter);
         }
 
         public IEnumerator<ActionResultInfo> DoAction(int userId, CommunicationMessage.ActionType action,
@@ -43,6 +38,18 @@ namespace TexasHoldem.Service
         {
             IUser user = _systemControl.GetUserWithId(userId);
             return _gameCenter.DoAction(user, action, amount, roomId);
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(int userId, int roomId)
+        {
+            IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.ReturnToGameAsPlayer(user, roomId);
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(int userId, int roomId)
+        {
+            IUser user = _systemControl.GetUserWithId(userId);
+            return _gameCenter.ReturnToGameAsSpec(user, roomId);
         }
 
         public List<Player> GetPlayersInRoom(int roomId)
@@ -100,16 +107,18 @@ namespace TexasHoldem.Service
 
         public IEnumerator<ActionResultInfo> RemoveSpectatorFromRoom(int userId, int roomId)
         {
-            IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
-            IGame gameRoom = _gameCenter.GetRoomById(roomId);
-            IUser user = _systemControl.GetUserWithId(userId);
-            if (gameRoom != null && user != null)
-            {
-                inumerator = gameRoom.RemoveSpectetorFromRoom(user);
-                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
-                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
-            }
-            return inumerator;
+            return DoAction(userId, CommunicationMessage.ActionType.SpectatorLeave, 0, roomId);
+            //IEnumerator<ActionResultInfo> inumerator = new List<ActionResultInfo>().GetEnumerator();
+            //IGame gameRoom = _gameCenter.GetRoomById(roomId);
+            //IUser user = _systemControl.GetUserWithId(userId);
+            //if (gameRoom != null && user != null)
+            //{
+            //    inumerator = gameRoom.RemoveSpectetorFromRoom(user);
+            //    //TODO was like this: proxyDB
+            //    _proxyDb.UpdateGameRoom((GameRoom)gameRoom);
+            //    _proxyDb.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
+            //}
+            //return inumerator;
         }
 
         public IEnumerator<ActionResultInfo> AddSpectatorToRoom(int userId, int roomId)
@@ -120,8 +129,8 @@ namespace TexasHoldem.Service
             if (gameRoom != null && user != null)
             {
                 inumerator = gameRoom.AddSpectetorToRoom(user);
-                proxyDB.UpdateGameRoom((GameRoom)gameRoom);
-                proxyDB.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
+                _proxyDb.UpdateGameRoom((GameRoom)gameRoom);
+                _proxyDb.UpdateGameRoomPotSize(gameRoom.GetPotSize(), gameRoom.Id);
             }
             return inumerator;
         }
@@ -130,7 +139,6 @@ namespace TexasHoldem.Service
         {
             return _gameCenter.GetRoomById(id);
         }
-
 
         public List<IGame> GetAllActiveGames()
         {
@@ -268,6 +276,57 @@ namespace TexasHoldem.Service
             }
             IUser sender = _systemControl.GetUserWithId(idSender);
             toReturn = _gameCenter.CanSendSpectetorWhisper(sender, reciver, roomId);
+            return toReturn;
+        }
+
+        public List<IGame> GetActiveGamesByUserName(string userName)
+        {
+            List<IGame> toReturn = null;
+            
+                if (userName.Equals("") || userName.Equals(" "))
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " empty");
+                    _logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+
+                if (_systemControl.IsUsernameFree(userName))
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + userName + " dose not exist!");
+                    _logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+                IUser user = _systemControl.GetIUSerByUsername(userName);
+                if (user == null)
+                {
+                    return toReturn;
+                }
+                toReturn = _gameCenter.GetActiveGamesByUserName(user);
+            return toReturn;
+        }
+
+        public List<IGame> GetSpectetorGamesByUserName(string userName)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            if (userName.Equals("") || userName.Equals(" "))
+            {
+                ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " empty");
+                _logControl.AddErrorLog(log);
+                return toReturn;
+            }
+
+            if (_systemControl.IsUsernameFree(userName))
+            {
+                ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + userName + " dose not exist!");
+                _logControl.AddErrorLog(log);
+                return toReturn;
+            }
+            IUser user = _systemControl.GetIUSerByUsername(userName);
+            if (user == null)
+            {
+                return toReturn;
+            }
+            toReturn = _gameCenter.GetSpectetorGamesByUserName(user);
             return toReturn;
         }
     }

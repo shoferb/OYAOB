@@ -14,6 +14,7 @@ using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldem.Logic.Game_Control;
 using TexasHoldem.communication.Impl;
+using TexasHoldemTests.Database.DataControlers;
 
 namespace TexasHoldem.Logic.Game.Tests
 {
@@ -31,6 +32,7 @@ namespace TexasHoldem.Logic.Game.Tests
         private static ReplayManager replayManager = new ReplayManager();
         private static SessionIdHandler ses = new SessionIdHandler();
         private static GameCenter gameCenter = new GameCenter(sysControl, logControl, replayManager, ses);
+        private readonly LogsOnlyForTest _logDbHandler = new LogsOnlyForTest();
 
 
         [TestInitialize()]
@@ -90,6 +92,10 @@ namespace TexasHoldem.Logic.Game.Tests
             gameRoom = null;
             replayManager.DeleteGameReplay(roomID, 0);
             replayManager.DeleteGameReplay(roomID, 1);
+            var logIds = _logDbHandler.GetSysLogIdsByRoomId(9999);
+            logIds.ForEach(id => _logDbHandler.DeleteSystemLog(id));
+            bool ans = gameCenter.RemoveRoom(9999);
+
         }
         [TestMethod()]
         public void DoActionLeaveTest()
@@ -277,9 +283,9 @@ namespace TexasHoldem.Logic.Game.Tests
         public void RemoveSpectetorFromRoomTest()
         {
             //user that is a player in the room but not a spectator
-            Assert.IsFalse(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user1)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user1, ActionType.SpectatorLeave, 0, false)));
             //irrelevant user
-            Assert.IsFalse(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user2)));
+            Assert.IsFalse(ActionSuccedded(gameRoom.DoAction(user2, ActionType.SpectatorLeave, 0, false)));
         }
 
         [TestMethod()]
@@ -287,7 +293,7 @@ namespace TexasHoldem.Logic.Game.Tests
         {
             Assert.IsTrue(GetSepcResult(gameRoom.AddSpectetorToRoom(user2)));
             //relevant user
-            Assert.IsTrue(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user2)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.SpectatorLeave, 0, false)));
         }
 
 
@@ -437,7 +443,7 @@ namespace TexasHoldem.Logic.Game.Tests
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 1);
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().ElementAt(0).user.Equals(user2));
             //remove spectator
-            Assert.IsTrue(ActionSuccedded(gameRoom.RemoveSpectetorFromRoom(user2)));
+            Assert.IsTrue(ActionSuccedded(gameRoom.DoAction(user2, ActionType.SpectatorLeave, 0, false)));
             Assert.IsTrue(gameRoom.GetSpectetorInRoom().Count == 0);
         }
 

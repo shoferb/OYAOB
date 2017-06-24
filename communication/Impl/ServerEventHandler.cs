@@ -100,6 +100,7 @@ namespace TexasHoldem.communication.Impl
                     case CommunicationMessage.ActionType.HandCard:
                     case CommunicationMessage.ActionType.Leave:
                     case CommunicationMessage.ActionType.StartGame:
+                    case CommunicationMessage.ActionType.SpectatorLeave:
                         iter = _gameService.DoAction(msg.UserId, msg.MoveType, msg.Amount, msg.RoomId);
                         response = SendMessages(msg.UserId, iter, msg);
                         break;
@@ -271,10 +272,10 @@ namespace TexasHoldem.communication.Impl
                 switch (msg.searchType)
                 {
                     case SearchCommMessage.SearchType.ActiveGamesByUserName:
-                        temp = _userService.GetActiveGamesByUserName(msg.SearchByString);                        
+                        temp = _gameService.GetActiveGamesByUserName(msg.SearchByString);                        
                         break;
                     case SearchCommMessage.SearchType.SpectetorGameByUserName:
-                        temp = _userService.GetSpectetorGamesByUserName(msg.SearchByString);
+                        temp = _gameService.GetSpectetorGamesByUserName(msg.SearchByString);
                         break;
                     case SearchCommMessage.SearchType.ByRoomId:
                         IGame game = _gameService.GetGameById(msg.SearchByInt);
@@ -367,6 +368,55 @@ namespace TexasHoldem.communication.Impl
                     true, msg, leaderboradLines);
             }
             return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+        }
+
+        private ReturnToGameResponseCommMsg SendMessagesReturnToGame(int userId, IEnumerator<ActionResultInfo> iterator,
+            ReturnToGameCommMsg originalMsg)
+        {
+            ReturnToGameResponseCommMsg response = null;
+            while (iterator.MoveNext())
+            {
+                var curr = iterator.Current;
+                if (curr != null && curr.Id != userId)
+                {
+                    _commHandler.AddMsgToSend(_parser.SerializeMsg(curr.GameData, ShouldUseDelim), curr.Id);
+                }
+                else if (curr != null)
+                {
+                    response = new ReturnToGameResponseCommMsg(_sessionIdHandler.GetSessionIdByUserId(userId), userId,
+                        curr.GameData.IsSucceed, originalMsg, curr.GameData);
+                    response.SetGameData(curr.GameData);
+                }
+            }
+            return response;
+        }
+
+
+        private ResponeCommMessage HandleReturnToGame(ReturnToGameCommMsg msg,
+            IEnumerator<ActionResultInfo> iter)
+        {
+            if (_sessionIdHandler == null || iter == null)
+            {
+                return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+            }
+            ReturnToGameResponseCommMsg response = SendMessagesReturnToGame(msg.UserId, iter, msg);
+            if (response != null)
+            {
+                return response;
+            }
+            return new ResponeCommMessage(msg.UserId, msg.SessionId, false, msg);
+        }
+
+        public ResponeCommMessage HandleEvent(ReturnToGameAsPlayerCommMsg msg)
+        {
+            var iter = _gameService.ReturnToGameAsPlayer(msg.UserId, msg.RoomId);
+            return HandleReturnToGame(msg, iter);
+        }
+
+        public ResponeCommMessage HandleEvent(ReturnToGameAsSpecCommMsg msg)
+        {
+            var iter = _gameService.ReturnToGameAsSpec(msg.UserId, msg.RoomId);
+            return HandleReturnToGame(msg, iter);
         }
 
         //this is done differently then other types of msgs because it is called from service

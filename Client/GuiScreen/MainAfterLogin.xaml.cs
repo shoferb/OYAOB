@@ -130,8 +130,8 @@ namespace TexasHoldem.GuiScreen
         private void ReturnToGameButton_Click(object sender, RoutedEventArgs e)
         {
             ReturnToGames returnToGames = new ReturnToGames(this,cl);
-            this.Show();
-            parent.Hide();
+            returnToGames.Show();
+            this.Hide();
 
         }
     }

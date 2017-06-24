@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Client.Logic;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
@@ -27,46 +18,37 @@ namespace Client.GuiScreen
         {
             InitializeComponent();
             parent = w;
-            cl = cli;
-            //todo - add
-            //cl.SetSearchScreen(this);
-            startList = new List<ClientGame>();
-            listView.ItemsSource = startList;
+            _cl = cli;
+            _cl.SetReturnToGameScreen(this);
+            _startList = new List<ClientGame>();
+            listView.ItemsSource = _startList;
 
-            listView.AddHandler(Control.MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
+            listView.AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
             InitializeComponent();
         }
-        private ClientLogic cl;
-        private Window parent;
-        private int currRoomId;
-        private int field = -1;
+        private readonly ClientLogic _cl;
+        private readonly Window parent;
+        private int _currRoomId;
+        private int _field = -1;
         private string toSearch;
-        private List<ClientGame> result;
+        private List<ClientGame> _result;
 
-        bool isValid = false;
-        private List<ClientGame> startList;
-        private int idSearch;
-        private Window perent;
-        private DateTime dateToSearch;
-        private int memberIdSearch;
-
-
-    
+        private List<ClientGame> _startList;
 
         private void BBack_Click(object sender, RoutedEventArgs e)
         {
             parent.Show();
-            this.Hide();
+            Hide();
         }
-        public void toStartlist()
+        public void ToStartlist()
         {
-            startList = new List<ClientGame>();
+            _startList = new List<ClientGame>();
         }
 
         public void SetStartList(List<ClientGame> newStartList)
         {
-            this.startList = newStartList;
-            listView.ItemsSource = startList;
+            _startList = newStartList;
+            listView.ItemsSource = _startList;
         }
 
         private void HandleDoubleClick(object sender, RoutedEventArgs e)
@@ -74,17 +56,25 @@ namespace Client.GuiScreen
             ClientGame selectedGame = (ClientGame)listView.SelectedItem;
             if (selectedGame != null)
             {
-                currRoomId = selectedGame.roomId;
-                cl.JoinTheGame(currRoomId, selectedGame.startingChip);
+                if (_field == 0)
+                {
+                   _cl.ReturnGamePlayer(selectedGame.roomId);
+                }
+                else if (_field == 1)
+                {
+                    _cl.ReturnGameSpec(selectedGame.roomId);
+                }
+                _currRoomId = selectedGame.roomId;
+                _cl.JoinTheGame(_currRoomId, selectedGame.startingChip);
 
             }
         }
 
         private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            startList = new List<ClientGame>();
+            _startList = new List<ClientGame>();
 
-            listView.ItemsSource = startList;
+            listView.ItemsSource = _startList;
         }
 
 
@@ -98,16 +88,16 @@ namespace Client.GuiScreen
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
         {
-            if (field == -1)
+            if (_field == -1)
             {
                 MessageBox.Show("Please Select a filter ");
                 return;
             }
-            if (field == 0) //all active by user name
+            if (_field == 0) //all active by user name
             {
                 GetAllUserByUserName();
             }
-            else if (field == 1) //Spectetor by user name
+            else if (_field == 1) //Spectetor by user name
             {
                 GetAllSpectetorByUserName();
             }
@@ -117,73 +107,35 @@ namespace Client.GuiScreen
         private void GetAllSpectetorByUserName()
         {
            
-            toSearch = cl.user.username;
-            List<ClientGame> temp;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
+            toSearch = _cl.user.username;
+            _cl.SearchGame(_cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         private void GetAllUserByUserName()
         {
             
-            toSearch = cl.user.username;
+            toSearch = _cl.user.username;
 
-            List<ClientGame> temp;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+            _cl.SearchGame(_cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         //all active game bby username
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
         {
-            field = 0;
+            _field = 0;
           
         }
 
         //all spectetor game by user name
         private void ComboBoxItem_Selected_1(object sender, RoutedEventArgs e)
         {
-            field = 1;
+            _field = 1;
            
         }
 
-        private void WatchGame_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            int roomIdToSpectate;
-            string temp = IdToSpectate_TextBox.Text;
-            bool isValid = int.TryParse(temp, out roomIdToSpectate);
-            if (!isValid)
-            {
-                MessageBox.Show("Invalid Game ID input");
-            }
-            else
-            {
-                //todo - change to the return spectetor function
-              //  cl.SpectateRoom(roomIdToSpectate);
-
-            }
-        }
-
-
-        public void JoinOkay(GameDataCommMessage msgGameData)
+        public void PlayerReturnResponseReceived(GameDataCommMessage msgGameData)
         {
             if (msgGameData.IsSucceed)
             {
@@ -191,42 +143,52 @@ namespace Client.GuiScreen
                 Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show("You Return the game successfully! Enjoy");
-                    GameScreen newGameWindow = new GameScreen(cl);
+                    GameScreen newGameWindow = new GameScreen(_cl);
                     newGameWindow.UpdateGame(msgGameData);
-                    cl.AddNewRoom(newGameWindow);
+                    _cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
-                    this.Hide();
+                    Hide();
+                });
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You Can't Return to be a player in this game!");
                 });
             }
         }
 
-        public void JoinOkayAsSpectate(GameDataCommMessage msgGameData)
-             {
+        public void SpecReturnResponseReceived(GameDataCommMessage msgGameData)
+        {
             if (msgGameData == null)
             {
-                MessageBox.Show("You Can't Return to be a spectator in this game!");
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You Can't Return to be a spectator in this game!");
+                });
             }
             else
             {
                 Dispatcher.Invoke(() =>
                 {
                     MessageBox.Show("You Return to watch game successfully! as Spectetor");
-                    GameScreen newGameWindow = new GameScreen(cl);
+                    GameScreen newGameWindow = new GameScreen(_cl);
                     newGameWindow.UpdateGame(msgGameData);
 
-                    cl.AddNewRoom(newGameWindow);
+                    _cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
                     newGameWindow.isSpectrtor = true;
-                    this.Hide();
+                    Hide();
                 });
             }
         }
         public void ResultRecived(List<ClientGame> games)
         {
-            result = games;
+            _result = games;
             Dispatcher.Invoke(() =>
             {
-                listView.ItemsSource = result;
+                listView.ItemsSource = _result;
             });
         }
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)

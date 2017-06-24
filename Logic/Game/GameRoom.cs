@@ -47,7 +47,7 @@ namespace TexasHoldem.Logic.Game
         private Player SbPlayer;
         private Decorator MyDecorator;
         private LogControl logControl;
-        private int GameNumber;
+        public int GameNumber { get; set; }
         private Player FirstPlayerInRound;
         private int currentPlayerPos;
         private int firstPlayerInRoundPoistion;
@@ -78,6 +78,8 @@ namespace TexasHoldem.Logic.Game
         {
             return this.Bb;
         }
+
+      
         public int GetMaxBetInRound()
         {
             return this.maxBetInRound;
@@ -112,7 +114,10 @@ namespace TexasHoldem.Logic.Game
         }
         public void SetDeco(int minBet, int startingChip, bool canSpectate, int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, GameMode gameModeChosen, LeagueName league)
         {
-            this.MyDecorator = GameCenter.CreateDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, gameModeChosen, league);
+            Decorator mid = new MiddleGameDecorator(gameModeChosen, this.Bb, this.Sb);
+            Decorator before = new BeforeGameDecorator(minBet, startingChip, canSpectate, minPlayersInRoom, maxPlayersInRoom, enterPayingMoney, league);
+            before.SetNextDecorator(mid);
+            this.MyDecorator =before;
         }
 
 
@@ -122,7 +127,10 @@ namespace TexasHoldem.Logic.Game
            Player currentPlayer, Player bbPlayer, Player sbPlayer, Player firstPlayerInRound, int bb, int sb,
            int dealerPos, int currentPlayerPoss, int firstPlayerInRoundPoistionn, GameReplay gr, GameRoom.HandStep hs, Deck d, SessionIdHandler _sidHandler, bool _useCom, List<Tuple<int, Player>> _sp)
         {
-          
+           // Decorator mid = new MiddleGameDecorator(GameMode.NoLimit,bb, sb);
+           // Decorator before = new BeforeGameDecorator(minBetInRoom, 1000, true, 2, 4, 20, LeagueName.A);
+          //  before.SetNextDecorator(mid);
+          //  MyDecorator= before;
             Id = ID;
             GameNumber = gameNum;
             IsActiveGame = isActiveGame;
@@ -165,6 +173,10 @@ namespace TexasHoldem.Logic.Game
                 return "";
             }
            return string.Concat("", this.GameReplay.ToString());
+        }
+        public void SetPotSize(int newPot) //forTsets
+        {
+            this.PotCount = newPot;
         }
         public void SetIsActive(bool n)//for tests
         {
@@ -314,6 +326,10 @@ namespace TexasHoldem.Logic.Game
             lock (padlock)
             {
                 this.useCommunication = useCommunication;
+                if (action == ActionType.SpectatorLeave)
+                {
+                    return RemoveSpectetorFromRoom(user);
+                }
                 if (action == ActionType.Join)
                 {
                     if (IsUserInGame(user))
@@ -619,6 +635,10 @@ namespace TexasHoldem.Logic.Game
 
             IncGamesCounterForPlayers();
             IsActiveGame = true;
+            foreach (Player p in Players)
+            {
+                p.user.AddRoomToActiveGameList(this);
+            }
             gameData = GetGameData(player, 0, true, ActionType.StartGame);
             return GetEnumeratorToSend(Players, Spectatores, gameData);
         }
@@ -1222,12 +1242,13 @@ namespace TexasHoldem.Logic.Game
             user.AddRoomToSpectetorGameList(this);
             Spectetor spectetor = new Spectetor(user, Id);
             Spectatores.Add(spectetor);
+            spectetor.user.AddRoomToSpectetorGameList(this);
             Player player = Players.Find(p => p.user.Id() == user.Id());
             gameData = GetGameData(player, 0, true, ActionType.Spectate);
             return GetEnumeratorToSend(Players, Spectatores, gameData);
        }
 
-        public IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user)
+        private IEnumerator<ActionResultInfo> RemoveSpectetorFromRoom(IUser user)
         {
             GameDataCommMessage gameData;
 
@@ -1239,13 +1260,13 @@ namespace TexasHoldem.Logic.Game
                         new SystemLog(Id, "Spcetator with user Id: " + user.Id() + ", Removed succsfully from room: " + Id, GameNumber);
                     Spectatores.Remove(s);
                     user.RemoveRoomFromSpectetorGameList(this);
-                    gameData = GetGameDataFromSpectator(s, 0, true, ActionType.Spectate);
+                    gameData = GetGameDataFromSpectator(s, 0, true, ActionType.SpectatorLeave);
                     return GetEnumeratorToSend(Players, Spectatores, gameData);
                 }
             }
 
             Spectetor spectetor = new Spectetor(user, Id);
-            gameData = GetGameDataFromSpectator(spectetor, 0, false, ActionType.Spectate);
+            gameData = GetGameDataFromSpectator(spectetor, 0, false, ActionType.SpectatorLeave);
             var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
             return list.GetEnumerator();
         }
@@ -1382,6 +1403,9 @@ namespace TexasHoldem.Logic.Game
 
         public bool IsPlayerInRoom(IUser user)
         {
+            GameReplay = new GameReplay(Id, GameNumber);
+            GameDataCommMessage gameData;
+            List<ActionResultInfo> list;
             bool toReturn = false;
             lock (padlock)
             {
@@ -1412,6 +1436,31 @@ namespace TexasHoldem.Logic.Game
                 }
             }
             return toReturn;
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user)
+        {
+            bool success = IsUserInGame(user);
+            GameDataCommMessage gameData;
+            if (success)
+            {
+                gameData = GetGameData(GetInGamePlayerFromUser(user), 0, true, ActionType.ReturnToGame);
+            }
+            else
+            {
+                gameData = GetGameData(null, 0, false, ActionType.ReturnToGame);
+            }
+            var list = new List<ActionResultInfo> {new ActionResultInfo(user.Id(), gameData)};
+            return list.GetEnumerator();
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user)
+        {
+            Spectetor spect = Spectatores.Find(s => s.user.Id() == user.Id());
+            bool success = spect != null;
+            var gameData = GetGameData(null, 0, success, ActionType.ReturnToGame);
+            var list = new List<ActionResultInfo> { new ActionResultInfo(user.Id(), gameData) };
+            return list.GetEnumerator();
         }
 
         public List<Card> GetPublicCards()

@@ -114,7 +114,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void RegisterLoadTest1()
         {
-            RestartSystem();
+            //RestartSystem();
 
             //bomb the game
             Thread thread1 = new Thread(new ThreadStart(RegisterLoop));
@@ -134,7 +134,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void RegisterAndLoginLoopTest1()
         {
-            RestartSystem();
+            //RestartSystem();
 
             //bomb the game
             Thread thread1 = new Thread(new ThreadStart(RegisterAndLoginLoop));
@@ -182,7 +182,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void DoActionLoadTest1()
         {
-            RestartSystem();
+            //RestartSystem();
             SetupUser1();
             CreateGameWithUser1();
             RegisterUser(_userId2, _user2Name, _user2Pw, _user2EmailGood);
@@ -224,7 +224,7 @@ namespace TexasHoldemTests.AcptTests.tests
         [TestCase]
         public void CreateRoomLoadTest1()
         {
-            RestartSystem();
+            //RestartSystem();
 
             //bomb the game
             Thread thread1 = new Thread(new ThreadStart(CreateRoomLoop1));

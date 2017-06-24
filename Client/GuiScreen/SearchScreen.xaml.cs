@@ -33,7 +33,7 @@ namespace Client.GuiScreen
             startList = new List<ClientGame>();
             listView.ItemsSource = startList;
 
-            listView.AddHandler(Control.MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
+            listView.AddHandler(MouseDoubleClickEvent, new RoutedEventHandler(HandleDoubleClick));
         }
 
         private ClientLogic cl;
@@ -49,7 +49,6 @@ namespace Client.GuiScreen
         private Window perent;
         private DateTime dateToSearch;
         private int memberIdSearch;
-
 
 
         public void toStartlist()
@@ -169,57 +168,20 @@ namespace Client.GuiScreen
 
         private void GetPotLimitGames()
         {
-            //List<ClientGame> temp;
-
-            //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-            //    GameMode.PotLimit);
-            //result = temp;
-            //if (result == null || !result.Any())
-            //{
-            //    EmptySearch();
-            //}
-            //else
-            //{
-            //    listView.ItemsSource = result;
-            //}
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
                 GameMode.PotLimit);
         }
 
         private void GetLimitGames()
         {
-            //List<ClientGame> temp;
-            //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-            //    GameMode.Limit);
-            //result = temp;
-            //if (result == null || !result.Any())
-            //{
-            //    EmptySearch();
-            //}
-            //else
-            //{
-            //    listView.ItemsSource = result;
-            //}
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
                 GameMode.Limit);
         }
 
         private void GetNotLimitGames()
         {
-            //List<ClientGame> temp;
-            //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-            //    GameMode.NoLimit);
-            //result = temp;
-            //if (result == null || !result.Any())
-            //{
-            //    EmptySearch();
-            //}
-            //else
-            //{
-            //    listView.ItemsSource = result;
-            //}
-            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-                GameMode.NoLimit);
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, 
+                "", -1, GameMode.NoLimit);
         }
 
         private void GetGameByStartingChip()
@@ -234,23 +196,11 @@ namespace Client.GuiScreen
             int toSearchSartingChip;
 
 
-            //List<ClientGame> temp;
             isValid = int.TryParse(toSearch, out toSearchSartingChip);
             if (isValid)
             {
-                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, "", toSearchSartingChip,
-                //    GameMode.Limit);
-                //result = temp;
-                //if (result == null || !result.Any())
-                //{
-                //    EmptySearch();
-                //}
-                //else
-                //{
-                //    listView.ItemsSource = result;
-                //}
-                cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, "", toSearchSartingChip,
-                    GameMode.Limit);
+                cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, 
+                    "", toSearchSartingChip, GameMode.Limit);
             }
             else
             {
@@ -270,23 +220,11 @@ namespace Client.GuiScreen
             int toSearchBuyIn;
 
 
-            //List<ClientGame> temp;
             isValid = int.TryParse(toSearch, out toSearchBuyIn);
             if (isValid)
             {
-                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy, "", toSearchBuyIn,
-                //    GameMode.Limit);
-                //result = temp;
-                //if (result == null || !result.Any())
-                //{
-                //    EmptySearch();
-                //}
-                //else
-                //{
-                //    listView.ItemsSource = result;
-                //}
-                cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy, "", toSearchBuyIn,
-                    GameMode.Limit);
+                cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy,
+                    "", toSearchBuyIn, GameMode.Limit);
             }
             else
             {
@@ -382,17 +320,6 @@ namespace Client.GuiScreen
             isValid = int.TryParse(toSearch, out toSearchmaxPlayer);
             if (isValid)
             {
-                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMaxPlayer, "", toSearchmaxPlayer,
-                //    GameMode.Limit);
-                //result = temp;
-                //if (result == null || !result.Any())
-                //{
-                //    EmptySearch();
-                //}
-                //else
-                //{
-                //    listView.ItemsSource = result;
-                //}
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMaxPlayer, "", toSearchmaxPlayer,
                     GameMode.Limit);
             }
@@ -413,22 +340,9 @@ namespace Client.GuiScreen
             toSearch = searchBox.Text;
             int toSearchminPlayer;
 
-
-            //List<ClientGame> temp;
             isValid = int.TryParse(toSearch, out toSearchminPlayer);
             if (isValid)
             {
-                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
-                //    GameMode.Limit);
-                //result = temp;
-                //if (result == null || !result.Any())
-                //{
-                //    EmptySearch();
-                //}
-                //else
-                //{
-                //    listView.ItemsSource = result;
-                //}
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
                     GameMode.Limit);
             }
@@ -440,20 +354,8 @@ namespace Client.GuiScreen
 
         private void GetAllSpectetor()
         {
-            //List<ClientGame> temp = null;
-            //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame, "", -1,
-            //    GameMode.Limit);
-            //result = temp;
-            //if (result == null || !result.Any())
-            //{
-            //    EmptySearch();
-            //}
-            //else
-            //{
-            //    listView.ItemsSource = result;
-            //}
-            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame, "", -1,
-                GameMode.Limit);
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame,
+                "", -1, GameMode.Limit);
         }
 
         private void GetRoomById()
@@ -471,18 +373,6 @@ namespace Client.GuiScreen
             isValid = int.TryParse(toSearch, out toSearchRoomId);
             if (isValid)
             {
-                //temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
-                //    GameMode.Limit);
-                //result = temp;
-                //if (result == null || !result.Any())
-                //{
-                EmptySearch();
-                //}
-                //else
-                //{
-                //    listView.ItemsSource = result;
-                //}
-
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
                     GameMode.Limit);
             }
@@ -494,18 +384,8 @@ namespace Client.GuiScreen
 
         private void AllActiveGamesUserCanJoin()
         {
-            List<ClientGame> temp = null;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         private void GetAllSpectetorByUserName()
@@ -516,19 +396,8 @@ namespace Client.GuiScreen
                 return;
 
             }
-            toSearch = searchBox.Text;
-            List<ClientGame> temp;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         private void GetAllUserByUserName()
@@ -541,18 +410,8 @@ namespace Client.GuiScreen
             }
             toSearch = searchBox.Text;
 
-            List<ClientGame> temp;
-            temp = cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
+            cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
                 GameMode.Limit);
-            result = temp;
-            if (result == null || !result.Any())
-            {
-                EmptySearch();
-            }
-            else
-            {
-                listView.ItemsSource = result;
-            }
         }
 
         //all active game bby username
@@ -596,7 +455,6 @@ namespace Client.GuiScreen
             field = 5;
             searchBox.IsEnabled = true;
         }
-
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -690,10 +548,9 @@ namespace Client.GuiScreen
                     newGameWindow.UpdateGame(msgGameData);
                     cl.AddNewRoom(newGameWindow);
                     newGameWindow.Show();
-                    this.Hide();
+                    Hide();
                 });
             }
-
             else
             {
                 MessageBox.Show("Joined the game failed!");
@@ -702,9 +559,12 @@ namespace Client.GuiScreen
 
         public void JoinOkayAsSpectate(GameDataCommMessage msgGameData)
         {
-            if (msgGameData == null)
+            if (msgGameData == null || !msgGameData.IsSucceed)
             {
-                MessageBox.Show("You Can't be a spectator in this game!");
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You Can't be a spectator in this game!");
+                });
             }
             else
             {
@@ -717,7 +577,7 @@ namespace Client.GuiScreen
                     cl.AddNewRoom(newGameWindow);
                    newGameWindow.Show();
                     newGameWindow.isSpectrtor = true;
-                    this.Hide();
+                    Hide();
                 });
             }
         }

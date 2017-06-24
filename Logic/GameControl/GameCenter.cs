@@ -66,9 +66,6 @@ namespace TexasHoldem.Logic.GameControl
             IGame gm = GetRoomById(roomId);
            
             IEnumerator<ActionResultInfo> toRet = gm.DoAction(user, action, amount, true);
-          //  GameRoom g = (GameRoom)gm;
-          //  replayManager.UpdateGameReplayById(g.Id, g.GetGameNum(), g.GetGameRepObj());
-            
             proxyDB.UpdateGameRoom((GameRoom)gm);
             proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
             return toRet;
@@ -263,8 +260,14 @@ namespace TexasHoldem.Logic.GameControl
                 }
                 IGame room = GetRoomById(roomId);
                 List<IGame> all = GetAllGames();
-                toReturn = all.Contains(room);
-                return toReturn;
+                foreach (IGame g in all)
+                {
+                    if (g.Id == room.Id)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
@@ -279,6 +282,55 @@ namespace TexasHoldem.Logic.GameControl
         {
             return proxyDB.GetAllActiveGameRooms();
         }
+        //get all active games of user 
+        //syncronizef due to for
+        public List<IGame> GetActiveGamesByUserName(IUser user)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = new List<IGame>();
+                try { 
+                    int userId = user.Id();
+                    toReturn = proxyDB.GetAllUserActiveGames(userId);
+                    return toReturn;
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user active games - username: " + user.MemberName());
+                    logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+
+                return toReturn;
+            }
+        }
+
+
+        //get all the game user spectete
+        //syncronized due to for
+        public List<IGame> GetSpectetorGamesByUserName(IUser user)
+        {
+            lock (padlock)
+            {
+                List<IGame> toReturn = null;
+                try
+                {
+                    int userId = user.Id();
+                    toReturn = proxyDB.GetUserSpectetorsGameResult(userId);
+                    return toReturn;
+                }
+                catch (Exception e)
+                {
+                    ErrorLog log = new ErrorLog("Error: while trying get user spectetor games - username: " + user.MemberName());
+                    logControl.AddErrorLog(log);
+                    return toReturn;
+                }
+
+                return toReturn;
+            }
+
+        }
+
 
         public List<IGame> GetAllSpectetorGame()
         {
@@ -432,6 +484,26 @@ namespace TexasHoldem.Logic.GameControl
                 bool isReciverSpector = game.IsSpectetorInRoom(reciver);
                 return isSenderSpectetor && isReciverSpector && isReceiverActive;
             }
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsPlayer(IUser user, int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+
+            IEnumerator<ActionResultInfo> toRet = gm.ReturnToGameAsPlayer(user);
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            return toRet;
+        }
+
+        public IEnumerator<ActionResultInfo> ReturnToGameAsSpec(IUser user, int roomId)
+        {
+            IGame gm = GetRoomById(roomId);
+
+            IEnumerator<ActionResultInfo> toRet = gm.ReturnToGameAsSpec(user);
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            return toRet;
         }
     }
 

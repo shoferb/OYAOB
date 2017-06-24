@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TexasHoldem.Database.LinqToSql;
 using Log = TexasHoldem.Logic.Notifications_And_Logs.Log;
 
@@ -10,9 +8,9 @@ namespace TexasHoldemTests.Database.DataControlers
 {
     public class LogsOnlyForTest
     {
-        private TexasHoldem.Database.LinqToSql.ErrorLog ConvertErrorLog(TexasHoldem.Logic.Notifications_And_Logs.ErrorLog error)
+        private ErrorLog ConvertErrorLog(TexasHoldem.Logic.Notifications_And_Logs.ErrorLog error)
         {
-            TexasHoldem.Database.LinqToSql.ErrorLog toReturn = new TexasHoldem.Database.LinqToSql.ErrorLog();
+            ErrorLog toReturn = new ErrorLog();
 
             toReturn.Log.LogPriority = GetPriorityNum(error.Priority).PriorityValue;
             toReturn.msg = error.Msg;
@@ -20,9 +18,9 @@ namespace TexasHoldemTests.Database.DataControlers
             return toReturn;
         }
 
-        private TexasHoldem.Database.LinqToSql.SystemLog ConvertSysLog(TexasHoldem.Logic.Notifications_And_Logs.SystemLog sysLog)
+        private SystemLog ConvertSysLog(TexasHoldem.Logic.Notifications_And_Logs.SystemLog sysLog)
         {
-            TexasHoldem.Database.LinqToSql.SystemLog toReturn = new TexasHoldem.Database.LinqToSql.SystemLog();
+            SystemLog toReturn = new SystemLog();
             toReturn.Log.LogId = sysLog.LogId;
             toReturn.Log.PriorityLogEnum = GetPriorityNum(sysLog.Priority);
             toReturn.msg = sysLog.Msg;
@@ -30,16 +28,16 @@ namespace TexasHoldemTests.Database.DataControlers
             toReturn.roomId = sysLog.RoomId;
             return toReturn;
         }
-        private PriorityLogEnum GetPriorityNum(TexasHoldem.Logic.Notifications_And_Logs.Log.LogPriority priority)
+        private PriorityLogEnum GetPriorityNum(Log.LogPriority priority)
         {
             PriorityLogEnum toReturn = new PriorityLogEnum();
             switch (priority)
             {
-                case (TexasHoldem.Logic.Notifications_And_Logs.Log.LogPriority.Info):
+                case (Log.LogPriority.Info):
                     toReturn.PriorityValue = 1;
                     toReturn.ProprityName = "Info";
                     break;
-                case (TexasHoldem.Logic.Notifications_And_Logs.Log.LogPriority.Warn):
+                case (Log.LogPriority.Warn):
                     toReturn.PriorityValue = 2;
                     toReturn.ProprityName = "Warnning";
                     break;
@@ -62,7 +60,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                return;
             }
 
         }
@@ -79,7 +76,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                return;
             }
 
         }
@@ -97,7 +93,6 @@ namespace TexasHoldemTests.Database.DataControlers
             }
             catch (Exception e)
             {
-                return;
             }
 
         }
@@ -153,7 +148,7 @@ namespace TexasHoldemTests.Database.DataControlers
 
         }
 
-        public List<TexasHoldem.Database.LinqToSql.ErrorLog> GetAllErrorLogs()
+        public List<ErrorLog> GetAllErrorLogs()
         {
 
             try
@@ -170,7 +165,7 @@ namespace TexasHoldemTests.Database.DataControlers
 
         }
 
-        public List<TexasHoldem.Database.LinqToSql.SystemLog> GetAllSystemLogs()
+        public List<SystemLog> GetAllSystemLogs()
         {
 
             try
@@ -186,5 +181,15 @@ namespace TexasHoldemTests.Database.DataControlers
             }
 
         }
+
+        public List<int> GetSysLogIdsByRoomId(int roomId)
+        {
+            var allSysLogs = GetAllSystemLogs();
+            List<int> ids = allSysLogs.FindAll(log => log.roomId == roomId)
+                .ConvertAll(log => log.logId);
+            return ids;
+        }
+
+        
     }
 }

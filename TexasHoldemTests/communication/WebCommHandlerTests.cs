@@ -11,20 +11,18 @@ using TexasHoldemShared;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
 using TexasHoldemShared.Parser;
-using TexasHoldemShared.Security;
 
 namespace TexasHoldemTests.communication
 {
     class WebCommHandlerTests
     {
         private IWebCommHandler _commHandler;
-        private ISecurity _security = new SecurityHandler();
         private WebEventHandler _eventHandler;
         private Mock<IEventHandler> _serverEventHandlerMock;
         private string _url = "http://127.0.0.1:8080/";
         private HttpWebRequest _request;
         private ICommMsgXmlParser _parser = new ParserImplementation();
-        private const string ShortMessage = "ShortMsg";
+
         private const string LoginJsonMessage = "c{\"?xml\":{\"@version\":\"1.0\",\"@encoding\"" +
                                                 ":\"utf-16\"},\"LoginCommMessage\":{\"@xmlns:xsd\"" +
                                                 ":\"http://www.w3.org/2001/XMLSchema\",\"@xmlns:xsi\"" +
@@ -101,12 +99,8 @@ namespace TexasHoldemTests.communication
                 data = respStreamReader.ReadToEnd();
             }
             Assert.False(String.IsNullOrEmpty(data));
-            var respXml = _parser.JsonToXml(data);
-            //Assert.False(data.Equals(LoginRespXml)); //should be encrypted
-            Assert.True(respXml.Equals(LoginRespXml)); //should be encrypted
-            //var bytes = Encoding.UTF8.GetBytes(data);
-            //var decrypted = _security.Decrypt(bytes);
-            //Assert.True(decrypted.Equals(LoginRespXml));
+            var respXml = _parser.JsonToXml('i' + data);
+            Assert.True(respXml.Equals(LoginRespXml));
         }
 
     }

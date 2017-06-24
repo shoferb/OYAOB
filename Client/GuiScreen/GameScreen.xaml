@@ -101,8 +101,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label x:Name="winnerNameLabel" Content="" HorizontalAlignment="Left" Height="38" Margin="295,16,0,0" VerticalAlignment="Top" Width="138" FontWeight="Bold" Foreground="Purple" FontSize="22"/>
-        <Label x:Name="winnerName" Content="" HorizontalAlignment="Left" Height="34" Margin="458,16,0,0" VerticalAlignment="Top" Width="177" Foreground="Purple" FontSize="22"/>
+        <Label x:Name="winnerNameLabel" Content="" HorizontalAlignment="Left" Height="38" Margin="295,16,0,0" VerticalAlignment="Top" Width="138" FontWeight="Bold" Foreground="Black" FontSize="22"/>
+        <Label x:Name="winnerName" Content="" HorizontalAlignment="Left" Height="34" Margin="426,20,0,0" VerticalAlignment="Top" Width="177" Foreground="Black" FontSize="22"/>
         <Label Content="Enter message to send" FontSize="14" HorizontalAlignment="Left" Height="31" Margin="625,252,0,0" VerticalAlignment="Top" Width="159" Foreground="White" FontWeight="Bold" RenderTransformOrigin="0.038,0.66"/>
         <TextBox x:Name="InputForChat" HorizontalAlignment="Left" Height="30" Margin="809,254,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="230"/>
         <ComboBox x:Name="ChatComboBox" HorizontalAlignment="Left" Height="30" Margin="807,214,0,0" VerticalAlignment="Top" Width="230"  >

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Client.GuiScreen;
 using Client.Handler;
+using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
 using TexasHoldemShared.CommMessages.ServerToClient;
@@ -26,6 +27,9 @@ namespace Client.Logic
         private long _sessionId = -1;
         public ClientUser user { get; set; }
         private SearchScreen _searchScreen;
+        private ReturnToGames _returnToGamesScreen;
+        private Dictionary<Type, Func<ResponeCommMessage, bool>> _notifyDictionary;
+        private readonly IResponseNotifier _notifier;
 
         public ClientLogic()
         {
@@ -33,6 +37,24 @@ namespace Client.Logic
             listLock = new Object();
             //todo - find server name
             user = null;
+            _notifier = new ResponseNotifier(MessagesSentObserver, this);
+            SetupNotifyDictionary();
+        }
+
+        private void SetupNotifyDictionary()
+        {
+            _notifyDictionary = new Dictionary<Type, Func<ResponeCommMessage, bool>>
+            {
+                {typeof(ChatResponceCommMessage), _notifier.NotifyChat},
+                {typeof(LoginCommMessage), _notifier.ObserverNotify},
+                {typeof(RegisterCommMessage), _notifier.ObserverNotify},
+                {typeof(CreateNewRoomMessage), _notifier.ObserverNotify},
+                {typeof(EditCommMessage), _notifier.ObserverNotify},
+                {typeof(ReturnToGameAsPlayerCommMsg), _notifier.NotifyReturnAsPlayer},
+                {typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec},
+                {typeof(SearchCommMessage), _notifier.NotifySearch},
+                {typeof(ActionCommMessage), _notifier.NotifyAction}
+            };
         }
 
         public void SetSearchScreen(SearchScreen screen)
@@ -45,6 +67,7 @@ namespace Client.Logic
             return _sessionId;
         }
 
+        //TODO: fix
         public bool SetSessionId(long sid)
         {
             _sessionId = sid;
@@ -115,15 +138,26 @@ namespace Client.Logic
         public void JoinTheGame(int roomId, int startingChip)
         {
              ActionCommMessage toSend = new ActionCommMessage(user.id, _sessionId,
-                    CommunicationMessage.ActionType.Join,
-                    startingChip, roomId);
-                _eventHandler.SendNewEvent(toSend);
+                    CommunicationMessage.ActionType.Join, startingChip, roomId);
+            _eventHandler.SendNewEvent(toSend);
+        }
+
+        public void ReturnGamePlayer(int roomId)
+        {
+            ReturnToGameAsPlayerCommMsg toSend = new ReturnToGameAsPlayerCommMsg(user.id, _sessionId, roomId);
+            _eventHandler.SendNewEvent(toSend);
+        }
+
+        public void ReturnGameSpec(int roomId)
+        {
+            ReturnToGameAsSpecCommMsg toSend = new ReturnToGameAsSpecCommMsg(user.id, _sessionId,roomId);
+            _eventHandler.SendNewEvent(toSend);
         }
 
         public GameDataCommMessage CreateNewRoom(GameMode mode, int minBet, int chipPol, int buyInPol, bool canSpec,
             int minPlayers, int maxPlayers)
         {
-//should ret int as the roomNumber
+            //should ret int as the roomNumber
             CreateNewRoomMessage toSend = new CreateNewRoomMessage(user.id, _sessionId, mode, minBet, chipPol, buyInPol,
                 canSpec, minPlayers, maxPlayers);
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
@@ -160,6 +194,16 @@ namespace Client.Logic
            _eventHandler.SendNewEvent(toSend);
            
         }
+
+        public void SpectetorLeaveTheGame(int roomId)
+        {
+            ActionCommMessage toSend =
+                new ActionCommMessage(user.id, _sessionId, CommunicationMessage.ActionType.SpectatorLeave, -1, roomId);
+
+            _eventHandler.SendNewEvent(toSend);
+
+        }
+
 
         public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend,
             CommunicationMessage.ActionType _chatType)
@@ -230,7 +274,6 @@ namespace Client.Logic
                 t.Wait();
             }
             bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-            List<string> replays = new List<string>();
             if (toRet)
             {
                 ReplaySearchResponseCommMessage retMsg =
@@ -262,35 +305,11 @@ namespace Client.Logic
 
         }
 
-        //TODO: change return
-        public List<ClientGame> SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString,
-            int _searchByInt, GameMode _searchByGameMode)
+        public void SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString, int _searchByInt, GameMode _searchByGameMode)
         {
-            List<ClientGame> toReturn = new List<ClientGame>();
             SearchCommMessage toSend = new SearchCommMessage(userId, _sessionId, _searchType, _searchByString,
                 _searchByInt, _searchByGameMode);
-            //Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-            //    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-            //        new ResponeCommMessage(user.id));
-            //MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            //while ((MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item2 == false)
-            //{
-            //    var t = Task.Run(async delegate { await Task.Delay(10); });
-            //    t.Wait();
-            //}
-            //bool toRet = (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item3;
-
-            //if (toRet)
-            //{
-
-            //    SearchResponseCommMessage rmsg =
-            //        (SearchResponseCommMessage) (MessagesSentObserver.Find(x => x.Item1.Equals(toSend))).Item4;
-            //    toReturn = rmsg.Games;
-            //}
-            //MessagesSentObserver.Remove(messageToList);
-            return toReturn;
-
         }
 
         public bool Register(int id, string name, string memberName, string password, int money, string email)
@@ -348,66 +367,129 @@ namespace Client.Logic
             }
          }
 
-        public void NotifyResponseReceived(ResponeCommMessage msg)
+        public void PlayerReturnsToGame(GameDataCommMessage gameData)
         {
-            if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
-            {
-                if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
-                 ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
-                {
-                    return;
-                }
-            }
-           
-            if ((msg.OriginalMsg.GetType() == typeof(LoginCommMessage)) ||
-               (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
-                  (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
-            {
-                Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
-                    MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
-                MessagesSentObserver.Remove(toEdit);
-                var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true,
-                    msg.Success,
-                    msg);
-                MessagesSentObserver.Add(toAdd);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
-            {
-                SearchResultRecived(((SearchResponseCommMessage) msg).Games);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                 (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
-            {
-                _searchScreen.JoinOkay(((JoinResponseCommMessage) msg).GameData);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-                 (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
-            {
-                _searchScreen.JoinOkayAsSpectate(((JoinResponseCommMessage)msg).GameData);
-                return;
-            }
-            if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
-               (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)))
-            {
-                GameDataCommMessage gd = (msg).GameData;
-                foreach (GameScreen game in _games)
-                {
-                    if (game.RoomId == gd.RoomId)
-                    {
-                        game.LeaveOkay(gd);
-                    }
-                }
-                return;
-            }
-
-            GameUpdateReceived(msg.GameData);
-            
+            _returnToGamesScreen.PlayerReturnResponseReceived(gameData);
         }
 
-        private void SearchResultRecived(List<ClientGame> games)
+        public void SpecReturnsToGame(GameDataCommMessage gameData)
+        {
+            _returnToGamesScreen.SpecReturnResponseReceived(gameData);
+        }
+
+        public void NotifyResponseReceived(ResponeCommMessage msg)
+        {
+            var func = _notifyDictionary[msg.OriginalMsg.GetType()];
+            if (func != null)
+            {
+                func(msg);
+            }
+            else
+            {
+                _notifier.Default(msg);
+            }
+
+            //var notifier = new ResponseNotifier(MessagesSentObserver, this);
+            //msg.Notify(notifier, msg);
+
+            //if (msg.OriginalMsg.GetType() == typeof(ChatCommMessage))
+            //{
+            //    if (((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.PlayerWhisper ||
+            //     ((ChatCommMessage)msg.OriginalMsg).ChatType == CommunicationMessage.ActionType.SpectetorWhisper)
+            //    {
+            //        return;
+            //    }
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(LoginCommMessage)) ||
+            //   (msg.OriginalMsg.GetType()) == typeof(RegisterCommMessage)||
+            //      (msg.OriginalMsg.GetType()) == typeof(CreateNewRoomMessage))
+            //{
+            //    Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
+            //        MessagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
+            //    MessagesSentObserver.Remove(toEdit);
+            //    var toAdd = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toEdit.Item1, true,
+            //        msg.Success,
+            //        msg);
+            //    MessagesSentObserver.Add(toAdd);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
+            //{
+            //    PlayerReturnsToGame(msg.GameData);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType()) == typeof(ReturnToGameAsPlayerCommMsg) && _returnToGamesScreen != null)
+            //{
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType()) == typeof(SearchCommMessage))
+            //{
+            //    SearchResultRecived(((SearchResponseCommMessage) msg).Games);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //     (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Join)))
+            //{
+            //    JoinAsPlayerReceived(msg as JoinResponseCommMessage);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //     (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Spectate)))
+            //{
+            //    JoinAsSpectatorReceived(msg as JoinResponseCommMessage);
+            //    return;
+            //}
+            //if ((msg.OriginalMsg.GetType() == typeof(ActionCommMessage) &&
+            //   (((ActionCommMessage)msg.OriginalMsg).MoveType == CommunicationMessage.ActionType.Leave)))
+            //{
+            //    GameDataCommMessage gd = (msg).GameData;
+            //    foreach (GameScreen game in _games)
+            //    {
+            //        if (game.RoomId == gd.RoomId)
+            //        {
+            //            game.LeaveOkay(gd);
+            //        }
+            //    }
+            //    return;
+            //}
+
+            //GameUpdateReceived(msg.GameData);
+
+        }
+       
+        public void JoinAsPlayerReceived(JoinResponseCommMessage msg)
+        {
+            _searchScreen.JoinOkay(msg.GameData);
+        }
+        //TODO how to call currect game screnn?
+        public void LeaveAsPlayer(JoinResponseCommMessage msg)
+        {
+            foreach (GameScreen gameScreen in _games)
+            {
+                if (gameScreen.RoomId == msg.GameData.RoomId)
+                {
+                    gameScreen.LeaveAsPlayerOk(msg.GameData);
+                }
+            }
+        }
+
+        public void LeaveAsSpectetor(JoinResponseCommMessage msg)
+        {
+            foreach (GameScreen gameScreen in _games)
+            {
+                if (gameScreen.RoomId == msg.GameData.RoomId)
+                {
+                    gameScreen.LeaveAsSpectetorOk(msg.GameData);
+                }
+            }
+            
+        }
+        public void JoinAsSpectatorReceived(JoinResponseCommMessage msg)
+        {
+            _searchScreen.JoinOkayAsSpectate(msg.GameData);
+        }
+
+        public void SearchResultRecived(List<ClientGame> games)
         {
             if (_searchScreen != null)
             {
@@ -420,6 +502,11 @@ namespace Client.Logic
                     _searchScreen.EmptySearch();
                 }
             }
+        }
+
+        public void SetReturnToGameScreen(ReturnToGames returnToGames)
+        {
+            _returnToGamesScreen = returnToGames;
         }
     }
 }

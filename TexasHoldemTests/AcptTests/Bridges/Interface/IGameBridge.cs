@@ -11,6 +11,10 @@ namespace TexasHoldemTests.AcptTests.Bridges.Interface
     {
 
         int CreateGameRoom(int userId, int startingCheap);
+
+        bool CreateNewRoomWithRoomId(int roomId, int userId, int startingChip, bool isSpectetor,
+            GameMode gameModeChosen,
+            int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet);
         int CreateGameRoomWithPref(int userId, int startingCheap, bool isSpectetor, GameMode gameModeChosen,
             int minPlayersInRoom, int maxPlayersInRoom, int enterPayingMoney, int minBet);
         bool DoesRoomExist(int id);

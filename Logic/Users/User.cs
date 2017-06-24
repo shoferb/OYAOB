@@ -483,21 +483,22 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                bool toReturn = false;
                 try
                 {
-                    if (game != null && activeGameList.Contains(game))
+                    if (game != null)
                     {
-                        activeGameList.Remove(game);
-                        toReturn = true;
-                        return toReturn;
+                        bool exist = HasThisActiveGame(game);
+                        if (exist)
+                        {
+                            userDataProxy.DeleteActiveGameOfUser(this.id, game.Id, game.GameNumber);
+                            return true;
+                        }
                     }
-                    return toReturn;
+                    return false;
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }
@@ -506,21 +507,22 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                bool toReturn = false;
                 try
                 {
-                    if (game != null && spectateGameList.Contains(game))
+                    if (game != null)
                     {
-                        spectateGameList.Remove(game);
-                        toReturn = true;
-                        return toReturn;
+                        bool exist = HasThisSpectetorGame(game);
+                        if (exist)
+                        {
+                            userDataProxy.DeleteSpectetorGameOfUSer(this.id, game.Id, game.GameNumber);
+                            return true;
+                        }
                     }
-                    return toReturn;
+                    return false;
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }
@@ -529,20 +531,17 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                bool toReturn = false;
                 try
                 {
-                    if (game != null && activeGameList.Contains(game))
+                    if (game != null)
                     {
-                        toReturn = true;
-                        return toReturn;
+                        return userDataProxy.HasThisActiveGame(this.id, game.Id, game.GameNumber);
                     }
-                    return toReturn;
+                    return false;
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }
@@ -551,20 +550,17 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                bool toReturn = false;
                 try
                 {
-                    if (game != null && spectateGameList.Contains(game))
+                    if (game != null)
                     {
-                        toReturn = true;
-                        return toReturn;
+                        return userDataProxy.HasThisSpectetorGame(this.id, game.Id, game.GameNumber);
                     }
-                    return toReturn;
+                    return false;
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }
@@ -576,18 +572,22 @@ namespace TexasHoldem.Logic.Users
                 bool toReturn = false;
                 try
                 {
-                    if (game != null && !activeGameList.Contains(game))
+                    if (game != null)
                     {
-                        activeGameList.Add(game);
-                        toReturn = true;
-                        return toReturn;
+                        bool alreadyIn = HasThisActiveGame(game);
+                        if (!alreadyIn)
+                        {
+                            ActiveGameList().Add(game);
+                            userDataProxy.AddGameToUserActiveGames(this.Id(), game.Id, game.GameNumber);
+                            return true;
+                        }
+
                     }
-                    return toReturn;
+                    return false;
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }
@@ -596,21 +596,24 @@ namespace TexasHoldem.Logic.Users
         {
             lock (padlock)
             {
-                bool toReturn = false;
                 try
                 {
-                    if (game != null && !spectateGameList.Contains(game))
+                    if (game != null)
                     {
-                        spectateGameList.Add(game);
-                        toReturn = true;
-                        return toReturn;
+                        bool alreadyIn = HasThisSpectetorGame(game);
+                        if (!alreadyIn)
+                        {
+                            userDataProxy.AddGameToUserSpectetorGames(this.id, game.Id, game.GameNumber);
+                            return true;
+                        }
+
                     }
-                    return toReturn;
+                    return false;
+
                 }
                 catch
                 {
-                    toReturn = false;
-                    return toReturn;
+                    return false;
                 }
             }
         }

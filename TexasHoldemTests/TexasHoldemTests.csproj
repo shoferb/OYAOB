@@ -124,6 +124,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Service\UserServiceHandlerTests.cs" />
+    <Compile Include="shared\ParserTests.cs" />
     <Compile Include="shared\SecurityHandlerTest.cs" />
   </ItemGroup>
   <ItemGroup>

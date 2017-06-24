@@ -139,7 +139,9 @@ namespace TexasHoldem.DatabaseProxy
 
         public bool UpdateGameRoom(Logic.Game.GameRoom g)
         {
-            return _controller.UpdateGameRoom( g.Id, g.GetGameNum(),  GameRoomToXElement(new GameRoomXML(g)), g.IsGameActive(),  g.GetGameReplay());
+            bool ans = UpdateGameRoomPotSize(g.GetPotSize(), g.Id);
+            ans = ans & _controller.UpdateGameRoom(g.Id, g.GetGameNum(), GameRoomToXElement(new GameRoomXML(g)), g.IsGameActive(), g.GetGameReplay());
+            return ans;
         }
 
         public bool DeleteGameRoom(int roomId, int gameId)
@@ -375,5 +377,45 @@ namespace TexasHoldem.DatabaseProxy
             }
         }
 
-    }   
+
+        public List<IGame> GetAllUserActiveGames(int userId)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            
+            try
+            {
+                List<GetAllUserActiveGameResult> temp = _controller.GetAllUserActiveGames(userId);
+                foreach (var game in temp)
+                {
+                    IGame toAdd = GetGameRoombyId(game.roomId);
+                    toReturn.Add(toAdd);
+                }
+                return toReturn;
+            }
+            catch (Exception)
+            {
+                return toReturn;
+            }
+        }
+
+        public List<IGame> GetUserSpectetorsGameResult(int userId)
+        {
+            List<IGame> toReturn = new List<IGame>();
+            try
+            {
+                List < GetUserSpectetorsGameResult > temp = _controller.GetUserSpectetorsGameResult(userId);
+                foreach (var game in temp)
+                {
+                    IGame toAdd = GetGameRoombyId(game.roomId);
+                    toReturn.Add(toAdd);
+                }
+                return toReturn;
+            }
+            catch (Exception)
+            {
+                return toReturn;
+            }
+        }
+
+    }
 }

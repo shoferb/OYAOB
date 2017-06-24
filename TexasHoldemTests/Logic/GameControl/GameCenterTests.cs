@@ -5,10 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TexasHoldem.communication.Impl;
+using TexasHoldem.DatabaseProxy;
 using TexasHoldem.Logic.Game;
 using TexasHoldem.Logic.GameControl;
 using TexasHoldem.Logic.Notifications_And_Logs;
+using TexasHoldem.Logic.Replay;
 using TexasHoldem.Logic.Users;
+using TexasHoldemShared;
+using TexasHoldemShared.CommMessages;
+using TexasHoldemTests.Database.DataControlers;
 
 namespace TexasHoldem.Logic.Game_Control.Tests
 {
@@ -17,454 +23,761 @@ namespace TexasHoldem.Logic.Game_Control.Tests
     [TestClass()]
     public class GameCenterTests
     {
-        /*
-        private GameCenter _gameCenter = GameCenter.Instance;
-        private SystemControl _systemControl = SystemControl.SystemControlInstance;
-        private List<League> _leagueTable;
+        
+
+
+        //private List<League> _leagueTable;
         private GameRoom _gameRoom;
         private static List<Player> _players;
+        private static LogsOnlyForTest logsOnlyForTest = new LogsOnlyForTest();
 
-        private void initForAllTest()
+        private static LogControl logControl = new LogControl();
+
+        private static SystemControl _systemControl = new SystemControl(logControl);
+        private static ReplayManager replayManager = new ReplayManager();
+        private static SessionIdHandler ses = new SessionIdHandler();
+        private static GameCenter _gameCenter = new GameCenter(_systemControl, logControl, replayManager, ses);
+        private static UserDataProxy _userDataProxy = new UserDataProxy();
+        private bool useCommunication;
+        private GameDataProxy proxy = new GameDataProxy(_gameCenter);
+
+
+        private void DeleteSysLog(int roomid)
         {
-            _gameCenter.HigherRank = null;
-            _gameCenter.LeagueGap = 100;
-            _systemControl.Users = new List<User>();
-            _gameCenter.Games = new List<GameRoom>();
+            List<int> toDelete = logsOnlyForTest.GetSysLogIdsByRoomId(roomid);
+
+            foreach (var id in toDelete)
+            {
+                logsOnlyForTest.DeleteSystemLog(id);
+                logsOnlyForTest.DeleteSystemLog(id);
+            }
+        }
+        private bool ActionSuccedded(IEnumerator<ActionResultInfo> results)
+        {
+            results.MoveNext();
+            ActionResultInfo result = results.Current;
+            return result.GameData.IsSucceed;
+        }
+
+        private void RegisterUser(int userId)
+        {
+            IUser toAdd = new User(userId, "orelie", "orelie" + userId, "123456789", 0, 15000, "orelie@post.bgu.ac.il");
+            _userDataProxy.AddNewUser(toAdd);
+        }
+        private Logic.Game.GameRoom CreateRoomWithId(int gameNum, int roomId, int userId1)
+        {
+
+            RegisterUser(userId1);
+            useCommunication = false;
+
+            List<Player> toAddPlayers = new List<Player>();
+            IUser user = _userDataProxy.GetUserById(userId1);
+            Decorator deco = SetDecoratoresNoLimitWithSpectatores();
+            Player player1 = new Player(user, 1000, roomId);
+            toAddPlayers.Add(player1);
+            Logic.Game.GameRoom gm = new Logic.Game.GameRoom(toAddPlayers, roomId, deco, _gameCenter, logControl, replayManager, ses);
+            gm.GameNumber = gameNum;
+            return gm;
+        }
+        private Decorator SetDecoratoresNoLimitWithSpectatores()
+        {
+            Decorator mid = new MiddleGameDecorator(GameMode.NoLimit, 10, 5);
+            Decorator before = new BeforeGameDecorator(10, 1000, true, 2, 4, 20, LeagueName.A);
+            before.SetNextDecorator(mid);
+            return before;
+        }
+
+
+        public void Cleanup(int gameNum, int roomId, int userId1)
+        {
+            _userDataProxy.DeleteUserById(userId1);
+
+            replayManager.DeleteGameReplay(roomId, 0);
+            replayManager.DeleteGameReplay(roomId, 1);
+            proxy.DeleteGameRoomPref(roomId);
+            proxy.DeleteGameRoom(roomId, gameNum);
+        }
+
+        [TestMethod()]
+        public void CreateNewRoomTest_bad_User_null()
+        {
+            int roomid = new Random().Next();
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid,null, 50, true, GameMode.Limit, 2, 8, 10, 10));
+        }
+
+        [TestMethod()]
+        public void CreateNewRoomTest_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
            
-        }
-        private Player _A;
-        private Player _B; public void Initialize()
-        {
-            _leagueTable = new List<League>();
-            _A = new Player(1000, 100, 1, "Yarden", "Chen", "", 0, 0, "", 0);
-            _B = new Player(500, 100, 2, "Aviv", "G", "", 0, 0, "", 0);
-            _players.Add(_A);
-            _players.Add(_B);
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
             
-                
-        }
+            Assert.IsTrue(_gameCenter.CreateNewRoomWithRoomId(roomid,user, 50, true, GameMode.Limit, 2, 8, 10, 10));
+            IGame game = _gameCenter.GetRoomById(roomid);
 
-       
-        [TestMethod()]
-        public void EditLeagueGapTest()
-        {
-            initForAllTest();
-            _gameCenter.EditLeagueGap(20);
-            Assert.IsTrue(_gameCenter.leagueGap==20);
-            initForAllTest();
+            int gameNum = game.GameNumber;
+            Cleanup(gameNum,roomid,userId);
         }
 
         [TestMethod()]
-        public void CreateNewRoomTestUserNoExist()
+        public void CreateNewRoomTest_bad_already_exist()
         {
-            initForAllTest();
-            Assert.IsTrue(!_gameCenter.CreateNewRoom(3, 50, true, GameMode.Limit, 2, 8, 10, 10));
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            int gameNum = game.GameNumber;
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10));
+            Cleanup(gameNum, roomid, userId);
+        }
+        [TestMethod()]
+        public void CreateNewRoomTest_bad_startingchip_less_than_zero()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid, user, -50, true, GameMode.Limit, 2, 8, 10, 10));
+            _userDataProxy.DeleteUserById(userId);
         }
 
         [TestMethod()]
-        public void CreateNewRoomTest()
+        public void CreateNewRoomTest_bad_minPlayer_less_than_zero()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            Assert.IsTrue(_gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10));
-            Assert.IsTrue(_gameCenter.GetRoomById(_gameCenter.GetNextIdRoom() - 1).Players.Count == 1);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, -2, 8, 10, 10));
+            _userDataProxy.DeleteUserById(userId);
         }
 
         [TestMethod()]
-        public void GetNextIdRoomTest()
+        public void CreateNewRoomTest_bad_maxPlayer_less_than_zero()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetNextIdRoom() == _gameCenter.GetNextIdRoom() - 1);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, -8, 10, 10));
+            _userDataProxy.DeleteUserById(userId);
+        }
+
+
+        [TestMethod()]
+        public void CreateNewRoomTest_bad_minBet_less_than_zero()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, -10));
+            _userDataProxy.DeleteUserById(userId);
         }
 
         [TestMethod()]
-        public void GetLastGameRoomTest()
+        public void CreateNewRoomTest_bad_buyInPolicy_less_than_zero()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetLastGameRoom() == _gameCenter.GetNextIdRoom() - 1);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            Assert.IsFalse(_gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, -10, 10));
+            _userDataProxy.DeleteUserById(userId);
+        }
+
+
+        [TestMethod()]
+        public void GetRoomByIdTest_good_id_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.Id,roomid);
+            Cleanup(game.GameNumber,roomid,userId);
         }
 
         [TestMethod()]
-        public void GetRoomByIdTest()
+        public void GetRoomByIdTest_good_starting_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            GameRoom gm = _gameCenter.GetRoomById(id);
-            Assert.IsTrue(gm != null);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.GetStartingChip(), 50);
+            Cleanup(game.GameNumber, roomid, userId);
         }
 
         [TestMethod()]
-        public void IsRoomExistTest()
+        public void GetRoomByIdTest_good_isSpectete_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            Assert.IsTrue(_gameCenter.IsRoomExist(id));
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.IsSpectatable(),true);
+            Cleanup(game.GameNumber, roomid, userId);
         }
+
+        [TestMethod()]
+        public void GetRoomByIdTest_good_minPlayer_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.GetMinPlayer(), 2);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+        [TestMethod()]
+        public void GetRoomByIdTest_good_maxPlayer_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.GetMaxPlayer(), 8);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+
+        [TestMethod()]
+        public void GetRoomByIdTest_good_buyIn_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.GetBuyInPolicy(), 10);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+        [TestMethod()]
+        public void GetRoomByIdTest_good_minBet_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.AreEqual(game.GetMinBet(), 10);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+        [TestMethod()]
+        public void IsRoomExistTest_good_contains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            Assert.IsTrue(_gameCenter.IsRoomExist(roomid));
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+        [TestMethod()]
+        public void IsRoomExistTest_bad_dont_contains()
+        {
+            int roomid = new Random().Next();
+            Assert.IsFalse(_gameCenter.IsRoomExist(roomid));
+
+        }
+
+      
 
         [TestMethod()]
         public void RemoveRoomTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            Assert.IsTrue(_gameCenter.RemoveRoom(id));
-            Assert.IsTrue(_gameCenter.GetAllActiveGame().Count==0);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _userDataProxy.DeleteUserById(userId);
+            Assert.IsTrue(_gameCenter.RemoveRoom(roomid));
         }
 
         [TestMethod()]
-        public void AddPlayerToRoomTest()
+        public void DoAction_Join_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            _gameCenter.AddPlayerToRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id).Players.Count==2);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            Assert.IsTrue(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 200, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+        [TestMethod()]
+        public void DoAction_Join_good_contains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+           
+             _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 200, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Player> allPlayers = game.GetPlayersInRoom();
+            bool contains = false;
+            foreach (Player player in allPlayers)
+            {
+                if (player.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreEqual(contains,true);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+
+        [TestMethod()]
+        public void DoAction_spectete_good()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            Assert.IsTrue(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Spectate, 0, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+        [TestMethod()]
+        public void DoAction_spectete_good_contains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Spectate, 200, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Spectetor> allspectetor = game.GetSpectetorInRoom();
+            bool contains = false;
+            foreach (Spectetor spectetor in allspectetor)
+            {
+                if (spectetor.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreEqual(contains, true);
+            _userDataProxy.DeleteSpectetorGameOfUSer(userId2,roomid,game.GameNumber);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+
+        [TestMethod()]
+        public void DoAction_spectete_bad_game_not_spectete()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, false, GameMode.Limit, 2, 8, 10, 10);
+            Assert.IsFalse(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Spectate, 0, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.GetUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+
+
+        [TestMethod()]
+        public void DoAction_spectete_bad_notSpectete_game_dont_ontains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, false, GameMode.Limit, 2, 8, 10, 10);
+
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Spectate, 200, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Spectetor> allspectetor = game.GetSpectetorInRoom();
+            bool contains = false;
+            foreach (Spectetor spectetor in allspectetor)
+            {
+                if (spectetor.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreNotEqual(contains, true);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
         }
 
         [TestMethod()]
-        public void AddSpectetorToRoomTest()
+        public void DoAction_Spectetor__Leave_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom()-1;
-            Assert.IsTrue(_gameCenter.AddSpectetorToRoom(id,2));
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Spectate, 200, roomid);
+
+            Assert.IsTrue(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.SpectatorLeave, -1, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.DeleteSpectetorGameOfUSer(userId2,roomid,game.GameNumber);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+        [TestMethod()]
+        public void DoAction_Spectetor_leave_good_contains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Spectate, 200, roomid);
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.SpectatorLeave, -1, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Spectetor> allspectetor = game.GetSpectetorInRoom();
+            bool contains = false;
+            foreach (Spectetor spectetor in allspectetor)
+            {
+                if (spectetor.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreEqual(contains, false);
+            _userDataProxy.DeleteSpectetorGameOfUSer(userId2, roomid, game.GameNumber);
+
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
         }
 
         [TestMethod()]
-        public void AddSpectetorToRoomNotForSpectTest()
+        public void DoAction_SpectetorLeave_bad_user_not_in_game()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, false, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(!_gameCenter.AddSpectetorToRoom(1, 1));
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+
+            Assert.IsFalse(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.SpectatorLeave, -1, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+        [TestMethod()]
+        public void DoAction_SpectetorLeave_bad_user_not_in_game_dont_contains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.SpectatorLeave, -1, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Spectetor> allspectetor = game.GetSpectetorInRoom();
+            bool contains = false;
+            foreach (Spectetor spectetor in allspectetor)
+            {
+                if (spectetor.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreEqual(contains, false);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
         }
 
         [TestMethod()]
-        public void RemovePlayerFromRoomTest()
+        public void DoAction_Leave_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, false, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            _gameCenter.RemovePlayerFromRoom( id, 1);
-            Assert.IsTrue(_gameCenter.GetRoomById(id).Players.Count == 1);
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
 
-            initForAllTest();
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 200, roomid);
+
+            Assert.IsTrue(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
+        [TestMethod()]
+        public void DoAction_leave_good_contains()
+        {
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 200, roomid);
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Player> allPlayers = game.GetPlayersInRoom();
+            bool contains = false;
+            foreach (Player player in allPlayers)
+            {
+                if (player.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreEqual(contains, false);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
         }
 
         [TestMethod()]
-        public void RemoveSpectetorFromRoomTest()
+        public void DoAction_Leave_bad_user_not_in_game()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            _systemControl.GetUserWithId(1).IsActive = false;
-            _gameCenter.AddSpectetorToRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id).Spectatores.Count == 1);
-            _gameCenter.RemoveSpectetorFromRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id).Spectatores.Count == 0);
-            initForAllTest();
-        }
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
 
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+
+            Assert.IsFalse(ActionSuccedded(
+                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid)));
+            IGame game = _gameCenter.GetRoomById(roomid);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
+        }
         [TestMethod()]
-        public void LeagueChangeAfterGapChangeTest()
+        public void DoAction_Leave_bad_user_not_in_game_dont_contains()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            Assert.IsTrue(_gameCenter.LeagueChangeAfterGapChange(150));
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+            int userId2 = new Random().Next();
+
+            RegisterUser(userId);
+            RegisterUser(userId2);
+            IUser user = _systemControl.GetUserWithId(userId);
+            IUser user2 = _systemControl.GetUserWithId(userId2);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+
+            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            List<Player> allPlayers = game.GetPlayersInRoom();
+            bool contains = false;
+            foreach (Player player in allPlayers)
+            {
+                if (player.user.Id() == userId2)
+                {
+                    contains = true;
+                }
+            }
+            Assert.AreEqual(contains, false);
+            _userDataProxy.DeleteUserById(userId2);
+            DeleteSysLog(roomid);
+            Cleanup(game.GameNumber, roomid, userId);
         }
 
-        [TestMethod()]
-        public void CreateFirstLeagueTest()
-        {
-            initForAllTest();
-            _gameCenter.CreateFirstLeague(10);
-            Assert.IsTrue(_gameCenter.LeagueTable.Count==1);
-            initForAllTest();
-        }
 
-        [TestMethod()]
-        public void UserLeageInfoTest()
-        {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateFirstLeague(100);
-            Assert.IsTrue(_gameCenter.UserLeageInfo(_systemControl.GetUserWithId(1))!=null);
-            initForAllTest();
-        }
-
-        [TestMethod()]
-        public void UserLeageGapPointTest()
-        {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            Tuple<int, int> res = _gameCenter.UserLeageGapPoint(1);
-            Assert.IsTrue(res!= null);
-            Assert.IsTrue(res.Item1==0 && res.Item2 > 0);
-            initForAllTest();
-        }
-
-        [TestMethod()]
-        public void GetAllActiveGameTest()
-        {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom()-1;
-            GameRoom room = _gameCenter.GetRoomById(id);
-            room.IsActiveGame = true;
-            Assert.IsTrue(_gameCenter.GetAllActiveGame().Count==1);
-            initForAllTest();
-        }
-
+     
+      /*
         [TestMethod()]
         public void GetAllSpectetorGameTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            _systemControl.GetUserWithId(1).IsActive = false;
-            _gameCenter.AddSpectetorToRoom(id, 2);
-            Assert.IsTrue(_gameCenter.GetRoomById(id).Spectatores.Count == 1);
-            Assert.IsTrue(_gameCenter.GetAllSpectetorGame().Count==1);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllGamesTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetAllGamesId().Count==2);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetAllGamesByPotSizeTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            GameRoom room = _gameCenter.GetRoomById(id);
-            room.PotCount = 12345;
-            Assert.IsTrue(_gameCenter.GetAllGamesByPotSize(1).Count==0);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGamesByGameModeTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 1000, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGamesByGameMode(GameMode.Limit).Count==1);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGamesByBuyInPolicyTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGamesByBuyInPolicy(10).Count==2);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGamesByMinPlayerTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGamesByMinPlayer(2).Count == 2);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGamesByMaxPlayerTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGamesByMaxPlayer(9).Count == 0);
-            initForAllTest();
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGamesByMinBetTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGamesByMinBet(1).Count == 0);
-            initForAllTest();
+
+            Assert.Fail();
         }
 
         [TestMethod()]
         public void GetGamesByStartingChipTest()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 100, "hh@gmail.com");
-            _systemControl.RegisterToSystem(2, "yardnnnnnn", "chennnnn", "12345678", 200, "h@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.CreateNewRoom(2, 1, true, GameMode.PotLimit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGamesByStartingChip(2).Count == 0);
-            initForAllTest();
-        }
-
-        [TestMethod()]
-        public void IsGameCanSpecteteTest()
-        {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            Assert.IsTrue(_gameCenter.IsGameCanSpectete(id)==true);
-            initForAllTest();
-        }
-
-        [TestMethod()]
-        public void IsGameActiveTest()
-        {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            Assert.IsTrue(!_gameCenter.IsGameActive(id) == true);
-            initForAllTest();
-        }
-        //todo - move to log control log
-       [TestMethod()]
-        public void FindLogTest()
-        {
-            initForAllTest();
-            LogControl logControl = LogControl.Instance;
-            
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            GameRoom room = _gameCenter.GetRoomById(id);
-            SystemLog log = new SystemLog(id, room.GameReplay.ToString());
-            logControl.AddSystemLog(log);
-            Assert.IsTrue(logControl.FindLog(log.LogId)!= null);
-            logControl.RemoveSystenLog(log);
-            initForAllTest();
-        }
-
-        [TestMethod()]
-        public void AddSystemLogTest()
-        {
-            initForAllTest();
-            LogControl logControl = LogControl.Instance;
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            GameRoom room = _gameCenter.GetRoomById(id);
-            SystemLog log = new SystemLog(id, room.GameReplay.ToString());
-            logControl.AddSystemLog(log);
-            Assert.IsTrue(logControl.FindLog(log.LogId) != null);
-            logControl.RemoveSystenLog(log);
-            initForAllTest();
-        }
-
-        [TestMethod()]
-        public void AddErrorLogTest()
-        {
-            initForAllTest();
-            LogControl logControl = LogControl.Instance;
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            int id = _gameCenter.GetNextIdRoom() - 1;
-            GameRoom room = _gameCenter.GetRoomById(id);
-            ErrorLog log = new ErrorLog("hello world");
-            logControl.AddErrorLog(log);
-            
-            Assert.IsTrue(logControl.FindLog(log.LogId) != null);
-            logControl.RemoveErrorLog(log);
-            initForAllTest();
-        }
-        //TODO
-       [TestMethod()]
-        public void IsValidMoveTest()
-        {
-            initForAllTest();
-            List<Tuple<GameMove, bool, int, int>> moves = new List<Tuple<GameMove, bool, int, int>>();
-
-            initForAllTest();
-        }
-        //todo
-        /*
-        [TestMethod()]
-        public void GetRandomMoveTest()
-        {
             Assert.Fail();
-        }
-        */
-        /*
+        }*/
+
         [TestMethod()]
-        public void GetGamesTest()
+        public void IsGameCanSpecteteTest_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            _gameCenter.CreateNewRoom(1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGames().Count==1);
-            initForAllTest();
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            int gameNum = game.GameNumber;
+            Assert.IsTrue(_gameCenter.IsGameCanSpectete(roomid));
+            Cleanup(gameNum, roomid, userId);
         }
 
         [TestMethod()]
-        public void CreateNewRoomWithRoomIdTest()
+        public void IsGameActiveTest_good()
         {
-            initForAllTest();
-            _systemControl.RegisterToSystem(1, "yarden", "chen", "12345678", 1000, "hh@gmail.com");
-            int id = _gameCenter.GetNextIdRoom();
-            _gameCenter.CreateNewRoomWithRoomId(id, 1, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(_gameCenter.GetGames().Count == 1);
-            initForAllTest();
-        }*/
+            int roomid = new Random().Next();
+            int userId = new Random().Next();
+
+            RegisterUser(userId);
+            IUser user = _systemControl.GetUserWithId(userId);
+            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
+            IGame game = _gameCenter.GetRoomById(roomid);
+            int gameNum = game.GameNumber;
+            Assert.IsFalse(_gameCenter.IsGameActive(roomid));
+            Cleanup(gameNum, roomid, userId);
+        }
+      
+      
     }
 }
