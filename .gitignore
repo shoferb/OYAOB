@@ -1,4 +1,4 @@
-packages/NUnit.3.6.1/lib/net45/nunit.framework.xml
+﻿packages/NUnit.3.6.1/lib/net45/nunit.framework.xml
 workshop/UMLs/Visios/class diagram bl only.vsdx
 workshop/UMLs/Visios/class diagram.vsdx
 workshop/UMLs/Visios/mine/create new game uc.vsdx
@@ -82,6 +82,5 @@ packages.config
 /App.config
 *.config
 *.config\
-Database/LinqToSql/connectionsLinq.dbml
 Properties/Settings.Designer.cs
 Properties/Settings.settings
