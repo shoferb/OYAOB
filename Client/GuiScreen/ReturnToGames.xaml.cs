@@ -12,7 +12,7 @@ namespace Client.GuiScreen
     /// <summary>
     /// Interaction logic for ReturnToGames.xaml
     /// </summary>
-    public partial class ReturnToGames : Window
+    public partial class ReturnToGames : Window, ISearchScreen
     {
         public ReturnToGames(Window w, ClientLogic cli)
         {
@@ -77,7 +77,6 @@ namespace Client.GuiScreen
             listView.ItemsSource = _startList;
         }
 
-
         public void EmptySearch()
         {
             Dispatcher.Invoke(() =>
@@ -88,6 +87,7 @@ namespace Client.GuiScreen
 
         private void SearchB_Click(object sender, RoutedEventArgs e)
         {
+            _cl.SetCurrSearchScreen(this);
             if (_field == -1)
             {
                 MessageBox.Show("Please Select a filter ");
@@ -198,6 +198,52 @@ namespace Client.GuiScreen
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        public void JoinOkay(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData.IsSucceed)
+            {
+
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You joined the game successfully!");
+                    GameScreen newGameWindow = new GameScreen(_cl);
+                    newGameWindow.UpdateGame(msgGameData);
+                    _cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    Hide();
+                });
+            }
+            else
+            {
+                MessageBox.Show("Joined the game failed!");
+            }
+        }
+
+        public void JoinOkayAsSpectate(GameDataCommMessage msgGameData)
+        {
+            if (msgGameData == null || !msgGameData.IsSucceed)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You Can't be a spectator in this game!");
+                });
+            }
+            else
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("You joined the game successfully! as Spectetor");
+                    GameScreen newGameWindow = new GameScreen(_cl);
+                    newGameWindow.UpdateGame(msgGameData);
+
+                    _cl.AddNewRoom(newGameWindow);
+                    newGameWindow.Show();
+                    newGameWindow.isSpectrtor = true;
+                    Hide();
+                });
+            }
         }
     }
 }

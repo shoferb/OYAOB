@@ -22,7 +22,7 @@ namespace Client.GuiScreen
     /// <summary>
     /// Interaction logic for SearchScreen.xaml
     /// </summary>
-    public partial class SearchScreen : Window
+    public partial class SearchScreen : Window, ISearchScreen
     {
         public SearchScreen(Window w,ClientLogic cli)
         {
@@ -64,6 +64,7 @@ namespace Client.GuiScreen
 
         private void HandleDoubleClick(object sender, RoutedEventArgs e)
         {
+            cl.SetCurrSearchScreen(this);
             ClientGame selectedGame = (ClientGame) listView.SelectedItem;
             if (selectedGame != null)
             {
@@ -505,7 +506,6 @@ namespace Client.GuiScreen
             searchBox.IsEnabled = false;
         }
 
-
         //by limit
         private void ComboBoxItem_Selected_12(object sender, RoutedEventArgs e)
         {
@@ -522,6 +522,7 @@ namespace Client.GuiScreen
 
         private void WatchGame_Btn_Click(object sender, RoutedEventArgs e)
         {
+            cl.SetCurrSearchScreen(this);
             int roomIdToSpectate;
             string temp = IdToSpectate_TextBox.Text;
             bool isValid = int.TryParse(temp, out roomIdToSpectate);

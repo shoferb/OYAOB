@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Client.GuiScreen;
 using Client.Handler;
 using TexasHoldemShared;
@@ -28,6 +29,8 @@ namespace Client.Logic
         public ClientUser user { get; set; }
         private SearchScreen _searchScreen;
         private ReturnToGames _returnToGamesScreen;
+        private ISearchScreen _currSearchScreen = null;
+        private Window _currWindow = null;
         private Dictionary<Type, Func<ResponeCommMessage, bool>> _notifyDictionary;
         private readonly IResponseNotifier _notifier;
 
@@ -63,6 +66,11 @@ namespace Client.Logic
             _searchScreen = screen;
         }
 
+        public void SetCurrSearchScreen(ISearchScreen screen)
+        {
+            _currSearchScreen = screen;
+        }
+
         public long GetSessionId()
         {
             return _sessionId;
@@ -95,7 +103,6 @@ namespace Client.Logic
                 }
             }
         }
-
 
         public void SpectateRoom(int roomId)
         {
@@ -461,7 +468,7 @@ namespace Client.Logic
        
         public void JoinAsPlayerReceived(JoinResponseCommMessage msg)
         {
-            _searchScreen.JoinOkay(msg.GameData);
+            _currSearchScreen.JoinOkay(msg.GameData);
         }
 
         public void LeaveAsPlayer(ResponeCommMessage msg)
@@ -488,7 +495,7 @@ namespace Client.Logic
         }
         public void JoinAsSpectatorReceived(JoinResponseCommMessage msg)
         {
-            _searchScreen.JoinOkayAsSpectate(msg.GameData);
+            _currSearchScreen.JoinOkayAsSpectate(msg.GameData);
         }
 
         public void SearchResultRecived(List<ClientGame> games, bool isReturnToGame)

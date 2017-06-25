@@ -132,6 +132,7 @@
     <Compile Include="GuiScreen\GameScreen.xaml.cs">
       <DependentUpon>GameScreen.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GuiScreen\ISearchScreen.cs" />
     <Compile Include="GuiScreen\LoginScreen.xaml.cs">
       <DependentUpon>LoginScreen.xaml</DependentUpon>
     </Compile>
