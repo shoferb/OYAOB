@@ -101,16 +101,16 @@ namespace Client.Logic
                 switch (original.MoveType)
                 {
                     case CommunicationMessage.ActionType.Join:
-                        ReceivedJoin(msg as JoinResponseCommMessage);
+                        ReceivedJoin((JoinResponseCommMessage)msg);
                         break;
                     case CommunicationMessage.ActionType.Spectate:
-                        ReceivedSpectate(msg as JoinResponseCommMessage);
+                        ReceivedSpectate((JoinResponseCommMessage)msg);
                         break;
                         case CommunicationMessage.ActionType.Leave:
-                            ReceivedLeave(msg as JoinResponseCommMessage);
+                            ReceivedLeave((JoinResponseCommMessage)msg);
                             break;
                     case CommunicationMessage.ActionType.SpectatorLeave:
-                            ReceivedSpectetorLeave(msg as JoinResponseCommMessage);
+                            ReceivedSpectetorLeave(msg);
                             break;
                     default:
                         GeneralCase(msg.GameData);
@@ -121,21 +121,21 @@ namespace Client.Logic
             return false;
         }
 
-        private bool ReceivedLeave(JoinResponseCommMessage msg)
+        private bool ReceivedLeave(ResponeCommMessage msg)
         {
             if (_logic != null)
             {
-                _logic.LeaveAsPlayer((JoinResponseCommMessage)msg);
+                _logic.LeaveAsPlayer(msg);
                 return true;
             }
             return false;
         }
 
-        private bool ReceivedSpectetorLeave(JoinResponseCommMessage msg)
+        private bool ReceivedSpectetorLeave(ResponeCommMessage msg)
         {
             if (_logic != null)
             {
-                _logic.LeaveAsSpectetor((JoinResponseCommMessage)msg);
+                _logic.LeaveAsSpectetor(msg);
                 return true;
             }
             return false;

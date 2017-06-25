@@ -463,8 +463,8 @@ namespace Client.Logic
         {
             _searchScreen.JoinOkay(msg.GameData);
         }
-        //TODO how to call currect game screnn?
-        public void LeaveAsPlayer(JoinResponseCommMessage msg)
+
+        public void LeaveAsPlayer(ResponeCommMessage msg)
         {
             foreach (GameScreen gameScreen in _games)
             {
@@ -475,7 +475,7 @@ namespace Client.Logic
             }
         }
 
-        public void LeaveAsSpectetor(JoinResponseCommMessage msg)
+        public void LeaveAsSpectetor(ResponeCommMessage msg)
         {
             foreach (GameScreen gameScreen in _games)
             {

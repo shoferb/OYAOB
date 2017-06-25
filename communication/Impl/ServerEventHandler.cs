@@ -50,19 +50,29 @@ namespace TexasHoldem.communication.Impl
             CommunicationMessage originalMsg)
         {
             ResponeCommMessage response = null;
+            GameDataCommMessage gameData = null;
+            bool found = false;
             while (iterator.MoveNext())
             {
                 var curr = iterator.Current;
                 if (curr != null && curr.Id != userId)
                 {
+                    gameData = curr.GameData;
                     _commHandler.AddMsgToSend(_parser.SerializeMsg(curr.GameData, ShouldUseDelim), curr.Id);
                 }
                 else if (curr != null)
                 {
+                    found = true;
                     response = new ResponeCommMessage(userId, _sessionIdHandler.GetSessionIdByUserId(userId),
                         curr.GameData.IsSucceed, originalMsg);
                     response.SetGameData(curr.GameData);
                 }
+            }
+            if (!found && gameData != null)
+            {
+                response = new ResponeCommMessage(userId, _sessionIdHandler.GetSessionIdByUserId(userId),
+                    gameData.IsSucceed, originalMsg);
+                response.SetGameData(gameData);
             }
             return response;
         }
