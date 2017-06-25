@@ -81,11 +81,14 @@ namespace TexasHoldem.communication.Impl
             CommunicationMessage originalMsg)
         {
             JoinResponseCommMessage response = null;
+            GameDataCommMessage gameData = null;
+            bool found = false;
             while (iterator.MoveNext())
             {
                 var curr = iterator.Current;
                 if (curr != null && curr.Id != userId)
                 {
+                    gameData = curr.GameData;
                     _commHandler.AddMsgToSend(_parser.SerializeMsg(curr.GameData, ShouldUseDelim), curr.Id);
                 }
                 else if (curr != null)
@@ -94,6 +97,13 @@ namespace TexasHoldem.communication.Impl
                         curr.GameData.IsSucceed, originalMsg, curr.GameData);
                     response.SetGameData(curr.GameData);
                 }
+            }
+
+            if (!found && gameData != null)
+            {
+                response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(userId), userId,
+                        gameData.IsSucceed, originalMsg, gameData);
+                response.SetGameData(gameData);
             }
             return response;
         }
