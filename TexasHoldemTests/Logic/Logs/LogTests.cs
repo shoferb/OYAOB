@@ -16,10 +16,27 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         public void LogTestNextIdSucces()
         {
             int logId1 = Log.getNextId();
-            Log errorLog = new Log();
-            Assert.AreEqual(errorLog.LogId, logId1);
+            Log log = new Log();
+            Assert.AreEqual(log.LogId, logId1);
         }
 
+        [TestMethod()]
+        public void LogTest_set_id_good()
+        {
+            int logId1 = Log.getNextId();
+            Log log = new Log();
+            log.LogId = 5555;
+            Assert.AreEqual(log.LogId, 5555);
+        }
+
+        [TestMethod()]
+        public void LogTest_set_id2_good()
+        {
+            int logId1 = Log.getNextId();
+            Log log = new Log();
+            log.LogId = 5555;
+            Assert.AreNotEqual(log.LogId, logId1);
+        }
         [TestMethod()]
         public void LogTesNotSameIdSucces()
         {
