@@ -114,7 +114,6 @@ namespace Client.GuiScreen
 
         private void GetAllUserByUserName()
         {
-            
             toSearch = _cl.user.username;
 
             _cl.SearchGame(_cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
