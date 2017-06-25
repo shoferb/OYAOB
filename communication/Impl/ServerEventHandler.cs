@@ -93,6 +93,8 @@ namespace TexasHoldem.communication.Impl
                 }
                 else if (curr != null)
                 {
+                    found = true;
+                    gameData = curr.GameData;
                     response = new JoinResponseCommMessage(_sessionIdHandler.GetSessionIdByUserId(userId), userId,
                         curr.GameData.IsSucceed, originalMsg, curr.GameData);
                     response.SetGameData(curr.GameData);
