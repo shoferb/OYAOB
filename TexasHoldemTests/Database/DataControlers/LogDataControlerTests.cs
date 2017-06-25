@@ -181,6 +181,37 @@ namespace TexasHoldem.Database.DataControlers.Tests
             Cleanup(gameNum,roomid,userId);
         }
 
+
+
+        [TestMethod()]
+        public void AddSystemLogTest_good_id2()
+        {
+            int roomid = new Random().Next();
+            int gameNum = new Random().Next();
+            int userId = new Random().Next();
+            int logId = new Random().Next();
+            Logic.Game.GameRoom toAddg = CreateRoomWithId(gameNum, roomid, userId);
+            proxy.InsertNewGameRoom(toAddg);
+            Database.LinqToSql.SystemLog toAdd = new Database.LinqToSql.SystemLog();
+            Database.LinqToSql.Log logs = new Database.LinqToSql.Log
+            {
+                LogId = logId,
+                LogPriority = 1
+            };
+            toAdd.Log = logs;
+            toAdd.logId = logId;
+            toAdd.msg = "test AddSystemLogTest_good_id()";
+            toAdd.roomId = roomid;
+            toAdd.game_Id = gameNum;
+            _logDataControler.AddSystemLog(toAdd);
+
+            Assert.AreEqual(_logsOnlyForTest.GetSystemLogById(logId).logId, logId);
+            _logsOnlyForTest.DeleteSystemLog(logId);
+            _logsOnlyForTest.DeleteLog(logId);
+            Cleanup(gameNum, roomid, userId);
+        }
+
+
         [TestMethod()]
         public void AddSystemLogTest_good_message()
         {
