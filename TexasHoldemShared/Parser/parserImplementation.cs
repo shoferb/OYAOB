@@ -517,8 +517,8 @@ namespace TexasHoldemShared.Parser
         {
             using (StringReader stringReader = new StringReader(xmlText))
             {
-                var serializer = new XmlSerializer(typeof(ReturnToGameAsPlayerCommMsg));
-                return (ReturnToGameAsPlayerCommMsg)serializer.Deserialize(stringReader);
+                var serializer = new XmlSerializer(typeof(ReturnToGameAsSpecCommMsg));
+                return (ReturnToGameAsSpecCommMsg)serializer.Deserialize(stringReader);
             }
         }
        
