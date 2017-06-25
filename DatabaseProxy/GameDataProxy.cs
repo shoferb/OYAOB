@@ -56,7 +56,7 @@ namespace TexasHoldem.DatabaseProxy
             return _controller.InsertGameRoom(toIns);
         }
 
-        private XElement GameRoomToXElement(GameRoomXML o)
+        public XElement GameRoomToXElement(GameRoomXML o)
         {
 
             using (var memoryStream = new MemoryStream())
@@ -72,7 +72,7 @@ namespace TexasHoldem.DatabaseProxy
 
         }
 
-        private Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
+        public Logic.Game.GameRoom GameRoomFromXElement(XElement xElement)
         {
 
             var xmlSerializer = new XmlSerializer(typeof(GameRoomXML));
@@ -320,10 +320,10 @@ namespace TexasHoldem.DatabaseProxy
             return GameRoomFromXElement(g);
         }
 
-        public string GetGameRoomReplyById(int roomid, int gameid)
+        public string GetGameRoomReplyById(int roomid)
         {
             List<IGame> toRet = new List<IGame>();
-            string rep = _controller.GetGameRoomReplyById(roomid, gameid);
+            string rep = _controller.GetGameRoomReplyById(roomid);
             if (rep == null)
             {
                 return null;

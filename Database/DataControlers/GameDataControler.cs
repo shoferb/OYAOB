@@ -10,7 +10,7 @@ using TexasHoldemShared.CommMessages;
 
 namespace TexasHoldem.Database.DataControlers
 {
-    class GameDataControler
+    public class GameDataControler
     {
 
         public GameDataControler() { }
@@ -336,7 +336,7 @@ namespace TexasHoldem.Database.DataControlers
             }
         }
 
-        public string GetGameRoomReplyById(int roomid, int gameid)
+        public string GetGameRoomReplyById(int roomid)
         {
             try
             {

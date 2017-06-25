@@ -33,6 +33,7 @@ namespace TexasHoldem.Logic.GameControl
         {
             proxyDB = new GameDataProxy(this);
             replayManager = replay;
+            replayManager.InitProxy(proxyDB);
             _systemControl = sys;
             logControl = log;
            

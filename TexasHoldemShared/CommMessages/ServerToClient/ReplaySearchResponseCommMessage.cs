@@ -7,11 +7,11 @@
 
         public ReplaySearchResponseCommMessage() : base(-1) { } //for parsing
 
-        public ReplaySearchResponseCommMessage(int roomId, int id, long sid, bool success, CommunicationMessage originalMsg)
+        public ReplaySearchResponseCommMessage(string wishedReplay,int roomId, int id, long sid, bool success, CommunicationMessage originalMsg)
             : base(id, sid, success, originalMsg)
         {
             RoomId = roomId;
-
+            this.Replay = wishedReplay;
         }
         //visitor pattern
         public override ResponeCommMessage Handle(IEventHandler handler)

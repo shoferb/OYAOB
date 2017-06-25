@@ -53,7 +53,8 @@ namespace Client.Logic
                 {typeof(ReturnToGameAsPlayerCommMsg), _notifier.NotifyReturnAsPlayer},
                 {typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec},
                 {typeof(SearchCommMessage), _notifier.NotifySearch},
-                {typeof(ActionCommMessage), _notifier.NotifyAction}
+                {typeof(ActionCommMessage), _notifier.NotifyAction},
+                 {typeof(ReplayCommMessage), _notifier.ObserverNotify}
             };
         }
 

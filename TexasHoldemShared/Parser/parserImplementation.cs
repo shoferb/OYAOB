@@ -102,6 +102,7 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "u" + msgToRet;
                 }
+                
 
                 if (addDelimiter)
                 {
@@ -220,6 +221,7 @@ namespace TexasHoldemShared.Parser
                 string XMLmsg = msg.Substring(1);
                 return DeserializeUserStatisticsResponseCommMessage(XMLmsg);
             }
+           
             return null;
         }
 
@@ -338,6 +340,7 @@ namespace TexasHoldemShared.Parser
                 return (ReplayCommMessage)serializer.Deserialize(stringReader);
             }
         }
+       
 
         private ChatResponceCommMessage deserializeChatResponceCommMessage(string XmlText)
         {
