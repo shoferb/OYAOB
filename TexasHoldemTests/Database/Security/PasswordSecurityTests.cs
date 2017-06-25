@@ -25,6 +25,8 @@ namespace TexasHoldem.Database.Security.Tests
             _userDataControler.DeleteUserById(5565852);
         }
 
+      
+
         [TestMethod()]
         public void DecryptTest_user_From_DB_getBYUserName()
         {
@@ -89,6 +91,15 @@ namespace TexasHoldem.Database.Security.Tests
             ut.HighestCashGainInGame = 0;
             return ut;
         }
-     
+
+        [TestMethod()]
+        public void DecryptTest_user_From_DB_getByname()
+        {
+            UserTable toAdd1 = CreateUser(5565853, "5565853");
+            toAdd1.password = "DecryptTest";
+            _userDataControler.AddNewUser(toAdd1);
+            Assert.AreEqual(_userDataControler.GetUserByUserName("5565853").password, "DecryptTest");
+            _userDataControler.DeleteUserByUsername("5565853");
+        }
     }
 }
