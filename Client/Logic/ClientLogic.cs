@@ -306,10 +306,11 @@ namespace Client.Logic
 
         }
 
-        public void SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString, int _searchByInt, GameMode _searchByGameMode)
+        public void SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString, 
+            int _searchByInt, GameMode _searchByGameMode, bool isReturnToGame)
         {
             SearchCommMessage toSend = new SearchCommMessage(userId, _sessionId, _searchType, _searchByString,
-                _searchByInt, _searchByGameMode);
+                _searchByInt, _searchByGameMode) {IsReturnToGame = isReturnToGame};
             _eventHandler.SendNewEvent(toSend);
         }
 
@@ -490,17 +491,34 @@ namespace Client.Logic
             _searchScreen.JoinOkayAsSpectate(msg.GameData);
         }
 
-        public void SearchResultRecived(List<ClientGame> games)
+        public void SearchResultRecived(List<ClientGame> games, bool isReturnToGame)
         {
-            if (_searchScreen != null)
+            if (isReturnToGame)
             {
-                if (games.Any())
+                if (_returnToGamesScreen != null)
                 {
-                    _searchScreen.ResultRecived(games);
+                    if (games.Any())
+                    {
+                        _returnToGamesScreen.ResultRecived(games);
+                    }
+                    else
+                    {
+                        _returnToGamesScreen.EmptySearch();
+                    }
                 }
-                else
+            }
+            else
+            {
+                if (_searchScreen != null)
                 {
-                    _searchScreen.EmptySearch();
+                    if (games.Any())
+                    {
+                        _searchScreen.ResultRecived(games);
+                    }
+                    else
+                    {
+                        _searchScreen.EmptySearch();
+                    }
                 }
             }
         }

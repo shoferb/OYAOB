@@ -109,7 +109,7 @@ namespace Client.GuiScreen
            
             toSearch = _cl.user.username;
             _cl.SearchGame(_cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
-                GameMode.Limit);
+                GameMode.Limit, true);
         }
 
         private void GetAllUserByUserName()

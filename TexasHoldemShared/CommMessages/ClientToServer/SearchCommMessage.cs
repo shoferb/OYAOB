@@ -26,6 +26,7 @@ namespace TexasHoldemShared.CommMessages.ClientToServer
         public string SearchByString;
         public int SearchByInt;
         public GameMode SearchByGameMode;
+        public bool IsReturnToGame = false;
 
         public SearchCommMessage() : base(-1, -1) { } //for parsing
 

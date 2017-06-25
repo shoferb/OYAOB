@@ -70,7 +70,8 @@ namespace Client.Logic
         {
             if (_logic != null)
             {
-                _logic.SearchResultRecived(((SearchResponseCommMessage)msg).Games);
+                SearchCommMessage original = msg.OriginalMsg as SearchCommMessage;
+                _logic.SearchResultRecived(((SearchResponseCommMessage)msg).Games, original.IsReturnToGame);
                 return true;
             }
             return false;
