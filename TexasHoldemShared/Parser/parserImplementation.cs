@@ -110,6 +110,10 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "w" + msgToRet;
                 }
+                else if (msg.GetType() == typeof(ReturnToGameResponseCommMsg))
+                {
+                    msgToRet = "z" + msgToRet;
+                }
                 
 
                 if (addDelimiter)
@@ -238,6 +242,11 @@ namespace TexasHoldemShared.Parser
             {
                 string XMLmsg = msg.Substring(1);
                 return DeserializeReturnAsSpec(XMLmsg);
+            }
+            if (msg.IndexOf('z') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeReturnResponse(XMLmsg);
             }
            
             return null;
@@ -519,6 +528,15 @@ namespace TexasHoldemShared.Parser
             {
                 var serializer = new XmlSerializer(typeof(ReturnToGameAsSpecCommMsg));
                 return (ReturnToGameAsSpecCommMsg)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeReturnResponse(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(ReturnToGameResponseCommMsg));
+                return (ReturnToGameResponseCommMsg)serializer.Deserialize(stringReader);
             }
         }
        
