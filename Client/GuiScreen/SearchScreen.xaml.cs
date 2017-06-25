@@ -169,19 +169,19 @@ namespace Client.GuiScreen
         private void GetPotLimitGames()
         {
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-                GameMode.PotLimit);
+                GameMode.PotLimit, false);
         }
 
         private void GetLimitGames()
         {
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, "", -1,
-                GameMode.Limit);
+                GameMode.Limit, false);
         }
 
         private void GetNotLimitGames()
         {
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByGameMode, 
-                "", -1, GameMode.NoLimit);
+                "", -1, GameMode.NoLimit, false);
         }
 
         private void GetGameByStartingChip()
@@ -200,7 +200,7 @@ namespace Client.GuiScreen
             if (isValid)
             {
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByStartingChip, 
-                    "", toSearchSartingChip, GameMode.Limit);
+                    "", toSearchSartingChip, GameMode.Limit, false);
             }
             else
             {
@@ -224,7 +224,7 @@ namespace Client.GuiScreen
             if (isValid)
             {
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByBuyInPolicy,
-                    "", toSearchBuyIn, GameMode.Limit);
+                    "", toSearchBuyIn, GameMode.Limit, false);
             }
             else
             {
@@ -260,7 +260,7 @@ namespace Client.GuiScreen
                 //    listView.ItemsSource = result;
                 //}
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByPotSize, "", toSearchPotSize,
-                    GameMode.Limit);
+                    GameMode.Limit, false);
             }
             else
             {
@@ -296,7 +296,7 @@ namespace Client.GuiScreen
                 //    listView.ItemsSource = result;
                 //}
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinBet, "", toSearchMinBet,
-                    GameMode.Limit);
+                    GameMode.Limit, false);
             }
             else
             {
@@ -321,7 +321,7 @@ namespace Client.GuiScreen
             if (isValid)
             {
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMaxPlayer, "", toSearchmaxPlayer,
-                    GameMode.Limit);
+                    GameMode.Limit, false);
             }
             else
             {
@@ -344,7 +344,7 @@ namespace Client.GuiScreen
             if (isValid)
             {
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByMinPlayer, "", toSearchminPlayer,
-                    GameMode.Limit);
+                    GameMode.Limit, false);
             }
             else
             {
@@ -355,7 +355,7 @@ namespace Client.GuiScreen
         private void GetAllSpectetor()
         {
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.AllSepctetorGame,
-                "", -1, GameMode.Limit);
+                "", -1, GameMode.Limit, false);
         }
 
         private void GetRoomById()
@@ -374,7 +374,7 @@ namespace Client.GuiScreen
             if (isValid)
             {
                 cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ByRoomId, "", toSearchRoomId,
-                    GameMode.Limit);
+                    GameMode.Limit, false);
             }
             else
             {
@@ -385,7 +385,7 @@ namespace Client.GuiScreen
         private void AllActiveGamesUserCanJoin()
         {
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.GamesUserCanJoin, "", -1,
-                GameMode.Limit);
+                GameMode.Limit, false);
         }
 
         private void GetAllSpectetorByUserName()
@@ -397,7 +397,7 @@ namespace Client.GuiScreen
 
             }
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.SpectetorGameByUserName, toSearch, -1,
-                GameMode.Limit);
+                GameMode.Limit, false);
         }
 
         private void GetAllUserByUserName()
@@ -411,7 +411,7 @@ namespace Client.GuiScreen
             toSearch = searchBox.Text;
 
             cl.SearchGame(cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
-                GameMode.Limit);
+                GameMode.Limit, false);
         }
 
         //all active game bby username

@@ -118,7 +118,7 @@ namespace Client.GuiScreen
             toSearch = _cl.user.username;
 
             _cl.SearchGame(_cl.user.id, SearchCommMessage.SearchType.ActiveGamesByUserName, toSearch, -1,
-                GameMode.Limit);
+                GameMode.Limit, false);
         }
 
         //all active game bby username
