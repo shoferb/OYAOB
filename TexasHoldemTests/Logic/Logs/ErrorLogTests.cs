@@ -36,6 +36,27 @@ namespace TexasHoldem.Logic.Notifications_And_Logs.Tests
         }
 
         [TestMethod()]
+        public void LogTest_msg_set_good()
+        {
+            ErrorLog errorLog = new ErrorLog("error log test");
+            errorLog.Msg = "error log test - edit";
+            ErrorLog errorLog2 = new ErrorLog("error log test2");
+            errorLog2.Msg = "error log test2 - edit";
+            Assert.AreNotEqual(errorLog.Msg, "error log test");
+            Assert.AreNotEqual(errorLog2.Msg, "error log test2");
+        }
+
+        [TestMethod()]
+        public void LogTest_msg_set2_good()
+        {
+            ErrorLog errorLog = new ErrorLog("error log test");
+            errorLog.Msg = "error log test - edit";
+            ErrorLog errorLog2 = new ErrorLog("error log test2");
+            errorLog2.Msg = "error log test2 - edit";
+            Assert.AreEqual(errorLog.Msg, "error log test - edit");
+            Assert.AreEqual(errorLog2.Msg, "error log test2 - edit");
+        }
+        [TestMethod()]
         public void LogTesIncGood()
         {
             int logId1 = Log.getNextId();
