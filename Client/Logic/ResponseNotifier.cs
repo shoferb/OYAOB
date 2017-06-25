@@ -107,7 +107,7 @@ namespace Client.Logic
                         ReceivedSpectate((JoinResponseCommMessage)msg);
                         break;
                         case CommunicationMessage.ActionType.Leave:
-                            ReceivedLeave((JoinResponseCommMessage)msg);
+                            ReceivedLeave(msg);
                             break;
                     case CommunicationMessage.ActionType.SpectatorLeave:
                             ReceivedSpectetorLeave(msg);
