@@ -102,6 +102,14 @@ namespace TexasHoldemShared.Parser
                 {
                     msgToRet = "u" + msgToRet;
                 }
+                else if (msg.GetType() == typeof(ReturnToGameAsPlayerCommMsg))
+                {
+                    msgToRet = "v" + msgToRet;
+                }
+                else if (msg.GetType() == typeof(ReturnToGameAsSpecCommMsg))
+                {
+                    msgToRet = "w" + msgToRet;
+                }
                 
 
                 if (addDelimiter)
@@ -220,6 +228,16 @@ namespace TexasHoldemShared.Parser
             {
                 string XMLmsg = msg.Substring(1);
                 return DeserializeUserStatisticsResponseCommMessage(XMLmsg);
+            }
+            if (msg.IndexOf('v') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeReturnAsPlayer(XMLmsg);
+            }
+            if (msg.IndexOf('w') == 0)
+            {
+                string XMLmsg = msg.Substring(1);
+                return DeserializeReturnAsSpec(XMLmsg);
             }
            
             return null;
@@ -483,6 +501,24 @@ namespace TexasHoldemShared.Parser
             {
                 var serializer = new XmlSerializer(typeof(LeaderboardResponseCommMessage));
                 return (LeaderboardResponseCommMessage)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeReturnAsPlayer(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(ReturnToGameAsPlayerCommMsg));
+                return (ReturnToGameAsPlayerCommMsg)serializer.Deserialize(stringReader);
+            }
+        }
+
+        private CommunicationMessage DeserializeReturnAsSpec(string xmlText)
+        {
+            using (StringReader stringReader = new StringReader(xmlText))
+            {
+                var serializer = new XmlSerializer(typeof(ReturnToGameAsPlayerCommMsg));
+                return (ReturnToGameAsPlayerCommMsg)serializer.Deserialize(stringReader);
             }
         }
        

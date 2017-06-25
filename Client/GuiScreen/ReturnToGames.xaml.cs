@@ -65,8 +65,6 @@ namespace Client.GuiScreen
                     _cl.ReturnGameSpec(selectedGame.roomId);
                 }
                 _currRoomId = selectedGame.roomId;
-                _cl.JoinTheGame(_currRoomId, selectedGame.startingChip);
-
             }
         }
 
