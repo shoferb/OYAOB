@@ -80,6 +80,7 @@ namespace TexasHoldemTests.AcptTests.tests
                 }
             });
         }
+
         private bool DeleteUser(int id)
         {
             if (id != -1)
@@ -269,7 +270,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
         private void doAction2()
         {
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Fold, -1, RoomId);
                 GameBridge.DoAction(_userId2, CommunicationMessage.ActionType.Bet, 0, RoomId);
@@ -279,7 +280,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
         private void doAction3()
         {
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 GameBridge.DoAction(_userId3, CommunicationMessage.ActionType.Fold, -1, RoomId);
                 GameBridge.DoAction(_userId3, CommunicationMessage.ActionType.Bet, 0, RoomId);
@@ -289,7 +290,7 @@ namespace TexasHoldemTests.AcptTests.tests
 
         private void doAction1()
         {
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Join, 100, RoomId);
                 GameBridge.DoAction(UserId, CommunicationMessage.ActionType.Bet, 1, RoomId);
