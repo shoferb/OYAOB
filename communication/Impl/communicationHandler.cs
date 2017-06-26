@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -178,7 +179,6 @@ namespace TexasHoldem.communication.Impl
                 }
                 catch (SocketException e)
                 {
-                    //TODO: change this to log
                     Console.WriteLine("listener socket has thrown: " + e.Message);
                 }
             }
@@ -279,11 +279,19 @@ namespace TexasHoldem.communication.Impl
         {
             while (!msgQueue.IsEmpty)
             {
-                string msg;
-                msgQueue.TryDequeue(out msg);
-                byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
-                bytesToSend = _security.Encrypt(msg);
-                tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+                try
+                {
+                    string msg;
+                    msgQueue.TryDequeue(out msg);
+                    byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
+                    bytesToSend = _security.Encrypt(msg);
+                    tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+                }
+                catch (Exception e)
+                {
+                    _socketToUserId.Remove(tcpClient);
+                    tcpClient.Close();
+                }
             }
         }
 
