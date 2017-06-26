@@ -42,30 +42,10 @@ namespace TexasHoldem.GuiScreen
 
         }
 
-        private void currPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            currPasswordTextBox.Text = "";
-            currPasswordTextBox.Opacity = 100;
+       
+       
 
-        }
-        private void currPasswordTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            oldPassword = currPasswordTextBox.Text;
-        }
-
-        private void NewPasswordTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            NewPasswordTextBox.Text = "";
-            NewPasswordTextBox.Opacity = 100;
-        }
-
-
-        private void NewPasswordSecTextBox_OnPreviewMouseDownPasswordTextBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            NewPasswordSecTextBox_.Text = "";
-            NewPasswordSecTextBox_.Opacity = 100;
-        }
-
+     
 
         private void IDtextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -183,35 +163,35 @@ namespace TexasHoldem.GuiScreen
 
         private void EditPasswordButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(NewPasswordTextBox.Text))
+            if (string.IsNullOrEmpty(NewestPasswordfirst.Password))
             {
                 MessageBox.Show("Please enter first new password");
                 return;
             }
-            if (string.IsNullOrEmpty(currPasswordTextBox.Text))
+            if (string.IsNullOrEmpty(NewestPasswordCurrent.Password))
             {
                 MessageBox.Show("Please enter current password");
                 return;
             }
-            if (string.IsNullOrEmpty(NewPasswordSecTextBox_.Text))
+            if (string.IsNullOrEmpty(NewestPasswordSec.Password))
             {
                 MessageBox.Show("Please enter 2 new password");
                 return;
             }
-            if (currPasswordTextBox.Text.Equals(NewPasswordTextBox.Text))
+            if (NewestPasswordCurrent.Password.Equals(NewestPasswordfirst.Password))
             {
-                MessageBox.Show("you cant change password to the curr password");
+                MessageBox.Show("you cant change password to the current password");
                 return;
             }
-            if (NewPasswordSecTextBox_.Text.Equals(NewPasswordTextBox.Text))
+            if (NewestPasswordSec.Password.Equals(NewestPasswordfirst.Password))
             {
                 bool EditPasswordOk = cl.EditDetails(
                     TexasHoldemShared.CommMessages.ClientToServer.EditCommMessage.EditField.Password,
-                    NewPasswordTextBox.Text);
+                    NewestPasswordfirst.Password);
                 if (EditPasswordOk)
                 {
                     MessageBox.Show("User Password was sucssesful edit!");
-                    cl.user.password = NewPasswordTextBox.Text;
+                    cl.user.password = NewestPasswordfirst.Password;
                 }
                 else
                 {
@@ -239,10 +219,7 @@ namespace TexasHoldem.GuiScreen
             this.Hide();
         }
 
-        private void NewPasswordSecTextBox_Copy_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            secNewPassword = NewPasswordSecTextBox_.Text;
-        }
+      
 
         private void NametextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

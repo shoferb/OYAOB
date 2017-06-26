@@ -73,28 +73,8 @@ namespace TexasHoldem.GuiScreen
             }
         }
 
-        private void PasswordFirstTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            firstPassword = PasswordFirstTextBox.Text;
-        }
+       
 
-        private void PasswordFirstTextBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            PasswordFirstTextBox.Text = "";
-            PasswordFirstTextBox.Opacity = 100;
-
-        }
-        private void PasswordSecTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            secPassword = PasswordSecTextBox.Text;
-        }
-
-        private void PasswordSecTextBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            PasswordSecTextBox.Text = "";
-            PasswordSecTextBox.Opacity = 100;
-
-        }
 
         private void BackToMainButton_Click(object sender, RoutedEventArgs e)
         {
@@ -130,17 +110,17 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("please enter money");
                 return;
             }
-            if (string.IsNullOrEmpty(PasswordFirstTextBox.Text))
+            if (string.IsNullOrEmpty(NewPasswordfirstTextBox.Password))
             {
                 MessageBox.Show("please enter password");
                 return;
             }
-            if (string.IsNullOrEmpty(PasswordSecTextBox.Text))
+            if (string.IsNullOrEmpty(NewPasswordSecTextBox.Password))
             {
                 MessageBox.Show("please enter password again");
                 return;
             }
-            if (!firstPassword.Equals(secPassword))
+            if (!NewPasswordfirstTextBox.Password.Equals(NewPasswordSecTextBox.Password))
             {
                 MessageBox.Show("password dont match");
                 return;

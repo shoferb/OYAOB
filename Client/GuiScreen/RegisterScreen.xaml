@@ -30,8 +30,8 @@
         <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="242,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UserNametextBox_TextChanged"/>
         <TextBox x:Name="EmailtextBox" HorizontalAlignment="Left" Height="23" Margin="242,232,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="EmailtextBox_TextChanged"/>
         <TextBox x:Name="MoneytextBox" HorizontalAlignment="Left" Height="23" Margin="242,271,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="MoneytextBox_TextChanged"/>
-        <TextBox x:Name="PasswordFirstTextBox" HorizontalAlignment="Left" Height="23" Margin="242,310,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="PasswordFirstTextBox_TextChanged" PreviewMouseDown = "PasswordFirstTextBox_MouseDown"/>
-        <TextBox x:Name="PasswordSecTextBox" HorizontalAlignment="Left" Height="23" Margin="242,347,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="PasswordSecTextBox_TextChanged" PreviewMouseDown = "PasswordSecTextBox_MouseDown"/>
+        <PasswordBox x:Name="NewPasswordfirstTextBox" HorizontalAlignment="Left" Margin="246,313,0,0" VerticalAlignment="Top"  Height="23" Width="120" PasswordChar="*" MaxLength="12"/>
+        <PasswordBox x:Name="NewPasswordSecTextBox" HorizontalAlignment="Left" Margin="246,353,0,0" VerticalAlignment="Top"  Height="23" Width="120" PasswordChar="*" MaxLength="12"/>
 
 
     </Grid>
