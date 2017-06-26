@@ -16,7 +16,7 @@
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
         <Label x:Name="LoginMenuLabel" Content="Login menu" HorizontalAlignment="Left" Margin="86,35,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
-        <Button x:Name="MainMenuBtton" Content="Back" HorizontalAlignment="Left" Margin="28,318,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="MainMenuBtton_Click"/>
+        <Button x:Name="MainMenuBtton" Content="Back" FontWeight="Bold" HorizontalAlignment="Left" Margin="28,318,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" Click="MainMenuBtton_Click"/>
         <Label x:Name="userNameLabel" Content="user name:" HorizontalAlignment="Left" Margin="33.566,94,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506" Grid.Column="1"/>
         <Label x:Name="passwordLabel" Content="password:" HorizontalAlignment="Left" Margin="33.566,130,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506" Grid.Column="1"/>
 
@@ -24,8 +24,8 @@
 
 
         <Label x:Name="NotRegisterLabel" Content="not a user? Register now! " HorizontalAlignment="Left" Margin="48,230,0,0" VerticalAlignment="Top" Foreground="Aqua" FontWeight="Bold" FontSize="16" RenderTransformOrigin="-0.668,0.506" Grid.Column="1"/>
-        <Button x:Name="RegisterButton" Content="Register Now" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="101" Grid.Column="1" Click="RegisterButton_Click"/>
-        <Button x:Name="Loginbutton" Grid.ColumnSpan="2" Content="Login" HorizontalAlignment="Left" Margin="158,185,0,0" VerticalAlignment="Top" Width="75" Click="Loginbutton_Click" />
+        <Button x:Name="RegisterButton" Content="Register Now" FontWeight="Bold" HorizontalAlignment="Left" Margin="98,268,0,0" VerticalAlignment="Top" Width="101" Grid.Column="1" Click="RegisterButton_Click"/>
+        <Button x:Name="Loginbutton" Grid.ColumnSpan="2" FontWeight="Bold" Content="Login" HorizontalAlignment="Left" Margin="158,185,0,0" VerticalAlignment="Top" Width="75" Click="Loginbutton_Click" />
         <PasswordBox Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="132,138,0,0" VerticalAlignment="Top" Height="23" Width="120" x:Name="NewPasswordBox" PasswordChar="*" MaxLength="12"/>
 
 
