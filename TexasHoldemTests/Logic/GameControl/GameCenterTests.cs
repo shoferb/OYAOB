@@ -343,25 +343,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Assert.IsTrue(_gameCenter.RemoveRoom(roomid));
         }
 
-        [TestMethod()]
-        public void DoAction_Join_good()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(ActionSuccedded(
-                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 50, roomid)));
-            IGame game = _gameCenter.GetRoomById(roomid);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
+   
         [TestMethod()]
         public void DoAction_Join_good_contains()
         {
@@ -393,57 +375,8 @@ namespace TexasHoldem.Logic.Game_Control.Tests
         }
 
 
-        [TestMethod()]
-        public void DoAction_spectete_good()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            Assert.IsTrue(ActionSuccedded(
-                _gameCenter.AddSpectatorToRoom(user2, roomid)));
-            IGame game = _gameCenter.GetRoomById(roomid);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
-
-        [TestMethod()]
-        public void DoAction_spectete_good_contains()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-
-            _gameCenter.AddSpectatorToRoom(user2, roomid); ;
-            IGame game = _gameCenter.GetRoomById(roomid);
-            List<Spectetor> allspectetor = game.GetSpectetorInRoom();
-            bool contains = false;
-            foreach (Spectetor spectetor in allspectetor)
-            {
-                if (spectetor.user.Id() == userId2)
-                {
-                    contains = true;
-                }
-            }
-            Assert.AreEqual(contains, true);
-            _userDataProxy.DeleteSpectetorGameOfUSer(userId2,roomid,game.GameNumber);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
-
+     
+       
 
         [TestMethod()]
         public void DoAction_spectete_bad_game_not_spectete()
@@ -496,29 +429,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Cleanup(game.GameNumber, roomid, userId);
         }
 
-        [TestMethod()]
-        public void DoAction_Spectetor__Leave_good()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-           _gameCenter.AddSpectatorToRoom(user2, roomid);
-
-            Assert.IsTrue(ActionSuccedded(
-                _gameCenter.RemoveSpectatorFromRoom(user2,roomid)));
-            IGame game = _gameCenter.GetRoomById(roomid);
-            _userDataProxy.DeleteSpectetorGameOfUSer(userId2,roomid,game.GameNumber);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
+      
         [TestMethod()]
         public void DoAction_Spectetor_leave_good_contains()
         {
@@ -601,107 +512,7 @@ namespace TexasHoldem.Logic.Game_Control.Tests
             Cleanup(game.GameNumber, roomid, userId);
         }
 
-        [TestMethod()]
-        public void DoAction_Leave_good()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 50, roomid);
-
-            Assert.IsTrue(ActionSuccedded(
-                _gameCenter.DoAction(user, CommunicationMessage.ActionType.Leave, -1, roomid)));
-            IGame game = _gameCenter.GetRoomById(roomid);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
-        [TestMethod()]
-        public void DoAction_leave_good_contains()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Join, 50, roomid);
-            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid);
-            IGame game = _gameCenter.GetRoomById(roomid);
-            List<Player> allPlayers = game.GetPlayersInRoom();
-            bool contains = false;
-            foreach (Player player in allPlayers)
-            {
-                if (player.user.Id() == userId2)
-                {
-                    contains = true;
-                }
-            }
-            Assert.AreEqual(contains, false);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
-
-        [TestMethod()]
-        public void DoAction_Leave_bad_user_not_in_game()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-
-            Assert.IsFalse(ActionSuccedded(
-                _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid)));
-            IGame game = _gameCenter.GetRoomById(roomid);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
-        [TestMethod()]
-        public void DoAction_Leave_bad_user_not_in_game_dont_contains()
-        {
-            int roomid = new Random().Next();
-            int userId = new Random().Next();
-            int userId2 = new Random().Next();
-
-            RegisterUser(userId);
-            RegisterUser(userId2);
-            IUser user = _systemControl.GetUserWithId(userId);
-            IUser user2 = _systemControl.GetUserWithId(userId2);
-            _gameCenter.CreateNewRoomWithRoomId(roomid, user, 50, true, GameMode.Limit, 2, 8, 10, 10);
-
-            _gameCenter.DoAction(user2, CommunicationMessage.ActionType.Leave, -1, roomid);
-            IGame game = _gameCenter.GetRoomById(roomid);
-            List<Player> allPlayers = game.GetPlayersInRoom();
-            bool contains = false;
-            foreach (Player player in allPlayers)
-            {
-                if (player.user.Id() == userId2)
-                {
-                    contains = true;
-                }
-            }
-            Assert.AreEqual(contains, false);
-            _userDataProxy.DeleteUserById(userId2);
-            DeleteSysLog(roomid);
-            Cleanup(game.GameNumber, roomid, userId);
-        }
-
+      
 
         [TestMethod()]
         public void GetAllActiveGameRoomsTest()
