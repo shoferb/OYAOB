@@ -257,8 +257,10 @@ namespace TexasHoldem.communication.Impl
                 }
                 else
                 {
-                    Console.WriteLine("error in login!");
-                    response = null;
+                    long sid = GenerateSid(msg.UserId);
+                    response = new LoginResponeCommMessage(user.Id(), sid, user.Name(), user.MemberName(),
+                        user.Password(), user.Avatar(), user.Money(),
+                        user.Email(), user.GetLeague().ToString(), true, msg);
                 }
                 return response; 
             }

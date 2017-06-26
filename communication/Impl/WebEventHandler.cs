@@ -22,7 +22,7 @@ namespace TexasHoldem.communication.Impl
             List<string> resultList = new List<string>();
             parsedLst.ForEach(commMsg =>
             {
-                var response = commMsg.Handle(_serverHandler);
+                    var response = commMsg.Handle(_serverHandler);
                 var xmlStr = _parser.SerializeMsg(response, false);
                 if (!String.IsNullOrEmpty(xmlStr))
                 {
