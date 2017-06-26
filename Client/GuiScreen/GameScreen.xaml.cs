@@ -268,6 +268,11 @@ namespace Client.GuiScreen
 
                         msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " Joined as a spectetor to game.");
                     }
+                    else if (msg.Action.Equals(CommunicationMessage.ActionType.ReturnToGame))
+                    {
+
+                        msgToChat = string.Concat("*GAME MESSAGE* ", msg.ActionPlayerName, " return to The game.");
+                    }
                     else if (msg.Action.Equals(CommunicationMessage.ActionType.Leave))
                     {
                          msgToChat = string.Concat("*GAME MESSAGE* ", " player: " + msg.ActionPlayerName,
@@ -328,7 +333,11 @@ namespace Client.GuiScreen
                     MessageBox.Show(msg + "succeeded!");
                     return;
                 }
-                MessageBox.Show(msg + "failed!");
+                if (!String.IsNullOrEmpty(msg))
+                {
+                    MessageBox.Show(msg + "failed!");
+                }
+                
             }
 
 
