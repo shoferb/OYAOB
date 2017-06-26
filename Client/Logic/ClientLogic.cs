@@ -57,13 +57,16 @@ namespace Client.Logic
                 {typeof(ReturnToGameAsSpecCommMsg), _notifier.NotifyReturnAsSpec},
                 {typeof(SearchCommMessage), _notifier.NotifySearch},
                 {typeof(ActionCommMessage), _notifier.NotifyAction},
-                 {typeof(ReplayCommMessage), _notifier.ObserverNotify}
+                {typeof(ChatCommMessage), _notifier.NotifyChat},
+                {typeof(ReplayCommMessage), _notifier.ObserverNotify}
             };
         }
+
         public SearchScreen GetSearchScreen()
         {
             return _searchScreen;
         }
+
         public void SetSearchScreen(SearchScreen screen)
         {
             _searchScreen = screen;
@@ -391,9 +394,9 @@ namespace Client.Logic
 
         public void NotifyResponseReceived(ResponeCommMessage msg)
         {
-            var func = _notifyDictionary[msg.OriginalMsg.GetType()];
-            if (func != null)
+            if (_notifyDictionary.ContainsKey(msg.OriginalMsg.GetType()))
             {
+                var func = _notifyDictionary[msg.OriginalMsg.GetType()];
                 func(msg);
             }
             else

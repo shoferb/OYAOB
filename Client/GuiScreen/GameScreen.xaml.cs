@@ -323,7 +323,7 @@ namespace Client.GuiScreen
                         msg = "Start Game ";
                         break;
                 } 
-                if (msgIsSucceed)
+                if (msgIsSucceed && !String.IsNullOrEmpty(msg))
                 {
                     MessageBox.Show(msg + "succeeded!");
                     return;
