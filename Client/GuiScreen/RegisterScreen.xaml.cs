@@ -26,8 +26,7 @@ namespace TexasHoldem.GuiScreen
         private string name;
         private string username;
         private string email;
-        private string firstPassword;
-        private string secPassword;
+        
         private int money;
          
         public RegisterScreen(Window parent,  ClientLogic cli)
@@ -125,7 +124,7 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("password dont match");
                 return;
             }
-            bool registerOk = cl.Register(Id,name, username, firstPassword, money, email);
+            bool registerOk = cl.Register(Id,name, username, NewPasswordSecTextBox.Password, money, email);
             if (registerOk)
             {
                 MainAfterLogin mainAfterLogin = new MainAfterLogin(this, Id,cl);

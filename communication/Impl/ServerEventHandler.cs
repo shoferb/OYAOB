@@ -280,9 +280,9 @@ namespace TexasHoldem.communication.Impl
                     _commHandler.AddUserId(msg.UserId, _socket);
                 }
                 long sid = GenerateSid(msg.UserId);
-
+                IUser user = _userService.GetUserById(msg.UserId);
                 ResponeCommMessage response = new RegisterResponeCommMessage(sid, msg.UserId, msg.Name, msg.MemberName, msg.Password,
-                    "/GuiScreen/Photos/Avatar/devil.png", msg.Money, msg.Email, "unKnow", success, msg);
+                   user.Avatar(), msg.Money, msg.Email, "unKnow", success, msg);
 
                 return response; 
             }

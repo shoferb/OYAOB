@@ -47,7 +47,10 @@ namespace TexasHoldem.Logic.Users
             TotalProfit = 0;
           
             isActive = true;
-            avatar = "/GuiScreen/Photos/Avatar/devil.png";
+            Random rnd = new Random();
+            int avtarNum = rnd.Next(1,10);
+
+            avatar = GetRandomPath(avtarNum);
             _gamesAvailableToReplay = new List<Tuple<int, int>>();
             activeGameList = new List<IGame>();
             spectateGameList = new List<IGame>();
@@ -191,6 +194,45 @@ namespace TexasHoldem.Logic.Users
         public string Email()
         {
             return email;
+        }
+
+        private string GetRandomPath(int num)
+        {
+            string path = "";
+            switch (num)
+            {
+                case 1:
+                    path = "/GuiScreen/Photos/Avatar/andrew.png";
+                    break;
+                case 2:
+                    path = "/GuiScreen/Photos/Avatar/default_female300x300-af1ea9327d6293733a8874dbd97ce49e.png";
+                    break;
+                case 3:
+                    path = "/GuiScreen/Photos/Avatar/Male-Face-J1-icon.png";
+                    break;
+                case 4:
+                    path = "/GuiScreen/Photos/Avatar/fd04.png";
+                    break;
+                case 5:
+                    path = "/GuiScreen/Photos/Avatar/fh02.png";
+                    break;
+                case 6:
+                    path = "/GuiScreen/Photos/Avatar/mummy.png";
+                    break;
+                case 7:
+                    path = "/GuiScreen/Photos/Avatar/devil.png";
+                    break;
+                case 8:
+                    path = "/GuiScreen/Photos/Avatar/frankenstein.png";
+                    break;
+                case 9:
+                    path = "/GuiScreen/Photos/Avatar/k03.png";
+                    break;
+                case 10:
+                    path = "/GuiScreen/Photos/Avatar/e01-1.png";
+                    break;
+            }
+            return path;
         }
 
         public List<Tuple<int, int>> GamesAvailableToReplay()
