@@ -98,7 +98,6 @@ namespace TexasHoldem.GuiScreen
         {
             SearchScreen searchScreen = new SearchScreen(this,cl);
             searchScreen.Show();
-          //  this.Hide();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -131,7 +130,7 @@ namespace TexasHoldem.GuiScreen
         {
             ReturnToGames returnToGames = new ReturnToGames(this,cl);
             returnToGames.Show();
-            this.Hide();
+           
 
         }
     }
