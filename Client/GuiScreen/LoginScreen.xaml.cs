@@ -33,7 +33,7 @@ namespace TexasHoldem.GuiScreen
             InitializeComponent();
             cl = cli;
             wsScreen = ws;
-
+            cl.SetLoginScreen(this);
         }
 
 
@@ -68,16 +68,27 @@ namespace TexasHoldem.GuiScreen
                 return;
             }
             password = NewPasswordBox.Password;
-            bool loginOk = cl.Login(userName, password);
-            if (loginOk )
+            cl.Login(userName, password);
+            
+        }
+
+        public void LoginOk(bool isOk)
+        {
+            if (isOk)
             {
-                MainAfterLogin mainAfterLogin = new MainAfterLogin(this, cl.user.id,cl);
-                mainAfterLogin.Show();
-                this.Hide();
+                Dispatcher.Invoke(() =>
+                {
+                    MainAfterLogin mainAfterLogin = new MainAfterLogin(this, cl.user.id, cl);
+                    mainAfterLogin.Show();
+                    Hide();
+                });
             }
             else
             {
-                MessageBox.Show("login fail! - please try again");
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("login fail! - please try again");
+                });
             }
         }
         
