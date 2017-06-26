@@ -57,7 +57,10 @@ namespace Client.Logic
                  {typeof(ReplayCommMessage), _notifier.ObserverNotify}
             };
         }
-
+        public SearchScreen GetSearchScreen()
+        {
+            return _searchScreen;
+        }
         public void SetSearchScreen(SearchScreen screen)
         {
             _searchScreen = screen;
