@@ -15,7 +15,7 @@
         </Grid.Background>
         <Label x:Name="GameSearchMenuLabel" Content="Game Search Menu" HorizontalAlignment="Left" Margin="222,35,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Height="43" Width="237"/>
 
-        <Button x:Name="BBack" Content="Back" HorizontalAlignment="Left" Height="20" Margin="38,332,0,0" VerticalAlignment="Top" Width="49" Click="BBack_Click"/>
+        <Button x:Name="BBack" Content="Back" FontWeight="Bold" HorizontalAlignment="Left" Height="20" Margin="38,332,0,0" VerticalAlignment="Top" Width="49" Click="BBack_Click"/>
         <ListView x:Name="listView" HorizontalAlignment="Left" Height="126" Margin="38,162,0,0" VerticalAlignment="Top" Width="792" SelectionChanged="listView_SelectionChanged">
             <ListView.View>
                 <GridView AllowsColumnReorder="True" ColumnHeaderStringFormat="">
@@ -40,7 +40,7 @@
         <TextBox x:Name="searchBox" HorizontalAlignment="Left" Height="27" Margin="238,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" SpellCheck.IsEnabled="True" TextChanged="searchBox_TextChanged"/>
         <Label Content="Enter your search here" HorizontalAlignment="Left" Margin="35,118,0,0" VerticalAlignment="Top" Width="186" Height="26" Foreground="White" FontWeight="Bold" FontSize="14"/>
         <Label Content="Search by:" HorizontalAlignment="Left" Margin="59,78,0,0" VerticalAlignment="Top" Height="41" Width="81" Foreground="White" FontWeight="Bold" FontSize="14"/>
-        <Button x:Name="SearchB" Content="Search" HorizontalAlignment="Left" Height="26" Margin="421,102,0,0" VerticalAlignment="Top" Width="71" Click="SearchB_Click"/>
+        <Button x:Name="SearchB" FontWeight="Bold" Content="Search" HorizontalAlignment="Left" Height="26" Margin="421,102,0,0" VerticalAlignment="Top" Width="71" Click="SearchB_Click"/>
         <ComboBox HorizontalAlignment="Left" Height="27" Margin="148,83,0,0" VerticalAlignment="Top" Width="258" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Get active game of user by username" HorizontalAlignment="Left" Width="258" Selected="ComboBoxItem_Selected" Margin="0,0,-2,0"/>
             <ComboBoxItem Content="get spectetor game of user by username" HorizontalAlignment="Left" Width="248" Selected="ComboBoxItem_Selected_1" Height="22"/>
@@ -57,9 +57,9 @@
             <ComboBoxItem Content="Get limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_12"/>
             <ComboBoxItem Content="Get pot-limit Games" HorizontalAlignment="Left" Width="252" Selected="ComboBoxItem_Selected_13"/>
         </ComboBox>
-        <Label Content="Enter Game Id to be a Spectator:" HorizontalAlignment="Left" Height="40" Margin="63,296,0,0" VerticalAlignment="Top" Width="224" FontSize="14" Foreground="White"/>
+        <Label Content="Enter Game Id to be a Spectator:" FontWeight="Bold" HorizontalAlignment="Left" Height="40" Margin="63,296,0,0" VerticalAlignment="Top" Width="224" FontSize="14" Foreground="White"/>
         <TextBox x:Name="IdToSpectate_TextBox" HorizontalAlignment="Left" Height="26" Margin="288,301,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="184"/>
-        <Button x:Name="WatchGame_Btn" Content="Watch!" HorizontalAlignment="Left" Height="30" Margin="493,298,0,0" VerticalAlignment="Top" Width="76" Click="WatchGame_Btn_Click"/>
+        <Button x:Name="WatchGame_Btn" FontWeight="Bold" Content="Watch!" HorizontalAlignment="Left" Height="30" Margin="493,298,0,0" VerticalAlignment="Top" Width="76" Click="WatchGame_Btn_Click"/>
 
     </Grid>
 </Window>
