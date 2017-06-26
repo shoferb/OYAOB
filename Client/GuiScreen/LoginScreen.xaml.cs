@@ -61,11 +61,13 @@ namespace TexasHoldem.GuiScreen
                 MessageBox.Show("Invalid input - please enter username");
                 return;
             }
-            if ( string.IsNullOrEmpty(passwordBox.Text))
+          
+           if(string.IsNullOrEmpty(NewPasswordBox.Password))
             {
                 MessageBox.Show("Invalid input - please enter password");
                 return;
             }
+            password = NewPasswordBox.Password;
             bool loginOk = cl.Login(userName, password);
             if (loginOk )
             {
@@ -79,21 +81,13 @@ namespace TexasHoldem.GuiScreen
             }
         }
         
-        private void passwordBox_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            passwordBox.Text = "";
-            passwordBox.Opacity = 100;
-            
-        }
+    
 
         private void UserNametextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
             userName = UserNametextBox.Text;
         }
 
-        private void passwordBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            password = passwordBox.Text;
-        }
+      
     }
 }
