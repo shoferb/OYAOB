@@ -60,7 +60,7 @@ namespace Client.Logic
                 {typeof(ActionCommMessage), _notifier.NotifyAction},
                 {typeof(ChatCommMessage), _notifier.NotifyChat},
                 {typeof(ReplayCommMessage), _notifier.ObserverNotify},
-                {typeof(LoginResponeCommMessage), _notifier.NotifyLogin}
+                {typeof(LoginCommMessage), _notifier.NotifyLogin}
             };
         }
 

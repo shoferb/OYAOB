@@ -46,7 +46,7 @@ namespace TexasHoldem.GuiScreen
                         {
                             string username = cl.user.username;
                             string password = cl.user.password;
-                            bool logoutOk = cl.Logout(username, password);
+                            cl.Logout(username, password);
                             if (logoutOk)
                             {
                                 MessageBox.Show("Logout OK!");
