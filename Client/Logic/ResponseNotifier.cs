@@ -25,6 +25,20 @@ namespace Client.Logic
             return true;
         }
 
+        public bool NotifyLogin(ResponeCommMessage msg)
+        {
+            if (_logic != null)
+            {
+                LoginResponeCommMessage loginResp = (LoginResponeCommMessage) msg;
+                if (((LoginCommMessage) loginResp.OriginalMsg).IsLogin)
+                {
+                    return _logic.LoginRespReceived(loginResp);
+                }
+                return _logic.LogoutRespReceived(loginResp);
+            }
+            return false;
+        }
+
         public bool ObserverNotify(ResponeCommMessage msg)
         {
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =

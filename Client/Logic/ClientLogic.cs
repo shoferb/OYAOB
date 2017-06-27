@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Client.GuiScreen;
 using Client.Handler;
+using TexasHoldem.GuiScreen;
 using TexasHoldemShared;
 using TexasHoldemShared.CommMessages;
 using TexasHoldemShared.CommMessages.ClientToServer;
@@ -29,6 +30,8 @@ namespace Client.Logic
         public ClientUser user { get; set; }
         private SearchScreen _searchScreen;
         private ReturnToGames _returnToGamesScreen;
+        private LoginScreen _loginScreen;
+        private ILogoutScreen _logoutScreen;
         private ISearchScreen _currSearchScreen = null;
         private Window _currWindow = null;
         private Dictionary<Type, Func<ResponeCommMessage, bool>> _notifyDictionary;
@@ -38,7 +41,6 @@ namespace Client.Logic
         {
             _games = new List<GameScreen>();
             listLock = new Object();
-            //todo - find server name
             user = null;
             _notifier = new ResponseNotifier(MessagesSentObserver, this);
             SetupNotifyDictionary();
@@ -49,7 +51,6 @@ namespace Client.Logic
             _notifyDictionary = new Dictionary<Type, Func<ResponeCommMessage, bool>>
             {
                 {typeof(ChatResponceCommMessage), _notifier.NotifyChat},
-                {typeof(LoginCommMessage), _notifier.ObserverNotify},
                 {typeof(RegisterCommMessage), _notifier.ObserverNotify},
                 {typeof(CreateNewRoomMessage), _notifier.ObserverNotify},
                 {typeof(EditCommMessage), _notifier.ObserverNotify},
@@ -58,7 +59,8 @@ namespace Client.Logic
                 {typeof(SearchCommMessage), _notifier.NotifySearch},
                 {typeof(ActionCommMessage), _notifier.NotifyAction},
                 {typeof(ChatCommMessage), _notifier.NotifyChat},
-                {typeof(ReplayCommMessage), _notifier.ObserverNotify}
+                {typeof(ReplayCommMessage), _notifier.ObserverNotify},
+                {typeof(LoginCommMessage), _notifier.NotifyLogin}
             };
         }
 
@@ -72,9 +74,37 @@ namespace Client.Logic
             _searchScreen = screen;
         }
 
+        public void SetLogoutScreen(ILogoutScreen screen)
+        {
+            _logoutScreen = screen;
+        }
+
         public void SetCurrSearchScreen(ISearchScreen screen)
         {
             _currSearchScreen = screen;
+        }
+
+        public void SetLoginScreen(LoginScreen screen)
+        {
+            _loginScreen = screen;
+        }
+
+        public bool LoginRespReceived(LoginResponeCommMessage loginResp)
+        {
+            ClientUser cuser = new ClientUser(loginResp.UserId, loginResp.Name, loginResp.Username,
+                loginResp.Password, loginResp.Avatar, loginResp.Money, loginResp.Email, loginResp.Leauge);
+            user = cuser;
+            _loginScreen.LoginOk(loginResp.Success);
+            return loginResp.Success;
+        }
+
+        public bool LogoutRespReceived(LoginResponeCommMessage logoutResp)
+        {
+            if (_logoutScreen != null)
+            {
+                return _logoutScreen.LogoutOk(logoutResp.Success);
+            }
+            return false;
         }
 
         public long GetSessionId()
@@ -82,7 +112,6 @@ namespace Client.Logic
             return _sessionId;
         }
 
-        //TODO: fix
         public bool SetSessionId(long sid)
         {
             _sessionId = sid;
@@ -93,7 +122,6 @@ namespace Client.Logic
             return false;
         }
 
-        //TODO Add specs
         public void AddNewRoom(GameScreen newWin)
         {
             _games.Add(newWin);
@@ -218,7 +246,6 @@ namespace Client.Logic
 
         }
 
-
         public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend,
             CommunicationMessage.ActionType _chatType)
         {
@@ -244,33 +271,32 @@ namespace Client.Logic
             return rand * -1;
         }
 
-        public bool Login(string userName, string password)
+        public void Login(string userName, string password)
         {
             int randNedId = GenerateRandomNegNum();
             LoginCommMessage toSend = new LoginCommMessage(randNedId, true, userName, password);
-            var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend,
-                false, false, new ResponeCommMessage(-1));
-            MessagesSentObserver.Add(messageToList);
+            //var messageToList = new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend,
+            //    false, false, new ResponeCommMessage(-1));
+            //MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
-            bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
+            //while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
+            //{
+            //    var t = Task.Run(async delegate { await Task.Delay(10); });
+            //    t.Wait();
+            //}
+            //bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
 
-            if (toRet)
-            {
-                LoginResponeCommMessage rmsg =
-                    (LoginResponeCommMessage) MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item4;
-                ClientUser cuser = new ClientUser(rmsg.UserId, rmsg.Name, rmsg.Username,
-                    rmsg.Password, rmsg.Avatar, rmsg.Money, rmsg.Email, rmsg.Leauge);
-                _sessionId = rmsg.SessionId;
-                user = cuser;
+            //if (toRet)
+            //{
+            //    LoginResponeCommMessage rmsg =
+            //        (LoginResponeCommMessage) MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item4;
+            //    ClientUser cuser = new ClientUser(rmsg.UserId, rmsg.Name, rmsg.Username,
+            //        rmsg.Password, rmsg.Avatar, rmsg.Money, rmsg.Email, rmsg.Leauge);
+            //    _sessionId = rmsg.SessionId;
+            //    user = cuser;
 
-            }
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
+            //}
+            //MessagesSentObserver.Remove(messageToList);
 
         }
 
@@ -300,23 +326,10 @@ namespace Client.Logic
 
         }
 
-        public bool Logout(string userName, string password)
+        public void Logout(string userName, string password)
         {
             LoginCommMessage toSend = new LoginCommMessage(user.id, false, userName, password);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-                    new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
-            bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
-
         }
 
         public void SearchGame(int userId, SearchCommMessage.SearchType _searchType, string _searchByString, 
@@ -384,7 +397,7 @@ namespace Client.Logic
 
         public void PlayerReturnsToGame(GameDataCommMessage gameData)
         {
-            _returnToGamesScreen.PlayerReturnResponseReceived(gameData);
+           _returnToGamesScreen.PlayerReturnResponseReceived(gameData);
         }
 
         public void SpecReturnsToGame(GameDataCommMessage gameData)

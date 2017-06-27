@@ -13,6 +13,7 @@ namespace TexasHoldemShared
         bool ReceivedJoin(ResponeCommMessage msg);
         bool ReceivedSpectate(ResponeCommMessage msg);
         bool NotifyAction(ResponeCommMessage msg);
+        bool NotifyLogin(ResponeCommMessage msg);
 
         bool Default(ResponeCommMessage msg);
     }

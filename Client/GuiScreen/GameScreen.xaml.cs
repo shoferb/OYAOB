@@ -1,11 +1,7 @@
 ﻿using Client.Logic;
 using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using TexasHoldem;
@@ -21,7 +17,7 @@ namespace Client.GuiScreen
     /// <summary>
     /// Interaction logic for GameScreen.xaml
     /// </summary>
-    public partial class GameScreen : Window
+    public partial class GameScreen : Window, ILogoutScreen
     {
         public int RoomId;
         public Card[] PlayerCards = new Card[2];
@@ -38,6 +34,8 @@ namespace Client.GuiScreen
         private ClientLogic _logic;
         public GameDataCommMessage update;
         public bool isSpectrtor { get; set; }
+        private int field;
+
         public GameScreen(ClientLogic c)
         {
             InitializeComponent();
@@ -54,6 +52,7 @@ namespace Client.GuiScreen
             InputForActionTextBox.Visibility = Visibility.Hidden;
             DoActiomBotton.Visibility = Visibility.Hidden;
             isSpectrtor = false;
+            _logic.SetLogoutScreen(this);
         }
        
         public void UpdateGame(GameDataCommMessage msg)
@@ -398,58 +397,47 @@ namespace Client.GuiScreen
              _logic.StartTheGame(this.RoomId);
         }
 
+        public bool LogoutOk(bool logoutOk)
+        {
+            if (logoutOk)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("Logout OK!");
+                    _logic.CloseSystem();
+                    Application.Current.Shutdown();
+                });
+                return true;
+            }
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("Logout Fail! - please try again");
+            });
+            return false;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNo);
-            bool done = false;
-            while (!done)
+            switch (result)
             {
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        try
-                        {
-                            string username = _logic.user.username;
-                            string password = _logic.user.password;
-                            bool logoutOk = _logic.Logout(username, password);
-                            if (logoutOk)
-                            {
-                                MessageBox.Show("Logout OK!");
-
-                                //WellcomeScreen wellcomeScreen = new WellcomeScreen();
-
-                                // wellcomeScreen.Show();
-                                _logic.CloseSystem();
-                                Application.Current.Shutdown();
-                                //this.Hide();
-                                done = true;
-                                break;
-                            }
-                            else
-                            {
-                                MessageBox.Show("Logout Fail! - please try again");
-                                break;
-                            }
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Logout Fail! Exeption - please try again");
-                            done = true;
-                            break;
-                        }
-
-
-                    case MessageBoxResult.No:
-                        done = true;
+                case MessageBoxResult.Yes:
+                    try
+                    {
+                        string username = _logic.user.username;
+                        string password = _logic.user.password;
+                        _logic.Logout(username, password);
                         break;
-                }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Logout Fail! Exeption - please try again");
+                        break;
+                    }
+                case MessageBoxResult.No:
+                    break;
             }
 
-        }
-
-        private void DoActiomBotton_Click_1(object sender, RoutedEventArgs e)
-        {
-            //TODO Bar
         }
 
         private void DoActiomBotton_Click_2(object sender, RoutedEventArgs e)
@@ -490,8 +478,6 @@ namespace Client.GuiScreen
             }
         }
 
-        private int field;
-       
         private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
         {
             field = 1; //call
