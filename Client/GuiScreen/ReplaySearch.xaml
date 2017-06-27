@@ -16,19 +16,29 @@
         <Grid.Background>
             <ImageBrush ImageSource="/GuiScreen/Photos/Screen/pokerScreen2.png" />
         </Grid.Background>
-        <Label x:Name="GameSearchMenuLabel" Content="Replay Search Menu" HorizontalAlignment="Left" Margin="196.6,35,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
+        <Label x:Name="GameSearchMenuLabel" Content="Replay Game Menu" HorizontalAlignment="Left" Margin="302,39,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Grid.Column="1"/>
 
         <Button x:Name="BBack" Content="Back" FontWeight="Bold" HorizontalAlignment="Left" Height="20" Margin="14,390,0,0" VerticalAlignment="Top" Width="49" Click="BBack_Click" Grid.Column="1"/>
-        <TextBox x:Name="GameId_textBox" HorizontalAlignment="Left" Height="27" Margin="213,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" SpellCheck.IsEnabled="True"  Grid.Column="1"/>
-        <Label Content="Enter Room ID Here:" HorizontalAlignment="Left" Margin="46,87,0,0" VerticalAlignment="Top" Width="186" Height="26" Grid.Column="1" Foreground="White" FontWeight="Bold" FontSize="14"/>
-        <Button x:Name="SearchB" FontWeight="Bold" Content="Search" HorizontalAlignment="Left" Height="26" Margin="408,87,0,0" VerticalAlignment="Top" Width="71" Click="SearchB_Click" Grid.Column="1"/>
-        <ListView x:Name="results_ListView" Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="18,135,0,0" VerticalAlignment="Top" Width="1030" Grid.ColumnSpan="2">
+        <Label Content="Double Click On Room ID Here To &#xD;&#xA;View Its Replay:" HorizontalAlignment="Left" Margin="58,87,0,0" VerticalAlignment="Top" Width="246" Height="53" Grid.Column="1" Foreground="White" FontWeight="Bold" FontSize="14"/>
+        <ListView x:Name="results_ListView" Grid.Column="1" HorizontalAlignment="Left" Height="264" Margin="338,114,0,0" VerticalAlignment="Top" Width="683" Grid.ColumnSpan="2">
             <ListView.View>
 
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Game Replay" Width="620"/>
                 </GridView>
             </ListView.View>
+            <ScrollBar Height="211" Width="20"/>
+        </ListView>
+        <ListView Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="63,139,0,0" VerticalAlignment="Top" Width="241">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Room ID" Width="200" />
+                </GridView>
+            </ListView.View>
+            <ScrollBar Height="202" Width="20"/>
+
+
+
         </ListView>
     </Grid>
 </Window>
