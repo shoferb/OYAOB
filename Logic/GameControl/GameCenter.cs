@@ -82,6 +82,16 @@ namespace TexasHoldem.Logic.GameControl
             return inumerator;
         }
 
+        public void UpdateExistingGameDB(GameRoom gm)
+        {
+            proxyDB.UpdateGameRoom((GameRoom)gm);
+            proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+        }
+
+        public void InsertNewGameInExistingRoomDB(GameRoom gm)
+        {
+            proxyDB.InsertGameRoom(gm);
+        }
 
         public IEnumerator<ActionResultInfo> DoAction(IUser user, CommunicationMessage.ActionType action, int amount, int roomId)
         {

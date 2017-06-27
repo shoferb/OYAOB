@@ -817,6 +817,7 @@ namespace TexasHoldem.Logic.Game
 
         private bool EndGame()
         {
+            GameCenter.UpdateExistingGameDB(this);
             GameNumber++;
             List<Player> playersLeftInGame = new List<Player>();
             foreach (Player player in Players)
@@ -865,6 +866,7 @@ namespace TexasHoldem.Logic.Game
             lastRaiseInRound = 0;
             GameReplay = new GameReplay(Id, GameNumber);
             //Hand_Step = HandStep.PreFlop;
+            GameCenter.InsertNewGameInExistingRoomDB(this);
             return true;
         }
 
@@ -919,6 +921,7 @@ namespace TexasHoldem.Logic.Game
         {
             if (!IsActiveGame || ActivePlayersInGame() < 2)
             {
+                this.IsActiveGame = false;
                 return true;
             }
             return false;

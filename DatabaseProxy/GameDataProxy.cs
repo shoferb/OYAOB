@@ -44,7 +44,7 @@ namespace TexasHoldem.DatabaseProxy
             return xmlString;
         }
 
-        private bool InsertGameRoom(Logic.Game.GameRoom v)
+        public bool InsertGameRoom(Logic.Game.GameRoom v)
         {
             GameRoomXML gamexml = new GameRoomXML(v);
             Database.LinqToSql.GameRoom toIns = new Database.LinqToSql.GameRoom();
