@@ -20,7 +20,7 @@
 
         <Button x:Name="BBack" Content="Back" FontWeight="Bold" HorizontalAlignment="Left" Height="20" Margin="14,390,0,0" VerticalAlignment="Top" Width="49" Click="BBack_Click" Grid.Column="1"/>
         <Label Content="Double Click On Room ID Here To &#xD;&#xA;View Its Replay:" HorizontalAlignment="Left" Margin="58,87,0,0" VerticalAlignment="Top" Width="246" Height="53" Grid.Column="1" Foreground="White" FontWeight="Bold" FontSize="14"/>
-        <ListView x:Name="results_ListView" Grid.Column="1" HorizontalAlignment="Left" Height="264" Margin="338,114,0,0" VerticalAlignment="Top" Width="683" Grid.ColumnSpan="2">
+        <ListView x:Name="results_ListView" Grid.Column="1" HorizontalAlignment="Left" Height="265" Margin="338,114,0,0" VerticalAlignment="Top" Width="683" Grid.ColumnSpan="2">
             <ListView.View>
 
                 <GridView>
