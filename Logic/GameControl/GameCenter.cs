@@ -90,6 +90,14 @@ namespace TexasHoldem.Logic.GameControl
             IEnumerator<ActionResultInfo> toRet = gm.DoAction(user, action, amount, true);
             proxyDB.UpdateGameRoom((GameRoom)gm);
             proxyDB.UpdateGameRoomPotSize(gm.GetPotSize(), gm.Id);
+            //if(action == CommunicationMessage.ActionType.StartGame && gm.IsGameActive())
+            //{
+            //    foreach (Player p in gm.GetPlayersInRoom())
+            //    {
+            //        p.user.AddRoomToActiveGameList(gm);
+            //    }
+            //}
+
             return toRet;
         }
 
