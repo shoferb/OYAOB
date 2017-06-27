@@ -142,7 +142,7 @@ namespace TexasHoldem.Logic
 
         private bool HasEnoughMoney(IUser user, int amount)
         {
-            return user.HasEnoughMoney(amount, EnterPayingMoney);
+            return user.HasEnoughMoney(StartingChip, EnterPayingMoney);
         }
 
         private bool CanAddAnotherPlayer(int currNumOfPlayer)

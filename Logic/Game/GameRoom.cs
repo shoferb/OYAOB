@@ -767,8 +767,9 @@ namespace TexasHoldem.Logic.Game
             if (IsGameOver())
             {
                 EndGame();
+                return true;
             }
-            if (AllDoneWithTurn() )
+            else if (AllDoneWithTurn() )
             {
                 return NextRound(doNotSend);
             }
@@ -863,7 +864,7 @@ namespace TexasHoldem.Logic.Game
             maxBetInRound = 0;
             lastRaiseInRound = 0;
             GameReplay = new GameReplay(Id, GameNumber);
-            Hand_Step = HandStep.PreFlop;
+            //Hand_Step = HandStep.PreFlop;
             return true;
         }
 

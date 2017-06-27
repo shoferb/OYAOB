@@ -29,11 +29,15 @@ namespace Client.Logic
         {
             Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> toEdit =
                 _messagesSentObserver.Find(x => x.Item1.Equals(msg.OriginalMsg));
-            _messagesSentObserver.Remove(toEdit);
-            var toAdd = new Tuple<CommunicationMessage, bool, bool,
-                ResponeCommMessage>(toEdit.Item1, true, msg.Success, msg);
-            _messagesSentObserver.Add(toAdd);
-            return true;
+            if (toEdit != null)
+            {
+                _messagesSentObserver.Remove(toEdit);
+                var toAdd = new Tuple<CommunicationMessage, bool, bool,
+                    ResponeCommMessage>(toEdit.Item1, true, msg.Success, msg);
+                _messagesSentObserver.Add(toAdd);
+                return true;
+            }
+            return false;
         }
 
         public bool NotifyChat(ResponeCommMessage msg)
