@@ -23,8 +23,8 @@
         <Label x:Name="PasswordSecLabel" Content="Enter password again" HorizontalAlignment="Left" Margin="34,338,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="16" Height="32" Width="171"/>
 
         <Label x:Name="registerMenuLabel" Content="Register menu" HorizontalAlignment="Left" Margin="136,45,0,0" VerticalAlignment="Top" Foreground="White" FontWeight="Bold" FontSize="25" Height="43" Width="181"/>
-        <Button x:Name="registerButton" Content="Register" HorizontalAlignment="Left" Margin="88,396,0,0" VerticalAlignment="Top" Width="101" RenderTransformOrigin="0.314,-0.055" Click="registerButton_Click" Height="22"/>
-        <Button x:Name="BackToMainButton" Content="Back" HorizontalAlignment="Left" Margin="53,455,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.469,-0.553" Click="BackToMainButton_Click" Height="30"/>
+        <Button x:Name="registerButton" FontWeight="Bold" Content="Register" HorizontalAlignment="Left" Margin="88,396,0,0" VerticalAlignment="Top" Width="101" RenderTransformOrigin="0.314,-0.055" Click="registerButton_Click" Height="22"/>
+        <Button x:Name="BackToMainButton" FontWeight="Bold" Content="Back" HorizontalAlignment="Left" Margin="53,455,0,0" VerticalAlignment="Top" Width="80" RenderTransformOrigin="0.469,-0.553" Click="BackToMainButton_Click" Height="30"/>
         <TextBox x:Name="IDtextBox" HorizontalAlignment="Left" Height="23" Margin="242,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="IDtextBox_TextChanged"/>
         <TextBox x:Name="NametextBox" HorizontalAlignment="Left" Height="23" Margin="242,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="NametextBox_TextChanged"/>
         <TextBox x:Name="UserNametextBox" HorizontalAlignment="Left" Height="23" Margin="242,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="UserNametextBox_TextChanged"/>

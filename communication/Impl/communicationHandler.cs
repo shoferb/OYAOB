@@ -74,14 +74,14 @@ namespace TexasHoldem.communication.Impl
         {
             if (!_userIdToMsgQueue.ContainsKey(id))
             {
-                _userIdToMsgQueue.Add(id, new ConcurrentQueue<string>());
+                _userIdToMsgQueue[id] = new ConcurrentQueue<string>();
             }
-            if (!_socketToUserId.ContainsKey(socket))
-            {
-                _socketToUserId.Add(socket, id);
-            }
-            else //replace the socket
-            {
+            //if (!_socketToUserId.ContainsKey(socket))
+            //{
+            //    _socketToUserId[socket] = id;
+            //}
+            //else //replace the socket
+            //{
                 _socketToUserId[socket] = id;
                 //TcpClient sockToRemove = _socketToUserId.FirstOrDefault(x => x.Value == id).Key;
                 //if (sockToRemove != null)
@@ -92,7 +92,19 @@ namespace TexasHoldem.communication.Impl
                 //{
                 //    _socketToUserId.Add(socket, id); 
                 //}
+            //}
+        }
+
+        public void RemoveSocket(TcpClient socket)
+        {
+            if (_socketToUserId.ContainsKey(socket))
+            {
+                int id = _socketToUserId[socket];
+                _userIdToMsgQueue.Remove(id);
+                _socketToUserId.Remove(socket);
             }
+
+            socket.Close();
         }
 
         public void Start()
@@ -149,12 +161,9 @@ namespace TexasHoldem.communication.Impl
 
             if (!_userIdToMsgQueue.ContainsKey(userId))
             {
-                Console.WriteLine("fucking enter to if");
 
                 _userIdToMsgQueue.Add(userId, new ConcurrentQueue<string>());
             }
-            Console.WriteLine("fucking didnt enter to if");
-
             var queue = _userIdToMsgQueue[userId];
             queue.Enqueue(msg);
             Console.WriteLine("put enqueue" + msg);
@@ -233,7 +242,6 @@ namespace TexasHoldem.communication.Impl
                 IList<TcpClient> readyToWrite = Selector.SelectForWriting(_socketsQueue);
                 foreach (var tcpClient in readyToWrite)
                 {
-
                     if (CanSendMsg(tcpClient))
                     {
                         Console.WriteLine("entered to if inside foreach");
@@ -281,11 +289,19 @@ namespace TexasHoldem.communication.Impl
             {
                 try
                 {
-                    string msg;
-                    msgQueue.TryDequeue(out msg);
-                    byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
-                    bytesToSend = _security.Encrypt(msg);
-                    tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+                    try
+                    {
+                        string msg;
+                        msgQueue.TryDequeue(out msg);
+                        byte[] bytesToSend = Encoding.UTF8.GetBytes(msg);
+                        bytesToSend = _security.Encrypt(msg);
+                        tcpClient.GetStream().Write(bytesToSend, 0, bytesToSend.Length);
+                    }
+                    catch (Exception e)
+                    {
+                        RemoveSocket(tcpClient);
+                    }
+
                 }
                 catch (Exception e)
                 {

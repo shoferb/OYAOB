@@ -29,7 +29,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Label Content="Chat:" HorizontalAlignment="Left" Height="28" Margin="721,4,0,0" VerticalAlignment="Top" Width="86" FontWeight="Bold" Foreground="Black" FontSize="16" />
+        <Label Content="Chat:" HorizontalAlignment="Left" Height="38" Margin="721,4,0,0" VerticalAlignment="Top" Width="96" FontWeight="Bold" Foreground="Black" FontSize="18" />
         <Label Content="My Chips:" HorizontalAlignment="Left" Height="30" Margin="436,169,0,0" VerticalAlignment="Top" Width="75" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="14" RenderTransformOrigin="-1.04,1.1"/>
         <Label x:Name="ChipAmountLabel" Content="50" HorizontalAlignment="Left" Height="44" Margin="436,196,0,0" VerticalAlignment="Top" Width="65" FontWeight="Bold" FontSize="24" Foreground="#FFFFE803" RenderTransformOrigin="1.026,-0.191"/>
         <ComboBox x:Name="ActionChosenComboBox" HorizontalAlignment="Left" Height="30" Margin="805,386,0,0" VerticalAlignment="Top" Width="230"  >
@@ -87,7 +87,7 @@
         <Label Content="username:" HorizontalAlignment="Left" Height="26" Margin="18,81,0,0" VerticalAlignment="Top" Width="80" FontWeight="Bold" Foreground="White"/>
         <Label x:Name="UserName" Content="" HorizontalAlignment="Left" Height="26" Margin="93,81,0,0" VerticalAlignment="Top" Width="95" Foreground="White"/>
         <Image x:Name="Avatar" HorizontalAlignment="Left" Height="82" Margin="79,130,0,0" VerticalAlignment="Top" Width="81"/>
-        <ListView x:Name="PublicCardView" HorizontalAlignment="Left" Height="122" VerticalAlignment="Top" Width="307" Margin="18,362,0,0">
+        <ListView x:Name="PublicCardView" HorizontalAlignment="Left" Height="168" VerticalAlignment="Top" Width="307" Margin="18,362,0,0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
