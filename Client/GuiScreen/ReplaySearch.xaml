@@ -27,15 +27,13 @@
                     <GridViewColumn Header="Game Replay" Width="620"/>
                 </GridView>
             </ListView.View>
-            <ScrollBar Height="211" Width="20"/>
         </ListView>
-        <ListView Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="63,139,0,0" VerticalAlignment="Top" Width="241">
+        <ListView x:Name="ListView_RoomId" Grid.Column="1" HorizontalAlignment="Left" Height="239" Margin="58,140,0,0" VerticalAlignment="Top" Width="241" MouseDoubleClick="DoubleClickRoomIdToRep">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Room ID" Width="200" />
                 </GridView>
             </ListView.View>
-            <ScrollBar Height="202" Width="20"/>
 
 
 

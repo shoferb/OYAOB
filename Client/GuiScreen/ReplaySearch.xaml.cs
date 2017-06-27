@@ -29,6 +29,13 @@ namespace Client.GuiScreen
             InitializeComponent();
             _logic = cl;//init cient logic
             _parent = p;
+            foreach (var game in _logic._games)
+            {
+                ListViewItem roomId = new ListViewItem();
+                roomId.Content = game.RoomId;
+                ListView_RoomId.Items.Add(roomId);
+            }
+
         }
 
         private void BBack_Click(object sender, RoutedEventArgs e)
@@ -38,34 +45,41 @@ namespace Client.GuiScreen
             _parent.Show(); //window Parent
         }
 
-        private void SearchB_Click(object sender, RoutedEventArgs e)
+        //private void SearchB_Click(object sender, RoutedEventArgs e)
+        //{
+        //   
+        //}
+
+        private void DoubleClickRoomIdToRep(object sender, MouseButtonEventArgs e)
         {
             this.results_ListView.Items.Clear();
-          
-            int roomIdReq;
-
+           // int ;
             string ans="";
-                string temp = GameId_textBox.Text;
-                bool isValid = int.TryParse(temp, out roomIdReq);
-                if (!isValid)
-                {
-                    MessageBox.Show("Invalid Game ID input");
-                    
-                }
-                else
-                {
-                    ans = _logic.AskForReplays(roomIdReq);
-                }
-           
-            if(ans==null)
+            int roomIdReq = (int)((ListViewItem)ListView_RoomId.SelectedItem).Content;
+          //  bool isValid = int.TryParse(temp, out roomIdReq);
+          //  if (!isValid)
+          //  {
+          ////      MessageBox.Show("Invalid Game ID input");
+
+            //}
+          //  else
+            //{
+                ans = _logic.AskForReplays(roomIdReq);
+            //}
+
+            if (ans == null)
             {
                 MessageBox.Show("Search Failed!");
             }
             else
-            {
-                ListViewItem rep = new ListViewItem();
-                rep.Content = ans;
-                results_ListView.Items.Add(rep);
+            { 
+                string[] lines = ans.Split('\n');
+                foreach (var line in lines)
+                {
+                    ListViewItem rep = new ListViewItem();
+                    rep.Content = line;
+                    results_ListView.Items.Add(rep);
+                }
             }
         }
     }
