@@ -22,7 +22,7 @@ namespace Client.Logic.Tests
         public void returnExcpectedIdTest()
         {
             int excpected = 305509069;
-            var mock = new Mock<IUser>(MockBehavior.Strict);
+            var mock = new Mock<IUser>();
             Player p = new Player(mock.Object, 100, 100);
             mock.Setup(foo => foo.Id()).Returns(excpected);
             var results = p.user.Id();
@@ -34,7 +34,7 @@ namespace Client.Logic.Tests
         {
             int excpected = 200;
 
-            var mock = new Mock<IUser>(MockBehavior.Strict);
+            var mock = new Mock<IUser>();
             Player p = new Player(mock.Object, 100, 100);
             mock.Setup(foo => foo.ReduceMoneyIfPossible(1)).Returns(false);
 
@@ -46,7 +46,7 @@ namespace Client.Logic.Tests
         [TestMethod()]
         public void WinNumCallBackTest()
         {
-            var mock = new Mock<IUser>(MockBehavior.Strict);
+            var mock = new Mock<IUser>();
             Player p = new Player(mock.Object, 100, 100);
             int calls = 100;
             mock.Setup(foo => foo.WinNum)
@@ -61,7 +61,7 @@ namespace Client.Logic.Tests
         [TestMethod()]
         public void WinTest()
         {
-            var mock = new Mock<IUser>(MockBehavior.Strict);
+            var mock = new Mock<IUser>();
             Player p = new Player(mock.Object, 100, 100);
             mock.Setup(foo => foo.IncWinNum()).Returns(true);
             mock.Setup(foo => foo.UpdateHighestCashInGame(1000));
