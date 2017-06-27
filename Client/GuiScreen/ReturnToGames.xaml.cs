@@ -20,6 +20,7 @@ namespace Client.GuiScreen
             parent = w;
             _cl = cli;
             _cl.SetReturnToGameScreen(this);
+            _cl.SetCurrSearchScreen(this);
             _startList = new List<ClientGame>();
             listView.ItemsSource = _startList;
 

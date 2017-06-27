@@ -16,10 +16,15 @@ using Client.Logic;
 
 namespace TexasHoldem.GuiScreen
 {
+    public interface ILogoutScreen
+    {
+        bool LogoutOk(bool logoutOk);
+    }
+
     /// <summary>
     /// Interaction logic for MainAfterLogin.xaml
     /// </summary>
-    public partial class MainAfterLogin : Window
+    public partial class MainAfterLogin : Window, ILogoutScreen
     {
         private ClientLogic cl;
         private Window parent;
@@ -30,55 +35,53 @@ namespace TexasHoldem.GuiScreen
             InitializeComponent();
             cl = cli;      
             parent = Parent;
-          
+            cl.SetLogoutScreen(this);
         }
-       
+
+        public bool LogoutOk(bool logoutOk)
+        {
+            if (logoutOk)
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    MessageBox.Show("Logout OK!");
+                    WellcomeScreen wellcomeScreen = new WellcomeScreen();
+                    wellcomeScreen.Show();
+                    Close();
+                    Hide();
+                });
+                return true;
+            }
+            Dispatcher.Invoke(() =>
+            {
+                MessageBox.Show("Logout Fail! - please try again");
+            });
+            return false;
+        }
+
         private void Logoututton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you Sure you want To logout?", "LogoutFromSystem", MessageBoxButton.YesNo);
-            bool done = false;
-            while (!done)
+            switch (result)
             {
-                switch (result)
-                {
-                    case MessageBoxResult.Yes:
-                        try
-                        {
-                            string username = cl.user.username;
-                            string password = cl.user.password;
-                            cl.Logout(username, password);
-                            if (logoutOk)
-                            {
-                                MessageBox.Show("Logout OK!");
-                                done = true;
-                                WellcomeScreen wellcomeScreen = new WellcomeScreen();
-
-                                wellcomeScreen.Show();
-                                this.Close();
-                                this.Hide();
-                                break;
-                            }
-                            else
-                            {
-                                MessageBox.Show("Logout Fail! - please try again");
-                                break;
-                            }
-                        }
-                        catch
-                        {
-                            MessageBox.Show("Logout Fail! Exeption - please try again");
-                            done = true;
-                            break;
-                        }
-                       
-                        
-                    case MessageBoxResult.No:
-                        done = true;
+                case MessageBoxResult.Yes:
+                    try
+                    {
+                        string username = cl.user.username;
+                        string password = cl.user.password;
+                        cl.Logout(username, password);
                         break;
-                }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Logout Fail! Exeption - please try again");
+                        break;
+                    }
+                case MessageBoxResult.No:
+                    break;
             }
-           
-       
+
+
         }
 
         public void SetCurrId(int newId)

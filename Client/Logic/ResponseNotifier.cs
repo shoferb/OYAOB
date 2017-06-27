@@ -30,7 +30,11 @@ namespace Client.Logic
             if (_logic != null)
             {
                 LoginResponeCommMessage loginResp = (LoginResponeCommMessage) msg;
-                return _logic.LoginRespReceived(loginResp);
+                if (((LoginCommMessage) loginResp.OriginalMsg).IsLogin)
+                {
+                    return _logic.LoginRespReceived(loginResp);
+                }
+                return _logic.LogoutRespReceived(loginResp);
             }
             return false;
         }

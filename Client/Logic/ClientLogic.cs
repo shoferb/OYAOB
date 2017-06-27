@@ -31,6 +31,7 @@ namespace Client.Logic
         private SearchScreen _searchScreen;
         private ReturnToGames _returnToGamesScreen;
         private LoginScreen _loginScreen;
+        private ILogoutScreen _logoutScreen;
         private ISearchScreen _currSearchScreen = null;
         private Window _currWindow = null;
         private Dictionary<Type, Func<ResponeCommMessage, bool>> _notifyDictionary;
@@ -74,6 +75,11 @@ namespace Client.Logic
             _searchScreen = screen;
         }
 
+        public void SetLogoutScreen(ILogoutScreen screen)
+        {
+            _logoutScreen = screen;
+        }
+
         public void SetCurrSearchScreen(ISearchScreen screen)
         {
             _currSearchScreen = screen;
@@ -91,6 +97,15 @@ namespace Client.Logic
             user = cuser;
             _loginScreen.LoginOk(loginResp.Success);
             return loginResp.Success;
+        }
+
+        public bool LogoutRespReceived(LoginResponeCommMessage logoutResp)
+        {
+            if (_logoutScreen != null)
+            {
+                return _logoutScreen.LogoutOk(logoutResp.Success);
+            }
+            return false;
         }
 
         public long GetSessionId()
@@ -234,7 +249,6 @@ namespace Client.Logic
 
         }
 
-
         public bool SendChatMsg(int _roomId, string _ReciverUsername, string _msgToSend,
             CommunicationMessage.ActionType _chatType)
         {
@@ -315,22 +329,22 @@ namespace Client.Logic
 
         }
 
-        public bool Logout(string userName, string password)
+        public void Logout(string userName, string password)
         {
             LoginCommMessage toSend = new LoginCommMessage(user.id, false, userName, password);
-            Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
-                new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
-                    new ResponeCommMessage(user.id));
-            MessagesSentObserver.Add(messageToList);
+            //Tuple<CommunicationMessage, bool, bool, ResponeCommMessage> messageToList =
+            //    new Tuple<CommunicationMessage, bool, bool, ResponeCommMessage>(toSend, false, false,
+            //        new ResponeCommMessage(user.id));
+            //MessagesSentObserver.Add(messageToList);
             _eventHandler.SendNewEvent(toSend);
-            while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
-            {
-                var t = Task.Run(async delegate { await Task.Delay(10); });
-                t.Wait();
-            }
-            bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
-            MessagesSentObserver.Remove(messageToList);
-            return toRet;
+            //while (MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item2 == false)
+            //{
+            //    var t = Task.Run(async delegate { await Task.Delay(10); });
+            //    t.Wait();
+            //}
+            //bool toRet = MessagesSentObserver.Find(x => x.Item1.Equals(toSend)).Item3;
+            //MessagesSentObserver.Remove(messageToList);
+            //return toRet;
 
         }
 
@@ -399,7 +413,7 @@ namespace Client.Logic
 
         public void PlayerReturnsToGame(GameDataCommMessage gameData)
         {
-            _returnToGamesScreen.PlayerReturnResponseReceived(gameData);
+           _returnToGamesScreen.PlayerReturnResponseReceived(gameData);
         }
 
         public void SpecReturnsToGame(GameDataCommMessage gameData)
