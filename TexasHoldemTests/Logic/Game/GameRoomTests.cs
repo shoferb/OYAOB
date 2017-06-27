@@ -38,14 +38,14 @@ namespace TexasHoldem.Logic.Game.Tests
         [TestInitialize()]
         public void Initialize()
         {
-            sysControl.RegisterToSystem(8585000, "test1", "mo", "123456789", 5000, "test1@gmail.com");
-            sysControl.RegisterToSystem(8585001, "test2", "no", "123456789", 5000, "test2@gmail.com");
-            sysControl.RegisterToSystem(8585002, "test3", "3test", "123456789", 5000, "test3@gmail.com");
+            sysControl.RegisterToSystem(8585000, "test1", "mo-gameTest", "123456789", 5000, "test1@gmail.com");
+            sysControl.RegisterToSystem(8585001, "test2", "no-gameTest", "123456789", 5000, "test2@gmail.com");
+            sysControl.RegisterToSystem(8585002, "test3", "3test-gameTest", "123456789", 5000, "test3@gmail.com");
             user1 = sysControl.GetUserWithId(8585000);
             user2 = sysControl.GetUserWithId(8585001);
             user3 = sysControl.GetUserWithId(8585002);
             useCommunication = false;
-            roomID = 9999;
+            roomID = 555888556;
             players = new List<Player>();
             player1 = new Player(user1, 1000, roomID);
             players.Add(player1);
@@ -85,16 +85,16 @@ namespace TexasHoldem.Logic.Game.Tests
             sysControl.RemoveUserById(8585000);
             sysControl.RemoveUserById(8585001);
             sysControl.RemoveUserById(8585002);
-            user1 = null;
-            user2 = null;
-            players = null;
-            player1 = null;
-            gameRoom = null;
+            //user1 = null;
+            //user2 = null;
+            //players = null;
+            //player1 = null;
+            //gameRoom = null;
             replayManager.DeleteGameReplay(roomID, 0);
             replayManager.DeleteGameReplay(roomID, 1);
-            var logIds = _logDbHandler.GetSysLogIdsByRoomId(9999);
+            var logIds = _logDbHandler.GetSysLogIdsByRoomId(555888556);
             logIds.ForEach(id => _logDbHandler.DeleteSystemLog(id));
-            bool ans = gameCenter.RemoveRoom(9999);
+            bool ans = gameCenter.RemoveRoom(555888556);
 
         }
         [TestMethod()]
