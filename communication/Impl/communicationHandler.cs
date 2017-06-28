@@ -76,23 +76,7 @@ namespace TexasHoldem.communication.Impl
             {
                 _userIdToMsgQueue[id] = new ConcurrentQueue<string>();
             }
-            //if (!_socketToUserId.ContainsKey(socket))
-            //{
-            //    _socketToUserId[socket] = id;
-            //}
-            //else //replace the socket
-            //{
-                _socketToUserId[socket] = id;
-                //TcpClient sockToRemove = _socketToUserId.FirstOrDefault(x => x.Value == id).Key;
-                //if (sockToRemove != null)
-                //{
-                //    _socketToUserId.Remove(sockToRemove); 
-                //}
-                //if (!_socketToUserId.ContainsKey(socket))
-                //{
-                //    _socketToUserId.Add(socket, id); 
-                //}
-            //}
+            _socketToUserId[socket] = id;
         }
 
         public void RemoveSocket(TcpClient socket)
@@ -214,17 +198,14 @@ namespace TexasHoldem.communication.Impl
                         dataReceived = stream.Read(buffer, 0, 1);
                         if (dataReceived > 0)
                         {
-                            Console.WriteLine("comm: got byte!");
                             data.Add(buffer[0]);
                         }
 
                     } while (dataReceived > 0 && stream.DataAvailable);
-                    Console.WriteLine("comm: after while");
 
                     //add msg string to queue
                     if (data.Count > 0)
                     {
-                        Console.WriteLine("comm: done getting bytes. putting to arr");
                         string msgStr = _security.Decrypt(data.ToArray());
                         _receivedMsgQueue.Enqueue(new Tuple<string, TcpClient>(msgStr, tcpClient));
                         Console.WriteLine("comm: msg is: " + Encoding.UTF8.GetString(data.ToArray()));
@@ -244,9 +225,6 @@ namespace TexasHoldem.communication.Impl
                 {
                     if (CanSendMsg(tcpClient))
                     {
-                        Console.WriteLine("entered to if inside foreach");
-
-                        Console.WriteLine("comm: got shit to write");
                         var msgQueue = _userIdToMsgQueue[_socketToUserId[tcpClient]]; //get msg queue
                         SendAllMsgFromQueue(msgQueue, tcpClient);
                     }
